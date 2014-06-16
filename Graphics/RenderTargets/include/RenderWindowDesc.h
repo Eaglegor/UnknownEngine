@@ -22,6 +22,7 @@ namespace UnknownEngine
 			int width;
 			int height;
 			String title;
+			bool fullscreen;
 		};
 
 	} /* namespace Graphics */

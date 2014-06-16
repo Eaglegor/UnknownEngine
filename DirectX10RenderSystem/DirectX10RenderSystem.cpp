@@ -6,6 +6,7 @@
  */
 
 #include "DirectX10RenderSystem.h"
+#include <DirectX10RenderWindow.h>
 
 namespace UnknownEngine
 {
@@ -24,8 +25,7 @@ namespace UnknownEngine
 
 		RenderWindow* DirectX10RenderSystem::createRenderWindow( const RenderWindowDesc& windowDesc )
 		{
-
-			return nullptr;
+			return new DirectX10RenderWindow(windowDesc, this);
 		}
 
 	} /* namespace Graphics */

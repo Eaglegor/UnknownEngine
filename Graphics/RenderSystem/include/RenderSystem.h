@@ -23,7 +23,7 @@ namespace UnknownEngine
 				virtual RenderWindow* createRenderWindow( const RenderWindowDesc &desc ) = 0;
 
 				UNKNOWNENGINE_PLUGIN_INTERFACE
-				virtual String getName() const = 0;
+				virtual std::string getName() const = 0;
 
 				virtual ~RenderSystem()
 				{

@@ -20,7 +20,7 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		static const String DX10_RENDER_SYSTEM_NAME("UnknownEngine_DX10_RenderSystem");
+		static const String DX10_RENDER_SYSTEM_NAME("RenderSystem.D3D10");
 
 		class DirectX10RenderSystem: public RenderSystem
 		{
@@ -36,7 +36,7 @@ namespace UnknownEngine
 				String getName() const {return DX10_RENDER_SYSTEM_NAME;}
 
 				UNKNOWNENGINE_INLINE
-				HINSTANCE getHInstance(){return hInstance;}
+				HINSTANCE getHInstance() const {return hInstance;}
 
 			private:
 				HINSTANCE hInstance;
