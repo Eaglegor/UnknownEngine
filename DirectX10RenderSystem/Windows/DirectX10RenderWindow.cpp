@@ -12,13 +12,12 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		DirectX10RenderWindow::DirectX10RenderWindow (const RenderWindowDesc &desc) : RenderWindow(desc)
+		DirectX10RenderWindow::DirectX10RenderWindow( const RenderWindowDesc &desc, const DirectX10RenderSystem* render_system )
+				: render_system(render_system)
 		{
-			// TODO Auto-generated constructor stub
-
 		}
 
-		DirectX10RenderWindow::~DirectX10RenderWindow ()
+		DirectX10RenderWindow::~DirectX10RenderWindow()
 		{
 			// TODO Auto-generated destructor stub
 		}

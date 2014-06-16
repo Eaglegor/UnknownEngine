@@ -22,7 +22,7 @@ namespace UnknownEngine
 				}
 
 			protected:
-				RenderWindow ( const RenderWindowDesc &desc )
+				RenderWindow ()
 				{
 				}
 
