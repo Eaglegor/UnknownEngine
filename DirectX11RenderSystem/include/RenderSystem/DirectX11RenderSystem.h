@@ -20,6 +20,8 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
+		class DirectX11RenderWindow;
+
 		class DirectX11RenderSystem: public RenderSystem
 		{
 			public:
@@ -40,6 +42,7 @@ namespace UnknownEngine
 
 			private:
 				HINSTANCE hInstance;
+				DirectX11RenderWindow* render_window;
 
 		};
 

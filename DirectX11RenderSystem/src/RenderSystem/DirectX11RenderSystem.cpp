@@ -27,7 +27,8 @@ namespace UnknownEngine
 
 		RenderWindow* DirectX11RenderSystem::createRenderWindow( const RenderWindowDesc& windowDesc )
 		{
-			return new DirectX11RenderWindow(windowDesc, this);
+			render_window = new DirectX11RenderWindow(windowDesc, this);
+			return render_window;
 		}
 
 		static const String DX10_RENDER_SYSTEM_NAME("RenderSystem.D3D11");
@@ -38,7 +39,7 @@ namespace UnknownEngine
 
 		void DirectX11RenderSystem::renderFrame ()
 		{
-			std::cout << "Rendering frame" << std::endl;
+			render_window->update();
 		}
 
 	} /* namespace Graphics */

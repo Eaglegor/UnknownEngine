@@ -34,7 +34,7 @@ int main ()
 		main_loop.start();
 
 	}
-	catch ( PluginError err )
+	catch ( const PluginError &err )
 	{
 		std::cout << "Error while loading plugin: " << err.what () << std::endl;
 	}

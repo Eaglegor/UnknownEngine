@@ -28,6 +28,11 @@ namespace UnknownEngine
 				~PluginError () throw ()
 				{
 				}
+
+				PluginError (const PluginError &err){
+					reason = err.reason;
+				}
+
 			private:
 				std::string reason;
 		};

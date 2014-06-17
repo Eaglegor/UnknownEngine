@@ -7,6 +7,8 @@
  *      Author: Eaglegor
  */
 
+#include <windows.h>
+
 #include <Plugins/PluginExport.h>
 #include <Plugins/Plugin.h>
 
@@ -18,7 +20,7 @@ namespace UnknownEngine
 		class DirectX11RenderSystemPlugin: public Core::Plugin
 		{
 			public:
-				DirectX11RenderSystemPlugin ();
+				DirectX11RenderSystemPlugin (HINSTANCE hInstance);
 				virtual ~DirectX11RenderSystemPlugin ();
 
 				virtual std::string getName() const;
@@ -30,6 +32,9 @@ namespace UnknownEngine
 				virtual bool shutdown () throw (Core::PluginError);
 
 				virtual bool uninstall () throw (Core::PluginError);
+
+			private:
+				HINSTANCE hInstance;
 
 		};
 
