@@ -6,6 +6,10 @@
 #include <Plugins/PluginsManager.h>
 #include <Plugins/PluginError.h>
 
+#include <ComponentManager.h>
+#include <MessageSystem/MessageDictionary.h>
+#include <MessageSystem/MessageDispatcher.h>
+
 using namespace UnknownEngine::Core;
 using namespace UnknownEngine::Graphics;
 
@@ -16,6 +20,11 @@ int main ()
 
 	try
 	{
+
+		ComponentManager::getSingleton();
+		MessageDispatcher::getSingleton();
+		MessageDictionary::getSingleton();
+
 		mgr.loadPlugin ( "libDirectX11RenderSystem.dll" );
 
 		RenderSystem* rs = mgr.getRenderSystem ( 0 );

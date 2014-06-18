@@ -118,7 +118,7 @@ namespace UnknownEngine
 			}
 
 			this->window_handle = CreateWindowEx( WS_EX_APPWINDOW, name.c_str(), name.c_str(),
-			WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_BORDER | WS_CAPTION, wpos.x, wpos.y, desc.width, desc.height, NULL, NULL, hInstance, NULL );
+			WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_BORDER | WS_CAPTION | WS_SYSMENU, wpos.x, wpos.y, desc.width, desc.height, NULL, NULL, hInstance, NULL );
 
 			SetWindowLong( window_handle, GWLP_USERDATA, reinterpret_cast<LONG>(this) );
 		}
@@ -128,7 +128,7 @@ namespace UnknownEngine
 			ShowWindow(window_handle, SW_SHOW);
 			SetForegroundWindow(window_handle);
 			SetFocus(window_handle);
-			ShowCursor(false);
+			//ShowCursor(false);
 		}
 
 		void Win32Window::update ()

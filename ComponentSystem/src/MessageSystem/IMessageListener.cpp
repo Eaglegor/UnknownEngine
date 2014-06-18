@@ -13,6 +13,7 @@ namespace UnknownEngine
 	{
 
 		IMessageListener::IMessageListener ()
+				: message_receive_policy( nullptr )
 		{
 			// TODO Auto-generated constructor stub
 
@@ -21,6 +22,16 @@ namespace UnknownEngine
 		IMessageListener::~IMessageListener ()
 		{
 			// TODO Auto-generated destructor stub
+		}
+
+		IMessageReceivePolicy* IMessageListener::getMessageReceivePolicy () const
+		{
+			return message_receive_policy;
+		}
+
+		void IMessageListener::setMessageReceivePolicy ( IMessageReceivePolicy* policy )
+		{
+			message_receive_policy = policy;
 		}
 
 	} /* namespace Core */

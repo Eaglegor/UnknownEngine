@@ -17,14 +17,16 @@ namespace UnknownEngine
 	{
 
 		typedef size_t ComponentMessageTypeId;
-		static const ComponentMessageTypeId UNKNOWN_MESSAGE_TYPE = static_cast<size_t>(-1);
-		typedef std::unordered_map< std::string, float > ComponentMessagePropertiesType;
+		static const ComponentMessageTypeId UNKNOWN_MESSAGE_TYPE = static_cast<size_t>( -1 );
+		typedef std::unordered_map<std::string, float> ComponentMessagePropertiesType;
+
+		class IMessageDeliveryPolicy;
 
 		class Message
 		{
 			public:
-				Message ( ComponentMessageTypeId type_id )
-						: type_id ( type_id )
+				Message ( ComponentMessageTypeId type_id, std::string sender_name )
+						: type_id( type_id ), delivery_policy( nullptr ), sender_name( sender_name )
 				{
 				}
 
@@ -32,7 +34,11 @@ namespace UnknownEngine
 				{
 				}
 
-				virtual ComponentMessageTypeId getTypeId ();
+				UNKNOWNENGINE_INLINE
+				virtual ComponentMessageTypeId getTypeId () const
+				{
+					return type_id;
+				}
 
 				UNKNOWNENGINE_INLINE
 				virtual ComponentMessagePropertiesType& getProperties ()
@@ -40,10 +46,29 @@ namespace UnknownEngine
 					return properties;
 				}
 
+				UNKNOWNENGINE_INLINE
+				const IMessageDeliveryPolicy* getDeliveryPolicy () const
+				{
+					return delivery_policy;
+				}
+
+				UNKNOWNENGINE_INLINE
+				std::string getSenderName () const
+				{
+					return sender_name;
+				}
+
+				UNKNOWNENGINE_INLINE
+				void setDeliveryPolicy ( IMessageDeliveryPolicy* policy )
+				{
+					this->delivery_policy = policy;
+				}
+
 			private:
+				IMessageDeliveryPolicy* delivery_policy;
 				ComponentMessageTypeId type_id;
 				ComponentMessagePropertiesType properties;
-				std::string sender;
+				std::string sender_name;
 
 		};
 
