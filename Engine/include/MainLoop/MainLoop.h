@@ -8,9 +8,6 @@
 
 #include <vector>
 
-#include <MainLoop/MainLoopEventObserver.h>
-#include <MainLoop/IMainLoopEventListener.h>
-
 namespace UnknownEngine
 {
 	namespace Core
@@ -24,16 +21,8 @@ namespace UnknownEngine
 
 				void start();
 
-				void addBeforeFrameListener(IMainLoopEventListener* listener);
-				void addUpdateFrameListener(IMainLoopEventListener* listener);
-				void addAfterFrameListener(IMainLoopEventListener* listener);
-
 			private:
 				void updateTime();
-
-				MainLoopEventObserver beforeFrameObserver;
-				MainLoopEventObserver updateFrameObserver;
-				MainLoopEventObserver afterFrameObserver;
 
 				float current_time;
 				float dt;

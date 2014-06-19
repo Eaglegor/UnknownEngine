@@ -50,6 +50,12 @@ namespace UnknownEngine
 					return properties;
 				}
 
+				UNKNOWNENGINE_INLINE
+				const Properties getProperties () const
+				{
+					return properties;
+				}
+
 			private:
 				ComponentMessageTypeId type_id;
 				Properties properties;

@@ -7,8 +7,9 @@
 
 #include <time.h>
 
-#include <MainLoop/MainLoopEvent.h>
 #include <MainLoop/MainLoop.h>
+#include <ExportedMessages/UpdateFrameMessage.h>
+#include <MessageSystem/MessageDispatcher.h>
 
 namespace UnknownEngine
 {
@@ -26,32 +27,26 @@ namespace UnknownEngine
 			// TODO Auto-generated destructor stub
 		}
 
-		void MainLoop::addBeforeFrameListener ( IMainLoopEventListener* listener )
-		{
-			this->beforeFrameObserver.addListener ( listener );
-		}
-
-		void MainLoop::addUpdateFrameListener ( IMainLoopEventListener* listener )
-		{
-			this->updateFrameObserver.addListener ( listener );
-		}
-
-		void MainLoop::addAfterFrameListener ( IMainLoopEventListener* listener )
-		{
-			this->afterFrameObserver.addListener ( listener );
-		}
-
 		void MainLoop::start ()
 		{
 			current_time = clock() / static_cast<float>(CLOCKS_PER_SEC);
+			UpdateFrameMessage msg;
+			UpdateFrameMessagePacker packer("Internal.MainLoop");
 			while ( true )
 			{
-				beforeFrameObserver.notify(MainLoopEvent(dt));
+				msg.stage = UpdateFrameMessage::PREPROCESSING;
+				msg.dt = dt;
+				MessageDispatcher::getSingleton()->deliverMessage(packer.packMessage(msg));
 
-				updateFrameObserver.notify(MainLoopEvent(dt));
+				msg.stage = UpdateFrameMessage::PROCESSING;
+				msg.dt = dt;
+				MessageDispatcher::getSingleton()->deliverMessage(packer.packMessage(msg));
+
 				updateTime();
 
-				afterFrameObserver.notify(MainLoopEvent(dt));
+				msg.stage = UpdateFrameMessage::POSTPROCESSING;
+				msg.dt = dt;
+				MessageDispatcher::getSingleton()->deliverMessage(packer.packMessage(msg));
 			}
 		}
 

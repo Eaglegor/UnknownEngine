@@ -20,9 +20,14 @@ namespace UnknownEngine
 				virtual ~Properties ();
 
 				template<typename T>
-				T get ( std::string name )
+				T get ( std::string name ) const
 				{
-					return T();
+					return T ();
+				}
+
+				template<typename T>
+				void set ( std::string name, const T &value )
+				{
 				}
 
 		};

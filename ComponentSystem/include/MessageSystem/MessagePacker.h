@@ -6,6 +6,8 @@
  *      Author: gorbachenko
  */
 
+#include <string>
+
 namespace UnknownEngine
 {
 	namespace Core
@@ -18,12 +20,13 @@ namespace UnknownEngine
 		class MessagePacker
 		{
 			public:
-				MessagePacker ();
+				MessagePacker (std::string sender_name);
 				virtual ~MessagePacker ();
 
 				virtual T unpackMessage(const Message &msg) throw(InvalidMessageFormat) = 0;
 				virtual Message packMessage(const T& msg) = 0;
-
+			protected:
+				std::string sender_name;
 		};
 
 	} /* namespace Core */
