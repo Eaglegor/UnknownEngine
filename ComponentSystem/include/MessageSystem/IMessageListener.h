@@ -7,6 +7,7 @@
  */
 
 #include <string>
+#include <InlineSpecification.h>
 
 namespace UnknownEngine
 {
@@ -14,7 +15,6 @@ namespace UnknownEngine
 	{
 
 		class Message;
-		class IMessageReceivePolicy;
 
 		class IMessageListener
 		{
@@ -24,16 +24,28 @@ namespace UnknownEngine
 
 				virtual bool operator== ( const IMessageListener &rhs ) const
 				{
-					return getName() == rhs.getName();
+					return getInternalId() == rhs.getInternalId();
 				}
 
 				virtual std::string getName () const = 0;
 				virtual void processMessage ( const Message &msg ) = 0;
-				virtual IMessageReceivePolicy* getMessageReceivePolicy () const;
-				virtual void setMessageReceivePolicy ( IMessageReceivePolicy* policy );
 
 			private:
-				IMessageReceivePolicy* message_receive_policy;
+				friend class MessageDispatcher;
+
+				UNKNOWNENGINE_INLINE
+				int getInternalId () const
+				{
+					return internal_id;
+				}
+
+				UNKNOWNENGINE_INLINE
+				void setInternalId ( int id )
+				{
+					internal_id = id;
+				}
+
+				int internal_id;
 
 		};
 
