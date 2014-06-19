@@ -29,12 +29,12 @@ void installPlugin(PluginsManager* manager)
 {
 	instance = new DirectX11RenderSystemPlugin(shared_library_handle);
 
-	manager->installPlugin(instance);
+	manager->internalInstallPlugin(instance);
 }
 
 extern "C"
 UNKNOWNENGINE_PLUGIN_INTERFACE
 void uninstallPlugin(PluginsManager* manager)
 {
-	manager->uninstallPlugin(instance);
+	manager->internalUninstallPlugin(instance);
 }

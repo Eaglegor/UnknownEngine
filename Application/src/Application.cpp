@@ -2,7 +2,7 @@
 
 #include <MainLoop/MainLoop.h>
 #include <RenderSystem/RenderSystem.h>
-#include <RenderSystem/RenderSystemMainLoopListener.h>
+#include <RenderSystem/RenderSystemUpdateFrameListener.h>
 #include <Plugins/PluginsManager.h>
 #include <Plugins/PluginError.h>
 
@@ -10,13 +10,14 @@
 #include <MessageSystem/MessageDictionary.h>
 #include <MessageSystem/MessageDispatcher.h>
 
+#include <ExportedMessages/RenderSystem/CreateRenderWindowMessage.h>
+#include <ExportedMessages/UpdateFrameMessage.h>
+
 using namespace UnknownEngine::Core;
 using namespace UnknownEngine::Graphics;
 
 int main ()
 {
-
-	PluginsManager mgr;
 
 	try
 	{
@@ -25,22 +26,24 @@ int main ()
 		MessageDispatcher::getSingleton();
 		MessageDictionary::getSingleton();
 
-		mgr.loadPlugin ( "libDirectX11RenderSystem.dll" );
+		PluginsManager mgr;
 
-		RenderSystem* rs = mgr.getRenderSystem ( 0 );
-		RenderWindowDesc desc;
-		desc.fullscreen = false;
-		desc.width = 800;
-		desc.height = 600;
-		desc.title = "Hello";
-		rs->createRenderWindow ( desc );
+		MessageDictionary::getSingleton()->registerNewMessageType(CreateRenderWindowMessage::MSG_TYPE_NAME);
+		MessageDictionary::getSingleton()->registerNewMessageType(UpdateFrameMessage::MSG_TYPE_NAME);
 
-		RenderSystemMainLoopListener render_system_listener(rs);
-		MessageDispatcher::getSingleton()->addListener( "Engine.UpdateFrame", &render_system_listener );
+		mgr.installPlugin ( "libDirectX11RenderSystem.dll" );
+		mgr.initPlugins();
 
-		MainLoop main_loop;
+		CreateRenderWindowMessage msg;
+		msg.window_desc.fullscreen = false;
+		msg.window_desc.width = 800;
+		msg.window_desc.height = 600;
+		msg.window_desc.title = "Hello";
 
-		main_loop.start();
+		MessageDispatcher::getSingleton()->deliverMessage( CreateRenderWindowMessagePacker("Core").packMessage(msg) );
+
+		//MainLoop main_loop;
+		//main_loop.start();
 
 	}
 	catch ( const PluginError &err )

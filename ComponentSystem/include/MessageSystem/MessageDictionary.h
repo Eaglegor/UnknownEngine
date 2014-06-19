@@ -26,6 +26,7 @@ namespace UnknownEngine
 				ComponentMessageTypeId getMessageTypeId(std::string type_name);
 
 				static MessageDictionary* getSingleton();
+				static void initInstance(MessageDictionary* dictionary);
 
 			private:
 

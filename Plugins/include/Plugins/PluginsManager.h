@@ -10,6 +10,10 @@
 #include <map>
 #include <vector>
 
+#include <ComponentManager.h>
+#include <MessageSystem/MessageDictionary.h>
+#include <MessageSystem/MessageDispatcher.h>
+
 #include <Plugins/PluginError.h>
 
 namespace UnknownEngine
@@ -25,27 +29,31 @@ namespace UnknownEngine
 
 		class Plugin;
 
+		class MessageDispatcher;
+
 		class PluginsManager
 		{
 			public:
 				PluginsManager ();
 				virtual ~PluginsManager ();
 
-				void loadPlugin(std::string library_name) throw(PluginError);
+				void installPlugin(std::string library_name) throw(PluginError);
+				void initPlugins();
 
-				void installPlugin(Plugin* plugin);
-				void uninstallPlugin(Plugin* plugin);
+				void internalInstallPlugin(Plugin* plugin);
+				void internalUninstallPlugin(Plugin* plugin);
 
-				void addRenderSystem(Graphics::RenderSystem* render_system);
-				Graphics::RenderSystem* getRenderSystem(int index);
+				MessageDispatcher* getMessageDispatcher();
+				MessageDictionary* getMessageDictionary();
+				ComponentManager* getComponentManager();
 
 			private:
-				// Generic plugins
+
+				MessageDispatcher* message_dispatcher;
+				MessageDictionary* message_dictionary;
+				ComponentManager* component_manager;
+
 				std::vector<Plugin*> plugins;
-
-				// Known subsystems
-				std::vector<Graphics::RenderSystem*> render_systems;
-
 		};
 
 	} /* namespace Core */

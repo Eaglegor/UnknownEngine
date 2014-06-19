@@ -6,6 +6,7 @@
  */
 
 #include <MessageSystem/MessageDictionary.h>
+#include <iostream>
 
 namespace UnknownEngine
 {
@@ -25,8 +26,8 @@ namespace UnknownEngine
 		{
 			if ( messageTypeIsRegistered ( message_type_name ) ) return getMessageTypeId ( message_type_name );
 			++last_used_type_id;
-			id_name_mapping.insert( std::make_pair(last_used_type_id, message_type_name) );
-			name_id_mapping.insert( std::make_pair(message_type_name, last_used_type_id) );
+			id_name_mapping.insert ( std::make_pair ( last_used_type_id, message_type_name ) );
+			name_id_mapping.insert ( std::make_pair ( message_type_name, last_used_type_id ) );
 			return last_used_type_id;
 		}
 
@@ -38,8 +39,15 @@ namespace UnknownEngine
 
 		ComponentMessageTypeId MessageDictionary::getMessageTypeId ( std::string type_name )
 		{
-			if ( this->messageTypeIsRegistered ( type_name ) ) return name_id_mapping.find ( type_name )->second;
-			else return UNKNOWN_MESSAGE_TYPE;
+			if ( this->messageTypeIsRegistered ( type_name ) )
+			{
+				return name_id_mapping.find ( type_name )->second;
+			}
+
+			else
+			{
+				return UNKNOWN_MESSAGE_TYPE;
+			}
 		}
 
 		MessageDictionary* MessageDictionary::getSingleton ()
@@ -66,6 +74,10 @@ namespace UnknownEngine
 			return name_id_mapping.find ( type_name ) != name_id_mapping.end ();
 		}
 
+		void MessageDictionary::initInstance ( MessageDictionary* dictionary )
+		{
+			if ( instance == nullptr ) instance = dictionary;
+		}
+
 	} /* namespace Core */
 } /* namespace UnknownEngine */
-

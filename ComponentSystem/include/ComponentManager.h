@@ -30,6 +30,7 @@ namespace UnknownEngine
 				virtual Component* createComponent ( const ComponentType &component_type, const Properties &properties );
 
 				static ComponentManager* getSingleton();
+				static void initInstance(ComponentManager* manager);
 
 			private:
 				ComponentManager ();

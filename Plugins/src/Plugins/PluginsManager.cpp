@@ -11,6 +11,7 @@
 
 #include <Plugins/Plugin.h>
 #include <Plugins/PluginsManager.h>
+#include <MessageSystem/MessageDispatcher.h>
 
 namespace UnknownEngine
 {
@@ -19,7 +20,9 @@ namespace UnknownEngine
 
 		PluginsManager::PluginsManager ()
 		{
-			// TODO Auto-generated constructor stub
+			message_dictionary = MessageDictionary::getSingleton();
+			message_dispatcher = MessageDispatcher::getSingleton();
+			component_manager = ComponentManager::getSingleton();
 		}
 
 		PluginsManager::~PluginsManager ()
@@ -30,14 +33,9 @@ namespace UnknownEngine
 	} /* namespace Core */
 } /* namespace UnknownEngine */
 
-void UnknownEngine::Core::PluginsManager::addRenderSystem ( Graphics::RenderSystem* render_system )
-{
-	this->render_systems.push_back ( render_system );
-}
-
 typedef void (*PluginStartPoint) ( UnknownEngine::Core::PluginsManager* );
 
-void UnknownEngine::Core::PluginsManager::loadPlugin ( std::string library_name ) throw ( UnknownEngine::Core::PluginError )
+void UnknownEngine::Core::PluginsManager::installPlugin ( std::string library_name ) throw ( UnknownEngine::Core::PluginError )
 {
 	void* library = LoadLibrary ( library_name.c_str () );
 
@@ -50,17 +48,35 @@ void UnknownEngine::Core::PluginsManager::loadPlugin ( std::string library_name 
 	start_point ( this );
 }
 
-void UnknownEngine::Core::PluginsManager::installPlugin ( Plugin* plugin )
+void UnknownEngine::Core::PluginsManager::initPlugins ()
 {
+	for(Plugin* plugin: plugins){
+		plugin->init();
+	}
+}
+
+void UnknownEngine::Core::PluginsManager::internalInstallPlugin ( Plugin* plugin )
+{
+	plugins.push_back(plugin);
 	plugin->install ( this );
 }
 
-void UnknownEngine::Core::PluginsManager::uninstallPlugin ( Plugin* plugin )
+void UnknownEngine::Core::PluginsManager::internalUninstallPlugin ( Plugin* plugin )
 {
 	plugin->uninstall ();
 }
 
-UnknownEngine::Graphics::RenderSystem* UnknownEngine::Core::PluginsManager::getRenderSystem ( int index )
+UnknownEngine::Core::MessageDispatcher* UnknownEngine::Core::PluginsManager::getMessageDispatcher ()
 {
-	return render_systems[index];
+	return message_dispatcher;
+}
+
+UnknownEngine::Core::MessageDictionary* UnknownEngine::Core::PluginsManager::getMessageDictionary ()
+{
+	return message_dictionary;
+}
+
+UnknownEngine::Core::ComponentManager* UnknownEngine::Core::PluginsManager::getComponentManager ()
+{
+	return component_manager;
 }

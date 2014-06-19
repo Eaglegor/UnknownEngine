@@ -37,6 +37,7 @@ namespace UnknownEngine
 				void deliverMessage ( const Message &msg, const IMessageDeliveryPolicy* delivery_policy = nullptr ) const;
 
 				static MessageDispatcher* getSingleton ();
+				static void initInstance(MessageDispatcher* dispatcher);
 
 			private:
 

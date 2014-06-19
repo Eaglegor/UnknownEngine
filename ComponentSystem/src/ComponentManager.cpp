@@ -75,5 +75,12 @@ namespace UnknownEngine
 			return nullptr;
 		}
 
+		void ComponentManager::initInstance ( ComponentManager* manager )
+		{
+			if(instance == nullptr) instance = manager;
+		}
+
+
 	} /* namespace Core */
 } /* namespace UnknownEngine */
+

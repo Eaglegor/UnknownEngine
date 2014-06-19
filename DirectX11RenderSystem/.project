@@ -3,8 +3,9 @@
 	<name>DirectX10RenderSystem</name>
 	<comment></comment>
 	<projects>
-		<project>Core</project>
-		<project>Math</project>
+		<project>ComponentSystem</project>
+		<project>Engine</project>
+		<project>Graphics</project>
 		<project>Plugins</project>
 	</projects>
 	<buildSpec>

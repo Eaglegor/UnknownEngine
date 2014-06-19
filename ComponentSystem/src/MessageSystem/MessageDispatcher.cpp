@@ -9,6 +9,7 @@
 #include <MessageSystem/Policies/IMessageReceivePolicy.h>
 #include <MessageSystem/MessageDictionary.h>
 #include <MessageSystem/MessageDispatcher.h>
+#include <iostream>
 
 namespace UnknownEngine
 {
@@ -144,6 +145,12 @@ namespace UnknownEngine
 			}
 			return instance;
 		}
+
+		void MessageDispatcher::initInstance ( MessageDispatcher* dispatcher )
+		{
+			if(instance == nullptr) instance = dispatcher;
+		}
+
 
 	} /* namespace Core */
 } /* namespace UnknownEngine */

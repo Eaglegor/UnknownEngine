@@ -29,7 +29,6 @@ namespace UnknownEngine
 				Stage stage;
 				float dt;
 		};
-		const std::string UpdateFrameMessage::MSG_TYPE_NAME = "Engine.UpdateFrame";
 
 		class UpdateFrameMessagePacker: public MessagePacker< UpdateFrameMessage >
 		{
