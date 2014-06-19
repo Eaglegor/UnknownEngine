@@ -22,7 +22,7 @@ namespace UnknownEngine
 		{
 		}
 
-		void RenderSystemMainLoopListener::processMessage (  const Message &msg )
+		void RenderSystemMainLoopListener::processMessage (  const Core::Message &msg )
 		{
 			this->render_system->renderFrame();
 		}

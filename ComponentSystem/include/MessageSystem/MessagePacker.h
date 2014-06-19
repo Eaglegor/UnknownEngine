@@ -16,15 +16,20 @@ namespace UnknownEngine
 		class Message;
 		typedef std::exception InvalidMessageFormat;
 
-		template <typename T>
+		template<typename T>
 		class MessagePacker
 		{
 			public:
-				MessagePacker (std::string sender_name);
-				virtual ~MessagePacker ();
 
-				virtual T unpackMessage(const Message &msg) throw(InvalidMessageFormat) = 0;
-				virtual Message packMessage(const T& msg) = 0;
+				MessagePacker ( std::string sender_name )
+						: sender_name ( sender_name )
+				{
+				}
+
+				virtual ~MessagePacker (){};
+
+				virtual T unpackMessage ( const Message &msg ) throw ( InvalidMessageFormat ) = 0;
+				virtual Message packMessage ( const T& msg ) = 0;
 			protected:
 				std::string sender_name;
 		};

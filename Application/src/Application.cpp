@@ -36,9 +36,9 @@ int main ()
 		rs->createRenderWindow ( desc );
 
 		RenderSystemMainLoopListener render_system_listener(rs);
+		MessageDispatcher::getSingleton()->addListener( "Engine.UpdateFrame", &render_system_listener );
 
 		MainLoop main_loop;
-		main_loop.addUpdateFrameListener(&render_system_listener);
 
 		main_loop.start();
 

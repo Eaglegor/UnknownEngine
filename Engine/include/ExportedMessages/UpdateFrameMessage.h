@@ -9,6 +9,7 @@
 #include <MessageSystem/MessagePacker.h>
 #include <InlineSpecification.h>
 #include <MessageSystem/Message.h>
+#include <MessageSystem/MessageDictionary.h>
 
 namespace UnknownEngine
 {
@@ -23,9 +24,12 @@ namespace UnknownEngine
 					PREPROCESSING, PROCESSING, POSTPROCESSING
 				};
 
+				static const std::string MSG_TYPE_NAME;
+
 				Stage stage;
 				float dt;
 		};
+		const std::string UpdateFrameMessage::MSG_TYPE_NAME = "Engine.UpdateFrame";
 
 		class UpdateFrameMessagePacker: public MessagePacker< UpdateFrameMessage >
 		{
@@ -48,7 +52,7 @@ namespace UnknownEngine
 				UNKNOWNENGINE_INLINE
 				Message packMessage ( const UpdateFrameMessage& msg )
 				{
-					Message result ( UNKNOWN_MESSAGE_TYPE, sender_name );
+					Message result ( MessageDictionary::getSingleton()->getMessageTypeId(UpdateFrameMessage::MSG_TYPE_NAME), sender_name );
 					result.getProperties ().set< float > ( "dt", msg.dt );
 					result.getProperties ().set < UpdateFrameMessage::Stage > ( "stage", msg.stage );
 					return result;
