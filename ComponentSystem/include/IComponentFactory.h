@@ -14,7 +14,9 @@ namespace UnknownEngine
 	namespace Core
 	{
 
+		template <typename T>
 		class Properties;
+
 		class Component;
 		class ComponentType;
 
@@ -29,7 +31,7 @@ namespace UnknownEngine
 				}
 
 				virtual std::string getName () const = 0;
-				virtual Component* createComponent ( const ComponentType &component_type, const Properties &properties ) = 0;
+				virtual Component* createComponent ( const ComponentType &component_type, const Properties<std::string> &properties ) = 0;
 				virtual bool canCreateComponentType ( const ComponentType &component_type_name ) const = 0;
 				virtual const std::unordered_set<ComponentType>& getSupportedComponentTypeNames () const = 0;
 

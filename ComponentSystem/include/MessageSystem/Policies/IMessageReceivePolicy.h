@@ -7,12 +7,12 @@
  *      Author: Eaglegor
  */
 
+#include <MessageSystem/Message.h>
+
 namespace UnknownEngine
 {
 	namespace Core
 	{
-
-		class Message;
 
 		class IMessageReceivePolicy
 		{

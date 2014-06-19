@@ -59,6 +59,7 @@ namespace UnknownEngine
 
 			Core::MessageDispatcher::getSingleton()->addListener ( Core::UpdateFrameMessage::MSG_TYPE_NAME, listener_instance );
 			Core::MessageDispatcher::getSingleton()->addListener ( Graphics::CreateRenderWindowMessage::MSG_TYPE_NAME, listener_instance );
+			return true;
 		}
 
 		bool DirectX11RenderSystemPlugin::shutdown () throw ( Core::PluginError )

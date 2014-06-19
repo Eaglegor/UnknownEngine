@@ -9,7 +9,6 @@
 #include <unordered_map>
 #include <list>
 
-#include <MessageSystem/Message.h>
 #include <MessageSystem/IMessageListener.h>
 
 namespace UnknownEngine
@@ -19,6 +18,7 @@ namespace UnknownEngine
 
 		class IMessageDeliveryPolicy;
 		class IMessageReceivePolicy;
+		class Message;
 
 		class MessageDispatcher
 		{

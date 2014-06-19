@@ -31,7 +31,7 @@ int main ()
 		MessageDictionary::getSingleton()->registerNewMessageType(CreateRenderWindowMessage::MSG_TYPE_NAME);
 		MessageDictionary::getSingleton()->registerNewMessageType(UpdateFrameMessage::MSG_TYPE_NAME);
 
-		mgr.installPlugin ( "libDirectX11RenderSystem.dll" );
+		mgr.installPlugin ( "DirectX11RenderSystem.dll" );
 		mgr.initPlugins();
 
 		CreateRenderWindowMessage msg;

@@ -13,10 +13,10 @@ namespace UnknownEngine
 	namespace Core
 	{
 
+		typedef std::exception InvalidMessageFormatException;
 		class Message;
-		typedef std::exception InvalidMessageFormat;
 
-		template<typename T>
+		template <typename T>
 		class MessagePacker
 		{
 			public:
@@ -28,7 +28,7 @@ namespace UnknownEngine
 
 				virtual ~MessagePacker (){};
 
-				virtual T unpackMessage ( const Message &msg ) throw ( InvalidMessageFormat ) = 0;
+				virtual T unpackMessage ( const Message &msg ) throw ( InvalidMessageFormatException ) = 0;
 				virtual Message packMessage ( const T& msg ) = 0;
 			protected:
 				std::string sender_name;

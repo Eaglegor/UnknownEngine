@@ -39,7 +39,7 @@ namespace UnknownEngine
 			component_factories.erase( iter );
 		}
 
-		Component* ComponentManager::createComponent ( const ComponentType& component_type, const Properties& properties )
+		Component* ComponentManager::createComponent ( const ComponentType& component_type, const Properties<std::string>& properties )
 		{
 			IComponentFactory* factory = findFactoryForComponentType( component_type );
 			if ( factory != nullptr ) return factory->createComponent( component_type, properties );

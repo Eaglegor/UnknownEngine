@@ -11,6 +11,7 @@
 #include <MessageSystem/Message.h>
 #include <MessageSystem/MessageDictionary.h>
 #include <RenderTargets/RenderWindowDesc.h>
+#include <boost/any.hpp>
 
 namespace UnknownEngine
 {
@@ -35,10 +36,10 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				CreateRenderWindowMessage unpackMessage ( const Core::Message &msg ) throw ( Core::InvalidMessageFormat )
+				CreateRenderWindowMessage unpackMessage ( const Core::Message &msg ) throw ( Core::InvalidMessageFormatException )
 				{
 					CreateRenderWindowMessage result;
-					result.window_desc = msg.getProperties().get<RenderWindowDesc>("window_desc");
+					result.window_desc = boost::any_cast<RenderWindowDesc> (msg.getProperties().get< boost::any >("window_desc"));
 					return result;
 				}
 
@@ -46,7 +47,7 @@ namespace UnknownEngine
 				Core::Message packMessage ( const CreateRenderWindowMessage& msg )
 				{
 					Core::Message result ( Core::MessageDictionary::getSingleton()->getMessageTypeId(CreateRenderWindowMessage::MSG_TYPE_NAME), sender_name );
-					result.getProperties ().set< RenderWindowDesc > ( "window_desc", msg.window_desc );
+					result.getProperties ().set< boost::any > ( "window_desc", msg.window_desc );
 					return result;
 				}
 

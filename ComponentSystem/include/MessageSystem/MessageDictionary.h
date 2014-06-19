@@ -7,7 +7,6 @@
  */
 
 #include <unordered_map>
-
 #include <MessageSystem/Message.h>
 
 namespace UnknownEngine

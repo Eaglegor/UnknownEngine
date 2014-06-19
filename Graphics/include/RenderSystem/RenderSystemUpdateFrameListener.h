@@ -8,13 +8,10 @@
 
 #include <MessageSystem/IMessageListener.h>
 #include <InlineSpecification.h>
+#include <MessageSystem/Message.h>
 
 namespace UnknownEngine
 {
-
-	namespace Core{
-		class Message;
-	}
 
 	namespace Graphics
 	{

@@ -17,6 +17,8 @@ namespace UnknownEngine
 		class IComponentFactory;
 		class ComponentType;
 		class Component;
+
+		template<typename K>
 		class Properties;
 
 		class ComponentManager
@@ -27,7 +29,7 @@ namespace UnknownEngine
 				virtual void addComponentFactory ( IComponentFactory* factory );
 				virtual void removeComponentFactory ( IComponentFactory* factory );
 
-				virtual Component* createComponent ( const ComponentType &component_type, const Properties &properties );
+				virtual Component* createComponent ( const ComponentType &component_type, const Properties<std::string> &properties );
 
 				static ComponentManager* getSingleton();
 				static void initInstance(ComponentManager* manager);

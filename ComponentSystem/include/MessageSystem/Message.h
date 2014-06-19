@@ -10,7 +10,7 @@
 #include <unordered_map>
 
 #include <InlineSpecification.h>
-#include <Properties.h>
+#include <Properties/Properties.h>
 
 namespace UnknownEngine
 {
@@ -45,20 +45,20 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				Properties getProperties ()
+				Properties<std::string> getProperties ()
 				{
 					return properties;
 				}
 
 				UNKNOWNENGINE_INLINE
-				const Properties getProperties () const
+				const Properties<std::string> getProperties () const
 				{
 					return properties;
 				}
 
 			private:
 				ComponentMessageTypeId type_id;
-				Properties properties;
+				Properties<std::string> properties;
 				std::string sender_name;
 
 		};
