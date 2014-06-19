@@ -10,6 +10,7 @@
 #include <unordered_map>
 
 #include <InlineSpecification.h>
+#include <Properties.h>
 
 namespace UnknownEngine
 {
@@ -18,7 +19,6 @@ namespace UnknownEngine
 
 		typedef size_t ComponentMessageTypeId;
 		static const ComponentMessageTypeId UNKNOWN_MESSAGE_TYPE = static_cast< size_t > ( -1 );
-		typedef std::unordered_map< std::string, float > ComponentMessagePropertiesType;
 
 		class Message
 		{
@@ -39,20 +39,20 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				virtual ComponentMessagePropertiesType& getProperties ()
-				{
-					return properties;
-				}
-
-				UNKNOWNENGINE_INLINE
 				std::string getSenderName () const
 				{
 					return sender_name;
 				}
 
+				UNKNOWNENGINE_INLINE
+				Properties getProperties ()
+				{
+					return properties;
+				}
+
 			private:
 				ComponentMessageTypeId type_id;
-				ComponentMessagePropertiesType properties;
+				Properties properties;
 				std::string sender_name;
 
 		};

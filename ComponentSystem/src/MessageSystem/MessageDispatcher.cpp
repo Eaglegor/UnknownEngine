@@ -33,8 +33,11 @@ namespace UnknownEngine
 
 			RegisteredListener new_listener ( listener, receive_policy );
 
-			listener->setInternalId ( new_listener_internal_id );
-			++new_listener_internal_id;
+			if ( listener->getInternalId () < 0 )
+			{
+				listener->setInternalId ( new_listener_internal_id );
+				++new_listener_internal_id;
+			}
 
 			MessageListenersList* existing_list = getRegisteredListeners ( message_type_id );
 			if ( existing_list == nullptr )

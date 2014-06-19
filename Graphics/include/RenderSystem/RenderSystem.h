@@ -8,7 +8,6 @@
  */
 
 #include <Plugins/PluginInterfaceSpecification.h>
-#include <Subsystem.h>
 
 #include <RenderTargets/RenderWindow.h>
 
@@ -16,7 +15,7 @@ namespace UnknownEngine
 {
 	namespace Graphics
 	{
-		class RenderSystem : public Core::Subsystem
+		class RenderSystem
 		{
 			public:
 
