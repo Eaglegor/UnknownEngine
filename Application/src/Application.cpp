@@ -43,8 +43,8 @@ int main ()
 
 		MessageDispatcher::getSingleton()->deliverMessage( CreateRenderWindowMessagePacker(SenderInfo("Core")).packMessage(msg) );
 
-		//MainLoop main_loop;
-		//main_loop.start();
+		MainLoop main_loop;
+		main_loop.start();
 
 	}
 	catch ( const PluginError &err )

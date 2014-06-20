@@ -61,7 +61,8 @@ namespace UnknownEngine
 				UNKNOWNENGINE_INLINE
 				void set ( K name, const V &value )
 				{
-
+					std::map<K, V>& values = const_cast<std::map<K, V>&>(getAllOfType<V>());
+					values[name] = value;
 				}
 
 			private:

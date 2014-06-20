@@ -7,6 +7,7 @@
  */
 #include <RenderSystem/RenderSystem.h>
 #include <RenderSystem/RenderSystemUpdateFrameListener.h>
+#include <ExportedMessages/UpdateFrameMessage.h>
 
 namespace UnknownEngine
 {
@@ -24,6 +25,7 @@ namespace UnknownEngine
 
 		void RenderSystemUpdateFrameListener::processMessage (  const Core::PackedMessage &msg )
 		{
+			Core::UpdateFrameMessageUnpacker().unpackMessage(msg).stage == Core::UpdateFrameMessage::PROCESSING;
 			this->render_system->renderFrame();
 		}
 

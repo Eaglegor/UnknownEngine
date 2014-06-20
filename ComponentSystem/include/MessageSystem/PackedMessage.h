@@ -46,13 +46,13 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				Properties<std::string> getProperties ()
+				Properties<std::string> &getProperties ()
 				{
 					return properties;
 				}
 
 				UNKNOWNENGINE_INLINE
-				const Properties<std::string> getProperties () const
+				const Properties<std::string> &getProperties () const
 				{
 					return properties;
 				}

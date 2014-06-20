@@ -58,7 +58,7 @@ namespace UnknownEngine
 			create_render_window_listener_instance = new RenderSystemCreateRenderWindowListener( render_system_instance );
 
 			Core::MessageDispatcher::getSingleton()->addListener ( Core::UpdateFrameMessage::MSG_TYPE_NAME, listener_instance );
-			Core::MessageDispatcher::getSingleton()->addListener ( Graphics::CreateRenderWindowMessage::MSG_TYPE_NAME, listener_instance );
+			Core::MessageDispatcher::getSingleton()->addListener ( Graphics::CreateRenderWindowMessage::MSG_TYPE_NAME, create_render_window_listener_instance );
 			return true;
 		}
 

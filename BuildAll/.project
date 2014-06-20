@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>BuildAll</name>
+	<comment></comment>
+	<projects>
+		<project>Application</project>
+		<project>ComponentSystem</project>
+		<project>Core</project>
+		<project>Deps</project>
+		<project>DirectX11RenderSystem</project>
+		<project>Engine</project>
+		<project>Graphics</project>
+		<project>Math</project>
+		<project>Plugins</project>
+		<project>Utils</project>
+	</projects>
+	<buildSpec>
+	</buildSpec>
+	<natures>
+	</natures>
+</projectDescription>
