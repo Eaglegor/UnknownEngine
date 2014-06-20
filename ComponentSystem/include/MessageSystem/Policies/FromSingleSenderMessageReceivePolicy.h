@@ -19,7 +19,7 @@ namespace UnknownEngine
 		{
 			public:
 
-				virtual bool acceptMessage(const Message &msg);
+				virtual bool acceptMessage(const PackedMessage &msg);
 
 				FromSingleSenderMessageReceivePolicy (std::string sender_name);
 				virtual ~FromSingleSenderMessageReceivePolicy ();

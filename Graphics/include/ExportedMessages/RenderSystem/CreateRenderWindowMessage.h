@@ -36,7 +36,7 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				CreateRenderWindowMessage unpackMessage ( const Core::Message &msg ) throw ( Core::InvalidMessageFormatException )
+				CreateRenderWindowMessage unpackMessage ( const Core::PackedMessage &msg ) throw ( Core::InvalidMessageFormatException )
 				{
 					CreateRenderWindowMessage result;
 					result.window_desc = boost::any_cast<RenderWindowDesc> (msg.getProperties().get< boost::any >("window_desc"));
@@ -44,9 +44,9 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				Core::Message packMessage ( const CreateRenderWindowMessage& msg )
+				Core::PackedMessage packMessage ( const CreateRenderWindowMessage& msg )
 				{
-					Core::Message result ( Core::MessageDictionary::getSingleton()->getMessageTypeId(CreateRenderWindowMessage::MSG_TYPE_NAME), sender_name );
+					Core::PackedMessage result ( Core::MessageDictionary::getSingleton()->getMessageTypeId(CreateRenderWindowMessage::MSG_TYPE_NAME), sender_name );
 					result.getProperties ().set< boost::any > ( "window_desc", msg.window_desc );
 					return result;
 				}

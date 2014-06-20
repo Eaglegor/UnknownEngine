@@ -40,7 +40,7 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				UpdateFrameMessage unpackMessage ( const Message &msg ) throw ( InvalidMessageFormatException )
+				UpdateFrameMessage unpackMessage ( const PackedMessage &msg ) throw ( InvalidMessageFormatException )
 				{
 					UpdateFrameMessage result;
 					result.dt = msg.getProperties ().get< float > ( "dt" );
@@ -59,9 +59,9 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				Message packMessage ( const UpdateFrameMessage& msg )
+				PackedMessage packMessage ( const UpdateFrameMessage& msg )
 				{
-					Message result ( MessageDictionary::getSingleton()->getMessageTypeId(UpdateFrameMessage::MSG_TYPE_NAME), sender_name );
+					PackedMessage result ( MessageDictionary::getSingleton()->getMessageTypeId(UpdateFrameMessage::MSG_TYPE_NAME), sender_name );
 					result.getProperties ().set< float > ( "dt", msg.dt );
 					result.getProperties ().set < int > ( "stage", msg.stage );
 					return result;

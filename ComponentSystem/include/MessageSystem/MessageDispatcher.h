@@ -18,7 +18,7 @@ namespace UnknownEngine
 
 		class IMessageDeliveryPolicy;
 		class IMessageReceivePolicy;
-		class Message;
+		class PackedMessage;
 
 		class MessageDispatcher
 		{
@@ -34,7 +34,7 @@ namespace UnknownEngine
 
 				void setListenerReceivePolicy( ComponentMessageTypeId message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy = nullptr );
 
-				void deliverMessage ( const Message &msg, const IMessageDeliveryPolicy* delivery_policy = nullptr ) const;
+				void deliverMessage ( const PackedMessage &msg, const IMessageDeliveryPolicy* delivery_policy = nullptr ) const;
 
 				static MessageDispatcher* getSingleton ();
 				static void initInstance(MessageDispatcher* dispatcher);

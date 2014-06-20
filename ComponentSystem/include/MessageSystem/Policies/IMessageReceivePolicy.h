@@ -7,7 +7,7 @@
  *      Author: Eaglegor
  */
 
-#include <MessageSystem/Message.h>
+#include <MessageSystem/PackedMessage.h>
 
 namespace UnknownEngine
 {
@@ -17,7 +17,7 @@ namespace UnknownEngine
 		class IMessageReceivePolicy
 		{
 			public:
-				virtual bool acceptMessage(const Message &msg) = 0;
+				virtual bool acceptMessage(const PackedMessage &msg) = 0;
 				virtual ~IMessageReceivePolicy ();
 
 			protected:

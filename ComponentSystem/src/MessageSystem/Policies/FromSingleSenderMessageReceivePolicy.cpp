@@ -5,7 +5,7 @@
  *      Author: Eaglegor
  */
 
-#include <MessageSystem/Message.h>
+#include <MessageSystem/PackedMessage.h>
 #include <MessageSystem/Policies/FromSingleSenderMessageReceivePolicy.h>
 
 namespace UnknownEngine
@@ -19,7 +19,7 @@ namespace UnknownEngine
 			// TODO Auto-generated constructor stub
 		}
 
-		bool FromSingleSenderMessageReceivePolicy::acceptMessage ( const Message& msg )
+		bool FromSingleSenderMessageReceivePolicy::acceptMessage ( const PackedMessage& msg )
 		{
 			return msg.getSenderName() == sender_name;
 		}

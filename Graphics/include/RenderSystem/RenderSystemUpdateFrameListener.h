@@ -30,7 +30,7 @@ namespace UnknownEngine
 					return render_system->getName ();
 				}
 
-				virtual void processMessage ( const Core::Message &msg );
+				virtual void processMessage ( const Core::PackedMessage &msg );
 
 			private:
 				RenderSystem* render_system;

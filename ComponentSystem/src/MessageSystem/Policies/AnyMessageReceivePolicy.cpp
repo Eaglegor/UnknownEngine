@@ -23,7 +23,7 @@ namespace UnknownEngine
 			// TODO Auto-generated destructor stub
 		}
 
-		bool AnyMessageReceivePolicy::acceptMessage ( const Message& msg )
+		bool AnyMessageReceivePolicy::acceptMessage ( const PackedMessage& msg )
 		{
 			return true;
 		}

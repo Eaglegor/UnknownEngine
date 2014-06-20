@@ -14,7 +14,7 @@ namespace UnknownEngine
 	namespace Core
 	{
 
-		class Message;
+		class PackedMessage;
 
 		class IMessageListener
 		{
@@ -28,7 +28,7 @@ namespace UnknownEngine
 				}
 
 				virtual std::string getName () const = 0;
-				virtual void processMessage ( const Message &msg ) = 0;
+				virtual void processMessage ( const PackedMessage &msg ) = 0;
 
 			private:
 				friend class MessageDispatcher;

@@ -105,7 +105,7 @@ namespace UnknownEngine
 			}
 		}
 
-		void MessageDispatcher::deliverMessage ( const Message &msg, const IMessageDeliveryPolicy* delivery_policy ) const
+		void MessageDispatcher::deliverMessage ( const PackedMessage &msg, const IMessageDeliveryPolicy* delivery_policy ) const
 		{
 			const MessageListenersList* list = getRegisteredListeners ( msg.getTypeId () );
 			if ( list != nullptr )
