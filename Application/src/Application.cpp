@@ -9,6 +9,7 @@
 #include <ComponentManager.h>
 #include <MessageSystem/MessageDictionary.h>
 #include <MessageSystem/MessageDispatcher.h>
+#include <MessageSystem/SenderInfo.h>
 
 #include <ExportedMessages/RenderSystem/CreateRenderWindowMessage.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
@@ -40,7 +41,7 @@ int main ()
 		msg.window_desc.height = 600;
 		msg.window_desc.title = "Hello";
 
-		MessageDispatcher::getSingleton()->deliverMessage( CreateRenderWindowMessagePacker("Core").packMessage(msg) );
+		MessageDispatcher::getSingleton()->deliverMessage( CreateRenderWindowMessagePacker(SenderInfo("Core")).packMessage(msg) );
 
 		//MainLoop main_loop;
 		//main_loop.start();

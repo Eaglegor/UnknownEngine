@@ -34,15 +34,15 @@ namespace UnknownEngine
 		{
 			public:
 
-				UpdateFrameMessagePacker ( std::string sender_name )
-						: MessagePacker< UpdateFrameMessage > ( sender_name )
+				UpdateFrameMessagePacker ( SenderInfo sender_info )
+						: MessagePacker< UpdateFrameMessage > ( sender_info )
 				{
 				}
 
 				UNKNOWNENGINE_INLINE
 				PackedMessage packMessage ( const UpdateFrameMessage& msg )
 				{
-					PackedMessage result ( MessageDictionary::getSingleton()->getMessageTypeId(UpdateFrameMessage::MSG_TYPE_NAME), sender_name );
+					PackedMessage result ( MessageDictionary::getSingleton()->getMessageTypeId(UpdateFrameMessage::MSG_TYPE_NAME), sender_info );
 					result.getProperties ().set< float > ( "dt", msg.dt );
 					result.getProperties ().set < int > ( "stage", msg.stage );
 					return result;

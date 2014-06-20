@@ -21,11 +21,11 @@ namespace UnknownEngine
 
 				virtual bool acceptMessage(const PackedMessage &msg);
 
-				FromSingleSenderMessageReceivePolicy (std::string sender_name);
+				FromSingleSenderMessageReceivePolicy (SenderInfo sender_info);
 				virtual ~FromSingleSenderMessageReceivePolicy ();
 
 			private:
-				std::string sender_name;
+				SenderInfo sender_info;
 
 		};
 

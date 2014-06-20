@@ -12,35 +12,36 @@
 				</externalSettings>
 				<extensions>
 					<extension id="org.eclipse.cdt.core.PE" point="org.eclipse.cdt.core.BinaryParser"/>
-					<extension id="org.eclipse.cdt.core.VCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="lib" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.mingw.lib.debug.1712790020" name="Debug" parent="cdt.managedbuild.config.gnu.mingw.lib.debug">
+				<configuration artifactExtension="a" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.mingw.lib.debug.1712790020" name="Debug" parent="cdt.managedbuild.config.gnu.mingw.lib.debug">
 					<folderInfo id="cdt.managedbuild.config.gnu.mingw.lib.debug.1712790020." name="/" resourcePath="">
-						<toolChain id="org.eclipse.cdt.msvc.toolchain.dll.debug.921078199" name="Microsoft Visual C++" superClass="org.eclipse.cdt.msvc.toolchain.dll.debug">
-							<targetPlatform id="org.eclipse.cdt.msvc.targetPlatform.dll.debug.159675921" superClass="org.eclipse.cdt.msvc.targetPlatform.dll.debug"/>
-							<builder buildPath="${workspace_loc:/Math}/Debug" id="org.eclipse.cdt.msvc.builder.1519702774" keepEnvironmentInBuildfile="false" name="CDT Internal Builder" superClass="org.eclipse.cdt.msvc.builder"/>
-							<tool id="org.eclipse.cdt.msvc.cl.c.dll.debug.1246258555" name="C Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.c.dll.debug">
-								<option id="org.eclipse.cdt.msvc.cl.option.optimization.442865203" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" value="org.eclipse.cdt.msvc.cl.option.optimization.default" valueType="enumerated"/>
-								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.179345620" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" value="org.eclipse.cdt.msvc.cl.option.debugFormat.complete" valueType="enumerated"/>
-								<inputType id="org.eclipse.cdt.msvc.cl.inputType.c.630425833" superClass="org.eclipse.cdt.msvc.cl.inputType.c"/>
+						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.base.200144935" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.base">
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE" id="cdt.managedbuild.target.gnu.platform.mingw.base.254936213" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.mingw.base"/>
+							<builder buildPath="${workspace_loc:/Math}/Debug" id="cdt.managedbuild.tool.gnu.builder.mingw.base.79499983" keepEnvironmentInBuildfile="false" name="CDT Internal Builder" superClass="cdt.managedbuild.tool.gnu.builder.mingw.base"/>
+							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.base.8147362" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.base">
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1602720924" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
-							<tool id="org.eclipse.cdt.msvc.cl.dll.debug.2119744060" name="C++ Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.dll.debug">
-								<option id="org.eclipse.cdt.msvc.cl.option.includes.1486401065" name="Include Path (/I)" superClass="org.eclipse.cdt.msvc.cl.option.includes" valueType="includePath">
+							<tool id="cdt.managedbuild.tool.gnu.archiver.mingw.base.1069925444" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.mingw.base"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.base.1005841860" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.base">
+								<option id="gnu.cpp.compiler.option.include.paths.1360804806" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Math/include}&quot;"/>
 								</option>
-								<option id="org.eclipse.cdt.msvc.cl.option.optimization.228664836" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" value="org.eclipse.cdt.msvc.cl.option.optimization.default" valueType="enumerated"/>
-								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.1454261800" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" value="org.eclipse.cdt.msvc.cl.option.debugFormat.complete" valueType="enumerated"/>
-								<inputType id="org.eclipse.cdt.msvc.cl.inputType.1129424265" superClass="org.eclipse.cdt.msvc.cl.inputType"/>
+								<option id="gnu.cpp.compiler.option.optimization.level.52061306" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.option.debugging.level.28125794" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.option.dialect.std.532822716" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" value="gnu.cpp.compiler.dialect.c++11" valueType="enumerated"/>
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.120396221" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
-							<tool id="org.eclipse.cdt.msvc.rc.dll.debug.62788461" name="Resource Compiler (rc)" superClass="org.eclipse.cdt.msvc.rc.dll.debug">
-								<inputType id="org.eclipse.cdt.msvc.rc.inputType.1007492321" superClass="org.eclipse.cdt.msvc.rc.inputType"/>
+							<tool id="cdt.managedbuild.tool.gnu.c.compiler.mingw.base.144365607" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.mingw.base">
+								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.option.optimization.level.2104098834" name="Optimization Level" superClass="gnu.c.compiler.option.optimization.level" valueType="enumerated"/>
+								<option id="gnu.c.compiler.option.debugging.level.240590937" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
+								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1737993662" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
-							<tool id="org.eclipse.cdt.msvc.link.dll.debug.651029887" name="Linker (link)" superClass="org.eclipse.cdt.msvc.link.dll.debug">
-								<option id="org.eclipse.cdt.msvc.link.option.debug.1918893710" name="Generate Debug Info (/debug)" superClass="org.eclipse.cdt.msvc.link.option.debug" value="true" valueType="boolean"/>
-							</tool>
-							<tool id="org.eclipse.cdt.msvc.lib.1730913255" name="Library Manager (lib)" superClass="org.eclipse.cdt.msvc.lib"/>
+							<tool id="cdt.managedbuild.tool.gnu.c.linker.mingw.base.1005271553" name="MinGW C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.mingw.base"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.mingw.base.622242000" name="MinGW C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.mingw.base"/>
 						</toolChain>
 					</folderInfo>
 				</configuration>
@@ -63,7 +64,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="a" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.mingw.lib.release.1555695697" name="Release" parent="cdt.managedbuild.config.gnu.mingw.lib.release">
+				<configuration artifactExtension="a" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.mingw.lib.release.1555695697" name="Release" parent="cdt.managedbuild.config.gnu.mingw.lib.release">
 					<folderInfo id="cdt.managedbuild.config.gnu.mingw.lib.release.1555695697." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.lib.release.165820475" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.lib.release">
 							<targetPlatform id="cdt.managedbuild.target.gnu.platform.mingw.lib.release.631097585" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.mingw.lib.release"/>

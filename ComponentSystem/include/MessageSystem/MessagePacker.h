@@ -7,6 +7,7 @@
  */
 
 #include <string>
+#include <MessageSystem/SenderInfo.h>
 
 namespace UnknownEngine
 {
@@ -21,8 +22,8 @@ namespace UnknownEngine
 		{
 			public:
 
-				MessagePacker ( std::string sender_name )
-						: sender_name ( sender_name )
+				MessagePacker ( SenderInfo sender_info )
+						: sender_info ( sender_info )
 				{
 				}
 
@@ -30,7 +31,7 @@ namespace UnknownEngine
 
 				virtual PackedMessage packMessage ( const T& msg ) = 0;
 			protected:
-				std::string sender_name;
+				SenderInfo sender_info;
 		};
 
 		template <typename T>

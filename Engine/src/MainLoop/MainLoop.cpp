@@ -10,6 +10,7 @@
 #include <MainLoop/MainLoop.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 #include <MessageSystem/MessageDispatcher.h>
+#include <MessageSystem/SenderInfo.h>
 
 namespace UnknownEngine
 {
@@ -31,7 +32,7 @@ namespace UnknownEngine
 		{
 			current_time = clock() / static_cast<float>(CLOCKS_PER_SEC);
 			UpdateFrameMessage msg;
-			UpdateFrameMessagePacker packer("Internal.MainLoop");
+			UpdateFrameMessagePacker packer(SenderInfo("Internal.MainLoop"));
 			while ( true )
 			{
 				msg.stage = UpdateFrameMessage::PREPROCESSING;

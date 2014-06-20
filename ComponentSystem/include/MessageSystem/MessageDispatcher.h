@@ -32,6 +32,9 @@ namespace UnknownEngine
 				void removeListener ( std::string message_type_name, IMessageListener* listener );
 				void removeListener ( IMessageListener* listener );
 
+				void addSniffer ( IMessageListener* listener, IMessageReceivePolicy* receive_policy );
+				void removeSniffer ( IMessageListener* listener );
+
 				void setListenerReceivePolicy( ComponentMessageTypeId message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy = nullptr );
 
 				void deliverMessage ( const PackedMessage &msg, const IMessageDeliveryPolicy* delivery_policy = nullptr ) const;
@@ -63,6 +66,8 @@ namespace UnknownEngine
 				MessageListenersList* getRegisteredListeners ( ComponentMessageTypeId message_type_id );
 
 				MessageListenersMap listeners;
+
+				std::list<RegisteredListener> sniffers;
 
 				int new_listener_internal_id;
 

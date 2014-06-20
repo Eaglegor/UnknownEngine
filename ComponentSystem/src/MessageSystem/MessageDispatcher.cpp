@@ -148,9 +148,25 @@ namespace UnknownEngine
 
 		void MessageDispatcher::initInstance ( MessageDispatcher* dispatcher )
 		{
-			if(instance == nullptr) instance = dispatcher;
+			if ( instance == nullptr ) instance = dispatcher;
 		}
 
+		void MessageDispatcher::addSniffer ( IMessageListener* listener, IMessageReceivePolicy* receive_policy )
+		{
+			RegisteredListener new_listener ( listener, receive_policy );
+			sniffers.push_back ( new_listener );
+		}
+
+		void MessageDispatcher::removeSniffer ( IMessageListener* listener )
+		{
+			MessageListenersList::iterator iter = sniffers.begin ();
+			while ( iter != sniffers.end () )
+			{
+				if ( *iter->listener == *listener ) iter = sniffers.erase ( iter );
+				else ++iter;
+			}
+		}
 
 	} /* namespace Core */
 } /* namespace UnknownEngine */
+

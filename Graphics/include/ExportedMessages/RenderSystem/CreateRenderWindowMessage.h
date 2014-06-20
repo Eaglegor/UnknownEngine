@@ -6,12 +6,16 @@
  *      Author: gorbachenko
  */
 
-#include <MessageSystem/MessagePacker.h>
+#include <boost/any.hpp>
+
 #include <InlineSpecification.h>
+
+#include <MessageSystem/MessagePacker.h>
 #include <MessageSystem/PackedMessage.h>
 #include <MessageSystem/MessageDictionary.h>
+#include <MessageSystem/SenderInfo.h>
+
 #include <RenderTargets/RenderWindowDesc.h>
-#include <boost/any.hpp>
 
 namespace UnknownEngine
 {
@@ -30,15 +34,15 @@ namespace UnknownEngine
 		{
 			public:
 
-				CreateRenderWindowMessagePacker ( std::string sender_name )
-						: Core::MessagePacker< CreateRenderWindowMessage > ( sender_name )
+				CreateRenderWindowMessagePacker ( Core::SenderInfo sender_info )
+						: Core::MessagePacker< CreateRenderWindowMessage > ( sender_info )
 				{
 				}
 
 				UNKNOWNENGINE_INLINE
 				Core::PackedMessage packMessage ( const CreateRenderWindowMessage& msg )
 				{
-					Core::PackedMessage result ( Core::MessageDictionary::getSingleton()->getMessageTypeId(CreateRenderWindowMessage::MSG_TYPE_NAME), sender_name );
+					Core::PackedMessage result ( Core::MessageDictionary::getSingleton()->getMessageTypeId(CreateRenderWindowMessage::MSG_TYPE_NAME), sender_info );
 					result.getProperties ().set< boost::any > ( "window_desc", msg.window_desc );
 					return result;
 				}

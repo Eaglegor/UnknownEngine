@@ -13,15 +13,15 @@ namespace UnknownEngine
 	namespace Core
 	{
 
-		FromSingleSenderMessageReceivePolicy::FromSingleSenderMessageReceivePolicy ( std::string sender_name )
-				: sender_name( sender_name )
+		FromSingleSenderMessageReceivePolicy::FromSingleSenderMessageReceivePolicy ( SenderInfo sender_info )
+				: sender_info( sender_info )
 		{
 			// TODO Auto-generated constructor stub
 		}
 
 		bool FromSingleSenderMessageReceivePolicy::acceptMessage ( const PackedMessage& msg )
 		{
-			return msg.getSenderName() == sender_name;
+			return msg.getSenderInfo() == sender_info;
 		}
 
 		FromSingleSenderMessageReceivePolicy::~FromSingleSenderMessageReceivePolicy ()

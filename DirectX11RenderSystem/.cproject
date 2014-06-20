@@ -16,21 +16,23 @@
 				<extensions>
 					<extension id="org.eclipse.cdt.core.PE" point="org.eclipse.cdt.core.BinaryParser"/>
 					<extension id="org.eclipse.cdt.core.VCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="dll" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.sharedLib" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.sharedLib,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.core.VCErrorParser" id="cdt.managedbuild.config.gnu.mingw.so.debug.1803334388" name="Debug" parent="cdt.managedbuild.config.gnu.mingw.so.debug" postannouncebuildStep="" postbuildStep="" preannouncebuildStep="" prebuildStep="">
+				<configuration artifactExtension="dll" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.sharedLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.sharedLib" cleanCommand="rm -rf" description="" errorParsers="org.eclipse.cdt.core.VCErrorParser" id="cdt.managedbuild.config.gnu.mingw.so.debug.1803334388" name="Debug" parent="cdt.managedbuild.config.gnu.mingw.so.debug" postannouncebuildStep="" postbuildStep="" preannouncebuildStep="" prebuildStep="">
 					<folderInfo id="cdt.managedbuild.config.gnu.mingw.so.debug.1803334388." name="/" resourcePath="">
-						<toolChain errorParsers="" id="org.eclipse.cdt.msvc.toolchain.dll.debug.1728532346" name="Microsoft Visual C++" superClass="org.eclipse.cdt.msvc.toolchain.dll.debug">
-							<targetPlatform binaryParser="org.eclipse.cdt.core.PE" id="org.eclipse.cdt.msvc.targetPlatform.dll.debug.1165356275" superClass="org.eclipse.cdt.msvc.targetPlatform.dll.debug"/>
-							<builder buildPath="${workspace_loc:/DirectX11RenderSystem}/Debug" errorParsers="" id="org.eclipse.cdt.msvc.builder.1983564289" keepEnvironmentInBuildfile="false" name="CDT Internal Builder" superClass="org.eclipse.cdt.msvc.builder"/>
-							<tool command="cl /c" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG}${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.VCErrorParser" id="org.eclipse.cdt.msvc.cl.c.dll.debug.603643894" name="C Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.c.dll.debug">
-								<option id="org.eclipse.cdt.msvc.cl.option.optimization.1894499670" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" value="org.eclipse.cdt.msvc.cl.option.optimization.default" valueType="enumerated"/>
-								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.1341648621" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" value="org.eclipse.cdt.msvc.cl.option.debugFormat.complete" valueType="enumerated"/>
-								<inputType id="org.eclipse.cdt.msvc.cl.inputType.c.1771981824" superClass="org.eclipse.cdt.msvc.cl.inputType.c"/>
+						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.base.1798460617" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.base">
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.PE" id="cdt.managedbuild.target.gnu.platform.mingw.base.986760936" name="Debug Platform" osList="win32" superClass="cdt.managedbuild.target.gnu.platform.mingw.base"/>
+							<builder buildPath="${workspace_loc:/DirectX11RenderSystem}/Debug" id="cdt.managedbuild.tool.gnu.builder.mingw.base.522930058" keepEnvironmentInBuildfile="false" name="CDT Internal Builder" superClass="cdt.managedbuild.tool.gnu.builder.mingw.base"/>
+							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.base.66149284" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.base">
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.555879578" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
-							<tool command="cl /c" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG}${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.VCErrorParser" id="org.eclipse.cdt.msvc.cl.dll.debug.480789983" name="C++ Compiler (cl)" superClass="org.eclipse.cdt.msvc.cl.dll.debug">
-								<option id="org.eclipse.cdt.msvc.cl.option.includes.334659481" name="Include Path (/I)" superClass="org.eclipse.cdt.msvc.cl.option.includes" valueType="includePath">
+							<tool id="cdt.managedbuild.tool.gnu.archiver.mingw.base.580625612" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.mingw.base"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.base.498618080" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.base">
+								<option id="gnu.cpp.compiler.option.include.paths.2115787065" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/DirectX11RenderSystem/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Math/include}&quot;"/>
@@ -39,41 +41,45 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Plugins/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Engine/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ComponentSystem/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;C:\Program Files (x86)\Windows Kits\8.0\Include\um&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;C:\Program Files (x86)\Windows Kits\8.0\Include\shared&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Deps}&quot;"/>
 								</option>
-								<option id="org.eclipse.cdt.msvc.cl.option.optimization.416644087" name="Optimization" superClass="org.eclipse.cdt.msvc.cl.option.optimization" value="org.eclipse.cdt.msvc.cl.option.optimization.default" valueType="enumerated"/>
-								<option id="org.eclipse.cdt.msvc.cl.option.debugFormat.368647719" name="Debug Information Format" superClass="org.eclipse.cdt.msvc.cl.option.debugFormat" value="org.eclipse.cdt.msvc.cl.option.debugFormat.complete" valueType="enumerated"/>
-								<inputType id="org.eclipse.cdt.msvc.cl.inputType.1648933665" superClass="org.eclipse.cdt.msvc.cl.inputType"/>
+								<option id="gnu.cpp.compiler.option.optimization.level.1663748821" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.option.debugging.level.1030870545" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.option.dialect.std.696591919" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" value="gnu.cpp.compiler.dialect.c++11" valueType="enumerated"/>
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.65500664" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
-							<tool command="rc" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.VCErrorParser" id="org.eclipse.cdt.msvc.rc.dll.debug.1224303390" name="Resource Compiler (rc)" superClass="org.eclipse.cdt.msvc.rc.dll.debug">
-								<inputType id="org.eclipse.cdt.msvc.rc.inputType.1227512374" superClass="org.eclipse.cdt.msvc.rc.inputType"/>
+							<tool id="cdt.managedbuild.tool.gnu.c.compiler.mingw.base.992310941" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.mingw.base">
+								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.option.optimization.level.1355897757" name="Optimization Level" superClass="gnu.c.compiler.option.optimization.level" valueType="enumerated"/>
+								<option id="gnu.c.compiler.option.debugging.level.1233833648" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
+								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1160271978" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
-							<tool command="link" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG}${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" errorParsers="org.eclipse.cdt.core.VCErrorParser" id="org.eclipse.cdt.msvc.link.dll.debug.1161693201" name="Linker (link)" superClass="org.eclipse.cdt.msvc.link.dll.debug">
-								<option id="org.eclipse.cdt.msvc.link.option.libraries.2061077833" name="Libraries" superClass="org.eclipse.cdt.msvc.link.option.libraries" valueType="libs">
-									<listOptionValue builtIn="false" value="user32.lib"/>
-									<listOptionValue builtIn="false" value="gdi32.lib"/>
-									<listOptionValue builtIn="false" value="Graphics.lib"/>
-									<listOptionValue builtIn="false" value="Engine.lib"/>
-									<listOptionValue builtIn="false" value="ComponentSystem.lib"/>
-									<listOptionValue builtIn="false" value="Math.lib"/>
-									<listOptionValue builtIn="false" value="Plugins.lib"/>
+							<tool id="cdt.managedbuild.tool.gnu.c.linker.mingw.base.513532325" name="MinGW C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.mingw.base">
+								<option defaultValue="true" id="gnu.c.link.option.shared.1318125397" name="Shared (-shared)" superClass="gnu.c.link.option.shared" valueType="boolean"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.mingw.base.1659247381" name="MinGW C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.mingw.base">
+								<option id="gnu.cpp.link.option.libs.46525666" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="user32"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="gdi32"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Graphics"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Engine"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="ComponentSystem"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Math"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Plugins"/>
 								</option>
-								<option defaultValue="true" id="org.eclipse.cdt.msvc.link.option.dll.576852008" name="Build a DLL" superClass="org.eclipse.cdt.msvc.link.option.dll" valueType="boolean"/>
-								<option id="org.eclipse.cdt.msvc.link.option.debug.1631557634" name="Generate Debug Info (/debug)" superClass="org.eclipse.cdt.msvc.link.option.debug" value="true" valueType="boolean"/>
-								<option id="org.eclipse.cdt.msvc.link.option.libpath.1349513843" name="Additional Libpath (/libpath)" superClass="org.eclipse.cdt.msvc.link.option.libpath" valueType="stringList">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Plugins/Debug}&quot;"/>
+								<option defaultValue="true" id="gnu.cpp.link.option.shared.1161117391" name="Shared (-shared)" superClass="gnu.cpp.link.option.shared" valueType="boolean"/>
+								<option id="gnu.cpp.link.option.paths.788815486" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Graphics/Debug}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Engine/Debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ComponentSystem/Debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Math/Debug}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Engine/Debug}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Plugins/Debug}&quot;"/>
 								</option>
-								<option id="org.eclipse.cdt.msvc.link.option.nologo.798261559" name="Suppress Banner (/nologo)" superClass="org.eclipse.cdt.msvc.link.option.nologo" value="true" valueType="boolean"/>
-								<option id="org.eclipse.cdt.msvc.link.option.others.1035326727" name="Other Options" superClass="org.eclipse.cdt.msvc.link.option.others"/>
-								<inputType id="org.eclipse.cdt.msvc.link.inputType.1958936013" superClass="org.eclipse.cdt.msvc.link.inputType"/>
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1431576625" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+								<outputType id="cdt.managedbuild.tool.gnu.cpp.linker.mingw.so.output.base.278054767" outputPrefix="" superClass="cdt.managedbuild.tool.gnu.cpp.linker.mingw.so.output.base"/>
 							</tool>
-							<tool id="org.eclipse.cdt.msvc.lib.1544324205" name="Library Manager (lib)" superClass="org.eclipse.cdt.msvc.lib"/>
 						</toolChain>
 					</folderInfo>
 				</configuration>
@@ -97,7 +103,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="dll" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.sharedLib" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.sharedLib,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.mingw.so.release.807700680" name="Release" parent="cdt.managedbuild.config.gnu.mingw.so.release">
+				<configuration artifactExtension="dll" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.sharedLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.sharedLib" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.mingw.so.release.807700680" name="Release" parent="cdt.managedbuild.config.gnu.mingw.so.release">
 					<folderInfo id="cdt.managedbuild.config.gnu.mingw.so.release.807700680." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.so.release.1982663614" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.so.release">
 							<targetPlatform id="cdt.managedbuild.target.gnu.platform.mingw.so.release.1631006312" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.mingw.so.release"/>
@@ -149,17 +155,8 @@
 	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.so.debug.1803334388;cdt.managedbuild.config.gnu.mingw.so.debug.1803334388.;cdt.managedbuild.tool.gnu.c.compiler.mingw.base.1469143201;cdt.managedbuild.tool.gnu.c.compiler.input.339079248">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.so.debug.1803334388;cdt.managedbuild.config.gnu.mingw.so.debug.1803334388.;cdt.managedbuild.tool.gnu.cpp.compiler.mingw.so.debug.1640487258;cdt.managedbuild.tool.gnu.cpp.compiler.input.1336337125">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.so.debug.1803334388;cdt.managedbuild.config.gnu.mingw.so.debug.1803334388.;org.eclipse.cdt.msvc.cl.dll.debug.1317844988;org.eclipse.cdt.msvc.cl.inputType.1603786647">
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.so.debug.1803334388;cdt.managedbuild.config.gnu.mingw.so.debug.1803334388.;org.eclipse.cdt.msvc.cl.c.dll.debug.1357173119;org.eclipse.cdt.msvc.cl.inputType.c.2045068876">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.msw.build.clScannerInfo"/>
-		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.so.debug.1803334388;cdt.managedbuild.config.gnu.mingw.so.debug.1803334388.;cdt.managedbuild.tool.gnu.cpp.compiler.mingw.base.787280913;cdt.managedbuild.tool.gnu.cpp.compiler.input.598677362">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.so.debug.1803334388;cdt.managedbuild.config.gnu.mingw.so.debug.1803334388.;cdt.managedbuild.tool.gnu.c.compiler.mingw.so.debug.701434181;cdt.managedbuild.tool.gnu.c.compiler.input.2073586247">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
@@ -167,16 +164,31 @@
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.so.release.807700680;cdt.managedbuild.config.gnu.mingw.so.release.807700680.;cdt.managedbuild.tool.gnu.cpp.compiler.mingw.so.release.1625673172;cdt.managedbuild.tool.gnu.cpp.compiler.input.751335829">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.so.debug.1803334388;cdt.managedbuild.config.gnu.mingw.so.debug.1803334388.;org.eclipse.cdt.msvc.cl.c.dll.debug.1357173119;org.eclipse.cdt.msvc.cl.inputType.c.2045068876">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.msw.build.clScannerInfo"/>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.so.debug.1803334388;cdt.managedbuild.config.gnu.mingw.so.debug.1803334388.;cdt.managedbuild.tool.gnu.c.compiler.mingw.base.1469143201;cdt.managedbuild.tool.gnu.c.compiler.input.339079248">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.so.debug.1803334388;cdt.managedbuild.config.gnu.mingw.so.debug.1803334388.;org.eclipse.cdt.msvc.cl.c.dll.debug.603643894;org.eclipse.cdt.msvc.cl.inputType.c.1771981824">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.msw.build.clScannerInfo"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.so.debug.1803334388;cdt.managedbuild.config.gnu.mingw.so.debug.1803334388.;cdt.managedbuild.tool.gnu.c.compiler.mingw.base.992310941;cdt.managedbuild.tool.gnu.c.compiler.input.1160271978">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.so.debug.1803334388;cdt.managedbuild.config.gnu.mingw.so.debug.1803334388.;org.eclipse.cdt.msvc.cl.dll.debug.480789983;org.eclipse.cdt.msvc.cl.inputType.1648933665">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.msw.build.clScannerInfo"/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.so.release.807700680;cdt.managedbuild.config.gnu.mingw.so.release.807700680.;cdt.managedbuild.tool.gnu.c.compiler.mingw.so.release.1737778094;cdt.managedbuild.tool.gnu.c.compiler.input.681751666">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.so.debug.1803334388;cdt.managedbuild.config.gnu.mingw.so.debug.1803334388.;cdt.managedbuild.tool.gnu.cpp.compiler.mingw.base.498618080;cdt.managedbuild.tool.gnu.cpp.compiler.input.65500664">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.so.debug.1803334388;cdt.managedbuild.config.gnu.mingw.so.debug.1803334388.;cdt.managedbuild.tool.gnu.cpp.compiler.mingw.base.787280913;cdt.managedbuild.tool.gnu.cpp.compiler.input.598677362">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.so.debug.1803334388;cdt.managedbuild.config.gnu.mingw.so.debug.1803334388.;org.eclipse.cdt.msvc.cl.dll.debug.1317844988;org.eclipse.cdt.msvc.cl.inputType.1603786647">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.msw.build.clScannerInfo"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.so.debug.1803334388;cdt.managedbuild.config.gnu.mingw.so.debug.1803334388.;cdt.managedbuild.tool.gnu.cpp.compiler.mingw.so.debug.1640487258;cdt.managedbuild.tool.gnu.cpp.compiler.input.1336337125">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
 	</storageModule>
