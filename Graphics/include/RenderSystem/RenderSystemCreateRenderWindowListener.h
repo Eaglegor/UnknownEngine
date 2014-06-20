@@ -8,7 +8,7 @@
 
 #include <MessageSystem/IMessageListener.h>
 #include <InlineSpecification.h>
-#include <MessageSystem/Message.h>
+#include <MessageSystem/PackedMessage.h>
 
 namespace UnknownEngine
 {

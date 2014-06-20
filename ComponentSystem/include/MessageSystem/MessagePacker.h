@@ -28,10 +28,23 @@ namespace UnknownEngine
 
 				virtual ~MessagePacker (){};
 
-				virtual T unpackMessage ( const PackedMessage &msg ) throw ( InvalidMessageFormatException ) = 0;
 				virtual PackedMessage packMessage ( const T& msg ) = 0;
 			protected:
 				std::string sender_name;
+		};
+
+		template <typename T>
+		class MessageUnpacker
+		{
+			public:
+
+				MessageUnpacker ( )
+				{
+				}
+
+				virtual ~MessageUnpacker (){};
+
+				virtual T unpackMessage ( const PackedMessage &msg ) throw ( InvalidMessageFormatException ) = 0;
 		};
 
 	} /* namespace Core */

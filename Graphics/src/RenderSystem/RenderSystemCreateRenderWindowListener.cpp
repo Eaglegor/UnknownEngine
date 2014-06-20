@@ -25,7 +25,7 @@ namespace UnknownEngine
 
 		void RenderSystemCreateRenderWindowListener::processMessage (  const Core::PackedMessage &msg )
 		{
-			CreateRenderWindowMessage unpacked_msg = CreateRenderWindowMessagePacker("").unpackMessage(msg);
+			CreateRenderWindowMessage unpacked_msg = CreateRenderWindowMessageUnpacker().unpackMessage(msg);
 			this->render_system->createRenderWindow(unpacked_msg.window_desc);
 		}
 
