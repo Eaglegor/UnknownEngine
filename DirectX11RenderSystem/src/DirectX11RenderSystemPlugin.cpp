@@ -48,6 +48,8 @@ namespace UnknownEngine
 			Core::MessageDictionary::initInstance(plugins_manager->getMessageDictionary());
 			Core::ComponentManager::initInstance(plugins_manager->getComponentManager());
 
+			Core::MessageDictionary::getSingleton()->registerNewMessageType(Graphics::CreateRenderWindowMessage::MSG_TYPE_NAME);
+
 			return true;
 		}
 

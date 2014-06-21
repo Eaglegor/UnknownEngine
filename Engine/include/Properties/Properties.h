@@ -39,7 +39,8 @@ namespace UnknownEngine
 
 				template<typename V>
 				UNKNOWNENGINE_INLINE
-				const V& get ( K name ) const throw(PropertyNotFoundException)
+				typename boost::enable_if<NotAnyPropertyTypes<V>, const V& >::type
+				get ( K name ) const throw(PropertyNotFoundException)
 				{
 					const std::map<K, V>& values = getAllOfType<V>();
 					const auto found = values.find( name );
@@ -49,12 +50,35 @@ namespace UnknownEngine
 
 				template<typename V>
 				UNKNOWNENGINE_INLINE
-				const V& get ( K name, const V &default_value ) const
+				typename boost::enable_if<NotAnyPropertyTypes<V>, const V& >::type
+				get ( K name, const V &default_value ) const
 				{
 					const std::map<K, V>& values = getAllOfType<V>();
 					const auto found = values.find( name );
 					if ( found == values.end() ) return default_value;
 					return found->second;
+				}
+
+				template<typename V>
+				UNKNOWNENGINE_INLINE
+				typename boost::enable_if<AnyPropertyType<V>, const V& >::type
+				get ( K name ) const throw(PropertyNotFoundException)
+				{
+					const std::map<K, boost::any>& values = getAllOfType<boost::any>();
+					const auto found = values.find( name );
+					if ( found == values.end() ) throw PropertyNotFoundException();
+					return boost::any_cast<V>(found->second);
+				}
+
+				template<typename V>
+				UNKNOWNENGINE_INLINE
+				typename boost::enable_if<AnyPropertyType<V>, const V& >::type
+				get ( K name, const V &default_value ) const
+				{
+					const std::map<K, boost::any>& values = getAllOfType<boost::any>();
+					const auto found = values.find( name );
+					if ( found == values.end() ) return default_value;
+					return boost::any_cast<V>(found->second);
 				}
 
 				template<typename V>

@@ -33,7 +33,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Plugins/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ComponentSystem/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Engine/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Deps}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Deps/include}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.optimization.level.1565800770" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.debugging.level.1013594278" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>

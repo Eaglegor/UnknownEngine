@@ -3,8 +3,6 @@
 	<name>Graphics</name>
 	<comment></comment>
 	<projects>
-		<project>ComponentSystem</project>
-		<project>Math</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

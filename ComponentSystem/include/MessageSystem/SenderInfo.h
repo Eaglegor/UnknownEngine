@@ -6,10 +6,18 @@ namespace UnknownEngine
 	{
 		struct SenderInfo
 		{
-				explicit SenderInfo(std::string){}
-				bool operator==(const SenderInfo&){return true;}
-		};
+				explicit SenderInfo(std::string sender_name) :
+						sender_name(sender_name)
+				{
 
-		//typedef int /*std::string*/ SenderInfo;
+				}
+
+				bool operator==(const SenderInfo& rhs)
+				{
+					return sender_name == rhs.sender_name;
+				}
+
+				std::string sender_name;
+		};
 	}
 }

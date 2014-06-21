@@ -41,7 +41,8 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Plugins/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Engine/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ComponentSystem/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Deps}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Deps/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RenderSystem/include}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.optimization.level.1663748821" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.debugging.level.1030870545" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
@@ -62,17 +63,19 @@
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="gdi32"/>
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Graphics"/>
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Engine"/>
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="ComponentSystem"/>
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Math"/>
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="Plugins"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="RenderSystem"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="ComponentSystem"/>
 								</option>
 								<option defaultValue="true" id="gnu.cpp.link.option.shared.1161117391" name="Shared (-shared)" superClass="gnu.cpp.link.option.shared" valueType="boolean"/>
 								<option id="gnu.cpp.link.option.paths.788815486" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Graphics/Debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Engine/Debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ComponentSystem/Debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Math/Debug}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Plugins/Debug}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Graphics}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RenderSystem/Debug}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1431576625" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>

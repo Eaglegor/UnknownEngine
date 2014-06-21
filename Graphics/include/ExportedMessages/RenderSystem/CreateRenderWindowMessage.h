@@ -57,8 +57,7 @@ namespace UnknownEngine
 				CreateRenderWindowMessage unpackMessage ( const Core::PackedMessage &msg ) throw ( Core::InvalidMessageFormatException )
 				{
 					CreateRenderWindowMessage result;
-					boost::any any_desc = msg.getProperties().get< boost::any >("window_desc");
-					result.window_desc = boost::any_cast<RenderWindowDesc> (any_desc);
+					result.window_desc = msg.getProperties().get< RenderWindowDesc >("window_desc");
 					return result;
 				}
 

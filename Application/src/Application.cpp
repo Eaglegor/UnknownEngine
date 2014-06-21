@@ -1,8 +1,6 @@
 #include <iostream>
 
 #include <MainLoop/MainLoop.h>
-#include <RenderSystem/RenderSystem.h>
-#include <RenderSystem/RenderSystemUpdateFrameListener.h>
 #include <Plugins/PluginsManager.h>
 #include <Plugins/PluginError.h>
 
@@ -13,6 +11,7 @@
 
 #include <ExportedMessages/RenderSystem/CreateRenderWindowMessage.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
+#include <ExportedMessages/LogMessage.h>
 
 using namespace UnknownEngine::Core;
 using namespace UnknownEngine::Graphics;
@@ -29,7 +28,7 @@ int main ()
 
 		PluginsManager mgr;
 
-		MessageDictionary::getSingleton()->registerNewMessageType(CreateRenderWindowMessage::MSG_TYPE_NAME);
+		MessageDictionary::getSingleton()->registerNewMessageType(LogMessage::MSG_TYPE_NAME);
 		MessageDictionary::getSingleton()->registerNewMessageType(UpdateFrameMessage::MSG_TYPE_NAME);
 
 		mgr.installPlugin ( "DirectX11RenderSystem.dll" );

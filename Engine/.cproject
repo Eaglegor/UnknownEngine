@@ -30,7 +30,7 @@
 								<option id="gnu.cpp.compiler.option.include.paths.292813880" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Engine/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ComponentSystem/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Deps}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Deps/include}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.optimization.level.1210153317" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.debugging.level.1315054251" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
@@ -116,6 +116,9 @@
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.exe.release.1622503518;cdt.managedbuild.config.gnu.mingw.exe.release.1622503518.;cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.release.1834821403;cdt.managedbuild.tool.gnu.c.compiler.input.492251290">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.exe.debug.87056484;cdt.managedbuild.config.gnu.mingw.exe.debug.87056484.;cdt.managedbuild.tool.gnu.cpp.compiler.mingw.base.494236819;cdt.managedbuild.tool.gnu.cpp.compiler.input.972646297">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.exe.debug.87056484;cdt.managedbuild.config.gnu.mingw.exe.debug.87056484.;org.eclipse.cdt.msvc.cl.dll.debug.1445219831;org.eclipse.cdt.msvc.cl.inputType.515264002">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.msw.build.clScannerInfo"/>
 		</scannerConfigBuildInfo>
@@ -127,6 +130,9 @@
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.exe.debug.87056484;cdt.managedbuild.config.gnu.mingw.exe.debug.87056484.;org.eclipse.cdt.msvc.cl.c.dll.debug.952652174;org.eclipse.cdt.msvc.cl.inputType.c.1938854886">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.msw.build.clScannerInfo"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.exe.debug.87056484;cdt.managedbuild.config.gnu.mingw.exe.debug.87056484.;cdt.managedbuild.tool.gnu.c.compiler.mingw.base.181932643;cdt.managedbuild.tool.gnu.c.compiler.input.691932498">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
 	</storageModule>
 </cproject>

@@ -7,8 +7,6 @@
 
 #include <windows.h>
 
-#include <RenderSystem/RenderSystem.h>
-
 #include <Plugins/Plugin.h>
 #include <Plugins/PluginsManager.h>
 #include <MessageSystem/MessageDispatcher.h>

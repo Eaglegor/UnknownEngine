@@ -28,9 +28,26 @@ namespace UnknownEngine
 				};
 
 			public:
-				typedef typename boost::fusion::map<typename pv_pair<float>::type, typename pv_pair<int>::type, typename pv_pair<std::string>::type, typename pv_pair<boost::any>::type > MapType;
-
+				typedef typename boost::fusion::map<
+						typename pv_pair<float>::type,
+						typename pv_pair<int>::type,
+						typename pv_pair<std::string>::type,
+						typename pv_pair<boost::any>::type> MapType;
 		};
+
+		template<typename V>
+		using NotAnyPropertyTypes = typename std::integral_constant <
+		bool,
+		std::is_same<V, float>::value ||
+		std::is_same<V, int>::value ||
+		std::is_same<V, std::string>::value
+		>;
+
+		template<typename V>
+		using AnyPropertyType = typename std::is_same <
+		std::false_type,
+		NotAnyPropertyTypes<V>
+		>;
 
 	}
 }

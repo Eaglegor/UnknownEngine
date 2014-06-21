@@ -7,6 +7,7 @@
 		<project>Engine</project>
 		<project>Graphics</project>
 		<project>Plugins</project>
+		<project>RenderSystem</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
