@@ -30,6 +30,7 @@ namespace UnknownEngine
 				virtual void removeComponentFactory ( IComponentFactory* factory );
 
 				virtual Component* createComponent ( const ComponentType &component_type, const Properties<std::string> &properties );
+				virtual void destroyComponent (Component* component);
 
 				static ComponentManager* getSingleton();
 				static void initInstance(ComponentManager* manager);
@@ -39,6 +40,8 @@ namespace UnknownEngine
 
 				std::list<IComponentFactory*>::iterator findFactoryInList ( IComponentFactory* factory );
 				IComponentFactory* findFactoryForComponentType ( const ComponentType &component_type );
+
+				int last_used_component_factory_id;
 
 				std::list<IComponentFactory*> component_factories;
 

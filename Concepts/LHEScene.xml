@@ -1,0 +1,200 @@
+<scene>
+
+	<engine>
+		<templates>
+			<template name="Logger" filename="LoggerTemplate.xml"/>
+			<template name="Gallbladder" filename="Gallbladder.xml"/>
+			<template name="CysticArtery" filename="CysticArtery.xml"/>
+			<template name="CysticDuct" filename="CysticDuct.xml"/>
+			<template name="Omentum" filename="Omentum.xml"/>
+		</templates>
+	</engine>
+
+	<constant name="ScriptsLookupDir" value="../.."/>
+	
+<!-- <subsystems template="DefaultSettings.xml"> -->
+	<subsystems>
+
+		<subsystem name="Graphics" module="DirectX11RenderSystem">
+			<event_listener type="RenderSystem.Listener.UpdateFrame" name="RenderNewFrame">
+				<event event_type="Engine.MainLoop.UpdateFrame">
+					<receive_policy type="ReceiveFromSingleSender">
+						<options>
+							<option name="SenderName" value="Engine"/>
+						</options>
+					</receive_policy>
+				</event>
+			</event_listener>
+			
+			<options>
+				<option_section name="RenderWindow">
+					<option name="fullscreen" value="false"/>
+					<option name="resolution" value="800x600"/>
+				</option_section>
+				<option_section name="Features">
+					<option_section name="SSAO"/>
+					<option_section name="TransparentWater"/>
+					<option_section name="AntiAliasing">
+						<option name="mode" value="FSAA"/>
+						<option name="passes" value="4"/>
+					</option_section>
+				</option_section>
+			</options>
+		</subsystem>
+		
+		<subsystem name="Physics" module="PhysX284PhysicsSystem">
+			<event_listener type="Physics.Listener.UpdateFrame" name="SimulateFrame">
+				<event event_type="Engine.MainLoop.UpdateFrame">
+					<receive_policy type="ReceiveFromSingleSender">
+						<options>
+							<option name="SenderName" value="Engine"/>
+						</options>
+					</receive_policy>
+				</event>
+			</event_listener>
+			
+			<options>
+				<option_section name="Scene">
+					<option name="Gravity" value="(0, -9.8, 0)"/>
+				</option_section>
+				<option_section name="Engine">
+					<option name="MaxIterationsCount" value="10"/>
+					<option name="TimestepMode" value="fixed"/>
+					<option name="TimestepSize" value="0.001"/>
+				</option_section>
+			</options>
+			
+		</subsystem>
+
+		<subsystem name="Scripting" module="LuaScripting">
+			<event_listener type="Lua.Listener.UpdateFrame" name="UpdateScript">
+				<event event_type="Engine.MainLoop.UpdateFrame">
+					<receive_policy type="ReceiveFromSingleSender">
+						<options>
+							<option name="SenderName" value="Engine"/>
+						</options>
+					</receive_policy>
+				</event>
+			</event_listener>
+			
+			<options>
+				<option_section name="MainScript">
+					<option name="path" value="${ScriptsLookupDir}/LHE.lua"/>
+				</option_section>
+			</options>
+			
+		</subsystem>
+		
+		<subsystem name="ModelLoader" module="ObjMeshLoader"/>
+		
+	</subsystems>
+	
+	<objects>
+		
+		<templated_entity name="Logger" tempate_name="Logger">
+		
+		<entity name="Hepar">
+		
+			<data_provider name="MeshData" type="ObjMeshLoader">
+				<options>
+					<option name="ModelFileName" value="hepar.obj"/>
+					<option_section name="Scale">
+						<option name="mode" value="centered"/>
+						<option name="multiplier" value="1.0"/>
+					</option_section>
+				</options>
+			</data_provider>
+		
+			<data_provider name="GraphicsMaterial" type="SimpleColorMaterial">
+				<options>
+					<option name="format" value="hex"/>
+					<option name="color" value="#FFFFFF"/>
+				</options>
+			</data_provider>
+		
+			<data_provider name="TetraData" type="TetgenGenerator">
+				<options>
+					<provided_option name="Mesh" data_provider="MeshData"/>
+				</options>
+			</data_provider>
+		
+			<constant name="InitialPosition" value="0 0 0">
+		
+			<component type="Graphics.DynamicRenderable" name="Graphics">
+			
+				<event_listener type="Graphics.Listener.MeshChanged" name="UpdateMesh">
+					<event type="Util.Mesh.MeshChanged"/>
+						<receive_policy type="ReceiveFromEntity">
+							<options>
+								<option name="EntityName" value="${EntityName}"/>
+							</options>
+						</receive_policy>
+					</event>
+				</event_listener>
+			
+				<options>
+					<provided_option name="Mesh" data_provider="MeshData"/>
+					<provided_option name="Material" data_provider="Material"/>
+				</options>
+				
+			</component>
+			
+			<component type="Physics.SoftBody" name="Physics">
+				<options>
+					<provided_option name="Mesh" data_provider="MeshData"/>
+					<provided_option name="TetraMesh" data_provider="TetraData"/>
+					<option name="Position" value="${InitialPosition}"/>
+					<option_section name="Physics">
+						<option name="linear_stiffness" value="1.0"/>
+						<option name="damping" value="0.4"/>
+					</option_section>
+				</options>
+			</component>
+			
+			<component type="Scripting.Script" name="Script">
+				<options>
+					<option name="ScriptFilename" value="${ScriptsLookupDir}/Hepar.lua"/>
+				</options>
+			</component>
+			
+		</entity>
+		
+		<entity name="HeparJoint">
+			
+			<data_provider name="MeshData" type="ObjMeshLoader">
+				<options>
+					<option name="ModelFileName" value="hepar_joints.obj"/>
+					<option_section name="Scale">
+						<option name="mode" value="centered"/>
+						<option name="multiplier" value="1.0"/>
+					</option_section>
+				</options>
+			</data_provider>
+			
+			<component type="Physics.Joint.SoftbodyStaticMesh">
+			
+				<event_listener type="Physics.Listener.BreakJoint.SoftbodyStaticMesh">
+					<event type="Physics.Joint.BreakJoint"/>
+						<receive_policy type="ReceiveFromSubsystem">
+							<options>
+								<option name="SubsystemName" value="Physics"/>
+							</options>
+						</receive_policy>
+					</event>
+				</event_listener>
+				
+				<options>
+					<provided_option name="Mesh" data_provider="MeshData"/>
+				</options>
+			</component>
+			
+		</entity>
+		
+		<templated_entity name="Gallbladder" tempate_name="Gallbladder"/>
+		<templated_entity name="CysticArtery" tempate_name="CysticArtery"/>
+		<templated_entity name="CysticDuct" tempate_name="CysticDuct"/>
+		<templated_entity name="Omentum" tempate_name="Omentum"/>
+		
+	</objects>
+	
+</scene>
