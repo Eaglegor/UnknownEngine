@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>Graphics</name>
+	<name>DirectX11RenderSystemPlugin</name>
 	<comment></comment>
 	<projects>
+		<project>DirectX11RenderSystem</project>
+		<project>RenderSystem</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

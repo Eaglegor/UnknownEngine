@@ -24,7 +24,7 @@ namespace UnknownEngine
 				Plugin (){}
 				virtual ~Plugin (){}
 
-				virtual std::string getName() const = 0;
+				virtual const char* getName() const = 0;
 
 				virtual bool install (PluginsManager* plugins_manager) throw (PluginError) = 0;
 

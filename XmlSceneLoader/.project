@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>Engine</name>
+	<name>XmlSceneLoader</name>
 	<comment></comment>
 	<projects>
-		<project>ComponentSystem</project>
-		<project>Plugins</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

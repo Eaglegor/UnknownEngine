@@ -33,15 +33,15 @@ namespace UnknownEngine
 
 typedef void (*PluginStartPoint) ( UnknownEngine::Core::PluginsManager* );
 
-void UnknownEngine::Core::PluginsManager::installPlugin ( std::string library_name ) throw ( UnknownEngine::Core::PluginError )
+void UnknownEngine::Core::PluginsManager::loadModule ( std::string library_name ) throw ( UnknownEngine::Core::PluginError )
 {
 	void* library = LoadLibrary ( library_name.c_str () );
 
-	if ( library == nullptr ) throw UnknownEngine::Core::PluginError (library_name, "Library can't be loaded" );
+	if ( library == nullptr ) throw UnknownEngine::Core::PluginError ("Library " + library_name + " can't be loaded" );
 
 	PluginStartPoint start_point = reinterpret_cast< PluginStartPoint > ( GetProcAddress ( reinterpret_cast< HINSTANCE > ( library ), "installPlugin" ) );
 
-	if ( start_point == nullptr ) throw UnknownEngine::Core::PluginError (library_name, "Plugin entry point can't be found in library");
+	if ( start_point == nullptr ) throw UnknownEngine::Core::PluginError (library_name+": Plugin entry point can't be found in library");
 
 	start_point ( this );
 }

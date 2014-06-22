@@ -20,7 +20,12 @@ namespace UnknownEngine
 
 		struct LogMessage
 		{
-				static const std::string MSG_TYPE_NAME;
+				UNKNOWNENGINE_INLINE
+				constexpr static const char* getTypeName()
+				{
+					return "Engine.Log";
+				}
+
 				std::string log_entry;
 		};
 
@@ -38,7 +43,7 @@ namespace UnknownEngine
 				{
 					PackedMessage result(
 							MessageDictionary::getSingleton()->getMessageTypeId(
-									LogMessage::MSG_TYPE_NAME), sender_info);
+									LogMessage::getTypeName()), sender_info);
 					result.getProperties().set<std::string>("log_entry", msg.log_entry);
 					return result;
 				}

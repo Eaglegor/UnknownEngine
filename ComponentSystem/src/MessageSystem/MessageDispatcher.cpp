@@ -16,7 +16,8 @@ namespace UnknownEngine
 	namespace Core
 	{
 
-		MessageDispatcher* MessageDispatcher::instance = nullptr;
+		template<>
+		MessageDispatcher* Singleton<MessageDispatcher>::instance = nullptr;
 
 		MessageDispatcher::MessageDispatcher ()
 				: new_listener_internal_id ( 0 )
@@ -135,20 +136,6 @@ namespace UnknownEngine
 			MessageListenersMap::iterator existing_list = listeners.find ( message_type_id );
 			if ( existing_list == listeners.end () ) return nullptr;
 			return &existing_list->second;
-		}
-
-		MessageDispatcher* MessageDispatcher::getSingleton ()
-		{
-			if ( instance == nullptr )
-			{
-				instance = new MessageDispatcher ();
-			}
-			return instance;
-		}
-
-		void MessageDispatcher::initInstance ( MessageDispatcher* dispatcher )
-		{
-			if ( instance == nullptr ) instance = dispatcher;
 		}
 
 		void MessageDispatcher::addSniffer ( IMessageListener* listener, IMessageReceivePolicy* receive_policy )

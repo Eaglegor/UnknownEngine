@@ -18,10 +18,14 @@ namespace UnknownEngine
 		{
 			public:
 				virtual bool acceptMessage(const PackedMessage &msg) = 0;
-				virtual ~IMessageReceivePolicy ();
+				virtual ~IMessageReceivePolicy()
+				{
+				}
 
 			protected:
-				IMessageReceivePolicy ();
+				IMessageReceivePolicy()
+				{
+				}
 		};
 
 	} /* namespace Core */

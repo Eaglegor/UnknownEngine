@@ -37,7 +37,7 @@ namespace UnknownEngine
 				PluginsManager ();
 				virtual ~PluginsManager ();
 
-				void installPlugin(std::string library_name) throw(PluginError);
+				void loadModule(std::string library_name) throw(PluginError);
 				void initPlugins();
 
 				void internalInstallPlugin(Plugin* plugin);

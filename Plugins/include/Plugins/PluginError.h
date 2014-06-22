@@ -16,25 +16,18 @@ namespace UnknownEngine
 		class PluginError: public std::exception
 		{
 			public:
-				PluginError ( std::string plugin_name, std::string reason ) throw ()
-				{
-					reason = "Error loading plugin: " + plugin_name + "\n" + "Reported reason: " + reason;
-				}
-
-				const char* what () const throw () override
-				{
-					return reason.c_str();
-				}
-				~PluginError () throw ()
+				PluginError(std::string message) :
+						message(message)
 				{
 				}
 
-				PluginError (const PluginError &err){
-					reason = err.reason;
+				virtual const char* what() const throw() override{
+					return message.c_str();
 				}
 
 			private:
-				std::string reason;
+				std::string message;
+
 		};
 	}
 }

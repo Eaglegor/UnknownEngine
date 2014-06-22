@@ -19,8 +19,6 @@ namespace UnknownEngine
 
 		MainLoop::MainLoop ()
 		{
-			// TODO Auto-generated constructor stub
-
 		}
 
 		MainLoop::~MainLoop ()

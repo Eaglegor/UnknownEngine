@@ -13,7 +13,8 @@ namespace UnknownEngine
 	namespace Core
 	{
 
-		ComponentManager* ComponentManager::instance = nullptr;
+		template<>
+		ComponentManager* Singleton<ComponentManager>::instance = nullptr;
 
 		ComponentManager::ComponentManager() :
 				last_used_component_factory_id(0)
@@ -75,15 +76,6 @@ namespace UnknownEngine
 			return iter;
 		}
 
-		ComponentManager* ComponentManager::getSingleton()
-		{
-			if (instance == nullptr)
-			{
-				instance = new ComponentManager();
-			}
-			return instance;
-		}
-
 		IComponentFactory* ComponentManager::findFactoryForComponentType(
 				const ComponentType& component_type)
 		{
@@ -93,12 +85,6 @@ namespace UnknownEngine
 					return factory;
 			}
 			return nullptr;
-		}
-
-		void ComponentManager::initInstance(ComponentManager* manager)
-		{
-			if (instance == nullptr)
-				instance = manager;
 		}
 
 	} /* namespace Core */

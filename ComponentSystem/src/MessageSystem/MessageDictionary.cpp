@@ -13,7 +13,8 @@ namespace UnknownEngine
 	namespace Core
 	{
 
-		MessageDictionary* MessageDictionary::instance = nullptr;
+		template<>
+		MessageDictionary* Singleton<MessageDictionary>::instance = nullptr;
 
 		MessageDictionary::MessageDictionary ()
 				: last_used_type_id ( 0 )
@@ -50,15 +51,6 @@ namespace UnknownEngine
 			}
 		}
 
-		MessageDictionary* MessageDictionary::getSingleton ()
-		{
-			if ( instance == nullptr )
-			{
-				instance = new MessageDictionary ();
-			}
-			return instance;
-		}
-
 		MessageDictionary::~MessageDictionary ()
 		{
 			// TODO Auto-generated destructor stub
@@ -72,11 +64,6 @@ namespace UnknownEngine
 		bool MessageDictionary::messageTypeIsRegistered ( std::string type_name )
 		{
 			return name_id_mapping.find ( type_name ) != name_id_mapping.end ();
-		}
-
-		void MessageDictionary::initInstance ( MessageDictionary* dictionary )
-		{
-			if ( instance == nullptr ) instance = dictionary;
 		}
 
 	} /* namespace Core */

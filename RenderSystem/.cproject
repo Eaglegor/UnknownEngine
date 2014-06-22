@@ -29,16 +29,14 @@
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1962615049" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.mingw.base.1124900853" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.mingw.base"/>
-							<tool command="${CXX}" id="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.base.301803391" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.base">
+							<tool command="g++" id="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.base.301803391" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.base">
 								<option id="gnu.cpp.compiler.option.include.paths.1946352616" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Graphics/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Utils/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Math/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Plugins/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RenderSystem/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Engine/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Plugins/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Utils/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/ComponentSystem/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/Deps/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RenderSystem/include}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.optimization.level.1904844103" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.debugging.level.572054154" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>

@@ -3,7 +3,6 @@
 	<name>Core</name>
 	<comment></comment>
 	<projects>
-		<project>Graphics</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

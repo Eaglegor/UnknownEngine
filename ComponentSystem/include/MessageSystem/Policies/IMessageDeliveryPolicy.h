@@ -19,10 +19,14 @@ namespace UnknownEngine
 			public:
 
 				virtual bool allowDeliverToListener(const IMessageListener* listener) const = 0;
-				virtual ~IMessageDeliveryPolicy ();
+				virtual ~IMessageDeliveryPolicy()
+				{
+				}
 
 			protected:
-				IMessageDeliveryPolicy ();
+				IMessageDeliveryPolicy()
+				{
+				}
 		};
 
 	} /* namespace Core */
