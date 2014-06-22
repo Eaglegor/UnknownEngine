@@ -21,14 +21,13 @@ namespace UnknownEngine
 	namespace Loader
 	{
 
-		class TemplatesManager;
-		class ConstantsHolder;
+		class XmlSceneLoader;
 
 		class SubsystemsLoader
 		{
 			public:
-				SubsystemsLoader(Core::PluginsManager* plugins_manager, TemplatesManager* templates_manager, ConstantsHolder* constants_holder) :
-						plugins_manager(plugins_manager), templates_manager(templates_manager), constants_holder(constants_holder)
+				SubsystemsLoader(Core::PluginsManager* plugins_manager, XmlSceneLoader* scene_loader) :
+						plugins_manager(plugins_manager), scene_loader(scene_loader)
 				{
 				}
 				virtual ~SubsystemsLoader();
@@ -36,9 +35,11 @@ namespace UnknownEngine
 				void loadSubsystems(const boost::property_tree::ptree &node);
 
 			private:
+
+				void loadSubsystem(std::string name, const boost::property_tree::ptree &node);
+
 				Core::PluginsManager* plugins_manager;
-				TemplatesManager* templates_manager;
-				ConstantsHolder* constants_holder;
+				XmlSceneLoader* scene_loader;
 		};
 
 	} /* namespace Core */

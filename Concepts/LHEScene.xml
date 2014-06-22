@@ -12,57 +12,56 @@
 
 	<constant name="ScriptsLookupDir" value="../.."/>
 	
-<!-- <subsystems template="DefaultSettings.xml"> -->
 	<subsystems>
 
 		<subsystem name="Graphics" module="DirectX11RenderSystem">
 			<event_listener type="RenderSystem.Listener.UpdateFrame" name="RenderNewFrame">
 				<event event_type="Engine.MainLoop.UpdateFrame">
 					<receive_policy type="ReceiveFromSingleSender">
-						<options>
+						<options_section>
 							<option name="SenderName" value="Engine"/>
-						</options>
+						</options_section>
 					</receive_policy>
 				</event>
 			</event_listener>
 			
-			<options>
-				<option_section name="RenderWindow">
+			<options_section>
+				<options_section name="RenderWindow">
 					<option name="fullscreen" value="false"/>
 					<option name="resolution" value="800x600"/>
-				</option_section>
-				<option_section name="Features">
-					<option_section name="SSAO"/>
-					<option_section name="TransparentWater"/>
-					<option_section name="AntiAliasing">
+				</options_section>
+				<options_section name="Features">
+					<options_section name="SSAO"/>
+					<options_section name="TransparentWater"/>
+					<options_section name="AntiAliasing">
 						<option name="mode" value="FSAA"/>
 						<option name="passes" value="4"/>
-					</option_section>
-				</option_section>
-			</options>
+					</options_section>
+				</options_section>
+			</options_section>
 		</subsystem>
 		
 		<subsystem name="Physics" module="PhysX284PhysicsSystem">
 			<event_listener type="Physics.Listener.UpdateFrame" name="SimulateFrame">
 				<event event_type="Engine.MainLoop.UpdateFrame">
 					<receive_policy type="ReceiveFromSingleSender">
-						<options>
+						<options_section>
 							<option name="SenderName" value="Engine"/>
-						</options>
+						</options_section>
 					</receive_policy>
 				</event>
 			</event_listener>
 			
-			<options>
-				<option_section name="Scene">
+			<options_section>
+				<options_section name="Scene">
 					<option name="Gravity" value="(0, -9.8, 0)"/>
-				</option_section>
-				<option_section name="Engine">
+				</options_section>
+				<options_section name="Engine">
 					<option name="MaxIterationsCount" value="10"/>
 					<option name="TimestepMode" value="fixed"/>
 					<option name="TimestepSize" value="0.001"/>
-				</option_section>
-			</options>
+				</options_section>
+			</options_section>
 			
 		</subsystem>
 
@@ -70,18 +69,18 @@
 			<event_listener type="Lua.Listener.UpdateFrame" name="UpdateScript">
 				<event event_type="Engine.MainLoop.UpdateFrame">
 					<receive_policy type="ReceiveFromSingleSender">
-						<options>
+						<options_section>
 							<option name="SenderName" value="Engine"/>
-						</options>
+						</options_section>
 					</receive_policy>
 				</event>
 			</event_listener>
 			
-			<options>
-				<option_section name="MainScript">
+			<options_section>
+				<options_section name="MainScript">
 					<option name="path" value="${ScriptsLookupDir}/LHE.lua"/>
-				</option_section>
-			</options>
+				</options_section>
+			</options_section>
 			
 		</subsystem>
 		
@@ -96,26 +95,26 @@
 		<entity name="Hepar">
 		
 			<data_provider name="MeshData" type="ObjMeshLoader">
-				<options>
+				<options_section>
 					<option name="ModelFileName" value="hepar.obj"/>
-					<option_section name="Scale">
+					<options_section name="Scale">
 						<option name="mode" value="centered"/>
 						<option name="multiplier" value="1.0"/>
-					</option_section>
-				</options>
+					</options_section>
+				</options_section>
 			</data_provider>
 		
 			<data_provider name="GraphicsMaterial" type="SimpleColorMaterial">
-				<options>
+				<options_section>
 					<option name="format" value="hex"/>
 					<option name="color" value="#FFFFFF"/>
-				</options>
+				</options_section>
 			</data_provider>
 		
 			<data_provider name="TetraData" type="TetgenGenerator">
-				<options>
+				<options_section>
 					<provided_option name="Mesh" data_provider="MeshData"/>
-				</options>
+				</options_section>
 			</data_provider>
 		
 			<constant name="InitialPosition" value="0 0 0">
@@ -125,36 +124,36 @@
 				<event_listener type="Graphics.Listener.MeshChanged" name="UpdateMesh">
 					<event type="Util.Mesh.MeshChanged"/>
 						<receive_policy type="ReceiveFromEntity">
-							<options>
+							<options_section>
 								<option name="EntityName" value="${EntityName}"/>
-							</options>
+							</options_section>
 						</receive_policy>
 					</event>
 				</event_listener>
 			
-				<options>
+				<options_section>
 					<provided_option name="Mesh" data_provider="MeshData"/>
 					<provided_option name="Material" data_provider="Material"/>
-				</options>
+				</options_section>
 				
 			</component>
 			
 			<component type="Physics.SoftBody" name="Physics">
-				<options>
+				<options_section>
 					<provided_option name="Mesh" data_provider="MeshData"/>
 					<provided_option name="TetraMesh" data_provider="TetraData"/>
 					<option name="Position" value="${InitialPosition}"/>
-					<option_section name="Physics">
+					<options_section name="Physics">
 						<option name="linear_stiffness" value="1.0"/>
 						<option name="damping" value="0.4"/>
-					</option_section>
-				</options>
+					</options_section>
+				</options_section>
 			</component>
 			
 			<component type="Scripting.Script" name="Script">
-				<options>
+				<options_section>
 					<option name="ScriptFilename" value="${ScriptsLookupDir}/Hepar.lua"/>
-				</options>
+				</options_section>
 			</component>
 			
 		</entity>
@@ -162,13 +161,13 @@
 		<entity name="HeparJoint">
 			
 			<data_provider name="MeshData" type="ObjMeshLoader">
-				<options>
+				<options_section>
 					<option name="ModelFileName" value="hepar_joints.obj"/>
-					<option_section name="Scale">
+					<options_section name="Scale">
 						<option name="mode" value="centered"/>
 						<option name="multiplier" value="1.0"/>
-					</option_section>
-				</options>
+					</options_section>
+				</options_section>
 			</data_provider>
 			
 			<component type="Physics.Joint.SoftbodyStaticMesh">
@@ -176,16 +175,16 @@
 				<event_listener type="Physics.Listener.BreakJoint.SoftbodyStaticMesh">
 					<event type="Physics.Joint.BreakJoint"/>
 						<receive_policy type="ReceiveFromSubsystem">
-							<options>
+							<options_section>
 								<option name="SubsystemName" value="Physics"/>
-							</options>
+							</options_section>
 						</receive_policy>
 					</event>
 				</event_listener>
 				
-				<options>
+				<options_section>
 					<provided_option name="Mesh" data_provider="MeshData"/>
-				</options>
+				</options_section>
 			</component>
 			
 		</entity>

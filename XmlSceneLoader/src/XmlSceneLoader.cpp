@@ -14,15 +14,17 @@
 
 #include <XmlSceneLoader.h>
 
+#include <SupportedTags.h>
+
 namespace UnknownEngine
 {
 	namespace Loader
 	{
 
-		static const std::string XMLATTR = "<xmlattr>";
-
 		using namespace boost::property_tree;
 		typedef std::exception InvalidSceneFile;
+		typedef std::exception NoTemplatesLoaded;
+
 
 		XmlSceneLoader::XmlSceneLoader(std::string filename) :
 				filename(filename),
@@ -42,25 +44,25 @@ namespace UnknownEngine
 			ptree xml_tree;
 			read_xml(filename, xml_tree);
 
-			boost::optional<ptree&> scene_root = xml_tree.get_child_optional("scene");
+			boost::optional<ptree&> scene_root = xml_tree.get_child_optional(Tags::SCENE);
 			if (!scene_root.is_initialized())
 			{
 				throw InvalidSceneFile();
 			}
 
-			boost::optional<ptree&> engine_settings = xml_tree.get_child_optional("engine");
+			boost::optional<ptree&> engine_settings = xml_tree.get_child_optional(Tags::ENGINE_SECTION);
 			if (engine_settings.is_initialized())
 			{
 				processEngineSettings(engine_settings.get());
 			}
 
-			boost::optional<ptree&> subsystems_list = xml_tree.get_child_optional("subsystems");
+			boost::optional<ptree&> subsystems_list = xml_tree.get_child_optional(Tags::SUBSYSTEMS_SECTION);
 			if (subsystems_list.is_initialized())
 			{
 				processSubsystems(subsystems_list.get(), plugins_manager);
 			}
 
-			boost::optional<ptree&> entities_list = xml_tree.get_child_optional("entities");
+			boost::optional<ptree&> entities_list = xml_tree.get_child_optional(Tags::ENTITIES_SECTION);
 			if (entities_list.is_initialized())
 			{
 				processEntities(entities_list.get(), components_manager);
@@ -70,14 +72,14 @@ namespace UnknownEngine
 
 		void XmlSceneLoader::processEngineSettings(const boost::property_tree::ptree& node)
 		{
-			boost::optional<const ptree&> templates_list = node.get_child_optional("templates");
+			boost::optional<const ptree&> templates_list = node.get_child_optional(Tags::TEMPLATES_SECTION);
 			if(templates_list.is_initialized()){
 				templates_manager = new TemplatesManager();
 				for(const ptree::value_type &iter : templates_list.get()){
-					if(iter.first=="template"){
+					if(iter.first==Tags::TEMPLATE){
 						const ptree &attrs = iter.second.get_child(XMLATTR);
-						const std::string template_name = attrs.get<std::string>("name");
-						const std::string template_filename = attrs.get<std::string>("filename");
+						const std::string template_name = attrs.get<std::string>(Attributes::TEMPLATE::NAME);
+						const std::string template_filename = attrs.get<std::string>(Attributes::TEMPLATE::FILENAME);
 						templates_manager->loadTemplate(template_name, template_filename);
 					}
 				}
@@ -86,7 +88,7 @@ namespace UnknownEngine
 
 		void XmlSceneLoader::processSubsystems(const boost::property_tree::ptree& node, Core::PluginsManager* plugins_manager)
 		{
-			SubsystemsLoader subsystems_loader(plugins_manager, templates_manager, constants_holder);
+			SubsystemsLoader subsystems_loader(plugins_manager, this);
 			subsystems_loader.loadSubsystems(node);
 		}
 
@@ -95,10 +97,10 @@ namespace UnknownEngine
 			constants_holder = new ConstantsHolder();
 			constants_holder->pushScope();
 			for(auto &iter : root){
-				if(iter.first=="constant"){
+				if(iter.first==Tags::CONSTANT){
 					const ptree &attrs = iter.second.get_child(XMLATTR);
-					const std::string constant_name = attrs.get<std::string>("name");
-					const std::string constant_value = attrs.get<std::string>("name");
+					const std::string constant_name = attrs.get<std::string>(Attributes::CONSTANT::NAME);
+					const std::string constant_value = attrs.get<std::string>(Attributes::CONSTANT::VALUE);
 					constants_holder->setConstantValue(constant_name, constant_value);
 				}
 			}
@@ -106,9 +108,22 @@ namespace UnknownEngine
 
 		void XmlSceneLoader::processEntities(const boost::property_tree::ptree& node, Core::ComponentsManager* components_manager)
 		{
-			EntitiesLoader entities_loader(components_manager, templates_manager, constants_holder);
+			EntitiesLoader entities_loader(components_manager, this);
 			entities_loader.loadEntities(node);
+		}
+
+		ConstantsHolder* XmlSceneLoader::getConstantsHolder()
+		{
+			return constants_holder;
+		}
+
+		TemplatesManager* XmlSceneLoader::getTemplatesManager()
+		{
+			if(templates_manager == nullptr) throw NoTemplatesLoaded();
+			return templates_manager;
 		}
 
 	} /* namespace Loader */
 } /* namespace UnknownEngine */
+
+

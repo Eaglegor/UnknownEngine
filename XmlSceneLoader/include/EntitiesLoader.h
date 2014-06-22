@@ -21,14 +21,13 @@ namespace UnknownEngine
 	namespace Loader
 	{
 
-		class TemplatesManager;
-		class ConstantsHolder;
+		class XmlSceneLoader;
 
 		class EntitiesLoader
 		{
 			public:
-				EntitiesLoader(Core::ComponentsManager* components_manager, TemplatesManager* templates_manager, ConstantsHolder* constants_holder) :
-						components_manager(components_manager), templates_manager(templates_manager), constants_holder(constants_holder)
+				EntitiesLoader(Core::ComponentsManager* components_manager, XmlSceneLoader* scene_loader) :
+						components_manager(components_manager), scene_loader(scene_loader)
 				{
 				}
 
@@ -40,8 +39,7 @@ namespace UnknownEngine
 
 			private:
 				Core::ComponentsManager* components_manager;
-				TemplatesManager* templates_manager;
-				ConstantsHolder* constants_holder;
+				XmlSceneLoader* scene_loader;
 		};
 
 	} /* namespace Core */
