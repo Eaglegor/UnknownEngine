@@ -89,7 +89,7 @@
 		
 	</subsystems>
 	
-	<objects>
+	<entities>
 		
 		<templated_entity name="Logger" tempate_name="Logger">
 		
@@ -195,6 +195,6 @@
 		<templated_entity name="CysticDuct" tempate_name="CysticDuct"/>
 		<templated_entity name="Omentum" tempate_name="Omentum"/>
 		
-	</objects>
+	</entities>
 	
 </scene>

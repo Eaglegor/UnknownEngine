@@ -10,6 +10,12 @@
 
 namespace UnknownEngine
 {
+	namespace Core
+	{
+		class ComponentsManager;
+		class PluginsManager;
+	}
+
 	namespace Loader
 	{
 
@@ -22,6 +28,8 @@ namespace UnknownEngine
 				virtual ~ISceneLoader()
 				{
 				}
+
+				virtual void loadScene(Core::ComponentsManager *components_manager, Core::PluginsManager* plugins_manager) = 0;
 		};
 
 	} /* namespace Core */
