@@ -1,6 +1,0 @@
-copy "Engine\\Debug\\libEngine.dll" "./Application/Debug/"
-copy "ComponentSystem\\Debug\\libComponentSystem.dll" "./Application/Debug/"
-copy "Plugins\\Debug\\libPlugins.dll" "./Application/Debug/"
-copy "XmlSceneLoader\\Debug\\libXmlSceneLoader.dll" "./Application/Debug/"
-copy "DirectX11RenderSystemPlugin\\Debug\\libDirectX11RenderSystemPlugin.dll" "./Application/Debug/"
-copy "Deps\\libs\\*.dll" "./Application/Debug/"
