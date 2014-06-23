@@ -3,7 +3,7 @@
 /*
  * RenderWindow.h
  *
- *  Created on: 15 июня 2014 г.
+ *  Created on: 15 РёСЋРЅСЏ 2014 Рі.
  *      Author: Eaglegor
  */
 

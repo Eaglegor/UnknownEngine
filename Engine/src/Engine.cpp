@@ -1,7 +1,7 @@
 /*
  * Engine.cpp
  *
- *  Created on: 22 июня 2014 г.
+ *  Created on: 22 РёСЋРЅСЏ 2014 Рі.
  *      Author: Eaglegor
  */
 

@@ -3,7 +3,7 @@
 /*
  * PropertiesSupportedTypes.h
  *
- *  Created on: 20 июня 2014 г.
+ *  Created on: 20 РёСЋРЅСЏ 2014 Рі.
  *      Author: Eaglegor
  */
 

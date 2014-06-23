@@ -1,7 +1,7 @@
 /*
  * Device.h
  *
- *  Created on: 21 июня 2014 г.
+ *  Created on: 21 РёСЋРЅСЏ 2014 Рі.
  *      Author: Eaglegor
  */
 

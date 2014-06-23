@@ -2,7 +2,7 @@
 /*
  * MessageDispatcher.h
  *
- *  Created on: 18 июня 2014 г.
+ *  Created on: 18 РёСЋРЅСЏ 2014 Рі.
  *      Author: gorbachenko
  */
 

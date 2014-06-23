@@ -3,7 +3,7 @@
 /*
  * DirectX10RenderSystemPlugin.h
  *
- *  Created on: 17 июня 2014 г.
+ *  Created on: 17 РёСЋРЅСЏ 2014 Рі.
  *      Author: Eaglegor
  */
 

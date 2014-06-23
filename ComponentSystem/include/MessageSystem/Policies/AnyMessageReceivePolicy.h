@@ -3,7 +3,7 @@
 /*
  * AnyMessageReceivePolicy.h
  *
- *  Created on: 19 июня 2014 г.
+ *  Created on: 19 РёСЋРЅСЏ 2014 Рі.
  *      Author: Eaglegor
  */
 

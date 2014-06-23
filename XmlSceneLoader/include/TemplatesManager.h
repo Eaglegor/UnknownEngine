@@ -1,7 +1,7 @@
 /*
  * TemplatesManager.h
  *
- *  Created on: 22 èşíÿ 2014 ã.
+ *  Created on: 22 Ğ¸ÑĞ½Ñ 2014 Ğ³.
  *      Author: Eaglegor
  */
 

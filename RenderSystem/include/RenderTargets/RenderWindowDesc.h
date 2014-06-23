@@ -4,7 +4,7 @@
  * RenderWindowDesc.h
 
  *
- *  Created on: 16 июня 2014 г.
+ *  Created on: 16 РёСЋРЅСЏ 2014 Рі.
  *      Author: Eaglegor
  */
 

@@ -41883,7 +41883,7 @@ File: gdb.info,  Node: Concept Index,  Next: Command and Variable Index,  Prev: 
 Concept Index
 *************
 
- [index ]
+
 * Menu:
 
 * ! packet:                              Packets.            (line   49)
@@ -43604,7 +43604,7 @@ File: gdb.info,  Node: Command and Variable Index,  Prev: Concept Index,  Up: To
 Command, Variable, and Function Index
 *************************************
 
- [index ]
+
 * Menu:
 
 * !:                                     Shell Commands.      (line  10)
