@@ -10,7 +10,7 @@ int main()
 
 	Engine engine;
 
-	XmlSceneLoader loader;
+    XmlSceneLoader loader("LHEScene.xml");
 	engine.init();
 	engine.loadScene(&loader);
 	engine.start();

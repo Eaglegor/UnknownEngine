@@ -1,7 +1,7 @@
 set(TARGET_NAME Deps)
 #set(LINKAGE SHARED)
 
-file(GLOB_RECURSE SOURCES "*.cpp")
+file(GLOB_RECURSE SOURCES "*.cpp" "*.h" "*.hpp")
 
 set(INCLUDED_MODULE_HEADERS  )
 set(LINKED_LIBS  )

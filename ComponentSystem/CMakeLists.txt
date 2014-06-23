@@ -1,7 +1,7 @@
 set(TARGET_NAME ComponentSystem)
 set(LINKAGE SHARED)
 
-file(GLOB_RECURSE SOURCES "*.cpp")
+file(GLOB_RECURSE SOURCES "*.cpp" "*.h")
 
 set(INCLUDED_MODULE_HEADERS ComponentSystem Engine Deps )
 set(LINKED_LIBS  )

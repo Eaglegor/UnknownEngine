@@ -1,8 +1,8 @@
 set(TARGET_NAME Application)
 
-file(GLOB_RECURSE SOURCES "*.cpp")
+file(GLOB_RECURSE SOURCES "*.cpp" ".h")
 
-set(INCLUDED_MODULE_HEADERS Engine XmlSceneLoader SceneLoader )
+set(INCLUDED_MODULE_HEADERS Deps Engine XmlSceneLoader SceneLoader )
 set(LINKED_LIBS Engine XmlSceneLoader )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 

@@ -10,6 +10,7 @@
 
 #include <string>
 #include <ISceneLoader.h>
+#include <boost/property_tree/ptree.hpp>
 
 namespace UnknownEngine
 {

@@ -1,7 +1,7 @@
 set(TARGET_NAME DirectX11RenderSystemPlugin)
 set(LINKAGE SHARED)
 
-file(GLOB_RECURSE SOURCES "*.cpp")
+file(GLOB_RECURSE SOURCES "*.cpp" "*.h")
 
 set(INCLUDED_MODULE_HEADERS DirectX11RenderSystemPlugin DirectX11RenderSystem Plugins RenderSystem ComponentSystem Utils Engine Deps)
 set(LINKED_LIBS Engine RenderSystem ComponentSystem Plugins DirectX11RenderSystem gdi32 user32 )

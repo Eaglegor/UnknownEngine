@@ -1,7 +1,7 @@
 set(TARGET_NAME RenderSystem)
 set(LINKAGE STATIC)
 
-file(GLOB_RECURSE SOURCES "*.cpp")
+file(GLOB_RECURSE SOURCES "*.cpp" "*.h")
 
 set(INCLUDED_MODULE_HEADERS RenderSystem Engine Plugins Utils ComponentSystem Deps )
 set(LINKED_LIBS  )

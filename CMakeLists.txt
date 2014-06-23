@@ -4,6 +4,8 @@ project(UNKNOWN_ENGINE)
 
 set(DIRECTX_INCLUDE_DIR "C:\\Program Files (x86)\\Microsoft DirectX SDK (June 2010)\\Include")
 
+list(APPEND CMAKE_CXX_FLAGS " -std=c++11 ")
+
 set(
 SHARED_LIBRARIES_LIST
 

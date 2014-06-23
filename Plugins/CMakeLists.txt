@@ -1,9 +1,9 @@
 set(TARGET_NAME Plugins)
 set(LINKAGE SHARED)
 
-file(GLOB_RECURSE SOURCES "*.cpp")
+file(GLOB_RECURSE SOURCES "*.cpp" "*.h")
 
-set(INCLUDED_MODULE_HEADERS ComponentSystem Engine Deps)
+set(INCLUDED_MODULE_HEADERS Plugins ComponentSystem Engine Deps)
 set(LINKED_LIBS ComponentSystem)
 set(DEPENDS_ON_TARGETS ComponentSystem)
 

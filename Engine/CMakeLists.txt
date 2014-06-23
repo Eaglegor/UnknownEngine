@@ -1,7 +1,7 @@
 set(TARGET_NAME Engine)
 set(LINKAGE SHARED)
 
-file(GLOB_RECURSE SOURCES "*.cpp")
+file(GLOB_RECURSE SOURCES "*.cpp" "*.h")
 
 set(INCLUDED_MODULE_HEADERS Engine ComponentSystem Plugins SceneLoader Deps RenderSystem Utils )
 set(LINKED_LIBS ComponentSystem Plugins )

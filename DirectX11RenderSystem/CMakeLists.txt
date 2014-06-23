@@ -1,7 +1,7 @@
 set(TARGET_NAME DirectX11RenderSystem)
 set(LINKAGE STATIC)
 
-file(GLOB_RECURSE SOURCES "*.cpp")
+file(GLOB_RECURSE SOURCES "*.cpp" "*.h")
 
 set(INCLUDED_MODULE_HEADERS DirectX11RenderSystem Engine RenderSystem Utils Plugins )
 set(LINKED_LIBS )

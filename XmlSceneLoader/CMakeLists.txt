@@ -1,7 +1,7 @@
 set(TARGET_NAME XmlSceneLoader)
 set(LINKAGE SHARED)
 
-file(GLOB_RECURSE SOURCES "*.cpp")
+file(GLOB_RECURSE SOURCES "*.cpp" "*.h")
 
 set(INCLUDED_MODULE_HEADERS XmlSceneLoader SceneLoader Deps Plugins ComponentSystem Engine )
 set(LINKED_LIBS )

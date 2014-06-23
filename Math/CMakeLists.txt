@@ -1,7 +1,7 @@
 set(TARGET_NAME Math)
 set(LINKAGE STATIC)
 
-file(GLOB_RECURSE SOURCES "*.cpp")
+file(GLOB_RECURSE SOURCES "*.cpp" "*.h")
 
 set(INCLUDED_MODULE_HEADERS Math )
 set(LINKED_LIBS )
