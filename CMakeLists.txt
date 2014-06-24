@@ -2,9 +2,15 @@ cmake_minimum_required(VERSION 2.8)
 
 project(UNKNOWN_ENGINE)
 
-set(DIRECTX_INCLUDE_DIR "C:\\Program Files (x86)\\Microsoft DirectX SDK (June 2010)\\Include")
+set(DIRECTX_INCLUDE_DIR ${DIRECTX_HOME}/Include)
+set(EXECUTABLE_DEPLOY_DIR ${UNKNOWN_ENGINE_BINARY_DIR}/Output/bin)
+set(STATIC_LIB_DEPLOY_DIR ${UNKNOWN_ENGINE_BINARY_DIR}/Output/lib)
+set(SHARED_LIB_DEPLOY_DIR ${UNKNOWN_ENGINE_BINARY_DIR}/Output/bin)
+set(INCLUDE_DEPLOY_DIR ${UNKNOWN_ENGINE_BINARY_DIR}/Output)
 
-list(APPEND CMAKE_CXX_FLAGS " -std=c++11 ")
+set(DEPLOY_INCLUDES FALSE)
+
+list(APPEND CMAKE_CXX_FLAGS " -std=c++11 -g3 -O0 ")
 
 set(
 SHARED_LIBRARIES_LIST
@@ -52,3 +58,4 @@ foreach(targets_list ${ALL_TARGETS_LIST})
 		add_subdirectory(${target})
 	endforeach(target)
 endforeach(targets_list)
+
