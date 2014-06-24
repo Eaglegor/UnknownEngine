@@ -1,44 +1,8 @@
 set(TARGET_NAME DirectX11RenderSystemPlugin)
 set(LINKAGE SHARED)
 
-file(GLOB_RECURSE SOURCES "*.cpp" "*.h")
-
 set(INCLUDED_MODULE_HEADERS DirectX11RenderSystemPlugin DirectX11RenderSystem Plugins RenderSystem ComponentSystem Utils Engine Deps)
 set(LINKED_LIBS Engine RenderSystem ComponentSystem Plugins DirectX11RenderSystem gdi32 user32 )
 set(DEPENDS_ON_TARGETS Engine RenderSystem ComponentSystem Plugins DirectX11RenderSystem )
 
-
-
-
-
-foreach(module ${INCLUDED_MODULE_HEADERS})
-	list(APPEND INCLUDED_HEADERS ${UNKNOWN_ENGINE_SOURCE_DIR}/${module}/include)
-endforeach(module)
-
-add_library(${TARGET_NAME} ${LINKAGE} ${SOURCES})
-
-if(INCLUDED_HEADERS)
-	include_directories( ${INCLUDED_HEADERS} )
-endif(INCLUDED_HEADERS)
-
-if(LINKED_LIBS)
-	target_link_libraries(${TARGET_NAME} ${LINKED_LIBS} )
-endif(LINKED_LIBS)
-
-if(DEPENDS_ON_TARGETS)
-	add_dependencies( ${TARGET_NAME} ${DEPENDS_ON_TARGETS} )
-endif(DEPENDS_ON_TARGETS)
-
-if(NOT LINKAGE)
-    install(TARGETS ${TARGET_NAME} DESTINATION ${EXECUTABLE_DEPLOY_DIR})
-else(NOT LINKAGE)
-    if(LINKAGE STREQUAL STATIC)
-        install(TARGETS ${TARGET_NAME} ARCHIVE DESTINATION ${STATIC_LIB_DEPLOY_DIR})
-    elseif(LINKAGE STREQUAL SHARED)
-        install(TARGETS ${TARGET_NAME} DESTINATION ${SHARED_LIB_DEPLOY_DIR})
-    endif(LINKAGE STREQUAL STATIC)
-endif(NOT LINKAGE)
-
-if(DEPLOY_INCLUDES)
-    install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include DESTINATION ${INCLUDE_DEPLOY_DIR})
-endif(DEPLOY_INCLUDES)
+include(${MODULE_TEMPLATE_CMAKELISTS_FILE})
