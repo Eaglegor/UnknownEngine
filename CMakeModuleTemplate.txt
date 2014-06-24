@@ -1,3 +1,5 @@
+link_directories(${UNKNOWN_ENGINE_SOURCE_DIR}/Deps/libs/)
+
 list(APPEND SOURCES_WILDCARD "*.cxx" "*.cpp" "*.hpp" "*.h")
 file(GLOB_RECURSE SOURCES ${SOURCES_WILDCARD})
 

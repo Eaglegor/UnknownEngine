@@ -24,8 +24,11 @@ namespace UnknownEngine
 				OptionsParser();
 				virtual ~OptionsParser();
 
-				static const Core::Properties<std::string> parseOptions(const boost::property_tree::ptree& options_node, ConstantsHolder* constants);
+				static const Core::Properties<std::string> parseOptions(const boost::property_tree::ptree& options_node, const ConstantsHolder* constants);
 
+			private:
+				static const Core::Properties<std::string> parseOptionsSection(const boost::property_tree::ptree &options_node, const ConstantsHolder* constants);
+				static std::string parseSingleOption(const boost::property_tree::ptree &options_node, const ConstantsHolder* constants);
 		};
 
 	} /* namespace Loader */

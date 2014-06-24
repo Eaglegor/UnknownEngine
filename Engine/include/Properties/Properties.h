@@ -67,7 +67,7 @@ namespace UnknownEngine
 					const std::map<K, boost::any>& values = getAllOfType<boost::any>();
 					const auto found = values.find( name );
 					if ( found == values.end() ) throw PropertyNotFoundException();
-					return boost::any_cast<V>(found->second);
+					return boost::any_cast<const V&>(found->second);
 				}
 
 				template<typename V>
@@ -78,14 +78,24 @@ namespace UnknownEngine
 					const std::map<K, boost::any>& values = getAllOfType<boost::any>();
 					const auto found = values.find( name );
 					if ( found == values.end() ) return default_value;
-					return boost::any_cast<V>(found->second);
+					return boost::any_cast<const V&>(found->second);
 				}
 
 				template<typename V>
 				UNKNOWNENGINE_INLINE
-				void set ( K name, const V &value )
+				typename boost::enable_if<NotAnyPropertyTypes<V>, void >::type
+				set ( K name, const V &value )
 				{
 					std::map<K, V>& values = const_cast<std::map<K, V>&>(getAllOfType<V>());
+					values[name] = value;
+				}
+
+				template<typename V>
+				UNKNOWNENGINE_INLINE
+				typename boost::enable_if<AnyPropertyType<V>, void >::type
+				set ( K name, const V &value )
+				{
+					std::map<K, boost::any>& values = const_cast<std::map<K, boost::any>&>(getAllOfType<boost::any>());
 					values[name] = value;
 				}
 

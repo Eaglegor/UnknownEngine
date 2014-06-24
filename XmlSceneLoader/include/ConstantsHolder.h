@@ -11,6 +11,7 @@
 #include <map>
 #include <list>
 #include <InlineSpecification.h>
+#include <boost/regex.hpp>
 
 namespace UnknownEngine
 {
@@ -32,13 +33,14 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				std::string getConstantValue(std::string constant_name) throw (LoaderConstantNotFoundException)
+				std::string getConstantValue(std::string constant_name) const throw (LoaderConstantNotFoundException)
 				{
 					for(auto iter = constants_maps.rbegin(); iter != constants_maps.rend(); ++iter)
 					{
 						auto value = iter->find(constant_name);
-						if (value == iter->end())
-						return value->second;
+						if (value != iter->end()){
+							return value->second;
+						}
 					}
 					throw LoaderConstantNotFoundException();
 				}
@@ -59,6 +61,19 @@ namespace UnknownEngine
 				void popScope()
 				{
 					constants_maps.pop_back();
+				}
+
+				UNKNOWNENGINE_INLINE
+				std::string applyPlaceholderConstants(const std::string &input_string) const
+				{
+					boost::regex regexp("\\$\\{\\w+\\}", boost::regex_constants::perl);
+					return boost::regex_replace(input_string, regexp,
+										[this](const boost::smatch &match)
+										{
+											std::string mmatch = match.str();
+											return this->getConstantValue(mmatch.substr(2, mmatch.size()-3));
+										});
+
 				}
 
 			private:
