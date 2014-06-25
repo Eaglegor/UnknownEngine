@@ -98,10 +98,7 @@ namespace UnknownEngine
 			constants_holder->pushScope();
 			for(auto &iter : root){
 				if(iter.first==Tags::CONSTANT){
-					const ptree &attrs = iter.second.get_child(XMLATTR);
-					const std::string constant_name = attrs.get<std::string>(Attributes::CONSTANT::NAME);
-					const std::string constant_value = attrs.get<std::string>(Attributes::CONSTANT::VALUE);
-					constants_holder->setConstantValue(constant_name, constant_value);
+                    constants_holder->parseAndSaveConstant(iter.second);
 				}
 			}
 		}

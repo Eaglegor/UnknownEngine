@@ -33,11 +33,14 @@ namespace UnknownEngine
 
 				virtual ~EntitiesLoader();
 
-				void loadEntities(boost::property_tree::ptree)
-				{
-				}
+                void loadEntities(const boost::property_tree::ptree &entities_node);
 
 			private:
+
+                bool loadEntity(const std::string &name, const boost::property_tree::ptree &entity_node);
+                bool loadComponent(const std::string &name, const boost::property_tree::ptree &component_node);
+                bool createDataProvider(const std::string &name, const boost::property_tree::ptree &data_provider_node);
+
 				Core::ComponentsManager* components_manager;
 				XmlSceneLoader* scene_loader;
 		};

@@ -12,6 +12,8 @@
 #include <list>
 #include <InlineSpecification.h>
 #include <boost/regex.hpp>
+#include <boost/property_tree/ptree.hpp>
+#include <SupportedTags.h>
 
 namespace UnknownEngine
 {
@@ -63,18 +65,8 @@ namespace UnknownEngine
 					constants_maps.pop_back();
 				}
 
-				UNKNOWNENGINE_INLINE
-				std::string applyPlaceholderConstants(const std::string &input_string) const
-				{
-					boost::regex regexp("\\$\\{\\w+\\}", boost::regex_constants::perl);
-					return boost::regex_replace(input_string, regexp,
-										[this](const boost::smatch &match)
-										{
-											std::string mmatch = match.str();
-											return this->getConstantValue(mmatch.substr(2, mmatch.size()-3));
-										});
-
-				}
+                std::string applyPlaceholderConstants(const std::string &input_string) const;
+                void parseAndSaveConstant(const boost::property_tree::ptree &constant_node);
 
 			private:
 				typedef std::map<std::string, std::string> ConstantsMap;
