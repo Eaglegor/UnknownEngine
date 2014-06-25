@@ -8,6 +8,8 @@
 
 #include <string>
 #include <InlineSpecification.h>
+#include <MessageSystem/IMessageListener.h>
+#include <MessageSystem/SenderInfo.h>
 
 namespace UnknownEngine
 {
@@ -29,6 +31,7 @@ namespace UnknownEngine
 
 				virtual std::string getName () const = 0;
 				virtual void processMessage ( const PackedMessage &msg ) = 0;
+				virtual const SystemPartId& getSystemPartId() const {return SystemPartId("Unknown");}
 
 			private:
 				friend class MessageDispatcher;

@@ -13,7 +13,7 @@ namespace UnknownEngine
 	namespace Core
 	{
 
-		FromSingleSenderMessageReceivePolicy::FromSingleSenderMessageReceivePolicy ( SenderInfo sender_info )
+		FromSingleSenderMessageReceivePolicy::FromSingleSenderMessageReceivePolicy ( SystemPartId sender_info )
 				: sender_info( sender_info )
 		{
 			// TODO Auto-generated constructor stub

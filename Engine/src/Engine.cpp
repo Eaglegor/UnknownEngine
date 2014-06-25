@@ -51,7 +51,7 @@ namespace UnknownEngine
 			desc.height = 600;
 			msg.window_desc = desc;
 
-			this->message_dispatcher->deliverMessage(Graphics::CreateRenderWindowMessagePacker(SenderInfo("Engine")).packMessage(msg));
+			this->message_dispatcher->deliverMessage(Graphics::CreateRenderWindowMessagePacker(SystemPartId("Engine")).packMessage(msg));
 
 			MainLoop main_loop;
 			main_loop.start();

@@ -24,7 +24,7 @@ namespace UnknownEngine
 		class PackedMessage
 		{
 			public:
-				PackedMessage ( ComponentMessageTypeId type_id, SenderInfo sender_info )
+				PackedMessage ( ComponentMessageTypeId type_id, SystemPartId sender_info )
 						: type_id ( type_id ), sender_info ( sender_info )
 				{
 				}
@@ -40,7 +40,7 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				SenderInfo getSenderInfo () const
+				SystemPartId getSenderInfo () const
 				{
 					return sender_info;
 				}
@@ -60,7 +60,7 @@ namespace UnknownEngine
 			private:
 				ComponentMessageTypeId type_id;
 				Properties properties;
-				SenderInfo sender_info;
+				SystemPartId sender_info;
 
 		};
 

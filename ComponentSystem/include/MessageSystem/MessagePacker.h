@@ -23,7 +23,7 @@ namespace UnknownEngine
 		{
 			public:
 
-				MessagePacker ( SenderInfo sender_info )
+				MessagePacker ( SystemPartId sender_info )
 						: sender_info ( sender_info )
 				{
 				}
@@ -32,7 +32,7 @@ namespace UnknownEngine
 
 				virtual PackedMessage packMessage ( const T& msg ) = 0;
 			protected:
-				SenderInfo sender_info;
+				SystemPartId sender_info;
 		};
 
 		template <typename T>

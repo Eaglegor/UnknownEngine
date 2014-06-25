@@ -7,7 +7,7 @@
  *      Author: Eaglegor
  */
 
-#include <map>
+#include <unordered_map>
 #include <boost/fusion/include/map.hpp>
 #include <boost/fusion/include/pair.hpp>
 #include <boost/fusion/include/at_key.hpp>
@@ -24,7 +24,7 @@ namespace UnknownEngine
 				template<typename V>
 				struct pv_pair
 				{
-						typedef boost::fusion::pair<V, std::map<K, V> > type;
+						typedef boost::fusion::pair<V, std::unordered_map<K, V> > type;
 				};
 
 			public:

@@ -33,7 +33,7 @@ namespace UnknownEngine
 		{
 			public:
 
-				LogMessagePacker(SenderInfo sender_info) :
+				LogMessagePacker(SystemPartId sender_info) :
 						MessagePacker<LogMessage>(sender_info)
 				{
 				}

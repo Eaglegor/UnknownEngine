@@ -30,7 +30,7 @@ namespace UnknownEngine
 		{
 			current_time = clock() / static_cast<float>(CLOCKS_PER_SEC);
 			UpdateFrameMessage msg;
-			UpdateFrameMessagePacker packer(SenderInfo("Internal.MainLoop"));
+			UpdateFrameMessagePacker packer(SystemPartId("Internal.MainLoop"));
 			while ( true )
 			{
 				msg.stage = UpdateFrameMessage::PREPROCESSING;

@@ -6,7 +6,7 @@
  *      Author: gorbachenko
  */
 
-#include <map>
+#include <unordered_map>
 #include <string>
 #include <InlineSpecification.h>
 
@@ -34,7 +34,7 @@ namespace UnknownEngine
 
 				template<typename V>
 				UNKNOWNENGINE_INLINE
-				const std::map<K, V>& getAllOfType () const
+				const std::unordered_map<K, V>& getAllOfType () const
 				{
 					return boost::fusion::at_key<V>( values_map );
 				}
@@ -44,7 +44,7 @@ namespace UnknownEngine
 				typename boost::enable_if<NotAnyPropertyTypes<V>, const V& >::type
 				get ( K name ) const throw(PropertyNotFoundException)
 				{
-					const std::map<K, V>& values = getAllOfType<V>();
+					const std::unordered_map<K, V>& values = getAllOfType<V>();
 					const auto found = values.find( name );
 					if ( found == values.end() ) throw PropertyNotFoundException();
 					return found->second;
@@ -55,7 +55,7 @@ namespace UnknownEngine
 				typename boost::enable_if<NotAnyPropertyTypes<V>, const V& >::type
 				get ( K name, const V &default_value ) const
 				{
-					const std::map<K, V>& values = getAllOfType<V>();
+					const std::unordered_map<K, V>& values = getAllOfType<V>();
 					const auto found = values.find( name );
 					if ( found == values.end() ) return default_value;
 					return found->second;
@@ -66,7 +66,7 @@ namespace UnknownEngine
 				typename boost::enable_if<AnyPropertyType<V>, const V& >::type
 				get ( K name ) const throw(PropertyNotFoundException)
 				{
-					const std::map<K, boost::any>& values = getAllOfType<boost::any>();
+					const std::unordered_map<K, boost::any>& values = getAllOfType<boost::any>();
 					const auto found = values.find( name );
 					if ( found == values.end() ) throw PropertyNotFoundException();
 					return boost::any_cast<const V&>(found->second);
@@ -77,7 +77,7 @@ namespace UnknownEngine
 				typename boost::enable_if<AnyPropertyType<V>, const V& >::type
 				get ( K name, const V &default_value ) const
 				{
-					const std::map<K, boost::any>& values = getAllOfType<boost::any>();
+					const std::unordered_map<K, boost::any>& values = getAllOfType<boost::any>();
 					const auto found = values.find( name );
 					if ( found == values.end() ) return default_value;
 					return boost::any_cast<const V&>(found->second);
@@ -88,7 +88,7 @@ namespace UnknownEngine
 				typename boost::enable_if<NotAnyPropertyTypes<V>, void >::type
 				set ( K name, const V &value )
 				{
-					std::map<K, V>& values = const_cast<std::map<K, V>&>(getAllOfType<V>());
+					std::unordered_map<K, V>& values = const_cast<std::unordered_map<K, V>&>(getAllOfType<V>());
 					values[name] = value;
 				}
 
@@ -97,7 +97,7 @@ namespace UnknownEngine
 				typename boost::enable_if<AnyPropertyType<V>, void >::type
 				set ( K name, const V &value )
 				{
-					std::map<K, boost::any>& values = const_cast<std::map<K, boost::any>&>(getAllOfType<boost::any>());
+					std::unordered_map<K, boost::any>& values = const_cast<std::unordered_map<K, boost::any>&>(getAllOfType<boost::any>());
 					values[name] = value;
 				}
 

@@ -38,7 +38,7 @@ namespace UnknownEngine
 		{
 			public:
 
-				UpdateFrameMessagePacker(SenderInfo sender_info) :
+				UpdateFrameMessagePacker(SystemPartId sender_info) :
 						MessagePacker<UpdateFrameMessage>(sender_info)
 				{
 				}

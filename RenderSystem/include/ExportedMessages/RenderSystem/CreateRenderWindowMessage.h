@@ -38,7 +38,7 @@ namespace UnknownEngine
 		{
 			public:
 
-				CreateRenderWindowMessagePacker(Core::SenderInfo sender_info) :
+				CreateRenderWindowMessagePacker(Core::SystemPartId sender_info) :
 						Core::MessagePacker<CreateRenderWindowMessage>(sender_info)
 				{
 				}
