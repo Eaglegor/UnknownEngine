@@ -1,34 +1,38 @@
 /*
- * ComponentManager.cpp
+ * ComponentsManager.cpp
  *
  *  Created on: 18 июня 2014 г.
  *      Author: gorbachenko
  */
 
-#include <ComponentManager.h>
+#include <ComponentsManager.h>
 #include <IComponentFactory.h>
+#include <ComponentDesc.h>
+#include <Exception.h>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
 
-		template<>
-		ComponentManager* Singleton<ComponentManager>::instance = nullptr;
+		class NoSuitableComponentFactoryFound : public Exception{};
 
-		ComponentManager::ComponentManager() :
+		template<>
+		ComponentsManager* Singleton<ComponentsManager>::instance = nullptr;
+
+		ComponentsManager::ComponentsManager() :
 				last_used_component_factory_id(0)
 		{
 			// TODO Auto-generated constructor stub
 
 		}
 
-		ComponentManager::~ComponentManager()
+		ComponentsManager::~ComponentsManager()
 		{
 			// TODO Auto-generated destructor stub
 		}
 
-		void ComponentManager::addComponentFactory(IComponentFactory* factory)
+		void ComponentsManager::addComponentFactory(IComponentFactory* factory)
 		{
 			if (findFactoryInList(factory) != component_factories.end())
 				return;
@@ -42,7 +46,7 @@ namespace UnknownEngine
 			component_factories.push_back(factory);
 		}
 
-		void ComponentManager::removeComponentFactory(
+		void ComponentsManager::removeComponentFactory(
 				IComponentFactory* factory)
 		{
 			auto iter = findFactoryInList(factory);
@@ -51,18 +55,21 @@ namespace UnknownEngine
 			component_factories.erase(iter);
 		}
 
-		Component* ComponentManager::createComponent(
-				const ComponentType& component_type,
-				const Properties<std::string>& properties)
+		Entity *ComponentsManager::createEntity(const std::string &name)
 		{
-			IComponentFactory* factory = findFactoryForComponentType(
-					component_type);
-			if (factory != nullptr)
-				return factory->createComponent(component_type, properties);
-			return nullptr;
+			throw Exception("NOT IMPLEMENTED");
 		}
 
-		std::list<IComponentFactory*>::iterator ComponentManager::findFactoryInList(
+		Component* ComponentsManager::createComponent(const ComponentDesc &desc)
+		{
+			IComponentFactory* factory = findFactoryForComponentType(
+					desc.type);
+			if (factory != nullptr)
+				return factory->createComponent(desc);
+			throw NoSuitableComponentFactoryFound();
+		}
+
+		std::list<IComponentFactory*>::iterator ComponentsManager::findFactoryInList(
 				IComponentFactory* factory)
 		{
 			std::list<IComponentFactory*>::iterator iter =
@@ -76,7 +83,7 @@ namespace UnknownEngine
 			return iter;
 		}
 
-		IComponentFactory* ComponentManager::findFactoryForComponentType(
+		IComponentFactory* ComponentsManager::findFactoryForComponentType(
 				const ComponentType& component_type)
 		{
 			for (IComponentFactory* factory : component_factories)

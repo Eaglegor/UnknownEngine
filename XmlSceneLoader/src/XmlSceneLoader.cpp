@@ -22,9 +22,6 @@ namespace UnknownEngine
 	{
 
 		using namespace boost::property_tree;
-		typedef std::exception InvalidSceneFile;
-		typedef std::exception NoTemplatesLoaded;
-
 
 		XmlSceneLoader::XmlSceneLoader(std::string filename) :
 				filename(filename),

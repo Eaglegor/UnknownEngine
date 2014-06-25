@@ -19,7 +19,7 @@ namespace UnknownEngine
 	namespace Core
 	{
 
-		class ComponentManager;
+		class ComponentsManager;
 		class MessageDispatcher;
 		class MessageDictionary;
 		class PluginsManager;
@@ -37,9 +37,9 @@ namespace UnknownEngine
 			private:
 				bool init_done;
 
-				ComponentManager* component_manager;
 				MessageDispatcher* message_dispatcher;
 				MessageDictionary* message_dictionary;
+				ComponentsManager* component_manager;
 				PluginsManager* plugins_manager;
 
 		};

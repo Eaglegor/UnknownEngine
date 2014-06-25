@@ -9,18 +9,22 @@
 #define ENTITIESPARSER_H_
 
 #include <boost/property_tree/ptree.hpp>
+#include <MessageSystem/MessageListenerDesc.h>
 
 namespace UnknownEngine
 {
 
 	namespace Core
 	{
+		class Properties;
+
 		class ComponentsManager;
+		class Component;
+		class Entity;
 	}
 
 	namespace Loader
 	{
-
 		class XmlSceneLoader;
 
 		class EntitiesLoader
@@ -37,9 +41,11 @@ namespace UnknownEngine
 
 			private:
 
-                bool loadEntity(const std::string &name, const boost::property_tree::ptree &entity_node);
-                bool loadComponent(const std::string &name, const boost::property_tree::ptree &component_node);
-                bool createDataProvider(const std::string &name, const boost::property_tree::ptree &data_provider_node);
+				void loadEntity(const std::string &name, const boost::property_tree::ptree &entity_node);
+				Core::Component* loadComponent(Core::Entity* parent_entity, const std::string &name, const boost::property_tree::ptree &component_node);
+				Core::MessageListenerDesc parseMessageListener(const boost::property_tree::ptree &event_listener_node);
+				UnknownEngine::Core::MessageListenerDesc::MessageDesc parseMessageDesc(const boost::property_tree::ptree &message_node);
+				bool createDataProvider(const boost::property_tree::ptree &data_provider_node);
 
 				Core::ComponentsManager* components_manager;
 				XmlSceneLoader* scene_loader;

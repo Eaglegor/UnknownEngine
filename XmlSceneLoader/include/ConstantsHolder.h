@@ -14,6 +14,7 @@
 #include <boost/regex.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <SupportedTags.h>
+#include <Exception.h>
 
 namespace UnknownEngine
 {
@@ -24,7 +25,7 @@ namespace UnknownEngine
 		{
 			public:
 
-				typedef std::exception LoaderConstantNotFoundException;
+				class LoaderConstantNotFoundException : public Core::Exception{};
 
 				ConstantsHolder()
 				{

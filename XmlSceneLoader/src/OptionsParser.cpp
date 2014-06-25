@@ -27,20 +27,20 @@ namespace UnknownEngine
 			// TODO Auto-generated destructor stub
 		}
 
-		const Core::Properties<std::string> OptionsParser::parseOptions(const ptree& options_node, const ConstantsHolder *constants)
+		const Core::Properties OptionsParser::parseOptions(const ptree& options_node, const ConstantsHolder *constants)
 		{
 			return parseOptionsSection(options_node, constants);
 		}
 
-		const Core::Properties<std::string> OptionsParser::parseOptionsSection(const ptree &options_node, const ConstantsHolder *constants)
+		const Core::Properties OptionsParser::parseOptionsSection(const ptree &options_node, const ConstantsHolder *constants)
 		{
-			Core::Properties<std::string> result;
+			Core::Properties result;
 			for(const ptree::value_type &iter : options_node)
 			{
 				if(iter.first == Tags::OPTIONS_SECTION)
 				{
 					const std::string section_name = iter.second.get_child(XMLATTR).get<std::string>(Attributes::OPTIONS_SECTION::NAME);
-					result.set< Core::Properties<std::string> >(section_name, parseOptionsSection(iter.second, constants));
+					result.set< Core::Properties >(section_name, parseOptionsSection(iter.second, constants));
 				}
 				else if(iter.first == Tags::OPTION)
 				{

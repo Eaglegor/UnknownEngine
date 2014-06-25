@@ -9,10 +9,11 @@
 
 #include <windows.h>
 
+#include <Plugins/PluginExport.h>
+
 #include <RenderSystem/RenderSystem.h>
 #include <RenderTargets/RenderWindow.h>
 
-#include <Plugins/PluginExport.h>
 #include <InlineSpecification.h>
 
 namespace UnknownEngine

@@ -15,15 +15,15 @@
 	<subsystems>
 
 		<subsystem name="Graphics" module="DirectX11RenderSystem">
-			<event_listener type="RenderSystem.Listener.UpdateFrame" name="RenderNewFrame">
-				<event event_type="Engine.MainLoop.UpdateFrame">
+			<message_listener name="RenderNewFrame">
+				<message message_type="Engine.MainLoop.UpdateFrame">
 					<receive_policy type="ReceiveFromSingleSender">
 						<options_section>
 							<option name="SenderName" value="Engine"/>
 						</options_section>
 					</receive_policy>
-				</event>
-			</event_listener>
+				</message>
+			</message_listener>
 			
 			<options_section>
 				<options_section name="RenderWindow">
@@ -42,15 +42,15 @@
 		</subsystem>
 		
 		<subsystem name="Physics" module="PhysX284PhysicsSystem">
-			<event_listener type="Physics.Listener.UpdateFrame" name="SimulateFrame">
-				<event event_type="Engine.MainLoop.UpdateFrame">
+			<message_listener name="SimulateFrame">
+				<message message_type="Engine.MainLoop.UpdateFrame">
 					<receive_policy type="ReceiveFromSingleSender">
 						<options_section>
 							<option name="SenderName" value="Engine"/>
 						</options_section>
 					</receive_policy>
-				</event>
-			</event_listener>
+				</message>
+			</message_listener>
 			
 			<options_section>
 				<options_section name="Scene">
@@ -66,15 +66,15 @@
 		</subsystem>
 
 		<subsystem name="Scripting" module="LuaScripting">
-			<event_listener type="Lua.Listener.UpdateFrame" name="UpdateScript">
-				<event event_type="Engine.MainLoop.UpdateFrame">
+			<message_listener name="UpdateScript">
+				<message message_type="Engine.MainLoop.UpdateFrame">
 					<receive_policy type="ReceiveFromSingleSender">
 						<options_section>
 							<option name="SenderName" value="Engine"/>
 						</options_section>
 					</receive_policy>
-				</event>
-			</event_listener>
+				</message>
+			</message_listener>
 			
 			<options_section>
 				<options_section name="MainScript">
@@ -121,15 +121,15 @@
 		
 			<component type="Graphics.DynamicRenderable" name="Graphics">
 			
-				<event_listener type="Graphics.Listener.MeshChanged" name="UpdateMesh">
-					<event type="Util.Mesh.MeshChanged"/>
+				<message_listener name="UpdateMesh">
+					<message type="Util.Mesh.MeshChanged"/>
 						<receive_policy type="ReceiveFromEntity">
 							<options_section>
 								<option name="EntityName" value="${EntityName}"/>
 							</options_section>
 						</receive_policy>
-					</event>
-				</event_listener>
+					</message>
+				</message_listener>
 			
 				<options_section>
 					<provided_option name="Mesh" data_provider="MeshData"/>
@@ -172,19 +172,20 @@
 			
 			<component type="Physics.Joint.SoftbodyStaticMesh">
 			
-				<event_listener type="Physics.Listener.BreakJoint.SoftbodyStaticMesh">
-					<event type="Physics.Joint.BreakJoint"/>
+				<message_listener name="JointBreakListener">
+					<message type="Physics.Joint.BreakJoint"/>
 						<receive_policy type="ReceiveFromSubsystem">
 							<options_section>
 								<option name="SubsystemName" value="Physics"/>
 							</options_section>
 						</receive_policy>
-					</event>
-				</event_listener>
+					</message>
+				</message_listener>
 				
 				<options_section>
 					<provided_option name="Mesh" data_provider="MeshData"/>
 				</options_section>
+				
 			</component>
 			
 		</entity>

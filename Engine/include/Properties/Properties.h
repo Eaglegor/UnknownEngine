@@ -13,22 +13,24 @@
 #include <Properties/PropertiesInternals.h>
 #include <boost/fusion/include/at_key.hpp>
 
+#include <Exception.h>
+
 namespace UnknownEngine
 {
 	namespace Core
 	{
 
-		typedef std::exception PropertyNotFoundException;
+		class PropertyNotFoundException : public Exception{};
 
-		template<typename K = std::string>
-		class Properties
+		template<typename K>
+		class PropertiesTree
 		{
 			private:
 				typedef typename PropertiesInternals<K>::MapType InternalMapType;
 
 			public:
-				Properties (){}
-				virtual ~Properties (){}
+				PropertiesTree (){}
+				virtual ~PropertiesTree (){}
 
 				template<typename V>
 				UNKNOWNENGINE_INLINE
@@ -103,6 +105,8 @@ namespace UnknownEngine
 				InternalMapType values_map;
 
 		};
+
+		class Properties: public PropertiesTree<std::string>{};
 
 	} /* namespace Core */
 } /* namespace UnknownEngine */

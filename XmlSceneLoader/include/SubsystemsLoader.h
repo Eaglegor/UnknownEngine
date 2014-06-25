@@ -9,6 +9,7 @@
 #define SUBSYSTEMSPARSER_H_
 
 #include <boost/property_tree/ptree.hpp>
+#include <Exception.h>
 
 namespace UnknownEngine
 {
@@ -22,6 +23,8 @@ namespace UnknownEngine
 	{
 
 		class XmlSceneLoader;
+
+		class InvalidSubsystemTemplate : public Core::Exception{};
 
 		class SubsystemsLoader
 		{

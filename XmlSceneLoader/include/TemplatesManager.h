@@ -11,12 +11,13 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include <map>
+#include <Exception.h>
 
 namespace UnknownEngine
 {
 	namespace Loader
 	{
-		typedef std::exception TemplateNotFound;
+		class TemplateNotFound : public Core::Exception{};
 
 		class TemplatesManager
 		{

@@ -18,8 +18,6 @@ namespace UnknownEngine
 
 		using namespace boost::property_tree;
 
-		typedef std::exception InvalidSubsystemTemplate;
-
 		SubsystemsLoader::~SubsystemsLoader()
 		{
 			// TODO Auto-generated destructor stub

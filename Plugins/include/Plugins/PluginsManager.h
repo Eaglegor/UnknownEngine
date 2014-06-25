@@ -10,7 +10,7 @@
 #include <map>
 #include <vector>
 
-#include <ComponentManager.h>
+#include <ComponentsManager.h>
 #include <MessageSystem/MessageDictionary.h>
 #include <MessageSystem/MessageDispatcher.h>
 
@@ -45,13 +45,13 @@ namespace UnknownEngine
 
 				MessageDispatcher* getMessageDispatcher();
 				MessageDictionary* getMessageDictionary();
-				ComponentManager* getComponentManager();
+				ComponentsManager* getComponentsManager();
 
 			private:
 
 				MessageDispatcher* message_dispatcher;
 				MessageDictionary* message_dictionary;
-				ComponentManager* component_manager;
+				ComponentsManager* component_manager;
 
 				std::vector<Plugin*> plugins;
 		};

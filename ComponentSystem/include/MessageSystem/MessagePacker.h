@@ -8,13 +8,14 @@
 
 #include <string>
 #include <MessageSystem/SenderInfo.h>
+#include <Exception.h>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
 
-		typedef std::exception InvalidMessageFormatException;
+		class InvalidMessageFormatException : public Exception{};
 		class PackedMessage;
 
 		template <typename T>

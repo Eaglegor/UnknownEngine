@@ -20,7 +20,7 @@ namespace UnknownEngine
 		{
 			message_dictionary = MessageDictionary::getSingleton();
 			message_dispatcher = MessageDispatcher::getSingleton();
-			component_manager = ComponentManager::getSingleton();
+			component_manager = ComponentsManager::getSingleton();
 		}
 
 		PluginsManager::~PluginsManager ()
@@ -74,7 +74,7 @@ UnknownEngine::Core::MessageDictionary* UnknownEngine::Core::PluginsManager::get
 	return message_dictionary;
 }
 
-UnknownEngine::Core::ComponentManager* UnknownEngine::Core::PluginsManager::getComponentManager ()
+UnknownEngine::Core::ComponentsManager* UnknownEngine::Core::PluginsManager::getComponentsManager ()
 {
 	return component_manager;
 }

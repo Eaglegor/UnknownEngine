@@ -46,20 +46,20 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				Properties<std::string> &getProperties ()
+				Properties &getProperties ()
 				{
 					return properties;
 				}
 
 				UNKNOWNENGINE_INLINE
-				const Properties<std::string> &getProperties () const
+				const Properties &getProperties () const
 				{
 					return properties;
 				}
 
 			private:
 				ComponentMessageTypeId type_id;
-				Properties<std::string> properties;
+				Properties properties;
 				SenderInfo sender_info;
 
 		};

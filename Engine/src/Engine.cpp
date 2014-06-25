@@ -10,7 +10,7 @@
 #include <MessageSystem/MessageDispatcher.h>
 #include <MessageSystem/MessageDictionary.h>
 #include <Plugins/PluginsManager.h>
-#include <ComponentManager.h>
+#include <ComponentsManager.h>
 
 #include <ExportedMessages/LogMessage.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
@@ -25,7 +25,7 @@ namespace UnknownEngine
 		Engine::Engine() :
 						message_dispatcher(new MessageDispatcher()),
 						message_dictionary(new MessageDictionary()),
-						component_manager(new ComponentManager()),
+						component_manager(new ComponentsManager()),
 						plugins_manager(new PluginsManager())
 		{
 		}

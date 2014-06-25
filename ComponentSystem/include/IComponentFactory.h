@@ -9,17 +9,19 @@
 #include <unordered_set>
 #include <string>
 #include <InlineSpecification.h>
+#include <vector>
+#include <Objects/Component.h>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
 
-		template <typename T>
 		class Properties;
 
 		class Component;
-		class ComponentType;
+		class MessageListenerDesc;
+		class ComponentDesc;
 
 		class IComponentFactory
 		{
@@ -31,7 +33,7 @@ namespace UnknownEngine
 
 				virtual ~IComponentFactory ();
 				virtual std::string getName () const = 0;
-				virtual Component* createComponent ( const ComponentType &component_type, const Properties<std::string> &properties ) = 0;
+				virtual Component* createComponent ( const ComponentDesc &desc ) = 0;
 				virtual bool canCreateComponentType ( const ComponentType &component_type_name ) const = 0;
 				virtual const std::unordered_set<ComponentType>& getSupportedComponentTypeNames () const = 0;
 
@@ -39,7 +41,7 @@ namespace UnknownEngine
 				IComponentFactory ():internal_id(-1){};
 
 			private:
-				friend class ComponentManager;
+				friend class ComponentsManager;
 				int internal_id;
 
 				UNKNOWNENGINE_INLINE

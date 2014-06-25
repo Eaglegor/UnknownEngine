@@ -25,8 +25,10 @@ namespace UnknownEngine
 
 		void RenderSystemUpdateFrameListener::processMessage (  const Core::PackedMessage &msg )
 		{
-			Core::UpdateFrameMessageUnpacker().unpackMessage(msg).stage == Core::UpdateFrameMessage::PROCESSING;
-			this->render_system->renderFrame();
+			if(Core::UpdateFrameMessageUnpacker().unpackMessage(msg).stage == Core::UpdateFrameMessage::PROCESSING)
+			{
+				this->render_system->renderFrame();
+			}
 		}
 
 	} /* namespace Graphics */

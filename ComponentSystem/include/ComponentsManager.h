@@ -1,6 +1,6 @@
 #pragma once
 /*
- * ComponentManager.h
+ * ComponentsManager.h
  *
  *  Created on: 18 июня 2014 г.
  *      Author: gorbachenko
@@ -8,8 +8,11 @@
 
 #include <string>
 #include <list>
+#include <vector>
 
+#include <Objects/Component.h>
 #include <Singleton.h>
+
 
 namespace UnknownEngine
 {
@@ -17,22 +20,21 @@ namespace UnknownEngine
 	{
 
 		class IComponentFactory;
-		class ComponentType;
 		class Component;
+		class ComponentDesc;
+		class Entity;
 
-		template<typename K>
-		class Properties;
-
-		class ComponentManager : public Singleton<ComponentManager>
+		class ComponentsManager : public Singleton<ComponentsManager>
 		{
 			public:
-				ComponentManager ();
-				virtual ~ComponentManager ();
+				ComponentsManager ();
+				virtual ~ComponentsManager ();
 
 				virtual void addComponentFactory ( IComponentFactory* factory );
 				virtual void removeComponentFactory ( IComponentFactory* factory );
 
-				virtual Component* createComponent ( const ComponentType &component_type, const Properties<std::string> &properties );
+				virtual Entity* createEntity ( const std::string &name );
+				virtual Component* createComponent ( const ComponentDesc &desc );
 				//virtual void destroyComponent (Component* component);
 
 			private:
