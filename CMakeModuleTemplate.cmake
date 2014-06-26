@@ -1,3 +1,4 @@
+# Compilation
 link_directories(${UNKNOWN_ENGINE_SOURCE_DIR}/Deps/libs/)
 
 list(APPEND SOURCES_WILDCARD "*.cxx" "*.cpp" "*.hpp" "*.h")
@@ -7,6 +8,10 @@ foreach(module ${INCLUDED_MODULE_HEADERS})
 	list(APPEND INCLUDED_HEADERS ${UNKNOWN_ENGINE_SOURCE_DIR}/${module}/include)
 endforeach(module)
 
+if(INCLUDED_HEADERS)
+        include_directories( ${INCLUDED_HEADERS} )
+endif(INCLUDED_HEADERS)
+
 if(LINKAGE)
     if(LINKAGE STREQUAL SHARED OR LINKAGE STREQUAL STATIC)
         add_library(${TARGET_NAME} ${LINKAGE} ${SOURCES})
@@ -15,9 +20,6 @@ else(LINKAGE)
     add_executable(${TARGET_NAME} ${SOURCES})
 endif(LINKAGE)
 
-if(INCLUDED_HEADERS)
-	include_directories( ${INCLUDED_HEADERS} )
-endif(INCLUDED_HEADERS)
 
 if(LINKED_LIBS)
 	target_link_libraries(${TARGET_NAME} ${LINKED_LIBS} )
@@ -37,6 +39,7 @@ else(NOT LINKAGE)
     endif(LINKAGE STREQUAL STATIC)
 endif(NOT LINKAGE)
 
+# Deploy
 if(DEPLOY_INCLUDES)
 	if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/include)
 		install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/${TARGET_NAME} DESTINATION ${INCLUDE_DEPLOY_DIR})
@@ -48,3 +51,15 @@ if(DEPLOY_INCLUDES_PLAIN)
 		install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include DESTINATION ${INCLUDE_DEPLOY_DIR})
 	endif(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/include)
 endif(DEPLOY_INCLUDES_PLAIN)
+
+# Precompiled headers
+set(___PCH_INCLUDE___ ${UNKNOWN_ENGINE_SOURCE_DIR}/${TARGET_NAME}/stdafx.h)
+set(___PCH_SOURCE___ ${UNKNOWN_ENGINE_SOURCE_DIR}/${TARGET_NAME}/stdafx.cpp)
+
+if(EXISTS ${___PCH_INCLUDE___} )
+    if(EXISTS ${___PCH_SOURCE___} )
+        include_directories( ${UNKNOWN_ENGINE_SOURCE_DIR}/${TARGET_NAME} )
+        include(${PCH_CMAKELISTS_FILE})
+        add_precompiled_header(${TARGET_NAME} ${___PCH_INCLUDE___} ${___PCH_SOURCE___})
+    endif(EXISTS ${___PCH_SOURCE___} )
+endif(EXISTS ${___PCH_INCLUDE___} )

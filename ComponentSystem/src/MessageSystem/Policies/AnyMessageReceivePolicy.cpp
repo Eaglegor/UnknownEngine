@@ -5,6 +5,7 @@
  *      Author: Eaglegor
  */
 
+#include <stdafx.h>
 #include <MessageSystem/Policies/AnyMessageReceivePolicy.h>
 
 namespace UnknownEngine

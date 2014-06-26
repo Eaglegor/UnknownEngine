@@ -5,8 +5,8 @@
  *      Author: gorbachenko
  */
 
+#include <stdafx.h>
 #include <MessageSystem/MessageDictionary.h>
-#include <iostream>
 
 namespace UnknownEngine
 {

@@ -5,6 +5,7 @@
  *      Author: gorbachenko
  */
 
+#include <stdafx.h>
 #include <Objects/Component.h>
 
 namespace UnknownEngine

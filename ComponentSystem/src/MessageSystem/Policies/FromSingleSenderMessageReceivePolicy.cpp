@@ -5,6 +5,7 @@
  *      Author: Eaglegor
  */
 
+#include <stdafx.h>
 #include <MessageSystem/PackedMessage.h>
 #include <MessageSystem/Policies/FromSingleSenderMessageReceivePolicy.h>
 

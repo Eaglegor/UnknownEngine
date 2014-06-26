@@ -5,11 +5,12 @@
  *      Author: gorbachenko
  */
 
+#include <stdafx.h>
+
 #include <MessageSystem/Policies/IMessageDeliveryPolicy.h>
 #include <MessageSystem/Policies/IMessageReceivePolicy.h>
 #include <MessageSystem/MessageDictionary.h>
 #include <MessageSystem/MessageDispatcher.h>
-#include <iostream>
 
 namespace UnknownEngine
 {
