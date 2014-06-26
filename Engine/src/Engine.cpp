@@ -5,7 +5,9 @@
  *      Author: Eaglegor
  */
 
-#include "Engine.h"
+#include <stdafx.h>
+
+#include <Engine.h>
 #include <MainLoop/MainLoop.h>
 #include <MessageSystem/MessageDispatcher.h>
 #include <MessageSystem/MessageDictionary.h>
@@ -16,6 +18,7 @@
 #include <ExportedMessages/UpdateFrameMessage.h>
 
 #include <ExportedMessages/RenderSystem/CreateRenderWindowMessage.h>
+#include <SubsystemDesc.h>
 
 namespace UnknownEngine
 {
@@ -41,8 +44,11 @@ namespace UnknownEngine
 		void Engine::start()
 		{
 
-			plugins_manager->loadModule("libDirectX11RenderSystemPlugin.dll");
-			plugins_manager->initPlugins();
+			SubsystemDesc ssdesc;
+			ssdesc.module_name = "libDirectX11RenderSystemPlugin.dll";
+
+			plugins_manager->loadSubsystem(ssdesc);
+			plugins_manager->initSubsystems();
 
 			Graphics::CreateRenderWindowMessage msg;
 			Graphics::RenderWindowDesc desc;

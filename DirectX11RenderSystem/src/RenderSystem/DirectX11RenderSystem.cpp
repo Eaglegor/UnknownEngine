@@ -5,7 +5,7 @@
  *      Author: Eaglegor
  */
 
-#include <iostream>
+#include <stdafx.h>
 
 #include <RenderSystem/DirectX11RenderSystem.h>
 #include <RenderTargets/DirectX11RenderWindow.h>

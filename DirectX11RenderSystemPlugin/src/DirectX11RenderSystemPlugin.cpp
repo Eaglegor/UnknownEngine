@@ -5,6 +5,8 @@
  *      Author: Eaglegor
  */
 
+#include <stdafx.h>
+
 #include <RenderSystem/DirectX11RenderSystem.h>
 #include <Plugins/PluginsManager.h>
 #include <DirectX11RenderSystemPlugin.h>
@@ -15,8 +17,6 @@
 
 #include <RenderSystem/RenderSystemUpdateFrameListener.h>
 #include <RenderSystem/RenderSystemCreateRenderWindowListener.h>
-
-#include <iostream>
 
 namespace UnknownEngine
 {

@@ -1,7 +1,7 @@
 set(TARGET_NAME ComponentSystem)
 set(LINKAGE SHARED)
 
-set(INCLUDED_MODULE_HEADERS ComponentSystem Engine Deps )
+set(INCLUDED_MODULE_HEADERS ComponentSystem Engine)
 set(LINKED_LIBS  )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 

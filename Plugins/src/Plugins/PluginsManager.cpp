@@ -5,16 +5,30 @@
  *      Author: Eaglegor
  */
 
-#include <windows.h>
+#include <stdafx.h>
 
 #include <Plugins/Plugin.h>
 #include <Plugins/PluginsManager.h>
 #include <MessageSystem/MessageDispatcher.h>
+#include <SubsystemDesc.h>
+
+#ifdef __WIN32__
+	#define LOAD_LIBRARY(library_name) LoadLibrary(library_name)
+	#define GET_SYMBOL_ADDRESS(library, symbol_name) GetProcAddress( reinterpret_cast<HINSTANCE>(library), symbol_name)
+	#define	UNLOAD_LIBRARY(library) FreeLibrary(reinterpret_cast<HINSTANCE>(library))
+#else
+	#define LOAD_LIBRARY(library_name) dlopen(library_name, RTLD_LAZY)
+	#define GET_SYMBOL_ADDRESS(library, symbol_name) dlsym(library, symbol_name)
+	#define	UNLOAD_LIBRARY(library) dlclose(library)
+#endif
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
+
+		typedef void (*PluginStartPoint) ( UnknownEngine::Core::PluginsManager* );
+		typedef void (*PluginShutdownPoint) ( void );
 
 		PluginsManager::PluginsManager ()
 		{
@@ -25,56 +39,79 @@ namespace UnknownEngine
 
 		PluginsManager::~PluginsManager ()
 		{
-			// TODO Auto-generated destructor stub
+			for(Plugin* plugin : plugins)
+			{
+				plugin->shutdown();
+			}
+			for(Plugin* plugin : plugins)
+			{
+				plugin->uninstall();
+			}
+
+			plugins.clear();
+
+			for(void* library : libraries_handlers)
+			{
+				PluginShutdownPoint shutdown_func = reinterpret_cast<PluginShutdownPoint>( GET_SYMBOL_ADDRESS( library, "shutdown" ) );
+				shutdown_func();
+				UNLOAD_LIBRARY( library );
+				library = nullptr;
+			}
 		}
+
+		void PluginsManager::loadSubsystem(const SubsystemDesc &desc)
+		{
+			loadModule(desc.module_name);
+		}
+
+		void PluginsManager::loadModule ( std::string library_name ) throw ( UnknownEngine::Core::PluginError )
+		{
+			void* library = LOAD_LIBRARY( library_name.c_str () );
+
+			if ( library == nullptr ) throw UnknownEngine::Core::PluginError ("Library " + library_name + " can't be loaded" );
+
+			PluginStartPoint start_point = reinterpret_cast< PluginStartPoint > ( GET_SYMBOL_ADDRESS( library , "installPlugin" ) );
+
+			if ( start_point == nullptr ) throw UnknownEngine::Core::PluginError (library_name+": Plugin entry point can't be found in library");
+
+			start_point ( this );
+
+			libraries_handlers.push_back(library);
+		}
+
+		void PluginsManager::initSubsystems ()
+		{
+			for(Plugin* plugin: plugins){
+				plugin->init();
+			}
+		}
+
+		void PluginsManager::internalInstallPlugin ( Plugin* plugin )
+		{
+			plugins.push_back(plugin);
+			plugin->install ( this );
+		}
+
+		void PluginsManager::internalUninstallPlugin ( Plugin* plugin )
+		{
+			plugin->uninstall ();
+		}
+
+		MessageDispatcher* PluginsManager::getMessageDispatcher ()
+		{
+			return message_dispatcher;
+		}
+
+		MessageDictionary* PluginsManager::getMessageDictionary ()
+		{
+			return message_dictionary;
+		}
+
+		ComponentsManager* PluginsManager::getComponentsManager ()
+		{
+			return component_manager;
+		}
+
 
 	} /* namespace Core */
 } /* namespace UnknownEngine */
-
-typedef void (*PluginStartPoint) ( UnknownEngine::Core::PluginsManager* );
-
-void UnknownEngine::Core::PluginsManager::loadModule ( std::string library_name ) throw ( UnknownEngine::Core::PluginError )
-{
-	void* library = LoadLibrary ( library_name.c_str () );
-
-	if ( library == nullptr ) throw UnknownEngine::Core::PluginError ("Library " + library_name + " can't be loaded" );
-
-	PluginStartPoint start_point = reinterpret_cast< PluginStartPoint > ( GetProcAddress ( reinterpret_cast< HINSTANCE > ( library ), "installPlugin" ) );
-
-	if ( start_point == nullptr ) throw UnknownEngine::Core::PluginError (library_name+": Plugin entry point can't be found in library");
-
-	start_point ( this );
-}
-
-void UnknownEngine::Core::PluginsManager::initPlugins ()
-{
-	for(Plugin* plugin: plugins){
-		plugin->init();
-	}
-}
-
-void UnknownEngine::Core::PluginsManager::internalInstallPlugin ( Plugin* plugin )
-{
-	plugins.push_back(plugin);
-	plugin->install ( this );
-}
-
-void UnknownEngine::Core::PluginsManager::internalUninstallPlugin ( Plugin* plugin )
-{
-	plugin->uninstall ();
-}
-
-UnknownEngine::Core::MessageDispatcher* UnknownEngine::Core::PluginsManager::getMessageDispatcher ()
-{
-	return message_dispatcher;
-}
-
-UnknownEngine::Core::MessageDictionary* UnknownEngine::Core::PluginsManager::getMessageDictionary ()
-{
-	return message_dictionary;
-}
-
-UnknownEngine::Core::ComponentsManager* UnknownEngine::Core::PluginsManager::getComponentsManager ()
-{
-	return component_manager;
-}

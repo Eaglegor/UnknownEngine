@@ -5,6 +5,8 @@
  *      Author: Eaglegor
  */
 
+#include <stdafx.h>
+
 #include <EntitiesLoader.h>
 #include <SupportedTags.h>
 #include <XmlSceneLoader.h>
@@ -14,6 +16,7 @@
 #include <OptionsParser.h>
 #include <ComponentsManager.h>
 #include <MessageSystem/MessageListenerDesc.h>
+#include <MessageListenerParser.h>
 #include <ComponentDesc.h>
 
 namespace UnknownEngine
@@ -89,7 +92,7 @@ namespace UnknownEngine
 			for(const ptree::value_type &iter : component_node){
 				if(iter.first == Tags::MESSAGE_LISTENER){
 					const std::string name = iter.second.get_child(XMLATTR).get<std::string>(Attributes::MESSAGE_LISTENER::NAME);
-					component_desc.message_listeners_desc.push_back(parseMessageListener(iter.second));
+					component_desc.message_listeners_desc.push_back(MessageListenerParser::parseMessageListener(iter.second, scene_loader->getConstantsHolder()));
 				}
 				else if(iter.first == Tags::OPTIONS_SECTION){
 					component_desc.creation_options = OptionsParser::parseOptions(iter.second, scene_loader->getConstantsHolder());
@@ -102,37 +105,6 @@ namespace UnknownEngine
 			scene_loader->getConstantsHolder()->popScope();
 
 			return components_manager->createComponent(component_desc);
-		}
-
-		Core::MessageListenerDesc EntitiesLoader::parseMessageListener(const ptree &event_listener_node)
-		{
-			Core::MessageListenerDesc listener_desc;
-			listener_desc.name = event_listener_node.get_child(XMLATTR).get<std::string>(Attributes::MESSAGE_LISTENER::NAME);
-			for(const ptree::value_type &iter : event_listener_node)
-			{
-				if(iter.first == Tags::MESSAGE){
-					listener_desc.events.push_back(parseMessageDesc(iter.second));
-				}
-			}
-			return listener_desc;
-		}
-
-		Core::MessageListenerDesc::MessageDesc EntitiesLoader::parseMessageDesc(const ptree &message_node)
-		{
-			Core::MessageListenerDesc::MessageDesc message_desc;
-
-			boost::optional<const ptree&> receive_policy = message_node.get_child_optional("receive_policy");
-			if(receive_policy.is_initialized())
-			{
-				message_desc.receive_policy_type_name = receive_policy.get().get_child(XMLATTR).get<std::string>(Attributes::RECEIVE_POLICY::TYPE);
-				boost::optional<const ptree&> receive_policy_options = receive_policy.get().get_child_optional("options_section");
-				if(receive_policy_options.is_initialized())
-				{
-					message_desc.receive_policy_options = OptionsParser::parseOptions(receive_policy_options.get(), scene_loader->getConstantsHolder());
-				}
-			}
-
-			return message_desc;
 		}
 
 		bool EntitiesLoader::createDataProvider(const ptree &data_provider_node)

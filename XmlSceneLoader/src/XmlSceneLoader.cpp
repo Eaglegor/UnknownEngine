@@ -5,8 +5,8 @@
  *      Author: Eaglegor
  */
 
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/xml_parser.hpp>
+#include <stdafx.h>
+
 #include <ConstantsHolder.h>
 #include <TemplatesManager.h>
 #include <SubsystemsLoader.h>

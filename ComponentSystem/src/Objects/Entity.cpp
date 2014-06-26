@@ -6,6 +6,7 @@
  */
 
 #include <stdafx.h>
+
 #include <Objects/Entity.h>
 
 namespace UnknownEngine

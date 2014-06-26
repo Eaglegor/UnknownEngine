@@ -6,6 +6,7 @@
  */
 
 #include <stdafx.h>
+
 #include <MessageSystem/MessageDictionary.h>
 
 namespace UnknownEngine

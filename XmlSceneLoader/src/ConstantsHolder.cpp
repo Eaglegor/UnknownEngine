@@ -1,6 +1,6 @@
+#include <stdafx.h>
+
 #include <ConstantsHolder.h>
-
-
 
 std::string UnknownEngine::Loader::ConstantsHolder::applyPlaceholderConstants(const std::string &input_string) const
 {
@@ -11,7 +11,6 @@ std::string UnknownEngine::Loader::ConstantsHolder::applyPlaceholderConstants(co
         std::string mmatch = match.str();
         return this->getConstantValue(mmatch.substr(2, mmatch.size()-3));
     });
-
 }
 
 void UnknownEngine::Loader::ConstantsHolder::parseAndSaveConstant(const boost::property_tree::ptree &constant_node)

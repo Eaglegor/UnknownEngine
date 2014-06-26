@@ -6,6 +6,7 @@
  */
 
 #include <stdafx.h>
+
 #include <MessageSystem/IMessageListener.h>
 #include <MessageSystem/Policies/SingleReceiverMessageDeliverPolicy.h>
 

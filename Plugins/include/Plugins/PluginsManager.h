@@ -7,8 +7,7 @@
  *      Author: Eaglegor
  */
 
-#include <map>
-#include <vector>
+#include <list>
 
 #include <ComponentsManager.h>
 #include <MessageSystem/MessageDictionary.h>
@@ -28,8 +27,8 @@ namespace UnknownEngine
 	{
 
 		class Plugin;
-
 		class MessageDispatcher;
+		class SubsystemDesc;
 
 		class PluginsManager
 		{
@@ -37,8 +36,8 @@ namespace UnknownEngine
 				PluginsManager ();
 				virtual ~PluginsManager ();
 
-				void loadModule(std::string library_name) throw(PluginError);
-				void initPlugins();
+				void loadSubsystem ( const SubsystemDesc &desc );
+				void initSubsystems();
 
 				void internalInstallPlugin(Plugin* plugin);
 				void internalUninstallPlugin(Plugin* plugin);
@@ -48,12 +47,14 @@ namespace UnknownEngine
 				ComponentsManager* getComponentsManager();
 
 			private:
+				void loadModule(std::string library_name) throw(PluginError);
 
 				MessageDispatcher* message_dispatcher;
 				MessageDictionary* message_dictionary;
 				ComponentsManager* component_manager;
 
-				std::vector<Plugin*> plugins;
+				std::list<Plugin*> plugins;
+				std::list<void*> libraries_handlers;
 		};
 
 	} /* namespace Core */

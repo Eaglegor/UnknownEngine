@@ -22,6 +22,7 @@ namespace UnknownEngine
 		class IComponentFactory;
 		class Component;
 		class ComponentDesc;
+		class SubsystemDesc;
 		class Entity;
 
 		class ComponentsManager : public Singleton<ComponentsManager>
@@ -35,6 +36,7 @@ namespace UnknownEngine
 
 				virtual Entity* createEntity ( const std::string &name );
 				virtual Component* createComponent ( const ComponentDesc &desc );
+
 				//virtual void destroyComponent (Component* component);
 
 			private:

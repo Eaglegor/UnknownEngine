@@ -8,7 +8,7 @@
 #ifndef SUBSYSTEMSPARSER_H_
 #define SUBSYSTEMSPARSER_H_
 
-#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/ptree_fwd.hpp>
 #include <Exception.h>
 
 namespace UnknownEngine
@@ -39,7 +39,7 @@ namespace UnknownEngine
 
 			private:
 
-				void loadSubsystem(std::string name, const boost::property_tree::ptree &node);
+				void loadSubsystem(const std::string &name, const boost::property_tree::ptree &node);
 
 				Core::PluginsManager* plugins_manager;
 				XmlSceneLoader* scene_loader;

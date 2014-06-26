@@ -4,6 +4,7 @@
  *  Created on: 16 июня 2014 г.
  *      Author: Eaglegor
  */
+#include <stdafx.h>
 
 #include <Window/Win32Window.h>
 #include <RenderSystem/DirectX11RenderSystem.h>

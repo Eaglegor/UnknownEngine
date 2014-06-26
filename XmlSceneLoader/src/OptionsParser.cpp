@@ -5,6 +5,8 @@
  *      Author: Eaglegor
  */
 
+#include <stdafx.h>
+
 #include <ConstantsHolder.h>
 #include <OptionsParser.h>
 #include <SupportedTags.h>

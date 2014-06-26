@@ -5,6 +5,9 @@
  *  Created on: 17 июня 2014 г.
  *      Author: gorbachenko
  */
+
+#include <stdafx.h>
+
 #include <RenderSystem/RenderSystem.h>
 #include <RenderSystem/RenderSystemUpdateFrameListener.h>
 #include <ExportedMessages/UpdateFrameMessage.h>

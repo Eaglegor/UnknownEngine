@@ -1,4 +1,5 @@
-#include <iostream>
+#include <stdafx.h>
+
 #include <Engine.h>
 #include <XmlSceneLoader.h>
 #include <ConstantsHolder.h>

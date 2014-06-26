@@ -6,6 +6,7 @@
  */
 
 #include <stdafx.h>
+
 #include <MessageSystem/Policies/BroadcastMessageDeliverPolicy.h>
 
 namespace UnknownEngine

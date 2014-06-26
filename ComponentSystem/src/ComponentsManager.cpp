@@ -6,6 +6,7 @@
  */
 
 #include <stdafx.h>
+
 #include <ComponentsManager.h>
 #include <IComponentFactory.h>
 #include <ComponentDesc.h>

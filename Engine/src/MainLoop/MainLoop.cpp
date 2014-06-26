@@ -5,7 +5,7 @@
  *      Author: gorbachenko
  */
 
-#include <time.h>
+#include <stdafx.h>
 
 #include <MainLoop/MainLoop.h>
 #include <ExportedMessages/UpdateFrameMessage.h>

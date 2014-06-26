@@ -10,8 +10,8 @@
 
 #include <string>
 #include <ISceneLoader.h>
-#include <boost/property_tree/ptree.hpp>
 #include <Exception.h>
+#include <boost/property_tree/ptree_fwd.hpp>
 
 namespace UnknownEngine
 {

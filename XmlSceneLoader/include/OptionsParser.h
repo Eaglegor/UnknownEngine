@@ -9,7 +9,7 @@
 #define OPTIONSPARSER_H_
 
 #include <Properties/Properties.h>
-#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/ptree_fwd.hpp>
 
 namespace UnknownEngine
 {
