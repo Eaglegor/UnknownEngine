@@ -34,12 +34,17 @@ namespace UnknownEngine
 				void init();
 				void loadScene(const Loader::ISceneLoader* loader);
 
-			private:
-				bool init_done;
 
-				MessageDispatcher* message_dispatcher;
-				MessageDictionary* message_dictionary;
-				ComponentsManager* component_manager;
+                MessageDispatcher *getMessageDispatcher() const;
+                MessageDictionary *getMessageDictionary() const;
+                ComponentsManager *getComponentsManager() const;
+
+        private:
+                bool init_done;
+
+                MessageDispatcher* message_dispatcher;
+                MessageDictionary* message_dictionary;
+                ComponentsManager* components_manager;
 				PluginsManager* plugins_manager;
 
 		};

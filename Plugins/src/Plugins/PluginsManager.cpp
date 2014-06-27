@@ -11,6 +11,7 @@
 #include <Plugins/PluginsManager.h>
 #include <MessageSystem/MessageDispatcher.h>
 #include <SubsystemDesc.h>
+#include <Engine.h>
 
 #ifdef __WIN32__
 	#define LOAD_LIBRARY(library_name) LoadLibrary(library_name)
@@ -30,12 +31,12 @@ namespace UnknownEngine
 		typedef void (*PluginStartPoint) ( UnknownEngine::Core::PluginsManager* );
 		typedef void (*PluginShutdownPoint) ( void );
 
-		PluginsManager::PluginsManager ()
-		{
-			message_dictionary = MessageDictionary::getSingleton();
-			message_dispatcher = MessageDispatcher::getSingleton();
-			component_manager = ComponentsManager::getSingleton();
-		}
+        PluginsManager::PluginsManager (ComponentsManager *components_manager, MessageDispatcher *message_dispatcher, MessageDictionary *message_dictionary):
+            components_manager(components_manager),
+            message_dispatcher(message_dispatcher),
+            message_dictionary(message_dictionary)
+        {
+        }
 
 		PluginsManager::~PluginsManager ()
 		{
@@ -97,19 +98,19 @@ namespace UnknownEngine
 			plugin->uninstall ();
 		}
 
-		MessageDispatcher* PluginsManager::getMessageDispatcher ()
+        MessageDispatcher* PluginsManager::getMessageDispatcher () const
 		{
-			return message_dispatcher;
+            return message_dispatcher;
 		}
 
-		MessageDictionary* PluginsManager::getMessageDictionary ()
+        MessageDictionary* PluginsManager::getMessageDictionary () const
 		{
-			return message_dictionary;
+            return message_dictionary;
 		}
 
-		ComponentsManager* PluginsManager::getComponentsManager ()
+        ComponentsManager* PluginsManager::getComponentsManager () const
 		{
-			return component_manager;
+            return components_manager;
 		}
 
 

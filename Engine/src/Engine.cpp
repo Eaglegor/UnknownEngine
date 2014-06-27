@@ -28,15 +28,15 @@ namespace UnknownEngine
 		Engine::Engine() :
 						message_dispatcher(new MessageDispatcher()),
 						message_dictionary(new MessageDictionary()),
-						component_manager(new ComponentsManager()),
-						plugins_manager(new PluginsManager())
-		{
+                        components_manager(new ComponentsManager()),
+                        plugins_manager( new PluginsManager(components_manager, message_dispatcher, message_dictionary) )
+        {
 		}
 
 		Engine::~Engine()
 		{
 			delete this->plugins_manager;
-			delete this->component_manager;
+            delete this->components_manager;
 			delete this->message_dictionary;
 			delete this->message_dispatcher;
 		}
@@ -71,7 +71,26 @@ namespace UnknownEngine
 
 		void Engine::loadScene(const Loader::ISceneLoader* loader)
 		{
-		}
+        }
 
-	} /* namespace Core */
+        MessageDispatcher *Engine::getMessageDispatcher() const
+        {
+            return message_dispatcher;
+        }
+
+        MessageDictionary *Engine::getMessageDictionary() const
+        {
+            return message_dictionary;
+        }
+
+        ComponentsManager *Engine::getComponentsManager() const
+        {
+            return components_manager;
+        }
+
+                
+                
+                
+                
+        } /* namespace Core */
 } /* namespace UnknownEngine */

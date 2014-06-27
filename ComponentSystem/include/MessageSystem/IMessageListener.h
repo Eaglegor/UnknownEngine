@@ -30,7 +30,7 @@ namespace UnknownEngine
 
 				virtual std::string getName () const = 0;
 				virtual void processMessage ( const PackedMessage &msg ) = 0;
-				virtual const SystemPartId getSystemPartId() const {return SystemPartId("Unknown");}
+                virtual const SystemPartId getSystemPartId() const {return SystemPartId("Unknown");}
 
 			private:
 				friend class MessageDispatcher;

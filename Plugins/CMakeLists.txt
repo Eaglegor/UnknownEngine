@@ -3,6 +3,6 @@ set(LINKAGE SHARED)
 
 set(INCLUDED_MODULE_HEADERS Plugins ComponentSystem Engine)
 set(LINKED_LIBS ComponentSystem)
-set(DEPENDS_ON_TARGETS ComponentSystem)
+set(DEPENDS_ON_TARGETS ${LINKED_LIBS})
 
 include(${MODULE_TEMPLATE_CMAKELISTS_FILE})

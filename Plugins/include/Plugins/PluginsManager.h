@@ -8,32 +8,26 @@
  */
 
 #include <list>
-
 #include <ComponentsManager.h>
-#include <MessageSystem/MessageDictionary.h>
-#include <MessageSystem/MessageDispatcher.h>
-
 #include <Plugins/PluginError.h>
 
 namespace UnknownEngine
 {
-
-	namespace Graphics
-	{
-		class RenderSystem;
-	}
 
 	namespace Core
 	{
 
 		class Plugin;
 		class MessageDispatcher;
+        class MessageDictionary;
+        class ComponentsManager;
 		class SubsystemDesc;
+        class Engine;
 
 		class PluginsManager
 		{
 			public:
-				PluginsManager ();
+                PluginsManager (ComponentsManager* components_manager, MessageDispatcher* message_dispatcher, MessageDictionary* message_dictionary);
 				virtual ~PluginsManager ();
 
 				void loadSubsystem ( const SubsystemDesc &desc );
@@ -42,17 +36,16 @@ namespace UnknownEngine
 				void internalInstallPlugin(Plugin* plugin);
 				void internalUninstallPlugin(Plugin* plugin);
 
-				MessageDispatcher* getMessageDispatcher();
-				MessageDictionary* getMessageDictionary();
-				ComponentsManager* getComponentsManager();
+                MessageDispatcher* getMessageDispatcher() const;
+                MessageDictionary* getMessageDictionary() const;
+                ComponentsManager* getComponentsManager() const;
 
 			private:
 				void loadModule(std::string library_name) throw(PluginError);
 
-				MessageDispatcher* message_dispatcher;
-				MessageDictionary* message_dictionary;
-				ComponentsManager* component_manager;
-
+                MessageDispatcher* const message_dispatcher;
+                MessageDictionary* const message_dictionary;
+                ComponentsManager* const components_manager;
 				std::list<Plugin*> plugins;
 				std::list<void*> libraries_handlers;
 		};
