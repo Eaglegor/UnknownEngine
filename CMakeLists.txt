@@ -16,52 +16,40 @@ set(CMAKE_BUILD_TYPE Debug)
 set(MODULE_TEMPLATE_CMAKELISTS_FILE ${UNKNOWN_ENGINE_SOURCE_DIR}/CMakeModuleTemplate.cmake)
 set(PCH_CMAKELISTS_FILE ${UNKNOWN_ENGINE_SOURCE_DIR}/PCHSupport.cmake)
 
-list(APPEND CMAKE_CXX_FLAGS " -std=c++11 -pipe -g3 -O0 -Wall ")
+list(APPEND CMAKE_CXX_FLAGS " -std=c++11 -pipe -g3 -O0 -Wpedantic ")
 
 set(
-SHARED_LIBRARIES_LIST
+CROSS_PLATFORM_TARGETS
 
 ComponentSystem
 Plugins
 Engine
-DirectX11RenderSystemPlugin
 XmlSceneLoader
-)
-
-set(
-STATIC_LIBRARIES_LIST
-
 RenderSystem
-DirectX11RenderSystem
 Math
-)
-
-set(
-EXECUTABLES_LIST
-
 Application
-)
-
-set(
-PURE_INCLUDES_LIST
-
 Deps
 SceneLoader
 Utils
 )
 
 set(
-ALL_TARGETS_LIST
+WIN32_ONLY_TARGETS
 
-${PURE_INCLUDES_LIST}
-${STATIC_LIBRARIES_LIST}
-${SHARED_LIBRARIES_LIST}
-${EXECUTABLES_LIST}
+DirectX11RenderSystemPlugin
+DirectX11RenderSystem
 )
+
+list(APPEND ALL_TARGETS_LIST ${CROSS_PLATFORM_TARGETS})
+
+if(WIN32)
+    list(APPEND ALL_TARGETS_LIST ${WIN32_ONLY_TARGETS})
+endif(WIN32)
 
 foreach(targets_list ${ALL_TARGETS_LIST})
 	foreach(target ${targets_list})
 		add_subdirectory(${target})
 	endforeach(target)
 endforeach(targets_list)
+
 
