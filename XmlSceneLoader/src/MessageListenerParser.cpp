@@ -21,7 +21,7 @@ namespace UnknownEngine {
 			for(const ptree::value_type &iter : event_listener_node)
 			{
 				if(iter.first == Tags::MESSAGE){
-					listener_desc.events.push_back(parseMessageDesc(iter.second, constants_holder));
+					listener_desc.messages.push_back(parseMessageDesc(iter.second, constants_holder));
 				}
 			}
 			return listener_desc;

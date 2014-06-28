@@ -8,6 +8,8 @@
 #ifndef ENGINE_H_
 #define ENGINE_H_
 
+#include <MessageSystem/IMessageSystemParticipant.h>
+
 namespace UnknownEngine
 {
 
@@ -24,7 +26,7 @@ namespace UnknownEngine
 		class MessageDictionary;
 		class PluginsManager;
 
-		class Engine
+		class Engine : public IMessageSystemParticipant
 		{
 			public:
 				Engine();
@@ -39,14 +41,15 @@ namespace UnknownEngine
                 MessageDictionary *getMessageDictionary() const;
                 ComponentsManager *getComponentsManager() const;
 
-        private:
+			private:
                 bool init_done;
+
+				void registerInternalMessageTypes();
 
                 MessageDispatcher* message_dispatcher;
                 MessageDictionary* message_dictionary;
                 ComponentsManager* components_manager;
 				PluginsManager* plugins_manager;
-
 		};
 
 	} /* namespace Core */

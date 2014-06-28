@@ -17,7 +17,7 @@ namespace UnknownEngine
 {
 	namespace Loader
 	{
-		class TemplateNotFound : public Core::Exception{};
+		class TemplateNotFound : public Core::Exception{ public: TemplateNotFound(const std::string &reason):Core::Exception(reason){} };
 
 		class TemplatesManager
 		{
@@ -35,7 +35,7 @@ namespace UnknownEngine
 				boost::property_tree::ptree getTemplate(std::string template_name) throw (TemplateNotFound)
 				{
 					auto found = templates.find(template_name);
-					if(found==templates.end()) throw TemplateNotFound();
+					if(found==templates.end()) throw TemplateNotFound("Requested template not found");
 					return found->second;
 				}
 

@@ -17,6 +17,7 @@
 
 #include <RenderSystem/RenderSystemUpdateFrameListener.h>
 #include <RenderSystem/RenderSystemCreateRenderWindowListener.h>
+#include <Properties/Properties.h>
 
 namespace UnknownEngine
 {
@@ -37,10 +38,11 @@ namespace UnknownEngine
 			// TODO Auto-generated destructor stub
 		}
 
-		bool DirectX11RenderSystemPlugin::install ( Core::PluginsManager* plugins_manager ) throw ( Core::PluginError )
+		bool DirectX11RenderSystemPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc &desc ) throw ( Core::PluginError )
 		{
-			Core::MessageDictionary::getSingleton()->registerNewMessageType(Graphics::CreateRenderWindowMessage::getTypeName());
+			this->desc = desc;
 
+			Core::MessageDictionary::getSingleton()->registerNewMessageType(Graphics::CreateRenderWindowMessage::getTypeName());
 			return true;
 		}
 

@@ -17,7 +17,7 @@ namespace UnknownEngine
 	namespace Core
 	{
 
-		class NoSuitableComponentFactoryFound : public Exception{};
+		class NoSuitableComponentFactoryFound : public Exception{ public: NoSuitableComponentFactoryFound(const std::string &reason):Exception(reason){} };
 
 		template<>
 		ComponentsManager* Singleton<ComponentsManager>::instance = nullptr;
@@ -68,7 +68,7 @@ namespace UnknownEngine
 					desc.type);
 			if (factory != nullptr)
 				return factory->createComponent(desc);
-			throw NoSuitableComponentFactoryFound();
+			throw NoSuitableComponentFactoryFound("Can't find factory for requested component type");
 		}
 
 		std::list<IComponentFactory*>::iterator ComponentsManager::findFactoryInList(

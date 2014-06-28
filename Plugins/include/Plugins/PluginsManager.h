@@ -33,7 +33,7 @@ namespace UnknownEngine
 				void loadSubsystem ( const SubsystemDesc &desc );
 				void initSubsystems();
 
-				void internalInstallPlugin(Plugin* plugin);
+				void internalInstallPlugin(Plugin* plugin, const SubsystemDesc &desc);
 				void internalUninstallPlugin(Plugin* plugin);
 
                 MessageDispatcher* getMessageDispatcher() const;
@@ -41,7 +41,7 @@ namespace UnknownEngine
                 ComponentsManager* getComponentsManager() const;
 
 			private:
-				void loadModule(std::string library_name) throw(PluginError);
+				void loadModule(std::string library_name, const SubsystemDesc &desc) throw(PluginError);
 
                 MessageDispatcher* const message_dispatcher;
                 MessageDictionary* const message_dictionary;

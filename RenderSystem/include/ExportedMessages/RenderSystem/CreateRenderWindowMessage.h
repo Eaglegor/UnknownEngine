@@ -13,7 +13,7 @@
 #include <MessageSystem/MessagePacker.h>
 #include <MessageSystem/PackedMessage.h>
 #include <MessageSystem/MessageDictionary.h>
-#include <MessageSystem/SenderInfo.h>
+#include <MessageSystem/MessageSystemId.h>
 
 #include <RenderTargets/RenderWindowDesc.h>
 
@@ -38,7 +38,7 @@ namespace UnknownEngine
 		{
 			public:
 
-				CreateRenderWindowMessagePacker(Core::SystemPartId sender_info) :
+				CreateRenderWindowMessagePacker(Core::MessageSystemId sender_info) :
 						Core::MessagePacker<CreateRenderWindowMessage>(sender_info)
 				{
 				}

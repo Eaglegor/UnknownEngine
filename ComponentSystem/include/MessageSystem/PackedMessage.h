@@ -11,7 +11,7 @@
 
 #include <InlineSpecification.h>
 #include <Properties/Properties.h>
-#include <MessageSystem/SenderInfo.h>
+#include <MessageSystem/MessageSystemId.h>
 
 namespace UnknownEngine
 {
@@ -24,7 +24,7 @@ namespace UnknownEngine
 		class PackedMessage
 		{
 			public:
-				PackedMessage ( ComponentMessageTypeId type_id, SystemPartId sender_info )
+				PackedMessage ( ComponentMessageTypeId type_id, MessageSystemId sender_info )
 						: type_id ( type_id ), sender_info ( sender_info )
 				{
 				}
@@ -40,7 +40,7 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				SystemPartId getSenderInfo () const
+				MessageSystemId getSenderInfo () const
 				{
 					return sender_info;
 				}
@@ -60,7 +60,7 @@ namespace UnknownEngine
 			private:
 				ComponentMessageTypeId type_id;
 				Properties properties;
-				SystemPartId sender_info;
+				MessageSystemId sender_info;
 
 		};
 

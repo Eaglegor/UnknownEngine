@@ -7,7 +7,7 @@
  */
 
 #include <string>
-#include <MessageSystem/SenderInfo.h>
+#include <MessageSystem/MessageSystemId.h>
 #include <Exception.h>
 
 namespace UnknownEngine
@@ -15,7 +15,7 @@ namespace UnknownEngine
 	namespace Core
 	{
 
-		class InvalidMessageFormatException : public Exception{};
+		class InvalidMessageFormatException : public Exception{ InvalidMessageFormatException(const std::string &reason):Exception(reason){} };
 		class PackedMessage;
 
 		template <typename T>
@@ -23,7 +23,7 @@ namespace UnknownEngine
 		{
 			public:
 
-				MessagePacker ( SystemPartId sender_info )
+				MessagePacker ( MessageSystemId sender_info )
 						: sender_info ( sender_info )
 				{
 				}
@@ -32,7 +32,7 @@ namespace UnknownEngine
 
 				virtual PackedMessage packMessage ( const T& msg ) = 0;
 			protected:
-				SystemPartId sender_info;
+				MessageSystemId sender_info;
 		};
 
 		template <typename T>

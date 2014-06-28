@@ -19,7 +19,7 @@ namespace UnknownEngine{
 			};
 
 			std::string name;
-			std::vector<MessageDesc> events;
+			std::vector<MessageDesc> messages;
 		};
 
 	}

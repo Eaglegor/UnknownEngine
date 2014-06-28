@@ -20,7 +20,7 @@ namespace UnknownEngine
 	namespace Core
 	{
 
-		class PropertyNotFoundException : public Exception{};
+		class PropertyNotFoundException : public Exception{ public: PropertyNotFoundException(const std::string &reason):Exception(reason){} };
 
 		template<typename K>
 		class PropertiesTree
@@ -46,7 +46,7 @@ namespace UnknownEngine
 				{
 					const std::unordered_map<K, V>& values = getAllOfType<V>();
 					const auto found = values.find( name );
-					if ( found == values.end() ) throw PropertyNotFoundException();
+					if ( found == values.end() ) throw PropertyNotFoundException("Can't find requested property");
 					return found->second;
 				}
 
@@ -68,7 +68,7 @@ namespace UnknownEngine
 				{
 					const std::unordered_map<K, boost::any>& values = getAllOfType<boost::any>();
 					const auto found = values.find( name );
-					if ( found == values.end() ) throw PropertyNotFoundException();
+					if ( found == values.end() ) throw PropertyNotFoundException("Can't find requested property");
 					return boost::any_cast<const V&>(found->second);
 				}
 

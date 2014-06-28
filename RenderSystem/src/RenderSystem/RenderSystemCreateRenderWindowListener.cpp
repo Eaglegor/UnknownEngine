@@ -18,7 +18,8 @@ namespace UnknownEngine
 	{
 
 		RenderSystemCreateRenderWindowListener::RenderSystemCreateRenderWindowListener ( RenderSystem* render_system )
-				: render_system ( render_system )
+				: render_system ( render_system ),
+				  IMessageListener ( Core::MessageSystemId( render_system->getName()) )
 		{
 		}
 

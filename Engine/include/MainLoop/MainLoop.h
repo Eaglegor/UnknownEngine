@@ -7,13 +7,14 @@
  */
 
 #include <vector>
+#include <MessageSystem/IMessageSystemParticipant.h>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
 
-		class MainLoop
+		class MainLoop : public IMessageSystemParticipant
 		{
 			public:
 				MainLoop ();

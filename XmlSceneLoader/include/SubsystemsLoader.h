@@ -24,7 +24,7 @@ namespace UnknownEngine
 
 		class XmlSceneLoader;
 
-		class InvalidSubsystemTemplate : public Core::Exception{};
+		class InvalidSubsystemTemplate : public Core::Exception{public: InvalidSubsystemTemplate(const std::string &reason):Core::Exception(reason){}};
 
 		class SubsystemsLoader
 		{

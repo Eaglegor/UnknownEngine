@@ -40,6 +40,8 @@ Application
 Deps
 SceneLoader
 Utils
+DummySubsystem
+ConsoleLogger
 )
 
 set(

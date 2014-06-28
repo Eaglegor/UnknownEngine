@@ -30,8 +30,10 @@ namespace UnknownEngine
 						message_dispatcher(new MessageDispatcher()),
 						message_dictionary(new MessageDictionary()),
                         components_manager(new ComponentsManager()),
-                        plugins_manager( new PluginsManager(components_manager, message_dispatcher, message_dictionary) )
+						plugins_manager( new PluginsManager(components_manager, message_dispatcher, message_dictionary) ),
+						IMessageSystemParticipant( MessageSystemId("Engine") )
         {
+			registerInternalMessageTypes();
 		}
 
 		Engine::~Engine()
@@ -53,7 +55,7 @@ namespace UnknownEngine
 			desc.height = 600;
 			msg.window_desc = desc;
 
-			this->message_dispatcher->deliverMessage(Graphics::CreateRenderWindowMessagePacker(SystemPartId("Engine")).packMessage(msg));
+			this->message_dispatcher->deliverMessage(Graphics::CreateRenderWindowMessagePacker(MessageSystemId("Engine")).packMessage(msg));
 
 			MainLoop main_loop;
 			main_loop.start();
@@ -82,8 +84,14 @@ namespace UnknownEngine
 
         ComponentsManager *Engine::getComponentsManager() const
         {
-            return components_manager;
-        }
+			return components_manager;
+		}
+
+		void Engine::registerInternalMessageTypes()
+		{
+			message_dictionary->registerNewMessageType(LogMessage::getTypeName());
+			message_dictionary->registerNewMessageType(UpdateFrameMessage::getTypeName());
+		}
 
                 
                 

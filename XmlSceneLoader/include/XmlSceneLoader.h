@@ -21,8 +21,8 @@ namespace UnknownEngine
 		class TemplatesManager;
 		class ConstantsHolder;
 
-		class InvalidSceneFile : public Core::Exception{};
-		class NoTemplatesLoaded : public Core::Exception{};
+		class InvalidSceneFile : public Core::Exception{public: InvalidSceneFile(const std::string &reason):Core::Exception(reason){}};
+		class NoTemplatesLoaded : public Core::Exception{public: NoTemplatesLoaded(const std::string &reason):Core::Exception(reason){}};
 
 		class XmlSceneLoader: public ISceneLoader
 		{

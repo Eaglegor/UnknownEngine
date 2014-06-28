@@ -20,6 +20,15 @@ namespace UnknownEngine
 
 		struct LogMessage
 		{
+
+				enum Severity
+				{
+					LOG_SEVERITY_ERROR,
+					LOG_SEVERITY_WARNING,
+					LOG_SEVERITY_INFO,
+					LOG_SEVERITY_DEBUG
+				};
+
 				UNKNOWNENGINE_INLINE
 				constexpr static const char* getTypeName()
 				{
@@ -27,13 +36,14 @@ namespace UnknownEngine
 				}
 
 				std::string log_entry;
+				Severity severity;
 		};
 
 		class LogMessagePacker: public MessagePacker<LogMessage>
 		{
 			public:
 
-				LogMessagePacker(SystemPartId sender_info) :
+				LogMessagePacker(MessageSystemId sender_info) :
 						MessagePacker<LogMessage>(sender_info)
 				{
 				}
@@ -45,6 +55,7 @@ namespace UnknownEngine
 							MessageDictionary::getSingleton()->getMessageTypeId(
 									LogMessage::getTypeName()), sender_info);
 					result.getProperties().set<std::string>("log_entry", msg.log_entry);
+					result.getProperties().set<LogMessage::Severity>("severity", msg.severity);
 					return result;
 				}
 
@@ -60,6 +71,7 @@ namespace UnknownEngine
 				{
 					LogMessage result;
 					result.log_entry = msg.getProperties().get<std::string>("log_entry");
+					result.severity = msg.getProperties().get<LogMessage::Severity>("severity");
 					return result;
 				}
 

@@ -25,7 +25,7 @@ namespace UnknownEngine
 		{
 			public:
 
-				class LoaderConstantNotFoundException : public Core::Exception{};
+				class LoaderConstantNotFoundException : public Core::Exception{ public: LoaderConstantNotFoundException(const std::string &reason):Core::Exception(reason){} };
 
 				ConstantsHolder()
 				{
@@ -45,7 +45,7 @@ namespace UnknownEngine
 							return value->second;
 						}
 					}
-					throw LoaderConstantNotFoundException();
+					throw LoaderConstantNotFoundException("XmlSceneLoader: Can't find specified constant");
 				}
 
 				UNKNOWNENGINE_INLINE

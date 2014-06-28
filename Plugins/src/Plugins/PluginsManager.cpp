@@ -28,7 +28,7 @@ namespace UnknownEngine
 	namespace Core
 	{
 
-		typedef void (*PluginStartPoint) ( UnknownEngine::Core::PluginsManager* );
+		typedef void (*PluginStartPoint) ( UnknownEngine::Core::PluginsManager*, const SubsystemDesc &desc);
 		typedef void (*PluginShutdownPoint) ( void );
 
         PluginsManager::PluginsManager (ComponentsManager *components_manager, MessageDispatcher *message_dispatcher, MessageDictionary *message_dictionary):
@@ -44,16 +44,11 @@ namespace UnknownEngine
 			{
 				plugin->shutdown();
 			}
-			for(Plugin* plugin : plugins)
-			{
-				plugin->uninstall();
-			}
-
 			plugins.clear();
 
 			for(void* library : libraries_handlers)
 			{
-				PluginShutdownPoint shutdown_func = reinterpret_cast<PluginShutdownPoint>( GET_SYMBOL_ADDRESS( library, "shutdown" ) );
+				PluginShutdownPoint shutdown_func = reinterpret_cast<PluginShutdownPoint>( GET_SYMBOL_ADDRESS( library, "uninstallPlugin" ) );
 				shutdown_func();
 				UNLOAD_LIBRARY( library );
 				library = nullptr;
@@ -62,10 +57,10 @@ namespace UnknownEngine
 
 		void PluginsManager::loadSubsystem(const SubsystemDesc &desc)
 		{
-			loadModule(desc.module_name);
+			loadModule(desc.module_name, desc);
 		}
 
-		void PluginsManager::loadModule ( std::string library_name ) throw ( UnknownEngine::Core::PluginError )
+		void PluginsManager::loadModule ( std::string library_name, const SubsystemDesc &desc ) throw ( UnknownEngine::Core::PluginError )
 		{
 			void* library = LOAD_LIBRARY( library_name.c_str () );
 
@@ -75,7 +70,7 @@ namespace UnknownEngine
 
 			if ( start_point == nullptr ) throw UnknownEngine::Core::PluginError (library_name+": Plugin entry point can't be found in library");
 
-			start_point ( this );
+			start_point ( this, desc );
 
 			libraries_handlers.push_back(library);
 		}
@@ -87,10 +82,10 @@ namespace UnknownEngine
 			}
 		}
 
-		void PluginsManager::internalInstallPlugin ( Plugin* plugin )
+		void PluginsManager::internalInstallPlugin ( Plugin* plugin, const SubsystemDesc &desc )
 		{
 			plugins.push_back(plugin);
-			plugin->install ( this );
+			plugin->install ( this, desc );
 		}
 
 		void PluginsManager::internalUninstallPlugin ( Plugin* plugin )

@@ -8,7 +8,8 @@
 
 #include <string>
 #include <InlineSpecification.h>
-#include <MessageSystem/SenderInfo.h>
+#include <MessageSystem/MessageSystemId.h>
+#include <MessageSystem/IMessageSystemParticipant.h>
 
 namespace UnknownEngine
 {
@@ -17,10 +18,10 @@ namespace UnknownEngine
 
 		class PackedMessage;
 
-		class IMessageListener
+		class IMessageListener : public IMessageSystemParticipant
 		{
 			public:
-				IMessageListener ();
+				IMessageListener (const MessageSystemId &message_system_id);
 				virtual ~IMessageListener ();
 
 				virtual bool operator== ( const IMessageListener &rhs ) const
@@ -30,7 +31,7 @@ namespace UnknownEngine
 
 				virtual std::string getName () const = 0;
 				virtual void processMessage ( const PackedMessage &msg ) = 0;
-                virtual const SystemPartId getSystemPartId() const {return SystemPartId("Unknown");}
+                virtual const MessageSystemId getSystemPartId() const {return MessageSystemId("Unknown");}
 
 			private:
 				friend class MessageDispatcher;

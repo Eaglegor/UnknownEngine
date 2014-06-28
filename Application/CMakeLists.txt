@@ -1,6 +1,6 @@
 set(TARGET_NAME Application)
 
-set(INCLUDED_MODULE_HEADERS Engine XmlSceneLoader SceneLoader )
+set(INCLUDED_MODULE_HEADERS ComponentSystem Engine XmlSceneLoader SceneLoader )
 set(LINKED_LIBS Engine XmlSceneLoader )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 

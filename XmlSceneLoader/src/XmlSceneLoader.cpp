@@ -44,7 +44,7 @@ namespace UnknownEngine
 			boost::optional<ptree&> scene_root = xml_tree.get_child_optional(Tags::SCENE);
 			if (!scene_root.is_initialized())
 			{
-				throw InvalidSceneFile();
+				throw InvalidSceneFile("Invalid scene file");
 			}
 
 			parseGlobalConstants(scene_root.get());
@@ -115,7 +115,7 @@ namespace UnknownEngine
 
 		TemplatesManager* XmlSceneLoader::getTemplatesManager()
 		{
-			if(templates_manager == nullptr) throw NoTemplatesLoaded();
+			if(templates_manager == nullptr) throw NoTemplatesLoaded("No templates loaded");
 			return templates_manager;
 		}
 

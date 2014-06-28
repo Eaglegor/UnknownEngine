@@ -16,6 +16,7 @@ namespace UnknownEngine
 	{
 
 		class PluginsManager;
+		class SubsystemDesc;
 
 		class Plugin
 		{
@@ -26,7 +27,7 @@ namespace UnknownEngine
 
 				virtual const char* getName() const = 0;
 
-				virtual bool install (PluginsManager* plugins_manager) throw (PluginError) = 0;
+				virtual bool install (PluginsManager* plugins_manager, const SubsystemDesc &desc ) throw (PluginError) = 0;
 
 				virtual bool init () throw (PluginError) = 0;
 

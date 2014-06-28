@@ -14,22 +14,31 @@
 #include <Plugins/Plugin.h>
 #include <InlineSpecification.h>
 #include <SubsystemDesc.h>
+#include <ConsoleLogger.h>
 
 namespace UnknownEngine
 {
 
-	namespace Graphics
+	namespace Core
+	{
+		class SubsystemDesc;
+		class MessageDispatcher;
+		class MessageDictionary;
+		class ComponentsManager;
+	}
+
+	namespace Logger
 	{
 
-		class DirectX11RenderSystemPlugin: public Core::Plugin
+		class ConsoleLoggerPlugin: public Core::Plugin
 		{
 			public:
-				DirectX11RenderSystemPlugin(HINSTANCE hInstance);
-				virtual ~DirectX11RenderSystemPlugin();
+				ConsoleLoggerPlugin();
+				virtual ~ConsoleLoggerPlugin();
 
 				constexpr static const char* getNameConst()
 				{
-					return "DirectX11RenderSystemPlugin";
+					return "Console logger";
 				}
 
 				UNKNOWNENGINE_INLINE
@@ -38,17 +47,17 @@ namespace UnknownEngine
 					return getNameConst();
 				}
 
-				virtual bool install(Core::PluginsManager* plugins_manager, const Core::SubsystemDesc &desc) throw (Core::PluginError) override;
-
+				virtual bool install(Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc) throw (Core::PluginError) override;
 				virtual bool init() throw (Core::PluginError) override;
-
 				virtual bool shutdown() throw (Core::PluginError) override;
-
 				virtual bool uninstall() throw (Core::PluginError) override;
 
 			private:
-				HINSTANCE hInstance;
 				Core::SubsystemDesc desc;
+				Core::ComponentsManager* components_manager;
+				Core::MessageDispatcher* message_dispatcher;
+				Core::MessageDictionary* message_dictionary;
+				ConsoleLogger console_logger;
 
 		};
 

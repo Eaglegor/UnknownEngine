@@ -38,7 +38,7 @@ namespace UnknownEngine
 					const std::string template_name = attrs.get<std::string>(Attributes::TEMPLATED_SUBSYSTEM::TEMPLATE_NAME);
 					const std::string subsystem_name = attrs.get<std::string>(Attributes::TEMPLATED_SUBSYSTEM::NAME);
 					const ptree &template_root = scene_loader->getTemplatesManager()->getTemplate(template_name);
-					if(template_root.begin()->first != Tags::SUBSYSTEM) throw InvalidSubsystemTemplate();
+					if(template_root.begin()->first != Tags::SUBSYSTEM) throw InvalidSubsystemTemplate("Invalid subsystem template found");
 					loadSubsystem(subsystem_name, template_root.begin()->second);
 				}
 				else if(iter.first == Tags::SUBSYSTEM)
