@@ -5,7 +5,14 @@ set(INCLUDED_MODULE_HEADERS XmlSceneLoader SceneLoader Plugins ComponentSystem E
 set(LINKED_LIBS Plugins ComponentSystem )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 
-list(APPEND LINKED_LIBS boost_regex)
-
+if(WIN32)
+    if(MINGW)
+        list(APPEND LINKED_LIBS boost_regex_mingw32)
+    else(MINGW)
+        list(APPEND LINKED_LIBS boost_regex_msvc)
+    endif(MINGW)
+else(WIN32)
+    list(APPEND LINKED_LIBS boost_regex)
+endif(WIN32)
 
 include(${MODULE_TEMPLATE_CMAKELISTS_FILE})
