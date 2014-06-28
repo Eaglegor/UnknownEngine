@@ -1,11 +1,11 @@
 #pragma once
 
-#ifdef __MINGW32__
-	#define UNKNOWNENGINE_PLUGIN_INTERFACE
-#else
+#ifdef _MSC_VER
 	#ifdef BUILDING_SHARED_LIB
 		#define UNKNOWNENGINE_PLUGIN_INTERFACE __declspec(dllexport)
 	#else
 		#define UNKNOWNENGINE_PLUGIN_INTERFACE __declspec(dllimport)
 	#endif
+#else
+	#define UNKNOWNENGINE_PLUGIN_INTERFACE
 #endif

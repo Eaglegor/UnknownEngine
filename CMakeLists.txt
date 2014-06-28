@@ -16,7 +16,12 @@ set(CMAKE_BUILD_TYPE Debug)
 set(MODULE_TEMPLATE_CMAKELISTS_FILE ${UNKNOWN_ENGINE_SOURCE_DIR}/CMakeModuleTemplate.cmake)
 set(PCH_CMAKELISTS_FILE ${UNKNOWN_ENGINE_SOURCE_DIR}/PCHSupport.cmake)
 
-list(APPEND CMAKE_CXX_FLAGS " -std=c++11 -pipe -g3 -O0 -Wpedantic ")
+if(WIN32)
+  list(APPEND CMAKE_CXX_FLAGS " -std=c++11 -pipe -g3 -O0 -Wpedantic ")
+else(WIN32)
+  list(APPEND CMAKE_CXX_FLAGS " -std=c++11 -pipe -g3 -O0 ")
+endif(WIN32)
+
 
 set(
 CROSS_PLATFORM_TARGETS

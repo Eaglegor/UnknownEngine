@@ -5,6 +5,7 @@ set(INCLUDED_MODULE_HEADERS XmlSceneLoader SceneLoader Plugins ComponentSystem E
 set(LINKED_LIBS Plugins ComponentSystem )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 
-list(APPEND LINKED_LIBS boost_regex-mgw48-mt-d-1_55)
+list(APPEND LINKED_LIBS boost_regex)
+
 
 include(${MODULE_TEMPLATE_CMAKELISTS_FILE})

@@ -5,4 +5,8 @@ set(INCLUDED_MODULE_HEADERS Plugins ComponentSystem Engine)
 set(LINKED_LIBS ComponentSystem)
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS})
 
+if(NOT WIN32)
+  list(APPEND LINKED_LIBS dl)
+endif(NOT WIN32)
+
 include(${MODULE_TEMPLATE_CMAKELISTS_FILE})
