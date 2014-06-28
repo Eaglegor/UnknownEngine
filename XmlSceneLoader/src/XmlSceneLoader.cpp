@@ -47,19 +47,21 @@ namespace UnknownEngine
 				throw InvalidSceneFile();
 			}
 
-			boost::optional<ptree&> engine_settings = xml_tree.get_child_optional(Tags::ENGINE_SECTION);
+			parseGlobalConstants(scene_root.get());
+
+			boost::optional<ptree&> engine_settings = scene_root.get().get_child_optional(Tags::ENGINE_SECTION);
 			if (engine_settings.is_initialized())
 			{
 				processEngineSettings(engine_settings.get());
 			}
 
-			boost::optional<ptree&> subsystems_list = xml_tree.get_child_optional(Tags::SUBSYSTEMS_SECTION);
+			boost::optional<ptree&> subsystems_list = scene_root.get().get_child_optional(Tags::SUBSYSTEMS_SECTION);
 			if (subsystems_list.is_initialized())
 			{
 				processSubsystems(subsystems_list.get(), plugins_manager);
 			}
 
-			boost::optional<ptree&> entities_list = xml_tree.get_child_optional(Tags::ENTITIES_SECTION);
+			boost::optional<ptree&> entities_list = scene_root.get().get_child_optional(Tags::ENTITIES_SECTION);
 			if (entities_list.is_initialized())
 			{
 				processEntities(entities_list.get(), components_manager);

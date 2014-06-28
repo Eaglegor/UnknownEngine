@@ -32,7 +32,7 @@ namespace UnknownEngine
 
 				void start();
 				void init();
-				void loadScene(const Loader::ISceneLoader* loader);
+				void loadScene(Loader::ISceneLoader* loader);
 
 
                 MessageDispatcher *getMessageDispatcher() const;

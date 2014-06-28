@@ -119,10 +119,12 @@ GET_FILENAME_COMPONENT(_name ${_input} NAME)
 
 _PCH_GET_TARGET_COMPILE_FLAGS(_target_cflags ${_name} ${_pch_output_to_use})
 
+if(_target_cflags)
 SET_TARGET_PROPERTIES(${_targetName}
 PROPERTIES
 COMPILE_FLAGS ${_target_cflags}
 )
+endif(_target_cflags)
 
 ADD_CUSTOM_TARGET(pch_Generate_${_targetName}
 DEPENDS ${_pch_output_to_use}

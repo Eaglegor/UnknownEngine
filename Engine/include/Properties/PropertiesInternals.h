@@ -44,10 +44,7 @@ namespace UnknownEngine
 		>;
 
 		template<typename V>
-		using AnyPropertyType = typename std::is_same <
-		std::false_type,
-		NotAnyPropertyTypes<V>
-		>;
+		using AnyPropertyType = typename std::is_same < std::false_type, NotAnyPropertyTypes<V> >;
 
 	}
 }

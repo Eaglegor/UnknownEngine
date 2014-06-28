@@ -19,6 +19,7 @@
 
 #include <ExportedMessages/RenderSystem/CreateRenderWindowMessage.h>
 #include <SubsystemDesc.h>
+#include <ISceneLoader.h>
 
 namespace UnknownEngine
 {
@@ -43,11 +44,6 @@ namespace UnknownEngine
 
 		void Engine::start()
 		{
-
-			SubsystemDesc ssdesc;
-			ssdesc.module_name = "libDirectX11RenderSystemPlugin.dll";
-
-			plugins_manager->loadSubsystem(ssdesc);
 			plugins_manager->initSubsystems();
 
 			Graphics::CreateRenderWindowMessage msg;
@@ -69,8 +65,9 @@ namespace UnknownEngine
 			message_dictionary->registerNewMessageType(UpdateFrameMessage::getTypeName());
 		}
 
-		void Engine::loadScene(const Loader::ISceneLoader* loader)
+		void Engine::loadScene(Loader::ISceneLoader* loader)
 		{
+			loader->loadScene(components_manager, plugins_manager);
         }
 
         MessageDispatcher *Engine::getMessageDispatcher() const

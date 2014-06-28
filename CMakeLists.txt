@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 project(UNKNOWN_ENGINE)
 
-set(DIRECTX_INCLUDE_DIR ${DIRECTX_HOME}/Include)
+set(DIRECTX_INCLUDE_DIR $ENV{DXSDK_DIR}/Include)
 set(EXECUTABLE_DEPLOY_DIR ${UNKNOWN_ENGINE_BINARY_DIR}/Output/bin)
 set(STATIC_LIB_DEPLOY_DIR ${UNKNOWN_ENGINE_BINARY_DIR}/Output/lib)
 set(SHARED_LIB_DEPLOY_DIR ${UNKNOWN_ENGINE_BINARY_DIR}/Output/bin)
@@ -17,7 +17,11 @@ set(MODULE_TEMPLATE_CMAKELISTS_FILE ${UNKNOWN_ENGINE_SOURCE_DIR}/CMakeModuleTemp
 set(PCH_CMAKELISTS_FILE ${UNKNOWN_ENGINE_SOURCE_DIR}/PCHSupport.cmake)
 
 if(WIN32)
-  list(APPEND CMAKE_CXX_FLAGS " -std=c++11 -pipe -g3 -O0 -Wpedantic ")
+  if(MINGW)
+    list(APPEND CMAKE_CXX_FLAGS " -std=c++11 -pipe -g3 -O0 -Wpedantic ")
+  elseif(MSVC)
+    list(APPEND CMAKE_CXX_FLAGS " /Zi /Od ")
+  endif(MINGW)
 else(WIN32)
   list(APPEND CMAKE_CXX_FLAGS " -std=c++11 -pipe -g3 -O0 ")
 endif(WIN32)
