@@ -25,7 +25,7 @@ namespace UnknownEngine
 		{
 			public:
 
-				MessagePacker ( MessageSystemParticipantId sender_info )
+				MessagePacker ( const MessageSystemParticipantId &sender_info )
 						: sender_info ( sender_info )
 				{
 				}

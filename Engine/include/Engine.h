@@ -8,6 +8,7 @@
 #pragma once
 
 #include <MessageSystem/IMessageSystemParticipant.h>
+#include <Exception.h>
 
 namespace UnknownEngine
 {
@@ -25,6 +26,8 @@ namespace UnknownEngine
 		class MessageDictionary;
 		class PluginsManager;
 
+		UNKNOWNENGINE_SIMPLE_EXCEPTION(EngineNotInitializedException);
+
 		class Engine : public IMessageSystemParticipant
 		{
 			public:
@@ -33,7 +36,7 @@ namespace UnknownEngine
 
 				void init();
 				void loadScene(Loader::ISceneLoader* loader);
-				void start();
+				void start() throw (EngineNotInitializedException);
 
 
                 MessageDispatcher *getMessageDispatcher() const;

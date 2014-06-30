@@ -31,7 +31,8 @@ namespace UnknownEngine
 						message_dictionary(new MessageDictionary()),
                         components_manager(new ComponentsManager()),
 						plugins_manager( new PluginsManager(components_manager, message_dispatcher, message_dictionary) ),
-						IMessageSystemParticipant( MessageSystemParticipantId("Engine") )
+						IMessageSystemParticipant( MessageSystemParticipantId("Engine") ),
+						init_done(false)
         {
 			registerInternalMessageTypes();
 		}
@@ -44,8 +45,11 @@ namespace UnknownEngine
 			delete this->message_dispatcher;
 		}
 
-		void Engine::start()
+		void Engine::start() throw (EngineNotInitializedException)
 		{
+
+			if(!init_done) throw EngineNotInitializedException("Engine wasn't initialized. Please call Engine::init() prior to Engine::start()");
+
 			plugins_manager->initSubsystems();
 
 			Graphics::CreateRenderWindowMessage msg;
@@ -65,6 +69,7 @@ namespace UnknownEngine
 		{
 			message_dictionary->registerNewMessageType(LogMessage::getTypeName());
 			message_dictionary->registerNewMessageType(UpdateFrameMessage::getTypeName());
+			init_done = true;
 		}
 
 		void Engine::loadScene(Loader::ISceneLoader* loader)

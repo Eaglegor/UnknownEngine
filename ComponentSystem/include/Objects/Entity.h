@@ -18,11 +18,11 @@ namespace UnknownEngine
 		class Entity
 		{
 			public:
-				Entity (std::string name);
+				Entity (const std::string &name);
 				virtual ~Entity ();
 
-				void addComponent(std::string name, Component* component);
-				void removeComponent(std::string name);
+				void addComponent(const std::string &name, const Component* component);
+				void removeComponent(const std::string &name);
 
 			private:
 				std::map<std::string, Component*> components;

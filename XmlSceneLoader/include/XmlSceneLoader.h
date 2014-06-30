@@ -28,7 +28,7 @@ namespace UnknownEngine
 		class XmlSceneLoader: public ISceneLoader
 		{
 			public:
-				XmlSceneLoader(std::string filename);
+				XmlSceneLoader(const std::string &filename);
 				virtual ~XmlSceneLoader();
 
 				virtual void loadScene(Core::ComponentsManager *components_manager, Core::PluginsManager* plugins_manager) override;

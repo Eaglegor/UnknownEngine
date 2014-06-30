@@ -71,8 +71,7 @@ namespace UnknownEngine
 			throw NoSuitableComponentFactoryFound("Can't find factory for requested component type");
 		}
 
-		std::list<IComponentFactory*>::iterator ComponentsManager::findFactoryInList(
-				IComponentFactory* factory)
+		std::list<IComponentFactory*>::iterator ComponentsManager::findFactoryInList(const IComponentFactory *factory)
 		{
 			std::list<IComponentFactory*>::iterator iter =
 					component_factories.begin();

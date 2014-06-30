@@ -35,7 +35,7 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				std::string getConstantValue(std::string constant_name) const throw (LoaderConstantNotFoundException)
+				std::string getConstantValue(const std::string &constant_name) const throw (LoaderConstantNotFoundException)
 				{
 					for(auto iter = constants_maps.rbegin(); iter != constants_maps.rend(); ++iter)
 					{
@@ -48,7 +48,7 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				void setConstantValue(std::string constant_name, std::string value)
+				void setConstantValue(const std::string &constant_name, const std::string &value)
 				{
 					constants_maps.back()[constant_name] = value;
 				}

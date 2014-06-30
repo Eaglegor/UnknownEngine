@@ -23,7 +23,7 @@ namespace UnknownEngine
 
 		using namespace boost::property_tree;
 
-		XmlSceneLoader::XmlSceneLoader(std::string filename) :
+		XmlSceneLoader::XmlSceneLoader(const std::string &filename) :
 				filename(filename),
 				templates_manager(nullptr),
 				constants_holder(nullptr)

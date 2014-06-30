@@ -39,7 +39,7 @@ namespace UnknownEngine
 				//virtual void destroyComponent (Component* component);
 
 			private:
-				std::list<IComponentFactory*>::iterator findFactoryInList ( IComponentFactory* factory );
+				std::list<IComponentFactory*>::iterator findFactoryInList ( const IComponentFactory* factory );
 				IComponentFactory* findFactoryForComponentType ( const ComponentType &component_type );
 
 				int last_used_component_factory_id;

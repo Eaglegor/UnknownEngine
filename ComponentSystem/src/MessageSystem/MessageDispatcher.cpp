@@ -31,7 +31,7 @@ namespace UnknownEngine
 		{
 		}
 
-		void MessageDispatcher::addListener ( NumericIdentifierType message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy )
+		void MessageDispatcher::addListener (const NumericIdentifierType &message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy )
 		{
 
 			if ( message_type_id == INVALID_NUMERIC_IDENTIFIER ) return;
@@ -51,13 +51,13 @@ namespace UnknownEngine
 			}
 		}
 
-		void MessageDispatcher::addListener ( std::string message_type_name, IMessageListener* listener, IMessageReceivePolicy* receive_policy )
+		void MessageDispatcher::addListener ( const std::string &message_type_name, IMessageListener* listener, IMessageReceivePolicy* receive_policy )
 		{
 			NumericIdentifierType message_type_id = MessageDictionary::getSingleton ()->getMessageTypeId ( message_type_name );
 			addListener ( message_type_id, listener );
 		}
 
-		void MessageDispatcher::removeListener ( NumericIdentifierType message_type_id, IMessageListener* listener )
+		void MessageDispatcher::removeListener (const NumericIdentifierType &message_type_id, IMessageListener* listener )
 		{
 			if ( listener == nullptr ) return;
 			MessageListenersList* registered_listeners = getRegisteredListeners ( message_type_id );
@@ -72,7 +72,7 @@ namespace UnknownEngine
 			}
 		}
 
-		void MessageDispatcher::removeListener ( std::string message_type_name, IMessageListener* listener )
+		void MessageDispatcher::removeListener (const std::string &message_type_name, IMessageListener* listener )
 		{
 			NumericIdentifierType message_type_id = MessageDictionary::getSingleton ()->getMessageTypeId ( message_type_name );
 			removeListener ( message_type_id, listener );
@@ -88,7 +88,7 @@ namespace UnknownEngine
 			}
 		}
 
-		void MessageDispatcher::setListenerReceivePolicy ( NumericIdentifierType message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy )
+		void MessageDispatcher::setListenerReceivePolicy (const NumericIdentifierType &message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy )
 		{
 			if ( listener == nullptr ) return;
 			MessageListenersList* registered_listeners = getRegisteredListeners ( message_type_id );
@@ -122,14 +122,14 @@ namespace UnknownEngine
 			}
 		}
 
-		const MessageDispatcher::MessageListenersList* MessageDispatcher::getRegisteredListeners ( NumericIdentifierType message_type_id ) const
+		const MessageDispatcher::MessageListenersList* MessageDispatcher::getRegisteredListeners (const NumericIdentifierType &message_type_id ) const
 		{
 			MessageListenersMap::const_iterator existing_list = listeners.find ( message_type_id );
 			if ( existing_list == listeners.end () ) return nullptr;
 			return &existing_list->second;
 		}
 
-		MessageDispatcher::MessageListenersList* MessageDispatcher::getRegisteredListeners ( NumericIdentifierType message_type_id )
+		MessageDispatcher::MessageListenersList* MessageDispatcher::getRegisteredListeners (const NumericIdentifierType &message_type_id )
 		{
 			MessageListenersMap::iterator existing_list = listeners.find ( message_type_id );
 			if ( existing_list == listeners.end () ) return nullptr;

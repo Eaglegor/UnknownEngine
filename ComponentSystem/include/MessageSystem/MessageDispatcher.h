@@ -28,17 +28,17 @@ namespace UnknownEngine
 				MessageDispatcher ();
 				virtual ~MessageDispatcher ();
 
-				void addListener ( NumericIdentifierType message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy = nullptr );
-				void addListener ( std::string message_type_name, IMessageListener* listener, IMessageReceivePolicy* receive_policy = nullptr );
+				void addListener ( const NumericIdentifierType &message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy = nullptr );
+				void addListener ( const std::string &message_type_name, IMessageListener* listener, IMessageReceivePolicy* receive_policy = nullptr );
 
-				void removeListener ( NumericIdentifierType message_type_id, IMessageListener* listener );
-				void removeListener ( std::string message_type_name, IMessageListener* listener );
+				void removeListener ( const NumericIdentifierType &message_type_id, IMessageListener* listener );
+				void removeListener ( const std::string &message_type_name, IMessageListener* listener );
 				void removeListener ( IMessageListener* listener );
 
 				void addSniffer ( IMessageListener* listener, IMessageReceivePolicy* receive_policy );
 				void removeSniffer ( IMessageListener* listener );
 
-				void setListenerReceivePolicy( NumericIdentifierType message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy = nullptr );
+				void setListenerReceivePolicy( const NumericIdentifierType &message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy);
 
 				void deliverMessage ( const PackedMessage &msg, IMessageDeliveryPolicy* delivery_policy = nullptr ) const;
 
@@ -60,8 +60,8 @@ namespace UnknownEngine
 				typedef std::list< RegisteredListener > MessageListenersList;
 				typedef std::unordered_map< NumericIdentifierType, MessageListenersList > MessageListenersMap;
 
-				const MessageListenersList* getRegisteredListeners ( NumericIdentifierType message_type_id ) const;
-				MessageListenersList* getRegisteredListeners ( NumericIdentifierType message_type_id );
+				const MessageListenersList* getRegisteredListeners ( const NumericIdentifierType &message_type_id ) const;
+				MessageListenersList* getRegisteredListeners ( const NumericIdentifierType &message_type_id );
 
 				MessageListenersMap listeners;
 

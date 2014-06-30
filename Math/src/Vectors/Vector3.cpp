@@ -8,7 +8,7 @@ Vector3::Vector3 ( void )
 	values[3] = 1.0f;
 }
 
-Vector3::Vector3 ( Scalar x, Scalar y, Scalar z )
+Vector3::Vector3 (const Scalar &x, const Scalar &y, const Scalar &z )
 {
 	setValues( x, y, z );
 	values[3] = 1.0f;
@@ -20,7 +20,7 @@ Vector3::Vector3 ( const Vector3 &rvalue )
 	values[3] = 1.0f;
 }
 
-void Vector3::setValues ( Scalar x, Scalar y, Scalar z )
+void Vector3::setValues ( const Scalar &x, const Scalar &y, const Scalar &z )
 {
 	values[0] = x;
 	values[1] = y;

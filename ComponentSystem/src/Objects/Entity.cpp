@@ -14,7 +14,7 @@ namespace UnknownEngine
 	namespace Core
 	{
 
-		Entity::Entity (std::string name)
+		Entity::Entity (const std::string &name)
 		{
 			// TODO Auto-generated constructor stub
 

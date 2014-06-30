@@ -12,6 +12,7 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 
+#include <InlineSpecification.h>
 #include <Exception.h>
 
 namespace UnknownEngine
@@ -26,14 +27,16 @@ namespace UnknownEngine
 				TemplatesManager();
 				virtual ~TemplatesManager();
 
-				void loadTemplate(std::string template_name, std::string filename)
+				UNKNOWNENGINE_INLINE
+				void loadTemplate(const std::string &template_name, const std::string &filename)
 				{
 					boost::property_tree::ptree template_root;
 					boost::property_tree::read_xml(filename, template_root);
 					templates[template_name] = template_root;
 				}
 
-				boost::property_tree::ptree getTemplate(std::string template_name) throw (TemplateNotFound)
+				UNKNOWNENGINE_INLINE
+				boost::property_tree::ptree getTemplate(const std::string &template_name) throw (TemplateNotFound)
 				{
 					auto found = templates.find(template_name);
 					if(found==templates.end()) throw TemplateNotFound("Requested template not found");

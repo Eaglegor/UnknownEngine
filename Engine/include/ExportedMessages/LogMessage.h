@@ -43,7 +43,7 @@ namespace UnknownEngine
 		{
 			public:
 
-				LogMessagePacker(MessageSystemParticipantId sender_info) :
+				LogMessagePacker(const MessageSystemParticipantId &sender_info) :
 						MessagePacker<LogMessage>(sender_info)
 				{
 				}

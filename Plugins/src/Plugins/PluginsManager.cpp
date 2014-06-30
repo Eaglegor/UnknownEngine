@@ -60,7 +60,7 @@ namespace UnknownEngine
 			loadModule(desc.module_name, desc);
 		}
 
-		void PluginsManager::loadModule ( std::string library_name, const SubsystemDesc &desc ) throw ( UnknownEngine::Core::PluginError )
+		void PluginsManager::loadModule (const std::string &library_name, const SubsystemDesc &desc ) throw ( UnknownEngine::Core::PluginError )
 		{
 			void* library = LOAD_LIBRARY( library_name.c_str () );
 

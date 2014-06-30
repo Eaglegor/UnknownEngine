@@ -28,7 +28,7 @@ namespace UnknownEngine
 		{
 			public:
 
-				bool operator==(const IComponentFactory& rhs){
+				bool operator==(const IComponentFactory& rhs) const{
 					return getInternalId() == rhs.getInternalId();
 				}
 
@@ -46,13 +46,13 @@ namespace UnknownEngine
 				NumericIdentifierType internal_id;
 
 				UNKNOWNENGINE_INLINE
-				NumericIdentifierType getInternalId() const
+				const NumericIdentifierType &getInternalId() const
 				{
 					return internal_id;
 				}
 
 				UNKNOWNENGINE_INLINE
-				void setInternalId(NumericIdentifierType internal_id)
+				void setInternalId(const NumericIdentifierType &internal_id)
 				{
 					this->internal_id = internal_id;
 				}

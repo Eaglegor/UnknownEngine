@@ -40,7 +40,7 @@ namespace UnknownEngine
                 ComponentsManager* getComponentsManager() const;
 
 			private:
-				void loadModule(std::string library_name, const SubsystemDesc &desc) throw(PluginError);
+				void loadModule(const std::string &library_name, const SubsystemDesc &desc) throw(PluginError);
 
                 MessageDispatcher* const message_dispatcher;
                 MessageDictionary* const message_dictionary;
