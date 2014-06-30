@@ -8,7 +8,6 @@
  */
 
 #include <list>
-#include <ComponentsManager.h>
 #include <Plugins/PluginError.h>
 
 namespace UnknownEngine

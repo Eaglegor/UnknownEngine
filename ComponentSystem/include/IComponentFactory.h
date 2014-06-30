@@ -8,9 +8,11 @@
 
 #include <unordered_set>
 #include <string>
-#include <InlineSpecification.h>
 #include <vector>
-#include <Objects/Component.h>
+
+#include <InlineSpecification.h>
+#include <NumericIdentifierType.h>
+#include <ComponentType.h>
 
 namespace UnknownEngine
 {
@@ -18,7 +20,6 @@ namespace UnknownEngine
 	{
 
 		class Properties;
-
 		class Component;
 		class MessageListenerDesc;
 		class ComponentDesc;
@@ -38,20 +39,20 @@ namespace UnknownEngine
 				virtual const std::unordered_set<ComponentType>& getSupportedComponentTypeNames () const = 0;
 
 			protected:
-				IComponentFactory ():internal_id(-1){};
+				IComponentFactory ():internal_id(INVALID_NUMERIC_IDENTIFIER){};
 
 			private:
 				friend class ComponentsManager;
-				int internal_id;
+				NumericIdentifierType internal_id;
 
 				UNKNOWNENGINE_INLINE
-				int getInternalId() const
+				NumericIdentifierType getInternalId() const
 				{
 					return internal_id;
 				}
 
 				UNKNOWNENGINE_INLINE
-				void setInternalId(int internal_id)
+				void setInternalId(NumericIdentifierType internal_id)
 				{
 					this->internal_id = internal_id;
 				}

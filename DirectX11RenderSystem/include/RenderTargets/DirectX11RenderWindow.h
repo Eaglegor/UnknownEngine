@@ -1,7 +1,7 @@
 #pragma once
 
 /*
- * DirectX10RenderWindow.h
+ * DirectX11RenderWindow.h
  *
  *  Created on: 16 июня 2014 г.
  *      Author: Eaglegor

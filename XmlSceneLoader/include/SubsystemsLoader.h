@@ -5,8 +5,7 @@
  *      Author: Eaglegor
  */
 
-#ifndef SUBSYSTEMSPARSER_H_
-#define SUBSYSTEMSPARSER_H_
+#pragma once
 
 #include <boost/property_tree/ptree_fwd.hpp>
 #include <Exception.h>
@@ -24,7 +23,7 @@ namespace UnknownEngine
 
 		class XmlSceneLoader;
 
-		class InvalidSubsystemTemplate : public Core::Exception{public: InvalidSubsystemTemplate(const std::string &reason):Core::Exception(reason){}};
+		UNKNOWNENGINE_SIMPLE_EXCEPTION(InvalidSubsystemTemplate);
 
 		class SubsystemsLoader
 		{
@@ -47,5 +46,3 @@ namespace UnknownEngine
 
 	} /* namespace Core */
 } /* namespace UnknownEngine */
-
-#endif /* SUBSYSTEMSPARSER_H_ */

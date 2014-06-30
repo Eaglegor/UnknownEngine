@@ -5,8 +5,7 @@
  *      Author: Eaglegor
  */
 
-#ifndef ENGINE_H_
-#define ENGINE_H_
+#pragma once
 
 #include <MessageSystem/IMessageSystemParticipant.h>
 
@@ -32,9 +31,9 @@ namespace UnknownEngine
 				Engine();
 				virtual ~Engine();
 
-				void start();
 				void init();
 				void loadScene(Loader::ISceneLoader* loader);
+				void start();
 
 
                 MessageDispatcher *getMessageDispatcher() const;
@@ -54,5 +53,3 @@ namespace UnknownEngine
 
 	} /* namespace Core */
 } /* namespace UnknownEngine */
-
-#endif /* ENGINE_H_ */

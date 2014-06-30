@@ -1,5 +1,4 @@
-#ifndef UNKNOWNENGINE_CORE_MESSAGELISTENERPARSER_H
-#define UNKNOWNENGINE_CORE_MESSAGELISTENERPARSER_H
+#pragma once
 
 #include <MessageSystem/MessageListenerDesc.h>
 #include <boost/property_tree/ptree_fwd.hpp>
@@ -19,5 +18,3 @@ namespace UnknownEngine {
 
 	} // namespace Core
 } // namespace UnknownEngine
-
-#endif // UNKNOWNENGINE_CORE_MESSAGELISTENERPARSER_H

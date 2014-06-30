@@ -11,21 +11,19 @@
 
 #include <InlineSpecification.h>
 #include <Properties/Properties.h>
-#include <MessageSystem/MessageSystemId.h>
+#include <NumericIdentifierType.h>
+#include <MessageSystem/MessageSystemParticipantId.h>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
 
-		typedef size_t ComponentMessageTypeId;
-		static const ComponentMessageTypeId UNKNOWN_MESSAGE_TYPE = static_cast< size_t > ( -1 );
-
 		class PackedMessage
 		{
 			public:
-				PackedMessage ( ComponentMessageTypeId type_id, MessageSystemId sender_info )
-						: type_id ( type_id ), sender_info ( sender_info )
+				PackedMessage ( const NumericIdentifierType &message_type_id, const MessageSystemParticipantId &sender_info )
+						: message_type_id ( message_type_id ), sender_info ( sender_info )
 				{
 				}
 
@@ -34,13 +32,13 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				virtual ComponentMessageTypeId getTypeId () const
+				virtual NumericIdentifierType getMessageTypeId () const
 				{
-					return type_id;
+					return message_type_id;
 				}
 
 				UNKNOWNENGINE_INLINE
-				MessageSystemId getSenderInfo () const
+				MessageSystemParticipantId getSenderInfo () const
 				{
 					return sender_info;
 				}
@@ -58,9 +56,9 @@ namespace UnknownEngine
 				}
 
 			private:
-				ComponentMessageTypeId type_id;
+				NumericIdentifierType message_type_id;
 				Properties properties;
-				MessageSystemId sender_info;
+				MessageSystemParticipantId sender_info;
 
 		};
 

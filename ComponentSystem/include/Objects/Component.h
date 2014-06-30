@@ -6,14 +6,10 @@
  *      Author: gorbachenko
  */
 
-#include <string>
-
 namespace UnknownEngine
 {
 	namespace Core
 	{
-
-		typedef std::string ComponentType;
 
 		class Component
 		{

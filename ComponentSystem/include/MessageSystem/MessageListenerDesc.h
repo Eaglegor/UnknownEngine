@@ -1,5 +1,4 @@
-#ifndef MESSAGELISTENERDESC_H
-#define MESSAGELISTENERDESC_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -24,5 +23,3 @@ namespace UnknownEngine{
 
 	}
 }
-
-#endif // MESSAGELISTENERDESC_H

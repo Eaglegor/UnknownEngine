@@ -7,7 +7,6 @@
  *      Author: Eaglegor
  */
 
-#include <string>
 #include <Plugins/PluginError.h>
 
 namespace UnknownEngine

@@ -19,7 +19,7 @@ namespace UnknownEngine
 
 		RenderSystemUpdateFrameListener::RenderSystemUpdateFrameListener ( RenderSystem* render_system )
 				: render_system ( render_system ),
-				  Core::IMessageListener( Core::MessageSystemId(render_system->getName()) )
+				  Core::IMessageListener( Core::MessageSystemParticipantId(render_system->getName()) )
 		{
 		}
 

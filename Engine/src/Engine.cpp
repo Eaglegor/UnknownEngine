@@ -31,7 +31,7 @@ namespace UnknownEngine
 						message_dictionary(new MessageDictionary()),
                         components_manager(new ComponentsManager()),
 						plugins_manager( new PluginsManager(components_manager, message_dispatcher, message_dictionary) ),
-						IMessageSystemParticipant( MessageSystemId("Engine") )
+						IMessageSystemParticipant( MessageSystemParticipantId("Engine") )
         {
 			registerInternalMessageTypes();
 		}
@@ -55,7 +55,7 @@ namespace UnknownEngine
 			desc.height = 600;
 			msg.window_desc = desc;
 
-			this->message_dispatcher->deliverMessage(Graphics::CreateRenderWindowMessagePacker(MessageSystemId("Engine")).packMessage(msg));
+			this->message_dispatcher->deliverMessage(Graphics::CreateRenderWindowMessagePacker(MessageSystemParticipantId("Engine")).packMessage(msg));
 
 			MainLoop main_loop;
 			main_loop.start();

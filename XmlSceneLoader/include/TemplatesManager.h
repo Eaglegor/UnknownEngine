@@ -5,12 +5,13 @@
  *      Author: Eaglegor
  */
 
-#ifndef TEMPLATESMANAGER_H_
-#define TEMPLATESMANAGER_H_
+#pragma once
+
+#include <unordered_map>
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
-#include <map>
+
 #include <Exception.h>
 
 namespace UnknownEngine
@@ -39,11 +40,9 @@ namespace UnknownEngine
 					return found->second;
 				}
 
-				std::map<std::string, boost::property_tree::ptree> templates;
+				std::unordered_map<std::string, boost::property_tree::ptree> templates;
 
 		};
 
 	} /* namespace Core */
 } /* namespace UnknownEngine */
-
-#endif /* TEMPLATESMANAGER_H_ */

@@ -8,12 +8,12 @@
 
 #include <map>
 
-#include <Objects/Component.h>
-
 namespace UnknownEngine
 {
 	namespace Core
 	{
+
+		class Component;
 
 		class Entity
 		{

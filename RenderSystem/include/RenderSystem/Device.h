@@ -5,13 +5,10 @@
  *      Author: Eaglegor
  */
 
-#ifndef DEVICE_H_
-#define DEVICE_H_
+#pragma once
 
 class Device {
 public:
 	Device();
 	virtual ~Device();
 };
-
-#endif /* DEVICE_H_ */

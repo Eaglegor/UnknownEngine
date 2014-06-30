@@ -5,11 +5,9 @@
  *      Author: Eaglegor
  */
 
-#ifndef ENTITIESPARSER_H_
-#define ENTITIESPARSER_H_
+#pragma once
 
 #include <boost/property_tree/ptree_fwd.hpp>
-#include <MessageSystem/MessageListenerDesc.h>
 
 namespace UnknownEngine
 {
@@ -51,5 +49,3 @@ namespace UnknownEngine
 
 	} /* namespace Core */
 } /* namespace UnknownEngine */
-
-#endif /* ENTITIESPARSER_H_ */

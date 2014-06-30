@@ -7,8 +7,8 @@
  */
 
 #include <unordered_map>
-#include <MessageSystem/PackedMessage.h>
 #include <Singleton.h>
+#include <NumericIdentifierType.h>
 
 namespace UnknownEngine
 {
@@ -20,18 +20,19 @@ namespace UnknownEngine
 			public:
 				MessageDictionary ();
 				virtual ~MessageDictionary ();
-				ComponentMessageTypeId registerNewMessageType(std::string message_type_name);
-				bool messageTypeIsRegistered(ComponentMessageTypeId type_id);
-				bool messageTypeIsRegistered(std::string type_name);
-				std::string getMessageTypeName(ComponentMessageTypeId type_id);
-				ComponentMessageTypeId getMessageTypeId(std::string type_name);
+
+				NumericIdentifierType registerNewMessageType(const std::string &message_type_name);
+				bool messageTypeIsRegistered(const NumericIdentifierType &type_id) const;
+				bool messageTypeIsRegistered(const std::string &type_name) const;
+				std::string getMessageTypeName(const NumericIdentifierType &type_id) const;
+				NumericIdentifierType getMessageTypeId(const std::string &type_name) const;
 
 			private:
 
-				ComponentMessageTypeId last_used_type_id;
+				NumericIdentifierType last_used_type_id;
 
-				std::unordered_map<std::string, ComponentMessageTypeId> name_id_mapping;
-				std::unordered_map<ComponentMessageTypeId, std::string> id_name_mapping;
+				std::unordered_map<std::string, NumericIdentifierType> name_id_mapping;
+				std::unordered_map<NumericIdentifierType, std::string> id_name_mapping;
 
 		};
 

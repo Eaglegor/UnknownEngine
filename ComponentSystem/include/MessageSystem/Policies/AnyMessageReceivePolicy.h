@@ -20,7 +20,7 @@ namespace UnknownEngine
 				AnyMessageReceivePolicy ();
 				virtual ~AnyMessageReceivePolicy ();
 
-				virtual bool acceptMessage(const PackedMessage &msg);
+				virtual bool acceptMessage(const PackedMessage &msg) override;
 		};
 
 	} /* namespace Core */

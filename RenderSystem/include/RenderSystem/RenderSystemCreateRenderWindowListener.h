@@ -6,12 +6,16 @@
  *      Author: gorbachenko
  */
 
-#include <MessageSystem/IMessageListener.h>
 #include <InlineSpecification.h>
-#include <MessageSystem/PackedMessage.h>
+#include <MessageSystem/IMessageListener.h>
 
 namespace UnknownEngine
 {
+
+	namespace Core
+	{
+		class PackedMessage;
+	}
 
 	namespace Graphics
 	{
@@ -23,14 +27,7 @@ namespace UnknownEngine
 			public:
 				RenderSystemCreateRenderWindowListener ( RenderSystem* render_system );
 				virtual ~RenderSystemCreateRenderWindowListener ();
-
-				UNKNOWNENGINE_INLINE
-				virtual std::string getName () const
-				{
-					return render_system->getName ();
-				}
-
-				virtual void processMessage ( const Core::PackedMessage &msg );
+				virtual void processMessage ( const Core::PackedMessage &msg ) override;
 
 			private:
 				RenderSystem* render_system;

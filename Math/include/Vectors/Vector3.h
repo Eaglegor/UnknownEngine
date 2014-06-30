@@ -23,7 +23,7 @@ namespace UnknownEngine
 			inline void setZ(Scalar z) { values[2] = z; }
 
 			inline void setValues(Scalar x, Scalar y, Scalar z);
-			inline const Scalar* getRawValues() const { return values; };
+			inline const Scalar* getRawValues() const { return values; }
 
 		private:
 			Scalar values[4];

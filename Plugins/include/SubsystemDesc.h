@@ -1,5 +1,4 @@
-#ifndef SUBSYSTEMDESC_H
-#define SUBSYSTEMDESC_H
+#pragma once
 
 #include <vector>
 #include <MessageSystem/MessageListenerDesc.h>
@@ -17,5 +16,3 @@ namespace UnknownEngine
 		};
 	}
 }
-
-#endif // SUBSYSTEMDESC_H

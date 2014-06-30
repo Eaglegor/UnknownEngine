@@ -5,8 +5,7 @@
  *      Author: Eaglegor
  */
 
-#ifndef SINGLETON_H_
-#define SINGLETON_H_
+#pragma once
 
 #include <assert.h>
 
@@ -53,5 +52,3 @@ namespace UnknownEngine
 
 	} /* namespace Core */
 } /* namespace UnknownEngine */
-
-#endif /* SINGLETON_H_ */

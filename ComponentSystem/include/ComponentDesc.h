@@ -2,14 +2,14 @@
 
 #include <vector>
 #include <Properties/Properties.h>
-#include <MessageSystem/MessageListenerDesc.h>
-#include <Objects/Component.h>
+#include <ComponentType.h>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
 		class Entity;
+		class MessageListenerDesc;
 
 		struct ComponentDesc
 		{

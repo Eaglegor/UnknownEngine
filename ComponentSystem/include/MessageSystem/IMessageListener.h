@@ -8,7 +8,6 @@
 
 #include <string>
 #include <InlineSpecification.h>
-#include <MessageSystem/MessageSystemId.h>
 #include <MessageSystem/IMessageSystemParticipant.h>
 
 namespace UnknownEngine
@@ -21,34 +20,15 @@ namespace UnknownEngine
 		class IMessageListener : public IMessageSystemParticipant
 		{
 			public:
-				IMessageListener (const MessageSystemId &message_system_id);
+				IMessageListener (const MessageSystemParticipantId &message_system_participant_id);
 				virtual ~IMessageListener ();
 
 				virtual bool operator== ( const IMessageListener &rhs ) const
 				{
-					return getInternalId() == rhs.getInternalId();
+					return getMessageSystemParticipantId() == rhs.getMessageSystemParticipantId();
 				}
 
-				virtual std::string getName () const = 0;
 				virtual void processMessage ( const PackedMessage &msg ) = 0;
-                virtual const MessageSystemId getSystemPartId() const {return MessageSystemId("Unknown");}
-
-			private:
-				friend class MessageDispatcher;
-
-				UNKNOWNENGINE_INLINE
-				int getInternalId () const
-				{
-					return internal_id;
-				}
-
-				UNKNOWNENGINE_INLINE
-				void setInternalId ( int id )
-				{
-					internal_id = id;
-				}
-
-				int internal_id;
 
 		};
 

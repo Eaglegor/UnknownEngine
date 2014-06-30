@@ -5,13 +5,14 @@
  *      Author: Eaglegor
  */
 
-#ifndef XMLSCENELOADER_H_
-#define XMLSCENELOADER_H_
+#pragma once
 
 #include <string>
+
+#include <boost/property_tree/ptree_fwd.hpp>
+
 #include <ISceneLoader.h>
 #include <Exception.h>
-#include <boost/property_tree/ptree_fwd.hpp>
 
 namespace UnknownEngine
 {
@@ -21,8 +22,8 @@ namespace UnknownEngine
 		class TemplatesManager;
 		class ConstantsHolder;
 
-		class InvalidSceneFile : public Core::Exception{public: InvalidSceneFile(const std::string &reason):Core::Exception(reason){}};
-		class NoTemplatesLoaded : public Core::Exception{public: NoTemplatesLoaded(const std::string &reason):Core::Exception(reason){}};
+		UNKNOWNENGINE_SIMPLE_EXCEPTION(InvalidSceneFile);
+		UNKNOWNENGINE_SIMPLE_EXCEPTION(NoTemplatesLoaded);
 
 		class XmlSceneLoader: public ISceneLoader
 		{
@@ -49,5 +50,3 @@ namespace UnknownEngine
 
 	} /* namespace Loader */
 } /* namespace UnknownEngine */
-
-#endif /* XMLSCENELOADER_H_ */

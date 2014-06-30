@@ -10,7 +10,7 @@
 #include <MainLoop/MainLoop.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 #include <MessageSystem/MessageDispatcher.h>
-#include <MessageSystem/MessageSystemId.h>
+#include <MessageSystem/MessageSystemParticipantId.h>
 
 namespace UnknownEngine
 {
@@ -18,7 +18,7 @@ namespace UnknownEngine
 	{
 
 		MainLoop::MainLoop () :
-			IMessageSystemParticipant ( MessageSystemId("Engine.MainLoop") )
+			IMessageSystemParticipant ( MessageSystemParticipantId("Engine.MainLoop") )
 		{
 		}
 
@@ -31,7 +31,7 @@ namespace UnknownEngine
 		{
 			current_time = clock() / static_cast<float>(CLOCKS_PER_SEC);
 			UpdateFrameMessage msg;
-			UpdateFrameMessagePacker packer(getMessageSystemId());
+			UpdateFrameMessagePacker packer(getMessageSystemParticipantId());
 			while ( true )
 			{
 				msg.stage = UpdateFrameMessage::PREPROCESSING;

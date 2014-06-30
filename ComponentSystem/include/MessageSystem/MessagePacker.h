@@ -7,15 +7,17 @@
  */
 
 #include <string>
-#include <MessageSystem/MessageSystemId.h>
+
 #include <Exception.h>
+#include <MessageSystem/MessageSystemParticipantId.h>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
 
-		class InvalidMessageFormatException : public Exception{ InvalidMessageFormatException(const std::string &reason):Exception(reason){} };
+		UNKNOWNENGINE_SIMPLE_EXCEPTION(InvalidMessageFormatException);
+
 		class PackedMessage;
 
 		template <typename T>
@@ -23,7 +25,7 @@ namespace UnknownEngine
 		{
 			public:
 
-				MessagePacker ( MessageSystemId sender_info )
+				MessagePacker ( MessageSystemParticipantId sender_info )
 						: sender_info ( sender_info )
 				{
 				}
@@ -32,7 +34,7 @@ namespace UnknownEngine
 
 				virtual PackedMessage packMessage ( const T& msg ) = 0;
 			protected:
-				MessageSystemId sender_info;
+				MessageSystemParticipantId sender_info;
 		};
 
 		template <typename T>

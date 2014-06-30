@@ -7,27 +7,14 @@
  *      Author: Eaglegor
  */
 
-#include <string>
+#include <Exception.h>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
-		class PluginError: public std::exception
-		{
-			public:
-				PluginError(std::string message) :
-						message(message)
-				{
-				}
 
-				virtual const char* what() const throw() override{
-					return message.c_str();
-				}
+		UNKNOWNENGINE_SIMPLE_EXCEPTION(PluginError);
 
-			private:
-				std::string message;
-
-		};
 	}
 }

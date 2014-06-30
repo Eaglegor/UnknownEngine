@@ -5,14 +5,13 @@
  *      Author: Eaglegor
  */
 
-#ifndef CONSTANTSHOLDER_H_
-#define CONSTANTSHOLDER_H_
+#pragma once
 
 #include <map>
 #include <list>
+
 #include <InlineSpecification.h>
-#include <boost/regex.hpp>
-#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/ptree_fwd.hpp>
 #include <SupportedTags.h>
 #include <Exception.h>
 
@@ -25,7 +24,7 @@ namespace UnknownEngine
 		{
 			public:
 
-				class LoaderConstantNotFoundException : public Core::Exception{ public: LoaderConstantNotFoundException(const std::string &reason):Core::Exception(reason){} };
+				UNKNOWNENGINE_SIMPLE_EXCEPTION(LoaderConstantNotFoundException);
 
 				ConstantsHolder()
 				{
@@ -78,4 +77,3 @@ namespace UnknownEngine
 	} /* namespace Loader */
 } /* namespace UnknownEngine */
 
-#endif /* CONSTANTSHOLDER_H_ */

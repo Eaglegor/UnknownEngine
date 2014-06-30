@@ -10,9 +10,8 @@
 #include <list>
 #include <vector>
 
-#include <Objects/Component.h>
 #include <Singleton.h>
-
+#include <ComponentType.h>
 
 namespace UnknownEngine
 {

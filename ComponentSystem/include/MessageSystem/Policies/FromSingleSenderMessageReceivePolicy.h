@@ -19,13 +19,13 @@ namespace UnknownEngine
 		{
 			public:
 
-				virtual bool acceptMessage(const PackedMessage &msg);
+				virtual bool acceptMessage(const PackedMessage &msg) override;
 
-				FromSingleSenderMessageReceivePolicy (MessageSystemId sender_info);
+				FromSingleSenderMessageReceivePolicy (MessageSystemParticipantId sender_info);
 				virtual ~FromSingleSenderMessageReceivePolicy ();
 
 			private:
-				MessageSystemId sender_info;
+				MessageSystemParticipantId sender_info;
 
 		};
 

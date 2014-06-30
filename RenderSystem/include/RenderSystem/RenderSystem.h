@@ -7,8 +7,6 @@
  *      Author: Eaglegor
  */
 
-#include <Plugins/PluginInterfaceSpecification.h>
-
 #include <RenderTargets/RenderWindow.h>
 
 namespace UnknownEngine
@@ -19,13 +17,8 @@ namespace UnknownEngine
 		{
 			public:
 
-				UNKNOWNENGINE_PLUGIN_INTERFACE
 				virtual RenderWindow* createRenderWindow( const RenderWindowDesc &desc ) = 0;
-
-				UNKNOWNENGINE_PLUGIN_INTERFACE
 				virtual void renderFrame() = 0;
-
-				UNKNOWNENGINE_PLUGIN_INTERFACE
 				virtual std::string getName() const = 0;
 
 				virtual ~RenderSystem()

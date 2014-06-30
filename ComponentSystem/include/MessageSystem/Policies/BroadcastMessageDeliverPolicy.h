@@ -17,7 +17,7 @@ namespace UnknownEngine
 		{
 			public:
 
-				virtual bool allowDeliverToListener(const IMessageListener* listener) const override;
+				virtual bool allowDeliveryToListener(const IMessageListener* listener) const override;
 
 				BroadcastMessageDeliverPolicy ();
 				virtual ~BroadcastMessageDeliverPolicy ();

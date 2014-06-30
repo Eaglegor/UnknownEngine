@@ -15,16 +15,16 @@ namespace UnknownEngine
 	namespace Core
 	{
 
-		SingleReceiverMessageDeliverPolicy::SingleReceiverMessageDeliverPolicy (std::string receiver_name)
-				: receiver_name( receiver_name )
+		SingleReceiverMessageDeliverPolicy::SingleReceiverMessageDeliverPolicy (const MessageSystemParticipantId &receiver_info)
+				: receiver_info( receiver_info )
 		{
 			// TODO Auto-generated constructor stub
 
 		}
 
-		bool SingleReceiverMessageDeliverPolicy::allowDeliverToListener ( const IMessageListener* listener ) const
+		bool SingleReceiverMessageDeliverPolicy::allowDeliveryToListener ( const IMessageListener* listener ) const
 		{
-			return listener->getName() == receiver_name;
+			return listener->getMessageSystemParticipantId() == receiver_info;
 		}
 
 		SingleReceiverMessageDeliverPolicy::~SingleReceiverMessageDeliverPolicy ()

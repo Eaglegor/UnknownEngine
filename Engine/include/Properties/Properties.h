@@ -20,7 +20,7 @@ namespace UnknownEngine
 	namespace Core
 	{
 
-		class PropertyNotFoundException : public Exception{ public: PropertyNotFoundException(const std::string &reason):Exception(reason){} };
+		UNKNOWNENGINE_SIMPLE_EXCEPTION(PropertyNotFoundException);
 
 		template<typename K>
 		class PropertiesTree

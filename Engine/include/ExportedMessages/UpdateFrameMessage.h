@@ -6,8 +6,8 @@
  *      Author: gorbachenko
  */
 
-#include <MessageSystem/MessagePacker.h>
 #include <InlineSpecification.h>
+#include <MessageSystem/MessagePacker.h>
 #include <MessageSystem/PackedMessage.h>
 #include <MessageSystem/MessageDictionary.h>
 
@@ -38,13 +38,13 @@ namespace UnknownEngine
 		{
 			public:
 
-				UpdateFrameMessagePacker(MessageSystemId sender_info) :
+				UpdateFrameMessagePacker(MessageSystemParticipantId sender_info) :
 						MessagePacker<UpdateFrameMessage>(sender_info)
 				{
 				}
 
 				UNKNOWNENGINE_INLINE
-				PackedMessage packMessage(const UpdateFrameMessage& msg)
+				PackedMessage packMessage(const UpdateFrameMessage& msg) override
 				{
 					PackedMessage result(MessageDictionary::getSingleton()->getMessageTypeId(UpdateFrameMessage::getTypeName()), sender_info);
 					result.getProperties().set<float>("dt", msg.dt);
@@ -59,7 +59,7 @@ namespace UnknownEngine
 			public:
 
 				UNKNOWNENGINE_INLINE
-				UpdateFrameMessage unpackMessage(const PackedMessage &msg) throw (InvalidMessageFormatException)
+				UpdateFrameMessage unpackMessage(const PackedMessage &msg) throw (InvalidMessageFormatException) override
 				{
 					UpdateFrameMessage result;
 					result.dt = msg.getProperties().get<float>("dt");

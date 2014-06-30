@@ -7,7 +7,7 @@
  *      Author: Eaglegor
  */
 
-#include <string>
+#include <MessageSystem/MessageSystemParticipantId.h>
 #include <MessageSystem/Policies/IMessageDeliveryPolicy.h>
 
 namespace UnknownEngine
@@ -18,14 +18,13 @@ namespace UnknownEngine
 		class SingleReceiverMessageDeliverPolicy: public IMessageDeliveryPolicy
 		{
 			public:
+				virtual bool allowDeliveryToListener(const IMessageListener* listener) const override;
 
-				virtual bool allowDeliverToListener(const IMessageListener* listener) const override;
-
-				SingleReceiverMessageDeliverPolicy (std::string receiver_name);
+				SingleReceiverMessageDeliverPolicy (const MessageSystemParticipantId &receiver_info);
 				virtual ~SingleReceiverMessageDeliverPolicy ();
 
 			private:
-				std::string receiver_name;
+				MessageSystemParticipantId receiver_info;
 		};
 
 	} /* namespace Core */

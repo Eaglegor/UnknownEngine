@@ -8,8 +8,8 @@
 
 #include <string>
 
-#include <MessageSystem/MessagePacker.h>
 #include <InlineSpecification.h>
+#include <MessageSystem/MessagePacker.h>
 #include <MessageSystem/PackedMessage.h>
 #include <MessageSystem/MessageDictionary.h>
 
@@ -43,13 +43,13 @@ namespace UnknownEngine
 		{
 			public:
 
-				LogMessagePacker(MessageSystemId sender_info) :
+				LogMessagePacker(MessageSystemParticipantId sender_info) :
 						MessagePacker<LogMessage>(sender_info)
 				{
 				}
 
 				UNKNOWNENGINE_INLINE
-				PackedMessage packMessage(const LogMessage& msg)
+				PackedMessage packMessage(const LogMessage& msg) override
 				{
 					PackedMessage result(
 							MessageDictionary::getSingleton()->getMessageTypeId(
@@ -67,7 +67,7 @@ namespace UnknownEngine
 
 				UNKNOWNENGINE_INLINE
 				LogMessage unpackMessage(const PackedMessage &msg)
-						throw (InvalidMessageFormatException)
+						throw (InvalidMessageFormatException) override
 				{
 					LogMessage result;
 					result.log_entry = msg.getProperties().get<std::string>("log_entry");

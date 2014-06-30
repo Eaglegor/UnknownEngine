@@ -7,12 +7,8 @@
  *      Author: Eaglegor
  */
 
-#include <windows.h>
-
-#include <Properties/Properties.h>
-#include <Plugins/PluginExport.h>
-#include <Plugins/Plugin.h>
 #include <InlineSpecification.h>
+#include <Plugins/Plugin.h>
 #include <SubsystemDesc.h>
 
 namespace UnknownEngine

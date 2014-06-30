@@ -7,12 +7,12 @@
  *      Author: Eaglegor
  */
 
-#include <MessageSystem/PackedMessage.h>
-
 namespace UnknownEngine
 {
 	namespace Core
 	{
+
+		class PackedMessage;
 
 		class IMessageReceivePolicy
 		{

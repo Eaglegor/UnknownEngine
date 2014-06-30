@@ -13,6 +13,10 @@ namespace UnknownEngine {
 				}
 			private:
 				std::string reason;
+
 		};
+
 	}
 }
+
+#define UNKNOWNENGINE_SIMPLE_EXCEPTION(ExceptionTypeName) class ExceptionTypeName : public Core::Exception { public: ExceptionTypeName(const std::string &reason): Core::Exception(reason){} }

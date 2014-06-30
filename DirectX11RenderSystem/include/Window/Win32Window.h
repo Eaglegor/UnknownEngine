@@ -8,8 +8,9 @@
  */
 
 #include <windows.h>
+
 #include <InlineSpecification.h>
-#include <RenderTargets/RenderWindow.h>
+#include <RenderTargets/RenderWindowDesc.h>
 
 namespace UnknownEngine
 {

@@ -6,19 +6,21 @@
  *      Author: gorbachenko
  */
 
-#include <boost/any.hpp>
-
 #include <InlineSpecification.h>
 
 #include <MessageSystem/MessagePacker.h>
 #include <MessageSystem/PackedMessage.h>
 #include <MessageSystem/MessageDictionary.h>
-#include <MessageSystem/MessageSystemId.h>
 
 #include <RenderTargets/RenderWindowDesc.h>
 
 namespace UnknownEngine
 {
+
+	namespace Core
+	{
+		class MessageSystemParticipantId;
+	}
 
 	namespace Graphics
 	{
@@ -38,17 +40,17 @@ namespace UnknownEngine
 		{
 			public:
 
-				CreateRenderWindowMessagePacker(Core::MessageSystemId sender_info) :
+				CreateRenderWindowMessagePacker(const Core::MessageSystemParticipantId &sender_info) :
 						Core::MessagePacker<CreateRenderWindowMessage>(sender_info)
 				{
 				}
 
 				UNKNOWNENGINE_INLINE
-				Core::PackedMessage packMessage(const CreateRenderWindowMessage& msg)
+				Core::PackedMessage packMessage(const CreateRenderWindowMessage& msg) override
 				{
 					Core::PackedMessage result(Core::MessageDictionary::getSingleton()->getMessageTypeId(CreateRenderWindowMessage::getTypeName()),
 							sender_info);
-					result.getProperties().set<boost::any>("window_desc", boost::any(msg.window_desc));
+					result.getProperties().set<RenderWindowDesc>("window_desc", msg.window_desc);
 					return result;
 				}
 
@@ -59,7 +61,7 @@ namespace UnknownEngine
 			public:
 
 				UNKNOWNENGINE_INLINE
-				CreateRenderWindowMessage unpackMessage(const Core::PackedMessage &msg) throw (Core::InvalidMessageFormatException)
+				CreateRenderWindowMessage unpackMessage(const Core::PackedMessage &msg) throw (Core::InvalidMessageFormatException) override
 				{
 					CreateRenderWindowMessage result;
 					result.window_desc = msg.getProperties().get<RenderWindowDesc>("window_desc");

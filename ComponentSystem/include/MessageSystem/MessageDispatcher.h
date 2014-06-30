@@ -9,9 +9,8 @@
 #include <unordered_map>
 #include <list>
 
-#include <MessageSystem/IMessageListener.h>
-#include <MessageSystem/PackedMessage.h>
 #include <Singleton.h>
+#include <NumericIdentifierType.h>
 
 namespace UnknownEngine
 {
@@ -20,6 +19,8 @@ namespace UnknownEngine
 
 		class IMessageDeliveryPolicy;
 		class IMessageReceivePolicy;
+		class IMessageListener;
+		class PackedMessage;
 
 		class MessageDispatcher : public Singleton<MessageDispatcher>
 		{
@@ -27,19 +28,19 @@ namespace UnknownEngine
 				MessageDispatcher ();
 				virtual ~MessageDispatcher ();
 
-				void addListener ( ComponentMessageTypeId message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy = nullptr );
+				void addListener ( NumericIdentifierType message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy = nullptr );
 				void addListener ( std::string message_type_name, IMessageListener* listener, IMessageReceivePolicy* receive_policy = nullptr );
 
-				void removeListener ( ComponentMessageTypeId message_type_id, IMessageListener* listener );
+				void removeListener ( NumericIdentifierType message_type_id, IMessageListener* listener );
 				void removeListener ( std::string message_type_name, IMessageListener* listener );
 				void removeListener ( IMessageListener* listener );
 
 				void addSniffer ( IMessageListener* listener, IMessageReceivePolicy* receive_policy );
 				void removeSniffer ( IMessageListener* listener );
 
-				void setListenerReceivePolicy( ComponentMessageTypeId message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy = nullptr );
+				void setListenerReceivePolicy( NumericIdentifierType message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy = nullptr );
 
-				void deliverMessage ( const PackedMessage &msg, const IMessageDeliveryPolicy* delivery_policy = nullptr ) const;
+				void deliverMessage ( const PackedMessage &msg, IMessageDeliveryPolicy* delivery_policy = nullptr ) const;
 
 			private:
 
@@ -57,10 +58,10 @@ namespace UnknownEngine
 				};
 
 				typedef std::list< RegisteredListener > MessageListenersList;
-				typedef std::unordered_map< ComponentMessageTypeId, MessageListenersList > MessageListenersMap;
+				typedef std::unordered_map< NumericIdentifierType, MessageListenersList > MessageListenersMap;
 
-				const MessageListenersList* getRegisteredListeners ( ComponentMessageTypeId message_type_id ) const;
-				MessageListenersList* getRegisteredListeners ( ComponentMessageTypeId message_type_id );
+				const MessageListenersList* getRegisteredListeners ( NumericIdentifierType message_type_id ) const;
+				MessageListenersList* getRegisteredListeners ( NumericIdentifierType message_type_id );
 
 				MessageListenersMap listeners;
 

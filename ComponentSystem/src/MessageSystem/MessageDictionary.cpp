@@ -24,7 +24,7 @@ namespace UnknownEngine
 
 		}
 
-		ComponentMessageTypeId MessageDictionary::registerNewMessageType ( std::string message_type_name )
+		NumericIdentifierType MessageDictionary::registerNewMessageType ( const std::string &message_type_name )
 		{
 			if ( messageTypeIsRegistered ( message_type_name ) ) return getMessageTypeId ( message_type_name );
 			++last_used_type_id;
@@ -33,13 +33,13 @@ namespace UnknownEngine
 			return last_used_type_id;
 		}
 
-		std::string MessageDictionary::getMessageTypeName ( ComponentMessageTypeId type_id )
+		std::string MessageDictionary::getMessageTypeName ( const NumericIdentifierType &type_id ) const
 		{
 			if ( this->messageTypeIsRegistered ( type_id ) ) return id_name_mapping.find ( type_id )->second;
 			else return "UknownMessage";
 		}
 
-		ComponentMessageTypeId MessageDictionary::getMessageTypeId ( std::string type_name )
+		NumericIdentifierType MessageDictionary::getMessageTypeId ( const std::string &type_name ) const
 		{
 			if ( this->messageTypeIsRegistered ( type_name ) )
 			{
@@ -48,7 +48,7 @@ namespace UnknownEngine
 
 			else
 			{
-				return UNKNOWN_MESSAGE_TYPE;
+				return INVALID_NUMERIC_IDENTIFIER;
 			}
 		}
 
@@ -57,14 +57,14 @@ namespace UnknownEngine
 			// TODO Auto-generated destructor stub
 		}
 
-		bool MessageDictionary::messageTypeIsRegistered ( ComponentMessageTypeId type_id )
+		bool MessageDictionary::messageTypeIsRegistered ( const NumericIdentifierType &type_id ) const
 		{
-			return id_name_mapping.find ( type_id ) != id_name_mapping.end ();
+			return id_name_mapping.find ( type_id ) != id_name_mapping.end();
 		}
 
-		bool MessageDictionary::messageTypeIsRegistered ( std::string type_name )
+		bool MessageDictionary::messageTypeIsRegistered ( const std::string &type_name ) const
 		{
-			return name_id_mapping.find ( type_name ) != name_id_mapping.end ();
+			return name_id_mapping.find ( type_name ) != name_id_mapping.end();
 		}
 
 	} /* namespace Core */

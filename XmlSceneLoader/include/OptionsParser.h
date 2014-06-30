@@ -5,11 +5,10 @@
  *      Author: Eaglegor
  */
 
-#ifndef OPTIONSPARSER_H_
-#define OPTIONSPARSER_H_
+#pragma once
 
-#include <Properties/Properties.h>
 #include <boost/property_tree/ptree_fwd.hpp>
+#include <Properties/Properties.h>
 
 namespace UnknownEngine
 {
@@ -33,5 +32,3 @@ namespace UnknownEngine
 
 	} /* namespace Loader */
 } /* namespace UnknownEngine */
-
-#endif /* OPTIONSPARSER_H_ */

@@ -20,7 +20,7 @@ namespace UnknownEngine
 
 		}
 
-		bool BroadcastMessageDeliverPolicy::allowDeliverToListener ( const IMessageListener* listener ) const
+		bool BroadcastMessageDeliverPolicy::allowDeliveryToListener ( const IMessageListener* listener ) const
 		{
 			return true;
 		}
