@@ -42,6 +42,7 @@ SceneLoader
 Utils
 DummySubsystem
 ConsoleLogger
+ResourceManager
 )
 
 set(

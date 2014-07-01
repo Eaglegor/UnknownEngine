@@ -12,6 +12,7 @@
 
 #include <Singleton.h>
 #include <ComponentType.h>
+#include <Exception.h>
 
 namespace UnknownEngine
 {
@@ -23,6 +24,8 @@ namespace UnknownEngine
 		class ComponentDesc;
 		class SubsystemDesc;
 		class Entity;
+
+        UNKNOWNENGINE_SIMPLE_EXCEPTION(NoSuitableComponentFactoryFound);
 
 		class ComponentsManager : public Singleton<ComponentsManager>
 		{

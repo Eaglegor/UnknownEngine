@@ -10,14 +10,11 @@
 #include <ComponentsManager.h>
 #include <IComponentFactory.h>
 #include <ComponentDesc.h>
-#include <Exception.h>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
-
-		class NoSuitableComponentFactoryFound : public Exception{ public: NoSuitableComponentFactoryFound(const std::string &reason):Exception(reason){} };
 
 		template<>
 		ComponentsManager* Singleton<ComponentsManager>::instance = nullptr;
