@@ -1,15 +1,15 @@
 set(TARGET_NAME XmlSceneLoader)
 set(LINKAGE SHARED)
 
-set(INCLUDED_MODULE_HEADERS XmlSceneLoader SceneLoader Plugins ComponentSystem Engine )
+set(INCLUDED_MODULE_HEADERS XmlSceneLoader SceneLoader Plugins ComponentSystem Engine Utils )
 set(LINKED_LIBS Plugins ComponentSystem )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 
 if(WIN32)
     if(MINGW)
-        list(APPEND LINKED_LIBS boost_regex_mingw32)
+        list(APPEND LINKED_LIBS boost_regex-mgw48-mt-1_55)
     elseif(MSVC)
-        list(APPEND LINKED_LIBS libboost_regex_msvc)
+        list(APPEND LINKED_LIBS libboost_regex-vc110-mt-1_55)
     endif(MINGW)
 else(WIN32)
     list(APPEND LINKED_LIBS boost_regex)

@@ -13,6 +13,8 @@
 #include <Singleton.h>
 #include <ComponentType.h>
 #include <Exception.h>
+#include <NumericIdentifierType.h>
+#include <Dictionary.h>
 
 namespace UnknownEngine
 {
@@ -24,8 +26,6 @@ namespace UnknownEngine
 		class ComponentDesc;
 		class SubsystemDesc;
 		class Entity;
-
-        UNKNOWNENGINE_SIMPLE_EXCEPTION(NoSuitableComponentFactoryFound);
 
 		class ComponentsManager : public Singleton<ComponentsManager>
 		{
@@ -39,15 +39,9 @@ namespace UnknownEngine
 				virtual Entity* createEntity ( const std::string &name );
 				virtual Component* createComponent ( const ComponentDesc &desc );
 
-				//virtual void destroyComponent (Component* component);
-
 			private:
-				std::list<IComponentFactory*>::iterator findFactoryInList ( const IComponentFactory* factory );
-				IComponentFactory* findFactoryForComponentType ( const ComponentType &component_type );
-
-				int last_used_component_factory_id;
-
-				std::list<IComponentFactory*> component_factories;
+				std::unordered_map<NumericIdentifierType, IComponentFactory*> component_factories;
+				Utils::Dictionary<NumericIdentifierType, std::string> internal_dictionary;
 
 		};
 

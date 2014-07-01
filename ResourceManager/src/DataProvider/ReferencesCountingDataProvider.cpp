@@ -3,31 +3,31 @@
 #include <DataProvider/ReferencesCountingDataProvider.h>
 
 namespace UnknownEngine {
-  namespace Loader {
+	namespace Loader {
 
-    ReferencesCountingDataProvider::ReferencesCountingDataProvider() : references_counter(1)
-    {
-    }
+		ReferencesCountingDataProvider::ReferencesCountingDataProvider() : references_counter(1)
+		{
+		}
 
-    void UnknownEngine::Loader::ReferencesCountingDataProvider::release()
-    {
-      this->decreaseReferencesCounter();
-    }
+		void UnknownEngine::Loader::ReferencesCountingDataProvider::release()
+		{
+			this->decreaseReferencesCounter();
+		}
 
-    bool ReferencesCountingDataProvider::mayBeDestructed() const
-    {
-      return this->references_counter == 0;
-    }
+		bool ReferencesCountingDataProvider::mayBeDestructed()
+		{
+			return references_counter == 0;
+		}
 
-    void ReferencesCountingDataProvider::increaseReferencesCounter()
-    {
-      ++this->references_counter; // ATOMIC!
-    }
+		void ReferencesCountingDataProvider::increaseReferencesCounter()
+		{
+			references_counter.fetch_add(1);
+		}
 
-    void ReferencesCountingDataProvider::decreaseReferencesCounter()
-    {
-      ++this->references_counter; // ATOMIC!
-    }
+		void ReferencesCountingDataProvider::decreaseReferencesCounter()
+		{
+			references_counter.fetch_sub(1);
+		}
 
-  } // namespace Loader
+	} // namespace Loader
 } // namespace UnknownEngine

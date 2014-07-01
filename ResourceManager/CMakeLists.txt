@@ -1,8 +1,21 @@
 set(TARGET_NAME ResourceManager)
 set(LINKAGE SHARED)
 
-set(INCLUDED_MODULE_HEADERS ResourceManager )
+set(INCLUDED_MODULE_HEADERS ResourceManager Engine Utils )
 set(LINKED_LIBS  )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
+
+if(WIN32)
+    if(MINGW)
+        list(APPEND LINKED_LIBS boost_system-mgw48-mt-1_55)
+        list(APPEND LINKED_LIBS boost_thread-mgw48-mt-1_55)
+    elseif(MSVC)
+        list(APPEND LINKED_LIBS libboost_system-vc110-mt-1_55)
+        list(APPEND LINKED_LIBS libboost_thread-vc110-mt-1_55)
+    endif(MINGW)
+else(WIN32)
+    list(APPEND LINKED_LIBS boost_system)
+    list(APPEND LINKED_LIBS boost_thread)
+endif(WIN32)
 
 include(${MODULE_TEMPLATE_CMAKELISTS_FILE})

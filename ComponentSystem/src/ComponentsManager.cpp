@@ -10,6 +10,7 @@
 #include <ComponentsManager.h>
 #include <IComponentFactory.h>
 #include <ComponentDesc.h>
+#include <algorithm>
 
 namespace UnknownEngine
 {
@@ -20,38 +21,28 @@ namespace UnknownEngine
 		ComponentsManager* Singleton<ComponentsManager>::instance = nullptr;
 
 		ComponentsManager::ComponentsManager() :
-				last_used_component_factory_id(0)
+			internal_dictionary(NUMERIC_IDENTIFIER_INITIAL_VALUE, INVALID_NUMERIC_IDENTIFIER)
 		{
-			// TODO Auto-generated constructor stub
-
 		}
 
 		ComponentsManager::~ComponentsManager()
 		{
-			// TODO Auto-generated destructor stub
 		}
 
 		void ComponentsManager::addComponentFactory(IComponentFactory* factory)
 		{
-			if (findFactoryInList(factory) != component_factories.end())
-				return;
+			if (factory->getInternalId() != INVALID_NUMERIC_IDENTIFIER) return;
 
-			if (factory->getInternalId() < 0)
-			{
-				factory->setInternalId(last_used_component_factory_id);
-				++last_used_component_factory_id;
-			}
-
-			component_factories.push_back(factory);
+			NumericIdentifierType new_id = internal_dictionary.registerNewValue(factory->getName());
+			factory->setInternalId(new_id);
+			component_factories.insert( std::make_pair(new_id, factory) );
 		}
 
-		void ComponentsManager::removeComponentFactory(
-				IComponentFactory* factory)
+		void ComponentsManager::removeComponentFactory(IComponentFactory* factory)
 		{
-			auto iter = findFactoryInList(factory);
-			if (iter == component_factories.end())
-				return;
-			component_factories.erase(iter);
+			if(factory->getInternalId() == INVALID_NUMERIC_IDENTIFIER) return;
+			component_factories.erase(factory->getInternalId());
+			factory->setInternalId(INVALID_NUMERIC_IDENTIFIER);
 		}
 
 		Entity *ComponentsManager::createEntity(const std::string &name)
@@ -61,35 +52,11 @@ namespace UnknownEngine
 
 		Component* ComponentsManager::createComponent(const ComponentDesc &desc)
 		{
-			IComponentFactory* factory = findFactoryForComponentType(
-					desc.type);
-			if (factory != nullptr)
-				return factory->createComponent(desc);
-			throw NoSuitableComponentFactoryFound("Can't find factory for requested component type");
-		}
-
-		std::list<IComponentFactory*>::iterator ComponentsManager::findFactoryInList(const IComponentFactory *factory)
-		{
-			std::list<IComponentFactory*>::iterator iter =
-					component_factories.begin();
-			while (iter != component_factories.end())
+			for( auto &factory : component_factories )
 			{
-				if (*factory == (*(*iter)))
-					return iter;
-				++iter;
+				if(factory.second->supportsType(desc.type)) return factory.second->createObject(desc);
 			}
-			return iter;
-		}
-
-		IComponentFactory* ComponentsManager::findFactoryForComponentType(
-				const ComponentType& component_type)
-		{
-			for (IComponentFactory* factory : component_factories)
-			{
-				if (factory->canCreateComponentType(component_type))
-					return factory;
-			}
-			return nullptr;
+			throw NoSuitableFactoryFound("Can't find factory for component");
 		}
 
 	} /* namespace Core */

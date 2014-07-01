@@ -18,37 +18,27 @@ namespace UnknownEngine
 		MessageSystemParticipantDictionary* Singleton<MessageSystemParticipantDictionary>::instance = nullptr;
 
 		MessageSystemParticipantDictionary::MessageSystemParticipantDictionary ()
-				: last_used_id ( 0 )
+				: internal_dictionary(NUMERIC_IDENTIFIER_INITIAL_VALUE, INVALID_NUMERIC_IDENTIFIER)
 		{
-			// TODO Auto-generated constructor stub
-
 		}
 
 		NumericIdentifierType MessageSystemParticipantDictionary::registerMessageParticipant ( const std::string &message_system_participant_name )
 		{
-			auto iter = name_id_mapping.find(message_system_participant_name);
-			if(iter != name_id_mapping.end()) return iter->second;
-			++last_used_id;
-			name_id_mapping.insert ( std::make_pair ( message_system_participant_name, last_used_id ) );
-			return last_used_id;
+			internal_dictionary.registerNewValue(message_system_participant_name);
 		}
 
 		void MessageSystemParticipantDictionary::unregisterMessageParticipant(const std::string &message_system_participant_name)
 		{
-			auto iter = name_id_mapping.find(message_system_participant_name);
-			if(iter != name_id_mapping.end()) name_id_mapping.erase(iter);
+			internal_dictionary.deleteEntryByValue(message_system_participant_name);
 		}
 
 		NumericIdentifierType MessageSystemParticipantDictionary::getMessageParticipantNameId ( const std::string &message_system_participant_name ) const
 		{
-			auto iter = name_id_mapping.find(message_system_participant_name);
-			if(iter != name_id_mapping.end()) return iter->second;
-			return INVALID_NUMERIC_IDENTIFIER;
+			internal_dictionary.getKeyByValue(message_system_participant_name);
 		}
 
 		MessageSystemParticipantDictionary::~MessageSystemParticipantDictionary ()
 		{
-			// TODO Auto-generated destructor stub
 		}
 
 	} /* namespace Core */

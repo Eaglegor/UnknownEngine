@@ -1,26 +1,23 @@
 #pragma once
 
-#include <unordered_set>
+#include <AbstractObjectFactory.h>
 #include <DataProvider/DataProviderType.h>
 
 namespace UnknownEngine {
 
-    namespace Core
-    {
-        class Properties;
-    }
+	namespace Core
+	{
+		class Properties;
+	}
 
-    namespace Loader {
+	namespace Loader {
 
-        class IDataProvider;
+		class IDataProvider;
+		class DataProviderDesc;
 
-        class IDataProviderFactory
-        {
-        public:
-	    virtual const std::unordered_set<DataProviderType>& getSupportedDataProvidersSet() = 0;
-	    virtual bool canCreateDataProvider(const DataProviderType &provider_type) = 0;
-	    virtual Loader::IDataProvider* getDataProvider(const DataProviderType& provider_type, const Core::Properties& settings) = 0;
-        };
+		class IDataProviderFactory : public Core::AbstractObjectFactory<IDataProvider, DataProviderType, DataProviderDesc>
+		{
+		};
 
-    } // namespace Loader
+	} // namespace Loader
 } // namespace UnknownEngine

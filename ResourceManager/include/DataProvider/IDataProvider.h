@@ -8,6 +8,7 @@
 #pragma once
 
 #include <string>
+#include <DataProvider/DataProviderType.h>
 
 namespace UnknownEngine
 {
@@ -33,6 +34,7 @@ namespace UnknownEngine
                 virtual const ResourceContainer& getResource() const = 0;
                 virtual void release() = 0;
                 virtual bool mayBeDestructed() const = 0;
+				virtual const DataProviderType& getType() = 0;
 
 		};
 

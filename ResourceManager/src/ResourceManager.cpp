@@ -1,23 +1,43 @@
 #include <stdafx.h>
 
 #include <ResourceManager.h>
+#include <DataProvider/IDataProviderFactory.h>
+#include <DataProvider/DataProviderDesc.h>
 
 namespace UnknownEngine {
-  namespace Core {
+	namespace Core {
 
-    ResourceManager::ResourceManager()
-    {
-    }
+		template<>
+		ResourceManager* Singleton<ResourceManager>::instance = nullptr;
 
-    void ResourceManager::addDataProviderFactory(Loader::IDataProviderFactory *factory)
-    {
+		ResourceManager::ResourceManager() :
+			internal_dictionary(NUMERIC_IDENTIFIER_INITIAL_VALUE, INVALID_NUMERIC_IDENTIFIER)
+		{
+		}
 
-    }
+		void ResourceManager::addDataProviderFactory(Loader::IDataProviderFactory * factory)
+		{
+			if(factory->getInternalId() != Core::INVALID_NUMERIC_IDENTIFIER) return;
+			NumericIdentifierType new_id = internal_dictionary.registerNewValue(factory->getName());
+			factory->setInternalId(new_id);
+			data_provider_factories[new_id] = factory;
+		}
 
-    Loader::IDataProvider *ResourceManager::getDataProvider(const Loader::DataProviderType &provider_type, const Properties &settings)
-    {
+		void ResourceManager::removeDataProviderFactory(Loader::IDataProviderFactory * factory)
+		{
+			if(factory->getInternalId() == Core::INVALID_NUMERIC_IDENTIFIER) return;
+			data_provider_factories.erase(factory->getInternalId());
+			factory->setInternalId(Core::INVALID_NUMERIC_IDENTIFIER);
+		}
 
-    }
+		Loader::IDataProvider *ResourceManager::createDataProvider(const Loader::DataProviderDesc &desc)
+		{
+			for( auto &factory : data_provider_factories )
+			{
+				if(factory.second->supportsType(desc.type)) return factory.second->createObject(desc);
+			}
+			throw NoSuitableFactoryFound("Can't find factory to create data provider");
+		}
 
-  } // namespace Core
+	} // namespace Core
 } // namespace UnknownEngine

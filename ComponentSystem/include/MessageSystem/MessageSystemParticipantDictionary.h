@@ -9,6 +9,7 @@
 #include <unordered_map>
 #include <Singleton.h>
 #include <NumericIdentifierType.h>
+#include <Dictionary.h>
 
 namespace UnknownEngine
 {
@@ -26,10 +27,7 @@ namespace UnknownEngine
 				NumericIdentifierType getMessageParticipantNameId(const std::string &message_system_participant_name) const;
 
 			private:
-
-				NumericIdentifierType last_used_id;
-
-				std::unordered_map<std::string, NumericIdentifierType> name_id_mapping;
+				Utils::Dictionary<NumericIdentifierType, std::string> internal_dictionary;
 
 		};
 

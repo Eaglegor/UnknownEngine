@@ -1,32 +1,39 @@
 #pragma once
 
-#include <list>
+#include <unordered_map>
 #include <DataProvider/DataProviderType.h>
+#include <Exception.h>
+#include <NumericIdentifierType.h>
+#include <Singleton.h>
+#include <Dictionary.h>
 
 namespace UnknownEngine {
 
-  namespace Loader
-  {
-    class IDataProviderFactory;
-    class IDataProvider;
-  }
+	namespace Loader
+	{
+		class IDataProviderFactory;
+		class IDataProvider;
+		class DataProviderDesc;
+	}
 
-  namespace Core {
+	namespace Core {
 
-    class Properties;
+		class Properties;
 
-    class ResourceManager
-    {
-      public:
-	ResourceManager();
+		class ResourceManager : public Singleton<ResourceManager>
+		{
+			public:
+				ResourceManager();
 
-	void addDataProviderFactory(Loader::IDataProviderFactory * factory);
-	Loader::IDataProvider* getDataProvider(const Loader::DataProviderType &provider_type, const Properties& settings);
+				void addDataProviderFactory(Loader::IDataProviderFactory * factory);
+				void removeDataProviderFactory(Loader::IDataProviderFactory * factory);
 
-      private:
-	std::list<Loader::IDataProviderFactory*> dataProviderFactories;
+				Loader::IDataProvider* createDataProvider(const Loader::DataProviderDesc &desc);
 
-    };
+			private:
+				std::unordered_map<NumericIdentifierType, Loader::IDataProviderFactory*> data_provider_factories;
+				Utils::Dictionary<NumericIdentifierType, std::string> internal_dictionary;
+		};
 
-  } // namespace Core
+	} // namespace Core
 } // namespace UnknownEngine
