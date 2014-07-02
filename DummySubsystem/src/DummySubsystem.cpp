@@ -11,6 +11,7 @@
 #include <Properties/Properties.h>
 #include <DummySubsystem.h>
 #include <MessageSystem/MessageDictionary.h>
+#include <EngineContext.h>
 
 #define LOG(s) std::cout << s << std::endl
 
@@ -36,14 +37,12 @@ namespace UnknownEngine
 
 			// Saving context for later use
 			// Right now we don't know if all needed subsystems are already installed
-			// That's we do all init stuff in init() method
+			// That's why we do all init stuff in init() method
 			this->desc = desc;
-			message_dictionary = plugins_manager->getMessageDictionary();
-			message_dispatcher = plugins_manager->getMessageDispatcher();
-			components_manager = plugins_manager->getComponentsManager();
+			engine_context = plugins_manager->getEngineContext();
 
 			// Exporting interface messages of out subsystem
-			message_dictionary->registerNewMessageType("DummySubsystem.Test.TestMessageType");
+			engine_context->getMessageDictionary()->registerNewMessageType("DummySubsystem.Test.TestMessageType");
 
 			return true;
 		}

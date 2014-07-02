@@ -31,10 +31,8 @@ namespace UnknownEngine
 		typedef void (*PluginStartPoint) ( UnknownEngine::Core::PluginsManager*, const SubsystemDesc &desc);
 		typedef void (*PluginShutdownPoint) ( void );
 
-        PluginsManager::PluginsManager (ComponentsManager *components_manager, MessageDispatcher *message_dispatcher, MessageDictionary *message_dictionary):
-            components_manager(components_manager),
-            message_dispatcher(message_dispatcher),
-            message_dictionary(message_dictionary)
+		PluginsManager::PluginsManager (EngineContext* engine_context):
+			engine_context(engine_context)
         {
         }
 
@@ -93,19 +91,9 @@ namespace UnknownEngine
 			plugin->uninstall ();
 		}
 
-        MessageDispatcher* PluginsManager::getMessageDispatcher () const
+		EngineContext *PluginsManager::getEngineContext() const
 		{
-            return message_dispatcher;
-		}
-
-        MessageDictionary* PluginsManager::getMessageDictionary () const
-		{
-            return message_dictionary;
-		}
-
-        ComponentsManager* PluginsManager::getComponentsManager () const
-		{
-            return components_manager;
+			return engine_context;
 		}
 
 

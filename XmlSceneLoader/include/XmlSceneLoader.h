@@ -31,7 +31,7 @@ namespace UnknownEngine
 				XmlSceneLoader(const std::string &filename);
 				virtual ~XmlSceneLoader();
 
-				virtual void loadScene(Core::ComponentsManager *components_manager, Core::PluginsManager* plugins_manager) override;
+				virtual void loadScene(Core::EngineContext *engine_context, Core::PluginsManager* plugins_manager) override;
 
 				virtual ConstantsHolder* getConstantsHolder();
 				virtual TemplatesManager* getTemplatesManager();
@@ -40,7 +40,7 @@ namespace UnknownEngine
 				void parseGlobalConstants(const boost::property_tree::ptree &root);
 				void processEngineSettings(const boost::property_tree::ptree &node);
 				void processSubsystems(const boost::property_tree::ptree &node, Core::PluginsManager* plugins_manager);
-				void processEntities(const boost::property_tree::ptree &node, UnknownEngine::Core::ComponentsManager *components_manager);
+				void processEntities(const boost::property_tree::ptree &node, Core::EngineContext *engine_context);
 
 				std::string filename;
 				TemplatesManager* templates_manager;

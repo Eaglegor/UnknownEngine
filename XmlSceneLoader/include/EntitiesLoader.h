@@ -16,7 +16,7 @@ namespace UnknownEngine
 	{
 		class Properties;
 
-		class ComponentsManager;
+		class EngineContext;
 		class Component;
 		class Entity;
 	}
@@ -28,8 +28,8 @@ namespace UnknownEngine
 		class EntitiesLoader
 		{
 			public:
-				EntitiesLoader(Core::ComponentsManager* components_manager, XmlSceneLoader* scene_loader) :
-						components_manager(components_manager), scene_loader(scene_loader)
+				EntitiesLoader(Core::EngineContext* engine_context, XmlSceneLoader* scene_loader) :
+						engine_context(engine_context), scene_loader(scene_loader)
 				{
 				}
 
@@ -43,7 +43,7 @@ namespace UnknownEngine
 				Core::Component* loadComponent(Core::Entity* parent_entity, const std::string &name, const boost::property_tree::ptree &component_node);
 				bool createDataProvider(const boost::property_tree::ptree &data_provider_node);
 
-				Core::ComponentsManager* components_manager;
+				Core::EngineContext* engine_context;
 				XmlSceneLoader* scene_loader;
 		};
 

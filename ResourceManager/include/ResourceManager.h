@@ -24,6 +24,7 @@ namespace UnknownEngine {
 		{
 			public:
 				ResourceManager();
+				virtual ~ResourceManager(){}
 
 				void addDataProviderFactory(Loader::IDataProviderFactory * factory);
 				void removeDataProviderFactory(Loader::IDataProviderFactory * factory);

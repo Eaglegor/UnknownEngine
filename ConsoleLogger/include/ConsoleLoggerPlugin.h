@@ -11,9 +11,7 @@ namespace UnknownEngine
 	namespace Core
 	{
 		class SubsystemDesc;
-		class MessageDispatcher;
-		class MessageDictionary;
-		class ComponentsManager;
+		class EngineContext;
 	}
 
 	namespace Logger
@@ -43,9 +41,7 @@ namespace UnknownEngine
 
 			private:
 				Core::SubsystemDesc desc;
-				Core::ComponentsManager* components_manager;
-				Core::MessageDispatcher* message_dispatcher;
-				Core::MessageDictionary* message_dictionary;
+				Core::EngineContext* engine_context;
 				ConsoleLogger console_logger;
 
 		};

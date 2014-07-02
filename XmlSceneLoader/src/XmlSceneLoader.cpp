@@ -15,6 +15,7 @@
 #include <XmlSceneLoader.h>
 
 #include <SupportedTags.h>
+#include <EngineContext.h>
 
 namespace UnknownEngine
 {
@@ -36,7 +37,7 @@ namespace UnknownEngine
 			if(templates_manager) delete templates_manager;
 		}
 
-		void XmlSceneLoader::loadScene(Core::ComponentsManager* components_manager, Core::PluginsManager* plugins_manager)
+		void XmlSceneLoader::loadScene(Core::EngineContext* engine_context, Core::PluginsManager* plugins_manager)
 		{
 			ptree xml_tree;
 			read_xml(filename, xml_tree);
@@ -64,7 +65,7 @@ namespace UnknownEngine
 			boost::optional<ptree&> entities_list = scene_root.get().get_child_optional(Tags::ENTITIES_SECTION);
 			if (entities_list.is_initialized())
 			{
-				processEntities(entities_list.get(), components_manager);
+				processEntities(entities_list.get(), engine_context);
 			}
 
 		}
@@ -102,9 +103,9 @@ namespace UnknownEngine
 			}
 		}
 
-		void XmlSceneLoader::processEntities(const boost::property_tree::ptree& node, Core::ComponentsManager* components_manager)
+		void XmlSceneLoader::processEntities(const boost::property_tree::ptree& node, Core::EngineContext* engine_context)
 		{
-			EntitiesLoader entities_loader(components_manager, this);
+			EntitiesLoader entities_loader(engine_context, this);
 			entities_loader.loadEntities(node);
 		}
 

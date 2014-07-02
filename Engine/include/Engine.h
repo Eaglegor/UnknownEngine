@@ -9,6 +9,7 @@
 
 #include <MessageSystem/IMessageSystemParticipant.h>
 #include <Exception.h>
+#include <EngineContext.h>
 
 namespace UnknownEngine
 {
@@ -21,9 +22,6 @@ namespace UnknownEngine
 	namespace Core
 	{
 
-		class ComponentsManager;
-		class MessageDispatcher;
-		class MessageDictionary;
 		class PluginsManager;
 
 		UNKNOWNENGINE_SIMPLE_EXCEPTION(EngineNotInitializedException);
@@ -38,20 +36,15 @@ namespace UnknownEngine
 				void loadScene(Loader::ISceneLoader* loader);
 				void start() throw (EngineNotInitializedException);
 
-
-                MessageDispatcher *getMessageDispatcher() const;
-                MessageDictionary *getMessageDictionary() const;
-                ComponentsManager *getComponentsManager() const;
+				EngineContext &getContext();
 
 			private:
                 bool init_done;
 
 				void registerInternalMessageTypes();
 
-                MessageDispatcher* message_dispatcher;
-                MessageDictionary* message_dictionary;
-                ComponentsManager* components_manager;
 				PluginsManager* plugins_manager;
+				EngineContext context;
 		};
 
 	} /* namespace Core */

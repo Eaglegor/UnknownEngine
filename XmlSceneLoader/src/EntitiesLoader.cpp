@@ -18,6 +18,7 @@
 #include <MessageSystem/MessageListenerDesc.h>
 #include <MessageListenerParser.h>
 #include <ComponentDesc.h>
+#include <EngineContext.h>
 
 namespace UnknownEngine
 {
@@ -55,7 +56,7 @@ namespace UnknownEngine
         {
             scene_loader->getConstantsHolder()->pushScope();
 
-			Core::Entity* entity = components_manager->createEntity(name);
+			Core::Entity* entity = engine_context->getComponentsManager()->createEntity(name);
 
             for(const ptree::value_type &iter : entity_node){
                 if(iter.first == Tags::COMPONENT){
@@ -104,7 +105,7 @@ namespace UnknownEngine
 
 			scene_loader->getConstantsHolder()->popScope();
 
-			return components_manager->createComponent(component_desc);
+			return engine_context->getComponentsManager()->createComponent(component_desc);
 		}
 
 		bool EntitiesLoader::createDataProvider(const ptree &data_provider_node)

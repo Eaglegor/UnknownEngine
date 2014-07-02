@@ -10,6 +10,7 @@
 #include <Plugins/PluginsManager.h>
 #include <Properties/Properties.h>
 #include <ConsoleLoggerPlugin.h>
+#include <EngineContext.h>
 #include <MessageSystem/MessageDispatcher.h>
 #include <MessageSystem/MessageListenerDesc.h>
 
@@ -32,9 +33,7 @@ namespace UnknownEngine
 			console_logger.log("ConsoleLogger", "Installing console logger plugin");
 
 			this->desc = desc;
-			message_dictionary = plugins_manager->getMessageDictionary();
-			message_dispatcher = plugins_manager->getMessageDispatcher();
-			components_manager = plugins_manager->getComponentsManager();
+			engine_context = plugins_manager->getEngineContext();
 
 			return true;
 		}
@@ -49,7 +48,7 @@ namespace UnknownEngine
 				{
 					console_logger.log("ConsoleLogger", "Registering new log listener");
 					if(message.message_type_name == Core::LogMessage::getTypeName()){
-						message_dispatcher->addListener(Core::LogMessage::getTypeName(), &console_logger);
+						engine_context->getMessageDispatcher()->addListener(Core::LogMessage::getTypeName(), &console_logger);
 					}
 				}
 			}

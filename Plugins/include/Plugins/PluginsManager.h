@@ -17,16 +17,13 @@ namespace UnknownEngine
 	{
 
 		class Plugin;
-		class MessageDispatcher;
-        class MessageDictionary;
-        class ComponentsManager;
 		class SubsystemDesc;
-        class Engine;
+		class EngineContext;
 
 		class PluginsManager
 		{
 			public:
-                PluginsManager (ComponentsManager* components_manager, MessageDispatcher* message_dispatcher, MessageDictionary* message_dictionary);
+				PluginsManager (EngineContext* engine_context);
 				virtual ~PluginsManager ();
 
 				void loadSubsystem ( const SubsystemDesc &desc );
@@ -35,16 +32,12 @@ namespace UnknownEngine
 				void internalInstallPlugin(Plugin* plugin, const SubsystemDesc &desc);
 				void internalUninstallPlugin(Plugin* plugin);
 
-                MessageDispatcher* getMessageDispatcher() const;
-                MessageDictionary* getMessageDictionary() const;
-                ComponentsManager* getComponentsManager() const;
+				EngineContext* getEngineContext() const;
 
 			private:
 				void loadModule(const std::string &library_name, const SubsystemDesc &desc) throw(PluginError);
 
-                MessageDispatcher* const message_dispatcher;
-                MessageDictionary* const message_dictionary;
-                ComponentsManager* const components_manager;
+				EngineContext* engine_context;
 				std::list<Plugin*> plugins;
 				std::list<void*> libraries_handlers;
 		};

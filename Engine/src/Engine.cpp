@@ -11,6 +11,7 @@
 #include <MainLoop/MainLoop.h>
 #include <MessageSystem/MessageDispatcher.h>
 #include <MessageSystem/MessageDictionary.h>
+#include <ResourceManager.h>
 #include <Plugins/PluginsManager.h>
 #include <ComponentsManager.h>
 
@@ -27,12 +28,8 @@ namespace UnknownEngine
 	{
 
 		Engine::Engine() :
-						message_dispatcher(new MessageDispatcher()),
-						message_dictionary(new MessageDictionary()),
-                        components_manager(new ComponentsManager()),
-						plugins_manager( new PluginsManager(components_manager, message_dispatcher, message_dictionary) ),
-						IMessageSystemParticipant( MessageSystemParticipantId("Engine") ),
-						init_done(false)
+			init_done(false),
+			IMessageSystemParticipant( MessageSystemParticipantId("Engine") )
         {
 			registerInternalMessageTypes();
 		}
@@ -40,9 +37,12 @@ namespace UnknownEngine
 		Engine::~Engine()
 		{
 			delete this->plugins_manager;
-            delete this->components_manager;
-			delete this->message_dictionary;
-			delete this->message_dispatcher;
+
+			delete this->context.components_manager;
+			delete this->context.message_dictionary;
+			delete this->context.message_dispatcher;
+			delete this->context.resource_manager;
+
 		}
 
 		void Engine::start() throw (EngineNotInitializedException)
@@ -59,43 +59,39 @@ namespace UnknownEngine
 			desc.height = 600;
 			msg.window_desc = desc;
 
-			this->message_dispatcher->deliverMessage(Graphics::CreateRenderWindowMessagePacker(MessageSystemParticipantId("Engine")).packMessage(msg));
+			context.message_dispatcher->deliverMessage(Graphics::CreateRenderWindowMessagePacker(MessageSystemParticipantId("Engine")).packMessage(msg));
 
 			MainLoop main_loop;
 			main_loop.start();
 		}
 
+		EngineContext& Engine::getContext()
+		{
+			return context;
+		}
+
 		void Engine::init()
 		{
-			message_dictionary->registerNewMessageType(LogMessage::getTypeName());
-			message_dictionary->registerNewMessageType(UpdateFrameMessage::getTypeName());
+			context.message_dictionary = new MessageDictionary();
+			context.message_dispatcher = new MessageDispatcher();
+			context.components_manager = new ComponentsManager();
+			context.resource_manager = new ResourceManager();
+			plugins_manager = new PluginsManager(&context);
+
+			context.message_dictionary->registerNewMessageType(LogMessage::getTypeName());
+			context.message_dictionary->registerNewMessageType(UpdateFrameMessage::getTypeName());
 			init_done = true;
 		}
 
 		void Engine::loadScene(Loader::ISceneLoader* loader)
 		{
-			loader->loadScene(components_manager, plugins_manager);
+			loader->loadScene(&context, plugins_manager);
         }
-
-        MessageDispatcher *Engine::getMessageDispatcher() const
-        {
-            return message_dispatcher;
-        }
-
-        MessageDictionary *Engine::getMessageDictionary() const
-        {
-            return message_dictionary;
-        }
-
-        ComponentsManager *Engine::getComponentsManager() const
-        {
-			return components_manager;
-		}
 
 		void Engine::registerInternalMessageTypes()
 		{
-			message_dictionary->registerNewMessageType(LogMessage::getTypeName());
-			message_dictionary->registerNewMessageType(UpdateFrameMessage::getTypeName());
+			context.message_dictionary->registerNewMessageType(LogMessage::getTypeName());
+			context.message_dictionary->registerNewMessageType(UpdateFrameMessage::getTypeName());
 		}
 
                 
