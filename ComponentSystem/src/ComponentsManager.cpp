@@ -50,13 +50,13 @@ namespace UnknownEngine
 			throw Exception("NOT IMPLEMENTED");
 		}
 
-		Component* ComponentsManager::createComponent(const ComponentDesc &desc)
+		Component* ComponentsManager::createComponent(const ComponentDesc &desc) throw (NoSuitableFactoryFoundException)
 		{
 			for( auto &factory : component_factories )
 			{
 				if(factory.second->supportsType(desc.type)) return factory.second->createObject(desc);
 			}
-			throw NoSuitableFactoryFound("Can't find factory for component");
+			throw NoSuitableFactoryFoundException("Can't find factory for component");
 		}
 
 	} /* namespace Core */

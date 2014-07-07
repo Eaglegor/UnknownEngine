@@ -30,13 +30,13 @@ namespace UnknownEngine {
 			factory->setInternalId(Core::INVALID_NUMERIC_IDENTIFIER);
 		}
 
-		Loader::IDataProvider *ResourceManager::createDataProvider(const Loader::DataProviderDesc &desc)
+		Loader::IDataProvider *ResourceManager::createDataProvider(const Loader::DataProviderDesc &desc) throw (NoSuitableFactoryFoundException)
 		{
 			for( auto &factory : data_provider_factories )
 			{
 				if(factory.second->supportsType(desc.type)) return factory.second->createObject(desc);
 			}
-			throw NoSuitableFactoryFound("Can't find factory to create data provider");
+			throw NoSuitableFactoryFoundException("Can't find factory to create data provider");
 		}
 
 	} // namespace Core

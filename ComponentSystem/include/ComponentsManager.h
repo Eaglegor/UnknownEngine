@@ -15,6 +15,7 @@
 #include <Exception.h>
 #include <NumericIdentifierType.h>
 #include <Dictionary.h>
+#include <NoSuitableFactoryFoundException.h>
 
 namespace UnknownEngine
 {
@@ -37,7 +38,7 @@ namespace UnknownEngine
 				virtual void removeComponentFactory ( IComponentFactory* factory );
 
 				virtual Entity* createEntity ( const std::string &name );
-				virtual Component* createComponent ( const ComponentDesc &desc );
+				virtual Component* createComponent ( const ComponentDesc &desc ) throw (NoSuitableFactoryFoundException);
 
 			private:
 				std::unordered_map<NumericIdentifierType, IComponentFactory*> component_factories;

@@ -6,6 +6,7 @@
 #include <NumericIdentifierType.h>
 #include <Singleton.h>
 #include <Dictionary.h>
+#include <NoSuitableFactoryFoundException.h>
 
 namespace UnknownEngine {
 
@@ -29,7 +30,7 @@ namespace UnknownEngine {
 				void addDataProviderFactory(Loader::IDataProviderFactory * factory);
 				void removeDataProviderFactory(Loader::IDataProviderFactory * factory);
 
-				Loader::IDataProvider* createDataProvider(const Loader::DataProviderDesc &desc);
+				Loader::IDataProvider* createDataProvider(const Loader::DataProviderDesc &desc) throw (NoSuitableFactoryFoundException);
 
 			private:
 				std::unordered_map<NumericIdentifierType, Loader::IDataProviderFactory*> data_provider_factories;

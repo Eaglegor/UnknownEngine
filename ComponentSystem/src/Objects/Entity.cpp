@@ -14,15 +14,18 @@ namespace UnknownEngine
 	namespace Core
 	{
 
-		Entity::Entity (const std::string &name)
+		Entity::Entity (const std::string &name):name(name)
 		{
-			// TODO Auto-generated constructor stub
-
 		}
 
 		Entity::~Entity ()
 		{
-			// TODO Auto-generated destructor stub
+		  // TODO Auto-generated destructor stub
+		}
+
+		const std::string &Entity::getName()
+		{
+		  return name;
 		}
 
 	} /* namespace Core */

@@ -4,12 +4,12 @@
 #include <NumericIdentifierType.h>
 #include <InlineSpecification.h>
 #include <Exception.h>
+#include <NoSuitableFactoryFoundException.h>
 
 namespace UnknownEngine {
 	namespace Core {
 
 		class Properties;
-		UNKNOWNENGINE_SIMPLE_EXCEPTION(NoSuitableFactoryFound);
 
 		template <typename ObjectType, typename ObjectTypeId, typename DescriptorClass>
 		class AbstractObjectFactory

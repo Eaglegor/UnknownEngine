@@ -23,9 +23,11 @@ namespace UnknownEngine
 
 				void addComponent(const std::string &name, const Component* component);
 				void removeComponent(const std::string &name);
+				const std::string& getName();
 
 			private:
 				std::map<std::string, Component*> components;
+				std::string name;
 
 		};
 
