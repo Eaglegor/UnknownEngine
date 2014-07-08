@@ -11,7 +11,7 @@
 
 #include <InlineSpecification.h>
 #include <Properties/Properties.h>
-#include <NumericIdentifierType.h>
+#include <MessageSystem/MessageType.h>
 #include <MessageSystem/MessageSystemParticipantId.h>
 
 namespace UnknownEngine
@@ -32,7 +32,7 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				virtual NumericIdentifierType getMessageTypeId () const
+				virtual MessageType getMessageTypeId () const
 				{
 					return message_type_id;
 				}
@@ -56,7 +56,7 @@ namespace UnknownEngine
 				}
 
 			private:
-				NumericIdentifierType message_type_id;
+				MessageType message_type_id;
 				Properties properties;
 				MessageSystemParticipantId sender_info;
 

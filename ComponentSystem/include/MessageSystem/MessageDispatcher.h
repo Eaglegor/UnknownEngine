@@ -11,6 +11,8 @@
 
 #include <Singleton.h>
 #include <NumericIdentifierType.h>
+#include <MessageSystem/MessageType.h>
+#include <Dictionary.h>
 
 namespace UnknownEngine
 {
@@ -28,17 +30,18 @@ namespace UnknownEngine
 				MessageDispatcher ();
 				virtual ~MessageDispatcher ();
 
-				void addListener ( const NumericIdentifierType &message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy = nullptr );
+				void addListener ( const MessageType &message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy = nullptr );
 				void addListener ( const std::string &message_type_name, IMessageListener* listener, IMessageReceivePolicy* receive_policy = nullptr );
 
-				void removeListener ( const NumericIdentifierType &message_type_id, IMessageListener* listener );
+				void removeListener ( const MessageType &message_type_id, IMessageListener* listener );
 				void removeListener ( const std::string &message_type_name, IMessageListener* listener );
 				void removeListener ( IMessageListener* listener );
 
 				void addSniffer ( IMessageListener* listener, IMessageReceivePolicy* receive_policy );
 				void removeSniffer ( IMessageListener* listener );
 
-				void setListenerReceivePolicy( const NumericIdentifierType &message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy);
+				void setListenerReceivePolicy( const MessageType &message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy);
+				void setListenerReceivePolicy( const std::string &message_type_name, IMessageListener* listener, IMessageReceivePolicy* receive_policy);
 
 				void deliverMessage ( const PackedMessage &msg, IMessageDeliveryPolicy* delivery_policy = nullptr ) const;
 
@@ -46,28 +49,21 @@ namespace UnknownEngine
 
 				struct RegisteredListener
 				{
-
 						RegisteredListener ( IMessageListener* listener, IMessageReceivePolicy* receive_policy )
-								: listener ( listener ), receive_policy ( receive_policy )
-						{
-
-						}
+							: listener ( listener ), receive_policy ( receive_policy ){}
 
 						IMessageListener* listener;
 						IMessageReceivePolicy* receive_policy;
 				};
 
 				typedef std::list< RegisteredListener > MessageListenersList;
-				typedef std::unordered_map< NumericIdentifierType, MessageListenersList > MessageListenersMap;
+				typedef std::unordered_map< MessageType, MessageListenersList > MessageListenersMap;
 
-				const MessageListenersList* getRegisteredListeners ( const NumericIdentifierType &message_type_id ) const;
-				MessageListenersList* getRegisteredListeners ( const NumericIdentifierType &message_type_id );
+				const MessageListenersList* getRegisteredListeners ( const MessageType &message_type_id ) const;
+				MessageListenersList* getRegisteredListeners ( const MessageType &message_type_id );
 
 				MessageListenersMap listeners;
-
-				std::list<RegisteredListener> sniffers;
-
-				int new_listener_internal_id;
+				MessageListenersList sniffers;
 
 		};
 

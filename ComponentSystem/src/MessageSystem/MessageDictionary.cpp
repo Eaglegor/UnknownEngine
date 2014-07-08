@@ -23,17 +23,17 @@ namespace UnknownEngine
 			// TODO Auto-generated constructor stub
 		}
 
-		NumericIdentifierType MessageDictionary::registerNewMessageType ( const std::string &message_type_name )
+		MessageType MessageDictionary::registerNewMessageType( const std::string &message_type_name )
 		{
 			return internal_dictionary.registerNewValue(message_type_name);
 		}
 
-		std::string MessageDictionary::getMessageTypeName ( const NumericIdentifierType &type_id ) const
+		std::string MessageDictionary::getMessageTypeName (const MessageType &type_id ) const
 		{
 			return internal_dictionary.getValueByKey(type_id);
 		}
 
-		NumericIdentifierType MessageDictionary::getMessageTypeId ( const std::string &type_name ) const
+		MessageType MessageDictionary::getMessageTypeId( const std::string &type_name ) const
 		{
 			return internal_dictionary.getKeyByValue(type_name);
 		}
@@ -43,7 +43,7 @@ namespace UnknownEngine
 			// TODO Auto-generated destructor stub
 		}
 
-		bool MessageDictionary::messageTypeIsRegistered ( const NumericIdentifierType &type_id ) const
+		bool MessageDictionary::messageTypeIsRegistered (const MessageType &type_id ) const
 		{
 			return internal_dictionary.keyIsRegistered(type_id);
 		}
