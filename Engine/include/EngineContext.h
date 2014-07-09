@@ -12,6 +12,9 @@ namespace UnknownEngine {
 		class MessageDispatcher;
 		class ResourceManager;
 
+		/**
+		 * @brief Engine context holds pointers to core engine's subsystems
+		 */
 		class EngineContext
 		{
 			public:
@@ -29,6 +32,7 @@ namespace UnknownEngine {
 
 			private:
 				friend class Engine;
+
 				ComponentsManager* components_manager;
 				ResourceManager* resource_manager;
 				MessageDictionary* message_dictionary;

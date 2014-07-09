@@ -4,16 +4,22 @@
 
 namespace UnknownEngine {
 	namespace Core{
+		/**
+		 * @brief Base exception class
+		 */
 		class Exception : public std::exception
 		{
 			public:
+				/**
+				 * @brief Constructor
+				 * @param reason - a error message string
+				 */
 				Exception(const std::string &reason):reason(reason){}
 				virtual const char* what() const throw() override{
 					return reason.c_str();
 				}
 			private:
 				std::string reason;
-
 		};
 
 	}

@@ -1,0 +1,36 @@
+/*!
+
+\mainpage Unknown Engine
+
+\section Concept
+Unknown Engine is a work name for component-based engine puprosed for games/simulations.
+
+The main concept is a high level of customization with plugins (so almost any behavior aspect must be implemented as plugin - rendering, physics, AI, logging etc.)
+
+The \ref UnknownEngine::Core::Engine "engine" itself provides a simple facade interface to initialize and start core subsystems.
+
+The core subsystems are:
+- \ref UnknownEngine::Core::PluginsManager "Plugins manager" - loads shared libraries and passes them the [[engine context]] (pointers to core subsystems classes).
+- \ref UnknownEngine::Core::ComponentsManager "Components manager" - manages game objects. Creates and removes [entities](Entity) and their behavior aspects ([components](Component)).
+- \ref UnknownEngine::Core::ResourceManager "Resource manager" - manages resources. Creates and removes [data providers](Data provider) (objects for loading and holding data).
+- \ref UnknownEngine::Core::MessageDispatcher "Message dispatcher" - is a message bus to deliver messages between subsystems (the only way plugin's subsystems can communicate with the other plugins's subsystems)
+
+These core subsystems live through the entire simulation. Other subsystems may be loaded and unloaded during runtime (theoretically, but in fact there may be no need to load/unload subsystem during simulation - it could be even dangerous, so some subsystems can't be unloaded).
+
+Entities or game objects live as long as they are needed (characters may live for a whole simulation, some effects like explosions may not). Entities are created and removed by engine itself because they are simple containers.
+
+Components are created and removed by factories provided by plugins. They can't live outside the entity, so if entity is removed, it's components are also removed.
+
+\section Code
+Unknown Engine is written with C++11 and compiled with GCC compiler.
+However it's a CMake-based project and may be compiled with different compilers (MSVC doesn't work for now because of a bug that will be fixed in the next after VS2013 version).
+The rule is - anything should be as cross-platform as possible. Some subsystems (like DX11 or some low-level controller handler) may be platform-specific but if it's possible and appropriate - it must be cross-platform. The term 'cross-platform' means Windows and Linux at least. Other platforms - if possible.
+
+\section Deps
+Unknown Engine depends on:
+- Boost
+  - thread
+  - regex
+  - atomic
+
+*/

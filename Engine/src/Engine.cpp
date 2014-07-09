@@ -72,6 +72,7 @@ namespace UnknownEngine
 
 		void Engine::init()
 		{
+			if(init_done) throw EngineAlreadyInitializedException("Engine already initialized");
 			context.message_dictionary = new MessageDictionary();
 			context.message_dispatcher = new MessageDispatcher();
 			context.components_manager = new ComponentsManager();
