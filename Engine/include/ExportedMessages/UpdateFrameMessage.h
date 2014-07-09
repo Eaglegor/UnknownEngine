@@ -22,7 +22,7 @@ namespace UnknownEngine
 				UNKNOWNENGINE_INLINE
 				constexpr static const char* getTypeName()
 				{
-					return "Engine.MainLoop.UpdateFrame";
+					return "Engine.MainLoop.UpdateFrameMessage";
 				}
 
 				enum Stage

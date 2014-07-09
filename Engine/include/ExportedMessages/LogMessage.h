@@ -32,7 +32,7 @@ namespace UnknownEngine
 				UNKNOWNENGINE_INLINE
 				constexpr static const char* getTypeName()
 				{
-					return "Engine.Log";
+					return "Engine.LogMessage";
 				}
 
 				std::string log_entry;
