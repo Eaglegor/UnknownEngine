@@ -4,14 +4,19 @@
 #include <NumericIdentifierType.h>
 #include <InlineSpecification.h>
 #include <Exception.h>
-#include <NoSuitableFactoryFoundException.h>
 
 namespace UnknownEngine {
 	namespace Core {
 
 		class Properties;
 
-		/// Base class for object factories creating objects of single base type according to the passed descriptor
+		/**
+		 * @brief Base class for object factories creating objects of single base type according to the passed descriptor
+		 *
+		 * \tparam ObjectType Base object type to create (e.g. \ref UnknownEngine::Core::Component "Component" )
+		 * \tparam ObjectTypeId Object type identifier (e.g. \ref UnknownEngine::Core::ComponentType "ComponentType" )
+		 * \tparam DescriptorClass Object descriptor type (e.g. \ref UnknownEngine::Core::ComponentDesc "ComponentDesc" )
+		 */
 		template <typename ObjectType, typename ObjectTypeId, typename DescriptorClass>
 		class AbstractObjectFactory
 		{
@@ -19,7 +24,7 @@ namespace UnknownEngine {
 				AbstractObjectFactory():internal_id(INVALID_NUMERIC_IDENTIFIER){}
 
 				/**
-				 * @brief Compare factories considering internal numeric ids assigned when registering factories
+				 * @brief Compare to another factory based on internal id
 				 * @param rhs - second factory to compare with
 				 * @return true if internal ids equal
 				 */
@@ -29,27 +34,30 @@ namespace UnknownEngine {
 				}
 
 				/**
-				 * @brief Get a factory name. Must be unique across all registered factories.
-				 * @return name of factory
+				 * @brief Returns a factory name.
+				 *
+				 * The name must be unique across all registered factories.
+				 *
+				 * @return Factory name
 				 */
 				virtual const std::string getName() = 0;
 
 				/**
-				 * @brief Get a set of object type identifiers supported by this factory
-				 * @return set of object types which can be created by this factory
+				 * @brief Returns a set of object type identifiers supported by this factory
+				 * @return Set of identifiers of object types which can be created by this factory
 				 */
 				virtual const std::unordered_set<ObjectTypeId>& getSupportedTypes() = 0;
 
 				/**
-				 * @brief Check if a factory is able to create specific type
-				 * @param object_type A type to check
+				 * @brief Checks if a factory is able to create specific type
+				 * @param object_type Type to check for
 				 * @return true if the factory supports passed type
 				 */
 				virtual const bool supportsType(const ObjectTypeId &object_type) = 0;
 
 				/**
-				 * @brief Creates an object
-				 * @param desc Object's descriptor
+				 * @brief Creates an object according to passed descriptor
+				 * @param desc Object descriptor
 				 * @return Pointer to a newly created object
 				 */
 				virtual ObjectType* createObject(const DescriptorClass& desc) = 0;
@@ -61,7 +69,8 @@ namespace UnknownEngine {
 				virtual void disposeObject(ObjectType* object) = 0;
 
 				/**
-				  * @brief internal method to get internal id when registering factories. Must not be used in user code.
+				  * @brief **Internal** method to get internal id when registering factory.
+				  * \deprecated internal use only: **must not be used in user code**.
 				  */
 				UNKNOWNENGINE_INLINE
 				NumericIdentifierType getInternalId()
@@ -70,7 +79,8 @@ namespace UnknownEngine {
 				}
 
 				/**
-				  * @brief internal method to assign internal id when registering factories. Must not be used in user code.
+				  * @brief **Internal** method to assign internal id when registering factory.
+				  * \deprecated internal use only: **must not be used in user code**.
 				  */
 				UNKNOWNENGINE_INLINE
 				void setInternalId(const NumericIdentifierType &internal_id)

@@ -17,22 +17,22 @@ namespace UnknownEngine
 
 		class PluginsManager;
 
-		UNKNOWNENGINE_SIMPLE_EXCEPTION(EngineNotInitializedException);
-		UNKNOWNENGINE_SIMPLE_EXCEPTION(EngineAlreadyInitializedException);
+		UNKNOWNENGINE_SIMPLE_EXCEPTION(EngineNotInitializedException); ///< Is thrown if Engine is started without initialization
+		UNKNOWNENGINE_SIMPLE_EXCEPTION(EngineAlreadyInitializedException); ///< Is thrown if Engine is initialized twice
 
 		/**
 
 		\brief A class binding all core subsystems together
 
-		\section Concept
+		### Concept
 		The main purpose of Engine class is to provide a simple interface in terms of init/start.
 		The engine can send messages to subsystems, so it inherits from \ref UnknownEngine::Core::IMessageSystemParticipant "IMessageSystemParticipant".
 
-		\section Usage
+		### Usage
 		When you want to use Unknown %Engine you create the instance of Engine class. It's not initialized yet that's why you must call init() method.
 		After that you can call start() method to start a main loop of engine.
 		
-		\subsection Example
+		#### Example
 		\code
 		
 			#include <Engine.h>
@@ -78,7 +78,7 @@ namespace UnknownEngine
 
 				/**
 				 * @brief Loads scene using provided loader
-				 * @param loader - loader implementation
+				 * @param loader - %Scene loader implementation
 				 */
 				void loadScene(Loader::ISceneLoader* loader);
 
@@ -93,18 +93,18 @@ namespace UnknownEngine
 				void start() throw (EngineNotInitializedException);
 
 				/**
-				 * @brief Returns \ref UnknownEngine::Core::EngineContext "engine context"
-				 * @return engine context
+				 * @brief Returns engine context
+				 * @return %Engine context
 				 */
 				EngineContext &getContext();
 
 			private:
-				bool init_done;
+				bool init_done; ///< Flag indicating that initialization is done
 
-				void registerInternalMessageTypes();
+				void registerInternalMessageTypes(); ///< Registers all internal message types
 
-				PluginsManager* plugins_manager;
-				EngineContext context;
+				PluginsManager* plugins_manager; ///< Plugins manager instance. Isn't a part of context
+				EngineContext context; ///< Engine context
 		};
 
 	} /* namespace Core */

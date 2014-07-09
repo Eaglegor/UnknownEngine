@@ -32,5 +32,16 @@ Unknown Engine depends on:
   - thread
   - regex
   - atomic
-
+  
 */
+
+
+/// \namespace UnknownEngine Parent namespace
+
+/// \namespace UnknownEngine::Core Namespace of core subsystems
+
+/// \namespace UnknownEngine::Loader Namespace of scene and resource loaders
+
+/// \namespace UnknownEngine::Graphics Namespace of graphics subsystems
+
+/// \namespace UnknownEngine::Logger Namespace of Logger subsystems

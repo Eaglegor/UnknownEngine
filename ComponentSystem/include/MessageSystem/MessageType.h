@@ -4,8 +4,9 @@
 
 namespace UnknownEngine
 {
-  namespace Core
-  {
-    typedef NumericIdentifierType MessageType;
-  }
+	namespace Core
+	{
+		/** @brief Alias for message type identifier */
+		typedef NumericIdentifierType MessageType;
+	}
 }

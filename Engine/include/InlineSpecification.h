@@ -1,3 +1,6 @@
 #pragma once
 
-#define UNKNOWNENGINE_INLINE inline
+namespace UnknownEngine
+{
+	#define UNKNOWNENGINE_INLINE inline
+}
