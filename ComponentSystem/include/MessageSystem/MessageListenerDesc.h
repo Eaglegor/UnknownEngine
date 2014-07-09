@@ -26,8 +26,6 @@ namespace UnknownEngine{
 		 * such data in a subsystem/component descriptor. The subsystem itself must take care to create needed components.
 		 * They are free to throw exceptions or just ignore unknown message listener types.
 		 *
-		 * ###Notes
-		 *
 		 *
 		 */
 		struct MessageListenerDesc
