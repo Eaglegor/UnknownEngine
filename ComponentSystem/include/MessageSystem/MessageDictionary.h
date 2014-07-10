@@ -14,6 +14,7 @@
 
 namespace UnknownEngine
 {
+
 	namespace Core
 	{
 
@@ -37,7 +38,11 @@ namespace UnknownEngine
 		 */
 		class MessageDictionary : public Singleton<MessageDictionary>
 		{
+
 			public:
+
+				typedef Utils::Dictionary<MessageType, std::string> InternalDictionaryType;
+
 				/**
 				 * @brief Default constructor.
 				 *
@@ -50,10 +55,10 @@ namespace UnknownEngine
 				/**
 				 * @brief Registers a new string message type and assigns it a numeric identifier
 				 * @param message_type_name - The name of message type to be registered
-				 * @throw Util::Dictionary::ValueAlreadyExists - Is thrown when trying to insert already known type
+				 * @throw Utils::Dictionary::ValueAlreadyExists - Is thrown when trying to insert already known type
 				 * @return Assigned numeric identifier
 				 */
-				MessageType registerNewMessageType(const std::string &message_type_name) throw (Utils::Dictionary::ValueAlreadyExists);
+				MessageType registerNewMessageType(const std::string &message_type_name) throw (InternalDictionaryType::ValueAlreadyExists);
 
 				/**
 				 * @brief Checks if message type is registered
@@ -75,7 +80,7 @@ namespace UnknownEngine
 				 * @return A message type name
 				 * @throw Utils::Dictionary::EntryNotFoundInDictionary - Is thrown if there is no such message type identifier registered
 				 */
-				std::string getMessageTypeName(const MessageType &type_id) const throw(Utils::Dictionary::EntryNotFoundInDictionary);
+				std::string getMessageTypeName(const MessageType &type_id) const throw(InternalDictionaryType::EntryNotFoundInDictionary);
 
 				/**
 				 * @brief Returns a message type id if the message type name is known
@@ -83,10 +88,10 @@ namespace UnknownEngine
 				 * @return A message type id
 				 * @throw Utils::Dictionary::EntryNotFoundInDictionary - Is thrown if there is no such message type identifier registered
 				 */
-				MessageType getMessageTypeId(const std::string &type_name) const throw (Utils::Dictionary::EntryNotFoundInDictionary);
+				MessageType getMessageTypeId(const std::string &type_name) const throw (InternalDictionaryType::EntryNotFoundInDictionary);
 
 			private:
-				Utils::Dictionary<MessageType, std::string> internal_dictionary; ///< Internal dictionary implementation
+				InternalDictionaryType internal_dictionary; ///< Internal dictionary implementation
 
 		};
 

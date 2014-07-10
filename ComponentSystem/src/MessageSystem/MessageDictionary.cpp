@@ -23,17 +23,17 @@ namespace UnknownEngine
 			// TODO Auto-generated constructor stub
 		}
 
-		MessageType MessageDictionary::registerNewMessageType( const std::string &message_type_name )
+		MessageType MessageDictionary::registerNewMessageType( const std::string &message_type_name ) throw (InternalDictionaryType::ValueAlreadyExists)
 		{
 			return internal_dictionary.registerNewValue(message_type_name);
 		}
 
-		std::string MessageDictionary::getMessageTypeName (const MessageType &type_id ) const
+		std::string MessageDictionary::getMessageTypeName (const MessageType &type_id ) const throw(InternalDictionaryType::EntryNotFoundInDictionary)
 		{
 			return internal_dictionary.getValueByKey(type_id);
 		}
 
-		MessageType MessageDictionary::getMessageTypeId( const std::string &type_name ) const
+		MessageType MessageDictionary::getMessageTypeId( const std::string &type_name ) const throw (InternalDictionaryType::EntryNotFoundInDictionary)
 		{
 			return internal_dictionary.getKeyByValue(type_name);
 		}

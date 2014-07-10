@@ -22,9 +22,10 @@ namespace UnknownEngine
 				MessageSystemParticipantDictionary ();
 				virtual ~MessageSystemParticipantDictionary ();
 
-				NumericIdentifierType registerMessageParticipant(const std::string &message_system_participant_name);
+				NumericIdentifierType registerNewMessageParticipant(const std::string &message_system_participant_name);
 				void unregisterMessageParticipant(const std::string &message_system_participant_name);
 				NumericIdentifierType getMessageParticipantNameId(const std::string &message_system_participant_name) const;
+				bool messageSystemParticipantIsRegistered(const std::string &message_system_participant_name) const;
 
 			private:
 				Utils::Dictionary<NumericIdentifierType, std::string> internal_dictionary;

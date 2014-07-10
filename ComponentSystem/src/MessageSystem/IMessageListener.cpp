@@ -14,8 +14,8 @@ namespace UnknownEngine
 	namespace Core
 	{
 
-		IMessageListener::IMessageListener (const MessageSystemParticipantId &message_system_id)
-				: IMessageSystemParticipant(message_system_id)
+		IMessageListener::IMessageListener (const std::string &object_name)
+				: IMessageSystemParticipant(object_name)
 		{
 			// TODO Auto-generated constructor stub
 		}

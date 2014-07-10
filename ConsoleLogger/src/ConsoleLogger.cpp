@@ -5,7 +5,7 @@ namespace UnknownEngine {
 	namespace Logger {
 
 		ConsoleLogger::ConsoleLogger():
-			Core::IMessageListener( Core::MessageSystemParticipantId("Logger.ConsoleLogger.LoggerObject") )
+			Core::IMessageListener( "Logger.ConsoleLogger.LoggerObject" )
 		{
 		}
 

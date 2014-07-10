@@ -31,9 +31,9 @@ namespace UnknownEngine
 				 *
 				 * Message listener is a message system participant so it must have a unique message system participant identifier
 				 *
-				 * @param message_system_participant_id - identifier for message listener
+				 * @param object_name - **unique** name for message listener
 				 */
-				IMessageListener (const MessageSystemParticipantId &message_system_participant_id);
+				IMessageListener (const std::string &object_name);
 				virtual ~IMessageListener ();
 
 				/**

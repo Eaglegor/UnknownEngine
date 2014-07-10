@@ -22,9 +22,9 @@ namespace UnknownEngine
 		{
 		}
 
-		NumericIdentifierType MessageSystemParticipantDictionary::registerMessageParticipant ( const std::string &message_system_participant_name )
+		NumericIdentifierType MessageSystemParticipantDictionary::registerNewMessageParticipant ( const std::string &message_system_participant_name )
 		{
-			internal_dictionary.registerNewValue(message_system_participant_name);
+			return internal_dictionary.registerNewValue(message_system_participant_name);
 		}
 
 		void MessageSystemParticipantDictionary::unregisterMessageParticipant(const std::string &message_system_participant_name)
@@ -34,7 +34,12 @@ namespace UnknownEngine
 
 		NumericIdentifierType MessageSystemParticipantDictionary::getMessageParticipantNameId ( const std::string &message_system_participant_name ) const
 		{
-			internal_dictionary.getKeyByValue(message_system_participant_name);
+			return internal_dictionary.getKeyByValue(message_system_participant_name);
+		}
+
+		bool MessageSystemParticipantDictionary::messageSystemParticipantIsRegistered(const std::string &message_system_participant_name) const
+		{
+			return internal_dictionary.valueIsRegistered(message_system_participant_name);
 		}
 
 		MessageSystemParticipantDictionary::~MessageSystemParticipantDictionary ()

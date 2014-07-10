@@ -20,7 +20,7 @@ namespace UnknownEngine {
 				 * @brief Constructor
 				 * @param message_system_participant_id - unique message system participant identifier
 				 */
-				explicit IMessageSystemParticipant(const MessageSystemParticipantId &message_system_participant_id);
+				explicit IMessageSystemParticipant(const std::string &object_name);
 				virtual ~IMessageSystemParticipant();
 
 				/**

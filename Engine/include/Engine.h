@@ -17,8 +17,7 @@ namespace UnknownEngine
 
 		class PluginsManager;
 
-		UNKNOWNENGINE_SIMPLE_EXCEPTION(EngineNotInitializedException); ///< Is thrown if Engine is started without initialization
-		UNKNOWNENGINE_SIMPLE_EXCEPTION(EngineAlreadyInitializedException); ///< Is thrown if Engine is initialized twice
+		UNKNOWNENGINE_SIMPLE_EXCEPTION(InvalidEngineStateException); ///< Is thrown if trying to perform action not suitable for current state
 
 		/**
 
@@ -26,7 +25,6 @@ namespace UnknownEngine
 
 		### Concept
 		The main purpose of Engine class is to provide a simple interface in terms of init/start.
-		The engine can send messages to subsystems, so it inherits from \ref UnknownEngine::Core::IMessageSystemParticipant "IMessageSystemParticipant".
 
 		### Usage
 		When you want to use Unknown %Engine you create the instance of Engine class. It's not initialized yet that's why you must call init() method.
@@ -53,10 +51,14 @@ namespace UnknownEngine
 			}
 		
 		\endcode
-		
+
+		###Notes
+		Engine can't inherit from IMessageSystemParticipantId because at the moment of listeners creation there is still
+		no message system participant dictionary created. That's why the engine initializes it's address later.
+
 		*/
 
-		class Engine : public IMessageSystemParticipant
+		class Engine
 		{
 			public:
 				/**
@@ -72,9 +74,9 @@ namespace UnknownEngine
 				 * - Inits \ref UnknownEngine::Core::EngineContext "engine context"
 				 * - Registers core message types
 				 *
-				 * @throws UnknownEngine::Core::EngineAlreadyInitializedException - Is thrown after double initialization
+				 * @throws UnknownEngine::Core::InvalidEngineStateException - Is thrown after double initialization
 				 */
-				void init() throw(EngineAlreadyInitializedException);
+				void init() throw(InvalidEngineStateException);
 
 				/**
 				 * @brief Loads scene using provided loader
@@ -88,9 +90,18 @@ namespace UnknownEngine
 				 * Creates and starts the main loop in the context of calling thread.
 				 * It doesn't return until the main loop is broken.
 				 *
-				 * @throw UnknownEngine::Core::EngineNotInitializedException - Is thrown if starting uninitialized engine
+				 * @throw UnknownEngine::Core::InvalidEngineStateException - Is thrown if starting uninitialized engine
 				 */
-				void start() throw (EngineNotInitializedException);
+				void start() throw (InvalidEngineStateException);
+
+				/**
+				 * @brief Shutdowns engine
+				 *
+				 * Deletes context. Resets init status.
+				 *
+				 * @throw UnknownEngine::Core::InvalidEngineStateException - Is thrown if shutting down engine before it's stop
+				 */
+				void shutdown() throw (InvalidEngineStateException);
 
 				/**
 				 * @brief Returns engine context
@@ -99,10 +110,18 @@ namespace UnknownEngine
 				EngineContext &getContext();
 
 			private:
-				bool init_done; ///< Flag indicating that initialization is done
+				enum State
+				{
+					CREATED = 0,
+					INIT = 1,
+					STARTED = 2,
+					STOPPED = 3
+				};
+
+				State state;
 
 				void registerInternalMessageTypes(); ///< Registers all internal message types
-
+				MessageSystemParticipantId message_system_participant_id;
 				PluginsManager* plugins_manager; ///< Plugins manager instance. Isn't a part of context
 				EngineContext context; ///< Engine context
 		};

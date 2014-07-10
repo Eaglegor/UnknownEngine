@@ -4,11 +4,11 @@
 namespace UnknownEngine {
 	namespace Core {
 
-		IMessageSystemParticipant::IMessageSystemParticipant(const MessageSystemParticipantId &message_system_participant_id)
-			:message_system_participant_id(message_system_participant_id)
+		IMessageSystemParticipant::IMessageSystemParticipant(const std::string &object_name)
 		{
 			const auto &dictionary = MessageSystemParticipantDictionary::getSingleton();
-			this->message_system_participant_id.id = dictionary->registerMessageParticipant(message_system_participant_id.name);
+			this->message_system_participant_id.name = object_name;
+			this->message_system_participant_id.id = dictionary->registerNewMessageParticipant(message_system_participant_id.name);
 		}
 
 		IMessageSystemParticipant::~IMessageSystemParticipant()

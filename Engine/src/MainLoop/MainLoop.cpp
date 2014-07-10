@@ -18,7 +18,7 @@ namespace UnknownEngine
 	{
 
 		MainLoop::MainLoop () :
-			IMessageSystemParticipant ( MessageSystemParticipantId("Engine.MainLoop") )
+			IMessageSystemParticipant ( "Engine.MainLoop" )
 		{
 		}
 

@@ -11,6 +11,7 @@ namespace UnknownEngine {
 		class MessageDictionary;
 		class MessageDispatcher;
 		class ResourceManager;
+		class MessageSystemParticipantDictionary;
 
 		/**
 		 * @brief Engine context holds pointers to core engine's subsystems
@@ -30,6 +31,9 @@ namespace UnknownEngine {
 				UNKNOWNENGINE_INLINE
 				MessageDispatcher* getMessageDispatcher(){return message_dispatcher;}
 
+				UNKNOWNENGINE_INLINE
+				MessageSystemParticipantDictionary* getMessageSystemParticipantDictionary(){return message_system_participant_dictionary;}
+
 			private:
 				friend class Engine;
 
@@ -37,6 +41,7 @@ namespace UnknownEngine {
 				ResourceManager* resource_manager;
 				MessageDictionary* message_dictionary;
 				MessageDispatcher* message_dispatcher;
+				MessageSystemParticipantDictionary* message_system_participant_dictionary;
 		};
 
 	} // namespace Core
