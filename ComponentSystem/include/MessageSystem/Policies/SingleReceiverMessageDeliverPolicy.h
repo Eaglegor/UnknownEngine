@@ -15,16 +15,28 @@ namespace UnknownEngine
 	namespace Core
 	{
 
+		/**
+		 * @brief \ref IMessageDeliveryPolicy "Delivery policy" allowing only the specific listener to process a message
+		 */
 		class SingleReceiverMessageDeliverPolicy: public IMessageDeliveryPolicy
 		{
 			public:
+				/**
+				 * @brief Returns true if a listener's address equals the expected
+				 * @param listener - Listener to check for
+				 * @return true if a listener's address equals the expected
+				 */
 				virtual bool allowDeliveryToListener(const IMessageListener* listener) const override;
 
+				/**
+				 * @brief Constructor
+				 * @param receiver_info - Listener address to compare with
+				 */
 				SingleReceiverMessageDeliverPolicy (const MessageSystemParticipantId &receiver_info);
 				virtual ~SingleReceiverMessageDeliverPolicy ();
 
 			private:
-				MessageSystemParticipantId receiver_info;
+				MessageSystemParticipantId receiver_info; ///< Listener address to compare with
 		};
 
 	} /* namespace Core */

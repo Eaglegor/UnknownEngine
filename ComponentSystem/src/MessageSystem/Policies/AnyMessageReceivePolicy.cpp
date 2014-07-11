@@ -13,18 +13,6 @@ namespace UnknownEngine
 {
 	namespace Core
 	{
-
-		AnyMessageReceivePolicy::AnyMessageReceivePolicy ()
-		{
-			// TODO Auto-generated constructor stub
-
-		}
-
-		AnyMessageReceivePolicy::~AnyMessageReceivePolicy ()
-		{
-			// TODO Auto-generated destructor stub
-		}
-
 		bool AnyMessageReceivePolicy::acceptMessage ( const PackedMessage& msg )
 		{
 			return true;

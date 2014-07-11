@@ -9,7 +9,16 @@ namespace UnknownEngine {
 		/**
 		 * @brief Base class for all who wants to send/receive messages through message system
 		 *
-		 * Just holds the message system participant id
+		 * ###Concept
+		 * To send/receive messages classes need to have the unique address. One can get and save such address
+		 * manually but it's easier not to do this and just inherit the message sending/receiving class from
+		 * some common base class which takes care of registering/unregistering the class name and storing
+		 * it's address. IMessageSystemParticipant is such class.
+		 *
+		 * ###Usage
+		 * You just inherit from IMessageSystemParticipant and pass the object name to it's constructor.
+		 * After constructor's call you can get your address calling getMessageSystemParticipantId(). That's all.
+		 * When you call a destructor, it automatically unregisters your object.
 		 *
 		 */
 		class IMessageSystemParticipant
@@ -18,7 +27,7 @@ namespace UnknownEngine {
 
 				/**
 				 * @brief Constructor
-				 * @param message_system_participant_id - unique message system participant identifier
+				 * @param message_system_participant_id - **unique** object name
 				 */
 				explicit IMessageSystemParticipant(const std::string &object_name);
 				virtual ~IMessageSystemParticipant();

@@ -120,10 +120,17 @@ namespace UnknownEngine
 						if ( registered_listener.receive_policy == nullptr || registered_listener.receive_policy->acceptMessage ( msg ) )
 						{
 							registered_listener.listener->processMessage ( msg );
-							delivery_policy->notifyDelivered();
+							if( delivery_policy != nullptr )
+							{
+								delivery_policy->notifySuccessulyDelivered();
+							}
 						}
 					}
 				}
+			}
+			if( delivery_policy != nullptr )
+			{
+				delivery_policy->notifyDeliveryFinished();
 			}
 		}
 

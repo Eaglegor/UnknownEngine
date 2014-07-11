@@ -14,20 +14,9 @@ namespace UnknownEngine
 	namespace Core
 	{
 
-		BroadcastMessageDeliverPolicy::BroadcastMessageDeliverPolicy ()
-		{
-			// TODO Auto-generated constructor stub
-
-		}
-
 		bool BroadcastMessageDeliverPolicy::allowDeliveryToListener ( const IMessageListener* listener ) const
 		{
 			return true;
-		}
-
-		BroadcastMessageDeliverPolicy::~BroadcastMessageDeliverPolicy ()
-		{
-			// TODO Auto-generated destructor stub
 		}
 
 	} /* namespace Core */

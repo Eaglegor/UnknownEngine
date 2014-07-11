@@ -20,7 +20,11 @@ namespace UnknownEngine
 		/**
 		 * @brief Base class for all message listeners
 		 *
-		 * Is a message system participant.
+		 * ###Concept
+		 *
+		 * The only expected way to communicate between subsystems in Unknown %Engine is to use messages.
+		 * You can send messages from any place of code but only listeners can receive messages.
+		 * IMessageListener class defines the interface for listeners.
 		 *
 		 */
 		class IMessageListener : public IMessageSystemParticipant
@@ -29,7 +33,7 @@ namespace UnknownEngine
 				/**
 				 * @brief Constructor
 				 *
-				 * Message listener is a message system participant so it must have a unique message system participant identifier
+				 * To get an address on a message bus the listener must have **unique** name.
 				 *
 				 * @param object_name - **unique** name for message listener
 				 */
