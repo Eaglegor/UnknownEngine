@@ -8,6 +8,7 @@
  */
 
 #include <Plugins/PluginError.h>
+#include <InlineSpecification.h>
 
 namespace UnknownEngine
 {
@@ -41,7 +42,14 @@ namespace UnknownEngine
 				 * @brief Returns subsystem name
 				 * @return Subsystem name
 				 */
-				virtual const char* getName() const = 0;
+				UNKNOWNENGINE_INLINE
+				std::string getName() const{ return name; }
+
+				/**
+				 * @brief Sets subsystem name
+				 */
+				UNKNOWNENGINE_INLINE
+				void setName(const std::string& name) {this->name = name;}
 
 				/**
 				 * @brief Performs actions needed just after loading library
@@ -107,6 +115,9 @@ namespace UnknownEngine
 				 * @return true if uninstalled successful
 				 */
 				virtual bool uninstall () throw (PluginError) = 0;
+
+			private:
+				std::string name; ///< Subsystem name
 
 		};
 

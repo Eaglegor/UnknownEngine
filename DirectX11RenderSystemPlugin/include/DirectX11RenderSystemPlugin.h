@@ -25,17 +25,6 @@ namespace UnknownEngine
 				DirectX11RenderSystemPlugin(HINSTANCE hInstance);
 				virtual ~DirectX11RenderSystemPlugin();
 
-				constexpr static const char* getNameConst()
-				{
-					return "DirectX11RenderSystemPlugin";
-				}
-
-				UNKNOWNENGINE_INLINE
-				virtual const char* getName() const override
-				{
-					return getNameConst();
-				}
-
 				virtual bool install(Core::PluginsManager* plugins_manager, const Core::SubsystemDesc &desc) throw (Core::PluginError) override;
 
 				virtual bool init() throw (Core::PluginError) override;

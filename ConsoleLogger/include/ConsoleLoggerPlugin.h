@@ -23,17 +23,6 @@ namespace UnknownEngine
 				ConsoleLoggerPlugin();
 				virtual ~ConsoleLoggerPlugin();
 
-				constexpr static const char* getNameConst()
-				{
-					return "Console logger";
-				}
-
-				UNKNOWNENGINE_INLINE
-				virtual const char* getName() const override
-				{
-					return getNameConst();
-				}
-
 				virtual bool install(Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc) throw (Core::PluginError) override;
 				virtual bool init() throw (Core::PluginError) override;
 				virtual bool shutdown() throw (Core::PluginError) override;

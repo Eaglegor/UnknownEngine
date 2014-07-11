@@ -84,6 +84,7 @@ namespace UnknownEngine
 		{
 			plugins.push_back(plugin);
 			plugin->install ( this, desc );
+			plugin->setName(desc.name);
 		}
 
 		void PluginsManager::internalUninstallPlugin ( Plugin* plugin )
