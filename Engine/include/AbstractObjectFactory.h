@@ -25,7 +25,7 @@ namespace UnknownEngine {
 
 				/**
 				 * @brief Compare to another factory based on internal id
-				 * @param rhs - second factory to compare with
+				 * @param rhs - Second factory to compare with
 				 * @return true if internal ids equal
 				 */
 				bool operator==(const AbstractObjectFactory<ObjectType, ObjectTypeId, DescriptorClass> &rhs) const
@@ -50,21 +50,21 @@ namespace UnknownEngine {
 
 				/**
 				 * @brief Checks if a factory is able to create specific type
-				 * @param object_type Type to check for
+				 * @param object_type - Type to check for
 				 * @return true if the factory supports passed type
 				 */
 				virtual const bool supportsType(const ObjectTypeId &object_type) = 0;
 
 				/**
 				 * @brief Creates an object according to passed descriptor
-				 * @param desc Object descriptor
+				 * @param desc - Object descriptor
 				 * @return Pointer to a newly created object
 				 */
 				virtual ObjectType* createObject(const DescriptorClass& desc) = 0;
 
 				/**
 				 * @brief Deletes object considering it's creation process
-				 * @param object The object to be deleted
+				 * @param object - The object to be deleted
 				 */
 				virtual void disposeObject(ObjectType* object) = 0;
 

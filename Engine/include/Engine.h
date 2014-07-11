@@ -53,7 +53,7 @@ namespace UnknownEngine
 		\endcode
 
 		###Notes
-		Engine can't inherit from IMessageSystemParticipantId because at the moment of listeners creation there is still
+		Engine can't inherit from IMessageSystemParticipantId because at the moment of it's creation there is still
 		no message system participant dictionary created. That's why the engine initializes it's address later.
 
 		*/

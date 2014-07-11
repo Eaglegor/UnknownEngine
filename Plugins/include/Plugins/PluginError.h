@@ -14,6 +14,7 @@ namespace UnknownEngine
 	namespace Core
 	{
 
+		/// Is thrown if plugin initialization failed
 		UNKNOWNENGINE_SIMPLE_EXCEPTION(PluginError);
 
 	}

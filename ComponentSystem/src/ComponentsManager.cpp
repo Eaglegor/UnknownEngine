@@ -42,6 +42,7 @@ namespace UnknownEngine
 		{
 			if(factory->getInternalId() == INVALID_NUMERIC_IDENTIFIER) return;
 			component_factories.erase(factory->getInternalId());
+			internal_dictionary.deleteEntryByKey(factory->getInternalId());
 			factory->setInternalId(INVALID_NUMERIC_IDENTIFIER);
 		}
 

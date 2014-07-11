@@ -18,6 +18,14 @@ namespace UnknownEngine
 	namespace Core
 	{
 
+		/**
+		 * @brief Log entry message
+		 *
+		 * Just a log message with specified severity.
+		 * Purposed to be catched by logging subsystems.
+		 * Recommended to be broadcasted to be catched by all logging subsystems.
+		 */
+
 		struct LogMessage
 		{
 
@@ -39,6 +47,9 @@ namespace UnknownEngine
 				Severity severity;
 		};
 
+		/**
+		 * @brief Message packer for LogMessage
+		 */
 		class LogMessagePacker: public MessagePacker<LogMessage>
 		{
 			public:
@@ -61,6 +72,9 @@ namespace UnknownEngine
 
 		};
 
+		/**
+		 * @brief Message unpacker for LogMessage
+		 */
 		class LogMessageUnpacker: public MessageUnpacker<LogMessage>
 		{
 			public:

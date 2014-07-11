@@ -11,13 +11,16 @@ namespace UnknownEngine
 		class Entity;
 		class MessageListenerDesc;
 
+		/**
+		 * @brief Descriptor of component to be passed to the component factory.
+		 */
 		struct ComponentDesc
 		{
-			Entity* entity;
-			std::string name;
-			ComponentType type;
-			Properties creation_options;
-			std::vector<MessageListenerDesc> message_listeners_desc;
+			Entity* entity; ///< Entity to add component to
+			std::string name; ///< Local name of component in the entity
+			ComponentType type; ///< Type identifier of component
+			Properties creation_options; ///< Options passed to the factory to create the component.
+			std::vector<MessageListenerDesc> message_listeners_desc; ///< List of listeners to register from component factory
 		};
 	}
 }

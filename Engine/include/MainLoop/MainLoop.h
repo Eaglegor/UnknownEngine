@@ -14,19 +14,34 @@ namespace UnknownEngine
 	namespace Core
 	{
 
+		/**
+		 * @brief The main loop
+		 */
 		class MainLoop : public IMessageSystemParticipant
 		{
 			public:
+				/**
+				 * @brief Constructor. Called by Engine
+				 */
 				MainLoop ();
 				virtual ~MainLoop ();
 
+				/**
+				 * @brief Starts the main loop
+				 *
+				 * This call doesn't return until simulation stop
+				 *
+				 */
 				void start();
 
 			private:
+				/**
+				 * @brief Updates delta time value
+				 */
 				void updateTime();
 
-				float current_time;
-				float dt;
+				float current_time; ///< Current time
+				float dt; ///< Delta time from last frame
 
 		};
 

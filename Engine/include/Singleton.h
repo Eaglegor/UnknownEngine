@@ -55,7 +55,7 @@ namespace UnknownEngine
 
 				explicit Singleton(const Singleton& rhs);
 
-				static T* instance;
+				static T* instance; ///< Object instance
 
 		};
 
