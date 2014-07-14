@@ -13,7 +13,8 @@ The core subsystems are:
 - \ref UnknownEngine::Core::PluginsManager "Plugins manager" - loads shared libraries and passes them the [[engine context]] (pointers to core subsystems classes).
 - \ref UnknownEngine::Core::ComponentsManager "Components manager" - manages game objects. Creates and removes [entities](Entity) and their behavior aspects ([components](Component)).
 - \ref UnknownEngine::Core::ResourceManager "Resource manager" - manages resources. Creates and removes [data providers](Data provider) (objects for loading and holding data).
-- \ref UnknownEngine::Core::MessageDispatcher "Message dispatcher" - is a message bus to deliver messages between subsystems (the only way plugin's subsystems can communicate with the other plugins's subsystems)
+- \ref UnknownEngine::Core::MessageDispatcher "Message dispatcher" - provides a message bus to deliver messages between subsystems (the only way plugin's subsystems can communicate with the other plugins's subsystems)
+- \ref UnknownEngine::Core::ResourceManager "Resource manager" - helps while loading/unloading different resources using loaders from plugins
 
 These core subsystems live through the entire simulation. Other subsystems may be loaded and unloaded during runtime (theoretically, but in fact there may be no need to load/unload subsystem during simulation - it could be even dangerous, so some subsystems can't be unloaded).
 
