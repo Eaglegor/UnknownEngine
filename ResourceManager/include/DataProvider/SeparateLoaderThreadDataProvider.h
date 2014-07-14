@@ -9,23 +9,29 @@
 namespace UnknownEngine {
 	namespace Loader {
 
+		/// Data provider implementation loading resources in the separate thread
 		class SeparateLoaderThreadDataProvider : public ReferencesCountingDataProvider
 		{
 			public:
 				SeparateLoaderThreadDataProvider();
 				~SeparateLoaderThreadDataProvider();
 
+				/// Starts the loading thread
 				void startLoading();
+
+				/// Waits for loader thread to be finished and returns the data loaded
 				const ResourceContainer& getResource();
 
 			protected:
+				/// Worker method
 				virtual void internalLoad(ResourceContainer &out_container) = 0;
 
 			private:
-				void notifyLoadFinished();
-				void notifyLoadStarted();
-				bool loadingIsStarted();
+
+				/// Worker method starter
 				void separateLoaderThreadFunc();
+
+				/// Waits until loading is finished
 				void waitUntilLoadFinished();
 
 				std::unique_ptr<boost::thread> separate_loading_thread;

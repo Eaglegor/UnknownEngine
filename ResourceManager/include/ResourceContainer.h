@@ -12,25 +12,31 @@
 
 namespace UnknownEngine
 {
-  namespace Loader
-  {
+	namespace Loader
+	{
 
-    class ResourceContainer
-    {
-      public:
-	template<typename T>
-	const T& getData() const;
+		/**
+		 * @brief Wrapper over the loaded resource data
+		 */
+		class ResourceContainer
+		{
+			public:
+				/// Returns the data casted to specified type. Throws excetion on bad cast.
+				template<typename T>
+				const T& getData() const;
 
-	template<typename T>
-	void setData(T&& data);
+				/// Sets the data. Move version.
+				template<typename T>
+				void setData(T&& data);
 
-	template<typename T>
-	void setData(const T& data);
+				/// Sets the data. Copy version.
+				template<typename T>
+				void setData(const T& data);
 
-      private:
-	boost::any data;
+			private:
+				boost::any data; ///< Stored data
 
-    };
+		};
 
-  } /* namespace Core */
+	} /* namespace Core */
 } /* namespace UnknownEngine */

@@ -89,6 +89,7 @@ namespace UnknownEngine
 
 		void PluginsManager::internalUninstallPlugin ( Plugin* plugin )
 		{
+			/// @todo Erase plugin from the list
 			plugin->uninstall ();
 		}
 
