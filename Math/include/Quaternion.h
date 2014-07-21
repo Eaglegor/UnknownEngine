@@ -1,12 +1,12 @@
 #pragma once
 
-#include <Eigen/Dense>
+#include <Eigen/Geometry>
 #include <Scalar.h>
 
 namespace UnknownEngine
 {
 	namespace Math
 	{
-		typedef Eigen::Matrix<Scalar, 3, 1> Vector3;
+		typedef Eigen::Quaternion<Scalar> Quaternion;
 	}
 }

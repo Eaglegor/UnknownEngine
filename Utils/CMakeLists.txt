@@ -1,7 +1,7 @@
 set(TARGET_NAME Utils)
 set(LINKAGE INCLUDES_ONLY)
 
-set(INCLUDED_MODULE_HEADERS ComponentSystem Engine )
+set(INCLUDED_MODULE_HEADERS Math ComponentSystem Engine )
 set(LINKED_LIBS  )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 

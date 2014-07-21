@@ -10,6 +10,7 @@
 
 #include <Exception.h>
 #include <MessageSystem/MessageSystemParticipantId.h>
+#include <MessageSystem/MessageType.h>
 
 namespace UnknownEngine
 {
