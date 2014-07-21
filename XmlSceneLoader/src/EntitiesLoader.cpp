@@ -85,7 +85,6 @@ namespace UnknownEngine
 
 			Core::ComponentDesc component_desc;
 			component_desc.name = name;
-			component_desc.entity = parent_entity;
 
 			const std::string component_type = component_node.get_child(XMLATTR).get<std::string>(Attributes::COMPONENT::TYPE);
 			component_desc.type = Core::ComponentType(component_type);
@@ -105,7 +104,7 @@ namespace UnknownEngine
 
 			scene_loader->getConstantsHolder()->popScope();
 
-			return engine_context->getComponentsManager()->createComponent(component_desc);
+			return engine_context->getComponentsManager()->createComponent(component_desc, parent_entity);
 		}
 
 		bool EntitiesLoader::createDataProvider(const ptree &data_provider_node)

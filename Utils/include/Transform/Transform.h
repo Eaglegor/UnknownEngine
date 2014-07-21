@@ -10,6 +10,11 @@ namespace UnknownEngine
 		struct Transform
 		{
 			public:
+
+				Transform(const Math::Vector3 &position, const Math::Quaternion &orientation):
+					position(position), orientation(orientation)
+				{}
+
 				UNKNOWNENGINE_INLINE
 				const Math::Position& getPosition() const
 				{
@@ -40,6 +45,12 @@ namespace UnknownEngine
 					this->position = rhs.position;
 					this->orientation = rhs.orientation;
 					return *this;
+				}
+
+				UNKNOWNENGINE_INLINE
+				static Transform getIdentity()
+				{
+
 				}
 
 			private:

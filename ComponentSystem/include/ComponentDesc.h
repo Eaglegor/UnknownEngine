@@ -16,7 +16,6 @@ namespace UnknownEngine
 		 */
 		struct ComponentDesc
 		{
-			Entity* entity; ///< Entity to add component to
 			std::string name; ///< Local name of component in the entity
 			ComponentType type; ///< Type identifier of component
 			Properties creation_options; ///< Options passed to the factory to create the component.

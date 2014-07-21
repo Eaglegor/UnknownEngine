@@ -1,10 +1,4 @@
 #pragma once
-/*
- * UpdateFrameMessage.h
- *
- *  Created on: 19 июня 2014 г.
- *      Author: gorbachenko
- */
 
 #include <string>
 
@@ -21,12 +15,15 @@ namespace UnknownEngine
 	namespace Core
 	{
 
+		/**
+		 * @brief Indicates that some simulation object changed its world transform
+		 */
 		struct TransformChangedMessage
 		{
 				UNKNOWNENGINE_INLINE
 				constexpr static const char* getTypeName()
 				{
-					return "Engine.TransformChanged";
+					return "Engine.TransformChangedMessage";
 				}
 
 				Transform new_transform;
@@ -42,7 +39,7 @@ namespace UnknownEngine
 				TransformChangedMessagePacker(const MessageSystemParticipantId &sender_info) :
 						MessagePacker<TransformChangedMessage>(sender_info)
 				{
-					message_type_id = MessageDictionary::getSingleton()->getMessageTypeId(LogMessage::getTypeName());
+					message_type_id = MessageDictionary::getSingleton()->getMessageTypeId(TransformChangedMessage::getTypeName());
 				}
 
 				UNKNOWNENGINE_INLINE

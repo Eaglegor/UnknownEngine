@@ -91,7 +91,13 @@ namespace UnknownEngine
 				 * @param desc - Component descriptor
 				 * @return Pointer to the newly created component
 				 */
-				virtual Component* createComponent ( const ComponentDesc &desc ) throw (NoSuitableFactoryFoundException);
+				virtual Component* createComponent ( const ComponentDesc &desc, const Entity* parent_entity ) throw (NoSuitableFactoryFoundException);
+
+				/**
+				 * @brief Removes the component
+				 * @param component - The component to be removed
+				 */
+				virtual void removeComponent( Component* component );
 
 			private:
 				ComponentFactoriesMap component_factories; ///< Map of registered component factories

@@ -6,7 +6,9 @@
  *      Author: gorbachenko
  */
 
-#include <map>
+#include <InlineSpecification.h>
+#include <unordered_map>
+#include <Exception.h>
 
 namespace UnknownEngine
 {
@@ -14,6 +16,7 @@ namespace UnknownEngine
 	{
 
 		class Component;
+		class ComponentsManager;
 
 		/**
 		 * @brief The single simulation object
@@ -40,6 +43,9 @@ namespace UnknownEngine
 		 *
 		 */
 
+		UNKNOWNENGINE_SIMPLE_EXCEPTION(DuplicateComponentNameException);
+		UNKNOWNENGINE_SIMPLE_EXCEPTION(ComponentNotFoundException);
+
 		class Entity
 		{
 			public:
@@ -47,7 +53,7 @@ namespace UnknownEngine
 				 * @brief Constructor
 				 * @param name - **unique** name of game object
 				 */
-				Entity (const std::string &name);
+				Entity (const std::string &name, ComponentsManager* components_manager);
 				virtual ~Entity ();
 
 				/**
@@ -55,7 +61,7 @@ namespace UnknownEngine
 				 * @param name - Local name of the component
 				 * @param component - Component to add
 				 */
-				void addComponent(const std::string &name, const Component* component);
+				void addComponent(const std::string &name, Component *component);
 
 				/**
 				 * @brief Removes the component from the entity
@@ -70,9 +76,29 @@ namespace UnknownEngine
 				 */
 				const std::string& getName();
 
+				/**
+				 * @brief Starts the entity's life
+				 *
+				 * This method must be called to notify entity that all it's components are created and can be started.
+				 * The main purpose: minimize processing inside unfinished entities. The components if they depend on some other
+				 * components must not start until the start method is called
+				 *
+				 */
+				void start();
+
+				/**
+				  * @brief Returns the stored components map
+				  */
+				UNKNOWNENGINE_INLINE
+				const std::unordered_map<std::string, Component*>& getComponents(){ return components; }
+
 			private:
-				std::map<std::string, Component*> components; ///< Components map
+
+				typedef std::unordered_map<std::string, Component*> InternalMapType;
+
+				InternalMapType components; ///< Components map
 				std::string name; ///< Entity name
+				ComponentsManager* components_manager;
 
 		};
 

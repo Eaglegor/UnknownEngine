@@ -66,7 +66,7 @@ namespace UnknownEngine {
 				 * @brief Deletes object considering it's creation process
 				 * @param object - The object to be deleted
 				 */
-				virtual void disposeObject(ObjectType* object) = 0;
+				virtual void destroyObject(ObjectType* object) = 0;
 
 				/**
 				  * @brief **Internal** method to get internal id when registering factory.

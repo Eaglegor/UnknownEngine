@@ -6,6 +6,8 @@
  *      Author: gorbachenko
  */
 
+#include <ComponentType.h>
+
 namespace UnknownEngine
 {
 	namespace Core
@@ -62,9 +64,44 @@ namespace UnknownEngine
 		*
 		*/
 
+		class Entity;
+
 		class Component
 		{
 			public:
+
+				/**
+				 * @brief Is called when the component is created
+				 *
+				 * The init stuff must be done in this method. Is called by parent entity after component addition.
+				 *
+				 */
+				virtual void init(const Entity* parent_entity) = 0;
+
+				/**
+				 *  @brief Is called when the parent entity is started
+				 *
+				 * This method is intended to register listeners and start processing messages
+				 * It's called when the entity is started. Is called by entity.
+				 *
+				 */
+				virtual void start() = 0;
+
+				/**
+				 *  @brief Is called when the parent entity is about to be destroyed
+				 *
+				 * This method is intended to unregister listeners and stop processing messages
+				 * Is called by entity.
+				 *
+				 */
+				virtual void shutdown() = 0;
+
+				/**
+				 * @brief Returns the type of component
+				 * @return Type of component
+				 */
+				virtual ComponentType getType() = 0;
+
 				virtual ~Component ();
 		};
 

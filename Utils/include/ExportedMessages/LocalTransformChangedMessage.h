@@ -1,10 +1,4 @@
 #pragma once
-/*
- * UpdateFrameMessage.h
- *
- *  Created on: 19 июня 2014 г.
- *      Author: gorbachenko
- */
 
 #include <string>
 
@@ -22,9 +16,9 @@ namespace UnknownEngine
 	{
 
 		/**
-		 * @brief Indicates that the transform of some subobject is changed
+		 * @brief Indicates that some subobject changed its local transform in CS of parent object
 		 *
-		 * \tparam - type of subobject identifier
+		 * \tparam - type of subobject identifier (string, index, guid, etc.)
 		 * */
 		template<typename SubObjectIdentifierType>
 		struct LocalTransformChangedMessage
@@ -32,7 +26,7 @@ namespace UnknownEngine
 				UNKNOWNENGINE_INLINE
 				constexpr static const char* getTypeName()
 				{
-					return "Engine.TransformChanged";
+					return "Engine.LocalTransformChangedMessage";
 				}
 
 				Transform new_transform;
@@ -50,7 +44,7 @@ namespace UnknownEngine
 				TransformChangedMessagePacker(const MessageSystemParticipantId &sender_info) :
 						MessagePacker<LocalTransformChangedMessage>(sender_info)
 				{
-					message_type_id = MessageDictionary::getSingleton()->getMessageTypeId(LogMessage::getTypeName());
+					message_type_id = MessageDictionary::getSingleton()->getMessageTypeId(LocalTransformChangedMessage<SubObjectIdentifierType>::getTypeName());
 				}
 
 				UNKNOWNENGINE_INLINE

@@ -10,6 +10,7 @@
 #include <ComponentsManager.h>
 #include <IComponentFactory.h>
 #include <ComponentDesc.h>
+#include <Objects/Component.h>
 #include <algorithm>
 
 namespace UnknownEngine
@@ -51,13 +52,27 @@ namespace UnknownEngine
 			throw Exception("NOT IMPLEMENTED");
 		}
 
-		Component* ComponentsManager::createComponent(const ComponentDesc &desc) throw (NoSuitableFactoryFoundException)
+		Component* ComponentsManager::createComponent(const ComponentDesc &desc, const Entity *parent_entity) throw (NoSuitableFactoryFoundException)
 		{
 			for( auto &factory : component_factories )
 			{
-				if(factory.second->supportsType(desc.type)) return factory.second->createObject(desc);
+				if(factory.second->supportsType(desc.type))
+				{
+					Component* component = factory.second->createObject(desc);
+					component->init(parent_entity);
+				}
 			}
 			throw NoSuitableFactoryFoundException("Can't find factory for component");
+		}
+
+		void ComponentsManager::removeComponent(Component *component)
+		{
+			for( auto &factory : component_factories )
+			{
+				component->shutdown();
+				if(factory.second->supportsType(component->getType())) return factory.second->destroyObject(component);
+			}
+			throw NoSuitableFactoryFoundException("Can't find factory able to destroy component");
 		}
 
 	} /* namespace Core */

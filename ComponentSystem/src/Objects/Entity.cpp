@@ -7,25 +7,54 @@
 
 #include <stdafx.h>
 
+#include <ComponentsManager.h>
 #include <Objects/Entity.h>
+#include <Objects/Component.h>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
 
-		Entity::Entity (const std::string &name):name(name)
+		Entity::Entity (const std::string &name, ComponentsManager* components_manager):
+			name(name),
+			components_manager(components_manager)
 		{
 		}
 
 		Entity::~Entity ()
 		{
-		  // TODO Auto-generated destructor stub
+			for(auto &iter: components)
+			{
+				components_manager->removeComponent(iter.second);
+			}
+		}
+
+		void Entity::addComponent(const std::string &name, Component *component)
+		{
+			component->init(this);
+			if(components.find(name)!=components.end()) throw DuplicateComponentNameException("Duplicate component name: " + name);
+			components[name] = component;
+		}
+
+		void Entity::removeComponent(const std::string &name)
+		{
+			if(components.find(name)!=components.end()) throw ComponentNotFoundException("Can't find the component with the name " + name);
+			components_manager->removeComponent(components[name]);
+			components.erase(name);
 		}
 
 		const std::string &Entity::getName()
 		{
 		  return name;
+		}
+
+		void Entity::start()
+		{
+			for(auto &iter: components)
+			{
+				iter.second->start();
+			}
 		}
 
 	} /* namespace Core */
