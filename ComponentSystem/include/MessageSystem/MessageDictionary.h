@@ -58,7 +58,7 @@ namespace UnknownEngine
 				 * @throw Utils::Dictionary::ValueAlreadyExists - Is thrown when trying to insert already known type
 				 * @return Assigned numeric identifier
 				 */
-				MessageType registerNewMessageType(const std::string &message_type_name) throw (InternalDictionaryType::ValueAlreadyExists);
+				MessageType registerNewMessageType(const std::string &message_type_name);
 
 				/**
 				 * @brief Checks if message type is registered

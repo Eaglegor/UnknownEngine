@@ -36,13 +36,13 @@ namespace UnknownEngine {
 
 				template <typename DescriptorType>
 				UNKNOWNENGINE_INLINE
-				const DescriptorType &get()
+				const DescriptorType &get() const
 				{
-					return boost::any_cast<DescriptorType>(descriptor);
+					return boost::any_cast<const DescriptorType&>(descriptor);
 				}
 
 				UNKNOWNENGINE_INLINE
-				const bool isEmpty()
+				const bool isEmpty() const
 				{
 					return descriptor.empty();
 				}

@@ -23,8 +23,9 @@ namespace UnknownEngine
 			// TODO Auto-generated constructor stub
 		}
 
-		MessageType MessageDictionary::registerNewMessageType( const std::string &message_type_name ) throw (InternalDictionaryType::ValueAlreadyExists)
+		MessageType MessageDictionary::registerNewMessageType( const std::string &message_type_name )
 		{
+			if(messageTypeIsRegistered(message_type_name)) return getMessageTypeId(message_type_name);
 			return internal_dictionary.registerNewValue(message_type_name);
 		}
 

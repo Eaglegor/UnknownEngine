@@ -1,13 +1,11 @@
 #pragma once
 
 /*
- * DirectX10RenderSystemPlugin.h
+ * OgreRenderSystemPlugin.h
  *
  *  Created on: 17 июня 2014 г.
  *      Author: Eaglegor
  */
-
-#include <windows.h>
 
 #include <Plugins/Plugin.h>
 #include <InlineSpecification.h>
@@ -16,14 +14,22 @@
 namespace UnknownEngine
 {
 
+	namespace Core
+	{
+		class EngineContext;
+	}
+
 	namespace Graphics
 	{
 
-		class DirectX11RenderSystemPlugin: public Core::Plugin
+		class OgreRenderSystem;
+		class OgreRenderableComponentsFactory;
+
+		class OgreRenderSystemPlugin: public Core::Plugin
 		{
 			public:
-				DirectX11RenderSystemPlugin(HINSTANCE hInstance);
-				virtual ~DirectX11RenderSystemPlugin();
+				OgreRenderSystemPlugin();
+				virtual ~OgreRenderSystemPlugin();
 
 				virtual bool install(Core::PluginsManager* plugins_manager, const Core::SubsystemDesc &desc) throw (Core::PluginError) override;
 
@@ -34,8 +40,11 @@ namespace UnknownEngine
 				virtual bool uninstall() throw (Core::PluginError) override;
 
 			private:
-				HINSTANCE hInstance;
 				Core::SubsystemDesc desc;
+				Core::EngineContext *engine_context;
+
+				OgreRenderSystem* render_system;
+				OgreRenderableComponentsFactory* renderable_components_factory;
 
 		};
 

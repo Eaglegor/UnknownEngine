@@ -19,7 +19,6 @@
 #include <ExportedMessages/LogMessage.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 
-#include <ExportedMessages/RenderSystem/CreateRenderWindowMessage.h>
 #include <SubsystemDesc.h>
 #include <ISceneLoader.h>
 
@@ -46,15 +45,6 @@ namespace UnknownEngine
 			state = STARTED;
 
 			plugins_manager->initSubsystems();
-
-			Graphics::CreateRenderWindowMessage msg;
-			Graphics::RenderWindowDesc desc;
-			desc.fullscreen = false;
-			desc.width = 800;
-			desc.height = 600;
-			msg.window_desc = desc;
-
-			context.message_dispatcher->deliverMessage(Graphics::CreateRenderWindowMessagePacker(MessageSystemParticipantId("Engine")).packMessage(msg));
 
 			MainLoop main_loop;
 			main_loop.start();

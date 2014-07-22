@@ -30,26 +30,29 @@ endif(WIN32)
 set(
 CROSS_PLATFORM_TARGETS
 
+#Core
 ComponentSystem
 Plugins
 Engine
 XmlSceneLoader
-RenderSystem
 Math
 Application
 Deps
 SceneLoader
 Utils
+ResourceManager
+
+#Subsystems
 DummySubsystem
 ConsoleLogger
-ResourceManager
+
+RenderSystem
+OgreRenderSystem
 )
 
 set(
 WIN32_ONLY_TARGETS
 
-DirectX11RenderSystemPlugin
-DirectX11RenderSystem
 )
 
 list(APPEND ALL_TARGETS_LIST ${CROSS_PLATFORM_TARGETS})
