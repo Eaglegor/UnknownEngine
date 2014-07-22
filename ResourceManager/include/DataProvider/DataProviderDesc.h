@@ -3,6 +3,7 @@
 #include <string>
 #include <DataProvider/DataProviderType.h>
 #include <Properties/Properties.h>
+#include <DescriptorContainer.h>
 
 namespace UnknownEngine
 {
@@ -13,7 +14,9 @@ namespace UnknownEngine
 		{
 			std::string name; ///< Data provider name
 			DataProviderType type; ///< Data provider type
-			Core::Properties properties; ///< Settings of data provider
+			Core::DescriptorContainer descriptor; ///< Descriptor of concrete data provider. Check if it's set to avoid parsing
+			Core::Properties creation_options; ///< String representation of options. Parse if descriptor isn't set
 		};
+
 	}
 }
