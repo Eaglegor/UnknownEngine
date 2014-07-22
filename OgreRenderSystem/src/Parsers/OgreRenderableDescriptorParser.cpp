@@ -1,3 +1,5 @@
+#include <stdafx.h>
+
 #include <Parsers\OgreRenderableDescriptorParser.h>
 
 namespace UnknownEngine {

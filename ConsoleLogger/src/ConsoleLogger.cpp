@@ -1,3 +1,5 @@
+#include <stdafx.h>
+
 #include <ConsoleLogger.h>
 #include <MessageSystem/PackedMessage.h>
 

@@ -22,8 +22,9 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		class OgreRenderSystem;
+		class OgreRenderSubsystem;
 		class OgreRenderableComponentsFactory;
+		class OgreUpdateFrameListener;
 
 		class OgreRenderSystemPlugin: public Core::Plugin
 		{
@@ -43,8 +44,10 @@ namespace UnknownEngine
 				Core::SubsystemDesc desc;
 				Core::EngineContext *engine_context;
 
-				OgreRenderSystem* render_system;
+				OgreRenderSubsystem* render_system;
 				OgreRenderableComponentsFactory* renderable_components_factory;
+
+				OgreUpdateFrameListener* update_frame_listener;
 
 		};
 

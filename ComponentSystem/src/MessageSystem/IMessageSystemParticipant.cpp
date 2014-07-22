@@ -1,3 +1,5 @@
+#include <stdafx.h>
+
 #include <MessageSystem/IMessageSystemParticipant.h>
 #include <MessageSystem/MessageSystemParticipantDictionary.h>
 

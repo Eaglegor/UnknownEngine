@@ -1,17 +1,16 @@
-#ifndef UNKNOWNENGINE_GRAPHICS_RENDERABLECOMPONENTSFACTORY_H
-#define UNKNOWNENGINE_GRAPHICS_RENDERABLECOMPONENTSFACTORY_H
+#pragma once
 
 #include <IComponentFactory.h>
 
 namespace UnknownEngine {
 	namespace Graphics {
 
-		class OgreRenderSystem;
+		class OgreRenderSubsystem;
 
 		class OgreRenderableComponentsFactory: public Core::IComponentFactory
 		{
 			public:
-				OgreRenderableComponentsFactory(OgreRenderSystem* render_system);
+				OgreRenderableComponentsFactory(OgreRenderSubsystem* render_system);
 
 				/**
 				 * @brief Returns a factory name.
@@ -54,10 +53,8 @@ namespace UnknownEngine {
 				void destroyRenderableComponent(const Core::Component* component);
 
 				std::unordered_set<Core::ComponentType> supported_types;
-				OgreRenderSystem* render_system;
+				OgreRenderSubsystem* render_system;
 		};
 
 	} // namespace Graphics
 } // namespace UnknownEngine
-
-#endif // UNKNOWNENGINE_GRAPHICS_RENDERABLECOMPONENTSFACTORY_H

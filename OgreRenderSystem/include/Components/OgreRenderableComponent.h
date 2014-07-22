@@ -3,10 +3,16 @@
 #include <string>
 #include <Objects/Component.h>
 
+namespace Ogre
+{
+	class Entity;
+	class SceneNode;
+}
+
 namespace UnknownEngine {
 	namespace Graphics {
 
-		class OgreRenderSystem;
+		class OgreRenderSubsystem;
 
 		const Core::ComponentType OGRE_RENDERABLE_COMPONENT_TYPE = "Renderable";
 
@@ -14,7 +20,7 @@ namespace UnknownEngine {
 		{
 			public:
 
-				class Descriptor
+				struct Descriptor
 				{
 					std::string material_name;
 				};
@@ -51,11 +57,15 @@ namespace UnknownEngine {
 				 */
 				virtual Core::ComponentType getType();
 
-				OgreRenderableComponent(const Descriptor &desc, OgreRenderSystem* render_system);
+				OgreRenderableComponent(const std::string &name, const Descriptor &desc, OgreRenderSubsystem* render_system);
+				virtual ~OgreRenderableComponent();
 
 			private:
 				const Core::ComponentType type;
-				OgreRenderSystem* render_system;
+				OgreRenderSubsystem* render_system;
+				Ogre::Entity* entity;
+				Ogre::SceneNode* scene_node;
+				std::string name;
 		};
 
 	} // namespace Graphics

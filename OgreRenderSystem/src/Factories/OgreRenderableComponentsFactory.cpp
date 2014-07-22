@@ -1,13 +1,15 @@
+#include <stdafx.h>
+
 #include <Factories/OgreRenderableComponentsFactory.h>
 #include <Components/OgreRenderableComponent.h>
 #include <Parsers/OgreRenderableDescriptorParser.h>
-#include <OgreRenderSystem.h>
+#include <OgreRenderSubsystem.h>
 #include <ComponentDesc.h>
 
 namespace UnknownEngine {
 	namespace Graphics {
 
-		OgreRenderableComponentsFactory::OgreRenderableComponentsFactory(OgreRenderSystem* render_system)
+		OgreRenderableComponentsFactory::OgreRenderableComponentsFactory(OgreRenderSubsystem* render_system)
 			:render_system(render_system)
 		{
 			supported_types.insert(OGRE_RENDERABLE_COMPONENT_TYPE);
