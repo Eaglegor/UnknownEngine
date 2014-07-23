@@ -11,7 +11,8 @@ namespace UnknownEngine {
 	namespace Graphics {
 
 		OgreRenderableComponentListener::OgreRenderableComponentListener(const std::string &name, OgreRenderableComponent *component, Core::EngineContext *engine_context)
-			:Core::IMessageListener(name)
+			:Core::IMessageListener(name),
+			  renderable_component(component)
 		{
 
 			registerProcessor<Core::TransformChangedMessage>(MessageProcessor(processTransformChangedMessage), engine_context);
@@ -25,12 +26,18 @@ namespace UnknownEngine {
 
 		void OgreRenderableComponentListener::processTransformChangedMessage(const Core::PackedMessage &msg)
 		{
-			renderable_component->onTransformChanged( transform_changed_unpacker.unpackMessage(msg) );
+			if(renderable_component != nullptr)
+			{
+				renderable_component->onTransformChanged( transform_changed_unpacker.unpackMessage(msg) );
+			}
 		}
 
 		void OgreRenderableComponentListener::processChangeMaterialActionMessage(const Core::PackedMessage &msg)
 		{
-			renderable_component->doChangeMaterial( change_material_unpacker.unpackMessage(msg) );
+			if(renderable_component != nullptr)
+			{
+				renderable_component->doChangeMaterial( change_material_unpacker.unpackMessage(msg) );
+			}
 		}
 
 		template <typename T>

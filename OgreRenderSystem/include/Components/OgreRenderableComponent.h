@@ -3,7 +3,7 @@
 #include <string>
 #include <Objects/Component.h>
 #include <Mesh/MeshData.h>
-
+#include <Listeners/OgreRenderableComponentListener.h>
 
 namespace Ogre
 {
@@ -16,6 +16,8 @@ namespace UnknownEngine {
 	namespace Core
 	{
 		class TransformChangedMessage;
+		class IMessageListener;
+		class EngineContext;
 	}
 
 	namespace Graphics {
@@ -23,6 +25,7 @@ namespace UnknownEngine {
 		class OgreRenderSubsystem;
 		class OgreMeshPtrProvider;
 		class ChangeMaterialActionMessage;
+		class OgreRenderableComponentListener;
 
 		const Core::ComponentType OGRE_RENDERABLE_COMPONENT_TYPE = "Renderable";
 
@@ -47,8 +50,7 @@ namespace UnknownEngine {
 				/**
 				 *  @brief Is called when the parent entity is started
 				 *
-				 * This method is intended to register listeners and start processing messages
-				 * It's called when the entity is started. Is called by entity.
+				 *  At this moment it's known that all components of the entity are created. Start processing logic.
 				 *
 				 */
 				virtual void start();
@@ -56,7 +58,7 @@ namespace UnknownEngine {
 				/**
 				 *  @brief Is called when the parent entity is about to be destroyed
 				 *
-				 * This method is intended to unregister listeners and stop processing messages
+				 * Stop any logic there. Prepare to destruction;
 				 * Is called by entity.
 				 *
 				 */
@@ -71,16 +73,18 @@ namespace UnknownEngine {
 				virtual void onTransformChanged(const Core::TransformChangedMessage &message);
 				virtual void doChangeMaterial(const ChangeMaterialActionMessage &message);
 
-				OgreRenderableComponent(const std::string &name, const Descriptor &desc, OgreRenderSubsystem* render_system);
+				OgreRenderableComponent(const std::string &name, const Descriptor &desc, OgreRenderSubsystem* render_system, Core::EngineContext *engine_context);
 				virtual ~OgreRenderableComponent();
+
+				Core::IMessageListener* createListener(const std::string &listener_name, Core::EngineContext* engine_context);
 
 			private:
 				const Core::ComponentType type;
 				OgreRenderSubsystem* render_system;
+				std::vector<OgreRenderableComponentListener> listeners;
 				OgreMeshPtrProvider* mesh_data_provider;
 				Ogre::Entity* entity;
 				Ogre::SceneNode* scene_node;
-				std::string name;
 		};
 
 	} // namespace Graphics

@@ -53,7 +53,7 @@ namespace UnknownEngine
 				render_system = new OgreRenderSubsystem(OgreRenderSubsystemDescriptorParser::parse(desc.creation_options));
 			}
 
-			renderable_components_factory = new OgreRenderableComponentsFactory(render_system);
+			renderable_components_factory = new OgreRenderableComponentsFactory(render_system, engine_context);
 
 			engine_context->getComponentsManager()->addComponentFactory(renderable_components_factory);
 

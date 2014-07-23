@@ -1,16 +1,33 @@
 #pragma once
 
 #include <IComponentFactory.h>
+#include <ComponentDesc.h>
+#include <MessageSystem/MessageListenerDesc.h>
+#include <Exception.h>
 
 namespace UnknownEngine {
+
+	namespace Core
+	{
+		class EngineContext;
+		class IMessageListener;
+	}
+
 	namespace Graphics {
 
 		class OgreRenderSubsystem;
+		class OgreRenderableComponent;
 
+		/**
+		 * @brief Factory for creating solid and compound non-deformable (mesh doesn't change during the whole lifetime) renderable components
+		 */
 		class OgreRenderableComponentsFactory: public Core::IComponentFactory
 		{
 			public:
-				OgreRenderableComponentsFactory(OgreRenderSubsystem* render_system);
+
+				UNKNOWNENGINE_SIMPLE_EXCEPTION(ListenerIsNotAbleToProcessMessageType);
+
+				OgreRenderableComponentsFactory(OgreRenderSubsystem* render_system, Core::EngineContext *engine_context);
 
 				/**
 				 * @brief Returns a factory name.
@@ -49,9 +66,13 @@ namespace UnknownEngine {
 
 			private:
 
+				// Solid renderable components
 				Core::Component* createRenderableComponent(const Core::ComponentDesc &desc);
 				void destroyRenderableComponent(const Core::Component* component);
+				void registerRenderableComponentListeners(OgreRenderableComponent* component, const Core::ComponentDesc::ListenerDescriptorsList &listeners);
+				void registerRenderableComponentListener(Core::IMessageListener* listener, const Core::MessageListenerDesc::MessageDesc &message_desc);
 
+				Core::EngineContext* engine_context;
 				std::unordered_set<Core::ComponentType> supported_types;
 				OgreRenderSubsystem* render_system;
 		};

@@ -7,6 +7,7 @@
  */
 
 #include <ComponentType.h>
+#include <InlineSpecification.h>
 
 namespace UnknownEngine
 {
@@ -70,6 +71,9 @@ namespace UnknownEngine
 		{
 			public:
 
+				explicit Component(const std::string &name)
+					:name(name){}
+
 				/**
 				 * @brief Is called when the component is created
 				 *
@@ -81,8 +85,7 @@ namespace UnknownEngine
 				/**
 				 *  @brief Is called when the parent entity is started
 				 *
-				 * This method is intended to register listeners and start processing messages
-				 * It's called when the entity is started. Is called by entity.
+				 *  At this moment it's known that all components of the entity are created. You may start processing logic.
 				 *
 				 */
 				virtual void start() = 0;
@@ -90,7 +93,7 @@ namespace UnknownEngine
 				/**
 				 *  @brief Is called when the parent entity is about to be destroyed
 				 *
-				 * This method is intended to unregister listeners and stop processing messages
+				 * Stop any logic there. Prepare to destruction;
 				 * Is called by entity.
 				 *
 				 */
@@ -102,7 +105,13 @@ namespace UnknownEngine
 				 */
 				virtual ComponentType getType() = 0;
 
+				UNKNOWNENGINE_INLINE
+				std::string getName(){return name;}
+
 				virtual ~Component ();
+
+			private:
+				std::string name;
 		};
 
 	} /* namespace Core */
