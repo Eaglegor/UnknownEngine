@@ -13,7 +13,7 @@ namespace UnknownEngine {
 		class SeparateLoaderThreadDataProvider : public ReferencesCountingDataProvider
 		{
 			public:
-				SeparateLoaderThreadDataProvider();
+				SeparateLoaderThreadDataProvider(const std::string &name);
 				~SeparateLoaderThreadDataProvider();
 
 				/// Starts the loading thread

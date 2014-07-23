@@ -13,7 +13,28 @@ namespace UnknownEngine
 	{
 
 		typedef unsigned long IndexType;
-		typedef float TextureCoordinateType;
+
+		class TextureCoordinateType: private Math::Vector3
+		{
+			public:
+				UNKNOWNENGINE_INLINE
+				float u(){return x();}
+
+				UNKNOWNENGINE_INLINE
+				float v(){return y();}
+
+				UNKNOWNENGINE_INLINE
+				float w(){return w();}
+
+				UNKNOWNENGINE_INLINE
+				float setU(float u){ setX(u); }
+
+				UNKNOWNENGINE_INLINE
+				float setV(float v){ setY(v); }
+
+				UNKNOWNENGINE_INLINE
+				float setW(float w){ setZ(w); }
+		};
 
 		const std::string TANGENT_NAME = "Tangent";
 		const std::string NORMAL_NAME = "Normal";

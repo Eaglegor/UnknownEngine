@@ -9,6 +9,7 @@
 
 #include <string>
 #include <DataProvider/DataProviderType.h>
+#include <InlineSpecification.h>
 
 namespace UnknownEngine
 {
@@ -51,6 +52,9 @@ namespace UnknownEngine
 				{
 				}
 
+				explicit IDataProvider(const std::string name):
+					name(name){}
+
 				/**
 				 * @brief Starts loading resource. May cause creation of separate thread.
 				 */
@@ -78,6 +82,15 @@ namespace UnknownEngine
 				 * @return Data provider type
 				 */
 				virtual const DataProviderType& getType() = 0;
+
+				UNKNOWNENGINE_INLINE
+				std::string getName()
+				{
+					return name;
+				}
+
+			private:
+				std::string name;
 
 		};
 

@@ -5,7 +5,9 @@
 namespace UnknownEngine {
 	namespace Loader {
 
-		ReferencesCountingDataProvider::ReferencesCountingDataProvider() : references_counter(1)
+		ReferencesCountingDataProvider::ReferencesCountingDataProvider(const std::string &name)
+			: references_counter(1),
+			  IDataProvider(name)
 		{
 		}
 

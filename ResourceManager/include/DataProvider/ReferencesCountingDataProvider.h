@@ -10,7 +10,7 @@ namespace UnknownEngine {
     class ReferencesCountingDataProvider : public IDataProvider
     {
       public:
-        ReferencesCountingDataProvider();
+		ReferencesCountingDataProvider(const std::string &name);
 
 		/// Returns the loaded data increasing the references counter
         virtual const ResourceContainer& getResource() const = 0;

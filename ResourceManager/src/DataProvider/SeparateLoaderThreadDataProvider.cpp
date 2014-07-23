@@ -5,7 +5,8 @@
 namespace UnknownEngine {
 	namespace Loader {
 
-		SeparateLoaderThreadDataProvider::SeparateLoaderThreadDataProvider() :
+		SeparateLoaderThreadDataProvider::SeparateLoaderThreadDataProvider(const std::string &name) :
+			ReferencesCountingDataProvider(name),
 			load_started(false),
 			load_finished(false),
 			separate_loading_thread(nullptr)
