@@ -1,5 +1,6 @@
 #include <stdafx.h>
 
+#include <Ogre.h>
 #include <OgreRenderSubsystem.h>
 
 namespace UnknownEngine {

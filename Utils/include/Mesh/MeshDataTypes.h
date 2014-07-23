@@ -4,11 +4,12 @@
 #include <string>
 #include <Vectors/Vector3.h>
 #include <InlineSpecification.h>
+#include <Exception.h>
 
 namespace UnknownEngine
 {
 
-	namespace Util
+	namespace Utils
 	{
 
 		typedef unsigned long IndexType;
@@ -18,7 +19,7 @@ namespace UnknownEngine
 		const std::string NORMAL_NAME = "Normal";
 		const std::string TEXTURE_COORDINATE_NAME = "Texture coordinate";
 
-		typedef std::exception NoSuchVertexElementException;
+		UNKNOWNENGINE_SIMPLE_EXCEPTION(NoSuchVertexElementException);
 
 		class VertexType
 		{

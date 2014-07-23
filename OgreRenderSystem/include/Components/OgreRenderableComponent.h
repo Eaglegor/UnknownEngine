@@ -2,6 +2,7 @@
 
 #include <string>
 #include <Objects/Component.h>
+#include <Mesh/MeshData.h>
 
 namespace Ogre
 {
@@ -13,6 +14,7 @@ namespace UnknownEngine {
 	namespace Graphics {
 
 		class OgreRenderSubsystem;
+		class OgreMeshPtrProvider;
 
 		const Core::ComponentType OGRE_RENDERABLE_COMPONENT_TYPE = "Renderable";
 
@@ -22,6 +24,7 @@ namespace UnknownEngine {
 
 				struct Descriptor
 				{
+					OgreMeshPtrProvider* mesh_data_provider;
 					std::string material_name;
 				};
 
@@ -63,6 +66,7 @@ namespace UnknownEngine {
 			private:
 				const Core::ComponentType type;
 				OgreRenderSubsystem* render_system;
+				OgreMeshPtrProvider* mesh_data_provider;
 				Ogre::Entity* entity;
 				Ogre::SceneNode* scene_node;
 				std::string name;

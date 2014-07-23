@@ -1,9 +1,15 @@
 #pragma once
 
-#include <Ogre.h>
 #include <InlineSpecification.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 #include <Components/OgreRenderableComponent.h>
+
+namespace Ogre
+{
+	class Root;
+	class SceneManager;
+	class RenderWindow;
+}
 
 namespace UnknownEngine {
 	namespace Graphics {

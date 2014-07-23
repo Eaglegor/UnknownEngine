@@ -7,7 +7,7 @@
 namespace UnknownEngine
 {
 
-	namespace Util
+	namespace Utils
 	{
 
 		class MeshData
