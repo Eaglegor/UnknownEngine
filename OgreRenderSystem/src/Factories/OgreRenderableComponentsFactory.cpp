@@ -48,11 +48,11 @@ namespace UnknownEngine {
 		{
 			if(!desc.descriptor.isEmpty())
 			{
-				return new OgreRenderableComponent(desc.descriptor.get<OgreRenderableComponent::Descriptor>(), render_system);
+				return new OgreRenderableComponent(desc.name, desc.descriptor.get<OgreRenderableComponent::Descriptor>(), render_system);
 			}
 			else
 			{
-				return new OgreRenderableComponent(OgreRenderableDescriptorParser::parse(desc.creation_options), render_system);
+				return new OgreRenderableComponent(desc.name, OgreRenderableDescriptorParser::parse(desc.creation_options), render_system);
 			}
 		}
 

@@ -9,7 +9,7 @@ namespace UnknownEngine {
 		{
 			root = new Ogre::Root(desc.config_filename);
 			scene_manager = root->createSceneManager(Ogre::ST_GENERIC);
-			render_window = root->initialize(true, windowName);
+			render_window = root->initialise(true, desc.render_window_name);
 		}
 
 		void OgreRenderSubsystem::onFrameUpdated(const Core::UpdateFrameMessage &msg)
