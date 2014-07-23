@@ -9,7 +9,6 @@ namespace UnknownEngine {
 		class OgreRenderableDescriptorParser
 		{
 			public:
-				OgreRenderableDescriptorParser();
 				static OgreRenderableComponent::Descriptor parse(const Core::Properties& properties);
 		};
 

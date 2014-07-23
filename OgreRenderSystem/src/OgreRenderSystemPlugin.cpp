@@ -20,6 +20,7 @@
 #include <ComponentsManager.h>
 #include <Factories/OgreRenderableComponentsFactory.h>
 #include <Listeners/OgreUpdateFrameListener.h>
+#include <Parsers/OgreSubsystemDescParser.h>
 
 
 namespace UnknownEngine
@@ -43,7 +44,15 @@ namespace UnknownEngine
 
 			engine_context->getMessageDictionary()->registerNewMessageType(ChangeMaterialActionMessage::getTypeName());
 
-			render_system = new OgreRenderSubsystem(desc.prepared_descriptor.get<OgreRenderSubsystem::Descriptor>());
+			if(!desc.prepared_descriptor.isEmpty())
+			{
+				render_system = new OgreRenderSubsystem(desc.prepared_descriptor.get<OgreRenderSubsystem::Descriptor>());
+			}
+			else
+			{
+				render_system = new OgreRenderSubsystem(OgreRenderSubsystemDescriptorParser::parse(desc.creation_options));
+			}
+
 			renderable_components_factory = new OgreRenderableComponentsFactory(render_system);
 
 			engine_context->getComponentsManager()->addComponentFactory(renderable_components_factory);

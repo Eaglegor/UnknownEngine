@@ -4,6 +4,7 @@
 #include <Objects/Component.h>
 #include <Mesh/MeshData.h>
 
+
 namespace Ogre
 {
 	class Entity;
@@ -11,10 +12,17 @@ namespace Ogre
 }
 
 namespace UnknownEngine {
+
+	namespace Core
+	{
+		class TransformChangedMessage;
+	}
+
 	namespace Graphics {
 
 		class OgreRenderSubsystem;
 		class OgreMeshPtrProvider;
+		class ChangeMaterialActionMessage;
 
 		const Core::ComponentType OGRE_RENDERABLE_COMPONENT_TYPE = "Renderable";
 
@@ -59,6 +67,9 @@ namespace UnknownEngine {
 				 * @return Type of component
 				 */
 				virtual Core::ComponentType getType();
+
+				virtual void onTransformChanged(const Core::TransformChangedMessage &message);
+				virtual void doChangeMaterial(const ChangeMaterialActionMessage &message);
 
 				OgreRenderableComponent(const std::string &name, const Descriptor &desc, OgreRenderSubsystem* render_system);
 				virtual ~OgreRenderableComponent();

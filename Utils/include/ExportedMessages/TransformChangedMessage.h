@@ -66,7 +66,7 @@ namespace UnknownEngine
 			public:
 
 				UNKNOWNENGINE_INLINE
-				LogMessage unpackMessage(const PackedMessage &msg)
+				TransformChangedMessage unpackMessage(const PackedMessage &msg)
 						throw (InvalidMessageFormatException) override
 				{
 					TransformChangedMessage result;

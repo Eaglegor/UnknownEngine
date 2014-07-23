@@ -2,6 +2,7 @@
 
 #include <InlineSpecification.h>
 #include <Quaternion.h>
+#include <Vectors/Vector3.h>
 
 namespace UnknownEngine
 {
@@ -15,8 +16,10 @@ namespace UnknownEngine
 					position(position), orientation(orientation)
 				{}
 
+				Transform(){}
+
 				UNKNOWNENGINE_INLINE
-				const Math::Position& getPosition() const
+				const Math::Vector3& getPosition() const
 				{
 					return position;
 				}

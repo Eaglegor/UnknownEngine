@@ -29,6 +29,16 @@ namespace UnknownEngine {
 			return type;
 		}
 
+		void OgreRenderableComponent::onTransformChanged(const Core::TransformChangedMessage &message)
+		{
+
+		}
+
+		void OgreRenderableComponent::doChangeMaterial(const ChangeMaterialActionMessage &message)
+		{
+
+		}
+
 		OgreRenderableComponent::OgreRenderableComponent(const std::string &name, const Descriptor &desc, OgreRenderSubsystem *render_system)
 			:render_system(render_system),
 			  type(OGRE_RENDERABLE_COMPONENT_TYPE),
