@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 project(UNKNOWN_ENGINE)
 
+
 set(DIRECTX_INCLUDE_DIR $ENV{DXSDK_DIR}/Include)
 set(EXECUTABLE_DEPLOY_DIR ${UNKNOWN_ENGINE_BINARY_DIR}/Output/bin)
 set(STATIC_LIB_DEPLOY_DIR ${UNKNOWN_ENGINE_BINARY_DIR}/Output/lib)
@@ -18,7 +19,7 @@ set(PCH_CMAKELISTS_FILE ${UNKNOWN_ENGINE_SOURCE_DIR}/PCHSupport.cmake)
 
 if(WIN32)
   if(MINGW)
-    list(APPEND CMAKE_CXX_FLAGS " -std=c++11 -pipe -g3 -O0 -Wpedantic ")
+    list(APPEND CMAKE_CXX_FLAGS " -std=c++11 -pipe -g3 -O0 -Wpedantic -U__STRICT_ANSI__ ")
   elseif(MSVC)
     list(APPEND CMAKE_CXX_FLAGS " /Zi /Od ")
   endif(MINGW)

@@ -49,7 +49,8 @@ namespace UnknownEngine {
 			  type(OGRE_RENDERABLE_COMPONENT_TYPE),
 			  mesh_data_provider(desc.mesh_data_provider),
 			  listener(nullptr),
-			  engine_context(engine_context)
+			  engine_context(engine_context),
+			  messaging_policies_manager(engine_context)
 		{
 		}
 
@@ -70,7 +71,10 @@ namespace UnknownEngine {
 			if(listener==nullptr) listener = new OgreRenderableComponentListener(getName()+".Listener", this, engine_context);
 			if(listener->getSupportedMessageTypeNames().find(received_message.message_type_name) != listener->getSupportedMessageTypeNames().end())
 			{
-				engine_context->getMessageDispatcher()->addListener(received_message.message_type_name, listener);
+				engine_context->getMessageDispatcher()->addListener(
+							received_message.message_type_name, listener,
+							messaging_policies_manager.createPrefabReceiveMessagePolicy(received_message.receive_policy_type_name, received_message.receive_policy_options)
+							);
 			}
 			else
 			{

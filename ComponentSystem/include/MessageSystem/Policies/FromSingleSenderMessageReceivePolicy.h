@@ -9,6 +9,8 @@
 
 #include <string>
 #include <MessageSystem/Policies/IMessageReceivePolicy.h>
+#include <MessageSystem/Policies/MessagePolicyType.h>
+#include <MessageSystem/MessageSystemParticipantId.h>
 
 namespace UnknownEngine
 {
@@ -32,8 +34,10 @@ namespace UnknownEngine
 				 * @brief Constructor
 				 * @param sender_info - Message sender info to compare with
 				 */
-				FromSingleSenderMessageReceivePolicy (MessageSystemParticipantId sender_info);
+				FromSingleSenderMessageReceivePolicy (const MessageSystemParticipantId &sender_info);
 				virtual ~FromSingleSenderMessageReceivePolicy ();
+
+				static const MessagePolicyType getType(){return "FromSingleSenderMessageReceivePolicy";}
 
 			private:
 				MessageSystemParticipantId sender_info; ///< Message sender info to compare with
