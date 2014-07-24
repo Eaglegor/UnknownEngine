@@ -63,7 +63,7 @@ namespace UnknownEngine {
 			{
 				component = new OgreRenderableComponent(desc.name, OgreRenderableDescriptorParser::parse(desc.creation_options), render_system, engine_context);
 			}
-			registerRenderableComponentListeners(component, desc.message_listeners_desc);
+			registerRenderableComponentListeners(component, desc.received_messages);
 			return component;
 		}
 
@@ -72,28 +72,11 @@ namespace UnknownEngine {
 			delete component;
 		}
 
-		void OgreRenderableComponentsFactory::registerRenderableComponentListeners(OgreRenderableComponent* component, const Core::ComponentDesc::ListenerDescriptorsList &listener_descriptors)
+		void OgreRenderableComponentsFactory::registerRenderableComponentListeners(OgreRenderableComponent* component, const Core::ReceivedMessageDescriptorsList &received_messages)
 		{
-			for(const Core::MessageListenerDesc &listener_desc : listener_descriptors)
+			for(const Core::ReceivedMessageDesc &message_desc : received_messages)
 			{
-				Core::IMessageListener *listener = component->createListener(listener_desc.name, engine_context);
-				for(const Core::MessageListenerDesc::MessageDesc &message_desc : listener_desc.messages)
-				{
-					registerRenderableComponentListener(listener, message_desc);
-				}
-			}
-		}
-
-		void OgreRenderableComponentsFactory::registerRenderableComponentListener(Core::IMessageListener *listener, const Core::MessageListenerDesc::MessageDesc &message_desc)
-		{
-			if(message_desc.message_type_name == Core::TransformChangedMessage::getTypeName() ||
-					message_desc.message_type_name == Graphics::ChangeMaterialActionMessage::getTypeName())
-			{
-				engine_context->getMessageDispatcher()->addListener(message_desc.message_type_name, listener);
-			}
-			else
-			{
-				throw ListenerIsNotAbleToProcessMessageType("Listener " + listener->getName() + " is not able to process the message type " + message_desc.message_type_name);
+				component->addReceivedMessageType(message_desc);
 			}
 		}
 

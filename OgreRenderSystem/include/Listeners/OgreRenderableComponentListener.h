@@ -3,6 +3,7 @@
 #include <MessageSystem/IMessageListener.h>
 #include <MessageSystem/MessageType.h>
 #include <unordered_map>
+#include <unordered_set>
 #include <ExportedMessages/TransformChangedMessage.h>
 #include <ExportedMessages/RenderSystem/ChangeMaterialActionMessage.h>
 
@@ -22,9 +23,14 @@ namespace UnknownEngine {
 			public:
 				OgreRenderableComponentListener(const std::string &name, OgreRenderableComponent* component, Core::EngineContext* engine_context);
 
+				static const std::unordered_set<std::string>& getSupportedMessageTypeNames();
+
 				void processMessage(const Core::PackedMessage &msg);
 
 			private:
+
+				static std::unordered_set<std::string> supported_message_type_names;
+
 				typedef void (OgreRenderableComponentListener::*MessageProcessor)(const Core::PackedMessage&);
 				std::unordered_map<Core::MessageType, MessageProcessor> message_processors;
 

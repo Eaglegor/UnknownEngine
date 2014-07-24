@@ -42,14 +42,11 @@ namespace UnknownEngine
 		{
 			console_logger.log("ConsoleLogger", "Initializing console logger plugin");
 
-			for(Core::MessageListenerDesc &listener : desc.message_listeners)
+			for(Core::ReceivedMessageDesc &message : desc.received_messages )
 			{
-				for(Core::MessageListenerDesc::MessageDesc &message : listener.messages )
-				{
-					console_logger.log("ConsoleLogger", "Registering new log listener");
-					if(message.message_type_name == Core::LogMessage::getTypeName()){
-						engine_context->getMessageDispatcher()->addListener(Core::LogMessage::getTypeName(), &console_logger);
-					}
+				console_logger.log("ConsoleLogger", "Registering new log listener");
+				if(message.message_type_name == Core::LogMessage::getTypeName()){
+					engine_context->getMessageDispatcher()->addListener(Core::LogMessage::getTypeName(), &console_logger);
 				}
 			}
 

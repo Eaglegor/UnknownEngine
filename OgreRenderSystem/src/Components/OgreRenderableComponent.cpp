@@ -6,6 +6,8 @@
 #include <DataProviders/OgreMeshPtrProvider.h>
 #include <Listeners/OgreRenderableComponentListener.h>
 #include <EngineContext.h>
+#include <MessageSystem/MessageDispatcher.h>
+#include <MessageSystem/MessageListenerDesc.h>
 
 namespace UnknownEngine {
 	namespace Graphics {
@@ -45,21 +47,35 @@ namespace UnknownEngine {
 			: Core::Component(name),
 			  render_system(render_system),
 			  type(OGRE_RENDERABLE_COMPONENT_TYPE),
-			  mesh_data_provider(desc.mesh_data_provider)
+			  mesh_data_provider(desc.mesh_data_provider),
+			  listener(nullptr),
+			  engine_context(engine_context)
 		{
 		}
 
 		OgreRenderableComponent::~OgreRenderableComponent()
 		{
+			if(listener != nullptr)
+			{
+				engine_context->getMessageDispatcher()->removeListener(listener);
+				delete listener;
+			}
 			mesh_data_provider->release();
 			render_system->getSceneManager()->destroySceneNode(scene_node);
 			render_system->getSceneManager()->destroyEntity(entity);
 		}
 
-		Core::IMessageListener *OgreRenderableComponent::createListener(const std::string &listener_name, Core::EngineContext* engine_context)
+		void OgreRenderableComponent::addReceivedMessageType(const Core::ReceivedMessageDesc &received_message)
 		{
-			listeners.emplace_back(getName()+".Listeners."+listener_name, this, engine_context);
-			return &listeners.back();
+			if(listener==nullptr) listener = new OgreRenderableComponentListener(getName()+".Listener", this, engine_context);
+			if(listener->getSupportedMessageTypeNames().find(received_message.message_type_name) != listener->getSupportedMessageTypeNames().end())
+			{
+				engine_context->getMessageDispatcher()->addListener(received_message.message_type_name, listener);
+			}
+			else
+			{
+				throw Core::IMessageListener::MessageTypeNotSupportedByListener("Listener of component " + getName() + " doesn't support message type " + received_message.message_type_name);
+			}
 		}
 
 	} // namespace Graphics

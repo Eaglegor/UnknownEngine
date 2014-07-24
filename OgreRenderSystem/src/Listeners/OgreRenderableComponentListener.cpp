@@ -10,6 +10,8 @@
 namespace UnknownEngine {
 	namespace Graphics {
 
+		std::unordered_set<std::string> OgreRenderableComponentListener::supported_message_type_names;
+
 		OgreRenderableComponentListener::OgreRenderableComponentListener(const std::string &name, OgreRenderableComponent *component, Core::EngineContext *engine_context)
 			:Core::IMessageListener(name),
 			  renderable_component(component)
@@ -45,6 +47,16 @@ namespace UnknownEngine {
 		{
 			Core::MessageType msg_type = engine_context->getMessageDictionary()->getMessageTypeId(T::getTypeName());
 			message_processors[msg_type] = processor;
+		}
+
+		const std::unordered_set<std::string>& OgreRenderableComponentListener::getSupportedMessageTypeNames()
+		{
+			if(supported_message_type_names.empty())
+			{
+				supported_message_type_names.emplace(Core::TransformChangedMessage::getTypeName());
+				supported_message_type_names.emplace(ChangeMaterialActionMessage::getTypeName());
+			}
+			return supported_message_type_names;
 		}
 
 	} // namespace Graphics

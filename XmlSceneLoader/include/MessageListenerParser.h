@@ -12,8 +12,8 @@ namespace UnknownEngine {
 		{
 			public:
 				MessageListenerParser();
-				static Core::MessageListenerDesc parseMessageListener(const boost::property_tree::ptree &event_listener_node, const ConstantsHolder* constants_holder);
-				static UnknownEngine::Core::MessageListenerDesc::MessageDesc parseMessageDesc(const boost::property_tree::ptree &message_node, const ConstantsHolder* constants_holder);
+				static Core::ReceivedMessageDescriptorsList&& parseMessageListener(const boost::property_tree::ptree &event_listener_node, const ConstantsHolder* constants_holder);
+				static UnknownEngine::Core::ReceivedMessageDesc parseMessageDesc(const boost::property_tree::ptree &message_node, const ConstantsHolder* constants_holder);
 		};
 
 	} // namespace Core

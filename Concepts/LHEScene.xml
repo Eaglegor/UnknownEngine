@@ -10,16 +10,16 @@
 		
 	<subsystems>
 
-		<subsystem name="Graphics" module="DirectX11RenderSystem">
-			<message_listener name="RenderNewFrame">
-				<message message_type="Engine.MainLoop.UpdateFrame">
+		<subsystem name="Graphics" module="OgreRenderSubsystem">
+			<received_messages>
+				<message type="Engine.MainLoop.UpdateFrame">
 					<receive_policy type="ReceiveFromSingleSender">
 						<options_section>
 							<option name="SenderName" value="Engine"/>
 						</options_section>
 					</receive_policy>
 				</message>
-			</message_listener>
+			</received_messages>
 			
 			<options_section>
 				<options_section name="RenderWindow">
@@ -38,15 +38,15 @@
 		</subsystem>
 		
 		<subsystem name="Physics" module="PhysX284PhysicsSystem">
-			<message_listener name="SimulateFrame">
-				<message message_type="Engine.MainLoop.UpdateFrame">
+			<received_messages>
+				<message type="Engine.MainLoop.UpdateFrame">
 					<receive_policy type="ReceiveFromSingleSender">
 						<options_section>
 							<option name="SenderName" value="Engine"/>
 						</options_section>
 					</receive_policy>
 				</message>
-			</message_listener>
+			</received_messages>
 			
 			<options_section>
 				<options_section name="Scene">
@@ -62,15 +62,15 @@
 		</subsystem>
 
 		<subsystem name="Scripting" module="LuaScripting">
-			<message_listener name="UpdateScript">
-				<message message_type="Engine.MainLoop.UpdateFrame">
+			<received_messages>
+				<message type="Engine.MainLoop.UpdateFrame">
 					<receive_policy type="ReceiveFromSingleSender">
 						<options_section>
 							<option name="SenderName" value="Engine"/>
 						</options_section>
 					</receive_policy>
 				</message>
-			</message_listener>
+			</received_messages>
 			
 			<options_section>
 				<options_section name="MainScript">
@@ -118,8 +118,7 @@
 			<constant name="InitialPosition" value="0 0 0">
 		
 			<component type="Graphics.DynamicRenderable" name="Graphics">
-			
-				<message_listener name="UpdateMesh">
+				<received_messages>
 					<message type="Util.Mesh.MeshChanged"/>
 						<receive_policy type="ReceiveFromEntity">
 							<options_section>
@@ -127,7 +126,7 @@
 							</options_section>
 						</receive_policy>
 					</message>
-				</message_listener>
+				</received_messages>
 			
 				<options_section>
 					<provided_option name="Mesh" data_provider="MeshData"/>
@@ -169,8 +168,7 @@
 			</data_provider>
 			
 			<component type="Physics.Joint.SoftbodyStaticMesh">
-			
-				<message_listener name="JointBreakListener">
+				<received_messages>
 					<message type="Physics.Joint.BreakJoint"/>
 						<receive_policy type="ReceiveFromSubsystem">
 							<options_section>
@@ -178,7 +176,7 @@
 							</options_section>
 						</receive_policy>
 					</message>
-				</message_listener>
+				</received_messages>
 				
 				<options_section>
 					<provided_option name="Mesh" data_provider="MeshData"/>

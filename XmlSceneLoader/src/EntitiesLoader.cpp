@@ -92,7 +92,7 @@ namespace UnknownEngine
 			for(const ptree::value_type &iter : component_node){
 				if(iter.first == Tags::MESSAGE_LISTENER){
 					const std::string name = iter.second.get_child(XMLATTR).get<std::string>(Attributes::MESSAGE_LISTENER::NAME);
-					component_desc.message_listeners_desc.push_back(MessageListenerParser::parseMessageListener(iter.second, scene_loader->getConstantsHolder()));
+					component_desc.received_messages = MessageListenerParser::parseMessageListener(iter.second, scene_loader->getConstantsHolder());
 				}
 				else if(iter.first == Tags::OPTIONS_SECTION){
 					component_desc.creation_options = OptionsParser::parseOptions(iter.second, scene_loader->getConstantsHolder());

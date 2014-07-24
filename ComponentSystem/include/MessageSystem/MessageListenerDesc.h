@@ -18,31 +18,29 @@ namespace UnknownEngine{
 		 * which listeners need to be created for component/subsystem. A list of such descriptors is stored in a
 		 * subsystem/listener descriptor and the factory must take care to create and register such listeners.
 		 *
+		 * It's assumed that each component/subsystem has **at most one** listener registered at the message bus
+		 * and it's name is the same as the component's/subsystem's name.
+		 *
 		 * ###Usage
 		 * When a user code (e.g. a loader) wants to create a component it must say which messages this component will wait for.
 		 * The engine doesn't know, how the component will receive messages (it may be the standalone subsystem's part
 		 * e.g. OGRE entity and listen a message through proxy or be a listener itself). That's why we need to provide this data to
-		 * factory somehow. We are saying which listeners we want to be created and how they need to be configured by providing
-		 * such data in a subsystem/component descriptor. The subsystem itself must take care to create needed components.
-		 * They are free to throw exceptions or just ignore unknown message listener types.
-		 *
+		 * factory somehow. We are saying which messages we want to receive in the subsystem/component. Later the factory will
+		 * create the listener accepting specified message types for a component/subsystem.
 		 *
 		 */
-		struct MessageListenerDesc
-		{
+
 			/**
 			 * @brief Descriptor of single message subscription for listener
 			 */
-			struct MessageDesc
+			struct ReceivedMessageDesc
 			{
 				std::string message_type_name; ///< %String message type representation
 				std::string receive_policy_type_name; ///< %Message receive policy name
 				Properties receive_policy_options; ///< %Message receive policy options
 			};
 
-			std::string name; ///< %Message listener name
-			std::vector<MessageDesc> messages; ///< %Message subscriptions list
-		};
+			typedef std::vector<ReceivedMessageDesc> ReceivedMessageDescriptorsList; ///< %Message subscriptions list
 
 	}
 }

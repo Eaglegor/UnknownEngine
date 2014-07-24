@@ -11,6 +11,7 @@ namespace UnknownEngine {
 	{
 		class EngineContext;
 		class IMessageListener;
+		class ReceivedMessageDesc;
 	}
 
 	namespace Graphics {
@@ -24,8 +25,6 @@ namespace UnknownEngine {
 		class OgreRenderableComponentsFactory: public Core::IComponentFactory
 		{
 			public:
-
-				UNKNOWNENGINE_SIMPLE_EXCEPTION(ListenerIsNotAbleToProcessMessageType);
 
 				OgreRenderableComponentsFactory(OgreRenderSubsystem* render_system, Core::EngineContext *engine_context);
 
@@ -69,8 +68,8 @@ namespace UnknownEngine {
 				// Solid renderable components
 				Core::Component* createRenderableComponent(const Core::ComponentDesc &desc);
 				void destroyRenderableComponent(const Core::Component* component);
-				void registerRenderableComponentListeners(OgreRenderableComponent* component, const Core::ComponentDesc::ListenerDescriptorsList &listeners);
-				void registerRenderableComponentListener(Core::IMessageListener* listener, const Core::MessageListenerDesc::MessageDesc &message_desc);
+				void registerRenderableComponentListeners(OgreRenderableComponent* component, const Core::ReceivedMessageDescriptorsList &received_messages);
+				void registerRenderableComponentListener(Core::IMessageListener* listener, const Core::ReceivedMessageDesc &message_desc);
 
 				Core::EngineContext* engine_context;
 				std::unordered_set<Core::ComponentType> supported_types;

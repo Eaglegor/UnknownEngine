@@ -9,6 +9,7 @@
 #include <string>
 #include <InlineSpecification.h>
 #include <MessageSystem/IMessageSystemParticipant.h>
+#include <Exception.h>
 
 namespace UnknownEngine
 {
@@ -30,6 +31,9 @@ namespace UnknownEngine
 		class IMessageListener : public IMessageSystemParticipant
 		{
 			public:
+
+				UNKNOWNENGINE_SIMPLE_EXCEPTION(MessageTypeNotSupportedByListener);
+
 				/**
 				 * @brief Constructor
 				 *

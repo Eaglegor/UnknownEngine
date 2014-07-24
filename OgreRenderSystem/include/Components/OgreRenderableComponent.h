@@ -18,6 +18,7 @@ namespace UnknownEngine {
 		class TransformChangedMessage;
 		class IMessageListener;
 		class EngineContext;
+		class ReceivedMessageDesc;
 	}
 
 	namespace Graphics {
@@ -76,15 +77,16 @@ namespace UnknownEngine {
 				OgreRenderableComponent(const std::string &name, const Descriptor &desc, OgreRenderSubsystem* render_system, Core::EngineContext *engine_context);
 				virtual ~OgreRenderableComponent();
 
-				Core::IMessageListener* createListener(const std::string &listener_name, Core::EngineContext* engine_context);
+				virtual void addReceivedMessageType(const Core::ReceivedMessageDesc &received_message);
 
 			private:
 				const Core::ComponentType type;
 				OgreRenderSubsystem* render_system;
-				std::vector<OgreRenderableComponentListener> listeners;
+				OgreRenderableComponentListener* listener;
 				OgreMeshPtrProvider* mesh_data_provider;
 				Ogre::Entity* entity;
 				Ogre::SceneNode* scene_node;
+				Core::EngineContext* engine_context;
 		};
 
 	} // namespace Graphics

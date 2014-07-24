@@ -63,7 +63,7 @@ namespace UnknownEngine
 			desc.module_name = node.get_child(XMLATTR).get<std::string>(Attributes::SUBSYSTEM::MODULE);
 			for(auto &iter : node){
 				if(iter.first == Tags::MESSAGE_LISTENER){
-					desc.message_listeners.push_back(MessageListenerParser::parseMessageListener(iter.second, scene_loader->getConstantsHolder()));
+					desc.received_messages = MessageListenerParser::parseMessageListener(iter.second, scene_loader->getConstantsHolder());
 				}
 				else if(iter.first == Tags::OPTIONS_SECTION){
 					desc.creation_options = OptionsParser::parseOptions(iter.second, scene_loader->getConstantsHolder());
