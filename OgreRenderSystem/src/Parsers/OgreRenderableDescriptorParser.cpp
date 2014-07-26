@@ -1,6 +1,6 @@
 #include <stdafx.h>
 
-#include <Parsers\OgreRenderableDescriptorParser.h>
+#include <Parsers/OgreRenderableDescriptorParser.h>
 
 namespace UnknownEngine {
 	namespace Graphics {

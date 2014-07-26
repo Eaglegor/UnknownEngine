@@ -52,7 +52,7 @@ namespace UnknownEngine
 				{
 				}
 
-				explicit IDataProvider(const std::string name):
+				explicit IDataProvider(const std::string &name):
 					name(name){}
 
 				/**
