@@ -7,7 +7,6 @@
  *      Author: Eaglegor
  */
 #include <MessageSystem/Policies/IMessageDeliveryPolicy.h>
-#include <MessageSystem/Policies/MessagePolicyType.h>
 
 namespace UnknownEngine
 {
@@ -26,8 +25,6 @@ namespace UnknownEngine
 				 * @return true
 				 */
 				virtual bool allowDeliveryToListener(const IMessageListener* listener) const override;
-
-				static const MessagePolicyType getType(){return "BroadcastMessageDeliverPolicy";}
 
 				virtual ~BroadcastMessageDeliverPolicy (){}
 		};

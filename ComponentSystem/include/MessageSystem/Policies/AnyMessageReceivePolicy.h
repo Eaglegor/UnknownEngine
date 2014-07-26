@@ -8,7 +8,6 @@
  */
 
 #include <MessageSystem/Policies/IMessageReceivePolicy.h>
-#include <MessageSystem/Policies/MessagePolicyType.h>
 
 namespace UnknownEngine
 {
@@ -28,8 +27,6 @@ namespace UnknownEngine
 				 * @return true
 				 */
 				virtual bool acceptMessage(const PackedMessage &msg) override;
-
-				static const MessagePolicyType getType(){return "AnyMessageReceivePolicy";}
 
 				virtual ~AnyMessageReceivePolicy (){}
 		};

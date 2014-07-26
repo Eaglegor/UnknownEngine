@@ -9,7 +9,6 @@
 
 #include <MessageSystem/MessageSystemParticipantId.h>
 #include <MessageSystem/Policies/IMessageDeliveryPolicy.h>
-#include <MessageSystem/Policies/MessagePolicyType.h>
 
 namespace UnknownEngine
 {
@@ -35,8 +34,6 @@ namespace UnknownEngine
 				 */
 				SingleReceiverMessageDeliverPolicy (const MessageSystemParticipantId &receiver_info);
 				virtual ~SingleReceiverMessageDeliverPolicy ();
-
-				static const MessagePolicyType getType(){return "SingleReceiverMessageDeliverPolicy";}
 
 			private:
 				MessageSystemParticipantId receiver_info; ///< Listener address to compare with
