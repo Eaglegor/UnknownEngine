@@ -4,6 +4,7 @@
 #include <Objects/Component.h>
 #include <Mesh/MeshData.h>
 #include <Listeners/OgreRenderableComponentListener.h>
+#include <MessageSystem/MessagingPoliciesManager.h>
 
 namespace Ogre
 {
@@ -28,7 +29,7 @@ namespace UnknownEngine {
 		class ChangeMaterialActionMessage;
 		class OgreRenderableComponentListener;
 
-		const Core::ComponentType OGRE_RENDERABLE_COMPONENT_TYPE = "Renderable";
+		const Core::ComponentType OGRE_RENDERABLE_COMPONENT_TYPE = "Graphics.Renderable";
 
 		class OgreRenderableComponent: public Core::Component
 		{
@@ -87,6 +88,7 @@ namespace UnknownEngine {
 				Ogre::Entity* entity;
 				Ogre::SceneNode* scene_node;
 				Core::EngineContext* engine_context;
+				Core::MessagingPoliciesManager messaging_policies_manager;
 		};
 
 	} // namespace Graphics
