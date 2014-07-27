@@ -9,6 +9,7 @@
 #include <MessageSystem/MessageDispatcher.h>
 #include <MessageSystem/MessageListenerDesc.h>
 #include <Converters/OgreVector3Converter.h>
+#include <Converters/OgreQuaternionConverter.h>
 
 namespace UnknownEngine {
 	namespace Graphics {
@@ -26,7 +27,7 @@ namespace UnknownEngine {
 
 		void OgreRenderableComponent::shutdown()
 		{
-			scene_node->detachObject(entity->getName());
+			scene_node->detachObject(entity);
 		}
 
 		Core::ComponentType OgreRenderableComponent::getType()
@@ -37,6 +38,7 @@ namespace UnknownEngine {
 		void OgreRenderableComponent::onTransformChanged(const Core::TransformChangedMessage &message)
 		{
 		  this->scene_node->setPosition( OgreVector3Converter::toOgreVector(message.new_transform.getPosition()) );
+		  this->scene_node->setOrientation( OgreQuaternionConverter::toOgreQuaternion(message.new_transform.getOrientation()) );
 		}
 
 		void OgreRenderableComponent::doChangeMaterial(const ChangeMaterialActionMessage &message)
@@ -70,7 +72,7 @@ namespace UnknownEngine {
 		void OgreRenderableComponent::addReceivedMessageType(const Core::ReceivedMessageDesc &received_message)
 		{
 			if(listener==nullptr) listener = new OgreRenderableComponentListener(getName()+".Listener", this, engine_context);
-			if(listener->getSupportedMessageTypeNames().find(received_message.message_type_name) != listener->getSupportedMessageTypeNames().end())
+			if(listener->supportsMessageTypeName(received_message.message_type_name))
 			{
 				engine_context->getMessageDispatcher()->addListener(
 							received_message.message_type_name, listener,
