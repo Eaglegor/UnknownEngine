@@ -12,6 +12,20 @@ namespace UnknownEngine
 		{
 			public:
 
+				Vector3()
+				{
+				  setX(0);
+				  setY(0);
+				  setZ(0);
+				}
+			  
+			        Vector3(const Scalar &x, const Scalar &y, const Scalar &z)
+				{
+				  setX(x);
+				  setY(y);
+				  setZ(z);
+				}
+			  
 				UNKNOWNENGINE_INLINE
 				const Scalar& x() const {return (*this)(0);}
 

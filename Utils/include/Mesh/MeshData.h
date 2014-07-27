@@ -46,6 +46,8 @@ namespace UnknownEngine
 				std::vector<IndexType> indices;
 		   
 		};
+		
+		typedef MeshData* MeshDataPtr;
 
 	}
 

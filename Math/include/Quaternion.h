@@ -10,6 +10,24 @@ namespace UnknownEngine
 	{
 		class Quaternion: public Eigen::Quaternion<Scalar>
 		{
+		public:
+		  
+			Quaternion()
+			{
+			  setX(0);
+			  setY(0);
+			  setZ(0);
+			  setW(1);
+			}
+		  
+			Quaternion(const Scalar &x, const Scalar &y, const Scalar &z, const Scalar &w)
+			{
+			  setX(x);
+			  setY(y);
+			  setZ(z);
+			  setW(w);
+			}
+		  
 			UNKNOWNENGINE_INLINE
 			void setX(const Scalar &new_x){this->x() = new_x;}
 

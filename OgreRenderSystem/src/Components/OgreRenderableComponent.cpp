@@ -8,6 +8,7 @@
 #include <EngineContext.h>
 #include <MessageSystem/MessageDispatcher.h>
 #include <MessageSystem/MessageListenerDesc.h>
+#include <Converters/OgreVector3Converter.h>
 
 namespace UnknownEngine {
 	namespace Graphics {
@@ -35,12 +36,12 @@ namespace UnknownEngine {
 
 		void OgreRenderableComponent::onTransformChanged(const Core::TransformChangedMessage &message)
 		{
-
+		  this->scene_node->setPosition( OgreVector3Converter::toOgreVector(message.new_transform.getPosition()) );
 		}
 
 		void OgreRenderableComponent::doChangeMaterial(const ChangeMaterialActionMessage &message)
 		{
-
+		  this->entity->setMaterialName(message.new_material_name);
 		}
 
 		OgreRenderableComponent::OgreRenderableComponent(const std::string &name, const Descriptor &desc, OgreRenderSubsystem *render_system, Core::EngineContext *engine_context)

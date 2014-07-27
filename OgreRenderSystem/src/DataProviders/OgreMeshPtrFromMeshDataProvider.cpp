@@ -17,12 +17,12 @@ namespace UnknownEngine {
 
 		void OgreMeshPtrFromMeshDataProvider::internalLoad(Loader::ResourceContainer &out_container)
 		{
-			const Utils::MeshData& mesh_data = mesh_data_provider->getResource().getData<const Utils::MeshData>();
+			const Utils::MeshData* mesh_data = mesh_data_provider->getResource().getData<const Utils::MeshData*>();
 
 			Ogre::SceneManager &mgr = *Ogre::Root::getSingleton().getSceneManagerIterator().begin()->second;
 			Ogre::ManualObject *manual_object = mgr.createManualObject(getName()+".TemporaryObject");
 
-			for( const Utils::VertexType& vertex : mesh_data.getVertices())
+			for( const Utils::VertexType& vertex : mesh_data->getVertices())
 			{
 				manual_object->position(vertex.getPosition().x(), vertex.getPosition().y(), vertex.getPosition().z());
 				if(vertex.hasNormal()) manual_object->normal(vertex.getNormal().x(), vertex.getNormal().y(), vertex.getNormal().z());
@@ -30,7 +30,7 @@ namespace UnknownEngine {
 				if(vertex.hasTextureCoordinate()) manual_object->textureCoord(vertex.getTextureCoordinate().u(), vertex.getTextureCoordinate().v(), vertex.getTextureCoordinate().w());
 			}
 
-			for( const Utils::IndexType& index : mesh_data.getIndices())
+			for( const Utils::IndexType& index : mesh_data->getIndices())
 			{
 				manual_object->index(index);
 			}
