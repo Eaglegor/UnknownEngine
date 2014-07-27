@@ -1,6 +1,8 @@
 #pragma once
 
 #include <Objects/Component.h>
+#include <ComponentType.h>
+#include <MessageSystem/MessagingPoliciesManager.h>
 
 namespace Ogre
 {
@@ -38,7 +40,7 @@ namespace UnknownEngine
 				virtual void start();
 				virtual void init ( const UnknownEngine::Core::Entity *parent_entity );
 				
-				onTransformChanged(const Core::TransformChangedMessage& msg);
+				void onTransformChanged(const Core::TransformChangedMessage& msg);
 				
 				OgreCameraComponent ( const std::string &name, const Descriptor& desc, OgreRenderSubsystem *render_subsystem, Core::EngineContext* engine_context );
 				virtual ~OgreCameraComponent();
@@ -50,8 +52,9 @@ namespace UnknownEngine
 				Ogre::SceneNode *scene_node;
 				Ogre::Camera *camera;
 				Core::EngineContext* engine_context;
-				const ComponentType type;
+				const Core::ComponentType type;
 				OgreCameraComponentListener* listener;
+				Core::MessagingPoliciesManager messaging_policies_manager;
 				
 		};
 	}

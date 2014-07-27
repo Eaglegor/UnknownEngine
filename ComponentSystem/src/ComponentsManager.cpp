@@ -22,7 +22,7 @@ namespace UnknownEngine
 		ComponentsManager* Singleton<ComponentsManager>::instance = nullptr;
 
 		ComponentsManager::ComponentsManager() :
-			internal_dictionary(NUMERIC_IDENTIFIER_INITIAL_VALUE, INVALID_NUMERIC_IDENTIFIER)
+			internal_dictionary("ComponentsManager.Dictionary", NUMERIC_IDENTIFIER_INITIAL_VALUE, INVALID_NUMERIC_IDENTIFIER)
 		{
 		}
 

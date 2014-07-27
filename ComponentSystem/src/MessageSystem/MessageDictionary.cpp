@@ -18,7 +18,7 @@ namespace UnknownEngine
 		MessageDictionary* Singleton<MessageDictionary>::instance = nullptr;
 
 		MessageDictionary::MessageDictionary ()
-			: internal_dictionary(NUMERIC_IDENTIFIER_INITIAL_VALUE, INVALID_NUMERIC_IDENTIFIER)
+			: internal_dictionary("MessageDictionary.Dictionary", NUMERIC_IDENTIFIER_INITIAL_VALUE, INVALID_NUMERIC_IDENTIFIER)
 		{
 			// TODO Auto-generated constructor stub
 		}

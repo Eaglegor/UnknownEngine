@@ -108,6 +108,7 @@ namespace UnknownEngine
 				 * @return %Engine context
 				 */
 				EngineContext &getContext();
+				PluginsManager *getPluginsManager();
 
 			private:
 				enum State

@@ -5,9 +5,10 @@ namespace UnknownEngine {
 
 		OgreRenderSubsystem::Descriptor OgreRenderSubsystemDescriptorParser::parse(const Core::Properties &properties)
 		{
-			return OgreRenderSubsystem::Descriptor();
+			OgreRenderSubsystem::Descriptor desc;
+			desc.render_window_name = properties.get<std::string>("render_window_name", "Unnamed window");
+			desc.config_filename = properties.get<std::string>("config_filename", "");
 		}
-
 
 	} // namespace Graphics
 } // namespace UnknownEngine

@@ -4,6 +4,9 @@
 #include <Converters/OgreVector3Converter.h>
 #include <Converters/OgreQuaternionConverter.h>
 #include <Listeners/OgreCameraComponentListener.h>
+#include <MessageSystem/MessageListenerDesc.h>
+#include <EngineContext.h>
+#include <MessageSystem/MessageDispatcher.h>
 
 namespace UnknownEngine
 {
@@ -36,7 +39,8 @@ namespace UnknownEngine
 		  type(OGRE_CAMERA_COMPONENT_TYPE),
 		  render_subsystem(render_subsystem),
 		  engine_context(engine_context),
-		  listener(nullptr)
+		  listener(nullptr),
+		  messaging_policies_manager(engine_context)
 		{
 		}
 		
@@ -46,13 +50,13 @@ namespace UnknownEngine
 		  render_subsystem->getSceneManager()->destroySceneNode(this->scene_node);
 		}
 		
-		OgreCameraComponent::onTransformChanged ( const Core::TransformChangedMessage& msg )
+		void OgreCameraComponent::onTransformChanged ( const Core::TransformChangedMessage& msg )
 		{
 		  this->scene_node->setPosition( OgreVector3Converter::toOgreVector(msg.new_transform.getPosition()) );
 		  this->scene_node->setOrientation( OgreQuaternionConverter::toOgreQuaternion(msg.new_transform.getOrientation()) );
 		}
 
-		void OgreRenderableComponent::addReceivedMessageType(const Core::ReceivedMessageDesc &received_message)
+		void OgreCameraComponent::addReceivedMessageType(const Core::ReceivedMessageDesc &received_message)
 		{
 			if(listener==nullptr) listener = new OgreCameraComponentListener(getName()+".Listener", this, engine_context);
 			if(listener->supportsMessageTypeName(received_message.message_type_name))

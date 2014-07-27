@@ -17,6 +17,7 @@ namespace UnknownEngine
 	namespace Core
 	{
 		class EngineContext;
+		class LogHelper;
 	}
 
 	namespace Graphics
@@ -48,6 +49,8 @@ namespace UnknownEngine
 				OgreRenderableComponentsFactory* renderable_components_factory;
 
 				OgreUpdateFrameListener* update_frame_listener;
+				
+				Core::LogHelper *log_helper;
 
 		};
 

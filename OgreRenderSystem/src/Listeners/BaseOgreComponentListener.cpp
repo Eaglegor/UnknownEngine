@@ -1,37 +1,37 @@
 #include <Listeners/BaseOgreComponentListener.h>
 #include <EngineContext.h>
+#include <MessageSystem/MessageDictionary.h>
 
 namespace UnknownEngine
 {
 	namespace Graphics
 	{
-		void BaseOgreComponentListener::processMessage ( const UnknownEngine::Core::PackedMessage& msg )
+
+		template<typename ListenerClass>
+		BaseOgreComponentListener<ListenerClass>::BaseOgreComponentListener ( const std::string& object_name ) : IMessageListener ( object_name )
+		{}
+
+		template<typename ListenerClass>
+		const std::unordered_set< std::string >& BaseOgreComponentListener<ListenerClass>::getSupportedMessageTypeNames()
 		{
-		  (this->*message_processors[msg.getMessageTypeId()])(msg);
+			return supported_message_type_names;
 		}
 
-		BaseOgreComponentListener<>::BaseOgreComponentListener ( const std::string& object_name ):IMessageListener(object_name)
+		template<typename ListenerClass>
+		template<typename T>
+		void BaseOgreComponentListener<ListenerClass>::registerProcessor ( MessageProcessor processor, Core::EngineContext* engine_context )
 		{
-		}
-		
-		template <typename ListenerClass>
-		template <typename T>
-		void BaseOgreComponentListener::registerProcessor(ListenerClass::MessageProcessor processor, Core::EngineContext *engine_context)
-		{
-			supported_message_type_names.emplace(T::getTypeName());
-			Core::MessageType msg_type = engine_context->getMessageDictionary()->getMessageTypeId(T::getTypeName());
+			supported_message_type_names.emplace ( T::getTypeName() );
+			Core::MessageType msg_type = engine_context->getMessageDictionary()->getMessageTypeId ( T::getTypeName() );
 			message_processors[msg_type] = processor;
 		}
-		
-		const std::unordered_set< std::string >& BaseOgreComponentListener<>::getSupportedMessageTypeNames()
+
+		template<typename ListenerClass>
+		bool BaseOgreComponentListener<ListenerClass>::supportsMessageTypeName ( const std::string& message_type_name )
 		{
-		  return supported_message_type_names;
+			return supported_message_type_names.find ( message_type_name ) != supported_message_type_names.end();
 		}
-		
-		bool BaseOgreComponentListener<>::supportsMessageTypeName(const std::string &message_type_name)
-		{
-		  return supported_message_type_names.find( message_type_name )!=supported_message_type_names.end();
-		}
-		
+
+
 	}
 }

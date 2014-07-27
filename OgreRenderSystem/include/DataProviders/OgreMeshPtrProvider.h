@@ -11,6 +11,6 @@ namespace Graphics {
       explicit OgreMeshPtrProvider(const std::string &name) : UnknownEngine::Loader::IDataProvider(name)
       {}
 	
-      virtual ~OgreMeshPtrProvider();
+      virtual ~OgreMeshPtrProvider(){};
   };
 }}

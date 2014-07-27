@@ -10,10 +10,15 @@ namespace UnknownEngine {
 		{
 			public:
 				void processMessage(const Core::PackedMessage &msg) override;
-				void log(const std::string &sender, const std::string &msg);
+				void log(const std::string &sender, const Core::LogMessage::Severity &severity, const std::string &msg);
+				void log(const Core::LogMessage::Severity &severity, const std::string &msg);
 				ConsoleLogger();
+				
+				void setDefaultSenderName(const std::string &name);
+				
 			private:
 				Core::LogMessageUnpacker message_unpacker;
+				std::string name;
 		};
 
 	} // namespace Logger

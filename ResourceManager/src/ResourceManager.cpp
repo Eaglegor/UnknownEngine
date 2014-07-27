@@ -11,7 +11,7 @@ namespace UnknownEngine {
 		ResourceManager* Singleton<ResourceManager>::instance = nullptr;
 
 		ResourceManager::ResourceManager() :
-			internal_dictionary(NUMERIC_IDENTIFIER_INITIAL_VALUE, INVALID_NUMERIC_IDENTIFIER)
+			internal_dictionary("ResourceManager.Dictionary", NUMERIC_IDENTIFIER_INITIAL_VALUE, INVALID_NUMERIC_IDENTIFIER)
 		{
 		}
 

@@ -24,7 +24,7 @@ namespace UnknownEngine {
 
 		IMessageReceivePolicy *MessagingPoliciesManager::createPrefabReceiveMessagePolicy(const MessagePolicyType &type, const Properties &options)
 		{
-			if(type == EMPTY_POLICY_TYPE) return nullptr;
+			if(type.empty() || type == EMPTY_POLICY_TYPE) return nullptr;
 			if(!isPrefabReceivePolicyType(type)) throw UnknownPrefabPolicy("There is no prefab message receive policy " + type);
 			ReceivePolicyPtr policy = (this->*receive_policy_creator_methods[type])(options);
 			IMessageReceivePolicy* result = policy.get();
@@ -34,7 +34,7 @@ namespace UnknownEngine {
 
 		IMessageDeliveryPolicy *MessagingPoliciesManager::createPrefabDeliveryMessagePolicy(const MessagePolicyType &type, const Properties &options)
 		{
-			if(type == EMPTY_POLICY_TYPE) return nullptr;
+			if(type.empty() || type == EMPTY_POLICY_TYPE) return nullptr;
 			if(!isPrefabDeliveryPolicyType(type)) throw UnknownPrefabPolicy("There is no prefab message delivery policy " + type);
 			DeliveryPolicyPtr policy = (this->*delivery_policy_creator_methods[type])(options);
 			IMessageDeliveryPolicy* result = policy.get();
