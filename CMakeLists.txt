@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.4)
 
 project(UNKNOWN_ENGINE)
 
@@ -14,19 +14,22 @@ set(DEPLOY_INCLUDES_PLAIN FALSE)
 
 set(CMAKE_BUILD_TYPE Debug)
 
-set(MODULE_TEMPLATE_CMAKELISTS_FILE ${UNKNOWN_ENGINE_SOURCE_DIR}/CMakeModuleTemplate.cmake)
-set(PCH_CMAKELISTS_FILE ${UNKNOWN_ENGINE_SOURCE_DIR}/PCHSupport.cmake)
+set(MODULE_TEMPLATE_CMAKELISTS_FILE 
+${UNKNOWN_ENGINE_SOURCE_DIR}/CMakeModules/CMakeModuleTemplate.cmake)
+set(PCH_CMAKELISTS_FILE 
+${UNKNOWN_ENGINE_SOURCE_DIR}/CMakeMOdules/PCHSupport.cmake)
 
-if(WIN32)
+if(WIN32 OR CYGWIN)
   if(MINGW)
-    list(APPEND CMAKE_CXX_FLAGS " -std=c++11 -pipe -g3 -O0 -Wpedantic -U__STRICT_ANSI__ ")
+    list(APPEND CMAKE_CXX_FLAGS " -std=c++11 -pipe -g3 -O0 -Wpedantic")
   elseif(MSVC)
     list(APPEND CMAKE_CXX_FLAGS " /Zi /Od ")
+  elseif(CYGWIN)
+    list(APPEND CMAKE_CXX_FLAGS " -std=c++11 -pipe -g3 -O0 -Wpedantic")
   endif(MINGW)
-else(WIN32)
+else(WIN32 OR CYGWIN)
   list(APPEND CMAKE_CXX_FLAGS " -std=c++11 -pipe -g3 -O0 ")
-endif(WIN32)
-
+endif(WIN32 OR CYGWIN)
 
 set(
 CROSS_PLATFORM_TARGETS
