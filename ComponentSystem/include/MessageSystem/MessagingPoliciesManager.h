@@ -37,7 +37,7 @@ namespace UnknownEngine {
 				std::vector<ReceivePolicyPtr> receive_policies;
 				std::vector<DeliveryPolicyPtr> delivery_policies;
 
-				const MessagePolicyType EMPTY_POLICY_TYPE = "None";
+				const MessagePolicyType EMPTY_POLICY_TYPE;
 
 				typedef ReceivePolicyPtr&& (MessagingPoliciesManager::*ReceivePolicyCreator)(const Properties&);
 				typedef DeliveryPolicyPtr&& (MessagingPoliciesManager::*DeliveryPolicyCreator)(const Properties&);

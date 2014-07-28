@@ -49,10 +49,6 @@ namespace UnknownEngine
 			private:
 				typedef typename PropertiesInternals<K>::MapType InternalMapType;
 
-			public:
-				PropertiesTree (){}
-				virtual ~PropertiesTree (){}
-
 				/**
 				 * @brief Returns all properties of type V
 				 *
@@ -68,47 +64,9 @@ namespace UnknownEngine
 					return boost::fusion::at_key<V>( values_map );
 				}
 
-				/**
-				 * @brief Returns the property value by name
-				 * @param name - Property name
-				 *
-				 * Uses separate maps
-				 *
-				 * \tparam V - Value type
-				 *
-				 * @throw PropertyNotFoundException - Is thrown if the property name wasn't found
-				 *
-				 */
-				template<typename V>
-				UNKNOWNENGINE_INLINE
-				typename boost::enable_if<NotAnyPropertyTypes<V>, const V& >::type
-				get ( K name ) const throw(PropertyNotFoundException)
-				{
-					const std::unordered_map<K, V>& values = getAllOfType<V>();
-					const auto found = values.find( name );
-					if ( found == values.end() ) throw PropertyNotFoundException("Can't find requested property");
-					return found->second;
-				}
-
-				/**
-				 * @brief Returns the property value by name or default value if propery not found
-				 * @param name - Property name
-				 *
-				 * Uses separate maps
-				 *
-				 * \tparam V - Value type
-				 *
-				 */
-				template<typename V>
-				UNKNOWNENGINE_INLINE
-				typename boost::enable_if<NotAnyPropertyTypes<V>, const V& >::type
-				get ( K name, const V &default_value ) const
-				{
-					const std::unordered_map<K, V>& values = getAllOfType<V>();
-					const auto found = values.find( name );
-					if ( found == values.end() ) return default_value;
-					return found->second;
-				}
+			public:
+				PropertiesTree (){}
+				virtual ~PropertiesTree (){}
 
 				/**
 				 * @brief Returns the property value by name
@@ -123,8 +81,7 @@ namespace UnknownEngine
 				 */
 				template<typename V>
 				UNKNOWNENGINE_INLINE
-				typename boost::enable_if<AnyPropertyType<V>, const V& >::type
-				get ( K name ) const throw(PropertyNotFoundException)
+				const V &get (const K &name ) const throw(PropertyNotFoundException)
 				{
 					const std::unordered_map<K, boost::any>& values = getAllOfType<boost::any>();
 					const auto found = values.find( name );
@@ -143,32 +100,12 @@ namespace UnknownEngine
 				 */
 				template<typename V>
 				UNKNOWNENGINE_INLINE
-				typename boost::enable_if<AnyPropertyType<V>, const V& >::type
-				get ( K name, const V &default_value ) const
+				const V &get (const K &name, const V &default_value ) const
 				{
 					const std::unordered_map<K, boost::any>& values = getAllOfType<boost::any>();
 					const auto found = values.find( name );
 					if ( found == values.end() ) return default_value;
 					return boost::any_cast<const V&>(found->second);
-				}
-
-				/**
-				 * @brief Sets the property value by name
-				 * @param name - Property name
-				 * @param value - Property value
-				 *
-				 * Uses separate maps
-				 *
-				 * \tparam V - Value type
-				 *
-				 */
-				template<typename V>
-				UNKNOWNENGINE_INLINE
-				typename boost::enable_if<NotAnyPropertyTypes<V>, void >::type
-				set ( K name, const V &value )
-				{
-					std::unordered_map<K, V>& values = const_cast<std::unordered_map<K, V>&>(getAllOfType<V>());
-					values[name] = value;
 				}
 
 				/**
@@ -183,12 +120,26 @@ namespace UnknownEngine
 				 */
 				template<typename V>
 				UNKNOWNENGINE_INLINE
-				typename boost::enable_if<AnyPropertyType<V>, void >::type
-				set ( K name, const V &value )
+				void set (const K &name, const V &value )
 				{
 					std::unordered_map<K, boost::any>& values = const_cast<std::unordered_map<K, boost::any>&>(getAllOfType<boost::any>());
 					values[name] = value;
 				}
+
+				PROPERTIES_SEPARATE_MAP_GETTER(int)
+				PROPERTIES_SEPARATE_MAP_GETTER(float)
+				PROPERTIES_SEPARATE_MAP_GETTER(std::string)
+				PROPERTIES_SEPARATE_MAP_GETTER(bool)
+
+				PROPERTIES_SEPARATE_MAP_GETTER_THROWING(int)
+				PROPERTIES_SEPARATE_MAP_GETTER_THROWING(float)
+				PROPERTIES_SEPARATE_MAP_GETTER_THROWING(std::string)
+				PROPERTIES_SEPARATE_MAP_GETTER_THROWING(bool)
+
+				PROPERTIES_SEPARATE_MAP_SETTER(int)
+				PROPERTIES_SEPARATE_MAP_SETTER(float)
+				PROPERTIES_SEPARATE_MAP_SETTER(std::string)
+				PROPERTIES_SEPARATE_MAP_SETTER(bool)
 
 			private:
 				InternalMapType values_map; ///< Actual properties map implementation

@@ -38,19 +38,10 @@ namespace UnknownEngine
 						typename pv_pair<boost::any>::type> MapType;
 		};
 
-		/// List of types for which to use a separate maps
-		template<typename V>
-		using NotAnyPropertyTypes = typename std::integral_constant <
-		bool,
-		std::is_same<V, float>::value ||
-		std::is_same<V, int>::value ||
-		std::is_same<V, bool>::value ||
-		std::is_same<V, std::string>::value
-		>;
+		#define PROPERTIES_SEPARATE_MAP_GETTER(type) template<> const type &PropertiesTree<K>::get (const K &name, const type &default_value ) const { const std::unordered_map<K, type>& values = getAllOfType<type>(); const auto found = values.find( name ); if ( found == values.end() ) return default_value; return found->second; }
+		#define PROPERTIES_SEPARATE_MAP_GETTER_THROWING(type) template<> const type &PropertiesTree<K>::get (const K &name ) const  throw(PropertyNotFoundException) { const std::unordered_map<K, type>& values = getAllOfType<type>(); const auto found = values.find( name ); if ( found == values.end() ) throw PropertyNotFoundException("Can't find requested property"); return found->second; }
+		#define PROPERTIES_SEPARATE_MAP_SETTER(type) template<> void PropertiesTree<K>::set (const K &name, const type &value ) { std::unordered_map<K, type>& values = const_cast<std::unordered_map<K, type>&>(getAllOfType<type>()); values[name] = value; }
 
-		/// List of types for which to use boost::any map with any_cast
-		template<typename V>
-		using AnyPropertyType = typename std::is_same < std::false_type, NotAnyPropertyTypes<V> >;
 
 	}
 }

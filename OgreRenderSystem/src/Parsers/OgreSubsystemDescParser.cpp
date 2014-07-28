@@ -8,6 +8,7 @@ namespace UnknownEngine {
 			OgreRenderSubsystem::Descriptor desc;
 			desc.render_window_name = properties.get<std::string>("render_window_name", "Unnamed window");
 			desc.config_filename = properties.get<std::string>("config_filename", "");
+			return desc;
 		}
 
 	} // namespace Graphics
