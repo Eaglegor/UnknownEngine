@@ -14,3 +14,7 @@
 #include <boost/fusion/include/map.hpp>
 #include <boost/fusion/include/pair.hpp>
 #include <boost/any.hpp>
+
+#ifdef _MSC_VER
+	#define constexpr 
+#endif
