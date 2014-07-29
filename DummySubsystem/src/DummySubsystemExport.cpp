@@ -13,17 +13,16 @@ static DummySubsystemPlugin* instance = nullptr;
 
 extern "C"
 UNKNOWNENGINE_PLUGIN_INTERFACE
-void installPlugin(PluginsManager* manager, const SubsystemDesc& desc)
+UnknownEngine::Core::Plugin* installPlugin(PluginsManager* manager, const SubsystemDesc& desc)
 {
-	instance = new DummySubsystemPlugin();
-	manager->internalInstallPlugin(instance, desc);
+	if(!instance) instance = new DummySubsystemPlugin();
+	return instance;
 }
 
 extern "C"
 UNKNOWNENGINE_PLUGIN_INTERFACE
 void uninstallPlugin(PluginsManager* manager)
 {
-	manager->internalUninstallPlugin(instance);
 	if(instance) delete instance;
 	instance = nullptr;
 }
