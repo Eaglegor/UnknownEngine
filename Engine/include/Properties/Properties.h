@@ -125,7 +125,7 @@ namespace UnknownEngine
 					std::unordered_map<K, boost::any>& values = const_cast<std::unordered_map<K, boost::any>&>(getAllOfType<boost::any>());
 					values[name] = value;
 				}
-
+/*
 				PROPERTIES_SEPARATE_MAP_GETTER(int)
 				PROPERTIES_SEPARATE_MAP_GETTER(float)
 				PROPERTIES_SEPARATE_MAP_GETTER(std::string)
@@ -140,7 +140,7 @@ namespace UnknownEngine
 				PROPERTIES_SEPARATE_MAP_SETTER(float)
 				PROPERTIES_SEPARATE_MAP_SETTER(std::string)
 				PROPERTIES_SEPARATE_MAP_SETTER(bool)
-
+*/
 			private:
 				InternalMapType values_map; ///< Actual properties map implementation
 

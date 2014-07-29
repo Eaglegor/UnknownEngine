@@ -41,7 +41,7 @@ endmacro(setup_pch_cflags)
 
 macro(setup_pch_command pch_input pch_output)
 
-	set_pch_cflags()
+	setup_pch_cflags()
 
 	if(COMPILER_IS_GCC)
 		set(PCH_COMMAND ${CMAKE_CXX_COMPILER} ${CMAKE_CXX_FLAGS} ${PCH_COMPILE_FLAGS} -x c++-header -o ${pch_output} -c ${pch_input})

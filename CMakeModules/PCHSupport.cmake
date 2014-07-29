@@ -25,7 +25,7 @@ endmacro(add_precompiled_header)
 
 
 
-macro(add_precompiled_header_notnative pch_target_name pch_h_file pch_cpp_file)
+macro(add_precompiled_header_not_native pch_target_name pch_h_file pch_cpp_file)
 
 	setup_pch_output_name(${pch_target_name})
 	setup_pch_command( ${PCH_OUTPUT_FILE} ${pch_h_file} )
@@ -34,7 +34,7 @@ macro(add_precompiled_header_notnative pch_target_name pch_h_file pch_cpp_file)
 	
 	add_target_dependency(${pch_target_name})
 	
-endmacro(add_precompiled_header_notnative)
+endmacro(add_precompiled_header_not_native)
 
 
 
@@ -48,7 +48,7 @@ endmacro(add_precompiled_header_native)
 
 
 
-macro(set_pch_output_name pch_target_name)
+macro(setup_pch_output_name pch_target_name)
 
 	if(COMPILER_IS_GCC)
 		set(PCH_OUTPUT_FILE "${CMAKE_CURRENT_BINARY_DIR}/${pch_target_name}.gch")
@@ -56,7 +56,7 @@ macro(set_pch_output_name pch_target_name)
 		set(PCH_OUTPUT_FILE "${CMAKE_CURRENT_BINARY_DIR}/${pch_target_name}.pch")
 	endif(COMPILER_IS_GCC)
 
-endmacro(set_pch_output_name)
+endmacro(setup_pch_output_name)
 
 
 

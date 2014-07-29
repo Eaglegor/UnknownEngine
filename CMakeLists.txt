@@ -23,7 +23,7 @@ ${UNKNOWN_ENGINE_SOURCE_DIR}/CMakeModules/PCHSupport.cmake)
 
 if(WIN32 OR CYGWIN)
   if(MINGW)
-    list(APPEND CMAKE_CXX_FLAGS " -std=c++11 -pipe -g3 -O0 -Wpedantic")
+    list(APPEND CMAKE_CXX_FLAGS " -std=c++11 -pipe -g3 -O0 -Wpedantic -U__STRICT_ANSI__")
   elseif(MSVC)
     list(APPEND CMAKE_CXX_FLAGS " /Zi /Od ")
   elseif(CYGWIN)
