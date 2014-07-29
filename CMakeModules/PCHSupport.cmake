@@ -1,16 +1,11 @@
-# - Try to find precompiled headers support for GCC 3.4 and 4.x (and MSVC)
-# Once done this will define:
-#
-# Variable:
-# PCHSupport_FOUND
-#
-# ADD_PRECOMPILED_HEADER _targetName _inputh _inputcpp
-# ADD_PRECOMPILED_HEADER_TO_TARGET _targetName _input _pch_output_to_use
-# ADD_NATIVE_PRECOMPILED_HEADER _targetName _inputh _inputcpp
 
 include(${UNKNOWN_ENGINE_SOURCE_DIR}/CMakeModules/DetectCompilerPCHSupport.cmake)
 
 setup_pch_support()
+
+if(NOT COMPILER_SUPPORTS_PCH)
+  message("Precompiled headers not supported for this compiler")
+endif(NOT COMPILER_SUPPORTS_PCH)
 
 macro(add_precompiled_header pch_target_name pch_h_file pch_cpp_file)
 	
@@ -23,20 +18,16 @@ macro(add_precompiled_header pch_target_name pch_h_file pch_cpp_file)
 endmacro(add_precompiled_header)
 
 
-
-
 macro(add_precompiled_header_not_native pch_target_name pch_h_file pch_cpp_file)
 
 	setup_pch_output_name(${pch_target_name})
-	setup_pch_command( ${PCH_OUTPUT_FILE} ${pch_h_file} )
+	setup_pch_command( ${pch_h_file} ${PCH_OUTPUT_FILE} )
 	
-	add_custom_command(OUTPUT ${PCH_OUTPUT_FILE} COMMAND ${PCH_COMMAND})
+	add_custom_command(OUTPUT ${PCH_OUTPUT_FILE} COMMAND ${PCH_COMMAND} DEPENDS ${pch_h_file})
 	
 	add_target_dependency(${pch_target_name})
 	
 endmacro(add_precompiled_header_not_native)
-
-
 
 
 macro(add_precompiled_header_native pch_target_name pch_h_file pch_cpp_file)
@@ -62,9 +53,7 @@ endmacro(setup_pch_output_name)
 
 
 macro(add_target_dependency _targetName )
-	add_custom_target(pch_Generate_${_targetName}
-		DEPENDS ${PCH_OUTPUT_FILE}
-	)
+	add_custom_target("pch_Generate_${_targetName}" DEPENDS ${PCH_OUTPUT_FILE} )
 
-	add_dependencies(${_targetName} pch_Generate_${_targetName} )
+	add_dependencies(${_targetName} "pch_Generate_${_targetName}" )
 endmacro(add_target_dependency)

@@ -43,10 +43,29 @@ macro(setup_pch_command pch_input pch_output)
 
 	setup_pch_cflags()
 
+	if(COMPILER_IS_GCC OR COMPILER_IS_CLANG)
+	  GET_DIRECTORY_PROPERTY(_directory_flags DEFINITIONS)
+	  GET_DIRECTORY_PROPERTY(_global_definitions DIRECTORY ${UNKNOWN_ENGINE_SOURCE_DIR} DEFINITIONS)
+	  
+	  GET_DIRECTORY_PROPERTY(DIRINC INCLUDE_DIRECTORIES )
+	    FOREACH(item ${DIRINC})
+	    LIST(APPEND current_target_includes_list "-I${item} ")
+	  ENDFOREACH(item)
+	  
+	endif(COMPILER_IS_GCC OR COMPILER_IS_CLANG)
+	
+	list(APPEND compiler_arguments ${CMAKE_CXX_FLAGS})
+	list(APPEND compiler_arguments ${PCH_COMPILE_FLAGS})
+	list(APPEND compiler_arguments ${_directory_flags})
+	list(APPEND compiler_arguments ${_global_definitions})
+	list(APPEND compiler_arguments ${current_target_includes_list})
+	
+	separate_arguments(compiler_arguments)
+	
 	if(COMPILER_IS_GCC)
-		set(PCH_COMMAND ${CMAKE_CXX_COMPILER} ${CMAKE_CXX_FLAGS} ${PCH_COMPILE_FLAGS} -x c++-header -o ${pch_output} -c ${pch_input})
+		set(PCH_COMMAND ${CMAKE_CXX_COMPILER} ${compiler_arguments} -x c++-header -o ${pch_output} -c ${pch_input})
 	elseif(COMPILER_IS_CLANG)
-		set(PCH_COMMAND ${CMAKE_CXX_COMPILER} ${CMAKE_CXX_FLAGS} ${PCH_COMPILE_FLAGS} -x c++-header -o ${pch_output} -c ${pch_input})
+		set(PCH_COMMAND ${CMAKE_CXX_COMPILER} ${compiler_arguments} -x c++-header -o ${pch_output} -c ${pch_input})
 	elseif(COMPILER_IS_MSVC)
 		# nothing - there is native way
 	endif(COMPILER_IS_GCC)

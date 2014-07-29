@@ -13,20 +13,20 @@
 #include <SubsystemDesc.h>
 #include <Engine.h>
 
-//#ifdef __WIN32__
+#ifdef __WIN32__
 	#define LOAD_LIBRARY(library_name) LoadLibrary(library_name)
 	#define GET_SYMBOL_ADDRESS(library, symbol_name) GetProcAddress( reinterpret_cast<HINSTANCE>(library), symbol_name)
 	#define	UNLOAD_LIBRARY(library) FreeLibrary(reinterpret_cast<HINSTANCE>(library))
 	#define GET_LAST_LOAD_ERROR()
-//#else
-//	#include <dlfcn.h>
-//	#include <link.h>
-//
-//	#define LOAD_LIBRARY(library_name) dlopen(library_name, RTLD_LAZY)
-//	#define GET_SYMBOL_ADDRESS(library, symbol_name) dlsym(library, symbol_name)
-//	#define	UNLOAD_LIBRARY(library) dlclose(library)
-//	#define GET_LAST_LOAD_ERROR() dlerror()
-//#endif
+#else
+	#include <dlfcn.h>
+	#include <link.h>
+
+	#define LOAD_LIBRARY(library_name) dlopen(library_name, RTLD_LAZY)
+	#define GET_SYMBOL_ADDRESS(library, symbol_name) dlsym(library, symbol_name)
+	#define	UNLOAD_LIBRARY(library) dlclose(library)
+	#define GET_LAST_LOAD_ERROR() dlerror()
+#endif
 
 #define ENABLE_CORE_SUBSYSTEM_INFO_LOG
 #define ENABLE_CORE_SUBSYSTEM_ERROR_LOG
