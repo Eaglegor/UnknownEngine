@@ -45,19 +45,6 @@ namespace UnknownEngine
 				void initSubsystems();
 
 				/**
-				 * @brief Registers plugin and calls it's install() method. Must be called from the plugin's "installPlugin()" function.
-				 * @param plugin - Plugin instance to be registered
-				 * @param desc - Descriptor of subsystem to be passed to a plugin
-				 */
-				void internalInstallPlugin(Plugin* plugin, const SubsystemDesc &desc);
-
-				/**
-				 * @brief Unregisters plugin. Must be called from the plugin's "uninstallPlugin()" function.
-				 * @param plugin - Plugin to be unregistered
-				 */
-				void internalUninstallPlugin(Plugin* plugin);
-
-				/**
 				 * @brief Returns the engine context.
 				 * @return %Engine context
 				 */
