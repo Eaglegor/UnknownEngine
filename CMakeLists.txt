@@ -14,6 +14,8 @@ set(DEPLOY_INCLUDES_PLAIN FALSE)
 
 set(CMAKE_BUILD_TYPE Debug)
 
+include(${UNKNOWN_ENGINE_SOURCE_DIR}/CMakeModules/DetectCompiler.cmake)
+
 set(MODULE_TEMPLATE_CMAKELISTS_FILE 
 ${UNKNOWN_ENGINE_SOURCE_DIR}/CMakeModules/CMakeModuleTemplate.cmake)
 set(PCH_CMAKELISTS_FILE 
