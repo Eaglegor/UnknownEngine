@@ -13,10 +13,6 @@
 #include <SubsystemDesc.h>
 #include <Engine.h>
 
-#ifdef _MSC_VER
-	#define __WIN32__
-#endif
-
 #ifdef __WIN32__
 	#define LOAD_LIBRARY(library_name) LoadLibrary(library_name)
 	#define GET_SYMBOL_ADDRESS(library, symbol_name) GetProcAddress( reinterpret_cast<HINSTANCE>(library), symbol_name)

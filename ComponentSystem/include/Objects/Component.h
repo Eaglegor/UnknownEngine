@@ -80,7 +80,7 @@ namespace UnknownEngine
 				 * The init stuff must be done in this method. Is called by parent entity after component addition.
 				 *
 				 */
-				__declspec (dllexport) virtual void init(const Entity* parent_entity) = 0;
+				virtual void init(const Entity* parent_entity) = 0;
 
 				/**
 				 *  @brief Is called when the parent entity is started
