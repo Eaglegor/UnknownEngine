@@ -9,28 +9,22 @@
 #  ifndef OGRERENDERSYSTEM_EXPORT
 #    ifdef OgreRenderSystem_EXPORTS
         /* We are building this library */
-#      define OGRERENDERSYSTEM_EXPORT __declspec(dllexport)
+#      define OGRERENDERSYSTEM_EXPORT __attribute__((visibility("default")))
 #    else
         /* We are using this library */
-#      define OGRERENDERSYSTEM_EXPORT __declspec(dllimport)
+#      define OGRERENDERSYSTEM_EXPORT __attribute__((visibility("default")))
 #    endif
 #  endif
 
 #  ifndef OGRERENDERSYSTEM_NO_EXPORT
-#    define OGRERENDERSYSTEM_NO_EXPORT 
+#    define OGRERENDERSYSTEM_NO_EXPORT __attribute__((visibility("hidden")))
 #  endif
 #endif
 
 #ifndef OGRERENDERSYSTEM_DEPRECATED
-#  define OGRERENDERSYSTEM_DEPRECATED __declspec(deprecated)
-#endif
-
-#ifndef OGRERENDERSYSTEM_DEPRECATED_EXPORT
-#  define OGRERENDERSYSTEM_DEPRECATED_EXPORT OGRERENDERSYSTEM_EXPORT OGRERENDERSYSTEM_DEPRECATED
-#endif
-
-#ifndef OGRERENDERSYSTEM_DEPRECATED_NO_EXPORT
-#  define OGRERENDERSYSTEM_DEPRECATED_NO_EXPORT OGRERENDERSYSTEM_NO_EXPORT OGRERENDERSYSTEM_DEPRECATED
+#  define OGRERENDERSYSTEM_DEPRECATED __attribute__ ((__deprecated__))
+#  define OGRERENDERSYSTEM_DEPRECATED_EXPORT OGRERENDERSYSTEM_EXPORT __attribute__ ((__deprecated__))
+#  define OGRERENDERSYSTEM_DEPRECATED_NO_EXPORT OGRERENDERSYSTEM_NO_EXPORT __attribute__ ((__deprecated__))
 #endif
 
 #define DEFINE_NO_DEPRECATED 0

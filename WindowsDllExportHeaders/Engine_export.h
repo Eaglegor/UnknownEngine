@@ -9,28 +9,22 @@
 #  ifndef ENGINE_EXPORT
 #    ifdef Engine_EXPORTS
         /* We are building this library */
-#      define ENGINE_EXPORT __declspec(dllexport)
+#      define ENGINE_EXPORT __attribute__((visibility("default")))
 #    else
         /* We are using this library */
-#      define ENGINE_EXPORT __declspec(dllimport)
+#      define ENGINE_EXPORT __attribute__((visibility("default")))
 #    endif
 #  endif
 
 #  ifndef ENGINE_NO_EXPORT
-#    define ENGINE_NO_EXPORT 
+#    define ENGINE_NO_EXPORT __attribute__((visibility("hidden")))
 #  endif
 #endif
 
 #ifndef ENGINE_DEPRECATED
-#  define ENGINE_DEPRECATED __declspec(deprecated)
-#endif
-
-#ifndef ENGINE_DEPRECATED_EXPORT
-#  define ENGINE_DEPRECATED_EXPORT ENGINE_EXPORT ENGINE_DEPRECATED
-#endif
-
-#ifndef ENGINE_DEPRECATED_NO_EXPORT
-#  define ENGINE_DEPRECATED_NO_EXPORT ENGINE_NO_EXPORT ENGINE_DEPRECATED
+#  define ENGINE_DEPRECATED __attribute__ ((__deprecated__))
+#  define ENGINE_DEPRECATED_EXPORT ENGINE_EXPORT __attribute__ ((__deprecated__))
+#  define ENGINE_DEPRECATED_NO_EXPORT ENGINE_NO_EXPORT __attribute__ ((__deprecated__))
 #endif
 
 #define DEFINE_NO_DEPRECATED 0

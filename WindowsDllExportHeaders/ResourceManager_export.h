@@ -9,28 +9,22 @@
 #  ifndef RESOURCEMANAGER_EXPORT
 #    ifdef ResourceManager_EXPORTS
         /* We are building this library */
-#      define RESOURCEMANAGER_EXPORT __declspec(dllexport)
+#      define RESOURCEMANAGER_EXPORT __attribute__((visibility("default")))
 #    else
         /* We are using this library */
-#      define RESOURCEMANAGER_EXPORT __declspec(dllimport)
+#      define RESOURCEMANAGER_EXPORT __attribute__((visibility("default")))
 #    endif
 #  endif
 
 #  ifndef RESOURCEMANAGER_NO_EXPORT
-#    define RESOURCEMANAGER_NO_EXPORT 
+#    define RESOURCEMANAGER_NO_EXPORT __attribute__((visibility("hidden")))
 #  endif
 #endif
 
 #ifndef RESOURCEMANAGER_DEPRECATED
-#  define RESOURCEMANAGER_DEPRECATED __declspec(deprecated)
-#endif
-
-#ifndef RESOURCEMANAGER_DEPRECATED_EXPORT
-#  define RESOURCEMANAGER_DEPRECATED_EXPORT RESOURCEMANAGER_EXPORT RESOURCEMANAGER_DEPRECATED
-#endif
-
-#ifndef RESOURCEMANAGER_DEPRECATED_NO_EXPORT
-#  define RESOURCEMANAGER_DEPRECATED_NO_EXPORT RESOURCEMANAGER_NO_EXPORT RESOURCEMANAGER_DEPRECATED
+#  define RESOURCEMANAGER_DEPRECATED __attribute__ ((__deprecated__))
+#  define RESOURCEMANAGER_DEPRECATED_EXPORT RESOURCEMANAGER_EXPORT __attribute__ ((__deprecated__))
+#  define RESOURCEMANAGER_DEPRECATED_NO_EXPORT RESOURCEMANAGER_NO_EXPORT __attribute__ ((__deprecated__))
 #endif
 
 #define DEFINE_NO_DEPRECATED 0

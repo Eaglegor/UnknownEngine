@@ -182,7 +182,11 @@ namespace UnknownEngine
 
 		};
 
+	#ifdef _MSC_VER
+	#ifndef ComponentSystem_EXPORTS
 		extern template class COMPONENTSYSTEM_EXPORT Singleton<MessageDispatcher>;
+	#endif
+	#endif
 
 	} /* namespace Core */
 } /* namespace UnknownEngine */

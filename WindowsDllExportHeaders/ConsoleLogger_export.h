@@ -9,28 +9,22 @@
 #  ifndef CONSOLELOGGER_EXPORT
 #    ifdef ConsoleLogger_EXPORTS
         /* We are building this library */
-#      define CONSOLELOGGER_EXPORT __declspec(dllexport)
+#      define CONSOLELOGGER_EXPORT __attribute__((visibility("default")))
 #    else
         /* We are using this library */
-#      define CONSOLELOGGER_EXPORT __declspec(dllimport)
+#      define CONSOLELOGGER_EXPORT __attribute__((visibility("default")))
 #    endif
 #  endif
 
 #  ifndef CONSOLELOGGER_NO_EXPORT
-#    define CONSOLELOGGER_NO_EXPORT 
+#    define CONSOLELOGGER_NO_EXPORT __attribute__((visibility("hidden")))
 #  endif
 #endif
 
 #ifndef CONSOLELOGGER_DEPRECATED
-#  define CONSOLELOGGER_DEPRECATED __declspec(deprecated)
-#endif
-
-#ifndef CONSOLELOGGER_DEPRECATED_EXPORT
-#  define CONSOLELOGGER_DEPRECATED_EXPORT CONSOLELOGGER_EXPORT CONSOLELOGGER_DEPRECATED
-#endif
-
-#ifndef CONSOLELOGGER_DEPRECATED_NO_EXPORT
-#  define CONSOLELOGGER_DEPRECATED_NO_EXPORT CONSOLELOGGER_NO_EXPORT CONSOLELOGGER_DEPRECATED
+#  define CONSOLELOGGER_DEPRECATED __attribute__ ((__deprecated__))
+#  define CONSOLELOGGER_DEPRECATED_EXPORT CONSOLELOGGER_EXPORT __attribute__ ((__deprecated__))
+#  define CONSOLELOGGER_DEPRECATED_NO_EXPORT CONSOLELOGGER_NO_EXPORT __attribute__ ((__deprecated__))
 #endif
 
 #define DEFINE_NO_DEPRECATED 0

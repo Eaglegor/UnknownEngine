@@ -9,28 +9,22 @@
 #  ifndef COMPONENTSYSTEM_EXPORT
 #    ifdef ComponentSystem_EXPORTS
         /* We are building this library */
-#      define COMPONENTSYSTEM_EXPORT __declspec(dllexport)
+#      define COMPONENTSYSTEM_EXPORT __attribute__((visibility("default")))
 #    else
         /* We are using this library */
-#      define COMPONENTSYSTEM_EXPORT __declspec(dllimport)
+#      define COMPONENTSYSTEM_EXPORT __attribute__((visibility("default")))
 #    endif
 #  endif
 
 #  ifndef COMPONENTSYSTEM_NO_EXPORT
-#    define COMPONENTSYSTEM_NO_EXPORT 
+#    define COMPONENTSYSTEM_NO_EXPORT __attribute__((visibility("hidden")))
 #  endif
 #endif
 
 #ifndef COMPONENTSYSTEM_DEPRECATED
-#  define COMPONENTSYSTEM_DEPRECATED __declspec(deprecated)
-#endif
-
-#ifndef COMPONENTSYSTEM_DEPRECATED_EXPORT
-#  define COMPONENTSYSTEM_DEPRECATED_EXPORT COMPONENTSYSTEM_EXPORT COMPONENTSYSTEM_DEPRECATED
-#endif
-
-#ifndef COMPONENTSYSTEM_DEPRECATED_NO_EXPORT
-#  define COMPONENTSYSTEM_DEPRECATED_NO_EXPORT COMPONENTSYSTEM_NO_EXPORT COMPONENTSYSTEM_DEPRECATED
+#  define COMPONENTSYSTEM_DEPRECATED __attribute__ ((__deprecated__))
+#  define COMPONENTSYSTEM_DEPRECATED_EXPORT COMPONENTSYSTEM_EXPORT __attribute__ ((__deprecated__))
+#  define COMPONENTSYSTEM_DEPRECATED_NO_EXPORT COMPONENTSYSTEM_NO_EXPORT __attribute__ ((__deprecated__))
 #endif
 
 #define DEFINE_NO_DEPRECATED 0
