@@ -109,8 +109,9 @@ namespace UnknownEngine
 			Plugin* plugin = start_point ( this, desc );
 
 			CORE_SUBSYSTEM_INFO("Installing plugin: " + library_name);
-			plugin->install(this, desc);
+			
 			plugin->setName(desc.name);
+			plugin->install(this, desc);
 
 			CORE_SUBSYSTEM_INFO("Installation complete: " + library_name);
 			plugins.push_back(plugin);
@@ -123,6 +124,7 @@ namespace UnknownEngine
 			for(Plugin* plugin: plugins){
 				CORE_SUBSYSTEM_INFO( "Initializing plugin: " + plugin->getName());
 				plugin->init();
+				CORE_SUBSYSTEM_INFO( "Plugin initialized: " + plugin->getName());
 			}
 		}
 
