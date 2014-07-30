@@ -85,6 +85,8 @@ namespace UnknownEngine
 			CORE_SUBSYSTEM_INFO ( "Destroying message system participant dictionary" );
 			delete this->context.message_system_participant_dictionary;
 
+			CORE_SUBSYSTEM_INFO("Engine shutdown complete");
+			
 			state = CREATED;
 		}
 
