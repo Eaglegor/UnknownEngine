@@ -12,8 +12,7 @@
 #include <DummySubsystem.h>
 #include <MessageSystem/MessageDictionary.h>
 #include <EngineContext.h>
-
-#define LOG(s) std::cout << s << std::endl
+#include <LogHelper.h>
 
 namespace UnknownEngine
 {
@@ -21,19 +20,22 @@ namespace UnknownEngine
 	{
 
 		DummySubsystemPlugin::DummySubsystemPlugin ()
+		:log_helper(nullptr)
 		{
-			LOG("Instantiating dummy plugin object");
 		}
 
 		DummySubsystemPlugin::~DummySubsystemPlugin ()
 		{
-			LOG("Destroying dummy plugin instance");
 		}
 
 		bool DummySubsystemPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) throw ( Core::PluginError )
 		{
-
-			LOG("Installing dummy plugin");
+		  
+			log_helper = new Core::LogHelper(getName(), Core::LogMessage::LOG_SEVERITY_INFO, plugins_manager->getEngineContext());
+		  
+			LOG_INFO(log_helper, "Logger initialized");
+			
+			LOG_INFO(log_helper, "Installing dummy plugin");
 
 			// Saving context for later use
 			// Right now we don't know if all needed subsystems are already installed
@@ -42,6 +44,7 @@ namespace UnknownEngine
 			engine_context = plugins_manager->getEngineContext();
 
 			// Exporting interface messages of out subsystem
+			LOG_INFO(log_helper, "Registering dummy message type stub")
 			engine_context->getMessageDictionary()->registerNewMessageType("DummySubsystem.Test.TestMessageType");
 
 			return true;
@@ -49,21 +52,23 @@ namespace UnknownEngine
 
 		bool DummySubsystemPlugin::init () throw ( Core::PluginError )
 		{
-
-			LOG("Initializing dummy plugin");
+			LOG_INFO(log_helper, "Initializing dummy plugin")
 
 			return true;
 		}
 
 		bool DummySubsystemPlugin::shutdown () throw ( Core::PluginError )
 		{
-			LOG("Shutting down dummy plugin");
+			LOG_INFO(log_helper, "Shutting down dummy plugin");
+		  
 			return true;
 		}
 
 		bool DummySubsystemPlugin::uninstall () throw ( Core::PluginError )
 		{
-			LOG("Uninstalling dummy plugin");
+			LOG_INFO(log_helper, "Uninstalling dummy plugin");
+		  
+			if(log_helper) delete log_helper;
 			return true;
 		}
 

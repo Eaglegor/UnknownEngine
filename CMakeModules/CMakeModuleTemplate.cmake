@@ -1,18 +1,6 @@
 # Compilation
 
-link_directories(${UNKNOWN_ENGINE_SOURCE_DIR}/Deps/libs)
-list(APPEND INCLUDED_HEADERS ${UNKNOWN_ENGINE_SOURCE_DIR}/Deps/include)
 list(APPEND INCLUDED_HEADERS ${UNKNOWN_ENGINE_SOURCE_DIR}/WindowsDllExportHeaders)
-
-if(WIN32 OR CYGWIN)
-  if(MINGW)
-    link_directories(${UNKNOWN_ENGINE_SOURCE_DIR}/Deps/libs/MinGW)
-  elseif(MSVC)
-    link_directories(${UNKNOWN_ENGINE_SOURCE_DIR}/Deps/libs/MSVC110)
-  elseif(CYGWIN)
-    link_directories(${UNKNOWN_ENGINE_SOURCE_DIR}/Deps/libs/CygwinGCC)
-  endif(MINGW)
-endif(WIN32 OR CYGWIN)
 
 list(APPEND SOURCES_WILDCARD "*.cxx" "*.cpp" "*.hpp" "*.h")
 file(GLOB_RECURSE SOURCES ${SOURCES_WILDCARD})
@@ -28,9 +16,9 @@ endif(INCLUDED_HEADERS)
 if(LINKAGE)
     if(LINKAGE STREQUAL SHARED OR LINKAGE STREQUAL STATIC)
         add_library(${TARGET_NAME} ${LINKAGE} ${SOURCES})
-		
-		include(GenerateExportHeader)
-		GENERATE_EXPORT_HEADER(${TARGET_NAME} EXPORT_FILE_NAME ${UNKNOWN_ENGINE_SOURCE_DIR}/WindowsDllExportHeaders/${TARGET_NAME}_export.h)
+
+	include(GenerateExportHeader)
+	GENERATE_EXPORT_HEADER(${TARGET_NAME} EXPORT_FILE_NAME ${UNKNOWN_ENGINE_SOURCE_DIR}/WindowsDllExportHeaders/${TARGET_NAME}_export.h)
     elseif(LINKAGE STREQUAL INCLUDES_ONLY)
         add_custom_target(${TARGET_NAME} SOURCES ${SOURCES})
     endif(LINKAGE STREQUAL SHARED OR LINKAGE STREQUAL STATIC)

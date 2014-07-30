@@ -41,7 +41,7 @@ namespace UnknownEngine
 	namespace Core
 	{
 
-		typedef void (*PluginStartPoint) ( UnknownEngine::Core::PluginsManager*, const SubsystemDesc &desc);
+		typedef Plugin* (*PluginStartPoint) ( UnknownEngine::Core::PluginsManager*, const SubsystemDesc &desc);
 		typedef void (*PluginShutdownPoint) ( void );
 
 		PluginsManager::PluginsManager (EngineContext* engine_context):
@@ -58,6 +58,13 @@ namespace UnknownEngine
 				CORE_SUBSYSTEM_INFO("Shutting down plugin: " + (*iter)->getName());
 				(*iter)->shutdown();
 			}
+
+			for (auto iter = plugins.rbegin(); iter != plugins.rend(); ++iter)
+			{
+				CORE_SUBSYSTEM_INFO("Uninstalling plugin: " + (*iter)->getName());
+				(*iter)->uninstall();
+			}
+
 			plugins.clear();
 
 			CORE_SUBSYSTEM_INFO("Unloading shared libraries");
@@ -98,10 +105,16 @@ namespace UnknownEngine
 			  throw UnknownEngine::Core::PluginError (library_name+": Plugin entry point can't be found in library");
 			}
 
-			CORE_SUBSYSTEM_INFO("Installing module: " + library_name);
-			start_point ( this, desc );
+			CORE_SUBSYSTEM_INFO("Creating plugin instance: " + library_name);
+			Plugin* plugin = start_point ( this, desc );
+
+			CORE_SUBSYSTEM_INFO("Installing plugin: " + library_name);
+			
+			plugin->setName(desc.name);
+			plugin->install(this, desc);
 
 			CORE_SUBSYSTEM_INFO("Installation complete: " + library_name);
+			plugins.push_back(plugin);
 			libraries_handlers.push_back(library);
 		}
 
@@ -111,22 +124,8 @@ namespace UnknownEngine
 			for(Plugin* plugin: plugins){
 				CORE_SUBSYSTEM_INFO( "Initializing plugin: " + plugin->getName());
 				plugin->init();
+				CORE_SUBSYSTEM_INFO( "Plugin initialized: " + plugin->getName());
 			}
-		}
-
-		void PluginsManager::internalInstallPlugin ( Plugin* plugin, const SubsystemDesc &desc )
-		{
-			CORE_SUBSYSTEM_INFO("Installing plugin: " + desc.name);
-			plugins.push_back(plugin);
-			plugin->install ( this, desc );
-			plugin->setName(desc.name);
-		}
-
-		void PluginsManager::internalUninstallPlugin ( Plugin* plugin )
-		{
-			CORE_SUBSYSTEM_INFO("Uninstalling plugin: " + plugin->getName());
-			/// @todo Erase plugin from the list
-			plugin->uninstall ();
 		}
 
 		EngineContext *PluginsManager::getEngineContext() const

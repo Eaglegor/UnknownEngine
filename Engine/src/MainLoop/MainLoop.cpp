@@ -34,9 +34,11 @@ namespace UnknownEngine
 			UpdateFrameMessagePacker packer(getMessageSystemParticipantId());
 			while ( true )
 			{
+				/*
 				msg.stage = UpdateFrameMessage::PREPROCESSING;
 				msg.dt = dt;
 				MessageDispatcher::getSingleton()->deliverMessage(packer.packMessage(msg));
+				*/
 
 				msg.stage = UpdateFrameMessage::PROCESSING;
 				msg.dt = dt;
@@ -44,9 +46,10 @@ namespace UnknownEngine
 
 				updateTime();
 
-				msg.stage = UpdateFrameMessage::POSTPROCESSING;
+				/*msg.stage = UpdateFrameMessage::POSTPROCESSING;
 				msg.dt = dt;
 				MessageDispatcher::getSingleton()->deliverMessage(packer.packMessage(msg));
+				*/
 			}
 		}
 

@@ -30,8 +30,6 @@ namespace UnknownEngine
 		bool ConsoleLoggerPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) throw ( Core::PluginError )
 		{
 
-			setName(desc.name);
-		  
 			console_logger.setDefaultSenderName(desc.name);
 			
 			console_logger.log(Core::LogMessage::LOG_SEVERITY_INFO, "Installing console logger plugin");
@@ -74,6 +72,10 @@ namespace UnknownEngine
 		bool ConsoleLoggerPlugin::shutdown () throw ( Core::PluginError )
 		{
 			console_logger.log(Core::LogMessage::LOG_SEVERITY_INFO, "Shutting down console logger plugin");
+			
+			console_logger.log(Core::LogMessage::LOG_SEVERITY_INFO, "Unregistering log messages listener");
+			
+			engine_context->getMessageDispatcher()->removeListener(&console_logger);
 			
 			console_logger.log(Core::LogMessage::LOG_SEVERITY_INFO, "Console logger plugin is shut down");
 			
