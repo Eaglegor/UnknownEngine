@@ -4,6 +4,7 @@
 #include <MessageSystem/MessageSystemParticipantId.h>
 #include <EngineContext.h>
 #include <MessageSystem/MessageDispatcher.h>
+#include <InlineSpecification.h>
 
 namespace UnknownEngine
 {
@@ -13,15 +14,15 @@ namespace UnknownEngine
 		class LogHelper
 		{
 			public:
-				LogHelper ( const std::string &name, const LogMessage::Severity& log_level, EngineContext* engine_context )
+				LogHelper ( const std::string &name, const LogMessage::Severity& minimal_severity, EngineContext* engine_context )
 					: packer ( MessageSystemParticipantId ( name ) ),
-					  log_level ( log_level ),
+					  minimal_severity ( minimal_severity ),
 					  message_dispatcher ( engine_context->getMessageDispatcher() )
 				{}
 
 				void log ( const LogMessage::Severity& severity, const std::string& message )
 				{
-					if ( severity > log_level ) return;
+					if ( severity > minimal_severity ) return;
 					LogMessage msg;
 					msg.severity = severity;
 					msg.log_entry = message;
@@ -33,9 +34,15 @@ namespace UnknownEngine
 				    log(severity, message);
 				}
 				
+				UNKNOWNENGINE_INLINE
+				void setMinimalSeverity(const LogMessage::Severity& minimal_severity)
+				{
+				    this->minimal_severity = minimal_severity;
+				}
+				
 			private:
 				LogMessagePacker packer;
-				LogMessage::Severity log_level;
+				LogMessage::Severity minimal_severity;
 				MessageDispatcher *message_dispatcher;
 		};
 
