@@ -7,6 +7,8 @@
 
 #include <stdafx.h>
 
+#include <boost/lexical_cast.hpp>
+
 #include <Plugins/PluginsManager.h>
 #include <OgreRenderSystemPlugin.h>
 #include <MessageSystem/MessageDispatcher.h>
@@ -42,12 +44,10 @@ namespace UnknownEngine
 		bool OgreRenderSystemPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc &desc ) throw ( Core::PluginError )
 		{
 		  
-			setName(desc.name);
-		  
 			this->desc = desc;
 			this->engine_context = plugins_manager->getEngineContext();
 		  
-			log_helper = new Core::LogHelper(getName(), Core::LogMessage::LOG_SEVERITY_INFO, engine_context);
+			log_helper = new Core::LogHelper(getName(), Core::LogMessage::LOG_SEVERITY_DEBUG, engine_context);
 		  
 			LOG_INFO(log_helper, "Logger started");
 			
@@ -55,7 +55,9 @@ namespace UnknownEngine
 
 			LOG_INFO(log_helper, "Registering new message type name: " + std::string(ChangeMaterialActionMessage::getTypeName()) );
 			
-			engine_context->getMessageDictionary()->registerNewMessageType(ChangeMaterialActionMessage::getTypeName());
+			Core::MessageType message_type = engine_context->getMessageDictionary()->registerNewMessageType(ChangeMaterialActionMessage::getTypeName());
+			
+			LOG_DEBUG(log_helper, std::string(ChangeMaterialActionMessage::getTypeName()) + ": assigned id: " + boost::lexical_cast<std::string>(message_type) );
 			
 			LOG_INFO(log_helper, "Creating OGRE rendering subsystem");
 			
@@ -64,14 +66,14 @@ namespace UnknownEngine
 				LOG_INFO(log_helper, "Predefined descriptor found");
 				LOG_INFO(log_helper, "Creating subsystem object");
 				
-				render_system = new OgreRenderSubsystem(desc.prepared_descriptor.get<OgreRenderSubsystem::Descriptor>());
+				render_system = new OgreRenderSubsystem(desc.prepared_descriptor.get<OgreRenderSubsystem::Descriptor>(), log_helper);
 			}
 			else
 			{
-				LOG_INFO(log_helper, "Predefined descriptor not found - string parser will be used");
+				LOG_WARNING(log_helper, "Predefined descriptor not found - string parser will be used");
 				LOG_INFO(log_helper, "Creating subsystem object");
 				
-				render_system = new OgreRenderSubsystem(OgreRenderSubsystemDescriptorParser::parse(desc.creation_options));
+				render_system = new OgreRenderSubsystem(OgreRenderSubsystemDescriptorParser::parse(desc.creation_options), log_helper);
 			}
 			
 			LOG_INFO(log_helper, "Creating factory for component type 'Renderable'");
@@ -95,6 +97,7 @@ namespace UnknownEngine
 			update_frame_listener = new OgreUpdateFrameListener("Graphics.Ogre.Listeners.UpdateFrameListener", render_system);
 			engine_context->getMessageDispatcher()->addListener(Core::UpdateFrameMessage::getTypeName(), update_frame_listener);
 			
+			LOG_INFO(log_helper, "OGRE render system initialized");
 
 			return true;
 		}
@@ -109,7 +112,7 @@ namespace UnknownEngine
 			engine_context->getMessageDispatcher()->removeListener(update_frame_listener);
 			delete update_frame_listener;
 			
-			LOG_INFO(log_helper, "Update frame listener unregistered");
+			LOG_INFO(log_helper, "OGRE render system is shut down");
 			
 			return true;
 		}

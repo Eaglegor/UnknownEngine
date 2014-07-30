@@ -18,6 +18,7 @@ int main()
     //XmlSceneLoader loader("LHEScene.xml");
 	engine.init();
 	
+
 	{
 	  SubsystemDesc desc;
 	  desc.name = "Logger";
@@ -30,12 +31,23 @@ int main()
 	  
 	  engine.getPluginsManager()->loadSubsystem(desc);
 	}
+
+	{
+	  SubsystemDesc desc;
+	  desc.name = "DummySubsystem";
+	  desc.module_name = "libDummySubsystem.so";
+	  
+	  engine.getPluginsManager()->loadSubsystem(desc);
+	}
 	
 	{
 	  SubsystemDesc desc;
 	  desc.name = "Render";
 	  desc.module_name = "libOgreRenderSystem.so";
 	  desc.creation_options.set<std::string>("render_window_name", "Hello");
+	  desc.creation_options.set<std::string>("ogre_config_filename", "ogre.cfg");
+	  desc.creation_options.set<std::string>("ogre_plugins_filename", "plugins.cfg");
+	  desc.creation_options.set<std::string>("ogre_log_filename", "Ogre.log");
 	  
 	  ReceivedMessageDesc msg;
 	  msg.message_type_name = "Engine.MainLoop.UpdateFrameMessage";
@@ -48,5 +60,7 @@ int main()
 	//engine.loadScene(&loader);
 	engine.start();
 
+	engine.shutdown();
+	
 	return 0;
 }
