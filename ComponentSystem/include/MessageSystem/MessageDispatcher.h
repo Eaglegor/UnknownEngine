@@ -6,6 +6,7 @@
  *      Author: gorbachenko
  */
 
+#include <ComponentSystem_export.h>
 #include <unordered_map>
 #include <list>
 
@@ -58,7 +59,6 @@ namespace UnknownEngine
 
 		 */
 
-
 		class MessageDispatcher : public Singleton<MessageDispatcher>
 		{
 			public:
@@ -68,7 +68,10 @@ namespace UnknownEngine
 				 * Is called by Engine
 				 *
 				 */
+				COMPONENTSYSTEM_EXPORT
 				MessageDispatcher ();
+
+				COMPONENTSYSTEM_EXPORT
 				virtual ~MessageDispatcher ();
 
 				/**
@@ -77,6 +80,7 @@ namespace UnknownEngine
 				 * @param listener - %Listener object
 				 * @param receive_policy - %Receive policy to filter out received messages
 				 */
+				COMPONENTSYSTEM_EXPORT
 				void addListener ( const MessageType &message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy = nullptr );
 
 				/**
@@ -85,6 +89,7 @@ namespace UnknownEngine
 				 * @param listener - %Listener object
 				 * @param receive_policy - %Receive policy to filter out received messages
 				 */
+				COMPONENTSYSTEM_EXPORT
 				void addListener ( const std::string &message_type_name, IMessageListener* listener, IMessageReceivePolicy* receive_policy = nullptr );
 
 				/**
@@ -92,6 +97,7 @@ namespace UnknownEngine
 				 * @param message_type_id - %Message type id to unsubscribe listener from
 				 * @param listener - %Message listener to unsubscribe
 				 */
+				COMPONENTSYSTEM_EXPORT
 				void removeListener ( const MessageType &message_type_id, IMessageListener* listener );
 
 				/**
@@ -99,12 +105,14 @@ namespace UnknownEngine
 				 * @param message_type_name - %Message type name to unsubscribe listener from
 				 * @param listener - %Message listener to unsubscribe
 				 */
+				COMPONENTSYSTEM_EXPORT
 				void removeListener ( const std::string &message_type_name, IMessageListener* listener );
 
 				/**
 				 * @brief Removes listener for all message types
 				 * @param listener - Listener object to unsubscribe
 				 */
+				COMPONENTSYSTEM_EXPORT
 				void removeListener ( IMessageListener* listener );
 
 				/**
@@ -112,12 +120,14 @@ namespace UnknownEngine
 				 * @param listener - %Message listener object
 				 * @param receive_policy - %Message receive policy to filter out messages
 				 */
+				COMPONENTSYSTEM_EXPORT
 				void addSniffer ( IMessageListener* listener, IMessageReceivePolicy* receive_policy );
 
 				/**
 				 * @brief Removes sniffer listener
 				 * @param listener - %Listener object to remove
 				 */
+				COMPONENTSYSTEM_EXPORT
 				void removeSniffer ( IMessageListener* listener );
 
 				/**
@@ -126,6 +136,7 @@ namespace UnknownEngine
 				 * @param listener - %Listener object
 				 * @param receive_policy - %Message receive policy
 				 */
+				COMPONENTSYSTEM_EXPORT
 				void setListenerReceivePolicy( const MessageType &message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy);
 
 				/**
@@ -134,6 +145,7 @@ namespace UnknownEngine
 				 * @param listener - %Listener object
 				 * @param receive_policy - %Message receive policy
 				 */
+				COMPONENTSYSTEM_EXPORT
 				void setListenerReceivePolicy( const std::string &message_type_name, IMessageListener* listener, IMessageReceivePolicy* receive_policy);
 
 				/**
@@ -141,6 +153,7 @@ namespace UnknownEngine
 				 * @param msg - %Packed message to deliver
 				 * @param delivery_policy - %Delivery policy
 				 */
+				COMPONENTSYSTEM_EXPORT
 				void deliverMessage ( const PackedMessage &msg, IMessageDeliveryPolicy* delivery_policy = nullptr ) const;
 
 			private:
@@ -168,6 +181,8 @@ namespace UnknownEngine
 				MessageListenersList sniffers; ///< List of sniffers
 
 		};
+
+		extern template class COMPONENTSYSTEM_EXPORT Singleton<MessageDispatcher>;
 
 	} /* namespace Core */
 } /* namespace UnknownEngine */

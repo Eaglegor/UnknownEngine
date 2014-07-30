@@ -6,6 +6,7 @@
  *      Author: gorbachenko
  */
 
+#include <ComponentSystem_export.h>
 #include <string>
 
 #include <Exception.h>

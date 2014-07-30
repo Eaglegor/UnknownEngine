@@ -13,10 +13,5 @@ namespace UnknownEngine
 {
 	namespace Core
 	{
-		Component::~Component ()
-		{
-			// TODO Auto-generated destructor stub
-		}
-
 	} /* namespace Core */
 } /* namespace UnknownEngine */

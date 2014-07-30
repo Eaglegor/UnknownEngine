@@ -1,5 +1,6 @@
 #pragma once
 
+#include <ComponentSystem_export.h>
 #include <vector>
 #include <functional>
 #include <memory>
@@ -22,15 +23,22 @@ namespace UnknownEngine {
 				typedef std::unique_ptr <IMessageReceivePolicy> ReceivePolicyPtr;
 				typedef std::unique_ptr <IMessageDeliveryPolicy> DeliveryPolicyPtr;
 
+				COMPONENTSYSTEM_EXPORT
 				MessagingPoliciesManager(EngineContext *engine_context);
 
+				COMPONENTSYSTEM_EXPORT
 				IMessageReceivePolicy* createPrefabReceiveMessagePolicy(const MessagePolicyType &type, const Properties& options);
+				COMPONENTSYSTEM_EXPORT
 				IMessageDeliveryPolicy* createPrefabDeliveryMessagePolicy(const MessagePolicyType &type, const Properties& options);
 
+				COMPONENTSYSTEM_EXPORT
 				void addMessageReceivePolicy(ReceivePolicyPtr new_policy);
+				COMPONENTSYSTEM_EXPORT
 				void addMessageDeliveryPolicy(DeliveryPolicyPtr new_policy);
 
+				COMPONENTSYSTEM_EXPORT
 				bool isPrefabReceivePolicyType(const MessagePolicyType& type);
+				COMPONENTSYSTEM_EXPORT
 				bool isPrefabDeliveryPolicyType(const MessagePolicyType& type);
 
 			private:

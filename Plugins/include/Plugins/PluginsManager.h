@@ -7,6 +7,7 @@
  *      Author: Eaglegor
  */
 
+#include <Plugins_export.h>
 #include <list>
 #include <Plugins/PluginError.h>
 
@@ -30,18 +31,23 @@ namespace UnknownEngine
 				 * @brief Constructor
 				 * @param engine_context - %Engine context
 				 */
+				PLUGINS_EXPORT
 				PluginsManager (EngineContext* engine_context);
+
+				PLUGINS_EXPORT
 				virtual ~PluginsManager ();
 
 				/**
 				 * @brief Loads plugin by descriptor passed
 				 * @param desc - Descriptor of subsystems to be loaded
 				 */
+				PLUGINS_EXPORT
 				void loadSubsystem ( const SubsystemDesc &desc );
 
 				/**
 				 * @brief Initializes all subsystems
 				 */
+				PLUGINS_EXPORT
 				void initSubsystems();
 
 				/**
@@ -49,18 +55,21 @@ namespace UnknownEngine
 				 * @param plugin - Plugin instance to be registered
 				 * @param desc - Descriptor of subsystem to be passed to a plugin
 				 */
+				PLUGINS_EXPORT
 				void internalInstallPlugin(Plugin* plugin, const SubsystemDesc &desc);
 
 				/**
 				 * @brief Unregisters plugin. Must be called from the plugin's "uninstallPlugin()" function.
 				 * @param plugin - Plugin to be unregistered
 				 */
+				PLUGINS_EXPORT
 				void internalUninstallPlugin(Plugin* plugin);
 
 				/**
 				 * @brief Returns the engine context.
 				 * @return %Engine context
 				 */
+				PLUGINS_EXPORT
 				EngineContext* getEngineContext() const;
 
 			private:

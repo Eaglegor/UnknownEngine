@@ -7,6 +7,8 @@
  *      Author: Eaglegor
  */
 
+#include <ComponentSystem_export.h>
+
 namespace UnknownEngine
 {
 	namespace Core
@@ -59,6 +61,7 @@ namespace UnknownEngine
 				 */
 				virtual void notifyDeliveryFinished(){}
 
+				COMPONENTSYSTEM_EXPORT
 				virtual ~IMessageDeliveryPolicy()
 				{
 				}

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <ComponentSystem_export.h>
 #include <string>
 #include <NumericIdentifierType.h>
 
@@ -39,11 +40,13 @@ namespace UnknownEngine
 				 * @throw Utils::Dictionary::EntryNotFoundInDictionary - Is thrown when trying to get id for unregistered name
 				 *
 				 */
+				COMPONENTSYSTEM_EXPORT
 				explicit MessageSystemParticipantId(const std::string &object_name);
 
 				/**
 				 * @brief Default constructor. Doesn't fill anything. Address is empty.
 				 */
+				COMPONENTSYSTEM_EXPORT
 				MessageSystemParticipantId();
 
 				/**
@@ -55,6 +58,7 @@ namespace UnknownEngine
 				 *
 				 *
 				 */
+				COMPONENTSYSTEM_EXPORT
 				MessageSystemParticipantId(const std::string &object_name, const NumericIdentifierType &id);
 
 				/**

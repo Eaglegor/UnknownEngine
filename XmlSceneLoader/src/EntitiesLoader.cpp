@@ -111,6 +111,7 @@ namespace UnknownEngine
         {
             scene_loader->getConstantsHolder()->pushScope();
             scene_loader->getConstantsHolder()->popScope();
+			return false;
         }
 
 	} /* namespace Core */
