@@ -1,18 +1,5 @@
 # Compilation
 
-link_directories(${UNKNOWN_ENGINE_SOURCE_DIR}/Deps/libs)
-list(APPEND INCLUDED_HEADERS ${UNKNOWN_ENGINE_SOURCE_DIR}/Deps/include)
-
-if(WIN32 OR CYGWIN)
-  if(MINGW)
-    link_directories(${UNKNOWN_ENGINE_SOURCE_DIR}/Deps/libs/MinGW)
-  elseif(MSVC)
-    link_directories(${UNKNOWN_ENGINE_SOURCE_DIR}/Deps/libs/MSVC110)
-  elseif(CYGWIN)
-    link_directories(${UNKNOWN_ENGINE_SOURCE_DIR}/Deps/libs/CygwinGCC)
-  endif(MINGW)
-endif(WIN32 OR CYGWIN)
-
 list(APPEND SOURCES_WILDCARD "*.cxx" "*.cpp" "*.hpp" "*.h")
 file(GLOB_RECURSE SOURCES ${SOURCES_WILDCARD})
 

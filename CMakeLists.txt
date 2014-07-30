@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8.4)
 
 project(UNKNOWN_ENGINE)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${UNKNOWN_ENGINE_SOURCE_DIR}/CMakeModules/)
 
 set(EXECUTABLE_DEPLOY_DIR ${UNKNOWN_ENGINE_BINARY_DIR}/Output/bin)
 set(STATIC_LIB_DEPLOY_DIR ${UNKNOWN_ENGINE_BINARY_DIR}/Output/lib)
@@ -15,10 +16,8 @@ set(CMAKE_BUILD_TYPE Debug)
 
 include(${UNKNOWN_ENGINE_SOURCE_DIR}/CMakeModules/DetectCompiler.cmake)
 
-set(MODULE_TEMPLATE_CMAKELISTS_FILE 
-${UNKNOWN_ENGINE_SOURCE_DIR}/CMakeModules/CMakeModuleTemplate.cmake)
-set(PCH_CMAKELISTS_FILE 
-${UNKNOWN_ENGINE_SOURCE_DIR}/CMakeModules/PCHSupport.cmake)
+set(MODULE_TEMPLATE_CMAKELISTS_FILE CMakeModuleTemplate) 
+set(PCH_CMAKELISTS_FILE PCHSupport)
 
 if(WIN32 OR CYGWIN)
   if(MINGW)
@@ -42,7 +41,6 @@ Engine
 XmlSceneLoader
 Math
 Application
-Deps
 SceneLoader
 Utils
 ResourceManager
