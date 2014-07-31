@@ -114,5 +114,13 @@ namespace UnknownEngine
 
 		};
 
+#ifdef _MSC_VER
+#ifndef ComponentSystem_EXPORTS
+		extern template class COMPONENTSYSTEM_EXPORT Singleton<ComponentsManager>;
+#else
+		template class COMPONENTSYSTEM_EXPORT Singleton<ComponentsManager>;
+#endif
+#endif
+
 	} /* namespace Core */
 } /* namespace UnknownEngine */

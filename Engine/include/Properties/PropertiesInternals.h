@@ -38,9 +38,9 @@ namespace UnknownEngine
 						typename pv_pair<boost::any>::type> MapType;
 		};
 
-		//#define PROPERTIES_SEPARATE_MAP_GETTER(type) template<> const type &PropertiesTree<K>::get (const K &name, const type &default_value ) const { const std::unordered_map<K, type>& values = getAllOfType<type>(); const auto found = values.find( name ); if ( found == values.end() ) return default_value; return found->second; }
-		//#define PROPERTIES_SEPARATE_MAP_GETTER_THROWING(type) template<> const type &PropertiesTree<K>::get (const K &name ) const  throw(PropertyNotFoundException) { const std::unordered_map<K, type>& values = getAllOfType<type>(); const auto found = values.find( name ); if ( found == values.end() ) throw PropertyNotFoundException("Can't find requested property"); return found->second; }
-		//#define PROPERTIES_SEPARATE_MAP_SETTER(type) template<> void PropertiesTree<K>::set (const K &name, const type &value ) { std::unordered_map<K, type>& values = const_cast<std::unordered_map<K, type>&>(getAllOfType<type>()); values[name] = value; }
+		#define PROPERTIES_SEPARATE_MAP_GETTER(type) template<> const type &PropertiesTree<K>::get (const K &name, const type &default_value ) const { const std::unordered_map<K, type>& values = getAllOfType<type>(); const auto found = values.find( name ); if ( found == values.end() ) return default_value; return found->second; }
+		#define PROPERTIES_SEPARATE_MAP_GETTER_THROWING(type) template<> const type &PropertiesTree<K>::get (const K &name ) const  throw(PropertyNotFoundException) { const std::unordered_map<K, type>& values = getAllOfType<type>(); const auto found = values.find( name ); if ( found == values.end() ) throw PropertyNotFoundException("Can't find requested property"); return found->second; }
+		#define PROPERTIES_SEPARATE_MAP_SETTER(type) template<> void PropertiesTree<K>::set (const K &name, const type &value ) { std::unordered_map<K, type>& values = const_cast<std::unordered_map<K, type>&>(getAllOfType<type>()); values[name] = value; }
 
 
 	}

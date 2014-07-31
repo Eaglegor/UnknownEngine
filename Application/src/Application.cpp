@@ -21,7 +21,7 @@ int main()
 	{
 	  SubsystemDesc desc;
 	  desc.name = "Logger";
-	  desc.module_name = "libConsoleLogger.so";
+	  desc.module_name = "ConsoleLogger.dll";
 	  
 	  ReceivedMessageDesc msg;
 	  msg.message_type_name = "Engine.LogMessage";
@@ -31,7 +31,7 @@ int main()
 	  engine.getPluginsManager()->loadSubsystem(desc);
 	}
 	
-	{
+	/*{
 	  SubsystemDesc desc;
 	  desc.name = "Render";
 	  desc.module_name = "libOgreRenderSystem.so";
@@ -43,7 +43,7 @@ int main()
 	  desc.received_messages.push_back(msg);
 	  
 	  engine.getPluginsManager()->loadSubsystem(desc);
-	}
+	}*/
 	
 	//engine.loadScene(&loader);
 	engine.start();

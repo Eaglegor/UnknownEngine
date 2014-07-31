@@ -21,6 +21,8 @@ local.properties
 .settings/
 .loadpath
 
+SharedLibrariesExportHeaders
+
 # External tool builders
 .externalToolBuilders/
 

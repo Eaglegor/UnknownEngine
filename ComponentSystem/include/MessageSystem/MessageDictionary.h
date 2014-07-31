@@ -107,6 +107,8 @@ namespace UnknownEngine
 	#ifdef _MSC_VER
 	#ifndef ComponentSystem_EXPORTS
 		extern template class COMPONENTSYSTEM_EXPORT Singleton<MessageDictionary>;
+	#else
+		template class COMPONENTSYSTEM_EXPORT Singleton<MessageDictionary>;
 	#endif
 	#endif
 
