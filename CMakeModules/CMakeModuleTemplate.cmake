@@ -3,6 +3,9 @@
 list(APPEND SOURCES_WILDCARD "*.cxx" "*.cpp" "*.hpp" "*.h")
 file(GLOB_RECURSE SOURCES ${SOURCES_WILDCARD})
 
+find_package(Boost 1.55.0 REQUIRED COMPONENTS regex)
+list(APPEND INCLUDED_HEADERS ${Boost_INCLUDE_DIRS})
+
 foreach(module ${INCLUDED_MODULE_HEADERS})
 	list(APPEND INCLUDED_HEADERS ${UNKNOWN_ENGINE_SOURCE_DIR}/${module}/include)
 endforeach(module)
