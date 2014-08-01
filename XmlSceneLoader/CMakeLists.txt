@@ -6,7 +6,6 @@ set(LINKED_LIBS Plugins ComponentSystem )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 
 find_package(Boost 1.55.0 REQUIRED COMPONENTS regex)
-list(APPEND INCLUDED_HEADERS ${Boost_INCLUDE_DIRS})
 list(APPEND LINKED_LIBS ${Boost_LIBRARIES})
 link_directories(${Boost_LIBRARY_DIRS})
 

@@ -31,10 +31,10 @@ int main()
 	  engine.getPluginsManager()->loadSubsystem(desc);
 	}
 	
-	/*{
+	{
 	  SubsystemDesc desc;
 	  desc.name = "Render";
-	  desc.module_name = "libOgreRenderSystem.so";
+	  desc.module_name = "OgreRenderSystem.dll";
 	  desc.creation_options.set<std::string>("render_window_name", "Hello");
 	  
 	  ReceivedMessageDesc msg;
@@ -43,7 +43,7 @@ int main()
 	  desc.received_messages.push_back(msg);
 	  
 	  engine.getPluginsManager()->loadSubsystem(desc);
-	}*/
+	}
 	
 	//engine.loadScene(&loader);
 	engine.start();
