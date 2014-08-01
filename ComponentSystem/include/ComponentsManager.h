@@ -93,6 +93,15 @@ namespace UnknownEngine
 				COMPONENTSYSTEM_EXPORT
 				virtual Entity* createEntity ( const std::string &name );
 
+				
+				/**
+				 * @brief Removes the entity
+				 * @return Pointer to the entity to be removed
+				 */
+				COMPONENTSYSTEM_EXPORT
+				virtual void removeEntity ( Entity* entity );
+
+
 				/**
 				 * @brief Creates the component
 				 * @param desc - Component descriptor
