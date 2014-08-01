@@ -31,7 +31,7 @@ int main()
 	  
 	  engine.getPluginsManager()->loadSubsystem(desc);
 	}
-
+	/*
 	{
 	  SubsystemDesc desc;
 	  desc.name = "DummySubsystem";
@@ -39,7 +39,7 @@ int main()
 	  
 	  engine.getPluginsManager()->loadSubsystem(desc);
 	}
-	
+	*/
 	{
 	  SubsystemDesc desc;
 	  desc.name = "Render";
