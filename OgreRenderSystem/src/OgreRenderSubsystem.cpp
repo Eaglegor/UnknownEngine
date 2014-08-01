@@ -22,6 +22,7 @@ namespace UnknownEngine {
 			//LOG_DEBUG(log_helper, "Rendering frame");
 			if(msg.stage == Core::UpdateFrameMessage::PROCESSING)
 			{
+			  Ogre::WindowEventUtilities::messagePump();
 			  root->renderOneFrame();
 			}
 			
