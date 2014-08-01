@@ -61,6 +61,7 @@ namespace UnknownEngine
 				 * @brief Default constructor. Called by Engine.
 				 */
 				ComponentsManager ();
+
 				virtual ~ComponentsManager ();
 
 				/**
@@ -85,6 +86,14 @@ namespace UnknownEngine
 				 * @return Pointer to the newly created entity
 				 */
 				virtual Entity* createEntity ( const std::string &name );
+
+				
+				/**
+				 * @brief Removes the entity
+				 * @return Pointer to the entity to be removed
+				 */
+				virtual void removeEntity ( Entity* entity );
+
 
 				/**
 				 * @brief Creates the component
