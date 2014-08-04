@@ -2,7 +2,7 @@
 .kdev4
 Docs/
 html/
-SharedLibrariesExportHeaders
+SharedLibrariesExportHeaders/
 
 #################
 ## Eclipse
@@ -21,8 +21,6 @@ local.properties
 .classpath
 .settings/
 .loadpath
-
-SharedLibrariesExportHeaders
 
 # External tool builders
 .externalToolBuilders/
