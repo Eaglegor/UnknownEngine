@@ -22,7 +22,12 @@ int main()
 	{
 	  SubsystemDesc desc;
 	  desc.name = "Logger";
+
+#ifdef _MSC_VER
+	  desc.module_name = "ConsoleLogger.dll";
+#else
 	  desc.module_name = "libConsoleLogger.so";
+#endif
 	  
 	  ReceivedMessageDesc msg;
 	  msg.message_type_name = "Engine.LogMessage";
@@ -34,16 +39,14 @@ int main()
 
 	{
 	  SubsystemDesc desc;
-	  desc.name = "DummySubsystem";
-	  desc.module_name = "libDummySubsystem.so";
-	  
-	  engine.getPluginsManager()->loadSubsystem(desc);
-	}
-	
-	{
-	  SubsystemDesc desc;
 	  desc.name = "Render";
+
+#ifdef _MSC_VER
+	  desc.module_name = "OgreRenderSystem.dll";
+#else
 	  desc.module_name = "libOgreRenderSystem.so";
+#endif
+
 	  desc.creation_options.set<std::string>("render_window_name", "Hello");
 	  desc.creation_options.set<std::string>("ogre_config_filename", "ogre.cfg");
 	  desc.creation_options.set<std::string>("ogre_plugins_filename", "plugins.cfg");

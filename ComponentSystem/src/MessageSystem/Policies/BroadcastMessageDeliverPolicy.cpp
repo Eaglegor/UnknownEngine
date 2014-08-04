@@ -13,7 +13,6 @@ namespace UnknownEngine
 {
 	namespace Core
 	{
-
 		bool BroadcastMessageDeliverPolicy::allowDeliveryToListener ( const IMessageListener* listener ) const
 		{
 			return true;

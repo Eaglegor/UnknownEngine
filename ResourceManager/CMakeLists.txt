@@ -6,7 +6,6 @@ set(LINKED_LIBS  )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 
 find_package(Boost 1.55.0 REQUIRED COMPONENTS system thread)
-list(APPEND INCLUDED_HEADERS ${Boost_INCLUDE_DIRS})
 list(APPEND LINKED_LIBS ${Boost_LIBRARIES})
 link_directories(${Boost_LIBRARY_DIRS})
 

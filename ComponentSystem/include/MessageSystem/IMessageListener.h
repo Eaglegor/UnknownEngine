@@ -6,6 +6,7 @@
  *      Author: gorbachenko
  */
 
+#include <ComponentSystem_export.h>
 #include <string>
 #include <InlineSpecification.h>
 #include <MessageSystem/IMessageSystemParticipant.h>
@@ -41,7 +42,10 @@ namespace UnknownEngine
 				 *
 				 * @param object_name - **unique** name for message listener
 				 */
+				COMPONENTSYSTEM_EXPORT
 				IMessageListener (const std::string &object_name);
+
+				COMPONENTSYSTEM_EXPORT
 				virtual ~IMessageListener ();
 
 				/**

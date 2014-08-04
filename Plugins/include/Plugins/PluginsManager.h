@@ -7,6 +7,7 @@
  *      Author: Eaglegor
  */
 
+#include <Plugins_export.h>
 #include <list>
 #include <Plugins/PluginError.h>
 
@@ -30,24 +31,30 @@ namespace UnknownEngine
 				 * @brief Constructor
 				 * @param engine_context - %Engine context
 				 */
+				PLUGINS_EXPORT
 				PluginsManager (EngineContext* engine_context);
+
+				PLUGINS_EXPORT
 				virtual ~PluginsManager ();
 
 				/**
 				 * @brief Loads plugin by descriptor passed
 				 * @param desc - Descriptor of subsystems to be loaded
 				 */
+				PLUGINS_EXPORT
 				void loadSubsystem ( const SubsystemDesc &desc );
 
 				/**
 				 * @brief Initializes all subsystems
 				 */
+				PLUGINS_EXPORT
 				void initSubsystems();
 
 				/**
 				 * @brief Returns the engine context.
 				 * @return %Engine context
 				 */
+				PLUGINS_EXPORT
 				EngineContext* getEngineContext() const;
 
 			private:

@@ -6,6 +6,7 @@
  *      Author: gorbachenko
  */
 
+#include <ComponentSystem_export.h>
 #include <InlineSpecification.h>
 #include <unordered_map>
 #include <Exception.h>
@@ -53,7 +54,10 @@ namespace UnknownEngine
 				 * @brief Constructor
 				 * @param name - **unique** name of game object
 				 */
+				COMPONENTSYSTEM_EXPORT
 				Entity (const std::string &name, ComponentsManager* components_manager);
+
+				COMPONENTSYSTEM_EXPORT
 				virtual ~Entity ();
 
 				/**
@@ -61,6 +65,7 @@ namespace UnknownEngine
 				 * @param name - Local name of the component
 				 * @param component - Component to add
 				 */
+				COMPONENTSYSTEM_EXPORT
 				void addComponent(const std::string &name, Component *component);
 
 				/**
@@ -68,12 +73,14 @@ namespace UnknownEngine
 				 * @param name - Local name of component to remove
 				 *
 				 */
+				COMPONENTSYSTEM_EXPORT
 				void removeComponent(const std::string &name);
 
 				/**
 				 * @brief Returns the entity name
 				 * @return Entity name
 				 */
+				COMPONENTSYSTEM_EXPORT
 				const std::string& getName();
 
 				/**
@@ -84,6 +91,7 @@ namespace UnknownEngine
 				 * components must not start until the start method is called
 				 *
 				 */
+				COMPONENTSYSTEM_EXPORT
 				void start();
 
 				/**

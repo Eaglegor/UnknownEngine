@@ -7,6 +7,8 @@
  *      Author: Eaglegor
  */
 
+#include <ComponentSystem_export.h>
+
 namespace UnknownEngine
 {
 	namespace Core

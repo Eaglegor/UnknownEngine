@@ -7,6 +7,7 @@
  *      Author: Eaglegor
  */
 
+#include <ComponentSystem_export.h>
 #include <MessageSystem/Policies/IMessageReceivePolicy.h>
 #include <MessageSystem/Policies/MessagePolicyType.h>
 
@@ -27,6 +28,7 @@ namespace UnknownEngine
 				 * @param msg - Message to analyze
 				 * @return true
 				 */
+				COMPONENTSYSTEM_EXPORT
 				virtual bool acceptMessage(const PackedMessage &msg) override;
 
 				static const MessagePolicyType getType(){return "AnyMessageReceivePolicy";}
