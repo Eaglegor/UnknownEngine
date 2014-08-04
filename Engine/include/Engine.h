@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Engine_export.h>
+#include <Engine.h>
 #include <MessageSystem/IMessageSystemParticipant.h>
 #include <Exception.h>
 #include <EngineContext.h>
@@ -64,7 +66,10 @@ namespace UnknownEngine
 				/**
 				 *  @brief Default constructor. **Doesn't init anything**.
 				 */
+				ENGINE_EXPORT
 				Engine();
+
+				ENGINE_EXPORT
 				virtual ~Engine();
 
 				/**
@@ -76,12 +81,14 @@ namespace UnknownEngine
 				 *
 				 * @throws UnknownEngine::Core::InvalidEngineStateException - Is thrown after double initialization
 				 */
+				ENGINE_EXPORT
 				void init() throw(InvalidEngineStateException);
 
 				/**
 				 * @brief Loads scene using provided loader
 				 * @param loader - %Scene loader implementation
 				 */
+				ENGINE_EXPORT
 				void loadScene(Loader::ISceneLoader* loader);
 
 				/**
@@ -92,6 +99,7 @@ namespace UnknownEngine
 				 *
 				 * @throw UnknownEngine::Core::InvalidEngineStateException - Is thrown if starting uninitialized engine
 				 */
+				ENGINE_EXPORT
 				void start() throw (InvalidEngineStateException);
 
 				/**
@@ -101,13 +109,17 @@ namespace UnknownEngine
 				 *
 				 * @throw UnknownEngine::Core::InvalidEngineStateException - Is thrown if shutting down engine before it's stop
 				 */
+				ENGINE_EXPORT
 				void shutdown() throw (InvalidEngineStateException);
 
 				/**
 				 * @brief Returns engine context
 				 * @return %Engine context
 				 */
+				ENGINE_EXPORT
 				EngineContext &getContext();
+
+				ENGINE_EXPORT
 				PluginsManager *getPluginsManager();
 
 			private:

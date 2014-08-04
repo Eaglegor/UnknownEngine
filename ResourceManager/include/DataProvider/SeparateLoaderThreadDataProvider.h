@@ -1,5 +1,6 @@
 #pragma once
 
+#include <ResourceManager_export.h>
 #include <boost/thread.hpp>
 #include <memory>
 
@@ -13,13 +14,18 @@ namespace UnknownEngine {
 		class SeparateLoaderThreadDataProvider : public ReferencesCountingDataProvider
 		{
 			public:
+				RESOURCEMANAGER_EXPORT
 				SeparateLoaderThreadDataProvider(const std::string &name);
+
+				RESOURCEMANAGER_EXPORT
 				~SeparateLoaderThreadDataProvider();
 
 				/// Starts the loading thread
+				RESOURCEMANAGER_EXPORT
 				void startLoading();
 
 				/// Waits for loader thread to be finished and returns the data loaded
+				RESOURCEMANAGER_EXPORT
 				const ResourceContainer& getResource();
 
 			protected:

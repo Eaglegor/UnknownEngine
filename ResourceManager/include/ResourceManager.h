@@ -1,5 +1,6 @@
 #pragma once
 
+#include <ResourceManager_export.h>
 #include <unordered_map>
 #include <DataProvider/DataProviderType.h>
 #include <Exception.h>
@@ -40,19 +41,23 @@ namespace UnknownEngine {
 		class ResourceManager : public Singleton<ResourceManager>
 		{
 			public:
+				RESOURCEMANAGER_EXPORT
 				ResourceManager();
+
 				virtual ~ResourceManager(){}
 
 				/**
 				 * @brief Registers new data provider factory
 				 * @param factory - Factory to register
 				 */
+				RESOURCEMANAGER_EXPORT
 				void addDataProviderFactory(Loader::IDataProviderFactory * factory);
 
 				/**
 				 * @brief Unregisters the data provider factory
 				 * @param factory - Factory to register
 				 */
+				RESOURCEMANAGER_EXPORT
 				void removeDataProviderFactory(Loader::IDataProviderFactory * factory);
 
 				/**
@@ -60,6 +65,7 @@ namespace UnknownEngine {
 				 * @param desc - Descriptor of data provider to create
 				 * @return Pointer to the created data provider
 				 */
+				RESOURCEMANAGER_EXPORT
 				Loader::IDataProvider* createDataProvider(const Loader::DataProviderDesc &desc) throw (NoSuitableFactoryFoundException);
 
 			private:

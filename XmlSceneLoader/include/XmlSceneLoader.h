@@ -11,6 +11,7 @@
 
 #include <boost/property_tree/ptree_fwd.hpp>
 
+#include <XmlSceneLoader_export.h>
 #include <ISceneLoader.h>
 #include <Exception.h>
 
@@ -28,12 +29,19 @@ namespace UnknownEngine
 		class XmlSceneLoader: public ISceneLoader
 		{
 			public:
+				XMLSCENELOADER_EXPORT
 				XmlSceneLoader(const std::string &filename);
+
+				XMLSCENELOADER_EXPORT
 				virtual ~XmlSceneLoader();
 
+				XMLSCENELOADER_EXPORT
 				virtual void loadScene(Core::EngineContext *engine_context, Core::PluginsManager* plugins_manager) override;
 
+				XMLSCENELOADER_EXPORT
 				virtual ConstantsHolder* getConstantsHolder();
+
+				XMLSCENELOADER_EXPORT
 				virtual TemplatesManager* getTemplatesManager();
 
 			private:
