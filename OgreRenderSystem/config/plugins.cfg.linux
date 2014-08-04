@@ -1,0 +1,3 @@
+PluginFolder=${OGRE_LIBRARY_DIRS}/OGRE
+Plugin=RenderSystem_GL.so
+Plugin=Plugin_OctreeSceneManager.so
