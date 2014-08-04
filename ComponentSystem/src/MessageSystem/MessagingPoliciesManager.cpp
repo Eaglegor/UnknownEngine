@@ -12,7 +12,7 @@ namespace UnknownEngine {
 	namespace Core {
 
 		MessagingPoliciesManager::MessagingPoliciesManager(EngineContext* engine_context)
-			:engine_context(engine_context)
+			:engine_context(engine_context), EMPTY_POLICY_TYPE("None")
 		{
 
 			registerReceivePolicyCreator<AnyMessageReceivePolicy>( Creator(createAnyMessageReceivePolicy) );

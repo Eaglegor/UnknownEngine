@@ -5,7 +5,7 @@
  *  Created on: 18 июня 2014 г.
  *      Author: gorbachenko
  */
-
+#include <ComponentSystem_export.h>
 #include <ComponentType.h>
 #include <InlineSpecification.h>
 
@@ -70,7 +70,6 @@ namespace UnknownEngine
 		class Component
 		{
 			public:
-
 				explicit Component(const std::string &name)
 					:name(name){}
 
@@ -108,7 +107,7 @@ namespace UnknownEngine
 				UNKNOWNENGINE_INLINE
 				std::string getName(){return name;}
 
-				virtual ~Component ();
+				virtual ~Component (){};
 
 			private:
 				std::string name;

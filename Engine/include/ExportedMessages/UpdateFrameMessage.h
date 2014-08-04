@@ -27,7 +27,7 @@ namespace UnknownEngine
 		{
 
 				UNKNOWNENGINE_INLINE
-				constexpr static const char* getTypeName()
+				static const std::string getTypeName()
 				{
 					return "Engine.MainLoop.UpdateFrameMessage";
 				}

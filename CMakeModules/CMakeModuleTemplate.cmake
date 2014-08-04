@@ -1,10 +1,13 @@
 # Compilation
 
+list(APPEND INCLUDED_HEADERS ${UNKNOWN_ENGINE_SOURCE_DIR}/SharedLibrariesExportHeaders)
+
 list(APPEND SOURCES_WILDCARD "*.cxx" "*.cpp" "*.hpp" "*.h")
 file(GLOB_RECURSE SOURCES ${SOURCES_WILDCARD})
 
 find_package(Boost 1.55.0 REQUIRED COMPONENTS regex)
 list(APPEND INCLUDED_HEADERS ${Boost_INCLUDE_DIRS})
+link_directories(${Boost_LIBRARY_DIRS})
 
 foreach(module ${INCLUDED_MODULE_HEADERS})
 	list(APPEND INCLUDED_HEADERS ${UNKNOWN_ENGINE_SOURCE_DIR}/${module}/include)
@@ -17,13 +20,16 @@ endif(INCLUDED_HEADERS)
 if(LINKAGE)
     if(LINKAGE STREQUAL SHARED OR LINKAGE STREQUAL STATIC)
         add_library(${TARGET_NAME} ${LINKAGE} ${SOURCES})
+
+	include(GenerateExportHeader)
+	GENERATE_EXPORT_HEADER(${TARGET_NAME} EXPORT_FILE_NAME ${UNKNOWN_ENGINE_SOURCE_DIR}/SharedLibrariesExportHeaders/${TARGET_NAME}_export.h)
     elseif(LINKAGE STREQUAL INCLUDES_ONLY)
         add_custom_target(${TARGET_NAME} SOURCES ${SOURCES})
     endif(LINKAGE STREQUAL SHARED OR LINKAGE STREQUAL STATIC)
+	
 else(LINKAGE)
     add_executable(${TARGET_NAME} ${SOURCES})
 endif(LINKAGE)
-
 
 if(LINKED_LIBS)
 	target_link_libraries(${TARGET_NAME} ${LINKED_LIBS} )

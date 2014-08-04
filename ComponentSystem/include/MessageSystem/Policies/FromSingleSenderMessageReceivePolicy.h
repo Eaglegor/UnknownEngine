@@ -7,6 +7,7 @@
  *      Author: Eaglegor
  */
 
+#include <ComponentSystem_export.h>
 #include <string>
 #include <MessageSystem/Policies/IMessageReceivePolicy.h>
 #include <MessageSystem/Policies/MessagePolicyType.h>
@@ -28,13 +29,17 @@ namespace UnknownEngine
 				 * @param msg - Message to analyze
 				 * @return true if message sender is equal to expected
 				 */
+				COMPONENTSYSTEM_EXPORT
 				virtual bool acceptMessage(const PackedMessage &msg) override;
 
 				/**
 				 * @brief Constructor
 				 * @param sender_info - Message sender info to compare with
 				 */
+				COMPONENTSYSTEM_EXPORT
 				FromSingleSenderMessageReceivePolicy (const MessageSystemParticipantId &sender_info);
+
+				COMPONENTSYSTEM_EXPORT
 				virtual ~FromSingleSenderMessageReceivePolicy ();
 
 				static const MessagePolicyType getType(){return "FromSingleSenderMessageReceivePolicy";}

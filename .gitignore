@@ -2,7 +2,7 @@
 .kdev4
 Docs/
 html/
-SharedLibrariesExportHeaders
+SharedLibrariesExportHeaders/
 
 #################
 ## Eclipse

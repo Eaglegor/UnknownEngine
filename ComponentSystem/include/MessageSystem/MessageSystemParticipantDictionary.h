@@ -6,6 +6,7 @@
  *      Author: gorbachenko
  */
 
+#include <ComponentSystem_export.h>
 #include <unordered_map>
 #include <Singleton.h>
 #include <NumericIdentifierType.h>
@@ -32,7 +33,10 @@ namespace UnknownEngine
 				/**
 				 * @brief Default constructor. Called by Engine.
 				 */
+				COMPONENTSYSTEM_EXPORT
 				MessageSystemParticipantDictionary ();
+
+				COMPONENTSYSTEM_EXPORT
 				virtual ~MessageSystemParticipantDictionary ();
 
 				/**
@@ -40,12 +44,14 @@ namespace UnknownEngine
 				 * @param message_system_participant_name - Object name to be registered
 				 * @return Assigned numeric identifier
 				 */
+				COMPONENTSYSTEM_EXPORT
 				NumericIdentifierType registerNewMessageParticipant(const std::string &message_system_participant_name);
 
 				/**
 				 * @brief Removes the object name from a bus
 				 * @param message_system_participant_name - Object name to be unregistered
 				 */
+				COMPONENTSYSTEM_EXPORT
 				void unregisterMessageParticipant(const std::string &message_system_participant_name);
 
 				/**
@@ -53,6 +59,7 @@ namespace UnknownEngine
 				 * @param message_system_participant_name - Object name to get the id for
 				 * @return Numeric address identifier of object
 				 */
+				COMPONENTSYSTEM_EXPORT
 				NumericIdentifierType getMessageParticipantNameId(const std::string &message_system_participant_name) const;
 
 				/**
@@ -60,12 +67,21 @@ namespace UnknownEngine
 				 * @param message_system_participant_name - Object name to check for
 				 * @return true if object name is registered
 				 */
+				COMPONENTSYSTEM_EXPORT
 				bool messageSystemParticipantIsRegistered(const std::string &message_system_participant_name) const;
 
 			private:
 				InternalDictionaryType internal_dictionary; ///< Internal dictionary implementation
 
 		};
+
+		#ifdef _MSC_VER
+		#ifndef ComponentSystem_EXPORTS
+		extern template class COMPONENTSYSTEM_EXPORT Singleton<MessageSystemParticipantDictionary>;
+		#else 
+		template class COMPONENTSYSTEM_EXPORT Singleton<MessageSystemParticipantDictionary>;
+		#endif
+		#endif
 
 	} /* namespace Core */
 } /* namespace UnknownEngine */

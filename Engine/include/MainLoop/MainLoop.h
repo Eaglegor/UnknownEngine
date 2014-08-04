@@ -6,6 +6,7 @@
  *      Author: gorbachenko
  */
 
+#include <Engine_export.h>
 #include <vector>
 #include <MessageSystem/IMessageSystemParticipant.h>
 
@@ -23,7 +24,10 @@ namespace UnknownEngine
 				/**
 				 * @brief Constructor. Called by Engine
 				 */
+				ENGINE_EXPORT
 				MainLoop ();
+
+				ENGINE_EXPORT
 				virtual ~MainLoop ();
 
 				/**
@@ -32,6 +36,7 @@ namespace UnknownEngine
 				 * This call doesn't return until simulation stop
 				 *
 				 */
+				ENGINE_EXPORT
 				void start();
 
 			private:

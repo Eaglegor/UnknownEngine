@@ -10,6 +10,7 @@
 #include <list>
 #include <vector>
 
+#include <ComponentSystem_export.h>
 #include <Singleton.h>
 #include <ComponentType.h>
 #include <Exception.h>
@@ -60,8 +61,10 @@ namespace UnknownEngine
 				/**
 				 * @brief Default constructor. Called by Engine.
 				 */
+				COMPONENTSYSTEM_EXPORT
 				ComponentsManager ();
 
+				COMPONENTSYSTEM_EXPORT
 				virtual ~ComponentsManager ();
 
 				/**
@@ -71,6 +74,7 @@ namespace UnknownEngine
 				 * Note that the factory must have unique name, otherwise exception is thrown
 				 *
 				 */
+				COMPONENTSYSTEM_EXPORT
 				virtual void addComponentFactory ( IComponentFactory* factory );
 
 				/**
@@ -78,6 +82,7 @@ namespace UnknownEngine
 				 * @param factory - Factory to unregister
 				 *
 				 */
+				COMPONENTSYSTEM_EXPORT
 				virtual void removeComponentFactory ( IComponentFactory* factory );
 
 				/**
@@ -85,6 +90,7 @@ namespace UnknownEngine
 				 * @param name - Entity name. Must be unique.
 				 * @return Pointer to the newly created entity
 				 */
+				COMPONENTSYSTEM_EXPORT
 				virtual Entity* createEntity ( const std::string &name );
 
 				
@@ -92,6 +98,7 @@ namespace UnknownEngine
 				 * @brief Removes the entity
 				 * @return Pointer to the entity to be removed
 				 */
+				COMPONENTSYSTEM_EXPORT
 				virtual void removeEntity ( Entity* entity );
 
 
@@ -100,12 +107,14 @@ namespace UnknownEngine
 				 * @param desc - Component descriptor
 				 * @return Pointer to the newly created component
 				 */
+				COMPONENTSYSTEM_EXPORT
 				virtual Component* createComponent ( const ComponentDesc &desc, const Entity* parent_entity ) throw (NoSuitableFactoryFoundException);
 
 				/**
 				 * @brief Removes the component
 				 * @param component - The component to be removed
 				 */
+				COMPONENTSYSTEM_EXPORT
 				virtual void removeComponent( Component* component );
 
 			private:
@@ -113,6 +122,14 @@ namespace UnknownEngine
 				InternalDictionaryType internal_dictionary; ///< Internal dictionary implementation to assign identifiers to names
 
 		};
+
+#ifdef _MSC_VER
+#ifndef ComponentSystem_EXPORTS
+		extern template class COMPONENTSYSTEM_EXPORT Singleton<ComponentsManager>;
+#else
+		template class COMPONENTSYSTEM_EXPORT Singleton<ComponentsManager>;
+#endif
+#endif
 
 	} /* namespace Core */
 } /* namespace UnknownEngine */
