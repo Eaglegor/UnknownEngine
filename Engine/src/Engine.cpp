@@ -60,6 +60,7 @@ namespace UnknownEngine
 			StopEngineListener stop_listener("Engine.EngineStopListener", &main_loop);
 			context.getMessageDispatcher()->addListener(StopEngineActionMessage::getTypeName(), &stop_listener);
 
+			CORE_SUBSYSTEM_INFO ( "Starting main loop" );
 			main_loop.start();
 
 			CORE_SUBSYSTEM_INFO ( "Unregistering engine stop listener" );

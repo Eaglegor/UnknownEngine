@@ -1,5 +1,6 @@
 .svn
 .kdev4
+*.kdev4
 Docs/
 html/
 SharedLibrariesExportHeaders/
