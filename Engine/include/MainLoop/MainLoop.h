@@ -38,12 +38,14 @@ namespace UnknownEngine
 				 */
 				ENGINE_EXPORT
 				void start();
-
+				void stop();
 			private:
 				/**
 				 * @brief Updates delta time value
 				 */
 				void updateTime();
+				
+				bool stopped;
 
 				float current_time; ///< Current time
 				float dt; ///< Delta time from last frame
