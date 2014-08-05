@@ -5,6 +5,11 @@ list(APPEND INCLUDED_HEADERS ${UNKNOWN_ENGINE_SOURCE_DIR}/SharedLibrariesExportH
 list(APPEND SOURCES_WILDCARD "*.cxx" "*.cpp" "*.hpp" "*.h")
 file(GLOB_RECURSE SOURCES ${SOURCES_WILDCARD})
 
+if(MSVC)
+	include(GenerateMSVCFilters)
+	MSVC_generate_filters()
+endif(MSVC)
+
 find_package(Boost 1.55.0 REQUIRED COMPONENTS regex)
 list(APPEND INCLUDED_HEADERS ${Boost_INCLUDE_DIRS})
 link_directories(${Boost_LIBRARY_DIRS})
