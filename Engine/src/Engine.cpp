@@ -22,6 +22,8 @@
 #include <SubsystemDesc.h>
 #include <ISceneLoader.h>
 
+#include <StopEngineListener.h>
+
 #define ENABLE_CORE_SUBSYSTEM_INFO_LOG
 #include <CoreLogging.h>
 
@@ -53,7 +55,15 @@ namespace UnknownEngine
 			plugins_manager->initSubsystems();
 
 			MainLoop main_loop;
+
+			CORE_SUBSYSTEM_INFO ( "Registering engine stop listener" );
+			StopEngineListener stop_listener("Engine.EngineStopListener", &main_loop);
+			context.getMessageDispatcher()->addListener(StopEngineActionMessage::getTypeName(), &stop_listener);
+
 			main_loop.start();
+
+			CORE_SUBSYSTEM_INFO ( "Unregistering engine stop listener" );
+			context.getMessageDispatcher()->removeListener(&stop_listener);
 
 			state = STOPPED;
 
@@ -67,24 +77,27 @@ namespace UnknownEngine
 			if ( state == STARTED ) throw InvalidEngineStateException ( "Shutting down running engine is not allowed" );
 			if ( state == CREATED ) throw InvalidEngineStateException ( "Shutting down uninitialized engine is not allowed" );
 
+			CORE_SUBSYSTEM_INFO ( "Destroying remaining entities" );
+			this->context.components_manager->clearEntities();
+			
 			CORE_SUBSYSTEM_INFO ( "Destroying plugins manager" );
 			delete this->plugins_manager;
 
 			CORE_SUBSYSTEM_INFO ( "Destroying components manager" );
 			delete this->context.components_manager;
-
-			CORE_SUBSYSTEM_INFO ( "Destroying message dictionary" );
-			delete this->context.message_dictionary;
-
-			CORE_SUBSYSTEM_INFO ( "Destroying message dispatcher" );
-			delete this->context.message_dispatcher;
-
-			CORE_SUBSYSTEM_INFO ( "Destroying resource manager" );
-			delete this->context.resource_manager;
-
+			
 			CORE_SUBSYSTEM_INFO ( "Destroying message system participant dictionary" );
 			delete this->context.message_system_participant_dictionary;
-
+			
+			CORE_SUBSYSTEM_INFO ( "Destroying resource manager" );
+			delete this->context.resource_manager;
+			
+			CORE_SUBSYSTEM_INFO ( "Destroying message dispatcher" );
+			delete this->context.message_dispatcher;
+			
+			CORE_SUBSYSTEM_INFO ( "Destroying message dictionary" );
+			delete this->context.message_dictionary;
+			
 			CORE_SUBSYSTEM_INFO("Engine shutdown complete");
 			
 			state = CREATED;
@@ -100,7 +113,7 @@ namespace UnknownEngine
 
 			CORE_SUBSYSTEM_INFO ( "Initializing engine" );
 
-			if ( state == INIT ) throw InvalidEngineStateException ( "Twice engine initialization is not allowed" );
+			if ( state == INIT ) throw InvalidEngineStateException ( "Double engine initialization is not allowed" );
 			if ( state == STARTED ) throw InvalidEngineStateException ( "Running engine initialization is not allowed" );
 			if ( state == STOPPED ) throw InvalidEngineStateException ( "Stopped engine initialization is not allowed. Call shutdown() prior." );
 
@@ -132,12 +145,6 @@ namespace UnknownEngine
 			state = INIT;
 		}
 
-		void Engine::loadScene ( Loader::ISceneLoader* loader )
-		{
-			CORE_SUBSYSTEM_INFO ( "Loading scene" );
-			loader->loadScene ( &context, plugins_manager );
-		}
-
 		void Engine::registerInternalMessageTypes()
 		{
 			CORE_SUBSYSTEM_INFO ( "Registering message type: " + std::string ( LogMessage::getTypeName() ) );
@@ -145,6 +152,9 @@ namespace UnknownEngine
 
 			CORE_SUBSYSTEM_INFO ( "Registering message type: " + std::string ( UpdateFrameMessage::getTypeName() ) );
 			context.message_dictionary->registerNewMessageType ( UpdateFrameMessage::getTypeName() );
+
+			CORE_SUBSYSTEM_INFO ( "Registering message type: " + std::string ( StopEngineActionMessage::getTypeName() ) );
+			context.message_dictionary->registerNewMessageType ( StopEngineActionMessage::getTypeName() );
 		}
 
 		PluginsManager* Engine::getPluginsManager()
