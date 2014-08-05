@@ -77,24 +77,27 @@ namespace UnknownEngine
 			if ( state == STARTED ) throw InvalidEngineStateException ( "Shutting down running engine is not allowed" );
 			if ( state == CREATED ) throw InvalidEngineStateException ( "Shutting down uninitialized engine is not allowed" );
 
+			CORE_SUBSYSTEM_INFO ( "Destroying remaining entities" );
+			this->context.components_manager->clearEntities();
+			
 			CORE_SUBSYSTEM_INFO ( "Destroying plugins manager" );
 			delete this->plugins_manager;
 
 			CORE_SUBSYSTEM_INFO ( "Destroying components manager" );
 			delete this->context.components_manager;
-
-			CORE_SUBSYSTEM_INFO ( "Destroying message dictionary" );
-			delete this->context.message_dictionary;
-
-			CORE_SUBSYSTEM_INFO ( "Destroying message dispatcher" );
-			delete this->context.message_dispatcher;
-
-			CORE_SUBSYSTEM_INFO ( "Destroying resource manager" );
-			delete this->context.resource_manager;
-
+			
 			CORE_SUBSYSTEM_INFO ( "Destroying message system participant dictionary" );
 			delete this->context.message_system_participant_dictionary;
-
+			
+			CORE_SUBSYSTEM_INFO ( "Destroying resource manager" );
+			delete this->context.resource_manager;
+			
+			CORE_SUBSYSTEM_INFO ( "Destroying message dispatcher" );
+			delete this->context.message_dispatcher;
+			
+			CORE_SUBSYSTEM_INFO ( "Destroying message dictionary" );
+			delete this->context.message_dictionary;
+			
 			CORE_SUBSYSTEM_INFO("Engine shutdown complete");
 			
 			state = CREATED;
@@ -110,7 +113,7 @@ namespace UnknownEngine
 
 			CORE_SUBSYSTEM_INFO ( "Initializing engine" );
 
-			if ( state == INIT ) throw InvalidEngineStateException ( "Twice engine initialization is not allowed" );
+			if ( state == INIT ) throw InvalidEngineStateException ( "Double engine initialization is not allowed" );
 			if ( state == STARTED ) throw InvalidEngineStateException ( "Running engine initialization is not allowed" );
 			if ( state == STOPPED ) throw InvalidEngineStateException ( "Stopped engine initialization is not allowed. Call shutdown() prior." );
 
