@@ -17,16 +17,16 @@ namespace UnknownEngine {
 	namespace Graphics {
 
 		class OgreRenderSubsystem;
-		class OgreRenderableComponent;
+		class OgreCameraComponent;
 
 		/**
 		 * @brief Factory for creating solid and compound non-deformable (mesh doesn't change during the whole lifetime) renderable components
 		 */
-		class OgreRenderableComponentsFactory: public Core::IComponentFactory
+		class OgreCameraComponentsFactory: public Core::IComponentFactory
 		{
 			public:
 
-				OgreRenderableComponentsFactory(OgreRenderSubsystem* render_system, Core::EngineContext *engine_context);
+				OgreCameraComponentsFactory(OgreRenderSubsystem* render_system, Core::EngineContext *engine_context);
 
 				/**
 				 * @brief Returns a factory name.
@@ -66,9 +66,9 @@ namespace UnknownEngine {
 			private:
 
 				// Solid renderable components
-				Core::Component* createRenderableComponent(const Core::ComponentDesc &desc);
-				void destroyRenderableComponent(const Core::Component* component);
-				void registerRenderableComponentListeners(OgreRenderableComponent* component, const Core::ReceivedMessageDescriptorsList &received_messages);
+				Core::Component* createCameraComponent(const Core::ComponentDesc &desc);
+				void destroyCameraComponent(const Core::Component* component);
+				void registerCameraComponentListeners(OgreCameraComponent* component, const Core::ReceivedMessageDescriptorsList &received_messages);
 
 				Core::EngineContext* engine_context;
 				std::unordered_set<Core::ComponentType> supported_types;

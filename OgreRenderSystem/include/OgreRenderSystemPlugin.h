@@ -25,6 +25,7 @@ namespace UnknownEngine
 
 		class OgreRenderSubsystem;
 		class OgreRenderableComponentsFactory;
+		class OgreCameraComponentsFactory;
 		class OgreUpdateFrameListener;
 
 		class OgreRenderSystemPlugin: public Core::Plugin
@@ -47,6 +48,7 @@ namespace UnknownEngine
 
 				OgreRenderSubsystem* render_system;
 				OgreRenderableComponentsFactory* renderable_components_factory;
+				OgreCameraComponentsFactory* camera_components_factory;
 
 				OgreUpdateFrameListener* update_frame_listener;
 				

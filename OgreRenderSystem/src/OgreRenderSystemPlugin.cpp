@@ -21,6 +21,7 @@
 
 #include <ComponentsManager.h>
 #include <Factories/OgreRenderableComponentsFactory.h>
+#include <Factories/OgreCameraComponentsFactory.h>
 #include <Listeners/OgreUpdateFrameListener.h>
 #include <Parsers/OgreSubsystemDescParser.h>
 
@@ -32,7 +33,10 @@ namespace UnknownEngine
 	{
 
 		OgreRenderSystemPlugin::OgreRenderSystemPlugin ()
-		:log_helper(nullptr)
+		:log_helper(nullptr),
+		renderable_components_factory(nullptr),
+		camera_components_factory(nullptr),
+		engine_context(nullptr)
 		{
 		}
 
@@ -77,12 +81,16 @@ namespace UnknownEngine
 			}
 			
 			LOG_INFO(log_helper, "Creating factory for component type 'Renderable'");
-			
 			renderable_components_factory = new OgreRenderableComponentsFactory(render_system, engine_context);
 
 			LOG_INFO(log_helper, "Registering factory for component type 'Renderable'");
-			
 			engine_context->getComponentsManager()->addComponentFactory(renderable_components_factory);
+
+			LOG_INFO(log_helper, "Creating factory for component type 'Camera'");
+			camera_components_factory = new OgreCameraComponentsFactory(render_system, engine_context);
+
+			LOG_INFO(log_helper, "Registering factory for component type 'Camera'");
+			engine_context->getComponentsManager()->addComponentFactory(camera_components_factory);
 
 			return true;
 		}
@@ -122,12 +130,16 @@ namespace UnknownEngine
 
 			LOG_INFO(log_helper, "Uninstalling subsystem OGRE render subsystem");
 		  
+			LOG_INFO(log_helper, "Unregistering component factory for type 'Camera'" );
+			engine_context->getComponentsManager()->removeComponentFactory(camera_components_factory);
+
+			LOG_INFO(log_helper, "Destroying component factory for type 'Camera'");
+			delete camera_components_factory;
+
 			LOG_INFO(log_helper, "Unregistering component factory for type 'Renderable'" );
-		  
 			engine_context->getComponentsManager()->removeComponentFactory(renderable_components_factory);
 			
 			LOG_INFO(log_helper, "Destroying component factory for type 'Renderable'");
-						       
 			delete renderable_components_factory;
 			
 			LOG_INFO(log_helper, "Destroying subsystem object");

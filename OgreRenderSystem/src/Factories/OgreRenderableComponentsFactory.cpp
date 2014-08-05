@@ -5,8 +5,7 @@
 #include <Parsers/OgreRenderableDescriptorParser.h>
 #include <OgreRenderSubsystem.h>
 #include <ComponentDesc.h>
-#include <ExportedMessages/TransformChangedMessage.h>
-#include <ExportedMessages/RenderSystem/ChangeMaterialActionMessage.h>
+
 #include <EngineContext.h>
 #include <MessageSystem/MessageDispatcher.h>
 
@@ -22,7 +21,7 @@ namespace UnknownEngine {
 
 		const std::string OgreRenderableComponentsFactory::getName()
 		{
-			return "Graphics.OgreRenderSystem.RenderableComponentsFactory";
+			return "Graphics.OgreRenderSubsystem.RenderableComponentsFactory";
 		}
 
 		const std::unordered_set<Core::ComponentType> &OgreRenderableComponentsFactory::getSupportedTypes()
