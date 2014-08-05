@@ -13,4 +13,11 @@ list( APPEND INCLUDED_HEADERS ${OGRE_INCLUDE_DIRS})
 list( APPEND LINKED_LIBS ${OGRE_LIBRARIES})
 link_directories(${OGRE_LIBRARY_DIRS})
 
+if(WIN32)
+  
+else()
+  configure_file(config/plugins.cfg.linux config/plugins.cfg)
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/config/plugins.cfg DESTINATION ${EXECUTABLE_DEPLOY_DIR})
+endif()
+
 include(${MODULE_TEMPLATE_CMAKELISTS_FILE})
