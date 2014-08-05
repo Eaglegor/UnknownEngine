@@ -17,12 +17,10 @@ namespace UnknownEngine {
 
 		void OgreRenderableComponent::init(const Core::Entity *parent_entity)
 		{
-			log_helper = new Core::LogHelper(getName(), Core::LogMessage::LOG_SEVERITY_INFO, engine_context);
-
-			LOG_INFO(log_helper, "Logger initialized");
-
 			LOG_INFO(log_helper, "Creating OGRE entity");
 			entity = render_system->getSceneManager()->createEntity(getName()+".Entity", Ogre::SceneManager::PT_SPHERE /*mesh_data_provider->getResource().getData<Ogre::MeshPtr>()*/);
+
+			entity->setMaterialName(descriptor.material_name);
 
 			LOG_INFO(log_helper, "Creating OGRE scene node")
 			scene_node = render_system->getSceneManager()->getRootSceneNode()->createChildSceneNode(getName()+".SceneNode");
@@ -60,12 +58,13 @@ namespace UnknownEngine {
 			: Core::Component(name),
 			  render_system(render_system),
 			  type(OGRE_RENDERABLE_COMPONENT_TYPE),
-			  mesh_data_provider(desc.mesh_data_provider),
+			  descriptor(desc),
 			  listener(nullptr),
 			  engine_context(engine_context),
-			  messaging_policies_manager(engine_context),
-			  log_helper(nullptr)
+			  messaging_policies_manager(engine_context)
 		{
+			log_helper = new Core::LogHelper(getName(), Core::LogMessage::LOG_SEVERITY_INFO, engine_context);
+			LOG_INFO(log_helper, "Logger initialized");
 		}
 
 		OgreRenderableComponent::~OgreRenderableComponent()

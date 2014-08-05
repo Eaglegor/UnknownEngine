@@ -17,6 +17,7 @@ namespace UnknownEngine
 	  class EngineContext;
 	  class TransformChangedMessage;
 	  class ReceivedMessageDesc;
+	  class LogHelper;
 	}
   
 	namespace Graphics
@@ -57,6 +58,8 @@ namespace UnknownEngine
 				const Core::ComponentType type;
 				OgreCameraComponentListener* listener;
 				Core::MessagingPoliciesManager messaging_policies_manager;
+
+				Core::LogHelper *log_helper;
 				
 		};
 	}

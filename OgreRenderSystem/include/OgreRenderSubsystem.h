@@ -37,6 +37,7 @@ namespace UnknownEngine {
 
 				UNKNOWNENGINE_INLINE
 				Ogre::SceneManager* getSceneManager(){return scene_manager;}
+				Ogre::RenderWindow* getRenderWindow(){return render_window;}
 
 			private:
 				Ogre::Root* root;

@@ -170,7 +170,7 @@ namespace UnknownEngine
 			LOG_DEBUG(log_helper, "Getting components manager");
 			Core::ComponentsManager* components_manager = engine_context->getComponentsManager();
 
-			LOG_DEBUG(log_helper, "Creating entity");
+			LOG_DEBUG(log_helper, "Creating renderable entity");
 			Core::Entity* entity = components_manager->createEntity("TestEntity");
 
 			OgreRenderableComponent::Descriptor desc;
@@ -185,10 +185,25 @@ namespace UnknownEngine
 			cdesc.received_messages.push_back(mdesc);
 			cdesc.descriptor.set<OgreRenderableComponent::Descriptor>(desc);
 
-			LOG_DEBUG(log_helper, "Creating component");
+			LOG_DEBUG(log_helper, "Creating renderable component");
 			Core::Component* component = components_manager->createComponent(cdesc, entity);
 
-			LOG_DEBUG(log_helper, "Starting entity");
+			LOG_DEBUG(log_helper, "Starting renderable entity");
+			entity->start();
+
+
+			OgreCameraComponent::Descriptor camdesc;
+			cdesc.descriptor.set<OgreCameraComponent::Descriptor>(camdesc);
+			cdesc.name = "MainCamera.Camera";
+			cdesc.type = "Graphics.Camera";
+
+			LOG_DEBUG(log_helper, "Creating camera entity");
+			entity = components_manager->createEntity("MainCamera");
+
+			LOG_DEBUG(log_helper, "Creating camera component");
+			component = components_manager->createComponent(cdesc, entity);
+
+			LOG_DEBUG(log_helper, "Starting camera entity");
 			entity->start();
 
 			LOG_DEBUG(log_helper, "Test scene created");

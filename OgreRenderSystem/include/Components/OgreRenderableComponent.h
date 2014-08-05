@@ -90,6 +90,8 @@ namespace UnknownEngine {
 				Ogre::SceneNode* scene_node;
 				Core::EngineContext* engine_context;
 				Core::MessagingPoliciesManager messaging_policies_manager;
+				
+				Descriptor descriptor;
 
 				Core::LogHelper* log_helper;
 		};

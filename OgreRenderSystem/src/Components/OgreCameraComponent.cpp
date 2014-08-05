@@ -8,6 +8,8 @@
 #include <EngineContext.h>
 #include <MessageSystem/MessageDispatcher.h>
 
+#include <LogHelper.h>
+
 namespace UnknownEngine
 {
 	namespace Graphics
@@ -15,69 +17,82 @@ namespace UnknownEngine
 
 		UnknownEngine::Core::ComponentType OgreCameraComponent::getType()
 		{
-		  return type;
+			return type;
 		}
 
 		void OgreCameraComponent::shutdown()
 		{
-		  this->scene_node->detachObject(this->camera);
+			this->scene_node->detachObject ( this->camera );
 		}
 
 		void OgreCameraComponent::start()
 		{
-		  this->scene_node->attachObject(this->camera);
+			this->scene_node->attachObject ( this->camera );
 		}
 
-		void OgreCameraComponent::init ( const UnknownEngine::Core::Entity* parent_entity )
+		void OgreCameraComponent::init ( const UnknownEngine::Core::Entity *parent_entity )
 		{
-		  this->camera = render_subsystem->getSceneManager()->createCamera(getName()+".Camera");
-		  this->scene_node = render_subsystem->getSceneManager()->getRootSceneNode()->createChildSceneNode(getName()+".SceneNode");
+			LOG_INFO(log_helper, "Creating OGRE camera");
+			this->camera = render_subsystem->getSceneManager()->createCamera ( getName() + ".Camera" );
 
-		  scene_node->setPosition(0, 0, 10);
-		  camera->lookAt(0,0,0);
+			LOG_INFO(log_helper, "Creating OGRE scene node");
+			this->scene_node = render_subsystem->getSceneManager()->getRootSceneNode()->createChildSceneNode ( getName() + ".SceneNode" );
+
+			render_subsystem->getRenderWindow()->addViewport(camera);
+
+			scene_node->setPosition ( 0, 0, 150 );
+			camera->lookAt ( 0, 0, 0 );
 		}
 
-		OgreCameraComponent::OgreCameraComponent ( const std::string& name, const OgreCameraComponent::Descriptor& desc, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context )
-		:Component(name),
-		  type(OGRE_CAMERA_COMPONENT_TYPE),
-		  render_subsystem(render_subsystem),
-		  engine_context(engine_context),
-		  listener(nullptr),
-		  messaging_policies_manager(engine_context)
+		OgreCameraComponent::OgreCameraComponent ( const std::string &name, const OgreCameraComponent::Descriptor &desc, OgreRenderSubsystem *render_subsystem, Core::EngineContext *engine_context )
+			: Component ( name ),
+			type ( OGRE_CAMERA_COMPONENT_TYPE ),
+			render_subsystem ( render_subsystem ),
+			engine_context ( engine_context ),
+			listener ( nullptr ),
+			messaging_policies_manager ( engine_context )
 		{
+			log_helper = new Core::LogHelper(getName(), Core::LogMessage::LOG_SEVERITY_INFO, engine_context);
+			LOG_INFO(log_helper, "Logger initialized");
 		}
-		
+
 		OgreCameraComponent::~OgreCameraComponent()
 		{
-		  render_subsystem->getSceneManager()->destroyCamera(this->camera);
-		  render_subsystem->getSceneManager()->destroySceneNode(this->scene_node);
-		}
-		
-		void OgreCameraComponent::onTransformChanged ( const Core::TransformChangedMessage& msg )
-		{
-		  this->scene_node->setPosition( OgreVector3Converter::toOgreVector(msg.new_transform.getPosition()) );
-		  this->scene_node->setOrientation( OgreQuaternionConverter::toOgreQuaternion(msg.new_transform.getOrientation()) );
+			render_subsystem->getSceneManager()->destroyCamera ( this->camera );
+			render_subsystem->getSceneManager()->destroySceneNode ( this->scene_node );
+
+			if(log_helper) delete log_helper;
 		}
 
-		void OgreCameraComponent::addReceivedMessageType(const Core::ReceivedMessageDesc &received_message)
+		void OgreCameraComponent::onTransformChanged ( const Core::TransformChangedMessage &msg )
 		{
-			if(listener==nullptr) listener = new OgreCameraComponentListener(getName()+".Listener", this, engine_context);
-			if(listener->supportsMessageTypeName(received_message.message_type_name))
+			this->scene_node->setPosition ( OgreVector3Converter::toOgreVector ( msg.new_transform.getPosition() ) );
+			this->scene_node->setOrientation ( OgreQuaternionConverter::toOgreQuaternion ( msg.new_transform.getOrientation() ) );
+		}
+
+		void OgreCameraComponent::addReceivedMessageType ( const Core::ReceivedMessageDesc &received_message )
+		{
+			if ( listener == nullptr )
 			{
-				engine_context->getMessageDispatcher()->addListener(
-							received_message.message_type_name, listener,
-							messaging_policies_manager.createPrefabReceiveMessagePolicy(received_message.receive_policy_type_name, received_message.receive_policy_options)
-							);
+				listener = new OgreCameraComponentListener ( getName() + ".Listener", this, engine_context );
+			}
+
+			if ( listener->supportsMessageTypeName ( received_message.message_type_name ) )
+			{
+				engine_context->getMessageDispatcher()->addListener (
+					received_message.message_type_name, listener,
+					messaging_policies_manager.createPrefabReceiveMessagePolicy ( received_message.receive_policy_type_name, received_message.receive_policy_options )
+					);
 			}
 			else
 			{
-				throw Core::IMessageListener::MessageTypeNotSupportedByListener("Listener of component " + getName() + " doesn't support message type " + received_message.message_type_name);
+				throw Core::IMessageListener::MessageTypeNotSupportedByListener ( "Listener of component " + getName() + " doesn't support message type " + received_message.message_type_name );
 			}
 		}
 
-		void OgreCameraComponent::doLookAt( const CameraLookAtActionMessage& msg )
+		void OgreCameraComponent::doLookAt ( const CameraLookAtActionMessage &msg )
 		{
-			camera->lookAt(OgreVector3Converter::toOgreVector(msg.look_at_position));
+			camera->lookAt ( OgreVector3Converter::toOgreVector ( msg.look_at_position ) );
 		}
 
 	}
