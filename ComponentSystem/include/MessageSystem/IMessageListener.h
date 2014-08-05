@@ -53,7 +53,7 @@ namespace UnknownEngine
 				 * @param rhs - Listener to compare to
 				 * @return true if ids are equal
 				 */
-				virtual bool operator== ( const IMessageListener &rhs ) const
+				bool operator== ( const IMessageListener &rhs ) const
 				{
 					return getMessageSystemParticipantId() == rhs.getMessageSystemParticipantId();
 				}

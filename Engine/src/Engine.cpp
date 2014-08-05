@@ -22,6 +22,8 @@
 #include <SubsystemDesc.h>
 #include <ISceneLoader.h>
 
+#include <StopEngineListener.h>
+
 #define ENABLE_CORE_SUBSYSTEM_INFO_LOG
 #include <CoreLogging.h>
 
@@ -53,7 +55,15 @@ namespace UnknownEngine
 			plugins_manager->initSubsystems();
 
 			MainLoop main_loop;
+
+			CORE_SUBSYSTEM_INFO ( "Registering engine stop listener" );
+			StopEngineListener stop_listener("Engine.EngineStopListener", &main_loop);
+			context.getMessageDispatcher()->addListener(StopEngineActionMessage::getTypeName(), &stop_listener);
+
 			main_loop.start();
+
+			CORE_SUBSYSTEM_INFO ( "Unregistering engine stop listener" );
+			context.getMessageDispatcher()->removeListener(&stop_listener);
 
 			state = STOPPED;
 
@@ -132,12 +142,6 @@ namespace UnknownEngine
 			state = INIT;
 		}
 
-		void Engine::loadScene ( Loader::ISceneLoader* loader )
-		{
-			CORE_SUBSYSTEM_INFO ( "Loading scene" );
-			loader->loadScene ( &context, plugins_manager );
-		}
-
 		void Engine::registerInternalMessageTypes()
 		{
 			CORE_SUBSYSTEM_INFO ( "Registering message type: " + std::string ( LogMessage::getTypeName() ) );
@@ -145,6 +149,9 @@ namespace UnknownEngine
 
 			CORE_SUBSYSTEM_INFO ( "Registering message type: " + std::string ( UpdateFrameMessage::getTypeName() ) );
 			context.message_dictionary->registerNewMessageType ( UpdateFrameMessage::getTypeName() );
+
+			CORE_SUBSYSTEM_INFO ( "Registering message type: " + std::string ( StopEngineActionMessage::getTypeName() ) );
+			context.message_dictionary->registerNewMessageType ( StopEngineActionMessage::getTypeName() );
 		}
 
 		PluginsManager* Engine::getPluginsManager()

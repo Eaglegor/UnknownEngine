@@ -85,13 +85,6 @@ namespace UnknownEngine
 				void init() throw(InvalidEngineStateException);
 
 				/**
-				 * @brief Loads scene using provided loader
-				 * @param loader - %Scene loader implementation
-				 */
-				ENGINE_EXPORT
-				void loadScene(Loader::ISceneLoader* loader);
-
-				/**
 				 * @brief Starts engine
 				 *
 				 * Creates and starts the main loop in the context of calling thread.
