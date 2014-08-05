@@ -72,5 +72,10 @@ namespace UnknownEngine
 			}
 		}
 
+		void OgreCameraComponent::doLookAt( const CameraLookAtActionMessage& msg )
+		{
+			camera->lookAt(OgreVector3Converter::toOgreVector(msg.look_at_position));
+		}
+
 	}
 }

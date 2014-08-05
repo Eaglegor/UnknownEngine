@@ -24,6 +24,7 @@ namespace UnknownEngine
 
 		class OgreRenderSubsystem;
 		class OgreCameraComponentListener;
+		class CameraLookAtActionMessage;
 
 		const Core::ComponentType OGRE_CAMERA_COMPONENT_TYPE = "Graphics.Camera";
 		
@@ -41,7 +42,8 @@ namespace UnknownEngine
 				virtual void init ( const UnknownEngine::Core::Entity *parent_entity );
 				
 				void onTransformChanged(const Core::TransformChangedMessage& msg);
-				
+				void doLookAt(const CameraLookAtActionMessage& msg);
+
 				OgreCameraComponent ( const std::string &name, const Descriptor& desc, OgreRenderSubsystem *render_subsystem, Core::EngineContext* engine_context );
 				virtual ~OgreCameraComponent();
 				

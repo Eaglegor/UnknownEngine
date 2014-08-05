@@ -3,6 +3,7 @@
 #include <unordered_set>
 #include <MessageSystem/IMessageListener.h>
 #include <ExportedMessages/TransformChangedMessage.h>
+#include <ExportedMessages/RenderSystem/CameraLookAtActionMessage.h>
 #include <Listeners/BaseOgreComponentListener.h>
 
 namespace UnknownEngine
@@ -25,7 +26,10 @@ namespace UnknownEngine
 
 			private:
 				void processTransformChangedMessage ( const Core::PackedMessage& msg );
+				void processCameraLookAtActionMessage ( const Core::PackedMessage& msg );
+
 				Core::TransformChangedMessageUnpacker transform_message_unpacker;
+				CameraLookAtActionMessageUnpacker camera_look_at_message_unpacker;
 
 				OgreCameraComponent* camera_component;
 				Core::EngineContext* engine_context;
