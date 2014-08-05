@@ -13,6 +13,9 @@
 #include <Objects/Component.h>
 #include <algorithm>
 #include <Objects/Entity.h>
+
+#define ENABLE_CORE_SUBSYSTEM_INFO_LOG
+#define ENABLE_CORE_SUBSYSTEM_ERROR_LOG
 #include <CoreLogging.h>
 
 namespace UnknownEngine
@@ -51,23 +54,26 @@ namespace UnknownEngine
 
 		Entity *ComponentsManager::createEntity(const std::string &name)
 		{
+			CORE_SUBSYSTEM_INFO("Creating entity: " + name);
 			return new Entity(name, this);
 		}
 
-		Component* ComponentsManager::createComponent(const ComponentDesc &desc, const Entity *parent_entity) throw (NoSuitableFactoryFoundException)
+		Component* ComponentsManager::createComponent(const ComponentDesc &desc, Entity *parent_entity) throw (NoSuitableFactoryFoundException)
 		{
-			CORE_SUBSYSTEM_INFO("Creating component '" + desc.name + "' of type '" + desc.type + "'");
+			CORE_SUBSYSTEM_INFO("Creating component '" + desc.name + "' of type '" + desc.type + "' to be attached to the entity '" + parent_entity->getName() + "'");
 			for( auto &factory : component_factories )
 			{
 				if(factory.second->supportsType(desc.type))
 				{
+					CORE_SUBSYSTEM_INFO("Found suitable factory : " + factory.second->getName());
 					Component* component = factory.second->createObject(desc);
-					CORE_SUBSYSTEM_INFO("Initializing component '" + desc.name + "'");
-					component->init(parent_entity);
+					CORE_SUBSYSTEM_INFO("Attaching component '" + desc.name + "' to the entity '" + parent_entity->getName() + "'" );
+					parent_entity->addComponent(desc.name, component);
 					CORE_SUBSYSTEM_INFO("Component '" + desc.name + "' created");
 					return component;
 				}
 			}
+			CORE_SUBSYSTEM_ERROR("Not found factory for component type: '" + desc.type + "'");
 			throw NoSuitableFactoryFoundException("Can't find factory for component");
 		}
 

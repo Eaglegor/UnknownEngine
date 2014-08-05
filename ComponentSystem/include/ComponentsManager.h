@@ -108,7 +108,7 @@ namespace UnknownEngine
 				 * @return Pointer to the newly created component
 				 */
 				COMPONENTSYSTEM_EXPORT
-				virtual Component* createComponent ( const ComponentDesc &desc, const Entity* parent_entity ) throw (NoSuitableFactoryFoundException);
+				virtual Component* createComponent ( const ComponentDesc &desc, Entity* parent_entity ) throw (NoSuitableFactoryFoundException);
 
 				/**
 				 * @brief Removes the component
