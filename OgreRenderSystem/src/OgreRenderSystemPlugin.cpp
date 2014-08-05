@@ -78,14 +78,14 @@ namespace UnknownEngine
 				LOG_INFO(log_helper, "Predefined descriptor found");
 				LOG_INFO(log_helper, "Creating subsystem object");
 				
-				render_system = new OgreRenderSubsystem(desc.prepared_descriptor.get<OgreRenderSubsystem::Descriptor>(), engine_context, log_helper);
+				render_system = new OgreRenderSubsystem(desc.prepared_descriptor.get<OgreRenderSubsystem::Descriptor>(), log_helper);
 			}
 			else
 			{
 				LOG_WARNING(log_helper, "Predefined descriptor not found - string parser will be used");
 				LOG_INFO(log_helper, "Creating subsystem object");
 				
-				render_system = new OgreRenderSubsystem(OgreRenderSubsystemDescriptorParser::parse(desc.creation_options), engine_context, log_helper);
+				render_system = new OgreRenderSubsystem(OgreRenderSubsystemDescriptorParser::parse(desc.creation_options), log_helper);
 			}
 			
 			LOG_INFO(log_helper, "Creating factory for component type 'Renderable'");
