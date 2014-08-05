@@ -96,11 +96,18 @@ namespace UnknownEngine
 				
 				/**
 				 * @brief Removes the entity
-				 * @return Pointer to the entity to be removed
+				 * @param entity - Pointer to the entity to be removed
 				 */
 				COMPONENTSYSTEM_EXPORT
 				virtual void removeEntity ( Entity* entity );
 
+				
+				/**
+				 * @brief Removes all entities
+				 */
+				COMPONENTSYSTEM_EXPORT
+				virtual void clearEntities ( );
+				
 
 				/**
 				 * @brief Creates the component
@@ -120,6 +127,7 @@ namespace UnknownEngine
 			private:
 				ComponentFactoriesMap component_factories; ///< Map of registered component factories
 				InternalDictionaryType internal_dictionary; ///< Internal dictionary implementation to assign identifiers to names
+				std::vector<Entity*> entities;
 
 		};
 

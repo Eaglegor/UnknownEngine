@@ -55,7 +55,9 @@ namespace UnknownEngine
 		Entity *ComponentsManager::createEntity(const std::string &name)
 		{
 			CORE_SUBSYSTEM_INFO("Creating entity: " + name);
-			return new Entity(name, this);
+			Entity* entity = new Entity(name, this);
+			entities.push_back(entity);
+			return entity;
 		}
 
 		Component* ComponentsManager::createComponent(const ComponentDesc &desc, Entity *parent_entity) throw (NoSuitableFactoryFoundException)
@@ -79,19 +81,40 @@ namespace UnknownEngine
 
 		void ComponentsManager::removeComponent(Component *component)
 		{
+			CORE_SUBSYSTEM_INFO("Destroying component '" + component->getName() + "'");
 			for( auto &factory : component_factories )
 			{
-				component->shutdown();
-				if(factory.second->supportsType(component->getType())) return factory.second->destroyObject(component);
+				if(factory.second->supportsType(component->getType())) 
+				{
+				  CORE_SUBSYSTEM_INFO("Shutting down component '" + component->getName() + "'");
+				  component->shutdown();
+				  factory.second->destroyObject(component);
+				  return;
+				}
 			}
+			CORE_SUBSYSTEM_ERROR("No suitable factory found to destroy component '" + component->getName() + "'");
 			throw NoSuitableFactoryFoundException("Can't find factory able to destroy component");
 		}
 
-		COMPONENTSYSTEM_EXPORT
-			void ComponentsManager::removeEntity( Entity* entity )
+		void ComponentsManager::removeEntity( Entity* entity )
 		{
-			if(entity) delete entity;
+			if(entity) 
+			{
+			  CORE_SUBSYSTEM_INFO("Destroying entity '" + entity->getName() + "'");
+			  auto iter = std::find(entities.begin(), entities.end(), entity);
+			  if(iter != entities.end()) *iter = nullptr;
+			  delete entity;
+			}
 		}
+		
+		void ComponentsManager::clearEntities()
+		{
+		  for(Entity* entity : entities)
+		  {
+		    removeEntity(entity);
+		  }
+		}
+
 
 	} /* namespace Core */
 } /* namespace UnknownEngine */
