@@ -11,6 +11,9 @@
 #include <Objects/Entity.h>
 #include <Objects/Component.h>
 
+#define ENABLE_CORE_SUBSYSTEM_INFO_LOG
+#include <CoreLogging.h>
+
 namespace UnknownEngine
 {
 	namespace Core
@@ -32,8 +35,10 @@ namespace UnknownEngine
 
 		void Entity::addComponent(const std::string &name, Component *component)
 		{
-			component->init(this);
 			if(components.find(name)!=components.end()) throw DuplicateComponentNameException("Duplicate component name: " + name);
+
+			CORE_SUBSYSTEM_INFO("Initializing component '" + component->getName() + "'");
+			component->init(this);
 			components[name] = component;
 		}
 
