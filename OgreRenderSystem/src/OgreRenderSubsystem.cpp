@@ -3,14 +3,20 @@
 #include <Ogre.h>
 #include <OgreRenderSubsystem.h>
 #include <LogHelper.h>
+#include <EngineContext.h>
+
+#include <MessageSystem/MessageSystemParticipantDictionary.h>
+#include <MessageSystem/MessageDispatcher.h>
+
+#include <ExportedMessages/StopEngineActionMessage.h>
 
 namespace UnknownEngine
 {
 	namespace Graphics
 	{
 
-		OgreRenderSubsystem::OgreRenderSubsystem ( const OgreRenderSubsystem::Descriptor &desc, Core::LogHelper *log_helper )
-			: log_helper ( log_helper )
+		OgreRenderSubsystem::OgreRenderSubsystem ( const UnknownEngine::Graphics::OgreRenderSubsystem::Descriptor& desc, UnknownEngine::Core::EngineContext* engine_context, UnknownEngine::Core::LogHelper* log_helper )
+			: log_helper ( log_helper ), counter(0), engine_context(engine_context)
 		{
 
 			root = new Ogre::Root ( desc.ogre_plugins_filename, desc.ogre_config_filename, desc.ogre_log_filename );
@@ -26,6 +32,13 @@ namespace UnknownEngine
 			{
 				Ogre::WindowEventUtilities::messagePump();
 				root->renderOneFrame();
+				++counter;
+				if(counter == 2000) {
+				  engine_context->getMessageSystemParticipantDictionary()->registerNewMessageParticipant("OgreRenderSystem");
+				  Core::StopEngineActionMessage msg;
+				  Core::StopEngineActionMessagePacker packer(Core::MessageSystemParticipantId("OgreRenderSystem"));
+				  engine_context->getMessageDispatcher()->deliverMessage(packer.packMessage(msg));
+				}
 			}
 
 		}

@@ -1,6 +1,7 @@
 #include <Components/OgreCameraComponent.h>
 #include <OgreRenderSubsystem.h>
 #include <OgreSceneManager.h>
+#include <OgreRenderWindow.h>
 #include <Converters/OgreVector3Converter.h>
 #include <Converters/OgreQuaternionConverter.h>
 #include <Listeners/OgreCameraComponentListener.h>
@@ -22,11 +23,13 @@ namespace UnknownEngine
 
 		void OgreCameraComponent::shutdown()
 		{
+			LOG_INFO(log_helper, "Shutting down");
 			this->scene_node->detachObject ( this->camera );
 		}
 
 		void OgreCameraComponent::start()
 		{
+			LOG_INFO(log_helper, "Starting");
 			this->scene_node->attachObject ( this->camera );
 		}
 
@@ -58,7 +61,18 @@ namespace UnknownEngine
 
 		OgreCameraComponent::~OgreCameraComponent()
 		{
+		  
+			if(listener!=nullptr)
+			{
+			     LOG_INFO(log_helper, "Unregistering listener");
+			     engine_context->getMessageDispatcher()->removeListener(listener);
+			     delete listener;
+			}
+		  
+			LOG_INFO(log_helper, "Destroying OGRE camera");
 			render_subsystem->getSceneManager()->destroyCamera ( this->camera );
+			
+			LOG_INFO(log_helper, "Destroying OGRE scene node");
 			render_subsystem->getSceneManager()->destroySceneNode ( this->scene_node );
 
 			if(log_helper) delete log_helper;

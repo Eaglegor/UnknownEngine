@@ -30,11 +30,13 @@ namespace UnknownEngine {
 
 		void OgreRenderableComponent::start()
 		{
+			LOG_INFO(log_helper, "Starting");
 			scene_node->attachObject(entity);
 		}
 
 		void OgreRenderableComponent::shutdown()
 		{
+			LOG_INFO(log_helper, "Shutting down");
 			scene_node->detachObject(entity);
 		}
 
@@ -71,12 +73,18 @@ namespace UnknownEngine {
 		{
 			if(listener != nullptr)
 			{
+				LOG_INFO(log_helper, "Unregistering listener");
 				engine_context->getMessageDispatcher()->removeListener(listener);
+				LOG_INFO(log_helper, "Deleting listener");
 				delete listener;
 			}
 
-			mesh_data_provider->release();
+			//mesh_data_provider->release();
+			
+			LOG_INFO(log_helper, "Destroying scene node");
 			render_system->getSceneManager()->destroySceneNode(scene_node);
+			
+			LOG_INFO(log_helper, "Destroying entity");
 			render_system->getSceneManager()->destroyEntity(entity);
 
 			if(log_helper) delete log_helper;
