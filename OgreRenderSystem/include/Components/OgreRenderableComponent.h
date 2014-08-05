@@ -20,6 +20,7 @@ namespace UnknownEngine {
 		class IMessageListener;
 		class EngineContext;
 		class ReceivedMessageDesc;
+		class LogHelper;
 	}
 
 	namespace Graphics {
@@ -89,6 +90,8 @@ namespace UnknownEngine {
 				Ogre::SceneNode* scene_node;
 				Core::EngineContext* engine_context;
 				Core::MessagingPoliciesManager messaging_policies_manager;
+
+				Core::LogHelper* log_helper;
 		};
 
 	} // namespace Graphics

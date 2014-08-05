@@ -9,6 +9,8 @@
 
 #include <boost/lexical_cast.hpp>
 
+#include <ComponentDesc.h>
+
 #include <Plugins/PluginsManager.h>
 #include <OgreRenderSystemPlugin.h>
 #include <MessageSystem/MessageDispatcher.h>
@@ -26,6 +28,12 @@
 #include <Parsers/OgreSubsystemDescParser.h>
 
 #include <LogHelper.h>
+
+#include <Objects/Entity.h>
+#include <Objects/Component.h>
+
+#include <Components/OgreRenderableComponent.h>
+#include <Components/OgreCameraComponent.h>
 
 namespace UnknownEngine
 {
@@ -97,7 +105,6 @@ namespace UnknownEngine
 
 		bool OgreRenderSystemPlugin::init () throw ( Core::PluginError )
 		{
-		  
 			LOG_INFO(log_helper, "Initializing OGRE render subsystem");
 		  
 			LOG_INFO(log_helper, "Registering update frame listener...");
@@ -106,6 +113,8 @@ namespace UnknownEngine
 			engine_context->getMessageDispatcher()->addListener(Core::UpdateFrameMessage::getTypeName(), update_frame_listener);
 			
 			LOG_INFO(log_helper, "OGRE render system initialized");
+
+			createTestScene();
 
 			return true;
 		}
@@ -151,6 +160,38 @@ namespace UnknownEngine
 			if(log_helper) delete log_helper;
 			
 			return true;
+		}
+
+		void OgreRenderSystemPlugin::createTestScene()
+		{
+
+			LOG_DEBUG(log_helper, "Creating test scene");
+
+			LOG_DEBUG(log_helper, "Getting components manager");
+			Core::ComponentsManager* components_manager = engine_context->getComponentsManager();
+
+			LOG_DEBUG(log_helper, "Creating entity");
+			Core::Entity* entity = components_manager->createEntity("TestEntity");
+
+			OgreRenderableComponent::Descriptor desc;
+			desc.material_name = "BaseWhiteNoLighting";
+
+			Core::ComponentDesc cdesc;
+			cdesc.name = "TestEntity.TestRenderable";
+			cdesc.type = "Graphics.Renderable";
+
+			Core::ReceivedMessageDesc mdesc;
+			mdesc.message_type_name = "Engine.TransformChangedMessage";
+			cdesc.received_messages.push_back(mdesc);
+			cdesc.descriptor.set<OgreRenderableComponent::Descriptor>(desc);
+
+			LOG_DEBUG(log_helper, "Creating component");
+			Core::Component* component = components_manager->createComponent(cdesc, entity);
+
+			LOG_DEBUG(log_helper, "Starting entity");
+			entity->start();
+
+			LOG_DEBUG(log_helper, "Test scene created");
 		}
 
 	} /* namespace Graphics */

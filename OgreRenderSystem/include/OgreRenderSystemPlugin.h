@@ -43,6 +43,9 @@ namespace UnknownEngine
 				virtual bool uninstall() throw (Core::PluginError) override;
 
 			private:
+
+				void createTestScene();
+
 				Core::SubsystemDesc desc;
 				Core::EngineContext *engine_context;
 

@@ -10,14 +10,24 @@
 #include <MessageSystem/MessageListenerDesc.h>
 #include <Converters/OgreVector3Converter.h>
 #include <Converters/OgreQuaternionConverter.h>
+#include <LogHelper.h>
 
 namespace UnknownEngine {
 	namespace Graphics {
 
 		void OgreRenderableComponent::init(const Core::Entity *parent_entity)
 		{
-			entity = render_system->getSceneManager()->createEntity(getName()+".Entity", mesh_data_provider->getResource().getData<Ogre::MeshPtr>());
+			log_helper = new Core::LogHelper(getName(), Core::LogMessage::LOG_SEVERITY_INFO, engine_context);
+
+			LOG_INFO(log_helper, "Logger initialized");
+
+			LOG_INFO(log_helper, "Creating OGRE entity");
+			entity = render_system->getSceneManager()->createEntity(getName()+".Entity", Ogre::SceneManager::PT_SPHERE /*mesh_data_provider->getResource().getData<Ogre::MeshPtr>()*/);
+
+			LOG_INFO(log_helper, "Creating OGRE scene node")
 			scene_node = render_system->getSceneManager()->getRootSceneNode()->createChildSceneNode(getName()+".SceneNode");
+
+			scene_node->setPosition(0, 0, 0);
 		}
 
 		void OgreRenderableComponent::start()
@@ -53,7 +63,8 @@ namespace UnknownEngine {
 			  mesh_data_provider(desc.mesh_data_provider),
 			  listener(nullptr),
 			  engine_context(engine_context),
-			  messaging_policies_manager(engine_context)
+			  messaging_policies_manager(engine_context),
+			  log_helper(nullptr)
 		{
 		}
 
@@ -64,9 +75,12 @@ namespace UnknownEngine {
 				engine_context->getMessageDispatcher()->removeListener(listener);
 				delete listener;
 			}
+
 			mesh_data_provider->release();
 			render_system->getSceneManager()->destroySceneNode(scene_node);
 			render_system->getSceneManager()->destroyEntity(entity);
+
+			if(log_helper) delete log_helper;
 		}
 
 		void OgreRenderableComponent::addReceivedMessageType(const Core::ReceivedMessageDesc &received_message)

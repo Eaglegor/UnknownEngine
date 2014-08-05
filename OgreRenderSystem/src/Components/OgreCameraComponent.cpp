@@ -32,6 +32,9 @@ namespace UnknownEngine
 		{
 		  this->camera = render_subsystem->getSceneManager()->createCamera(getName()+".Camera");
 		  this->scene_node = render_subsystem->getSceneManager()->getRootSceneNode()->createChildSceneNode(getName()+".SceneNode");
+
+		  scene_node->setPosition(0, 0, 10);
+		  camera->lookAt(0,0,0);
 		}
 
 		OgreCameraComponent::OgreCameraComponent ( const std::string& name, const OgreCameraComponent::Descriptor& desc, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context )
