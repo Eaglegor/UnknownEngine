@@ -20,6 +20,11 @@
 #include <ComponentDesc.h>
 #include <EngineContext.h>
 
+
+#include <Objects/Entity.h>
+
+#include <iostream>
+
 namespace UnknownEngine
 {
 	namespace Loader
@@ -57,13 +62,12 @@ namespace UnknownEngine
             scene_loader->getConstantsHolder()->pushScope();
 
 			Core::Entity* entity = engine_context->getComponentsManager()->createEntity(name);
-
             for(const ptree::value_type &iter : entity_node){
                 if(iter.first == Tags::COMPONENT){
                     const std::string name = iter.second.get_child(XMLATTR).get<std::string>(Attributes::COMPONENT::NAME);
 					loadComponent(entity, name, iter.second);
                 }
-                if(iter.first == Tags::TEMPLATED_COMPONENT){
+                else if(iter.first == Tags::TEMPLATED_COMPONENT){
                     const std::string name = iter.second.get_child(XMLATTR).get<std::string>(Attributes::TEMPLATED_COMPONENT::NAME);
                     const std::string template_name = iter.second.get_child(XMLATTR).get<std::string>(Attributes::TEMPLATED_COMPONENT::TEMPLATE_NAME);
 					loadComponent(entity, name, scene_loader->getTemplatesManager()->getTemplate(template_name));
@@ -84,7 +88,7 @@ namespace UnknownEngine
 			scene_loader->getConstantsHolder()->pushScope();
 
 			Core::ComponentDesc component_desc;
-			component_desc.name = name;
+			component_desc.name = parent_entity->getName() + "." + name;
 
 			const std::string component_type = component_node.get_child(XMLATTR).get<std::string>(Attributes::COMPONENT::TYPE);
 			component_desc.type = Core::ComponentType(component_type);

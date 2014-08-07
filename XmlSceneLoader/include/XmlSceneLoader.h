@@ -59,8 +59,6 @@ namespace UnknownEngine
 				std::string filename;
 				TemplatesManager* templates_manager;
 				ConstantsHolder* constants_holder;
-				Core::EngineContext* engine_context;
-				Core::PluginsManager* plugins_manager;
 
 		};
 

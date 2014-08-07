@@ -24,7 +24,7 @@ namespace UnknownEngine
 
 		using namespace boost::property_tree;
 
-		XmlSceneLoader::XmlSceneLoader ( UnknownEngine::Core::EngineContext* engine_context, UnknownEngine::Core::PluginsManager* plugins ) :
+		XmlSceneLoader::XmlSceneLoader ( UnknownEngine::Core::EngineContext* engine_context, UnknownEngine::Core::PluginsManager* plugins_manager ) :
 			ISceneLoader ( engine_context, plugins_manager ),
 			templates_manager ( nullptr ),
 			constants_holder ( nullptr )
