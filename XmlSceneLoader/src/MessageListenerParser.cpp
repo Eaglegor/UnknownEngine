@@ -14,7 +14,7 @@ namespace UnknownEngine {
 		{
 		}
 
-		Core::ReceivedMessageDescriptorsList&& MessageListenerParser::parseMessageListener(const ptree &event_listener_node, const ConstantsHolder *constants_holder)
+		Core::ReceivedMessageDescriptorsList MessageListenerParser::parseMessageListener(const ptree &event_listener_node, const ConstantsHolder *constants_holder)
 		{
 			Core::ReceivedMessageDescriptorsList messages;
 			for(const ptree::value_type &iter : event_listener_node)
