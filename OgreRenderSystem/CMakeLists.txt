@@ -14,7 +14,9 @@ list( APPEND LINKED_LIBS ${OGRE_LIBRARIES})
 link_directories(${OGRE_LIBRARY_DIRS})
 
 if(WIN32)
-  
+  configure_file(config/plugins.cfg.windows config/plugins.cfg)
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/config/plugins.cfg DESTINATION ${EXECUTABLE_DEPLOY_DIR})
+  install(FILES ${OGRE_BINARY_DIR}/OgreMain.dll ${OGRE_BINARY_DIR}/RenderSystem_GL.dll ${OGRE_BINARY_DIR}/Plugin_OctreeSceneManager.dll DESTINATION ${EXECUTABLE_DEPLOY_DIR})
 else()
   configure_file(config/plugins.cfg.linux config/plugins.cfg)
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/config/plugins.cfg DESTINATION ${EXECUTABLE_DEPLOY_DIR})
