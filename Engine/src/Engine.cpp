@@ -52,8 +52,6 @@ namespace UnknownEngine
 
 			state = STARTED;
 
-			plugins_manager->initSubsystems();
-
 			MainLoop main_loop;
 
 			CORE_SUBSYSTEM_INFO ( "Registering engine stop listener" );

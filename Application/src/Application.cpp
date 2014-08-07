@@ -15,9 +15,7 @@ int main()
 {
 	Engine engine;
 
-    //XmlSceneLoader loader("LHEScene.xml");
 	engine.init();
-	
 
 	{
 	  SubsystemDesc desc;
@@ -60,7 +58,8 @@ int main()
 	  engine.getPluginsManager()->loadSubsystem(desc);
 	}
 	
-	//engine.loadScene(&loader);
+	engine.getPluginsManager()->initSubsystems();
+	
 	engine.start();
 
 	engine.shutdown();
