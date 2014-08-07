@@ -17,6 +17,12 @@
 
 namespace UnknownEngine
 {
+  
+	namespace Core
+	{
+	  class EngineContext;
+	}
+  
 	namespace Loader
 	{
 
@@ -30,13 +36,13 @@ namespace UnknownEngine
 		{
 			public:
 				XMLSCENELOADER_EXPORT
-				XmlSceneLoader(const std::string &filename);
+				XmlSceneLoader( Core::EngineContext* engine_context, Core::PluginsManager* plugins_manager );
 
 				XMLSCENELOADER_EXPORT
 				virtual ~XmlSceneLoader();
 
 				XMLSCENELOADER_EXPORT
-				virtual void loadScene(Core::EngineContext *engine_context, Core::PluginsManager* plugins_manager) override;
+				virtual void loadScene( const std::string& filename ) override;
 
 				XMLSCENELOADER_EXPORT
 				virtual ConstantsHolder* getConstantsHolder();

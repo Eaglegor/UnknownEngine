@@ -62,26 +62,26 @@ namespace UnknownEngine {
 			return delivery_policy_creator_methods.find(type)!=delivery_policy_creator_methods.end();
 		}
 
-		MessagingPoliciesManager::ReceivePolicyPtr &&MessagingPoliciesManager::createAnyMessageReceivePolicy(const Properties &options)
+		MessagingPoliciesManager::ReceivePolicyPtr MessagingPoliciesManager::createAnyMessageReceivePolicy(const Properties &options)
 		{
 			AnyMessageReceivePolicy* policy = new AnyMessageReceivePolicy();
 			return std::move( std::unique_ptr<IMessageReceivePolicy>(policy) );
 		}
 
-		MessagingPoliciesManager::ReceivePolicyPtr &&MessagingPoliciesManager::createFromSingleSenderMessageReceivePolicy(const Properties &options)
+		MessagingPoliciesManager::ReceivePolicyPtr MessagingPoliciesManager::createFromSingleSenderMessageReceivePolicy(const Properties &options)
 		{
 			MessageSystemParticipantId sender_id(options.get<std::string>("sender_name"));
 			FromSingleSenderMessageReceivePolicy* policy = new FromSingleSenderMessageReceivePolicy(sender_id);
 			return std::move( std::unique_ptr<IMessageReceivePolicy>(policy) );
 		}
 
-		MessagingPoliciesManager::DeliveryPolicyPtr &&MessagingPoliciesManager::createBroadcastMessageDeliveryPolicy(const Properties &options)
+		MessagingPoliciesManager::DeliveryPolicyPtr MessagingPoliciesManager::createBroadcastMessageDeliveryPolicy(const Properties &options)
 		{
 			BroadcastMessageDeliverPolicy* policy = new BroadcastMessageDeliverPolicy();
 			return std::move( std::unique_ptr<IMessageDeliveryPolicy>(policy) );
 		}
 
-		MessagingPoliciesManager::DeliveryPolicyPtr &&MessagingPoliciesManager::createSingleReceieverMessageReceivePolicy(const Properties &options)
+		MessagingPoliciesManager::DeliveryPolicyPtr MessagingPoliciesManager::createSingleReceieverMessageReceivePolicy(const Properties &options)
 		{
 			MessageSystemParticipantId receiver_id(options.get<std::string>("receiver_name"));
 			SingleReceiverMessageDeliverPolicy* policy = new SingleReceiverMessageDeliverPolicy(receiver_id);

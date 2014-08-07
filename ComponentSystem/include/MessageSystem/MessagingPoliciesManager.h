@@ -47,14 +47,14 @@ namespace UnknownEngine {
 
 				const MessagePolicyType EMPTY_POLICY_TYPE;
 
-				typedef ReceivePolicyPtr&& (MessagingPoliciesManager::*ReceivePolicyCreator)(const Properties&);
-				typedef DeliveryPolicyPtr&& (MessagingPoliciesManager::*DeliveryPolicyCreator)(const Properties&);
+				typedef ReceivePolicyPtr (MessagingPoliciesManager::*ReceivePolicyCreator)(const Properties&);
+				typedef DeliveryPolicyPtr (MessagingPoliciesManager::*DeliveryPolicyCreator)(const Properties&);
 
-				ReceivePolicyPtr&& createAnyMessageReceivePolicy(const Properties& options);
-				ReceivePolicyPtr&& createFromSingleSenderMessageReceivePolicy(const Properties& options);
+				ReceivePolicyPtr createAnyMessageReceivePolicy(const Properties& options);
+				ReceivePolicyPtr createFromSingleSenderMessageReceivePolicy(const Properties& options);
 
-				DeliveryPolicyPtr&& createBroadcastMessageDeliveryPolicy(const Properties& options);
-				DeliveryPolicyPtr&& createSingleReceieverMessageReceivePolicy(const Properties& options);
+				DeliveryPolicyPtr createBroadcastMessageDeliveryPolicy(const Properties& options);
+				DeliveryPolicyPtr createSingleReceieverMessageReceivePolicy(const Properties& options);
 
 				template <typename PolicyType>
 				void registerReceivePolicyCreator(ReceivePolicyCreator creator);

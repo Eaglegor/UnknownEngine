@@ -52,6 +52,9 @@ namespace UnknownEngine
 					scene_loader->getConstantsHolder()->parseAndSaveConstant(iter.second);
 				}
 			}
+
+			scene_loader->getPluginsManager()->initSubsystems();
+
 			scene_loader->getConstantsHolder()->popScope();
 		}
 

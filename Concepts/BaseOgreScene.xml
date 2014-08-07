@@ -1,0 +1,63 @@
+<scene>
+	
+	<subsystems>
+
+		<subsystem name="Logger" module="ConsoleLogger.dll">
+			<received_messages>
+				<message type="Engine.LogMessage">
+					<receive_policy type="AnyMessageReceivePolicy"/>
+				</message>
+			</received_messages>
+			
+		</subsystem>
+
+		<subsystem name="Graphics" module="OgreRenderSystem.dll">
+		
+			<received_messages>
+				<message type="Engine.MainLoop.UpdateFrameMessage">
+					<receive_policy type="FromSingleSenderMessageReceivePolicy">
+						<options_section>
+							<option name="sender_name" value="Engine"/>
+						</options_section>
+					</receive_policy>
+				</message>
+			</received_messages>
+		
+	
+			<options_section>
+			
+				<options_section name="RenderWindow">
+					<option name="title" value="Hello window"/>
+				</options_section>
+				
+				<options_section name="ConfigFiles">
+					<option name="ogre_plugins_filename" value="plugins.cfg"/>
+					<option name="ogre_log_filename" value="Ogre.log"/>
+					<option name="ogre_config_filename" value="ogre.cfg"/>
+				</options_section>
+				
+			</options_section>
+			
+		</subsystem>
+	
+	</subsystems>
+
+	<entities>
+<!--
+		<entity name="MainCamera">
+			<component type="Graphics.Camera" name="Camera"/>
+		</entity>
+-->
+		<entity name="TestRenderable">
+			<component name="RenderableComponent" type="Graphics.Renderable">
+				<options_section>
+					<options_section name="Material">
+						<option name="material_name" value="BaseWhiteNoLighting"/>
+					</options_section>
+				</options_section>
+			</component>
+		</entity>
+			
+	</entities>
+	
+</scene>
