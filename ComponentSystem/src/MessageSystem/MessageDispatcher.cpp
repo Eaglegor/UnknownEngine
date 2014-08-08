@@ -30,7 +30,7 @@ namespace UnknownEngine
 		{
 		}
 
-		void MessageDispatcher::addListener (const MessageType &message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy )
+		void MessageDispatcher::addListener ( const MessageType &message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy )
 		{
 
 			if ( message_type_id == INVALID_NUMERIC_IDENTIFIER ) return;
@@ -56,7 +56,7 @@ namespace UnknownEngine
 			addListener ( message_type_id, listener, receive_policy );
 		}
 
-		void MessageDispatcher::removeListener (const MessageType &message_type_id, IMessageListener* listener )
+		void MessageDispatcher::removeListener ( const MessageType &message_type_id, IMessageListener* listener )
 		{
 			if ( listener == nullptr ) return;
 			MessageListenersList* registered_listeners = getRegisteredListeners ( message_type_id );
@@ -71,7 +71,7 @@ namespace UnknownEngine
 			}
 		}
 
-		void MessageDispatcher::removeListener (const std::string &message_type_name, IMessageListener* listener )
+		void MessageDispatcher::removeListener ( const std::string &message_type_name, IMessageListener* listener )
 		{
 			MessageType message_type_id = MessageDictionary::getSingleton ()->getMessageTypeId ( message_type_name );
 			removeListener ( message_type_id, listener );
@@ -87,7 +87,7 @@ namespace UnknownEngine
 			}
 		}
 
-		void MessageDispatcher::setListenerReceivePolicy (const MessageType &message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy )
+		void MessageDispatcher::setListenerReceivePolicy ( const MessageType &message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy )
 		{
 			if ( listener == nullptr ) return;
 			MessageListenersList* registered_listeners = getRegisteredListeners ( message_type_id );
@@ -102,7 +102,7 @@ namespace UnknownEngine
 			}
 		}
 
-		void MessageDispatcher::setListenerReceivePolicy (const std::string &message_type_name, IMessageListener* listener, IMessageReceivePolicy* receive_policy )
+		void MessageDispatcher::setListenerReceivePolicy ( const std::string &message_type_name, IMessageListener* listener, IMessageReceivePolicy* receive_policy )
 		{
 			MessageType message_type_id = MessageDictionary::getSingleton ()->getMessageTypeId ( message_type_name );
 			setListenerReceivePolicy ( message_type_id, listener, receive_policy );
@@ -120,7 +120,7 @@ namespace UnknownEngine
 						if ( registered_listener.receive_policy == nullptr || registered_listener.receive_policy->acceptMessage ( msg ) )
 						{
 							registered_listener.listener->processMessage ( msg );
-							if( delivery_policy != nullptr )
+							if ( delivery_policy != nullptr )
 							{
 								delivery_policy->notifySuccessulyDelivered();
 							}
@@ -128,20 +128,20 @@ namespace UnknownEngine
 					}
 				}
 			}
-			if( delivery_policy != nullptr )
+			if ( delivery_policy != nullptr )
 			{
 				delivery_policy->notifyDeliveryFinished();
 			}
 		}
 
-		const MessageDispatcher::MessageListenersList* MessageDispatcher::getRegisteredListeners (const MessageType &message_type_id ) const
+		const MessageDispatcher::MessageListenersList* MessageDispatcher::getRegisteredListeners ( const MessageType &message_type_id ) const
 		{
 			MessageListenersMap::const_iterator existing_list = listeners.find ( message_type_id );
 			if ( existing_list == listeners.end () ) return nullptr;
 			return &existing_list->second;
 		}
 
-		MessageDispatcher::MessageListenersList* MessageDispatcher::getRegisteredListeners (const MessageType &message_type_id )
+		MessageDispatcher::MessageListenersList* MessageDispatcher::getRegisteredListeners ( const MessageType &message_type_id )
 		{
 			MessageListenersMap::iterator existing_list = listeners.find ( message_type_id );
 			if ( existing_list == listeners.end () ) return nullptr;

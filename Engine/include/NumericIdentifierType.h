@@ -1,6 +1,7 @@
 #pragma once
 
-namespace UnknownEngine{
+namespace UnknownEngine
+{
 	namespace Core
 	{
 		/** \var typedef int NumericIdentifierType

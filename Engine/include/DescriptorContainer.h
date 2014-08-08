@@ -3,33 +3,34 @@
 #include <InlineSpecification.h>
 #include <boost/any.hpp>
 
-namespace UnknownEngine {
+namespace UnknownEngine
+{
 	namespace Core
 	{
 		class DescriptorContainer
 		{
 			public:
-				DescriptorContainer(){}
+				DescriptorContainer() {}
 
-				DescriptorContainer &operator=(const DescriptorContainer &rhs)
+				DescriptorContainer &operator= ( const DescriptorContainer &rhs )
 				{
 					descriptor = rhs.descriptor;
 					return *this;
 				}
 
-				DescriptorContainer(const DescriptorContainer& rhs)
-					: descriptor(rhs.descriptor)
+				DescriptorContainer ( const DescriptorContainer& rhs )
+					: descriptor ( rhs.descriptor )
 				{
 				}
 
-				DescriptorContainer(DescriptorContainer &&rhs)
-					: descriptor(std::move(rhs.descriptor))
+				DescriptorContainer ( DescriptorContainer && rhs )
+					: descriptor ( std::move ( rhs.descriptor ) )
 				{
 				}
 
 				template <typename DescriptorType>
 				UNKNOWNENGINE_INLINE
-				void set(const DescriptorType &desc)
+				void set ( const DescriptorType &desc )
 				{
 					this->descriptor = desc;
 				}
@@ -38,7 +39,7 @@ namespace UnknownEngine {
 				UNKNOWNENGINE_INLINE
 				const DescriptorType &get() const
 				{
-					return boost::any_cast<const DescriptorType&>(descriptor);
+					return boost::any_cast<const DescriptorType&> ( descriptor );
 				}
 
 				UNKNOWNENGINE_INLINE

@@ -93,7 +93,7 @@ namespace UnknownEngine
 				COMPONENTSYSTEM_EXPORT
 				virtual Entity* createEntity ( const std::string &name );
 
-				
+
 				/**
 				 * @brief Removes the entity
 				 * @param entity - Pointer to the entity to be removed
@@ -101,13 +101,13 @@ namespace UnknownEngine
 				COMPONENTSYSTEM_EXPORT
 				virtual void removeEntity ( Entity* entity );
 
-				
+
 				/**
 				 * @brief Removes all entities
 				 */
 				COMPONENTSYSTEM_EXPORT
 				virtual void clearEntities ( );
-				
+
 
 				/**
 				 * @brief Creates the component
@@ -115,14 +115,14 @@ namespace UnknownEngine
 				 * @return Pointer to the newly created component
 				 */
 				COMPONENTSYSTEM_EXPORT
-				virtual Component* createComponent ( const ComponentDesc &desc, Entity* parent_entity ) throw (NoSuitableFactoryFoundException);
+				virtual Component* createComponent ( const ComponentDesc &desc, Entity* parent_entity ) throw ( NoSuitableFactoryFoundException );
 
 				/**
 				 * @brief Removes the component
 				 * @param component - The component to be removed
 				 */
 				COMPONENTSYSTEM_EXPORT
-				virtual void removeComponent( Component* component );
+				virtual void removeComponent ( Component* component );
 
 			private:
 				ComponentFactoriesMap component_factories; ///< Map of registered component factories

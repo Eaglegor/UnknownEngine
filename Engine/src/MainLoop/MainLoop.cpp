@@ -19,7 +19,7 @@ namespace UnknownEngine
 
 		MainLoop::MainLoop () :
 			IMessageSystemParticipant ( "Engine.MainLoop" ),
-			stopped(true)
+			stopped ( true )
 		{
 		}
 
@@ -32,9 +32,9 @@ namespace UnknownEngine
 		{
 			stopped = false;
 
-			current_time = clock() / static_cast<float>(CLOCKS_PER_SEC);
+			current_time = clock() / static_cast<float> ( CLOCKS_PER_SEC );
 			UpdateFrameMessage msg;
-			UpdateFrameMessagePacker packer(getMessageSystemParticipantId());
+			UpdateFrameMessagePacker packer ( getMessageSystemParticipantId() );
 			while ( !stopped )
 			{
 				/*
@@ -45,7 +45,7 @@ namespace UnknownEngine
 
 				msg.stage = UpdateFrameMessage::PROCESSING;
 				msg.dt = dt;
-				MessageDispatcher::getSingleton()->deliverMessage(packer.packMessage(msg));
+				MessageDispatcher::getSingleton()->deliverMessage ( packer.packMessage ( msg ) );
 
 				updateTime();
 
@@ -58,7 +58,7 @@ namespace UnknownEngine
 
 		void MainLoop::updateTime ()
 		{
-			float temp_time = clock() / static_cast<float>(CLOCKS_PER_SEC);
+			float temp_time = clock() / static_cast<float> ( CLOCKS_PER_SEC );
 			dt = temp_time - current_time;
 			current_time = temp_time;
 		}

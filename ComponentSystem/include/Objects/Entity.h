@@ -44,8 +44,8 @@ namespace UnknownEngine
 		 *
 		 */
 
-		UNKNOWNENGINE_SIMPLE_EXCEPTION(DuplicateComponentNameException);
-		UNKNOWNENGINE_SIMPLE_EXCEPTION(ComponentNotFoundException);
+		UNKNOWNENGINE_SIMPLE_EXCEPTION ( DuplicateComponentNameException );
+		UNKNOWNENGINE_SIMPLE_EXCEPTION ( ComponentNotFoundException );
 
 		class Entity
 		{
@@ -55,7 +55,7 @@ namespace UnknownEngine
 				 * @param name - **unique** name of game object
 				 */
 				COMPONENTSYSTEM_EXPORT
-				Entity (const std::string &name, ComponentsManager* components_manager);
+				Entity ( const std::string &name, ComponentsManager* components_manager );
 
 				COMPONENTSYSTEM_EXPORT
 				virtual ~Entity ();
@@ -66,7 +66,7 @@ namespace UnknownEngine
 				 * @param component - Component to add
 				 */
 				COMPONENTSYSTEM_EXPORT
-				void addComponent(const std::string &name, Component *component);
+				void addComponent ( const std::string &name, Component *component );
 
 				/**
 				 * @brief Removes the component from the entity
@@ -74,7 +74,7 @@ namespace UnknownEngine
 				 *
 				 */
 				COMPONENTSYSTEM_EXPORT
-				void removeComponent(const std::string &name);
+				void removeComponent ( const std::string &name );
 
 				/**
 				 * @brief Returns the entity name
@@ -98,7 +98,10 @@ namespace UnknownEngine
 				  * @brief Returns the stored components map
 				  */
 				UNKNOWNENGINE_INLINE
-				const std::unordered_map<std::string, Component*>& getComponents(){ return components; }
+				const std::unordered_map<std::string, Component*>& getComponents()
+				{
+					return components;
+				}
 
 			private:
 

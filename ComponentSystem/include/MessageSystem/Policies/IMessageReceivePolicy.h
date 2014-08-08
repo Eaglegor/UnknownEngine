@@ -42,7 +42,7 @@ namespace UnknownEngine
 				 * @param msg - Message to analyze
 				 * @return true if the message must be processed
 				 */
-				virtual bool acceptMessage(const PackedMessage &msg) = 0;
+				virtual bool acceptMessage ( const PackedMessage &msg ) = 0;
 
 				virtual ~IMessageReceivePolicy()
 				{

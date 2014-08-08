@@ -12,44 +12,44 @@ namespace UnknownEngine
 	{
 		class Vector3Parser
 		{
-		public:
-			UNKNOWNENGINE_SIMPLE_EXCEPTION(Vector3ParseError);
+			public:
+				UNKNOWNENGINE_SIMPLE_EXCEPTION ( Vector3ParseError );
 
-			static Math::Vector3 parse(const std::string &input) throw (Vector3ParseError)
-			{
-				std::vector<std::string> split_value;
-				boost::algorithm::split(split_value, input, boost::algorithm::is_any_of("(,: )"), boost::algorithm::token_compress_on);
-				if(split_value.size() != 7 || split_value[0] != "Vector3") throw Vector3ParseError("Invalid Vector3 format. Expected: 'Vector3(x:1.4, y:0, z:-55)'. Got: " + input);
-				
-				Math::Vector3 result;
-
-				bool x = false, y = false, z = false;
-
-				for(size_t i = 1; i < 7; i+=2)
+				static Math::Vector3 parse ( const std::string &input ) throw ( Vector3ParseError )
 				{
-					if(split_value[i] == "x")
+					std::vector<std::string> split_value;
+					boost::algorithm::split ( split_value, input, boost::algorithm::is_any_of ( "(,: )" ), boost::algorithm::token_compress_on );
+					if ( split_value.size() != 8 || split_value[0] != "Vector3" ) throw Vector3ParseError ( "Invalid Vector3 format. Expected: 'Vector3(x:1.4, y:0, z:-55)'. Got: " + input );
+
+					Math::Vector3 result;
+
+					bool x = false, y = false, z = false;
+
+					for ( size_t i = 1; i < 7; i += 2 )
 					{
-						result.setX(boost::lexical_cast<Math::Scalar>(split_value[i+1]));
-						x = true;
+						if ( split_value[i] == "x" )
+						{
+							result.setX ( boost::lexical_cast<Math::Scalar> ( split_value[i + 1] ) );
+							x = true;
+						}
+						if ( split_value[i] == "y" )
+						{
+							result.setY ( boost::lexical_cast<Math::Scalar> ( split_value[i + 1] ) );
+							y = true;
+						}
+						if ( split_value[i] == "z" )
+						{
+							result.setZ ( boost::lexical_cast<Math::Scalar> ( split_value[i + 1] ) );
+							z = true;
+						}
 					}
-					if(split_value[i] == "y")
-					{
-						result.setY(boost::lexical_cast<Math::Scalar>(split_value[i+1]));
-						y = true;
-					}
-					if(split_value[i] == "z")
-					{
-						result.setZ(boost::lexical_cast<Math::Scalar>(split_value[i+1]));
-						z = true;
-					}
+
+					if ( !x ) throw Vector3ParseError ( "Invalid Vector3 format. 'x' value is not set. Got: " + input );
+					if ( !y ) throw Vector3ParseError ( "Invalid Vector3 format. 'y' value is not set. Got: " + input );
+					if ( !z ) throw Vector3ParseError ( "Invalid Vector3 format. 'z' value is not set. Got: " + input );
+
+					return result;
 				}
-
-				if(!x) throw Vector3ParseError("Invalid Vector3 format. 'x' value is not set. Got: " + input);
-				if(!y) throw Vector3ParseError("Invalid Vector3 format. 'y' value is not set. Got: " + input);
-				if(!z) throw Vector3ParseError("Invalid Vector3 format. 'z' value is not set. Got: " + input);
-
-				return result;
-			}
 		};
 	}
 }

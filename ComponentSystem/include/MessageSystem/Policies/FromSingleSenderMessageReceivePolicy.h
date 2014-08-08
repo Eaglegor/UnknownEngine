@@ -30,19 +30,22 @@ namespace UnknownEngine
 				 * @return true if message sender is equal to expected
 				 */
 				COMPONENTSYSTEM_EXPORT
-				virtual bool acceptMessage(const PackedMessage &msg) override;
+				virtual bool acceptMessage ( const PackedMessage &msg ) override;
 
 				/**
 				 * @brief Constructor
 				 * @param sender_info - Message sender info to compare with
 				 */
 				COMPONENTSYSTEM_EXPORT
-				FromSingleSenderMessageReceivePolicy (const MessageSystemParticipantId &sender_info);
+				FromSingleSenderMessageReceivePolicy ( const MessageSystemParticipantId &sender_info );
 
 				COMPONENTSYSTEM_EXPORT
 				virtual ~FromSingleSenderMessageReceivePolicy ();
 
-				static const MessagePolicyType getType(){return "FromSingleSenderMessageReceivePolicy";}
+				static const MessagePolicyType getType()
+				{
+					return "FromSingleSenderMessageReceivePolicy";
+				}
 
 			private:
 				MessageSystemParticipantId sender_info; ///< Message sender info to compare with

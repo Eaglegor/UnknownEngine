@@ -49,8 +49,8 @@ namespace UnknownEngine
 				PackedMessage packMessage ( const StopEngineActionMessage &msg ) override
 				{
 					return PackedMessage (
-									 MessageDictionary::getSingleton()->getMessageTypeId (
-										 StopEngineActionMessage::getTypeName() ), sender_info );
+					           MessageDictionary::getSingleton()->getMessageTypeId (
+					               StopEngineActionMessage::getTypeName() ), sender_info );
 				}
 
 		};

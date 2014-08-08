@@ -18,25 +18,25 @@ namespace UnknownEngine
 		MessageDictionary* Singleton<MessageDictionary>::instance = nullptr;
 
 		MessageDictionary::MessageDictionary ()
-			: internal_dictionary("MessageDictionary.Dictionary", NUMERIC_IDENTIFIER_INITIAL_VALUE, INVALID_NUMERIC_IDENTIFIER)
+			: internal_dictionary ( "MessageDictionary.Dictionary", NUMERIC_IDENTIFIER_INITIAL_VALUE, INVALID_NUMERIC_IDENTIFIER )
 		{
 			// TODO Auto-generated constructor stub
 		}
 
-		MessageType MessageDictionary::registerNewMessageType( const std::string &message_type_name )
+		MessageType MessageDictionary::registerNewMessageType ( const std::string &message_type_name )
 		{
-			if(messageTypeIsRegistered(message_type_name)) return getMessageTypeId(message_type_name);
-			return internal_dictionary.registerNewValue(message_type_name);
+			if ( messageTypeIsRegistered ( message_type_name ) ) return getMessageTypeId ( message_type_name );
+			return internal_dictionary.registerNewValue ( message_type_name );
 		}
 
-		std::string MessageDictionary::getMessageTypeName (const MessageType &type_id ) const throw(InternalDictionaryType::EntryNotFoundInDictionary)
+		std::string MessageDictionary::getMessageTypeName ( const MessageType &type_id ) const throw ( InternalDictionaryType::EntryNotFoundInDictionary )
 		{
-			return internal_dictionary.getValueByKey(type_id);
+			return internal_dictionary.getValueByKey ( type_id );
 		}
 
-		MessageType MessageDictionary::getMessageTypeId( const std::string &type_name ) const throw (InternalDictionaryType::EntryNotFoundInDictionary)
+		MessageType MessageDictionary::getMessageTypeId ( const std::string &type_name ) const throw ( InternalDictionaryType::EntryNotFoundInDictionary )
 		{
-			return internal_dictionary.getKeyByValue(type_name);
+			return internal_dictionary.getKeyByValue ( type_name );
 		}
 
 		MessageDictionary::~MessageDictionary ()
@@ -44,14 +44,14 @@ namespace UnknownEngine
 			// TODO Auto-generated destructor stub
 		}
 
-		bool MessageDictionary::messageTypeIsRegistered (const MessageType &type_id ) const
+		bool MessageDictionary::messageTypeIsRegistered ( const MessageType &type_id ) const
 		{
-			return internal_dictionary.keyIsRegistered(type_id);
+			return internal_dictionary.keyIsRegistered ( type_id );
 		}
 
 		bool MessageDictionary::messageTypeIsRegistered ( const std::string &type_name ) const
 		{
-			return internal_dictionary.valueIsRegistered(type_name);
+			return internal_dictionary.valueIsRegistered ( type_name );
 		}
 
 	} /* namespace Core */

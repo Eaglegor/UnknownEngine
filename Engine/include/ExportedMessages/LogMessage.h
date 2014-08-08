@@ -29,23 +29,23 @@ namespace UnknownEngine
 		struct LogMessage
 		{
 
-				enum Severity
-				{
-					LOG_SEVERITY_NONE = 0,
-					LOG_SEVERITY_ERROR = 1,
-					LOG_SEVERITY_WARNING = 2,
-					LOG_SEVERITY_INFO = 3,
-					LOG_SEVERITY_DEBUG = 4
-				};
+			enum Severity
+			{
+			    LOG_SEVERITY_NONE = 0,
+			    LOG_SEVERITY_ERROR = 1,
+			    LOG_SEVERITY_WARNING = 2,
+			    LOG_SEVERITY_INFO = 3,
+			    LOG_SEVERITY_DEBUG = 4
+			};
 
-				UNKNOWNENGINE_INLINE
-				static std::string getTypeName()
-				{
-					return "Engine.LogMessage";
-				}
+			UNKNOWNENGINE_INLINE
+			static std::string getTypeName()
+			{
+				return "Engine.LogMessage";
+			}
 
-				std::string log_entry;
-				Severity severity;
+			std::string log_entry;
+			Severity severity;
 		};
 
 		/**
@@ -55,19 +55,19 @@ namespace UnknownEngine
 		{
 			public:
 
-				LogMessagePacker(const MessageSystemParticipantId &sender_info) :
-						MessagePacker<LogMessage>(sender_info)
+				LogMessagePacker ( const MessageSystemParticipantId &sender_info ) :
+					MessagePacker<LogMessage> ( sender_info )
 				{
 				}
 
 				UNKNOWNENGINE_INLINE
-				PackedMessage packMessage(const LogMessage& msg) override
+				PackedMessage packMessage ( const LogMessage& msg ) override
 				{
-					PackedMessage result(
-							MessageDictionary::getSingleton()->getMessageTypeId(
-									LogMessage::getTypeName()), sender_info);
-					result.getProperties().set<std::string>("log_entry", msg.log_entry);
-					result.getProperties().set<LogMessage::Severity>("severity", msg.severity);
+					PackedMessage result (
+					    MessageDictionary::getSingleton()->getMessageTypeId (
+					        LogMessage::getTypeName() ), sender_info );
+					result.getProperties().set<std::string> ( "log_entry", msg.log_entry );
+					result.getProperties().set<LogMessage::Severity> ( "severity", msg.severity );
 					return result;
 				}
 
@@ -81,12 +81,12 @@ namespace UnknownEngine
 			public:
 
 				UNKNOWNENGINE_INLINE
-				LogMessage unpackMessage(const PackedMessage &msg)
-						throw (InvalidMessageFormatException) override
+				LogMessage unpackMessage ( const PackedMessage &msg )
+				throw ( InvalidMessageFormatException ) override
 				{
 					LogMessage result;
-					result.log_entry = msg.getProperties().get<std::string>("log_entry");
-					result.severity = msg.getProperties().get<LogMessage::Severity>("severity");
+					result.log_entry = msg.getProperties().get<std::string> ( "log_entry" );
+					result.severity = msg.getProperties().get<LogMessage::Severity> ( "severity" );
 					return result;
 				}
 

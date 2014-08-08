@@ -23,14 +23,14 @@ namespace UnknownEngine
 		template<typename SubObjectIdentifierType>
 		struct LocalTransformChangedMessage
 		{
-				UNKNOWNENGINE_INLINE
-				constexpr static const char* getTypeName()
-				{
-					return "Engine.LocalTransformChangedMessage";
-				}
+			UNKNOWNENGINE_INLINE
+			constexpr static const char* getTypeName()
+			{
+				return "Engine.LocalTransformChangedMessage";
+			}
 
-				Transform new_transform;
-				SubObjectIdentifierType sub_object_identifier; ///< Identifier of subobject (number of part, local name etc.)
+			Transform new_transform;
+			SubObjectIdentifierType sub_object_identifier; ///< Identifier of subobject (number of part, local name etc.)
 		};
 
 		/**
@@ -41,20 +41,20 @@ namespace UnknownEngine
 		{
 			public:
 
-				TransformChangedMessagePacker(const MessageSystemParticipantId &sender_info) :
-						MessagePacker<LocalTransformChangedMessage>(sender_info)
+				TransformChangedMessagePacker ( const MessageSystemParticipantId &sender_info ) :
+					MessagePacker<LocalTransformChangedMessage> ( sender_info )
 				{
-					message_type_id = MessageDictionary::getSingleton()->getMessageTypeId(LocalTransformChangedMessage<SubObjectIdentifierType>::getTypeName());
+					message_type_id = MessageDictionary::getSingleton()->getMessageTypeId ( LocalTransformChangedMessage<SubObjectIdentifierType>::getTypeName() );
 				}
 
 				UNKNOWNENGINE_INLINE
-				PackedMessage packMessage(const LocalTransformChangedMessage& msg) override
+				PackedMessage packMessage ( const LocalTransformChangedMessage& msg ) override
 				{
-					PackedMessage result(message_type_id, sender_info);
+					PackedMessage result ( message_type_id, sender_info );
 
 					Properties& properties = result.getProperties();
-					properties.set<Transform>("new_transform", msg.new_transform);
-					properties.set<SubObjectIdentifierType>("sub_object_identifier", msg.sub_object_identifier);
+					properties.set<Transform> ( "new_transform", msg.new_transform );
+					properties.set<SubObjectIdentifierType> ( "sub_object_identifier", msg.sub_object_identifier );
 
 					return result;
 				}
@@ -73,12 +73,12 @@ namespace UnknownEngine
 			public:
 
 				UNKNOWNENGINE_INLINE
-				LogMessage unpackMessage(const PackedMessage &msg)
-						throw (InvalidMessageFormatException) override
+				LogMessage unpackMessage ( const PackedMessage &msg )
+				throw ( InvalidMessageFormatException ) override
 				{
 					LocalTransformChangedMessage result;
-					result.new_transform = msg.getProperties().get<Transform>("new_transform");
-					result.sub_object_identifier = msg.getProperties().get<SubObjectIdentifierType>("sub_object_identifier");
+					result.new_transform = msg.getProperties().get<Transform> ( "new_transform" );
+					result.sub_object_identifier = msg.getProperties().get<SubObjectIdentifierType> ( "sub_object_identifier" );
 					return result;
 				}
 

@@ -29,19 +29,22 @@ namespace UnknownEngine
 				 * @return true if a listener's address equals the expected
 				 */
 				COMPONENTSYSTEM_EXPORT
-				virtual bool allowDeliveryToListener(const IMessageListener* listener) const override;
+				virtual bool allowDeliveryToListener ( const IMessageListener* listener ) const override;
 
 				/**
 				 * @brief Constructor
 				 * @param receiver_info - Listener address to compare with
 				 */
 				COMPONENTSYSTEM_EXPORT
-				SingleReceiverMessageDeliverPolicy (const MessageSystemParticipantId &receiver_info);
+				SingleReceiverMessageDeliverPolicy ( const MessageSystemParticipantId &receiver_info );
 
 				COMPONENTSYSTEM_EXPORT
 				virtual ~SingleReceiverMessageDeliverPolicy ();
 
-				static const MessagePolicyType getType(){return "SingleReceiverMessageDeliverPolicy";}
+				static const MessagePolicyType getType()
+				{
+					return "SingleReceiverMessageDeliverPolicy";
+				}
 
 			private:
 				MessageSystemParticipantId receiver_info; ///< Listener address to compare with
