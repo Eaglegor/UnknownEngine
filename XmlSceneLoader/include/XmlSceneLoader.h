@@ -17,32 +17,32 @@
 
 namespace UnknownEngine
 {
-  
+
 	namespace Core
 	{
-	  class EngineContext;
+		class EngineContext;
 	}
-  
+
 	namespace Loader
 	{
 
 		class TemplatesManager;
 		class ConstantsHolder;
 
-		UNKNOWNENGINE_SIMPLE_EXCEPTION(InvalidSceneFile);
-		UNKNOWNENGINE_SIMPLE_EXCEPTION(NoTemplatesLoaded);
+		UNKNOWNENGINE_SIMPLE_EXCEPTION ( InvalidSceneFile );
+		UNKNOWNENGINE_SIMPLE_EXCEPTION ( NoTemplatesLoaded );
 
 		class XmlSceneLoader: public ISceneLoader
 		{
 			public:
 				XMLSCENELOADER_EXPORT
-				XmlSceneLoader( Core::EngineContext* engine_context, Core::PluginsManager* plugins_manager );
+				XmlSceneLoader ( Core::EngineContext* engine_context, Core::PluginsManager* plugins_manager );
 
 				XMLSCENELOADER_EXPORT
 				virtual ~XmlSceneLoader();
 
 				XMLSCENELOADER_EXPORT
-				virtual void loadScene( const std::string& filename ) override;
+				virtual void loadScene ( const std::string& filename ) override;
 
 				XMLSCENELOADER_EXPORT
 				virtual ConstantsHolder* getConstantsHolder();
@@ -51,10 +51,10 @@ namespace UnknownEngine
 				virtual TemplatesManager* getTemplatesManager();
 
 			private:
-				void parseGlobalConstants(const boost::property_tree::ptree &root);
-				void processEngineSettings(const boost::property_tree::ptree &node);
-				void processSubsystems(const boost::property_tree::ptree &node, Core::PluginsManager* plugins_manager);
-				void processEntities(const boost::property_tree::ptree &node, Core::EngineContext *engine_context);
+				void parseGlobalConstants ( const boost::property_tree::ptree &root );
+				void processEngineSettings ( const boost::property_tree::ptree &node );
+				void processSubsystems ( const boost::property_tree::ptree &node, Core::PluginsManager* plugins_manager );
+				void processEntities ( const boost::property_tree::ptree &node, Core::EngineContext *engine_context );
 
 				std::string filename;
 				TemplatesManager* templates_manager;

@@ -67,7 +67,7 @@ namespace UnknownEngine
 			}
 			namespace MESSAGE
 			{
-				static const std::string EVENT_TYPE = "event_type";
+				static const std::string TYPE = "type";
 			}
 			namespace RECEIVE_POLICY
 			{
