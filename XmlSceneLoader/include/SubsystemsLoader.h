@@ -23,22 +23,22 @@ namespace UnknownEngine
 
 		class XmlSceneLoader;
 
-		UNKNOWNENGINE_SIMPLE_EXCEPTION(InvalidSubsystemTemplate);
+		UNKNOWNENGINE_SIMPLE_EXCEPTION ( InvalidSubsystemTemplate );
 
 		class SubsystemsLoader
 		{
 			public:
-				SubsystemsLoader(Core::PluginsManager* plugins_manager, XmlSceneLoader* scene_loader) :
-						plugins_manager(plugins_manager), scene_loader(scene_loader)
+				SubsystemsLoader ( Core::PluginsManager* plugins_manager, XmlSceneLoader* scene_loader ) :
+					plugins_manager ( plugins_manager ), scene_loader ( scene_loader )
 				{
 				}
 				virtual ~SubsystemsLoader();
 
-				void loadSubsystems(const boost::property_tree::ptree &node);
+				void loadSubsystems ( const boost::property_tree::ptree &node );
 
 			private:
 
-				void loadSubsystem(const std::string &name, const boost::property_tree::ptree &node);
+				void loadSubsystem ( const std::string &name, const boost::property_tree::ptree &node );
 
 				Core::PluginsManager* plugins_manager;
 				XmlSceneLoader* scene_loader;
