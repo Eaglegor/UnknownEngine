@@ -29,6 +29,14 @@ namespace UnknownEngine {
 					std::string ogre_config_filename;
 					std::string ogre_log_filename;
 					std::string render_window_name;
+
+					Descriptor():
+						render_window_name("Untitled window"),
+						ogre_config_filename("ogre.cfg"),
+						ogre_log_filename("Ogre.log"),
+						ogre_plugins_filename("plugins.cfg")
+					{}
+					
 				};
 
 				explicit OgreRenderSubsystem( const UnknownEngine::Graphics::OgreRenderSubsystem::Descriptor& desc, UnknownEngine::Core::LogHelper* log_helper = nullptr );

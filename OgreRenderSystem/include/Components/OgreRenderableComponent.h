@@ -40,6 +40,13 @@ namespace UnknownEngine {
 				{
 					OgreMeshPtrProvider* mesh_data_provider;
 					std::string material_name;
+					Core::Transform initial_transform;
+
+					Descriptor():
+						material_name("BaseWhiteNoLighting"),
+						mesh_data_provider(nullptr),
+						initial_transform(Core::Transform::getIdentity())
+						{}
 				};
 
 				/**

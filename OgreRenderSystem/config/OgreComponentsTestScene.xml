@@ -51,9 +51,16 @@
 		<entity name="TestRenderable">
 			<component name="RenderableComponent" type="Graphics.Renderable">
 				<options_section>
+				
 					<options_section name="Material">
 						<option name="material_name" value="BaseWhiteNoLighting"/>
 					</options_section>
+					
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:10, y:30, z:50.0)"/>
+						<option name="orientation_quat" value="Quaternion(x:10, y:40, z:40.4, w:50)"/>
+					</options_section>
+					
 				</options_section>
 			</component>
 		</entity>
