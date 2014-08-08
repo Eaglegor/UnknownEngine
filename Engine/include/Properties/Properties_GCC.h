@@ -13,6 +13,7 @@
 #include <Properties/PropertiesInternals_GCC.h>
 #include <boost/fusion/include/at_key.hpp>
 #include <boost/optional.hpp>
+#include <boost/lexical_cast.hpp>
 
 #include <Exception.h>
 
@@ -24,7 +25,7 @@ namespace UnknownEngine
 		/**
 		 * @brief Is thrown when requested a non-existing property and no default value is provided
 		 */
-		UNKNOWNENGINE_SIMPLE_EXCEPTION(PropertyNotFoundException);
+		UNKNOWNENGINE_SIMPLE_EXCEPTION ( PropertyNotFoundException );
 
 		/**
 		 * @brief The properties map able to hold any value.
@@ -51,8 +52,8 @@ namespace UnknownEngine
 				typedef typename PropertiesInternals<K>::MapType InternalMapType;
 
 			public:
-				PropertiesTree (){}
-				virtual ~PropertiesTree (){}
+				PropertiesTree () {}
+				virtual ~PropertiesTree () {}
 
 				/**
 				 * @brief Returns all properties of type V
@@ -66,7 +67,7 @@ namespace UnknownEngine
 				UNKNOWNENGINE_INLINE
 				const std::unordered_map<K, V>& getAllOfType () const
 				{
-					return boost::fusion::at_key<V>( values_map );
+					return boost::fusion::at_key<V> ( values_map );
 				}
 
 				/**
@@ -83,11 +84,11 @@ namespace UnknownEngine
 				template<typename V>
 				UNKNOWNENGINE_INLINE
 				typename boost::enable_if<NotAnyPropertyTypes<V>, const V& >::type
-				get ( K name ) const throw(PropertyNotFoundException)
+				get ( const K &name ) const throw ( PropertyNotFoundException )
 				{
 					const std::unordered_map<K, V>& values = getAllOfType<V>();
-					const auto found = values.find( name );
-					if ( found == values.end() ) throw PropertyNotFoundException("Can't find requested property");
+					const auto found = values.find ( name );
+					if ( found == values.end() ) throw PropertyNotFoundException ( "Can't find requested property: " + boost::lexical_cast<std::string> ( name ) );
 					return found->second;
 				}
 
@@ -103,10 +104,10 @@ namespace UnknownEngine
 				template<typename V>
 				UNKNOWNENGINE_INLINE
 				typename boost::enable_if<NotAnyPropertyTypes<V>, const V& >::type
-				get ( K name, const V &default_value ) const
+				get ( const K &name, const V &default_value ) const
 				{
 					const std::unordered_map<K, V>& values = getAllOfType<V>();
-					const auto found = values.find( name );
+					const auto found = values.find ( name );
 					if ( found == values.end() ) return default_value;
 					return found->second;
 				}
@@ -123,12 +124,12 @@ namespace UnknownEngine
 				template<typename V>
 				UNKNOWNENGINE_INLINE
 				typename boost::enable_if<NotAnyPropertyTypes<V>, boost::optional<const V&> >::type
-				get_optional ( K name ) const
+				get_optional ( const K &name ) const
 				{
 					const std::unordered_map<K, V>& values = getAllOfType<V>();
-					const auto found = values.find( name );
+					const auto found = values.find ( name );
 					if ( found == values.end() ) return boost::optional<const V&>();
-					return boost::optional<const V&>( found->second );
+					return boost::optional<const V&> ( found->second );
 				}
 
 				/**
@@ -145,12 +146,12 @@ namespace UnknownEngine
 				template<typename V>
 				UNKNOWNENGINE_INLINE
 				typename boost::enable_if<AnyPropertyType<V>, const V& >::type
-				get ( K name ) const throw(PropertyNotFoundException)
+				get ( const K &name ) const throw ( PropertyNotFoundException )
 				{
 					const std::unordered_map<K, boost::any>& values = getAllOfType<boost::any>();
-					const auto found = values.find( name );
-					if ( found == values.end() ) throw PropertyNotFoundException("Can't find requested property");
-					return boost::any_cast<const V&>(found->second);
+					const auto found = values.find ( name );
+					if ( found == values.end() ) throw PropertyNotFoundException ( "Can't find requested property: " + boost::lexical_cast<std::string> ( name ) );
+					return boost::any_cast<const V&> ( found->second );
 				}
 
 				/**
@@ -165,12 +166,12 @@ namespace UnknownEngine
 				template<typename V>
 				UNKNOWNENGINE_INLINE
 				typename boost::enable_if<AnyPropertyType<V>, const V& >::type
-				get ( K name, const V &default_value ) const
+				get ( const K &name, const V &default_value ) const
 				{
 					const std::unordered_map<K, boost::any>& values = getAllOfType<boost::any>();
-					const auto found = values.find( name );
+					const auto found = values.find ( name );
 					if ( found == values.end() ) return default_value;
-					return boost::any_cast<const V&>(found->second);
+					return boost::any_cast<const V&> ( found->second );
 				}
 
 				/**
@@ -185,12 +186,12 @@ namespace UnknownEngine
 				template<typename V>
 				UNKNOWNENGINE_INLINE
 				typename boost::enable_if<AnyPropertyType<V>, boost::optional<const V&> >::type
-				get_optional ( K name ) const
+				get_optional ( const K &name ) const
 				{
 					const std::unordered_map<K, boost::any>& values = getAllOfType<boost::any>();
-					const auto found = values.find( name );
+					const auto found = values.find ( name );
 					if ( found == values.end() ) return boost::optional<const V&>();
-					return boost::optional<const V&>( boost::any_cast<const V&>(found->second) );
+					return boost::optional<const V&> ( boost::any_cast<const V&> ( found->second ) );
 				}
 
 				/**
@@ -206,9 +207,9 @@ namespace UnknownEngine
 				template<typename V>
 				UNKNOWNENGINE_INLINE
 				typename boost::enable_if<NotAnyPropertyTypes<V>, void >::type
-				set ( K name, const V &value )
+				set ( const K &name, const V &value )
 				{
-					std::unordered_map<K, V>& values = const_cast<std::unordered_map<K, V>&>(getAllOfType<V>());
+					std::unordered_map<K, V>& values = const_cast<std::unordered_map<K, V>&> ( getAllOfType<V>() );
 					values[name] = value;
 				}
 
@@ -225,9 +226,9 @@ namespace UnknownEngine
 				template<typename V>
 				UNKNOWNENGINE_INLINE
 				typename boost::enable_if<AnyPropertyType<V>, void >::type
-				set ( K name, const V &value )
+				set ( const K &name, const V &value )
 				{
-					std::unordered_map<K, boost::any>& values = const_cast<std::unordered_map<K, boost::any>&>(getAllOfType<boost::any>());
+					std::unordered_map<K, boost::any>& values = const_cast<std::unordered_map<K, boost::any>&> ( getAllOfType<boost::any>() );
 					values[name] = value;
 				}
 
@@ -239,7 +240,7 @@ namespace UnknownEngine
 		/**
 		 * @brief Property tree with string keys
 		 */
-		class Properties: public PropertiesTree<std::string>{};
+		class Properties: public PropertiesTree<std::string> {};
 
 	} /* namespace Core */
 } /* namespace UnknownEngine */

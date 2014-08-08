@@ -55,14 +55,14 @@ namespace UnknownEngine
 			MainLoop main_loop;
 
 			CORE_SUBSYSTEM_INFO ( "Registering engine stop listener" );
-			StopEngineListener stop_listener("Engine.EngineStopListener", &main_loop);
-			context.getMessageDispatcher()->addListener(StopEngineActionMessage::getTypeName(), &stop_listener);
+			StopEngineListener stop_listener ( "Engine.EngineStopListener", &main_loop );
+			context.getMessageDispatcher()->addListener ( StopEngineActionMessage::getTypeName(), &stop_listener );
 
 			CORE_SUBSYSTEM_INFO ( "Starting main loop" );
 			main_loop.start();
 
 			CORE_SUBSYSTEM_INFO ( "Unregistering engine stop listener" );
-			context.getMessageDispatcher()->removeListener(&stop_listener);
+			context.getMessageDispatcher()->removeListener ( &stop_listener );
 
 			state = STOPPED;
 
@@ -78,27 +78,27 @@ namespace UnknownEngine
 
 			CORE_SUBSYSTEM_INFO ( "Destroying remaining entities" );
 			this->context.components_manager->clearEntities();
-			
+
 			CORE_SUBSYSTEM_INFO ( "Destroying plugins manager" );
 			delete this->plugins_manager;
 
 			CORE_SUBSYSTEM_INFO ( "Destroying components manager" );
 			delete this->context.components_manager;
-			
+
 			CORE_SUBSYSTEM_INFO ( "Destroying message system participant dictionary" );
 			delete this->context.message_system_participant_dictionary;
-			
+
 			CORE_SUBSYSTEM_INFO ( "Destroying resource manager" );
 			delete this->context.resource_manager;
-			
+
 			CORE_SUBSYSTEM_INFO ( "Destroying message dispatcher" );
 			delete this->context.message_dispatcher;
-			
+
 			CORE_SUBSYSTEM_INFO ( "Destroying message dictionary" );
 			delete this->context.message_dictionary;
-			
-			CORE_SUBSYSTEM_INFO("Engine shutdown complete");
-			
+
+			CORE_SUBSYSTEM_INFO ( "Engine shutdown complete" );
+
 			state = CREATED;
 		}
 

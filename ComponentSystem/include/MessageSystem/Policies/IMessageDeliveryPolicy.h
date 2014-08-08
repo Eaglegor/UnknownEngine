@@ -43,7 +43,7 @@ namespace UnknownEngine
 				 * @param listener - Listener to check for
 				 * @return true if message must be passed to the listener
 				 */
-				virtual bool allowDeliveryToListener(const IMessageListener* listener) const = 0;
+				virtual bool allowDeliveryToListener ( const IMessageListener* listener ) const = 0;
 
 				/**
 				 * @brief Callback to notify that the message was processed by a listener
@@ -51,7 +51,7 @@ namespace UnknownEngine
 				 * May be used in multithreaded subsystems to wait for message delivery.
 				 *
 				 */
-				virtual void notifySuccessulyDelivered(){}
+				virtual void notifySuccessulyDelivered() {}
 
 				/**
 				 * @brief Callback to notify that message delivery was finished.
@@ -59,7 +59,7 @@ namespace UnknownEngine
 				 * Is called independently of delivery success when all listeners are checked to process message
 				 *
 				 */
-				virtual void notifyDeliveryFinished(){}
+				virtual void notifyDeliveryFinished() {}
 
 				COMPONENTSYSTEM_EXPORT
 				virtual ~IMessageDeliveryPolicy()

@@ -44,7 +44,7 @@ namespace UnknownEngine
 				 * @brief Updates delta time value
 				 */
 				void updateTime();
-				
+
 				bool stopped;
 
 				float current_time; ///< Current time

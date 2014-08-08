@@ -31,48 +31,48 @@ namespace UnknownEngine
 		*/
 		struct MessageSystemParticipantId
 		{
-				/**
-				 * @brief Constructor. Automatically fills id for **already registered** object
-				 * @param object_name - name of object
-				 *
-				 * Tries to automatically set the id. If object name wasn't registered at dictionaty throws an exception
-				 *
-				 * @throw Utils::Dictionary::EntryNotFoundInDictionary - Is thrown when trying to get id for unregistered name
-				 *
-				 */
-				COMPONENTSYSTEM_EXPORT
-				explicit MessageSystemParticipantId(const std::string &object_name);
+			/**
+			 * @brief Constructor. Automatically fills id for **already registered** object
+			 * @param object_name - name of object
+			 *
+			 * Tries to automatically set the id. If object name wasn't registered at dictionaty throws an exception
+			 *
+			 * @throw Utils::Dictionary::EntryNotFoundInDictionary - Is thrown when trying to get id for unregistered name
+			 *
+			 */
+			COMPONENTSYSTEM_EXPORT
+			explicit MessageSystemParticipantId ( const std::string &object_name );
 
-				/**
-				 * @brief Default constructor. Doesn't fill anything. Address is empty.
-				 */
-				COMPONENTSYSTEM_EXPORT
-				MessageSystemParticipantId();
+			/**
+			 * @brief Default constructor. Doesn't fill anything. Address is empty.
+			 */
+			COMPONENTSYSTEM_EXPORT
+			MessageSystemParticipantId();
 
-				/**
-				 * @brief Constructor. Fills the address with the name/id passed as arguments. **Doesn't check anything**
-				 * @param object_name - name of object
-				 * @param id - numeric identifier of object
-				 *
-				 * Use on your own risk because there are no checks. Really. **It's dangerous**
-				 *
-				 *
-				 */
-				COMPONENTSYSTEM_EXPORT
-				MessageSystemParticipantId(const std::string &object_name, const NumericIdentifierType &id);
+			/**
+			 * @brief Constructor. Fills the address with the name/id passed as arguments. **Doesn't check anything**
+			 * @param object_name - name of object
+			 * @param id - numeric identifier of object
+			 *
+			 * Use on your own risk because there are no checks. Really. **It's dangerous**
+			 *
+			 *
+			 */
+			COMPONENTSYSTEM_EXPORT
+			MessageSystemParticipantId ( const std::string &object_name, const NumericIdentifierType &id );
 
-				/**
-				 * @brief Compares to another address
-				 * @param rhs - address to compare
-				 * @return true if internal ids are equal
-				 */
-				bool operator==(const MessageSystemParticipantId& rhs) const
-				{
-					return id == rhs.id;
-				}
+			/**
+			 * @brief Compares to another address
+			 * @param rhs - address to compare
+			 * @return true if internal ids are equal
+			 */
+			bool operator== ( const MessageSystemParticipantId& rhs ) const
+			{
+				return id == rhs.id;
+			}
 
-				NumericIdentifierType id; ///< Numeric address identifier
-				std::string name; ///< String object name
+			NumericIdentifierType id; ///< Numeric address identifier
+			std::string name; ///< String object name
 		};
 	}
 }

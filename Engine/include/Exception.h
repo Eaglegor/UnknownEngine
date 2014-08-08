@@ -2,8 +2,10 @@
 
 #include <string>
 
-namespace UnknownEngine {
-	namespace Core{
+namespace UnknownEngine
+{
+	namespace Core
+	{
 		/**
 		 * @brief Base exception class
 		 */
@@ -14,8 +16,9 @@ namespace UnknownEngine {
 				 * @brief Constructor
 				 * @param reason - Error message string
 				 */
-				Exception(const std::string &reason):reason(reason){}
-				virtual const char* what() const throw() override{
+				Exception ( const std::string &reason ) : reason ( reason ) {}
+				virtual const char* what() const throw() override
+				{
 					return reason.c_str();
 				}
 			private:
