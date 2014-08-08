@@ -5,6 +5,8 @@
 #include <EngineContext.h>
 #include <MessageSystem/MessageDispatcher.h>
 #include <InlineSpecification.h>
+#include <boost/algorithm/string/case_conv.hpp>
+#include <boost/algorithm/string/trim.hpp>
 
 namespace UnknownEngine
 {
@@ -38,6 +40,18 @@ namespace UnknownEngine
 				void setMinimalSeverity ( const LogMessage::Severity& minimal_severity )
 				{
 					this->minimal_severity = minimal_severity;
+				}
+
+				static LogMessage::Severity parseLogLevel ( const std::string& log_level_name )
+				{
+					std::string lower_case_level = log_level_name;
+					boost::to_lower(lower_case_level);
+					boost::trim(lower_case_level);
+					if ( lower_case_level == "info" ) return LogMessage::LOG_SEVERITY_INFO;
+					if ( lower_case_level == "warning" ) return LogMessage::LOG_SEVERITY_WARNING;
+					if ( lower_case_level == "error" ) return LogMessage::LOG_SEVERITY_ERROR;
+					if ( lower_case_level == "debug" ) return LogMessage::LOG_SEVERITY_DEBUG;
+					return LogMessage::LOG_SEVERITY_NONE;
 				}
 
 			private:
