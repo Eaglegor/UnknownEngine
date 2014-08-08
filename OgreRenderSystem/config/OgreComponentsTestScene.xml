@@ -2,7 +2,7 @@
 	
 	<subsystems>
 
-		<subsystem name="Logger" module="ConsoleLogger.dll">
+		<subsystem name="Logger" module="libConsoleLogger.so">
 			<received_messages>
 				<message type="Engine.LogMessage">
 					<receive_policy type="AnyMessageReceivePolicy"/>
@@ -11,7 +11,7 @@
 			
 		</subsystem>
 
-		<subsystem name="Graphics" module="OgreRenderSystem.dll">
+		<subsystem name="Graphics" module="libOgreRenderSystem.so">
 		
 			<received_messages>
 				<message type="Engine.MainLoop.UpdateFrameMessage">
@@ -43,11 +43,11 @@
 	</subsystems>
 
 	<entities>
-<!--
+
 		<entity name="MainCamera">
 			<component type="Graphics.Camera" name="Camera"/>
 		</entity>
--->
+
 		<entity name="TestRenderable">
 			<component name="RenderableComponent" type="Graphics.Renderable">
 				<options_section>
@@ -57,7 +57,7 @@
 					</options_section>
 					
 					<options_section name="InitialTransform">
-						<option name="position" value="Vector3(x:10, y:30, z:50.0)"/>
+						<option name="position" value="Vector3(x:0, y:0, z:0)"/>
 						<option name="orientation_quat" value="Quaternion(x:10, y:40, z:40.4, w:50)"/>
 					</options_section>
 					

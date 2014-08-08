@@ -5,7 +5,8 @@
 #include <MessageSystem/MessageListenerDesc.h>
 #include <Exception.h>
 
-namespace UnknownEngine {
+namespace UnknownEngine
+{
 
 	namespace Core
 	{
@@ -14,7 +15,8 @@ namespace UnknownEngine {
 		class ReceivedMessageDesc;
 	}
 
-	namespace Graphics {
+	namespace Graphics
+	{
 
 		class OgreRenderSubsystem;
 		class OgreCameraComponent;
@@ -26,7 +28,7 @@ namespace UnknownEngine {
 		{
 			public:
 
-				OgreCameraComponentsFactory(OgreRenderSubsystem* render_system, Core::EngineContext *engine_context);
+				OgreCameraComponentsFactory ( OgreRenderSubsystem* render_system, Core::EngineContext *engine_context );
 
 				/**
 				 * @brief Returns a factory name.
@@ -48,27 +50,27 @@ namespace UnknownEngine {
 				 * @param object_type - Type to check for
 				 * @return true if the factory supports passed type
 				 */
-				virtual const bool supportsType(const Core::ComponentType &object_type);
+				virtual const bool supportsType ( const Core::ComponentType &object_type );
 
 				/**
 				 * @brief Creates an object according to passed descriptor
 				 * @param desc - Object descriptor
 				 * @return Pointer to a newly created object
 				 */
-				virtual Core::Component* createObject(const Core::ComponentDesc& desc);
+				virtual Core::Component* createObject ( const Core::ComponentDesc& desc );
 
 				/**
 				 * @brief Deletes object considering it's creation process
 				 * @param object - The object to be deleted
 				 */
-				virtual void destroyObject(Core::Component* object);
+				virtual void destroyObject ( Core::Component* object );
 
 			private:
 
 				// Solid renderable components
-				Core::Component* createCameraComponent(const Core::ComponentDesc &desc);
-				void destroyCameraComponent(const Core::Component* component);
-				void registerCameraComponentListeners(OgreCameraComponent* component, const Core::ReceivedMessageDescriptorsList &received_messages);
+				Core::Component* createCameraComponent ( const Core::ComponentDesc &desc );
+				void destroyCameraComponent ( const Core::Component* component );
+				void registerCameraComponentListeners ( OgreCameraComponent* component, const Core::ReceivedMessageDescriptorsList &received_messages );
 
 				Core::EngineContext* engine_context;
 				std::unordered_set<Core::ComponentType> supported_types;

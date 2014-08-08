@@ -12,7 +12,8 @@ namespace Ogre
 	class SceneNode;
 }
 
-namespace UnknownEngine {
+namespace UnknownEngine
+{
 
 	namespace Core
 	{
@@ -23,7 +24,8 @@ namespace UnknownEngine {
 		class LogHelper;
 	}
 
-	namespace Graphics {
+	namespace Graphics
+	{
 
 		class OgreRenderSubsystem;
 		class OgreMeshPtrProvider;
@@ -42,11 +44,11 @@ namespace UnknownEngine {
 					std::string material_name;
 					Core::Transform initial_transform;
 
-					Descriptor():
-						material_name("BaseWhiteNoLighting"),
-						mesh_data_provider(nullptr),
-						initial_transform(Core::Transform::getIdentity())
-						{}
+					Descriptor() :
+						material_name ( "BaseWhiteNoLighting" ),
+						mesh_data_provider ( nullptr ),
+						initial_transform ( Core::Transform::getIdentity() )
+					{}
 				};
 
 				/**
@@ -55,7 +57,7 @@ namespace UnknownEngine {
 				 * The init stuff must be done in this method. Is called by parent entity after component addition.
 				 *
 				 */
-				virtual void init(const Core::Entity* parent_entity);
+				virtual void init ( const Core::Entity* parent_entity );
 
 				/**
 				 *  @brief Is called when the parent entity is started
@@ -80,13 +82,13 @@ namespace UnknownEngine {
 				 */
 				virtual Core::ComponentType getType();
 
-				virtual void onTransformChanged(const Core::TransformChangedMessage &message);
-				virtual void doChangeMaterial(const ChangeMaterialActionMessage &message);
+				virtual void onTransformChanged ( const Core::TransformChangedMessage &message );
+				virtual void doChangeMaterial ( const ChangeMaterialActionMessage &message );
 
-				OgreRenderableComponent(const std::string &name, const Descriptor &desc, OgreRenderSubsystem* render_system, Core::EngineContext *engine_context);
+				OgreRenderableComponent ( const std::string &name, const Descriptor &desc, OgreRenderSubsystem* render_system, Core::EngineContext *engine_context );
 				virtual ~OgreRenderableComponent();
 
-				virtual void addReceivedMessageType(const Core::ReceivedMessageDesc &received_message);
+				virtual void addReceivedMessageType ( const Core::ReceivedMessageDesc &received_message );
 
 			private:
 				const Core::ComponentType type;
@@ -97,7 +99,7 @@ namespace UnknownEngine {
 				Ogre::SceneNode* scene_node;
 				Core::EngineContext* engine_context;
 				Core::MessagingPoliciesManager messaging_policies_manager;
-				
+
 				Descriptor descriptor;
 
 				Core::LogHelper* log_helper;

@@ -2,10 +2,12 @@
 
 #include <Parsers/OgreCameraDescriptorParser.h>
 
-namespace UnknownEngine {
-	namespace Graphics {
+namespace UnknownEngine
+{
+	namespace Graphics
+	{
 
-		OgreCameraComponent::Descriptor OgreCameraDescriptorParser::parse(const Core::Properties &properties)
+		OgreCameraComponent::Descriptor OgreCameraDescriptorParser::parse ( const Core::Properties &properties )
 		{
 			return OgreCameraComponent::Descriptor();
 		}

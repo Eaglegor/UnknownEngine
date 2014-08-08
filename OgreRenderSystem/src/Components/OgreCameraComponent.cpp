@@ -23,25 +23,25 @@ namespace UnknownEngine
 
 		void OgreCameraComponent::shutdown()
 		{
-			LOG_INFO(log_helper, "Shutting down");
+			LOG_INFO ( log_helper, "Shutting down" );
 			this->scene_node->detachObject ( this->camera );
 		}
 
 		void OgreCameraComponent::start()
 		{
-			LOG_INFO(log_helper, "Starting");
+			LOG_INFO ( log_helper, "Starting" );
 			this->scene_node->attachObject ( this->camera );
 		}
 
 		void OgreCameraComponent::init ( const UnknownEngine::Core::Entity *parent_entity )
 		{
-			LOG_INFO(log_helper, "Creating OGRE camera");
+			LOG_INFO ( log_helper, "Creating OGRE camera" );
 			this->camera = render_subsystem->getSceneManager()->createCamera ( getName() + ".Camera" );
 
-			LOG_INFO(log_helper, "Creating OGRE scene node");
+			LOG_INFO ( log_helper, "Creating OGRE scene node" );
 			this->scene_node = render_subsystem->getSceneManager()->getRootSceneNode()->createChildSceneNode ( getName() + ".SceneNode" );
 
-			render_subsystem->getRenderWindow()->addViewport(camera);
+			render_subsystem->getRenderWindow()->addViewport ( camera );
 
 			scene_node->setPosition ( 0, 0, 150 );
 			camera->lookAt ( 0, 0, 0 );
@@ -49,33 +49,33 @@ namespace UnknownEngine
 
 		OgreCameraComponent::OgreCameraComponent ( const std::string &name, const OgreCameraComponent::Descriptor &desc, OgreRenderSubsystem *render_subsystem, Core::EngineContext *engine_context )
 			: Component ( name ),
-			type ( OGRE_CAMERA_COMPONENT_TYPE ),
-			render_subsystem ( render_subsystem ),
-			engine_context ( engine_context ),
-			listener ( nullptr ),
-			messaging_policies_manager ( engine_context )
+			  type ( OGRE_CAMERA_COMPONENT_TYPE ),
+			  render_subsystem ( render_subsystem ),
+			  engine_context ( engine_context ),
+			  listener ( nullptr ),
+			  messaging_policies_manager ( engine_context )
 		{
-			log_helper = new Core::LogHelper(getName(), Core::LogMessage::LOG_SEVERITY_INFO, engine_context);
-			LOG_INFO(log_helper, "Logger initialized");
+			log_helper = new Core::LogHelper ( getName(), Core::LogMessage::LOG_SEVERITY_INFO, engine_context );
+			LOG_INFO ( log_helper, "Logger initialized" );
 		}
 
 		OgreCameraComponent::~OgreCameraComponent()
 		{
-		  
-			if(listener!=nullptr)
+
+			if ( listener != nullptr )
 			{
-			     LOG_INFO(log_helper, "Unregistering listener");
-			     engine_context->getMessageDispatcher()->removeListener(listener);
-			     delete listener;
+				LOG_INFO ( log_helper, "Unregistering listener" );
+				engine_context->getMessageDispatcher()->removeListener ( listener );
+				delete listener;
 			}
-		  
-			LOG_INFO(log_helper, "Destroying OGRE camera");
+
+			LOG_INFO ( log_helper, "Destroying OGRE camera" );
 			render_subsystem->getSceneManager()->destroyCamera ( this->camera );
-			
-			LOG_INFO(log_helper, "Destroying OGRE scene node");
+
+			LOG_INFO ( log_helper, "Destroying OGRE scene node" );
 			render_subsystem->getSceneManager()->destroySceneNode ( this->scene_node );
 
-			if(log_helper) delete log_helper;
+			if ( log_helper ) delete log_helper;
 		}
 
 		void OgreCameraComponent::onTransformChanged ( const Core::TransformChangedMessage &msg )
@@ -94,9 +94,9 @@ namespace UnknownEngine
 			if ( listener->supportsMessageTypeName ( received_message.message_type_name ) )
 			{
 				engine_context->getMessageDispatcher()->addListener (
-					received_message.message_type_name, listener,
-					messaging_policies_manager.createPrefabReceiveMessagePolicy ( received_message.receive_policy_type_name, received_message.receive_policy_options )
-					);
+				    received_message.message_type_name, listener,
+				    messaging_policies_manager.createPrefabReceiveMessagePolicy ( received_message.receive_policy_type_name, received_message.receive_policy_options )
+				);
 			}
 			else
 			{

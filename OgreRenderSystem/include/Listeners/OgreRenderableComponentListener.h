@@ -7,27 +7,29 @@
 #include <ExportedMessages/TransformChangedMessage.h>
 #include <ExportedMessages/RenderSystem/ChangeMaterialActionMessage.h>
 
-namespace UnknownEngine {
+namespace UnknownEngine
+{
 
 	namespace Core
 	{
 		class EngineContext;
 	}
 
-	namespace Graphics {
+	namespace Graphics
+	{
 
 		class OgreRenderableComponent;
 
 		class OgreRenderableComponentListener : public BaseOgreComponentListener<OgreRenderableComponentListener>
 		{
 			public:
-				OgreRenderableComponentListener(const std::string &name, OgreRenderableComponent* component, Core::EngineContext* engine_context);
+				OgreRenderableComponentListener ( const std::string &name, OgreRenderableComponent* component, Core::EngineContext* engine_context );
 
 			private:
-				void processTransformChangedMessage(const Core::PackedMessage &msg);
+				void processTransformChangedMessage ( const Core::PackedMessage &msg );
 				Core::TransformChangedMessageUnpacker transform_changed_unpacker;
 
-				void processChangeMaterialActionMessage(const Core::PackedMessage &msg);
+				void processChangeMaterialActionMessage ( const Core::PackedMessage &msg );
 				Graphics::ChangeMaterialActionMessageUnpacker change_material_unpacker;
 
 				OgreRenderableComponent* renderable_component;

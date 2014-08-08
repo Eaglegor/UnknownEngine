@@ -2,13 +2,15 @@
 
 #include <OgreRenderSubsystem.h>
 
-namespace UnknownEngine {
-	namespace Graphics {
+namespace UnknownEngine
+{
+	namespace Graphics
+	{
 
 		class OgreRenderSubsystemDescriptorParser
 		{
 			public:
-				static OgreRenderSubsystem::Descriptor parse(const Core::Properties& properties);
+				static OgreRenderSubsystem::Descriptor parse ( const Core::Properties& properties );
 		};
 
 	} // namespace Graphics

@@ -6,13 +6,15 @@
 #include <DataProvider/IDataProvider.h>
 #include <DataProviders/OgreMeshPtrProvider.h>
 
-namespace UnknownEngine {
+namespace UnknownEngine
+{
 
-	namespace Graphics {
+	namespace Graphics
+	{
 
 		typedef boost::optional<const Core::Properties&> OptionalOptionsSection;
-		#define GET_OPTIONAL_OPTIONS_SECTION(section_name) properties.get_optional<const Core::Properties&>(section_name);
-		#define OVERRIDE_DEFAULT_VALUE(config_section, option_name, output_field) output_field = config_section->get<const std::string&>(option_name, output_field);
+#define GET_OPTIONAL_OPTIONS_SECTION(section_name) properties.get_optional<Core::Properties>(section_name);
+#define OVERRIDE_DEFAULT_VALUE(config_section, option_name, output_field) output_field = config_section->get<std::string>(option_name, output_field);
 
 		namespace MATERIAL_SECTION
 		{
@@ -39,29 +41,29 @@ namespace UnknownEngine {
 				const std::string ORIENTATION = "orientation_quat";
 			}
 		}
-		
-		OgreRenderableComponent::Descriptor OgreRenderableDescriptorParser::parse(const Core::Properties &properties)
+
+		OgreRenderableComponent::Descriptor OgreRenderableDescriptorParser::parse ( const Core::Properties &properties )
 		{
 			OgreRenderableComponent::Descriptor desc;
 
-			OptionalOptionsSection material_section = GET_OPTIONAL_OPTIONS_SECTION(MATERIAL_SECTION::SECTION_NAME);
-			if(material_section.is_initialized())
+			OptionalOptionsSection material_section = GET_OPTIONAL_OPTIONS_SECTION ( MATERIAL_SECTION::SECTION_NAME );
+			if ( material_section.is_initialized() )
 			{
-				OVERRIDE_DEFAULT_VALUE(material_section, MATERIAL_SECTION::OPTIONS::MATERIAL_NAME, desc.material_name);
+				OVERRIDE_DEFAULT_VALUE ( material_section, MATERIAL_SECTION::OPTIONS::MATERIAL_NAME, desc.material_name );
 			}
 
-			OptionalOptionsSection initial_transform_section = GET_OPTIONAL_OPTIONS_SECTION(INITIAL_TRANSFORM_SECTION::SECTION_NAME);
-			if(initial_transform_section.is_initialized())
+			OptionalOptionsSection initial_transform_section = GET_OPTIONAL_OPTIONS_SECTION ( INITIAL_TRANSFORM_SECTION::SECTION_NAME );
+			if ( initial_transform_section.is_initialized() )
 			{
-				boost::optional<const std::string&> initial_position = initial_transform_section->get<const std::string&>(INITIAL_TRANSFORM_SECTION::OPTIONS::POSITION);
-				if(initial_position.is_initialized()) desc.initial_transform.setPosition(Utils::Vector3Parser::parse(initial_position.get()));
+				boost::optional<const std::string&> initial_position = initial_transform_section->get_optional<std::string> ( INITIAL_TRANSFORM_SECTION::OPTIONS::POSITION );
+				if ( initial_position.is_initialized() ) desc.initial_transform.setPosition ( Utils::Vector3Parser::parse ( initial_position.get() ) );
 
-				boost::optional<const std::string&> initial_orientation_quat = initial_transform_section->get<const std::string&>(INITIAL_TRANSFORM_SECTION::OPTIONS::ORIENTATION);
-				if(initial_orientation_quat.is_initialized()) desc.initial_transform.setOrientation(Utils::QuaternionParser::parse(initial_orientation_quat.get()));
+				boost::optional<const std::string&> initial_orientation_quat = initial_transform_section->get_optional<std::string> ( INITIAL_TRANSFORM_SECTION::OPTIONS::ORIENTATION );
+				if ( initial_orientation_quat.is_initialized() ) desc.initial_transform.setOrientation ( Utils::QuaternionParser::parse ( initial_orientation_quat.get() ) );
 			}
 
-			Loader::IDataProvider* data_provider = properties.get<Loader::IDataProvider*>(GLOBAL_OPTIONS::MESH_PTR_PROVIDER, nullptr);
-			OgreMeshPtrProvider* mesh_ptr_provider = dynamic_cast<OgreMeshPtrProvider*>(data_provider);
+			Loader::IDataProvider* data_provider = properties.get<Loader::IDataProvider*> ( GLOBAL_OPTIONS::MESH_PTR_PROVIDER, nullptr );
+			OgreMeshPtrProvider* mesh_ptr_provider = dynamic_cast<OgreMeshPtrProvider*> ( data_provider );
 			desc.mesh_data_provider = mesh_ptr_provider;
 
 			return desc;

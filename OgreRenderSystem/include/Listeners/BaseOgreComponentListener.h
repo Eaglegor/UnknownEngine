@@ -23,7 +23,7 @@ namespace UnknownEngine
 			public:
 				virtual void processMessage ( const UnknownEngine::Core::PackedMessage& msg )
 				{
-				  ( static_cast<ListenerClass*>(this)->*message_processors[msg.getMessageTypeId()])(msg);
+					( static_cast<ListenerClass*> ( this )->*message_processors[msg.getMessageTypeId()] ) ( msg );
 				}
 
 				UNKNOWNENGINE_INLINE
@@ -31,14 +31,14 @@ namespace UnknownEngine
 				{
 					return supported_message_type_names;
 				}
-				
+
 				UNKNOWNENGINE_INLINE
 				bool supportsMessageTypeName ( const std::string &message_type_name )
 				{
 					return supported_message_type_names.find ( message_type_name ) != supported_message_type_names.end();
 				}
 
-				BaseOgreComponentListener ( const std::string& object_name ):IMessageListener(object_name){};
+				BaseOgreComponentListener ( const std::string& object_name ) : IMessageListener ( object_name ) {};
 
 			protected:
 

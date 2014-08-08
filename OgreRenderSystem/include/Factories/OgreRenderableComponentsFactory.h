@@ -5,16 +5,19 @@
 #include <MessageSystem/MessageListenerDesc.h>
 #include <Exception.h>
 
-namespace UnknownEngine {
+namespace UnknownEngine
+{
 
 	namespace Core
 	{
 		class EngineContext;
 		class IMessageListener;
 		class ReceivedMessageDesc;
+		class LogHelper;
 	}
 
-	namespace Graphics {
+	namespace Graphics
+	{
 
 		class OgreRenderSubsystem;
 		class OgreRenderableComponent;
@@ -26,8 +29,8 @@ namespace UnknownEngine {
 		{
 			public:
 
-				OgreRenderableComponentsFactory(OgreRenderSubsystem* render_system, Core::EngineContext *engine_context);
-
+				OgreRenderableComponentsFactory ( OgreRenderSubsystem* render_system, Core::EngineContext *engine_context );
+				virtual ~OgreRenderableComponentsFactory();
 				/**
 				 * @brief Returns a factory name.
 				 *
@@ -48,27 +51,29 @@ namespace UnknownEngine {
 				 * @param object_type - Type to check for
 				 * @return true if the factory supports passed type
 				 */
-				virtual const bool supportsType(const Core::ComponentType &object_type);
+				virtual const bool supportsType ( const Core::ComponentType &object_type );
 
 				/**
 				 * @brief Creates an object according to passed descriptor
 				 * @param desc - Object descriptor
 				 * @return Pointer to a newly created object
 				 */
-				virtual Core::Component* createObject(const Core::ComponentDesc& desc);
+				virtual Core::Component* createObject ( const Core::ComponentDesc& desc );
 
 				/**
 				 * @brief Deletes object considering it's creation process
 				 * @param object - The object to be deleted
 				 */
-				virtual void destroyObject(Core::Component* object);
+				virtual void destroyObject ( Core::Component* object );
 
 			private:
 
 				// Solid renderable components
-				Core::Component* createRenderableComponent(const Core::ComponentDesc &desc);
-				void destroyRenderableComponent(const Core::Component* component);
-				void registerRenderableComponentListeners(OgreRenderableComponent* component, const Core::ReceivedMessageDescriptorsList &received_messages);
+				Core::Component* createRenderableComponent ( const Core::ComponentDesc &desc );
+				void destroyRenderableComponent ( const Core::Component* component );
+				void registerRenderableComponentListeners ( OgreRenderableComponent* component, const Core::ReceivedMessageDescriptorsList &received_messages );
+
+				Core::LogHelper* log_helper;
 
 				Core::EngineContext* engine_context;
 				std::unordered_set<Core::ComponentType> supported_types;

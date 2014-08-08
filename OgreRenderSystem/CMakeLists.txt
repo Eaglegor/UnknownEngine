@@ -21,6 +21,7 @@ if(WIN32)
   install(FILES ${OGRE_BINARY_DIR}/Release/OgreMain.dll ${OGRE_BINARY_DIR}/release/RenderSystem_GL.dll ${OGRE_BINARY_DIR}/release/Plugin_OctreeSceneManager.dll DESTINATION ${EXECUTABLE_DEPLOY_DIR} CONFIGURATIONS Debug)
 else()
   configure_file(config/plugins.cfg.linux config/plugins.cfg)
+  install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/config/OgreComponentsTestScene.xml DESTINATION ${EXECUTABLE_DEPLOY_DIR})
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/config/plugins.cfg DESTINATION ${EXECUTABLE_DEPLOY_DIR})
 endif()
 

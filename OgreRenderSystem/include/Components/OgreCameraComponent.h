@@ -12,14 +12,15 @@ namespace Ogre
 
 namespace UnknownEngine
 {
-  
-	namespace Core {
-	  class EngineContext;
-	  class TransformChangedMessage;
-	  class ReceivedMessageDesc;
-	  class LogHelper;
+
+	namespace Core
+	{
+		class EngineContext;
+		class TransformChangedMessage;
+		class ReceivedMessageDesc;
+		class LogHelper;
 	}
-  
+
 	namespace Graphics
 	{
 
@@ -28,28 +29,28 @@ namespace UnknownEngine
 		class CameraLookAtActionMessage;
 
 		const Core::ComponentType OGRE_CAMERA_COMPONENT_TYPE = "Graphics.Camera";
-		
+
 		class OgreCameraComponent : public UnknownEngine::Core::Component
 		{
 			public:
-			  
-			        class Descriptor
-			        {
+
+				class Descriptor
+				{
 				};
-			  
+
 				virtual UnknownEngine::Core::ComponentType getType();
 				virtual void shutdown();
 				virtual void start();
 				virtual void init ( const UnknownEngine::Core::Entity *parent_entity );
-				
-				void onTransformChanged(const Core::TransformChangedMessage& msg);
-				void doLookAt(const CameraLookAtActionMessage& msg);
+
+				void onTransformChanged ( const Core::TransformChangedMessage& msg );
+				void doLookAt ( const CameraLookAtActionMessage& msg );
 
 				OgreCameraComponent ( const std::string &name, const Descriptor& desc, OgreRenderSubsystem *render_subsystem, Core::EngineContext* engine_context );
 				virtual ~OgreCameraComponent();
-				
-				virtual void addReceivedMessageType(const Core::ReceivedMessageDesc &received_message);
-				
+
+				virtual void addReceivedMessageType ( const Core::ReceivedMessageDesc &received_message );
+
 			private:
 				OgreRenderSubsystem *render_subsystem;
 				Ogre::SceneNode *scene_node;
@@ -60,7 +61,7 @@ namespace UnknownEngine
 				Core::MessagingPoliciesManager messaging_policies_manager;
 
 				Core::LogHelper *log_helper;
-				
+
 		};
 	}
 }
