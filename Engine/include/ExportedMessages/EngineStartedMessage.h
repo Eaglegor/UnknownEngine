@@ -29,16 +29,16 @@ namespace UnknownEngine
 		{
 			public:
 
-				EngineStartedMessagePacker(const MessageSystemParticipantId &sender_info) :
-						MessagePacker<EngineStartedMessage>(sender_info)
+				EngineStartedMessagePacker ( const MessageSystemParticipantId &sender_info ) :
+					MessagePacker<EngineStartedMessage> ( sender_info )
 				{
-					message_type = MessageDictionary::getSingleton()->getMessageTypeId(EngineStartedMessage::getTypeName());
+					message_type = MessageDictionary::getSingleton()->getMessageTypeId ( EngineStartedMessage::getTypeName() );
 				}
 
 				UNKNOWNENGINE_INLINE
-				PackedMessage packMessage(const EngineStartedMessage& msg) override
+				PackedMessage packMessage ( const EngineStartedMessage& msg ) override
 				{
-					return PackedMessage (message_type, sender_info);
+					return PackedMessage ( message_type, sender_info );
 				}
 
 			private:
@@ -54,8 +54,8 @@ namespace UnknownEngine
 			public:
 
 				UNKNOWNENGINE_INLINE
-				EngineStartedMessage unpackMessage(const PackedMessage &msg)
-						throw (InvalidMessageFormatException) override
+				EngineStartedMessage unpackMessage ( const PackedMessage &msg )
+				throw ( InvalidMessageFormatException ) override
 				{
 					return EngineStartedMessage();
 				}

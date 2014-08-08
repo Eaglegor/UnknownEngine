@@ -20,13 +20,13 @@ namespace UnknownEngine
 		 */
 		struct TransformChangedMessage
 		{
-				UNKNOWNENGINE_INLINE
-				static std::string getTypeName()
-				{
-					return "Engine.TransformChangedMessage";
-				}
+			UNKNOWNENGINE_INLINE
+			static std::string getTypeName()
+			{
+				return "Engine.TransformChangedMessage";
+			}
 
-				Transform new_transform;
+			Transform new_transform;
 		};
 
 		/**
@@ -36,19 +36,19 @@ namespace UnknownEngine
 		{
 			public:
 
-				TransformChangedMessagePacker(const MessageSystemParticipantId &sender_info) :
-						MessagePacker<TransformChangedMessage>(sender_info)
+				TransformChangedMessagePacker ( const MessageSystemParticipantId &sender_info ) :
+					MessagePacker<TransformChangedMessage> ( sender_info )
 				{
-					message_type_id = MessageDictionary::getSingleton()->getMessageTypeId(TransformChangedMessage::getTypeName());
+					message_type_id = MessageDictionary::getSingleton()->getMessageTypeId ( TransformChangedMessage::getTypeName() );
 				}
 
 				UNKNOWNENGINE_INLINE
-				PackedMessage packMessage(const TransformChangedMessage& msg) override
+				PackedMessage packMessage ( const TransformChangedMessage& msg ) override
 				{
-					PackedMessage result(message_type_id, sender_info);
+					PackedMessage result ( message_type_id, sender_info );
 
 					Properties& properties = result.getProperties();
-					properties.set<Transform>("new_transform", msg.new_transform);
+					properties.set<Transform> ( "new_transform", msg.new_transform );
 
 					return result;
 				}
@@ -66,11 +66,11 @@ namespace UnknownEngine
 			public:
 
 				UNKNOWNENGINE_INLINE
-				TransformChangedMessage unpackMessage(const PackedMessage &msg)
-						throw (InvalidMessageFormatException) override
+				TransformChangedMessage unpackMessage ( const PackedMessage &msg )
+				throw ( InvalidMessageFormatException ) override
 				{
 					TransformChangedMessage result;
-					result.new_transform = msg.getProperties().get<Transform>("new_transform");
+					result.new_transform = msg.getProperties().get<Transform> ( "new_transform" );
 					return result;
 				}
 

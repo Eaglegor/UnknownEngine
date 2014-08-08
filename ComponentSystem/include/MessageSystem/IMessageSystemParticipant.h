@@ -4,8 +4,10 @@
 #include <InlineSpecification.h>
 #include <MessageSystem/MessageSystemParticipantId.h>
 
-namespace UnknownEngine {
-	namespace Core {
+namespace UnknownEngine
+{
+	namespace Core
+	{
 
 		/**
 		 * @brief Base class for all who wants to send/receive messages through message system
@@ -31,7 +33,7 @@ namespace UnknownEngine {
 				 * @param message_system_participant_id - **unique** object name
 				 */
 				COMPONENTSYSTEM_EXPORT
-				explicit IMessageSystemParticipant(const std::string &object_name);
+				explicit IMessageSystemParticipant ( const std::string &object_name );
 
 				COMPONENTSYSTEM_EXPORT
 				virtual ~IMessageSystemParticipant();
@@ -51,7 +53,10 @@ namespace UnknownEngine {
 				  * @return %Message system participant's name
 				  */
 				UNKNOWNENGINE_INLINE
-				std::string getName () const {return message_system_participant_id.name;}
+				std::string getName () const
+				{
+					return message_system_participant_id.name;
+				}
 
 			protected:
 				MessageSystemParticipantId message_system_participant_id; ///< Identifier in message system

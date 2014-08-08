@@ -70,8 +70,8 @@ namespace UnknownEngine
 		class Component
 		{
 			public:
-				explicit Component(const std::string &name)
-					:name(name){}
+				explicit Component ( const std::string &name )
+					: name ( name ) {}
 
 				/**
 				 * @brief Is called when the component is created
@@ -79,7 +79,7 @@ namespace UnknownEngine
 				 * The init stuff must be done in this method. Is called by parent entity after component addition.
 				 *
 				 */
-				virtual void init(const Entity* parent_entity) = 0;
+				virtual void init ( const Entity* parent_entity ) = 0;
 
 				/**
 				 *  @brief Is called when the parent entity is started
@@ -105,9 +105,12 @@ namespace UnknownEngine
 				virtual ComponentType getType() = 0;
 
 				UNKNOWNENGINE_INLINE
-				std::string getName(){return name;}
+				std::string getName()
+				{
+					return name;
+				}
 
-				virtual ~Component (){};
+				virtual ~Component () {};
 
 			private:
 				std::string name;

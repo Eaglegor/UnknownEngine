@@ -29,27 +29,27 @@ namespace UnknownEngine
 					message_dispatcher->deliverMessage ( packer.packMessage ( msg ) );
 				}
 
-				void operator()(const LogMessage::Severity& severity, const std::string &message)
+				void operator() ( const LogMessage::Severity& severity, const std::string &message )
 				{
-				    log(severity, message);
+					log ( severity, message );
 				}
-				
+
 				UNKNOWNENGINE_INLINE
-				void setMinimalSeverity(const LogMessage::Severity& minimal_severity)
+				void setMinimalSeverity ( const LogMessage::Severity& minimal_severity )
 				{
-				    this->minimal_severity = minimal_severity;
+					this->minimal_severity = minimal_severity;
 				}
-				
+
 			private:
 				LogMessagePacker packer;
 				LogMessage::Severity minimal_severity;
 				MessageDispatcher *message_dispatcher;
 		};
 
-		#define LOG_INFO(log_helper, e) if(log_helper) log_helper->log(Core::LogMessage::LOG_SEVERITY_INFO, e);
-		#define LOG_WARNING(log_helper, e) if(log_helper) log_helper->log(Core::LogMessage::LOG_SEVERITY_WARNING, e);
-		#define LOG_ERROR(log_helper, e) if(log_helper) log_helper->log(Core::LogMessage::LOG_SEVERITY_ERROR, e);
-		#define LOG_DEBUG(log_helper, e) if(log_helper) log_helper->log(Core::LogMessage::LOG_SEVERITY_DEBUG, e);
-		
+#define LOG_INFO(log_helper, e) if(log_helper) log_helper->log(Core::LogMessage::LOG_SEVERITY_INFO, e);
+#define LOG_WARNING(log_helper, e) if(log_helper) log_helper->log(Core::LogMessage::LOG_SEVERITY_WARNING, e);
+#define LOG_ERROR(log_helper, e) if(log_helper) log_helper->log(Core::LogMessage::LOG_SEVERITY_ERROR, e);
+#define LOG_DEBUG(log_helper, e) if(log_helper) log_helper->log(Core::LogMessage::LOG_SEVERITY_DEBUG, e);
+
 	}
 }

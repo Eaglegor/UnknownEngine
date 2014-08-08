@@ -18,29 +18,47 @@ namespace UnknownEngine
 		{
 			public:
 				UNKNOWNENGINE_INLINE
-				float u(){return x();}
+				float u()
+				{
+					return x();
+				}
 
 				UNKNOWNENGINE_INLINE
-				float v(){return y();}
+				float v()
+				{
+					return y();
+				}
 
 				UNKNOWNENGINE_INLINE
-				float w(){return w();}
+				float w()
+				{
+					return w();
+				}
 
 				UNKNOWNENGINE_INLINE
-				float setU(float u){ setX(u); }
+				float setU ( float u )
+				{
+					setX ( u );
+				}
 
 				UNKNOWNENGINE_INLINE
-				float setV(float v){ setY(v); }
+				float setV ( float v )
+				{
+					setY ( v );
+				}
 
 				UNKNOWNENGINE_INLINE
-				float setW(float w){ setZ(w); }
+				float setW ( float w )
+				{
+					setZ ( w );
+				}
 		};
 
 		const std::string TANGENT_NAME = "Tangent";
 		const std::string NORMAL_NAME = "Normal";
 		const std::string TEXTURE_COORDINATE_NAME = "Texture coordinate";
 
-		UNKNOWNENGINE_SIMPLE_EXCEPTION(NoSuchVertexElementException);
+		UNKNOWNENGINE_SIMPLE_EXCEPTION ( NoSuchVertexElementException );
 
 		class VertexType
 		{
@@ -54,55 +72,55 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				Math::Vector3 getNormal() const throw (NoSuchVertexElementException)
+				Math::Vector3 getNormal() const throw ( NoSuchVertexElementException )
 				{
-					if (this->hasNormal())
+					if ( this->hasNormal() )
 					{
 						return normal;
 					}
 
-					throw NoSuchVertexElementException(NORMAL_NAME);
+					throw NoSuchVertexElementException ( NORMAL_NAME );
 				}
 
 				UNKNOWNENGINE_INLINE
-				Math::Vector3 getTangent() const throw (NoSuchVertexElementException)
+				Math::Vector3 getTangent() const throw ( NoSuchVertexElementException )
 				{
-					if (this->hasTangent())
+					if ( this->hasTangent() )
 					{
 						return tangent;
 					}
 
-					throw NoSuchVertexElementException(TANGENT_NAME);
+					throw NoSuchVertexElementException ( TANGENT_NAME );
 				}
 
 				UNKNOWNENGINE_INLINE
-				TextureCoordinateType getTextureCoordinate() const throw (NoSuchVertexElementException)
+				TextureCoordinateType getTextureCoordinate() const throw ( NoSuchVertexElementException )
 				{
-					if (this->hasTextureCoordinate())
+					if ( this->hasTextureCoordinate() )
 					{
 						return texture_coordinate;
 					}
 
-					throw NoSuchVertexElementException(TEXTURE_COORDINATE_NAME);
+					throw NoSuchVertexElementException ( TEXTURE_COORDINATE_NAME );
 				}
 
 				UNKNOWNENGINE_INLINE
-				void setPosition(const Math::Vector3& position)
+				void setPosition ( const Math::Vector3& position )
 				{
 				}
 
 				UNKNOWNENGINE_INLINE
-				void setNormal(const Math::Vector3& normal)
+				void setNormal ( const Math::Vector3& normal )
 				{
 				}
 
 				UNKNOWNENGINE_INLINE
-				void setTangent(const Math::Vector3& tangent)
+				void setTangent ( const Math::Vector3& tangent )
 				{
 				}
 
 				UNKNOWNENGINE_INLINE
-				void setTextureCoordinate(const TextureCoordinateType& position)
+				void setTextureCoordinate ( const TextureCoordinateType& position )
 				{
 				}
 

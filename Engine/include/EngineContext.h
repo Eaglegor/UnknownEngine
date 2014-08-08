@@ -3,9 +3,11 @@
 
 #include <InlineSpecification.h>
 
-namespace UnknownEngine {
+namespace UnknownEngine
+{
 
-	namespace Core {
+	namespace Core
+	{
 
 		class ComponentsManager;
 		class MessageDictionary;
@@ -21,23 +23,38 @@ namespace UnknownEngine {
 			public:
 				/// Returns the components manager
 				UNKNOWNENGINE_INLINE
-				ComponentsManager* getComponentsManager(){return components_manager;}
+				ComponentsManager* getComponentsManager()
+				{
+					return components_manager;
+				}
 
 				/// Returns resource manager
 				UNKNOWNENGINE_INLINE
-				ResourceManager* getResourceManager(){return resource_manager;}
+				ResourceManager* getResourceManager()
+				{
+					return resource_manager;
+				}
 
 				/// Returns message dictionary
 				UNKNOWNENGINE_INLINE
-				MessageDictionary* getMessageDictionary(){return message_dictionary;}
+				MessageDictionary* getMessageDictionary()
+				{
+					return message_dictionary;
+				}
 
 				/// Returns message dispatcher
 				UNKNOWNENGINE_INLINE
-				MessageDispatcher* getMessageDispatcher(){return message_dispatcher;}
+				MessageDispatcher* getMessageDispatcher()
+				{
+					return message_dispatcher;
+				}
 
 				/// Returns message system participant dictionary (address book)
 				UNKNOWNENGINE_INLINE
-				MessageSystemParticipantDictionary* getMessageSystemParticipantDictionary(){return message_system_participant_dictionary;}
+				MessageSystemParticipantDictionary* getMessageSystemParticipantDictionary()
+				{
+					return message_system_participant_dictionary;
+				}
 
 			private:
 				friend class Engine;

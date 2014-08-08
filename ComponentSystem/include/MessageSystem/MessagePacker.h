@@ -19,7 +19,7 @@ namespace UnknownEngine
 	{
 
 		/// Is thrown if the packed message doesn't contain required fields or has values with wrong semantics (e.g. limit value exceeded)
-		UNKNOWNENGINE_SIMPLE_EXCEPTION(InvalidMessageFormatException);
+		UNKNOWNENGINE_SIMPLE_EXCEPTION ( InvalidMessageFormatException );
 
 		class PackedMessage;
 
@@ -63,11 +63,11 @@ namespace UnknownEngine
 				 * @param sender_info - a message system participant id of sender
 				 */
 				MessagePacker ( const MessageSystemParticipantId &sender_info )
-						: sender_info ( sender_info )
+					: sender_info ( sender_info )
 				{
 				}
 
-				virtual ~MessagePacker (){};
+				virtual ~MessagePacker () {};
 
 				/**
 				 * @brief Converts a concrete message class to a packed message
@@ -124,7 +124,7 @@ namespace UnknownEngine
 				{
 				}
 
-				virtual ~MessageUnpacker (){};
+				virtual ~MessageUnpacker () {};
 
 				/**
 				 * @brief Converts packed message to a concrete message class

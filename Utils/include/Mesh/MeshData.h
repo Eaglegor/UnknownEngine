@@ -17,36 +17,36 @@ namespace UnknownEngine
 				UNKNOWNENGINE_INLINE
 				virtual const std::vector<VertexType>& getVertices () const
 				{
-				  return vertices;
+					return vertices;
 				}
-				
+
 				UNKNOWNENGINE_INLINE
 				virtual const std::vector<IndexType>& getIndices () const
 				{
-				  return indices;
+					return indices;
 				}
 
 				UNKNOWNENGINE_INLINE
 				virtual std::vector<VertexType>& getVertices ()
 				{
-				  return vertices;
+					return vertices;
 				}
-				
+
 				UNKNOWNENGINE_INLINE
 				virtual std::vector<IndexType>& getIndices ()
 				{
-				  return indices;
+					return indices;
 				}
-				
+
 				virtual ~MeshData ()
 				{
 				}
 			private:
 				std::vector<VertexType> vertices;
 				std::vector<IndexType> indices;
-		   
+
 		};
-		
+
 		typedef MeshData* MeshDataPtr;
 
 	}

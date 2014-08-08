@@ -3,7 +3,8 @@
 #include <Properties/Properties.h>
 #include <MessageSystem/Policies/MessagePolicyType.h>
 
-namespace UnknownEngine {
+namespace UnknownEngine
+{
 	namespace Core
 	{
 		struct MessagingPolicyDesc

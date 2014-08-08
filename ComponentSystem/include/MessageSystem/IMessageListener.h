@@ -33,7 +33,7 @@ namespace UnknownEngine
 		{
 			public:
 
-				UNKNOWNENGINE_SIMPLE_EXCEPTION(MessageTypeNotSupportedByListener);
+				UNKNOWNENGINE_SIMPLE_EXCEPTION ( MessageTypeNotSupportedByListener );
 
 				/**
 				 * @brief Constructor
@@ -43,7 +43,7 @@ namespace UnknownEngine
 				 * @param object_name - **unique** name for message listener
 				 */
 				COMPONENTSYSTEM_EXPORT
-				IMessageListener (const std::string &object_name);
+				IMessageListener ( const std::string &object_name );
 
 				COMPONENTSYSTEM_EXPORT
 				virtual ~IMessageListener ();

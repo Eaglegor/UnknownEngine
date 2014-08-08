@@ -63,7 +63,7 @@ namespace UnknownEngine
 				 * @return Assigned numeric identifier
 				 */
 				COMPONENTSYSTEM_EXPORT
-				MessageType registerNewMessageType(const std::string &message_type_name);
+				MessageType registerNewMessageType ( const std::string &message_type_name );
 
 				/**
 				 * @brief Checks if message type is registered
@@ -71,7 +71,7 @@ namespace UnknownEngine
 				 * @return true if registered
 				 */
 				COMPONENTSYSTEM_EXPORT
-				bool messageTypeIsRegistered(const MessageType &type_id) const;
+				bool messageTypeIsRegistered ( const MessageType &type_id ) const;
 
 				/**
 				 * @brief Checks if message type is registered
@@ -79,7 +79,7 @@ namespace UnknownEngine
 				 * @return true if registered
 				 */
 				COMPONENTSYSTEM_EXPORT
-				bool messageTypeIsRegistered(const std::string &type_name) const;
+				bool messageTypeIsRegistered ( const std::string &type_name ) const;
 
 				/**
 				 * @brief Returns a message type name if the message type id is known
@@ -88,7 +88,7 @@ namespace UnknownEngine
 				 * @throw Utils::Dictionary::EntryNotFoundInDictionary - Is thrown if there is no such message type identifier registered
 				 */
 				COMPONENTSYSTEM_EXPORT
-				std::string getMessageTypeName(const MessageType &type_id) const throw(InternalDictionaryType::EntryNotFoundInDictionary);
+				std::string getMessageTypeName ( const MessageType &type_id ) const throw ( InternalDictionaryType::EntryNotFoundInDictionary );
 
 				/**
 				 * @brief Returns a message type id if the message type name is known
@@ -97,20 +97,20 @@ namespace UnknownEngine
 				 * @throw Utils::Dictionary::EntryNotFoundInDictionary - Is thrown if there is no such message type identifier registered
 				 */
 				COMPONENTSYSTEM_EXPORT
-				MessageType getMessageTypeId(const std::string &type_name) const throw (InternalDictionaryType::EntryNotFoundInDictionary);
+				MessageType getMessageTypeId ( const std::string &type_name ) const throw ( InternalDictionaryType::EntryNotFoundInDictionary );
 
 			private:
 				InternalDictionaryType internal_dictionary; ///< Internal dictionary implementation
 
 		};
 
-	#ifdef _MSC_VER
-	#ifndef ComponentSystem_EXPORTS
+#ifdef _MSC_VER
+#ifndef ComponentSystem_EXPORTS
 		extern template class COMPONENTSYSTEM_EXPORT Singleton<MessageDictionary>;
-	#else
+#else
 		template class COMPONENTSYSTEM_EXPORT Singleton<MessageDictionary>;
-	#endif
-	#endif
+#endif
+#endif
 
 	} /* namespace Core */
 } /* namespace UnknownEngine */

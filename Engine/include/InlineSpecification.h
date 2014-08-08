@@ -3,5 +3,5 @@
 namespace UnknownEngine
 {
 	/// Macros for inlines
-	#define UNKNOWNENGINE_INLINE inline
+#define UNKNOWNENGINE_INLINE inline
 }

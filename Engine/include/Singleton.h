@@ -30,7 +30,7 @@ namespace UnknownEngine
 				 */
 				static T* getSingleton()
 				{
-					assert(instance != nullptr);
+					assert ( instance != nullptr );
 					return instance;
 				}
 
@@ -38,9 +38,9 @@ namespace UnknownEngine
 				 * @brief sets singleton instance to a specified value. Old instance isn't deleted.
 				 * @param new_instance - a new instance to set to a singleton
 				 */
-				static void initSingletonInstance(T* new_instance)
+				static void initSingletonInstance ( T* new_instance )
 				{
-					if (instance == nullptr)
+					if ( instance == nullptr )
 					{
 						instance = new_instance;
 					}
@@ -49,11 +49,11 @@ namespace UnknownEngine
 			protected:
 				Singleton()
 				{
-					assert(instance == nullptr);
-					instance = static_cast<T*>(this);
+					assert ( instance == nullptr );
+					instance = static_cast<T*> ( this );
 				}
 
-				explicit Singleton(const Singleton& rhs);
+				explicit Singleton ( const Singleton& rhs );
 
 				static T* instance; ///< Object instance
 
