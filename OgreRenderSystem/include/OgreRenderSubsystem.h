@@ -2,12 +2,14 @@
 
 #include <InlineSpecification.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
+#include <ExportedMessages/LogMessage.h>
 
 namespace Ogre
 {
 	class Root;
 	class SceneManager;
 	class RenderWindow;
+	class LogManager;
 }
 
 namespace UnknownEngine
@@ -31,7 +33,7 @@ namespace UnknownEngine
 					std::string ogre_config_filename;
 					std::string ogre_log_filename;
 					std::string render_window_name;
-
+					
 					Descriptor() :
 						render_window_name ( "Untitled window" ),
 						ogre_config_filename ( "ogre.cfg" ),
@@ -42,6 +44,7 @@ namespace UnknownEngine
 				};
 
 				explicit OgreRenderSubsystem ( const UnknownEngine::Graphics::OgreRenderSubsystem::Descriptor& desc, UnknownEngine::Core::LogHelper* log_helper = nullptr );
+				virtual ~OgreRenderSubsystem();
 				void onFrameUpdated ( const Core::UpdateFrameMessage& msg );
 
 				UNKNOWNENGINE_INLINE
@@ -59,7 +62,8 @@ namespace UnknownEngine
 				Ogre::SceneManager* scene_manager;
 				Ogre::RenderWindow* render_window;
 				Core::LogHelper* log_helper;
-
+				Ogre::LogManager* ogre_log_manager;
+				
 				int counter;
 		};
 

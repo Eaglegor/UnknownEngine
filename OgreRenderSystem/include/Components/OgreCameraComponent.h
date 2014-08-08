@@ -3,6 +3,7 @@
 #include <Objects/Component.h>
 #include <ComponentType.h>
 #include <MessageSystem/MessagingPoliciesManager.h>
+#include <ExportedMessages/LogMessage.h>
 
 namespace Ogre
 {
@@ -34,8 +35,12 @@ namespace UnknownEngine
 		{
 			public:
 
-				class Descriptor
+				struct Descriptor
 				{
+					Core::LogMessage::Severity log_level;
+					
+					Descriptor():
+					log_level(Core::LogMessage::LOG_SEVERITY_NONE){}
 				};
 
 				virtual UnknownEngine::Core::ComponentType getType();

@@ -14,9 +14,10 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		OgreCameraComponentsFactory::OgreCameraComponentsFactory ( OgreRenderSubsystem* render_system, Core::EngineContext *engine_context )
+		OgreCameraComponentsFactory::OgreCameraComponentsFactory ( UnknownEngine::Graphics::OgreRenderSubsystem* render_system, UnknownEngine::Core::EngineContext* engine_context, UnknownEngine::Core::LogHelper* log_helper )
 			: render_system ( render_system ),
-			  engine_context ( engine_context )
+			  engine_context ( engine_context ),
+			  log_helper(log_helper)
 		{
 			supported_types.insert ( OGRE_CAMERA_COMPONENT_TYPE );
 		}

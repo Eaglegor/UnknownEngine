@@ -29,7 +29,7 @@ namespace UnknownEngine
 		{
 			public:
 
-				OgreRenderableComponentsFactory ( OgreRenderSubsystem* render_system, Core::EngineContext *engine_context );
+				OgreRenderableComponentsFactory ( OgreRenderSubsystem* render_system, Core::EngineContext *engine_context, Core::LogHelper* log_helper = nullptr );
 				virtual ~OgreRenderableComponentsFactory();
 				/**
 				 * @brief Returns a factory name.

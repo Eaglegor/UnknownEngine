@@ -16,11 +16,11 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		OgreRenderableComponentsFactory::OgreRenderableComponentsFactory ( OgreRenderSubsystem* render_system, Core::EngineContext *engine_context )
+		OgreRenderableComponentsFactory::OgreRenderableComponentsFactory ( UnknownEngine::Graphics::OgreRenderSubsystem* render_system, UnknownEngine::Core::EngineContext* engine_context, UnknownEngine::Core::LogHelper* log_helper )
 			: render_system ( render_system ),
-			  engine_context ( engine_context )
+			  engine_context ( engine_context ),
+			  log_helper(log_helper)
 		{
-			log_helper = new Core::LogHelper ( "Graphics.OgreRenderSubsystem.RenderableComponentsFactory", Core::LogMessage::LOG_SEVERITY_INFO, engine_context );
 			supported_types.insert ( OGRE_RENDERABLE_COMPONENT_TYPE );
 		}
 
@@ -92,7 +92,6 @@ namespace UnknownEngine
 
 		OgreRenderableComponentsFactory::~OgreRenderableComponentsFactory()
 		{
-			if ( log_helper ) delete log_helper;
 		}
 
 	} // namespace Graphics

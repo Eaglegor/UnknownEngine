@@ -19,6 +19,9 @@ namespace UnknownEngine
 			: log_helper ( log_helper )
 		{
 
+			ogre_log_manager = new Ogre::LogManager;
+			ogre_log_manager->createLog(desc.ogre_log_filename, true, false, false);
+
 			root = new Ogre::Root ( desc.ogre_plugins_filename, desc.ogre_config_filename, desc.ogre_log_filename );
 			root->showConfigDialog();
 			scene_manager = root->createSceneManager ( Ogre::ST_GENERIC );
@@ -36,5 +39,16 @@ namespace UnknownEngine
 
 		}
 
+		OgreRenderSubsystem::~OgreRenderSubsystem()
+		{
+			root->shutdown();
+			delete root;
+
+			ogre_log_manager->destroyLog("DefaultLog");
+			delete ogre_log_manager;
+			
+		}
+
+		
 	} // namespace Graphics
 } // namespace UnknownEngine

@@ -5,6 +5,7 @@
 #include <CommonParsers/QuaternionParser.h>
 #include <DataProvider/IDataProvider.h>
 #include <DataProviders/OgreMeshPtrProvider.h>
+#include <LogHelper.h>
 
 namespace UnknownEngine
 {
@@ -29,6 +30,7 @@ namespace UnknownEngine
 		namespace GLOBAL_OPTIONS
 		{
 			const std::string MESH_PTR_PROVIDER = "mesh_ptr_provider";
+			const std::string LOG_LEVEL = "log_level";
 		}
 
 		namespace INITIAL_TRANSFORM_SECTION
@@ -60,6 +62,12 @@ namespace UnknownEngine
 
 				boost::optional<const std::string&> initial_orientation_quat = initial_transform_section->get_optional<std::string> ( INITIAL_TRANSFORM_SECTION::OPTIONS::ORIENTATION );
 				if ( initial_orientation_quat.is_initialized() ) desc.initial_transform.setOrientation ( Utils::QuaternionParser::parse ( initial_orientation_quat.get() ) );
+			}
+			
+			boost::optional<const std::string&> log_level = properties.get_optional<std::string>(GLOBAL_OPTIONS::LOG_LEVEL);
+			if(log_level.is_initialized())
+			{
+				desc.log_level = Core::LogHelper::parseLogLevel(log_level.get());
 			}
 
 			Loader::IDataProvider* data_provider = properties.get<Loader::IDataProvider*> ( GLOBAL_OPTIONS::MESH_PTR_PROVIDER, nullptr );

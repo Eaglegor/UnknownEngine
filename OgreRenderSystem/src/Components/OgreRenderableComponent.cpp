@@ -65,9 +65,14 @@ namespace UnknownEngine
 			  descriptor ( desc ),
 			  listener ( nullptr ),
 			  engine_context ( engine_context ),
-			  messaging_policies_manager ( engine_context )
+			  messaging_policies_manager ( engine_context ),
+			  log_helper(nullptr)
 		{
-			log_helper = new Core::LogHelper ( getName(), Core::LogMessage::LOG_SEVERITY_INFO, engine_context );
+			if(desc.log_level > Core::LogMessage::LOG_SEVERITY_NONE)
+			{
+				log_helper = new Core::LogHelper ( getName(), desc.log_level, engine_context );
+			}
+			
 			LOG_INFO ( log_helper, "Logger initialized" );
 		}
 

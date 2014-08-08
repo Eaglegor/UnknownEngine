@@ -59,7 +59,11 @@ namespace UnknownEngine
 			this->desc = desc;
 			this->engine_context = plugins_manager->getEngineContext();
 
-			log_helper = new Core::LogHelper ( getName(), Core::LogMessage::LOG_SEVERITY_DEBUG, engine_context );
+			boost::optional<const std::string&> log_level = desc.creation_options.get_optional<std::string> ( "log_level" );
+			if ( log_level.is_initialized() )
+			{
+				log_helper = new Core::LogHelper ( getName(), Core::LogHelper::parseLogLevel ( log_level.get() ), engine_context );
+			}
 
 			LOG_INFO ( log_helper, "Logger started" );
 
@@ -89,13 +93,13 @@ namespace UnknownEngine
 			}
 
 			LOG_INFO ( log_helper, "Creating factory for component type 'Renderable'" );
-			renderable_components_factory = new OgreRenderableComponentsFactory ( render_system, engine_context );
+			renderable_components_factory = new OgreRenderableComponentsFactory ( render_system, engine_context, log_helper );
 
 			LOG_INFO ( log_helper, "Registering factory for component type 'Renderable'" );
 			engine_context->getComponentsManager()->addComponentFactory ( renderable_components_factory );
 
 			LOG_INFO ( log_helper, "Creating factory for component type 'Camera'" );
-			camera_components_factory = new OgreCameraComponentsFactory ( render_system, engine_context );
+			camera_components_factory = new OgreCameraComponentsFactory ( render_system, engine_context, log_helper );
 
 			LOG_INFO ( log_helper, "Registering factory for component type 'Camera'" );
 			engine_context->getComponentsManager()->addComponentFactory ( camera_components_factory );

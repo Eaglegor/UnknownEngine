@@ -13,6 +13,7 @@ namespace UnknownEngine
 		class EngineContext;
 		class IMessageListener;
 		class ReceivedMessageDesc;
+		class LogHelper;
 	}
 
 	namespace Graphics
@@ -28,7 +29,7 @@ namespace UnknownEngine
 		{
 			public:
 
-				OgreCameraComponentsFactory ( OgreRenderSubsystem* render_system, Core::EngineContext *engine_context );
+				OgreCameraComponentsFactory ( OgreRenderSubsystem* render_system, Core::EngineContext *engine_context, Core::LogHelper* log_helper = nullptr );
 
 				/**
 				 * @brief Returns a factory name.
@@ -75,6 +76,8 @@ namespace UnknownEngine
 				Core::EngineContext* engine_context;
 				std::unordered_set<Core::ComponentType> supported_types;
 				OgreRenderSubsystem* render_system;
+				
+ 				Core::LogHelper* log_helper;
 		};
 
 	} // namespace Graphics

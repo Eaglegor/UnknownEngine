@@ -5,6 +5,7 @@
 #include <Mesh/MeshData.h>
 #include <Listeners/OgreRenderableComponentListener.h>
 #include <MessageSystem/MessagingPoliciesManager.h>
+#include <ExportedMessages/LogMessage.h>
 
 namespace Ogre
 {
@@ -43,11 +44,14 @@ namespace UnknownEngine
 					OgreMeshPtrProvider* mesh_data_provider;
 					std::string material_name;
 					Core::Transform initial_transform;
+					
+					Core::LogMessage::Severity log_level;
 
 					Descriptor() :
 						material_name ( "BaseWhiteNoLighting" ),
 						mesh_data_provider ( nullptr ),
-						initial_transform ( Core::Transform::getIdentity() )
+						initial_transform ( Core::Transform::getIdentity() ),
+						log_level(Core::LogMessage::LOG_SEVERITY_NONE)
 					{}
 				};
 
