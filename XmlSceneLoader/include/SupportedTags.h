@@ -17,7 +17,7 @@ namespace UnknownEngine
 			static const std::string CONSTANT = "constant";
 			static const std::string SUBSYSTEMS_SECTION = "subsystems";
 			static const std::string SUBSYSTEM = "subsystem";
-			static const std::string MESSAGE_LISTENER = "message_listener";
+			static const std::string MESSAGE_LISTENER = "received_messages";
 			static const std::string MESSAGE = "message";
 			static const std::string RECEIVE_POLICY = "receive_policy";
 			static const std::string OPTIONS_SECTION = "options_section";
@@ -67,7 +67,7 @@ namespace UnknownEngine
 			}
 			namespace MESSAGE
 			{
-				static const std::string EVENT_TYPE = "event_type";
+				static const std::string TYPE = "type";
 			}
 			namespace RECEIVE_POLICY
 			{

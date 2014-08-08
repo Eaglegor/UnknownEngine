@@ -8,6 +8,8 @@
 #ifndef ISCENELOADER_H_
 #define ISCENELOADER_H_
 
+#include <InlineSpecification.h>
+
 namespace UnknownEngine
 {
 	namespace Core
@@ -22,14 +24,32 @@ namespace UnknownEngine
 		class ISceneLoader
 		{
 			public:
-				ISceneLoader()
+				ISceneLoader ( Core::EngineContext* engine_context, Core::PluginsManager* plugins_manager )
+					: engine_context ( engine_context ), 
+					plugins_manager ( plugins_manager )
 				{
 				}
 				virtual ~ISceneLoader()
 				{
 				}
 
-				virtual void loadScene(Core::EngineContext *engine_context, Core::PluginsManager* plugins_manager) = 0;
+				virtual void loadScene ( const std::string &filename ) = 0;
+
+				UNKNOWNENGINE_INLINE
+				Core::EngineContext* getEngineContext()
+				{
+					return engine_context;
+				}
+
+				UNKNOWNENGINE_INLINE
+				Core::PluginsManager* getPluginsManager()
+				{
+					return plugins_manager;
+				}
+
+			private:
+				Core::EngineContext *engine_context;
+				Core::PluginsManager* plugins_manager;
 		};
 
 	} /* namespace Core */
