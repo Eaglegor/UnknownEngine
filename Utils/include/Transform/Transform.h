@@ -53,12 +53,15 @@ namespace UnknownEngine
 				UNKNOWNENGINE_INLINE
 				static Transform getIdentity()
 				{
-
+					return Transform();
 				}
+
+				EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
 
 			private:
 				Math::Vector3 position;
 				Math::Quaternion orientation;
+
 		};
 
 
