@@ -18,10 +18,17 @@ int main(int argc, char** argv)
 	options_desc.add_options()
 	  ("scene", boost::program_options::value<std::string>()->value_name("filename"), "specify the scene file")
 	  ("help", "help message");
+	 
+	boost::program_options::positional_options_description p;
+	p.add("scene", -1);
+		  
 	boost::program_options::variables_map vm;
 	boost::program_options::store(boost::program_options::parse_command_line(argc, argv, options_desc), vm);
+	boost::program_options::store(boost::program_options::command_line_parser(argc, argv).options(options_desc).positional(p).run(), vm);
 	boost::program_options::notify(vm);
 	
+	
+
 	if(vm.count("help"))
 	{
 	  std::cout << options_desc << std::endl;
