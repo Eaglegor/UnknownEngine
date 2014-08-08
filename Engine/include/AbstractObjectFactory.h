@@ -5,8 +5,10 @@
 #include <InlineSpecification.h>
 #include <Exception.h>
 
-namespace UnknownEngine {
-	namespace Core {
+namespace UnknownEngine
+{
+	namespace Core
+	{
 
 		class Properties;
 
@@ -21,14 +23,14 @@ namespace UnknownEngine {
 		class AbstractObjectFactory
 		{
 			public:
-				AbstractObjectFactory():internal_id(INVALID_NUMERIC_IDENTIFIER){}
+				AbstractObjectFactory() : internal_id ( INVALID_NUMERIC_IDENTIFIER ) {}
 
 				/**
 				 * @brief Compare to another factory based on internal id
 				 * @param rhs - Second factory to compare with
 				 * @return true if internal ids equal
 				 */
-				bool operator==(const AbstractObjectFactory<ObjectType, ObjectTypeId, DescriptorClass> &rhs) const
+				bool operator== ( const AbstractObjectFactory<ObjectType, ObjectTypeId, DescriptorClass> &rhs ) const
 				{
 					return internal_id == rhs.internal_id;
 				}
@@ -53,20 +55,20 @@ namespace UnknownEngine {
 				 * @param object_type - Type to check for
 				 * @return true if the factory supports passed type
 				 */
-				virtual const bool supportsType(const ObjectTypeId &object_type) = 0;
+				virtual const bool supportsType ( const ObjectTypeId &object_type ) = 0;
 
 				/**
 				 * @brief Creates an object according to passed descriptor
 				 * @param desc - Object descriptor
 				 * @return Pointer to a newly created object
 				 */
-				virtual ObjectType* createObject(const DescriptorClass& desc) = 0;
+				virtual ObjectType* createObject ( const DescriptorClass& desc ) = 0;
 
 				/**
 				 * @brief Deletes object considering it's creation process
 				 * @param object - The object to be deleted
 				 */
-				virtual void destroyObject(ObjectType* object) = 0;
+				virtual void destroyObject ( ObjectType* object ) = 0;
 
 				/**
 				  * @brief **Internal** method to get internal id when registering factory.
@@ -83,7 +85,7 @@ namespace UnknownEngine {
 				  * \deprecated internal use only: **must not be used in user code**.
 				  */
 				UNKNOWNENGINE_INLINE
-				void setInternalId(const NumericIdentifierType &internal_id)
+				void setInternalId ( const NumericIdentifierType &internal_id )
 				{
 					this->internal_id = internal_id;
 				}

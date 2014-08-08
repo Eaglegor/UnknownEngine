@@ -12,11 +12,11 @@ namespace UnknownEngine
 		{
 			public:
 
-				Transform(const Math::Vector3 &position, const Math::Quaternion &orientation):
-					position(position), orientation(orientation)
+				Transform ( const Math::Vector3 &position, const Math::Quaternion &orientation ) :
+					position ( position ), orientation ( orientation )
 				{}
 
-				Transform(){}
+				Transform() {}
 
 				UNKNOWNENGINE_INLINE
 				const Math::Vector3& getPosition() const
@@ -25,7 +25,7 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				void setPosition(const Math::Vector3 &value)
+				void setPosition ( const Math::Vector3 &value )
 				{
 					position = value;
 				}
@@ -37,14 +37,14 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				void setOrientation(const Math::Quaternion &value)
+				void setOrientation ( const Math::Quaternion &value )
 				{
 					orientation = value;
 				}
 
-				Transform& operator=(const Transform &rhs)
+				Transform& operator= ( const Transform &rhs )
 				{
-					if(this==&rhs) return *this;
+					if ( this == &rhs ) return *this;
 					this->position = rhs.position;
 					this->orientation = rhs.orientation;
 					return *this;
@@ -53,12 +53,15 @@ namespace UnknownEngine
 				UNKNOWNENGINE_INLINE
 				static Transform getIdentity()
 				{
-
+					return Transform();
 				}
+
+				EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
 
 			private:
 				Math::Vector3 position;
 				Math::Quaternion orientation;
+
 		};
 
 

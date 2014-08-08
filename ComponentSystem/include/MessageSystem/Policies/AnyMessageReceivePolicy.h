@@ -29,11 +29,14 @@ namespace UnknownEngine
 				 * @return true
 				 */
 				COMPONENTSYSTEM_EXPORT
-				virtual bool acceptMessage(const PackedMessage &msg) override;
+				virtual bool acceptMessage ( const PackedMessage &msg ) override;
 
-				static const MessagePolicyType getType(){return "AnyMessageReceivePolicy";}
+				static const MessagePolicyType getType()
+				{
+					return "AnyMessageReceivePolicy";
+				}
 
-				virtual ~AnyMessageReceivePolicy (){}
+				virtual ~AnyMessageReceivePolicy () {}
 		};
 
 	} /* namespace Core */

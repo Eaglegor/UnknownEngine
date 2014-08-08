@@ -4,9 +4,11 @@
 #include <vector>
 #include <Properties/Properties.h>
 
-namespace UnknownEngine{
+namespace UnknownEngine
+{
 
-	namespace Core{
+	namespace Core
+	{
 
 		/**
 		 * @brief %Message listener desctiptor
@@ -30,17 +32,17 @@ namespace UnknownEngine{
 		 *
 		 */
 
-			/**
-			 * @brief Descriptor of single message subscription for listener
-			 */
-			struct ReceivedMessageDesc
-			{
-				std::string message_type_name; ///< %String message type representation
-				std::string receive_policy_type_name; ///< %Message receive policy name
-				Properties receive_policy_options; ///< %Message receive policy options
-			};
+		/**
+		 * @brief Descriptor of single message subscription for listener
+		 */
+		struct ReceivedMessageDesc
+		{
+			std::string message_type_name; ///< %String message type representation
+			std::string receive_policy_type_name; ///< %Message receive policy name
+			Properties receive_policy_options; ///< %Message receive policy options
+		};
 
-			typedef std::vector<ReceivedMessageDesc> ReceivedMessageDescriptorsList; ///< %Message subscriptions list
+		typedef std::vector<ReceivedMessageDesc> ReceivedMessageDescriptorsList; ///< %Message subscriptions list
 
 	}
 }

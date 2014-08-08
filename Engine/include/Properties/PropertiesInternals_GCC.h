@@ -26,27 +26,27 @@ namespace UnknownEngine
 				template<typename V>
 				struct pv_pair
 				{
-						typedef boost::fusion::pair<V, std::unordered_map<K, V> > type;
+					typedef boost::fusion::pair<V, std::unordered_map<K, V> > type;
 				};
 
 			public:
-				typedef typename boost::fusion::map<
-						typename pv_pair<float>::type,
-						typename pv_pair<int>::type,
-						typename pv_pair<bool>::type,
-						typename pv_pair<std::string>::type,
-						typename pv_pair<boost::any>::type> MapType;
+				typedef typename boost::fusion::map <
+				typename pv_pair<float>::type,
+				         typename pv_pair<int>::type,
+				         typename pv_pair<bool>::type,
+				         typename pv_pair<std::string>::type,
+				         typename pv_pair<boost::any>::type > MapType;
 		};
 
 		/// List of types for which to use a separate maps
 		template<typename V>
 		using NotAnyPropertyTypes = typename std::integral_constant <
-		bool,
-		std::is_same<V, float>::value ||
-		std::is_same<V, int>::value ||
-		std::is_same<V, bool>::value ||
-		std::is_same<V, std::string>::value
-		>;
+		                            bool,
+		                            std::is_same<V, float>::value ||
+		                            std::is_same<V, int>::value ||
+		                            std::is_same<V, bool>::value ||
+		                            std::is_same<V, std::string>::value
+		                            >;
 
 		/// List of types for which to use boost::any map with any_cast
 		template<typename V>

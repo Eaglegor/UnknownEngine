@@ -137,7 +137,7 @@ namespace UnknownEngine
 				 * @param receive_policy - %Message receive policy
 				 */
 				COMPONENTSYSTEM_EXPORT
-				void setListenerReceivePolicy( const MessageType &message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy);
+				void setListenerReceivePolicy ( const MessageType &message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy );
 
 				/**
 				 * @brief Changes message listener receive policy
@@ -146,7 +146,7 @@ namespace UnknownEngine
 				 * @param receive_policy - %Message receive policy
 				 */
 				COMPONENTSYSTEM_EXPORT
-				void setListenerReceivePolicy( const std::string &message_type_name, IMessageListener* listener, IMessageReceivePolicy* receive_policy);
+				void setListenerReceivePolicy ( const std::string &message_type_name, IMessageListener* listener, IMessageReceivePolicy* receive_policy );
 
 				/**
 				 * @brief Delivers message to all registered listeners
@@ -161,11 +161,11 @@ namespace UnknownEngine
 				/// Stored pair <IMessageListener, IMessageReceivePolicy>
 				struct RegisteredListener
 				{
-						RegisteredListener ( IMessageListener* listener, IMessageReceivePolicy* receive_policy )
-							: listener ( listener ), receive_policy ( receive_policy ){}
+					RegisteredListener ( IMessageListener* listener, IMessageReceivePolicy* receive_policy )
+						: listener ( listener ), receive_policy ( receive_policy ) {}
 
-						IMessageListener* listener; ///< %Message listener
-						IMessageReceivePolicy* receive_policy; ///< %Message receive policy
+					IMessageListener* listener; ///< %Message listener
+					IMessageReceivePolicy* receive_policy; ///< %Message receive policy
 				};
 
 				typedef std::list< RegisteredListener > MessageListenersList;
@@ -182,13 +182,13 @@ namespace UnknownEngine
 
 		};
 
-	#ifdef _MSC_VER
-	#ifndef ComponentSystem_EXPORTS
+#ifdef _MSC_VER
+#ifndef ComponentSystem_EXPORTS
 		extern template class COMPONENTSYSTEM_EXPORT Singleton<MessageDispatcher>;
-	#else
+#else
 		template class COMPONENTSYSTEM_EXPORT Singleton<MessageDispatcher>;
-	#endif
-	#endif
+#endif
+#endif
 
 	} /* namespace Core */
 } /* namespace UnknownEngine */

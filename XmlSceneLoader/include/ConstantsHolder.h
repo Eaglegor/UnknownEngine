@@ -24,7 +24,7 @@ namespace UnknownEngine
 		{
 			public:
 
-				UNKNOWNENGINE_SIMPLE_EXCEPTION(LoaderConstantNotFoundException);
+				UNKNOWNENGINE_SIMPLE_EXCEPTION ( LoaderConstantNotFoundException );
 
 				ConstantsHolder()
 				{
@@ -35,22 +35,23 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				std::string getConstantValue(const std::string &constant_name) const throw (LoaderConstantNotFoundException)
+				std::string getConstantValue ( const std::string &constant_name ) const throw ( LoaderConstantNotFoundException )
 				{
-					for(auto iter = constants_maps.rbegin(); iter != constants_maps.rend(); ++iter)
+					for ( auto iter = constants_maps.rbegin(); iter != constants_maps.rend(); ++iter )
 					{
-						auto value = iter->find(constant_name);
-						if (value != iter->end()){
+						auto value = iter->find ( constant_name );
+						if ( value != iter->end() )
+						{
 							return value->second;
 						}
 					}
-					throw LoaderConstantNotFoundException("XmlSceneLoader: Can't find specified constant");
+					throw LoaderConstantNotFoundException ( "XmlSceneLoader: Can't find specified constant" );
 				}
 
 				UNKNOWNENGINE_INLINE
-				void setConstantValue(const std::string &constant_name, const std::string &value)
+				void setConstantValue ( const std::string &constant_name, const std::string &value )
 				{
-					constants_maps.back()[constant_name] = value;
+					constants_maps.back() [constant_name] = value;
 				}
 
 				UNKNOWNENGINE_INLINE
@@ -65,8 +66,8 @@ namespace UnknownEngine
 					constants_maps.pop_back();
 				}
 
-                std::string applyPlaceholderConstants(const std::string &input_string) const;
-                void parseAndSaveConstant(const boost::property_tree::ptree &constant_node);
+				std::string applyPlaceholderConstants ( const std::string &input_string ) const;
+				void parseAndSaveConstant ( const boost::property_tree::ptree &constant_node );
 
 			private:
 				typedef std::map<std::string, std::string> ConstantsMap;

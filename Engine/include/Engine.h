@@ -19,7 +19,7 @@ namespace UnknownEngine
 
 		class PluginsManager;
 
-		UNKNOWNENGINE_SIMPLE_EXCEPTION(InvalidEngineStateException); ///< Is thrown if trying to perform action not suitable for current state
+		UNKNOWNENGINE_SIMPLE_EXCEPTION ( InvalidEngineStateException ); ///< Is thrown if trying to perform action not suitable for current state
 
 		/**
 
@@ -31,15 +31,15 @@ namespace UnknownEngine
 		### Usage
 		When you want to use Unknown %Engine you create the instance of Engine class. It's not initialized yet that's why you must call init() method.
 		After that you can call start() method to start a main loop of engine.
-		
+
 		#### Example
 		\code
-		
+
 			#include <Engine.h>
 			#include <XmlSceneLoader.h>
 
 			using namespace UnknownEngine;
-			
+
 			int main()
 			{
 			  Loader::XmlSceneLoader loader("SceneFile.xml");
@@ -51,7 +51,7 @@ namespace UnknownEngine
 
 			  return 0;
 			}
-		
+
 		\endcode
 
 		###Notes
@@ -74,7 +74,7 @@ namespace UnknownEngine
 
 				/**
 				 * @brief Inits engine
-				 * 
+				 *
 				 * - Creates core subsystems
 				 * - Inits \ref UnknownEngine::Core::EngineContext "engine context"
 				 * - Registers core message types
@@ -82,7 +82,7 @@ namespace UnknownEngine
 				 * @throws UnknownEngine::Core::InvalidEngineStateException - Is thrown after double initialization
 				 */
 				ENGINE_EXPORT
-				void init() throw(InvalidEngineStateException);
+				void init() throw ( InvalidEngineStateException );
 
 				/**
 				 * @brief Starts engine
@@ -93,7 +93,7 @@ namespace UnknownEngine
 				 * @throw UnknownEngine::Core::InvalidEngineStateException - Is thrown if starting uninitialized engine
 				 */
 				ENGINE_EXPORT
-				void start() throw (InvalidEngineStateException);
+				void start() throw ( InvalidEngineStateException );
 
 				/**
 				 * @brief Shutdowns engine
@@ -103,7 +103,7 @@ namespace UnknownEngine
 				 * @throw UnknownEngine::Core::InvalidEngineStateException - Is thrown if shutting down engine before it's stop
 				 */
 				ENGINE_EXPORT
-				void shutdown() throw (InvalidEngineStateException);
+				void shutdown() throw ( InvalidEngineStateException );
 
 				/**
 				 * @brief Returns engine context
@@ -118,10 +118,10 @@ namespace UnknownEngine
 			private:
 				enum State
 				{
-					CREATED = 0,
-					INIT = 1,
-					STARTED = 2,
-					STOPPED = 3
+				    CREATED = 0,
+				    INIT = 1,
+				    STARTED = 2,
+				    STOPPED = 3
 				};
 
 				State state;

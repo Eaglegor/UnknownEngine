@@ -23,7 +23,7 @@ namespace UnknownEngine
 		/**
 		 * @brief Is thrown when requested a non-existing property and no default value is provided
 		 */
-		UNKNOWNENGINE_SIMPLE_EXCEPTION(PropertyNotFoundException);
+		UNKNOWNENGINE_SIMPLE_EXCEPTION ( PropertyNotFoundException );
 
 		/**
 		 * @brief The properties map able to hold any value.
@@ -61,12 +61,12 @@ namespace UnknownEngine
 				UNKNOWNENGINE_INLINE
 				const std::unordered_map<K, V>& getAllOfType () const
 				{
-					return boost::fusion::at_key<V>( values_map );
+					return boost::fusion::at_key<V> ( values_map );
 				}
 
 			public:
-				PropertiesTree (){}
-				virtual ~PropertiesTree (){}
+				PropertiesTree () {}
+				virtual ~PropertiesTree () {}
 
 				/**
 				 * @brief Returns the property value by name
@@ -81,12 +81,12 @@ namespace UnknownEngine
 				 */
 				template<typename V>
 				UNKNOWNENGINE_INLINE
-				const V &get (const K &name ) const throw(PropertyNotFoundException)
+				const V &get ( const K &name ) const throw ( PropertyNotFoundException )
 				{
 					const std::unordered_map<K, boost::any>& values = getAllOfType<boost::any>();
-					const auto found = values.find( name );
-					if ( found == values.end() ) throw PropertyNotFoundException("Can't find requested property");
-					return boost::any_cast<const V&>(found->second);
+					const auto found = values.find ( name );
+					if ( found == values.end() ) throw PropertyNotFoundException ( "Can't find requested property" );
+					return boost::any_cast<const V&> ( found->second );
 				}
 
 				/**
@@ -100,12 +100,12 @@ namespace UnknownEngine
 				 */
 				template<typename V>
 				UNKNOWNENGINE_INLINE
-				boost::optional<const V&> get_optional (const K &name ) const
+				boost::optional<const V&> get_optional ( const K &name ) const
 				{
 					const std::unordered_map<K, boost::any>& values = getAllOfType<boost::any>();
-					const auto found = values.find( name );
+					const auto found = values.find ( name );
 					if ( found == values.end() ) return boost::optional<const V&>();
-					return boost::optional<const V&> (boost::any_cast<const V&>(found->second));
+					return boost::optional<const V&> ( boost::any_cast<const V&> ( found->second ) );
 				}
 
 				/**
@@ -119,12 +119,12 @@ namespace UnknownEngine
 				 */
 				template<typename V>
 				UNKNOWNENGINE_INLINE
-				const V &get (const K &name, const V &default_value ) const
+				const V &get ( const K &name, const V &default_value ) const
 				{
 					const std::unordered_map<K, boost::any>& values = getAllOfType<boost::any>();
-					const auto found = values.find( name );
+					const auto found = values.find ( name );
 					if ( found == values.end() ) return default_value;
-					return boost::any_cast<const V&>(found->second);
+					return boost::any_cast<const V&> ( found->second );
 				}
 
 				/**
@@ -139,31 +139,31 @@ namespace UnknownEngine
 				 */
 				template<typename V>
 				UNKNOWNENGINE_INLINE
-				void set (const K &name, const V &value )
+				void set ( const K &name, const V &value )
 				{
-					std::unordered_map<K, boost::any>& values = const_cast<std::unordered_map<K, boost::any>&>(getAllOfType<boost::any>());
+					std::unordered_map<K, boost::any>& values = const_cast<std::unordered_map<K, boost::any>&> ( getAllOfType<boost::any>() );
 					values[name] = value;
 				}
 
-				PROPERTIES_SEPARATE_MAP_GETTER(int)
-				PROPERTIES_SEPARATE_MAP_GETTER(float)
-				PROPERTIES_SEPARATE_MAP_GETTER(std::string)
-				PROPERTIES_SEPARATE_MAP_GETTER(bool)
+				PROPERTIES_SEPARATE_MAP_GETTER ( int )
+				PROPERTIES_SEPARATE_MAP_GETTER ( float )
+				PROPERTIES_SEPARATE_MAP_GETTER ( std::string )
+				PROPERTIES_SEPARATE_MAP_GETTER ( bool )
 
-				PROPERTIES_SEPARATE_MAP_GETTER_THROWING(int)
-				PROPERTIES_SEPARATE_MAP_GETTER_THROWING(float)
-				PROPERTIES_SEPARATE_MAP_GETTER_THROWING(std::string)
-				PROPERTIES_SEPARATE_MAP_GETTER_THROWING(bool)
+				PROPERTIES_SEPARATE_MAP_GETTER_THROWING ( int )
+				PROPERTIES_SEPARATE_MAP_GETTER_THROWING ( float )
+				PROPERTIES_SEPARATE_MAP_GETTER_THROWING ( std::string )
+				PROPERTIES_SEPARATE_MAP_GETTER_THROWING ( bool )
 
-				PROPERTIES_SEPARATE_MAP_GETTER_OPTIONAL(int)
-				PROPERTIES_SEPARATE_MAP_GETTER_OPTIONAL(float)
-				PROPERTIES_SEPARATE_MAP_GETTER_OPTIONAL(std::string)
-				PROPERTIES_SEPARATE_MAP_GETTER_OPTIONAL(bool)
+				PROPERTIES_SEPARATE_MAP_GETTER_OPTIONAL ( int )
+				PROPERTIES_SEPARATE_MAP_GETTER_OPTIONAL ( float )
+				PROPERTIES_SEPARATE_MAP_GETTER_OPTIONAL ( std::string )
+				PROPERTIES_SEPARATE_MAP_GETTER_OPTIONAL ( bool )
 
-				PROPERTIES_SEPARATE_MAP_SETTER(int)
-				PROPERTIES_SEPARATE_MAP_SETTER(float)
-				PROPERTIES_SEPARATE_MAP_SETTER(std::string)
-				PROPERTIES_SEPARATE_MAP_SETTER(bool)
+				PROPERTIES_SEPARATE_MAP_SETTER ( int )
+				PROPERTIES_SEPARATE_MAP_SETTER ( float )
+				PROPERTIES_SEPARATE_MAP_SETTER ( std::string )
+				PROPERTIES_SEPARATE_MAP_SETTER ( bool )
 
 			private:
 				InternalMapType values_map; ///< Actual properties map implementation
@@ -173,7 +173,7 @@ namespace UnknownEngine
 		/**
 		 * @brief Property tree with string keys
 		 */
-		class Properties: public PropertiesTree<std::string>{};
+		class Properties: public PropertiesTree<std::string> {};
 
 	} /* namespace Core */
 } /* namespace UnknownEngine */

@@ -45,14 +45,14 @@ namespace UnknownEngine
 				 * @return Assigned numeric identifier
 				 */
 				COMPONENTSYSTEM_EXPORT
-				NumericIdentifierType registerNewMessageParticipant(const std::string &message_system_participant_name);
+				NumericIdentifierType registerNewMessageParticipant ( const std::string &message_system_participant_name );
 
 				/**
 				 * @brief Removes the object name from a bus
 				 * @param message_system_participant_name - Object name to be unregistered
 				 */
 				COMPONENTSYSTEM_EXPORT
-				void unregisterMessageParticipant(const std::string &message_system_participant_name);
+				void unregisterMessageParticipant ( const std::string &message_system_participant_name );
 
 				/**
 				 * @brief Returns the numeric address id for registered object name
@@ -60,7 +60,7 @@ namespace UnknownEngine
 				 * @return Numeric address identifier of object
 				 */
 				COMPONENTSYSTEM_EXPORT
-				NumericIdentifierType getMessageParticipantNameId(const std::string &message_system_participant_name) const;
+				NumericIdentifierType getMessageParticipantNameId ( const std::string &message_system_participant_name ) const;
 
 				/**
 				 * @brief Checks if some object name is registered
@@ -68,20 +68,20 @@ namespace UnknownEngine
 				 * @return true if object name is registered
 				 */
 				COMPONENTSYSTEM_EXPORT
-				bool messageSystemParticipantIsRegistered(const std::string &message_system_participant_name) const;
+				bool messageSystemParticipantIsRegistered ( const std::string &message_system_participant_name ) const;
 
 			private:
 				InternalDictionaryType internal_dictionary; ///< Internal dictionary implementation
 
 		};
 
-		#ifdef _MSC_VER
-		#ifndef ComponentSystem_EXPORTS
+#ifdef _MSC_VER
+#ifndef ComponentSystem_EXPORTS
 		extern template class COMPONENTSYSTEM_EXPORT Singleton<MessageSystemParticipantDictionary>;
-		#else 
+#else
 		template class COMPONENTSYSTEM_EXPORT Singleton<MessageSystemParticipantDictionary>;
-		#endif
-		#endif
+#endif
+#endif
 
 	} /* namespace Core */
 } /* namespace UnknownEngine */

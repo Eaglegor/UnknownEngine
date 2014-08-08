@@ -12,12 +12,12 @@ namespace UnknownEngine
 
 		class StopEngineListener : public IMessageListener
 		{
-		public:
-			StopEngineListener(const std::string name, MainLoop* main_loop);
-			virtual void processMessage( const PackedMessage &msg );
+			public:
+				StopEngineListener ( const std::string name, MainLoop* main_loop );
+				virtual void processMessage ( const PackedMessage &msg );
 
-		private:
-			MainLoop* main_loop;
+			private:
+				MainLoop* main_loop;
 		};
 	}
 }

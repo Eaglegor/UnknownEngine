@@ -28,20 +28,20 @@ namespace UnknownEngine
 		class EntitiesLoader
 		{
 			public:
-				EntitiesLoader(Core::EngineContext* engine_context, XmlSceneLoader* scene_loader) :
-						engine_context(engine_context), scene_loader(scene_loader)
+				EntitiesLoader ( Core::EngineContext* engine_context, XmlSceneLoader* scene_loader ) :
+					engine_context ( engine_context ), scene_loader ( scene_loader )
 				{
 				}
 
 				virtual ~EntitiesLoader();
 
-                void loadEntities(const boost::property_tree::ptree &entities_node);
+				void loadEntities ( const boost::property_tree::ptree &entities_node );
 
 			private:
 
-				void loadEntity(const std::string &name, const boost::property_tree::ptree &entity_node);
-				Core::Component* loadComponent(Core::Entity* parent_entity, const std::string &name, const boost::property_tree::ptree &component_node);
-				bool createDataProvider(const boost::property_tree::ptree &data_provider_node);
+				void loadEntity ( const std::string &name, const boost::property_tree::ptree &entity_node );
+				Core::Component* loadComponent ( Core::Entity* parent_entity, const std::string &name, const boost::property_tree::ptree &component_node );
+				bool createDataProvider ( const boost::property_tree::ptree &data_provider_node );
 
 				Core::EngineContext* engine_context;
 				XmlSceneLoader* scene_loader;

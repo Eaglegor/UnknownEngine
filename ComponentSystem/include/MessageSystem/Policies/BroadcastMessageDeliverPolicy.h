@@ -27,11 +27,14 @@ namespace UnknownEngine
 				 * @return true
 				 */
 				COMPONENTSYSTEM_EXPORT
-				virtual bool allowDeliveryToListener(const IMessageListener* listener) const override;
+				virtual bool allowDeliveryToListener ( const IMessageListener* listener ) const override;
 
-				static const MessagePolicyType getType(){return "BroadcastMessageDeliverPolicy";}
+				static const MessagePolicyType getType()
+				{
+					return "BroadcastMessageDeliverPolicy";
+				}
 
-				virtual ~BroadcastMessageDeliverPolicy (){}
+				virtual ~BroadcastMessageDeliverPolicy () {}
 		};
 
 	} /* namespace Core */
