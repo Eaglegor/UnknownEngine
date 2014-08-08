@@ -90,6 +90,25 @@ namespace UnknownEngine
 				}
 
 				/**
+				 * @brief Returns the property value by name or empty boost::optional if the key wasn't found
+				 * @param name - Property name
+				 *
+				 * Uses boost::any map
+				 *
+				 * \tparam V - Value type
+				 *
+				 */
+				template<typename V>
+				UNKNOWNENGINE_INLINE
+				boost::optional<const V&> get_optional (const K &name ) const
+				{
+					const std::unordered_map<K, boost::any>& values = getAllOfType<boost::any>();
+					const auto found = values.find( name );
+					if ( found == values.end() ) return boost::optional<const V&>();
+					return boost::optional<const V&> (boost::any_cast<const V&>(found->second));
+				}
+
+				/**
 				 * @brief Returns the property value by name or default value if propery not found
 				 * @param name - Property name
 				 *
@@ -135,6 +154,11 @@ namespace UnknownEngine
 				PROPERTIES_SEPARATE_MAP_GETTER_THROWING(float)
 				PROPERTIES_SEPARATE_MAP_GETTER_THROWING(std::string)
 				PROPERTIES_SEPARATE_MAP_GETTER_THROWING(bool)
+
+				PROPERTIES_SEPARATE_MAP_GETTER_OPTIONAL(int)
+				PROPERTIES_SEPARATE_MAP_GETTER_OPTIONAL(float)
+				PROPERTIES_SEPARATE_MAP_GETTER_OPTIONAL(std::string)
+				PROPERTIES_SEPARATE_MAP_GETTER_OPTIONAL(bool)
 
 				PROPERTIES_SEPARATE_MAP_SETTER(int)
 				PROPERTIES_SEPARATE_MAP_SETTER(float)
