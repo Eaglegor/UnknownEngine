@@ -12,6 +12,7 @@
 
 #include <Properties/PropertiesInternals_GCC.h>
 #include <boost/fusion/include/at_key.hpp>
+#include <boost/optional.hpp>
 
 #include <Exception.h>
 
@@ -111,6 +112,26 @@ namespace UnknownEngine
 				}
 
 				/**
+				 * @brief Returns the property value by name or empty boost::optional if the key wasn't found
+				 * @param name - Property name
+				 *
+				 * Uses separate maps
+				 *
+				 * \tparam V - Value type
+				 *
+				 */
+				template<typename V>
+				UNKNOWNENGINE_INLINE
+				typename boost::enable_if<NotAnyPropertyTypes<V>, boost::optional<const V&> >::type
+				get_optional ( K name ) const
+				{
+					const std::unordered_map<K, V>& values = getAllOfType<V>();
+					const auto found = values.find( name );
+					if ( found == values.end() ) return boost::optional<const V&>();
+					return boost::optional<const V&>( found->second );
+				}
+
+				/**
 				 * @brief Returns the property value by name
 				 * @param name - Property name
 				 *
@@ -150,6 +171,26 @@ namespace UnknownEngine
 					const auto found = values.find( name );
 					if ( found == values.end() ) return default_value;
 					return boost::any_cast<const V&>(found->second);
+				}
+
+				/**
+				 * @brief Returns the property value by name or empty boost::optional if the key was not found
+				 * @param name - Property name
+				 *
+				 * Uses boost::any map
+				 *
+				 * \tparam V - Value type
+				 *
+				 */
+				template<typename V>
+				UNKNOWNENGINE_INLINE
+				typename boost::enable_if<AnyPropertyType<V>, boost::optional<const V&> >::type
+				get_optional ( K name ) const
+				{
+					const std::unordered_map<K, boost::any>& values = getAllOfType<boost::any>();
+					const auto found = values.find( name );
+					if ( found == values.end() ) return boost::optional<const V&>();
+					return boost::optional<const V&>( boost::any_cast<const V&>(found->second) );
 				}
 
 				/**
