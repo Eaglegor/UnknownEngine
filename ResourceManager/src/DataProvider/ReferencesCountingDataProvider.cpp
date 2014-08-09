@@ -16,7 +16,7 @@ namespace UnknownEngine {
 			this->decreaseReferencesCounter();
 		}
 
-		bool ReferencesCountingDataProvider::mayBeDestructed()
+		bool ReferencesCountingDataProvider::mayBeDestructed() const
 		{
 			return references_counter == 0;
 		}

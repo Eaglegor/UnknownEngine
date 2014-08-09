@@ -32,7 +32,7 @@ namespace UnknownEngine
 				template<typename T>
 				void setData(T&& data)
 				{
-					this->data = std::move<T>(data);
+					this->data = std::move(data);
 				}
 
 				/// Sets the data. Copy version.

@@ -22,12 +22,14 @@ namespace UnknownEngine {
 
 				/// Starts the loading thread
 				RESOURCEMANAGER_EXPORT
-				void startLoading();
+				void startLoading() override;
 
 				/// Waits for loader thread to be finished and returns the data loaded
 				RESOURCEMANAGER_EXPORT
-				const ResourceContainer& getResource();
+				const ResourceContainer& getResource() override;
 
+				virtual bool mayBeDestructed() const;
+				
 			protected:
 				/// Worker method
 				virtual void internalLoad(ResourceContainer &out_container) = 0;

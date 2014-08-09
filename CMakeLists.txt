@@ -51,6 +51,7 @@ ConsoleLogger
 
 RenderSystem
 OgreRenderSystem
+AssimpMeshDataLoader
 )
 
 set(
@@ -69,5 +70,3 @@ foreach(targets_list ${ALL_TARGETS_LIST})
 		add_subdirectory(${target})
 	endforeach(target)
 endforeach(targets_list)
-
-

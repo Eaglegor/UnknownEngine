@@ -22,6 +22,7 @@ namespace UnknownEngine
 			static const std::string RECEIVE_POLICY = "receive_policy";
 			static const std::string OPTIONS_SECTION = "options_section";
 			static const std::string OPTION = "option";
+			static const std::string PROVIDED_DATA = "provided_data";
 			static const std::string DATA_PROVIDER = "data_provider";
 			static const std::string COMPONENT = "component";
 			static const std::string ENTITIES_SECTION = "entities";
@@ -81,6 +82,11 @@ namespace UnknownEngine
 			{
 				static const std::string NAME = "name";
 				static const std::string VALUE = "value";
+			}
+			namespace PROVIDED_DATA
+			{
+				static const std::string NAME = "name";
+				static const std::string DATA_PROVIDER_NAME = "data_provider_name";
 			}
 			namespace DATA_PROVIDER
 			{
