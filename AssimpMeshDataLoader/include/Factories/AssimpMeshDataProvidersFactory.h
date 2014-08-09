@@ -7,6 +7,7 @@ namespace UnknownEngine
 	{
 
 		class LogHelper;
+		class EngineContext;
 	}
 
 	namespace Loader
@@ -15,7 +16,7 @@ namespace UnknownEngine
 		{
 		public:
 			
-			AssimpMeshDataProvidersFactory(Core::LogHelper* log_helper);
+			AssimpMeshDataProvidersFactory(Core::LogHelper* log_helper, Core::EngineContext* engine_context);
 			
 			virtual const std::string getName();
 			virtual const std::unordered_set< DataProviderType >& getSupportedTypes();
@@ -26,6 +27,7 @@ namespace UnknownEngine
 		private:
 			std::unordered_set< DataProviderType > supported_types;
 			Core::LogHelper* log_helper;
+			Core::EngineContext* engine_context;
 		};
 		
 	}
