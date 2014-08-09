@@ -28,6 +28,8 @@ namespace UnknownEngine {
 				RESOURCEMANAGER_EXPORT
 				const ResourceContainer& getResource() override;
 
+				virtual bool mayBeDestructed() const;
+				
 			protected:
 				/// Worker method
 				virtual void internalLoad(ResourceContainer &out_container) = 0;

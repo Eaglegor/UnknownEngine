@@ -52,6 +52,12 @@ namespace UnknownEngine {
 				wait_for_finish_var.wait(lock);
 			}
 		}
+		
+		bool SeparateLoaderThreadDataProvider::mayBeDestructed() const
+		{
+			return UnknownEngine::Loader::ReferencesCountingDataProvider::mayBeDestructed() && (load_finished || !load_started);
+		}
+
 
 	} // namespace Loader
 } // namespace UnknownEngine

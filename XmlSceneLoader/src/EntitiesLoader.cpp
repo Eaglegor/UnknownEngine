@@ -23,6 +23,7 @@
 
 #include <Objects/Entity.h>
 #include <../ResourceManager/include/DataProvider/DataProviderDesc.h>
+#include <../ResourceManager/include/DataProvider/IDataProvider.h>
 #include <../ResourceManager/include/ResourceManager.h>
 
 #include <iostream>
@@ -59,8 +60,16 @@ namespace UnknownEngine
 				{
 					scene_loader->getConstantsHolder()->parseAndSaveConstant ( iter.second );
 				}
+				else if ( iter.first == Tags::DATA_PROVIDER )
+				{
+					createDataProvider ( iter.second );
+				}
 			}
 			
+			for(auto& data_provider : data_providers)
+			{
+				data_provider.second->release();
+			}
 			engine_context->getResourceManager()->cleanup();
 			
 			scene_loader->getConstantsHolder()->popScope();
@@ -90,7 +99,6 @@ namespace UnknownEngine
 				}
 				else if ( iter.first == Tags::DATA_PROVIDER )
 				{
-					const std::string name = iter.second.get_child ( XMLATTR ).get<std::string> ( Attributes::DATA_PROVIDER::NAME );
 					createDataProvider ( iter.second );
 				}
 			}
@@ -118,7 +126,7 @@ namespace UnknownEngine
 				}
 				else if ( iter.first == Tags::OPTIONS_SECTION )
 				{
-					component_desc.creation_options = OptionsParser::parseOptions ( iter.second, scene_loader->getConstantsHolder() );
+					component_desc.creation_options = OptionsParser::parseOptions ( iter.second, scene_loader->getConstantsHolder(), &data_providers );
 				}
 				else if ( iter.first == Tags::CONSTANT )
 				{
@@ -147,12 +155,13 @@ namespace UnknownEngine
 				}
 				else if (iter.first == Tags::OPTIONS_SECTION)
 				{
-					desc.creation_options = OptionsParser::parseOptions( iter.second, scene_loader->getConstantsHolder() );
+					desc.creation_options = OptionsParser::parseOptions( iter.second, scene_loader->getConstantsHolder(), &data_providers );
 				}
 			}
 
 			IDataProvider* data_provider = engine_context->getResourceManager()->createDataProvider(desc);
 			data_providers[desc.name] = data_provider;
+			data_provider->startLoading();
 			
 			scene_loader->getConstantsHolder()->popScope();
 			return false;

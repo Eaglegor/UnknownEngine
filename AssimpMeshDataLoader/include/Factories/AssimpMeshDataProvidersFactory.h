@@ -12,7 +12,7 @@ namespace UnknownEngine
 
 	namespace Loader
 	{
-		class AssimpMeshDataProvidersFactory : IDataProviderFactory
+		class AssimpMeshDataProvidersFactory : public IDataProviderFactory
 		{
 		public:
 			

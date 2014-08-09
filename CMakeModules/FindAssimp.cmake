@@ -1,7 +1,7 @@
 FIND_PATH(
 assimp_INCLUDE_DIRS
 NAMES postprocess.h scene.h version.h config.h cimport.h
-PATHS /usr/local/include/
+PATHS /usr/include/assimp
 )
 FIND_LIBRARY(
 assimp_LIBRARIES
