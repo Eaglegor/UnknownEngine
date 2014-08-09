@@ -20,14 +20,30 @@ namespace UnknownEngine
 		void OgreRenderableComponent::init ( const Core::Entity *parent_entity )
 		{
 			LOG_INFO ( log_helper, "Creating OGRE entity" );
-			entity = render_system->getSceneManager()->createEntity ( getName() + ".Entity", Ogre::SceneManager::PT_SPHERE /*mesh_data_provider->getResource().getData<Ogre::MeshPtr>()*/ );
+			if(desc.mesh_data_provider!=nullptr)
+			{
+				entity = render_system->getSceneManager()->createEntity ( getName() + ".OgreEntity", desc.mesh_data_provider->getResource().getData<Ogre::MeshPtr>() );
+			}
+			else
+			{
+				if(desc.throw_exception_on_missing_mesh_data){
+					LOG_ERROR( log_helper, "No mesh data provider found!" );
+					throw NoMeshDataProvidedException("No mesh data provided to construct renderable component");
+				}
+				else
+				{
+					LOG_ERROR ( log_helper, "No mesh data provider found. Using substitute mesh (Ogre::PT_SPHERE) instead");
+					entity = render_system->getSceneManager()->createEntity ( getName() + ".OgreEntity", Ogre::SceneManager::PT_SPHERE );
+				}
+			}
 
-			entity->setMaterialName ( descriptor.material_name );
+			entity->setMaterialName ( desc.material_desc.name );
 
 			LOG_INFO ( log_helper, "Creating OGRE scene node" )
 			scene_node = render_system->getSceneManager()->getRootSceneNode()->createChildSceneNode ( getName() + ".SceneNode" );
 
-			scene_node->setPosition ( OgreVector3Converter::toOgreVector(descriptor.initial_transform.getPosition()) );
+			scene_node->setPosition ( OgreVector3Converter::toOgreVector(desc.initial_transform.getPosition()) );
+			scene_node->setOrientation ( OgreQuaternionConverter::toOgreQuaternion(desc.initial_transform.getOrientation()) );
 		}
 
 		void OgreRenderableComponent::start()
@@ -62,7 +78,7 @@ namespace UnknownEngine
 			: Core::Component ( name ),
 			  render_system ( render_system ),
 			  type ( OGRE_RENDERABLE_COMPONENT_TYPE ),
-			  descriptor ( desc ),
+			  desc ( desc ),
 			  listener ( nullptr ),
 			  engine_context ( engine_context ),
 			  messaging_policies_manager ( engine_context ),

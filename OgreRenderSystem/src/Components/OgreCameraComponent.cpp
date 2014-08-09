@@ -43,8 +43,9 @@ namespace UnknownEngine
 
 			render_subsystem->getRenderWindow()->addViewport ( camera );
 
-			scene_node->setPosition ( 0, 0, 150 );
-			camera->lookAt ( 0, 0, 0 );
+			scene_node->setPosition ( OgreVector3Converter::toOgreVector(desc.initial_transform.getPosition()) );
+			scene_node->setOrientation( OgreQuaternionConverter::toOgreQuaternion(desc.initial_transform.getOrientation()) );
+			if(desc.initial_look_at.is_initialized()) camera->lookAt( OgreVector3Converter::toOgreVector(desc.initial_look_at.get()) );
 		}
 
 		OgreCameraComponent::OgreCameraComponent ( const std::string &name, const OgreCameraComponent::Descriptor &desc, OgreRenderSubsystem *render_subsystem, Core::EngineContext *engine_context )
@@ -54,7 +55,8 @@ namespace UnknownEngine
 			  engine_context ( engine_context ),
 			  listener ( nullptr ),
 			  messaging_policies_manager ( engine_context ),
-			  log_helper(nullptr)
+			  log_helper(nullptr),
+			  desc(desc)
 		{
 			if(desc.log_level > Core::LogMessage::LOG_SEVERITY_NONE)
 			{

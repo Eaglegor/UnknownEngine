@@ -4,6 +4,7 @@
 #include <ComponentType.h>
 #include <MessageSystem/MessagingPoliciesManager.h>
 #include <ExportedMessages/LogMessage.h>
+#include <Transform/Transform.h>
 
 namespace Ogre
 {
@@ -38,6 +39,9 @@ namespace UnknownEngine
 				struct Descriptor
 				{
 					Core::LogMessage::Severity log_level;
+					Core::Transform initial_transform;
+					
+					boost::optional<Math::Vector3> initial_look_at;
 					
 					Descriptor():
 					log_level(Core::LogMessage::LOG_SEVERITY_NONE){}
@@ -64,7 +68,8 @@ namespace UnknownEngine
 				const Core::ComponentType type;
 				OgreCameraComponentListener* listener;
 				Core::MessagingPoliciesManager messaging_policies_manager;
-
+				Descriptor desc;
+				
 				Core::LogHelper *log_helper;
 
 		};

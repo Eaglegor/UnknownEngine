@@ -6,6 +6,7 @@
 #include <Listeners/OgreRenderableComponentListener.h>
 #include <MessageSystem/MessagingPoliciesManager.h>
 #include <ExportedMessages/LogMessage.h>
+#include <Exception.h>
 
 namespace Ogre
 {
@@ -39,19 +40,32 @@ namespace UnknownEngine
 		{
 			public:
 
+				UNKNOWNENGINE_SIMPLE_EXCEPTION(NoMeshDataProvidedException);
+				
 				struct Descriptor
 				{
-					OgreMeshPtrProvider* mesh_data_provider;
-					std::string material_name;
-					Core::Transform initial_transform;
 					
+					struct MaterialDesc
+					{
+						std::string name;
+						
+						MaterialDesc():name("BaseWhiteNoLighting"){};
+					};
+					
+					OgreMeshPtrProvider* mesh_data_provider;
+					
+					Core::Transform initial_transform;
 					Core::LogMessage::Severity log_level;
 
+					MaterialDesc material_desc;
+					
+					bool throw_exception_on_missing_mesh_data;
+					
 					Descriptor() :
-						material_name ( "BaseWhiteNoLighting" ),
 						mesh_data_provider ( nullptr ),
 						initial_transform ( Core::Transform::getIdentity() ),
-						log_level(Core::LogMessage::LOG_SEVERITY_NONE)
+						log_level(Core::LogMessage::LOG_SEVERITY_NONE),
+						throw_exception_on_missing_mesh_data(true)
 					{}
 				};
 
@@ -98,13 +112,12 @@ namespace UnknownEngine
 				const Core::ComponentType type;
 				OgreRenderSubsystem* render_system;
 				OgreRenderableComponentListener* listener;
-				OgreMeshPtrProvider* mesh_data_provider;
 				Ogre::Entity* entity;
 				Ogre::SceneNode* scene_node;
 				Core::EngineContext* engine_context;
 				Core::MessagingPoliciesManager messaging_policies_manager;
 
-				Descriptor descriptor;
+				Descriptor desc;
 
 				Core::LogHelper* log_helper;
 		};

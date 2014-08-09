@@ -23,7 +23,19 @@ namespace UnknownEngine
 			ogre_log_manager->createLog(desc.ogre_log_filename, true, false, false);
 
 			root = new Ogre::Root ( desc.ogre_plugins_filename, desc.ogre_config_filename, desc.ogre_log_filename );
-			root->showConfigDialog();
+			
+			if(desc.show_config_dialog)
+			{
+				root->showConfigDialog();
+			}
+			else
+			{
+				if(!root->restoreConfig())
+				{
+					root->showConfigDialog();
+				}
+			}
+			
 			scene_manager = root->createSceneManager ( Ogre::ST_GENERIC );
 			render_window = root->initialise ( true, desc.render_window_name );
 		}

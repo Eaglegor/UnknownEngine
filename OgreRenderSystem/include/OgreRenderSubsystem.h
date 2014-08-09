@@ -34,11 +34,14 @@ namespace UnknownEngine
 					std::string ogre_log_filename;
 					std::string render_window_name;
 					
+					bool show_config_dialog;
+					
 					Descriptor() :
 						render_window_name ( "Untitled window" ),
 						ogre_config_filename ( "ogre.cfg" ),
 						ogre_log_filename ( "Ogre.log" ),
-						ogre_plugins_filename ( "plugins.cfg" )
+						ogre_plugins_filename ( "plugins.cfg" ),
+						show_config_dialog(false)
 					{}
 
 				};
