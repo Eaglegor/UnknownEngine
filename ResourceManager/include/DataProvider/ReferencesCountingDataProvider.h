@@ -15,7 +15,7 @@ namespace UnknownEngine {
 		ReferencesCountingDataProvider(const std::string &name);
 
 		/// Returns the loaded data increasing the references counter
-        virtual const ResourceContainer& getResource() const = 0;
+        virtual const ResourceContainer& getResource() = 0;
 
 		/// Decreases references counter
 		RESOURCEMANAGER_EXPORT
@@ -23,7 +23,7 @@ namespace UnknownEngine {
 
 		/// Returns true if there are no references to this provider
 		RESOURCEMANAGER_EXPORT
-		virtual bool mayBeDestructed();
+		virtual bool mayBeDestructed() const override;
 
       protected:
 		/// Increases the references counter

@@ -17,6 +17,11 @@ namespace UnknownEngine
 		class TextureCoordinateType: private Math::Vector3
 		{
 			public:
+				TextureCoordinateType(const Scalar& u, const Scalar &v, const Scalar &w):Math::Vector3(u,v,w)
+				{}
+				
+				TextureCoordinateType(){}
+				
 				UNKNOWNENGINE_INLINE
 				float u()
 				{
@@ -107,21 +112,28 @@ namespace UnknownEngine
 				UNKNOWNENGINE_INLINE
 				void setPosition ( const Math::Vector3& position )
 				{
+					this->position = position;
 				}
 
 				UNKNOWNENGINE_INLINE
 				void setNormal ( const Math::Vector3& normal )
 				{
+					this->normal = normal;
+					this->has_normal = true;
 				}
 
 				UNKNOWNENGINE_INLINE
 				void setTangent ( const Math::Vector3& tangent )
 				{
+					this->tangent = tangent;
+					this->has_tangent = true;
 				}
 
 				UNKNOWNENGINE_INLINE
 				void setTextureCoordinate ( const TextureCoordinateType& position )
 				{
+					this->texture_coordinate = texture_coordinate;
+					this->has_texture_coordinate = true;
 				}
 
 				UNKNOWNENGINE_INLINE
