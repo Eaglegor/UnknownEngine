@@ -1,3 +1,5 @@
+#include <stdafx.h>
+
 #include "include/Parsers/OgreSubsystemDescParser.h"
 
 #include <CommonParsers/LexicalCastForBoolAlpha.h>

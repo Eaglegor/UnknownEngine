@@ -1,3 +1,5 @@
+#include <stdafx.h>
+
 #include <Components/OgreCameraComponent.h>
 #include <OgreRenderSubsystem.h>
 #include <OgreSceneManager.h>

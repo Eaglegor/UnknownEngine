@@ -1,3 +1,5 @@
+#include <stdafx.h>
+
 #include <Listeners/OgreCameraComponentListener.h>
 #include <Components/OgreCameraComponent.h>
 #include <MessageSystem/PackedMessage.h>
