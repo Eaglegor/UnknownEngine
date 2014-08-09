@@ -13,6 +13,7 @@
 #include <Factories/AssimpMeshDataProvidersFactory.h>
 #include <EngineContext.h>
 #include <LogHelper.h>
+#include <ResourceManager.h>
 
 namespace UnknownEngine
 {
@@ -56,6 +57,9 @@ namespace UnknownEngine
 			LOG_INFO(log_helper, "Creating Assimp mesh data provider factory");
 			data_provider_factory = new AssimpMeshDataProvidersFactory(log_helper, engine_context);
 			
+			LOG_INFO(log_helper, "Registering mesh data provider factory");
+			engine_context->getResourceManager()->addDataProviderFactory(data_provider_factory);
+			
 			return true;
 		}
 
@@ -63,6 +67,9 @@ namespace UnknownEngine
 		{
 			LOG_INFO(log_helper, "Shutting down Assimp mesh data loader plugin");
 		  
+			LOG_INFO(log_helper, "Unregistering mesh data provider factory");
+			engine_context->getResourceManager()->removeDataProviderFactory(data_provider_factory);
+			
 			LOG_INFO(log_helper, "Destroying Assimp mesh data provider factory");
 			if(data_provider_factory) delete data_provider_factory;
 			
