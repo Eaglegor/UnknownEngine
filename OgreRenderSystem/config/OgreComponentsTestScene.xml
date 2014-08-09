@@ -2,7 +2,7 @@
 
 	<subsystems>
 
-		<subsystem name="Logger" module="libConsoleLogger.so">
+		<subsystem name="Logger" module="ConsoleLogger">
 			<received_messages>
 				<message type="Engine.LogMessage">
 					<receive_policy type="AnyMessageReceivePolicy"/>
@@ -10,7 +10,7 @@
 			</received_messages>
 		</subsystem>
 
-		<subsystem name="Graphics" module="libOgreRenderSystem.so">
+		<subsystem name="Graphics" module="OgreRenderSystem">
 		
 			<received_messages>
 				<message type="Engine.MainLoop.UpdateFrameMessage">
