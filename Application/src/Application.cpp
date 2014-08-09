@@ -7,58 +7,42 @@
 #include <MessageSystem/MessageListenerDesc.h>
 #include <Plugins/PluginsManager.h>
 #include <SubsystemDesc.h>
+#include <boost/program_options.hpp>
 
 using namespace UnknownEngine::Core;
 using namespace UnknownEngine::Loader;
 
-int main()
+int main(int argc, char** argv)
 {
-	Engine engine;
-
-	engine.init();
-
-	{
-	  SubsystemDesc desc;
-	  desc.name = "Logger";
-
-#ifdef _MSC_VER
-	  desc.module_name = "ConsoleLogger.dll";
-#else
-	  desc.module_name = "libConsoleLogger.so";
-#endif
-	  
-	  ReceivedMessageDesc msg;
-	  msg.message_type_name = "Engine.LogMessage";
-	  
-	  desc.received_messages.push_back(msg);
-	  
-	  engine.getPluginsManager()->loadSubsystem(desc);
-	}
-
-	{
-	  SubsystemDesc desc;
-	  desc.name = "Render";
-
-#ifdef _MSC_VER
-	  desc.module_name = "OgreRenderSystem.dll";
-#else
-	  desc.module_name = "libOgreRenderSystem.so";
-#endif
-
-	  desc.creation_options.set<std::string>("render_window_name", "Hello");
-	  desc.creation_options.set<std::string>("ogre_config_filename", "ogre.cfg");
-	  desc.creation_options.set<std::string>("ogre_plugins_filename", "plugins.cfg");
-	  desc.creation_options.set<std::string>("ogre_log_filename", "Ogre.log");
-	  
-	  ReceivedMessageDesc msg;
-	  msg.message_type_name = "Engine.MainLoop.UpdateFrameMessage";
-	  
-	  desc.received_messages.push_back(msg);
-	  
-	  engine.getPluginsManager()->loadSubsystem(desc);
-	}
+	boost::program_options::options_description options_desc("Allowed options");
+	options_desc.add_options()
+	  ("scene", boost::program_options::value<std::string>()->value_name("filename"), "specify the scene file")
+	  ("help", "help message");
+	 
+	boost::program_options::positional_options_description p;
+	p.add("scene", -1);
+		  
+	boost::program_options::variables_map vm;
+	boost::program_options::store(boost::program_options::parse_command_line(argc, argv, options_desc), vm);
+	boost::program_options::store(boost::program_options::command_line_parser(argc, argv).options(options_desc).positional(p).run(), vm);
+	boost::program_options::notify(vm);
 	
-	engine.getPluginsManager()->initSubsystems();
+	
+
+	if(vm.count("help"))
+	{
+	  std::cout << options_desc << std::endl;
+	  return 1;
+	}
+
+	Engine engine;
+	engine.init();
+	
+	if(vm.count("scene"))
+	{
+	  XmlSceneLoader loader(&engine.getContext(), engine.getPluginsManager());
+	  loader.loadScene(vm["scene"].as<std::string>());
+	}
 	
 	engine.start();
 

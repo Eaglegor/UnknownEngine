@@ -17,6 +17,12 @@
 #include <OptionsParser.h>
 #include <ConstantsHolder.h>
 
+#ifdef _MSC_VER
+	#define WIN32_BUILD
+#else
+	#define LINUX_BUILD
+#endif
+
 namespace UnknownEngine
 {
 	namespace Loader
@@ -65,7 +71,13 @@ namespace UnknownEngine
 			scene_loader->getConstantsHolder()->pushScope();
 			Core::SubsystemDesc desc;
 			desc.name = name;
-			desc.module_name = node.get_child ( XMLATTR ).get<std::string> ( Attributes::SUBSYSTEM::MODULE );
+			
+#ifdef WIN32_BUILD
+			desc.module_name = node.get_child ( XMLATTR ).get<std::string> ( Attributes::SUBSYSTEM::MODULE ) + ".dll";
+#else
+			desc.module_name = "lib" + node.get_child ( XMLATTR ).get<std::string> ( Attributes::SUBSYSTEM::MODULE ) + ".so";
+#endif
+			
 			for ( auto & iter : node )
 			{
 				if ( iter.first == Tags::MESSAGE_LISTENER )
