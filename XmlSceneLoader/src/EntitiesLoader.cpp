@@ -22,6 +22,8 @@
 
 
 #include <Objects/Entity.h>
+#include <../ResourceManager/include/DataProvider/DataProviderDesc.h>
+#include <../ResourceManager/include/ResourceManager.h>
 
 #include <iostream>
 
@@ -58,6 +60,9 @@ namespace UnknownEngine
 					scene_loader->getConstantsHolder()->parseAndSaveConstant ( iter.second );
 				}
 			}
+			
+			engine_context->getResourceManager()->cleanup();
+			
 			scene_loader->getConstantsHolder()->popScope();
 		}
 
@@ -129,6 +134,26 @@ namespace UnknownEngine
 		bool EntitiesLoader::createDataProvider ( const ptree &data_provider_node )
 		{
 			scene_loader->getConstantsHolder()->pushScope();
+			
+			Loader::DataProviderDesc desc;
+			desc.name = data_provider_node.get_child(XMLATTR).get<std::string>( Attributes::DATA_PROVIDER::NAME );
+			desc.type = data_provider_node.get_child(XMLATTR).get<std::string>( Attributes::DATA_PROVIDER::TYPE );
+			
+			for( const ptree::value_type &iter : data_provider_node )
+			{
+				if(iter.first == Tags::CONSTANT)
+				{
+					scene_loader->getConstantsHolder()->parseAndSaveConstant( iter.second );
+				}
+				else if (iter.first == Tags::OPTIONS_SECTION)
+				{
+					desc.creation_options = OptionsParser::parseOptions( iter.second, scene_loader->getConstantsHolder() );
+				}
+			}
+
+			IDataProvider* data_provider = engine_context->getResourceManager()->createDataProvider(desc);
+			data_providers[desc.name] = data_provider;
+			
 			scene_loader->getConstantsHolder()->popScope();
 			return false;
 		}
