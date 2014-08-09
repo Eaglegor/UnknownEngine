@@ -64,7 +64,7 @@ namespace UnknownEngine
 				 * @brief Gets the loaded data
 				 * @return Container holding loaded data
 				 */
-                virtual const ResourceContainer& getResource() const = 0;
+                virtual const ResourceContainer& getResource() = 0;
 
 				/**
 				 * @brief Informs data provider that the user doesn't need it's data anymore
