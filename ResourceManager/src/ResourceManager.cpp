@@ -3,6 +3,9 @@
 #include <ResourceManager.h>
 #include <DataProvider/IDataProviderFactory.h>
 #include <DataProvider/DataProviderDesc.h>
+#include <DataProvider/IDataProvider.h>
+
+#include <CoreLogging.h>
 
 namespace UnknownEngine {
 	namespace Core {
@@ -34,9 +37,44 @@ namespace UnknownEngine {
 		{
 			for( auto &factory : data_provider_factories )
 			{
-				if(factory.second->supportsType(desc.type)) return factory.second->createObject(desc);
+				if(factory.second->supportsType(desc.type))
+				{	
+					Loader::IDataProvider* data_provider = factory.second->createObject(desc);
+					data_providers.push_back(data_provider);
+					return data_provider;
+				}
 			}
 			throw NoSuitableFactoryFoundException("Can't find factory to create data provider");
+		}
+		
+		bool ResourceManager::removeDataProvider ( Loader::IDataProvider* data_provider )
+		{
+			if(data_provider == nullptr) return true;
+			if(!data_provider->mayBeDestructed()) return false;
+			
+			for( auto &factory : data_provider_factories )
+			{
+				if(factory.second->supportsType(data_provider->getType()))
+				{	
+					CORE_SUBSYSTEM_INFO ( "Destroying data provider  '" + data_provider->getName() + "'" );
+					auto iter = std::find ( data_providers.begin(), data_providers.end(), data_provider );
+					if ( iter != data_providers.end() ) *iter = nullptr;
+					factory.second->destroyObject(data_provider);
+					
+					return true;
+				}
+			}
+			
+			return false;
+		}
+
+		
+		void ResourceManager::cleanup()
+		{
+			for(size_t i = 0; i < data_providers.size(); ++i)
+			{
+				removeDataProvider(data_providers[i]);
+			}
 		}
 
 	} // namespace Core

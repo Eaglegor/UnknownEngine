@@ -68,9 +68,25 @@ namespace UnknownEngine {
 				RESOURCEMANAGER_EXPORT
 				Loader::IDataProvider* createDataProvider(const Loader::DataProviderDesc &desc) throw (NoSuitableFactoryFoundException);
 
+				/**
+				 * @brief Removes specified data provider is it's allowed
+				 * @param data_provider - Data provider to be removed
+				 * @return True if data provider was removed. False otherwise (data provider may be used by someone else)
+				 */
+				RESOURCEMANAGER_EXPORT
+				bool removeDataProvider(Loader::IDataProvider* data_provider);
+				
+				/**
+				 * @brief Removes all data providers which may be removed
+				 */
+				RESOURCEMANAGER_EXPORT
+				void cleanup();
+								
 			private:
 				/// Registered data provider factories
 				std::unordered_map<NumericIdentifierType, Loader::IDataProviderFactory*> data_provider_factories;
+				
+				std::vector<Loader::IDataProvider*> data_providers;
 
 				/// Internal dictionary implementation
 				Utils::Dictionary<NumericIdentifierType, std::string> internal_dictionary;
