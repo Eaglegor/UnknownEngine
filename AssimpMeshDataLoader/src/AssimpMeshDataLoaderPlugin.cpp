@@ -54,7 +54,7 @@ namespace UnknownEngine
 			LOG_INFO(log_helper, "Initializing Assimp mesh data loader plugin")
 
 			LOG_INFO(log_helper, "Creating Assimp mesh data provider factory");
-			data_provider_factory = new AssimpMeshDataProvidersFactory(log_helper);
+			data_provider_factory = new AssimpMeshDataProvidersFactory(log_helper, engine_context);
 			
 			return true;
 		}

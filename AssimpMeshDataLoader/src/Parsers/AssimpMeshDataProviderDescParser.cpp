@@ -1,5 +1,6 @@
 #include <Parsers/AssimpMeshDataProviderDescParser.h>
 #include <CommonParsers/LexicalCastForBoolAlpha.h>
+#include <LogHelper.h>
 
 namespace UnknownEngine
 {
@@ -12,6 +13,7 @@ namespace UnknownEngine
 		namespace GLOBAL_OPTIONS
 		{
 			const std::string FILENAME = "filename"; // required
+			const std::string LOG_LEVEL = "log_level"; // optional
 		}
 		
 		namespace POSTPROCESSING
@@ -44,6 +46,9 @@ namespace UnknownEngine
 				OptionalStringOption triangulate = postprocessing_section->get_optional<std::string>(POSTPROCESSING::OPTIONS::TRIANGULATE);
 				if(triangulate.is_initialized()) desc.postprocessing.triangulate = boost::lexical_cast<bool>(triangulate.get());
 			}
+			
+			OptionalStringOption log_level = props.get_optional<std::string>(GLOBAL_OPTIONS::LOG_LEVEL);
+			if(log_level.is_initialized()) desc.log_level = Core::LogHelper::parseLogLevel(log_level.get());
 			
 			return desc;
 		}
