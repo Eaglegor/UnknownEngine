@@ -43,7 +43,7 @@ namespace UnknownEngine
 
 				UNKNOWNENGINE_SIMPLE_EXCEPTION(NoMeshDataProvidedException);
 				
-				struct Descriptor
+				UNKNOWNENGINE_ALIGNED_STRUCT(16) Descriptor
 				{
 					
 					struct MaterialDesc
@@ -62,6 +62,8 @@ namespace UnknownEngine
 					
 					bool throw_exception_on_missing_mesh_data;
 					
+					UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
+
 					Descriptor() :
 						mesh_data_provider ( nullptr ),
 						initial_transform ( Core::Transform::getIdentity() ),

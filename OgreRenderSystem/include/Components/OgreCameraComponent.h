@@ -37,13 +37,15 @@ namespace UnknownEngine
 		{
 			public:
 
-				struct Descriptor
+				UNKNOWNENGINE_ALIGNED_STRUCT(16) Descriptor
 				{
 					Core::LogMessage::Severity log_level;
 					Core::Transform initial_transform;
 					
 					boost::optional<Math::Vector3> initial_look_at;
 					
+					UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
+
 					Descriptor():
 					log_level(Core::LogMessage::LOG_SEVERITY_NONE){}
 				};

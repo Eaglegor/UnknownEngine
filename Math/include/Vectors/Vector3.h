@@ -4,6 +4,7 @@
 #include <AlignedNew.h>
 #include <InlineSpecification.h>
 #include <Scalar.h>
+#include <boost/any.hpp>
 
 namespace UnknownEngine
 {
@@ -48,5 +49,9 @@ namespace UnknownEngine
 				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
 		};
+
 	}
 }
+
+#include <AlignedAnyHolder.h>
+ALIGNED_BOOST_ANY_HOLDER(UnknownEngine::Math::Vector3)
