@@ -3,12 +3,13 @@
 #include <InlineSpecification.h>
 #include <Quaternion.h>
 #include <Vectors/Vector3.h>
+#include <AlignedNew.h>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
-		struct Transform
+		UNKNOWNENGINE_ALIGNED_STRUCT(16) Transform
 		{
 			public:
 
@@ -56,7 +57,7 @@ namespace UnknownEngine
 					return Transform();
 				}
 
-				EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
+				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
 			private:
 				Math::Vector3 position;
@@ -67,3 +68,6 @@ namespace UnknownEngine
 
 	}
 }
+
+#include <AlignedAnyHolder.h>
+ALIGNED_BOOST_ANY_HOLDER(UnknownEngine::Core::Transform)

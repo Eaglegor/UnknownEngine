@@ -15,7 +15,7 @@ namespace UnknownEngine {
 	{
 		class IDataProviderFactory;
 		class IDataProvider;
-		class DataProviderDesc;
+		struct DataProviderDesc;
 	}
 
 	namespace Core {

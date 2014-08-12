@@ -15,7 +15,7 @@ namespace UnknownEngine
 	{
 
 		class Component;
-		class ComponentDesc;
+		struct ComponentDesc;
 
 		/**
 		 * @brief Factory to create components
