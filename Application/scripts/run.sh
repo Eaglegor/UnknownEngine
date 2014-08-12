@@ -1,3 +1,3 @@
 #!/bin/bash
 
-LD_LIBRARY_PATH=. ./Application --scene $1
+LD_LIBRARY_PATH=. ./Application $1
