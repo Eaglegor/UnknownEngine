@@ -18,7 +18,7 @@ namespace UnknownEngine
 	{
 
 		class Plugin;
-		class SubsystemDesc;
+		struct SubsystemDesc;
 		class EngineContext;
 
 		/**
