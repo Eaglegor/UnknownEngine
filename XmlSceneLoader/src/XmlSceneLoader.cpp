@@ -50,10 +50,10 @@ namespace UnknownEngine
 
 			parseGlobalConstants ( scene_root.get() );
 
-			boost::optional<ptree&> engine_settings = scene_root.get().get_child_optional ( Tags::ENGINE_SECTION );
-			if ( engine_settings.is_initialized() )
+			boost::optional<ptree&> templates_list = scene_root.get().get_child_optional ( Tags::TEMPLATES_SECTION );
+			if ( templates_list.is_initialized() )
 			{
-				processEngineSettings ( engine_settings.get() );
+				processTemplates ( templates_list.get() );
 			}
 
 			boost::optional<ptree&> subsystems_list = scene_root.get().get_child_optional ( Tags::SUBSYSTEMS_SECTION );
@@ -70,21 +70,17 @@ namespace UnknownEngine
 
 		}
 
-		void XmlSceneLoader::processEngineSettings ( const boost::property_tree::ptree& node )
+		void XmlSceneLoader::processTemplates ( const boost::property_tree::ptree& node )
 		{
-			boost::optional<const ptree&> templates_list = node.get_child_optional ( Tags::TEMPLATES_SECTION );
-			if ( templates_list.is_initialized() )
+			templates_manager = new TemplatesManager();
+			for ( const ptree::value_type & iter : node )
 			{
-				templates_manager = new TemplatesManager();
-				for ( const ptree::value_type & iter : templates_list.get() )
+				if ( iter.first == Tags::TEMPLATE )
 				{
-					if ( iter.first == Tags::TEMPLATE )
-					{
-						const ptree &attrs = iter.second.get_child ( XMLATTR );
-						const std::string template_name = attrs.get<std::string> ( Attributes::TEMPLATE::NAME );
-						const std::string template_filename = attrs.get<std::string> ( Attributes::TEMPLATE::FILENAME );
-						templates_manager->loadTemplate ( template_name, template_filename );
-					}
+					const ptree &attrs = iter.second.get_child ( XMLATTR );
+					const std::string template_name = attrs.get<std::string> ( Attributes::TEMPLATE::NAME );
+					const std::string template_filename = attrs.get<std::string> ( Attributes::TEMPLATE::FILENAME );
+					templates_manager->loadTemplate ( template_name, template_filename );
 				}
 			}
 		}
@@ -121,7 +117,7 @@ namespace UnknownEngine
 
 		TemplatesManager* XmlSceneLoader::getTemplatesManager()
 		{
-			if ( templates_manager == nullptr ) throw NoTemplatesLoaded ( "No templates loaded" );
+			if ( templates_manager == nullptr ) throw NoTemplatesLoaded ( "No templates defined in scene file" );
 			return templates_manager;
 		}
 

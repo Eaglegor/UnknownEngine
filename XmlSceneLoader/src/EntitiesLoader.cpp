@@ -54,7 +54,15 @@ namespace UnknownEngine
 				{
 					const std::string name = iter.second.get_child ( XMLATTR ).get<std::string> ( Attributes::TEMPLATED_ENTITY::NAME );
 					const std::string template_name = iter.second.get_child ( XMLATTR ).get<std::string> ( Attributes::TEMPLATED_ENTITY::TEMPLATE_NAME );
-					loadEntity ( name, scene_loader->getTemplatesManager()->getTemplate ( template_name ) );
+					boost::optional<const ptree&> entity_start = scene_loader->getTemplatesManager()->getTemplate ( template_name ).get_child_optional("entity");
+					if(entity_start.is_initialized())
+					{
+						loadEntity ( name, entity_start.get() );
+					}
+					else
+					{
+						throw InvalidTemplatedEntityFormat("Can't find <entity> node in templated entity file for templated entity '" + name + "'");
+					}
 				}
 				else if ( iter.first == Tags::CONSTANT )
 				{
@@ -91,7 +99,16 @@ namespace UnknownEngine
 				{
 					const std::string name = iter.second.get_child ( XMLATTR ).get<std::string> ( Attributes::TEMPLATED_COMPONENT::NAME );
 					const std::string template_name = iter.second.get_child ( XMLATTR ).get<std::string> ( Attributes::TEMPLATED_COMPONENT::TEMPLATE_NAME );
-					loadComponent ( entity, name, scene_loader->getTemplatesManager()->getTemplate ( template_name ) );
+
+					boost::optional<const ptree&> component_start = scene_loader->getTemplatesManager()->getTemplate ( template_name ).get_child_optional("component");
+					if(component_start.is_initialized())
+					{
+						loadComponent ( entity, name, component_start.get() );
+					}
+					else
+					{
+						throw InvalidTemplatedComponentFormat("Can't find <component> node in templated component file for templated component'" + name +"'");
+					}
 				}
 				else if ( iter.first == Tags::CONSTANT )
 				{
