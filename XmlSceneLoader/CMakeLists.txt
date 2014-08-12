@@ -2,7 +2,7 @@ set(TARGET_NAME XmlSceneLoader)
 set(LINKAGE SHARED)
 
 set(INCLUDED_MODULE_HEADERS XmlSceneLoader SceneLoader Plugins ResourceManager ComponentSystem Engine Utils )
-set(LINKED_LIBS Plugins ComponentSystem )
+set(LINKED_LIBS Plugins ComponentSystem ResourceManager )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 
 find_package(Boost 1.55.0 REQUIRED COMPONENTS regex)
