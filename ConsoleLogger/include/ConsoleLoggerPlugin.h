@@ -10,7 +10,7 @@ namespace UnknownEngine
 
 	namespace Core
 	{
-		class SubsystemDesc;
+		struct SubsystemDesc;
 		class EngineContext;
 	}
 

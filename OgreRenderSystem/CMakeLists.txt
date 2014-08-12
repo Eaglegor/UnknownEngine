@@ -27,5 +27,7 @@ if(OGRE_FOUND)
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/config/plugins.cfg DESTINATION ${EXECUTABLE_DEPLOY_DIR})
   endif(WIN32)
 
+  include(${MODULE_TEMPLATE_CMAKELISTS_FILE})
+  
 endif(OGRE_FOUND)
 

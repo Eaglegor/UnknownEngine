@@ -7,6 +7,7 @@
 #include <MessageSystem/MessagingPoliciesManager.h>
 #include <ExportedMessages/LogMessage.h>
 #include <Exception.h>
+#include <AlignedNew.h>
 
 namespace Ogre
 {
@@ -19,10 +20,10 @@ namespace UnknownEngine
 
 	namespace Core
 	{
-		class TransformChangedMessage;
+		struct TransformChangedMessage;
 		class IMessageListener;
 		class EngineContext;
-		class ReceivedMessageDesc;
+		struct ReceivedMessageDesc;
 		class LogHelper;
 	}
 
@@ -31,7 +32,7 @@ namespace UnknownEngine
 
 		class OgreRenderSubsystem;
 		class OgreMeshPtrProvider;
-		class ChangeMaterialActionMessage;
+		struct ChangeMaterialActionMessage;
 		class OgreRenderableComponentListener;
 
 		const Core::ComponentType OGRE_RENDERABLE_COMPONENT_TYPE = "Graphics.Renderable";
@@ -107,6 +108,8 @@ namespace UnknownEngine
 				virtual ~OgreRenderableComponent();
 
 				virtual void addReceivedMessageType ( const Core::ReceivedMessageDesc &received_message );
+
+				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
 			private:
 				const Core::ComponentType type;

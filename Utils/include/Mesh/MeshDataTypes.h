@@ -37,7 +37,7 @@ namespace UnknownEngine
 				UNKNOWNENGINE_INLINE
 				float w()
 				{
-					return w();
+					return z();
 				}
 
 				UNKNOWNENGINE_INLINE

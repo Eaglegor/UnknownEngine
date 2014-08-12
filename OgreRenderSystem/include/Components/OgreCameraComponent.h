@@ -5,6 +5,7 @@
 #include <MessageSystem/MessagingPoliciesManager.h>
 #include <ExportedMessages/LogMessage.h>
 #include <Transform/Transform.h>
+#include <AlignedNew.h>
 
 namespace Ogre
 {
@@ -18,8 +19,8 @@ namespace UnknownEngine
 	namespace Core
 	{
 		class EngineContext;
-		class TransformChangedMessage;
-		class ReceivedMessageDesc;
+		struct TransformChangedMessage;
+		struct ReceivedMessageDesc;
 		class LogHelper;
 	}
 
@@ -28,7 +29,7 @@ namespace UnknownEngine
 
 		class OgreRenderSubsystem;
 		class OgreCameraComponentListener;
-		class CameraLookAtActionMessage;
+		struct CameraLookAtActionMessage;
 
 		const Core::ComponentType OGRE_CAMERA_COMPONENT_TYPE = "Graphics.Camera";
 
@@ -59,6 +60,8 @@ namespace UnknownEngine
 				virtual ~OgreCameraComponent();
 
 				virtual void addReceivedMessageType ( const Core::ReceivedMessageDesc &received_message );
+
+				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
 			private:
 				OgreRenderSubsystem *render_subsystem;

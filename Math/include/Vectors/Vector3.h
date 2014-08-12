@@ -9,7 +9,7 @@ namespace UnknownEngine
 {
 	namespace Math
 	{
-		class Vector3: public Eigen::Matrix<Scalar, 3, 1>
+		UNKNOWNENGINE_ALIGNED_CLASS(16) Vector3: public Eigen::Matrix<Scalar, 3, 1>
 		{
 			public:
 

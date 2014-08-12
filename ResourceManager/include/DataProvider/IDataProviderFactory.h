@@ -13,7 +13,7 @@ namespace UnknownEngine {
 	namespace Loader {
 
 		class IDataProvider;
-		class DataProviderDesc;
+		struct DataProviderDesc;
 
 		/**
 		 * @brief The factory of data providers
