@@ -1,14 +1,16 @@
 #pragma once
 
 #include <Eigen/Dense>
+#include <AlignedNew.h>
 #include <InlineSpecification.h>
 #include <Scalar.h>
+#include <boost/any.hpp>
 
 namespace UnknownEngine
 {
 	namespace Math
 	{
-		class Vector3: public Eigen::Matrix<Scalar, 3, 1>
+		UNKNOWNENGINE_ALIGNED_CLASS(16) Vector3: public Eigen::Matrix<Scalar, 3, 1>
 		{
 			public:
 
@@ -44,6 +46,12 @@ namespace UnknownEngine
 				UNKNOWNENGINE_INLINE
 				void setZ(const Scalar &new_z){(*this)(2) = new_z;}
 
+				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
+
 		};
+
 	}
 }
+
+#include <AlignedAnyHolder.h>
+ALIGNED_BOOST_ANY_HOLDER(UnknownEngine::Math::Vector3)

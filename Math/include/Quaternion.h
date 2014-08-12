@@ -1,6 +1,7 @@
 #pragma once
 
 #include <InlineSpecification.h>
+#include <AlignedNew.h>
 #include <Eigen/Geometry>
 #include <Scalar.h>
 
@@ -39,6 +40,13 @@ namespace UnknownEngine
 
 			UNKNOWNENGINE_INLINE
 			void setW(const Scalar &new_w){this->w() = new_w;}
+
+			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
+
 		};
 	}
 }
+
+
+#include <AlignedAnyHolder.h>
+ALIGNED_BOOST_ANY_HOLDER(UnknownEngine::Math::Quaternion)
