@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Eigen/Dense>
+#include <AlignedNew.h>
 #include <InlineSpecification.h>
 #include <Scalar.h>
 
@@ -43,6 +44,8 @@ namespace UnknownEngine
 
 				UNKNOWNENGINE_INLINE
 				void setZ(const Scalar &new_z){(*this)(2) = new_z;}
+
+				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
 		};
 	}
