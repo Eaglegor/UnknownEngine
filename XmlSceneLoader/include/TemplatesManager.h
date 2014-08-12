@@ -8,6 +8,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <unordered_set>
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
@@ -28,27 +29,26 @@ namespace UnknownEngine
 		class TemplatesManager
 		{
 			public:
+
+				UNKNOWNENGINE_SIMPLE_EXCEPTION(DuplicateTemplateAliasName);
+
 				TemplatesManager();
 				virtual ~TemplatesManager();
 
-				UNKNOWNENGINE_INLINE
-				void loadTemplate ( const std::string &template_name, const std::string &filename )
-				{
-					boost::property_tree::ptree template_root;
-					boost::property_tree::read_xml ( filename, template_root );
-					templates[template_name] = template_root;
-				}
+				void loadTemplate ( const std::string &template_name, const std::string &filename );
 
 				UNKNOWNENGINE_INLINE
-				boost::property_tree::ptree getTemplate ( const std::string &template_name ) throw ( TemplateNotFound )
+				const boost::property_tree::ptree &getTemplate ( const std::string &template_name ) throw ( TemplateNotFound )
 				{
-					auto found = templates.find ( template_name );
-					if ( found == templates.end() ) throw TemplateNotFound ( "Requested template not found" );
-					return found->second;
+					auto found = aliases.find ( template_name );
+					if ( found == aliases.end() ) throw TemplateNotFound ( "Requested template not found" );
+					return templates[found->second];
 				}
 
+			private:
 				std::unordered_map<std::string, boost::property_tree::ptree> templates;
-
+				std::unordered_map<std::string, std::string> aliases;
+				std::unordered_set<std::string> loaded_template_files;
 		};
 
 	} /* namespace Core */

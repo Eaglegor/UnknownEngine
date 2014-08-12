@@ -8,6 +8,7 @@
 #pragma once
 
 #include <boost/property_tree/ptree_fwd.hpp>
+#include <Exception.h>
 #include <unordered_map>
 
 namespace UnknownEngine
@@ -31,6 +32,10 @@ namespace UnknownEngine
 		class EntitiesLoader
 		{
 			public:
+
+				UNKNOWNENGINE_SIMPLE_EXCEPTION(InvalidTemplatedEntityFormat);
+				UNKNOWNENGINE_SIMPLE_EXCEPTION(InvalidTemplatedComponentFormat);
+
 				EntitiesLoader ( Core::EngineContext* engine_context, XmlSceneLoader* scene_loader ) :
 					engine_context ( engine_context ), scene_loader ( scene_loader )
 				{
