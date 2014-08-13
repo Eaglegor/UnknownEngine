@@ -233,6 +233,7 @@ namespace UnknownEngine
 				}
 
 			private:
+				
 				InternalMapType values_map; ///< Actual properties map implementation
 
 		};
