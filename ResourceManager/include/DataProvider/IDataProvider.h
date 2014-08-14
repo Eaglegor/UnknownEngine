@@ -10,14 +10,10 @@
 #include <string>
 #include <DataProvider/DataProviderType.h>
 #include <InlineSpecification.h>
+#include <Properties/Properties_fwd.h>
 
 namespace UnknownEngine
 {
-
-    namespace Core
-    {
-        class Properties;
-    }
 
 	namespace Loader
 	{
