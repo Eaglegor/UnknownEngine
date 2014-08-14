@@ -52,6 +52,12 @@ namespace UnknownEngine
 			
 		public:
 			
+			/**
+			* @brief Returns a value of specified type or throws exception
+			* @param name - key of property to get
+			* @return const reference to the property value
+			* @throw PropertyNotFoundException - is thrown if no property with given name is found
+			*/
 			UNKNOWNENGINE_INLINE
 			template<typename V>
 			const V& get(const K& name) const throw (PropertyNotFoundException)
@@ -61,6 +67,11 @@ namespace UnknownEngine
 				return *pointer;
 			}
 			
+			/**
+			* @brief Returns a value of specified type or default value
+			* @param name - key of property to get
+			* @return const reference to the property value or default value if property not found
+			*/
 			UNKNOWNENGINE_INLINE
 			template<typename V>
 			const V& get(const K& name, const V& default_value) const
@@ -70,6 +81,11 @@ namespace UnknownEngine
 				return *pointer;
 			}
 			
+			/**
+			* @brief Returns boost::optional optionally containing requested property value
+			* @param name - key of property to get
+			* @return boost::optional containing const reference to the requested value. Is empty if no property is found by key.
+			*/
 			UNKNOWNENGINE_INLINE
 			template<typename V>
 			const boost::optional<const V&> get_optional(const K& name) const
@@ -79,6 +95,11 @@ namespace UnknownEngine
 				return boost::optional<const V&>(*pointer);
 			}
 			
+			/**
+			* @brief Returns a pointer to the value of specified type or nullptr
+			* @param name - key of property to get
+			* @return Const pointer to the requested value or nullptr if property is not found by key
+			*/
 			UNKNOWNENGINE_INLINE
 			template<typename V>
 			const V* get_pointer(const K& name) const
@@ -94,22 +115,49 @@ namespace UnknownEngine
 				return pointer;
 			}
 			
+			/**
+			* @brief Returns nested properties tree or throws exception
+			* @param name - key of nested tree to get
+			* @return const reference to the nested property tree
+			* @throw PropertyNotFoundException - is thrown if no child with given name is found
+			*/
 			UNKNOWNENGINE_INLINE
 			self_type& get_child(const K& name)
 			{
-				self_type* pointer = get_pointer<self_type>(name);
+				self_type* pointer = get_child_pointer(name);
 				if(pointer == nullptr) throw PropertyNotFoundException("Can't find requested child property: " + name);
 				return *pointer;
 			}
 			
+			/**
+			* @brief Returns nested properties tree or empty boost::optional
+			* @param name - key of nested tree to get
+			* @return boost::optional containing const reference to the requested child. Is empty if no child is found by key.
+			*/
 			UNKNOWNENGINE_INLINE
 			boost::optional<self_type&> get_child_optional(const K& name)
 			{
-				self_type* pointer = get_pointer<self_type>(name);
+				self_type* pointer = get_child_pointer(name);
 				if(pointer == nullptr) return boost::optional<self_type&>();
 				return boost::optional<self_type>(*pointer);
 			}
 			
+			/**
+			* @brief Returns a pointer to the child or nullptr
+			* @param name - key of child to get
+			* @return Pointer to the requested child or nullptr if child is not found by key
+			*/
+			UNKNOWNENGINE_INLINE
+			self_type* get_child_pointer(const K& name)
+			{
+				return get_pointer<self_type>(name);
+			}
+
+			/**
+			* @brief Sets the property value
+			* @param name - key of property to set
+			* @param value - new value of property
+			*/
 			UNKNOWNENGINE_INLINE
 			template<typename V>
 			void set(const K& name, const V& value)
