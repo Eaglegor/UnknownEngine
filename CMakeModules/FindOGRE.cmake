@@ -22,14 +22,30 @@
     STRING(REGEX REPLACE "[\\]" "/" OGRESDK "${OGRESDK}")
     SET(OGRE_INCLUDE_DIRS ${OGRESDK}/include/OGRE)
     SET(OGRE_LIBRARY_DIRS ${OGRESDK}/lib)
-	SET(OGRE_BINARY_DIR ${OGRESDK}/bin)
+
+
+	if(WIN32)
+		if(CMAKE_BUILD_TYPE MATCHES Debug)
+			FIND_PATH(OGRE_BINARY_DIR OgreMain_d.dll ${OGRESDK}/bin/Debug)
+		else()
+			FIND_PATH(OGRE_BINARY_DIR OgreMain.dll ${OGRESDK}/bin/Release ${OGRESDK}/bin)
+		endif()
+	endif(WIN32)
+	
     SET(OGRE_LIBRARIES debug OgreMain_d optimized OgreMain)
     ENDIF (OGRESDK)
     IF (OGRESOURCE)
     MESSAGE(STATUS "Using OGRE built from source")
     SET(OGRE_INCLUDE_DIRS $ENV{OGRE_SRC}/OgreMain/include/OGRE)
     SET(OGRE_LIBRARY_DIRS $ENV{OGRE_SRC}/lib)
-	SET(OGRE_BINARY_DIR $ENV{OGRE_SRC}/bin)
+	if(WIN32)
+		if(CMAKE_BUILD_TYPE MATCHES Debug)
+			FIND_PATH(OGRE_BINARY_DIR OgreMain_d.dll $ENV{OGRE_SRC}/bin/Debug)
+		else()
+			FIND_PATH(OGRE_BINARY_DIR OgreMain.dll $ENV{OGRE_SRC}/bin/Release $ENV{OGRE_SRC}/bin)
+		endif()
+	endif(WIN32)
+
     SET(OGRE_LIBRARIES debug OgreMain_d optimized OgreMain)
     ENDIF (OGRESOURCE)
     ELSE (WIN32) #Unix

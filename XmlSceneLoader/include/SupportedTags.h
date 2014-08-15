@@ -30,7 +30,6 @@ namespace UnknownEngine
 			static const std::string TEMPLATED_ENTITY = "templated_entity";
 			static const std::string TEMPLATED_SUBSYSTEM = "templated_subsystem";
 			static const std::string TEMPLATED_COMPONENT = "templated_component";
-			static const std::string TEMPLATED_OPTIONS_SECTION = "templated_options";
 		}
 
 		namespace Attributes
@@ -116,11 +115,6 @@ namespace UnknownEngine
 				static const std::string TEMPLATE_NAME = "template_name";
 			}
 			namespace TEMPLATED_COMPONENT
-			{
-				static const std::string NAME = "name";
-				static const std::string TEMPLATE_NAME = "template_name";
-			}
-			namespace TEMPLATED_OPTIONS_SECTION
 			{
 				static const std::string NAME = "name";
 				static const std::string TEMPLATE_NAME = "template_name";

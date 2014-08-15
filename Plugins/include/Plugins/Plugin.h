@@ -16,7 +16,7 @@ namespace UnknownEngine
 	{
 
 		class PluginsManager;
-		class SubsystemDesc;
+		struct SubsystemDesc;
 
 		/**
 		 * @brief Loadable subsystem

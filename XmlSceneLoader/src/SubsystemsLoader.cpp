@@ -45,9 +45,15 @@ namespace UnknownEngine
 					const ptree &attrs = iter.second.get_child ( XMLATTR );
 					const std::string template_name = attrs.get<std::string> ( Attributes::TEMPLATED_SUBSYSTEM::TEMPLATE_NAME );
 					const std::string subsystem_name = attrs.get<std::string> ( Attributes::TEMPLATED_SUBSYSTEM::NAME );
-					const ptree &template_root = scene_loader->getTemplatesManager()->getTemplate ( template_name );
-					if ( template_root.begin()->first != Tags::SUBSYSTEM ) throw InvalidSubsystemTemplate ( "Invalid subsystem template found" );
-					loadSubsystem ( subsystem_name, template_root.begin()->second );
+					boost::optional<const ptree &> template_root = scene_loader->getTemplatesManager()->getTemplate ( template_name ).get_child_optional("subsystem");
+					if(template_root.is_initialized())
+					{
+						loadSubsystem (subsystem_name, template_root.get());
+					}
+					else
+					{
+						throw InvalidSubsystemTemplate("Can't find <subsystem> tag in template file for templated subsystem '" + subsystem_name + "'");
+					}
 				}
 				else if ( iter.first == Tags::SUBSYSTEM )
 				{
