@@ -58,8 +58,8 @@ namespace UnknownEngine
 			* @return const reference to the property value
 			* @throw PropertyNotFoundException - is thrown if no property with given name is found
 			*/
-			UNKNOWNENGINE_INLINE
 			template<typename V>
+			UNKNOWNENGINE_INLINE
 			const V& get(const K& name) const throw (PropertyNotFoundException)
 			{
 				const V* pointer = get_pointer<V>(name);
@@ -72,8 +72,8 @@ namespace UnknownEngine
 			* @param name - key of property to get
 			* @return const reference to the property value or default value if property not found
 			*/
-			UNKNOWNENGINE_INLINE
 			template<typename V>
+			UNKNOWNENGINE_INLINE
 			const V& get(const K& name, const V& default_value) const
 			{
 				const V* pointer = get_pointer<V>(name);
@@ -86,8 +86,8 @@ namespace UnknownEngine
 			* @param name - key of property to get
 			* @return boost::optional containing const reference to the requested value. Is empty if no property is found by key.
 			*/
-			UNKNOWNENGINE_INLINE
 			template<typename V>
+			UNKNOWNENGINE_INLINE
 			const boost::optional<const V&> get_optional(const K& name) const
 			{
 				const V* pointer = get_pointer<V>(name);
@@ -100,8 +100,8 @@ namespace UnknownEngine
 			* @param name - key of property to get
 			* @return Const pointer to the requested value or nullptr if property is not found by key
 			*/
-			UNKNOWNENGINE_INLINE
 			template<typename V>
+			UNKNOWNENGINE_INLINE
 			const V* get_pointer(const K& name) const
 			{
 				const auto &iter = values.find(name);
@@ -158,8 +158,8 @@ namespace UnknownEngine
 			* @param name - key of property to set
 			* @param value - new value of property
 			*/
-			UNKNOWNENGINE_INLINE
 			template<typename V>
+			UNKNOWNENGINE_INLINE
 			void set(const K& name, const V& value)
 			{
 				values[name] = value;
