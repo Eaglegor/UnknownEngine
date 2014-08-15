@@ -4,13 +4,12 @@
 #include <NumericIdentifierType.h>
 #include <InlineSpecification.h>
 #include <Exception.h>
+#include <Properties/Properties_fwd.h>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
-
-		class Properties;
 
 		/**
 		 * @brief Base class for object factories creating objects of single base type according to the passed descriptor
