@@ -12,7 +12,7 @@ namespace UnknownEngine
 	{
 		class EngineContext;
 		class IMessageListener;
-		class ReceivedMessageDesc;
+		struct ReceivedMessageDesc;
 		class LogHelper;
 	}
 
