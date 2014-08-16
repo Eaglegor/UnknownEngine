@@ -4,6 +4,7 @@
 #include <DataProvider/DataProviderType.h>
 #include <Properties/Properties.h>
 #include <DescriptorContainer.h>
+#include <Properties/Properties_fwd.h>
 
 namespace UnknownEngine
 {

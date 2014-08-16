@@ -10,13 +10,13 @@
 #include <boost/property_tree/ptree_fwd.hpp>
 #include <Exception.h>
 #include <unordered_map>
+#include <Properties/Properties_fwd.h>
 
 namespace UnknownEngine
 {
 
 	namespace Core
 	{
-		class Properties;
 
 		class EngineContext;
 		class Component;
