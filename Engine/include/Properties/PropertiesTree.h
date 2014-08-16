@@ -128,7 +128,7 @@ namespace UnknownEngine
 							const boost::any* any_val_pointer = boost::get<boost::any>(&internal_iter->second);
 							pointer = boost::any_cast<V>(any_val_pointer);
 						}
-						found = (internal_pointer != nullptr);
+						found = (pointer != nullptr);
 						if(found) internal_pointer = &(*internal_iter);
 					}
 				}
@@ -258,6 +258,7 @@ namespace UnknownEngine
 			 * @brief Returns the iterator pointing to the first value of specified type
 			 */
 			template<typename V>
+			UNKNOWNENGINE_INLINE
 			Iterator<V> begin()
 			{
 				return Iterator<V>(&values);
@@ -267,6 +268,7 @@ namespace UnknownEngine
 			 * @brief Returns the iterator pointing to the end of properties map
 			 */
 			template<typename V>
+			UNKNOWNENGINE_INLINE
 			Iterator<V> end()
 			{
 				return Iterator<V>(&values, values.end());
