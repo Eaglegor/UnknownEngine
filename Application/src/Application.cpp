@@ -28,7 +28,37 @@ int main(int argc, char** argv)
 	boost::program_options::notify(vm);
 	
 	
-
+	Properties props;
+	props.set<float>("f1", 1);
+	props.set<float>("f2", 2);
+	props.set<float>("f3", 3);
+	props.set<std::string>("s1", "111");
+	props.set<std::string>("s2", "222");
+	props.set<std::string>("s3", "333");
+	
+	props.set< std::pair<int,int> >("p1", std::make_pair(1, 1));
+	props.set< std::pair<int,int> >("p2", std::make_pair(2, 2));
+	props.set< std::pair<int,int> >("p3", std::make_pair(3, 3));
+	
+	Properties::Iterator<float> float_iter;
+	Properties::Iterator<std::string> string_iter;
+	Properties::Iterator< std::pair<int,int> > pair_iter;
+	
+	for(float_iter = props.begin<float>(); float_iter!=props.end<float>(); ++float_iter)
+	{
+		std::cout << float_iter->first << " = " << *float_iter->second << std::endl;
+	}
+	
+	for(string_iter = props.begin<std::string>(); string_iter!=props.end<std::string>(); ++string_iter)
+	{
+		std::cout << string_iter->first << " = " << *string_iter->second << std::endl;
+	}
+	
+	for(pair_iter = props.begin< std::pair<int,int> >(); pair_iter!=props.end< std::pair<int,int> >(); ++pair_iter)
+	{
+		std::cout << pair_iter->first << " = " << pair_iter->second->first << ", " << pair_iter->second->second << std::endl;
+	}
+	
 	if(vm.count("help"))
 	{
 	  std::cout << options_desc << std::endl;

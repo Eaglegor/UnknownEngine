@@ -61,34 +61,37 @@ namespace UnknownEngine
 			{
 			public:
 				
-				Iterator():
-				internal_pointer(nullptr)
-				{}
+				Iterator(){}
 				
 				explicit Iterator(PropertiesTree<K>* tree_to_iterate):
 				tree_to_iterate(tree_to_iterate),
-				internal_iter(tree_to_iterate->values.begin()),
-				internal_pointer(nullptr)
+				internal_iter(tree_to_iterate->values.begin())
 				{
-					findNext();
+					findNext(true);
 				};
 				
 				Iterator(const Iterator<V> &iter):
 				tree_to_iterate(iter.tree_to_iterate), 
 				internal_iter(iter.internal_iter),
-				internal_pointer(nullptr)
-				{};
-				
-				std::pair<K, V>& operator*()
+				internal_pointer(iter.internal_pointer)
 				{
-					return *internal_pointer;
+				};
+				
+				std::pair<K, V*>& operator*()
+				{
+					return internal_pointer;
 				}
 				
-				const std::pair<K, V>& operator*() const
+				const std::pair<K, V*>& operator*() const
 				{
-					return *internal_pointer;
+					return internal_pointer;
 				}
 
+				std::pair<K, V*>* operator->()
+				{
+					return &internal_pointer;
+				}
+				
 				Iterator<V>& operator++()
 				{
 					findNext();
@@ -102,41 +105,66 @@ namespace UnknownEngine
 					return result;
 				}
 				
-				bool operator==(const Iterator<V>& rhs)
+				bool operator==(const Iterator<V>& rhs) const
 				{
 					return internal_iter == rhs.internal_iter;
 				}
 				
+				bool operator!=(const Iterator<V>& rhs) const
+				{
+					return !(*this == rhs);
+				}
+				
 				Iterator<V>& operator=(const Iterator<V>& rhs)
 				{
-					this->internal_iter = rhs.intenal_iter;
-					this->tree_to_iterate = rhs.map_to_iterate;
+					if(this == &rhs) return *this;
+					this->internal_iter = rhs.internal_iter;
+					this->tree_to_iterate = rhs.tree_to_iterate;
+					this->internal_pointer = rhs.internal_pointer;
 				}
 				
 			private:
-
+				friend class PropertiesTree<K>;
 				
-				void findNext()
+				typedef typename PropertiesTree<K>::MapType::iterator InternalIteratorType;
+				
+				Iterator(PropertiesTree<K>* tree_to_iterate, InternalIteratorType initial_iter):
+				tree_to_iterate(tree_to_iterate),
+				internal_iter(initial_iter)
+				{
+				};
+				
+				void findNext(bool accept_current = false)
 				{
 					bool found = false;
-					while(!found && internal_iter != tree_to_iterate->end())
+					bool first_time = true;
+					while(!found && internal_iter != tree_to_iterate->values.end())
 					{
-						++internal_iter;
-						V* pointer = boost::get<V>(&internal_iter->second);
-						if(pointer == nullptr)
+						if(!accept_current || !first_time)
 						{
-							const boost::any* any_val_pointer = boost::get<boost::any>(&internal_iter->second);
-							pointer = boost::any_cast<V>(any_val_pointer);
+							++internal_iter;
 						}
-						found = (pointer != nullptr);
-						if(found) internal_pointer = &(*internal_iter);
+						if(internal_iter != tree_to_iterate->values.end())
+						{
+							V* pointer = boost::get<V>(&internal_iter->second);
+							if(pointer == nullptr)
+							{
+								boost::any* any_val_pointer = boost::get<boost::any>(&internal_iter->second);
+								pointer = boost::any_cast<V>(any_val_pointer);
+							}
+							found = (pointer != nullptr);
+							if(found) 
+							{
+								internal_pointer.first = internal_iter->first;
+								internal_pointer.second = pointer;
+							}
+						}
+						first_time = false;
 					}
 				}
 				
-				std::pair<K, V>* internal_pointer;
+				std::pair<K, V*> internal_pointer;
 				PropertiesTree<K>* tree_to_iterate;
-				
-				typedef typename PropertiesTree<K>::MapType::iterator InternalIteratorType;
 				
 				InternalIteratorType internal_iter;
 			};
@@ -261,7 +289,7 @@ namespace UnknownEngine
 			UNKNOWNENGINE_INLINE
 			Iterator<V> begin()
 			{
-				return Iterator<V>(&values);
+				return Iterator<V>(this);
 			}
 			
 			/**
@@ -271,7 +299,7 @@ namespace UnknownEngine
 			UNKNOWNENGINE_INLINE
 			Iterator<V> end()
 			{
-				return Iterator<V>(&values, values.end());
+				return Iterator<V>(this, values.end());
 			}
 			
 		private:
