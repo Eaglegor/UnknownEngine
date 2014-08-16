@@ -87,6 +87,20 @@
 			</component>
 		</entity>
 		
+		<entity name="LightEntity">
+			<component name="LightComponent" type="Graphics.Light.Point">
+				<options_section>
+					
+					<option name="log_level" value="none"/>
+					
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:-50, y:0, z:0)"/>
+					</options_section>
+					
+				</options_section>
+			</component>
+		</entity>
+		
 	</entities>
 	
 </scene>
