@@ -33,8 +33,20 @@ namespace UnknownEngine {
 			namespace OPTIONS
 			{
 				const std::string INTENSITY = "intensity";
-				const std::string ATTENUATION = "attenuation";
-				const std::string COLOR = "color";
+				const std::string DIFFUSE_COLOR = "diffuse_color";
+				const std::string SPECULAR_COLOR = "specular_color";
+				const std::string CAST_SHADOWS = "cast_shadows";
+			}
+			
+			
+			namespace ATTENUATION
+			{
+				const std::string SECTION_NAME = "Attenuation";
+				
+				const std::string RANGE = "Range";
+				const std::string CONSTANT = "Constant";
+				const std::string LINEAR = "Linear";
+				const std::string QUADRATIC = "Quadratic";
 			}
 		}
 		
@@ -45,14 +57,17 @@ namespace UnknownEngine {
 			OptionalOptionsSection light_settings_section = props.get_optional<Core::Properties>(LIGHT_SETTINGS::SECTION_NAME);
 			if(light_settings_section.is_initialized())
 			{
-				OptionalStringOption attenuation = light_settings_section->get_optional<std::string>(LIGHT_SETTINGS::OPTIONS::ATTENUATION);
-				if(attenuation.is_initialized()) desc.attenuation = boost::lexical_cast<Math::Scalar>(attenuation.get());
+				//OptionalStringOption attenuation = light_settings_section->get_optional<std::string>(LIGHT_SETTINGS::OPTIONS::ATTENUATION);
+				//if(attenuation.is_initialized()) desc.attenuation = boost::lexical_cast<Math::Scalar>(attenuation.get());
 					
 				OptionalStringOption intensity = light_settings_section->get_optional<std::string>(LIGHT_SETTINGS::OPTIONS::INTENSITY);
 				if(intensity.is_initialized()) desc.intensity = boost::lexical_cast<Math::Scalar>(intensity.get());
 				
-				OptionalStringOption color = light_settings_section->get_optional<std::string>(LIGHT_SETTINGS::OPTIONS::COLOR);
-				if(color.is_initialized()) desc.color = Utils::Vector3Parser::parse( color.get() ) ;
+				OptionalStringOption diffuse_color = light_settings_section->get_optional<std::string>(LIGHT_SETTINGS::OPTIONS::DIFFUSE_COLOR);
+				if( diffuse_color.is_initialized()) desc.diffuse_color = Utils::Vector3Parser::parse( diffuse_color.get() ) ;
+				
+				OptionalStringOption specular_color = light_settings_section->get_optional<std::string>(LIGHT_SETTINGS::OPTIONS::SPECULAR_COLOR);
+				if( specular_color.is_initialized()) desc.specular_color = Utils::Vector3Parser::parse( specular_color.get() ) ;
 			}
 			
 			OptionalOptionsSection initial_transform_section = props.get_optional<Core::Properties>( INITIAL_TRANSFORM_SECTION::SECTION_NAME );

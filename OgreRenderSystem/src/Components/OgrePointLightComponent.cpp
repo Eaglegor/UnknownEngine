@@ -34,10 +34,15 @@ namespace UnknownEngine
 			ogre_light = render_subsystem->getSceneManager()->createLight(getName() + ".Light");
 			ogre_scene_node = render_subsystem->getSceneManager()->getRootSceneNode()->createChildSceneNode(getName()+".SceneNode");
 			
-			Ogre::ColourValue color = OgreColourValueConverter::toOgreColourValue( desc.color );
-			if(desc.intensity.is_initialized()) color *= desc.intensity.get();
+			Ogre::ColourValue diffuse_color = OgreColourValueConverter::toOgreColourValue( desc.diffuse_color );
+			if(desc.intensity.is_initialized()) diffuse_color *= desc.intensity.get();
 			
-			ogre_light->setDiffuseColour(color);
+			Ogre::ColourValue specular_color = OgreColourValueConverter::toOgreColourValue( desc.specular_color );
+			if(desc.intensity.is_initialized()) specular_color *= desc.intensity.get();
+			
+			ogre_light->setDiffuseColour( diffuse_color );
+			ogre_light->setDiffuseColour( specular_color );
+			ogre_light->setType(Ogre::Light::LT_POINT);
 			
 			ogre_scene_node->setPosition( OgreVector3Converter::toOgreVector(desc.initial_transform.getPosition()) );
 		}

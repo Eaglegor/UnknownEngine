@@ -32,6 +32,7 @@ namespace UnknownEngine
 				const std::string OGRE_CONFIG_FILENAME = "ogre_config_filename"; // optional
 				const std::string OGRE_PLUGINS_FILENAME = "ogre_plugins_filename"; // optional
 				const std::string OGRE_LOG_FILENAME = "ogre_log_filename"; // optional
+				const std::string OGRE_RESOURCES_FILENAME = "ogre_resources_filename"; // optional
 			}
 		}
 		
@@ -56,6 +57,7 @@ namespace UnknownEngine
 				desc.ogre_config_filename = ogre_config_files_section->get<std::string>( CONFIG_FILES_SECTION::OPTIONS::OGRE_CONFIG_FILENAME, desc.ogre_config_filename );
 				desc.ogre_plugins_filename = ogre_config_files_section->get<std::string>( CONFIG_FILES_SECTION::OPTIONS::OGRE_PLUGINS_FILENAME, desc.ogre_plugins_filename );
 				desc.ogre_log_filename = ogre_config_files_section->get<std::string>( CONFIG_FILES_SECTION::OPTIONS::OGRE_LOG_FILENAME, desc.ogre_log_filename );
+				desc.ogre_resources_filename = ogre_config_files_section->get_optional<std::string>( CONFIG_FILES_SECTION::OPTIONS::OGRE_RESOURCES_FILENAME );
 			}
 			
 			OptionalStringOption show_config_dialog = properties.get_optional<std::string>( GLOBAL_OPTIONS::SHOW_CONFIG_DIALOG );

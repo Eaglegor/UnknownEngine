@@ -42,7 +42,8 @@ namespace UnknownEngine
 					boost::optional<Math::Scalar> intensity;
 					boost::optional<Math::Scalar> attenuation;
 					
-					Math::Vector3 color;
+					Math::Vector3 diffuse_color;
+					Math::Vector3 specular_color;
 					Core::Transform initial_transform;
 					
 					Core::LogMessage::Severity log_level;
@@ -52,7 +53,8 @@ namespace UnknownEngine
 					Descriptor():
 					intensity(1.0f),
 					attenuation(1.0f),
-					color(Math::Vector3(1, 1, 1)),
+					diffuse_color(Math::Vector3(1, 1, 1)),
+					specular_color(Math::Vector3(1, 1, 1)),
 					log_level(Core::LogMessage::LOG_SEVERITY_NONE)
 					{}
 				};

@@ -36,6 +36,8 @@ namespace UnknownEngine
 				}
 			}
 			
+			if(desc.ogre_resources_filename.is_initialized()) loadResourcesFile(desc.ogre_resources_filename.get());
+			
 			scene_manager = root->createSceneManager ( Ogre::ST_GENERIC );
 			render_window = root->initialise ( true, desc.render_window_name );
 		}
@@ -58,6 +60,33 @@ namespace UnknownEngine
 
 			ogre_log_manager->destroyLog("DefaultLog");
 			delete ogre_log_manager;
+			
+		}
+
+		void OgreRenderSubsystem::loadResourcesFile ( const std::string& filename )
+		{
+			Ogre::ConfigFile cf;
+			cf.load(filename);
+		
+			// Go through all sections & settings in the file
+			Ogre::ConfigFile::SectionIterator seci = cf.getSectionIterator();
+		
+			Ogre::String secName, typeName, archName;
+			while (seci.hasMoreElements())
+			{
+				secName = seci.peekNextKey();
+				Ogre::ConfigFile::SettingsMultiMap *settings = seci.getNext();
+				Ogre::ConfigFile::SettingsMultiMap::iterator i;
+				for (i = settings->begin(); i != settings->end(); ++i)
+				{
+					typeName = i->first;
+					archName = i->second;
+					Ogre::ResourceGroupManager::getSingleton().addResourceLocation(
+						archName, typeName, secName);
+				}
+			}
+			
+			Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 			
 		}
 
