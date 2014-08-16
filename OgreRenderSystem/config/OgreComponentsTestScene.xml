@@ -100,6 +100,7 @@
 					
 					<options_section name="LightSettings">
 						<option name="intensity" value="100"/>
+						<option name="diffuse_color" value="Vector3(x:1, y:0, z:0)"/>
 					</options_section>
 					
 					<options_section name="InitialTransform">

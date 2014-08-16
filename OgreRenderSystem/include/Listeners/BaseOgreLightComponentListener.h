@@ -8,18 +8,18 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		class OgrePointLightComponent;
+		class BaseOgreLightComponent;
 		
-		class OgrePointLightComponentListener : public UnknownEngine::Graphics::BaseOgreComponentListener<OgrePointLightComponentListener>
+		class BaseOgreLightComponentListener : public UnknownEngine::Graphics::BaseOgreComponentListener<BaseOgreLightComponentListener>
 		{
 			public:
-				OgrePointLightComponentListener ( const std::string& object_name, OgrePointLightComponent* component );
+				BaseOgreLightComponentListener ( const std::string& object_name, BaseOgreLightComponent* component );
 				
 			private:
 				void processTransformChangedMessage ( const Core::PackedMessage &msg );
 				Core::TransformChangedMessageUnpacker transform_changed_unpacker;
 				
-				OgrePointLightComponent* component;
+				BaseOgreLightComponent* component;
 		};
 	}
 }

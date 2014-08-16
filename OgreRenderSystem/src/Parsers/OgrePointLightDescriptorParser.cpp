@@ -1,4 +1,5 @@
 #include <Parsers/OgrePointLightDescriptorParser.h>
+#include <Parsers/OgreLightSettingsParser.h>
 #include <CommonParsers/Vector3Parser.h>
 #include <CommonParsers/QuaternionParser.h>
 #include <LogHelper.h>
@@ -29,25 +30,6 @@ namespace UnknownEngine {
 		namespace LIGHT_SETTINGS
 		{
 			const std::string SECTION_NAME = "LightSettings";
-			
-			namespace OPTIONS
-			{
-				const std::string INTENSITY = "intensity";
-				const std::string DIFFUSE_COLOR = "diffuse_color";
-				const std::string SPECULAR_COLOR = "specular_color";
-				const std::string CAST_SHADOWS = "cast_shadows";
-			}
-			
-			
-			namespace ATTENUATION
-			{
-				const std::string SECTION_NAME = "Attenuation";
-				
-				const std::string RANGE = "Range";
-				const std::string CONSTANT = "Constant";
-				const std::string LINEAR = "Linear";
-				const std::string QUADRATIC = "Quadratic";
-			}
 		}
 		
 		OgrePointLightComponent::Descriptor OgrePointLightDescriptorParser::parse ( const UnknownEngine::Core::Properties& props )
@@ -57,17 +39,7 @@ namespace UnknownEngine {
 			OptionalOptionsSection light_settings_section = props.get_optional<Core::Properties>(LIGHT_SETTINGS::SECTION_NAME);
 			if(light_settings_section.is_initialized())
 			{
-				//OptionalStringOption attenuation = light_settings_section->get_optional<std::string>(LIGHT_SETTINGS::OPTIONS::ATTENUATION);
-				//if(attenuation.is_initialized()) desc.attenuation = boost::lexical_cast<Math::Scalar>(attenuation.get());
-					
-				OptionalStringOption intensity = light_settings_section->get_optional<std::string>(LIGHT_SETTINGS::OPTIONS::INTENSITY);
-				if(intensity.is_initialized()) desc.intensity = boost::lexical_cast<Math::Scalar>(intensity.get());
-				
-				OptionalStringOption diffuse_color = light_settings_section->get_optional<std::string>(LIGHT_SETTINGS::OPTIONS::DIFFUSE_COLOR);
-				if( diffuse_color.is_initialized()) desc.diffuse_color = Utils::Vector3Parser::parse( diffuse_color.get() ) ;
-				
-				OptionalStringOption specular_color = light_settings_section->get_optional<std::string>(LIGHT_SETTINGS::OPTIONS::SPECULAR_COLOR);
-				if( specular_color.is_initialized()) desc.specular_color = Utils::Vector3Parser::parse( specular_color.get() ) ;
+				desc.light_settings = OgreLightSettingsParser::parse(light_settings_section.get());
 			}
 			
 			OptionalOptionsSection initial_transform_section = props.get_optional<Core::Properties>( INITIAL_TRANSFORM_SECTION::SECTION_NAME );
