@@ -9,13 +9,13 @@
 #include <MessageSystem/Policies/MessagePolicyType.h>
 #include <MessageSystem/Policies/IMessageReceivePolicy.h>
 #include <MessageSystem/Policies/IMessageDeliveryPolicy.h>
+#include <Properties/Properties_fwd.h>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
 
-		class Properties;
 		class EngineContext;
 
 		class MessagingPoliciesManager

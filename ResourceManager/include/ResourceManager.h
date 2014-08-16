@@ -8,6 +8,7 @@
 #include <Singleton.h>
 #include <Dictionary.h>
 #include <NoSuitableFactoryFoundException.h>
+#include <Properties/Properties_fwd.h>
 
 namespace UnknownEngine {
 
@@ -19,8 +20,6 @@ namespace UnknownEngine {
 	}
 
 	namespace Core {
-
-		class Properties;
 
 		/**
 		 * @brief Resource manager class
