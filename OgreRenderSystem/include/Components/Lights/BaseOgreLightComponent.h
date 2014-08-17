@@ -7,6 +7,7 @@
 #include <AlignedNew.h>
 #include <Transform/Transform.h>
 #include <ExportedMessages/LogMessage.h>
+#include <OgreColourValue.h>
 
 namespace Ogre
 {
@@ -31,7 +32,7 @@ namespace UnknownEngine
 
 		class OgreRenderSubsystem;
 
-		UNKNOWNENGINE_ALIGNED_STRUCT(16) OgreLightSettings
+		struct OgreLightSettings
 		{
 			struct Attenuation
 			{
@@ -42,16 +43,15 @@ namespace UnknownEngine
 			};
 			
 			boost::optional<Attenuation> attenuation;
+			boost::optional<bool> cast_shadows;
 			
 			Math::Scalar intensity;
-			Math::Vector3 diffuse_color;
-			Math::Vector3 specular_color;
-			
-			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
+			Ogre::ColourValue diffuse_color;
+			Ogre::ColourValue specular_color;
 			
 			OgreLightSettings():
-			diffuse_color(Math::Vector3(1,1,1)),
-			specular_color(Math::Vector3(1,1,1)),
+			diffuse_color(1,1,1),
+			specular_color(1,1,1),
 			intensity(1)
 			{}
 			
@@ -71,23 +71,17 @@ namespace UnknownEngine
 
 				virtual ~BaseOgreLightComponent();
 				
-				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR
-				
 			protected:
 				OgreLightSettings light_settings;
 				Ogre::Light* ogre_light;
 				Ogre::SceneNode* ogre_scene_node;
-				void setLogHelper(Core::LogHelper* log_helper);
+				Core::LogHelper* log_helper;
 
 			private:
 				Core::EngineContext* engine_context;
 				OgreRenderSubsystem* render_subsystem;
 				BaseOgreLightComponentListener* listener;
 				Core::MessagingPoliciesManager messaging_policies_manager;
-				Core::LogHelper* log_helper;
 		};
 	}
 }
-
-#include <AlignedAnyHolder.h>
-ALIGNED_BOOST_ANY_HOLDER(UnknownEngine::Graphics::OgreLightSettings);

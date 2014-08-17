@@ -1,6 +1,6 @@
 #include <stdafx.h>
 
-#include <Components/OgreCameraComponent.h>
+#include <Components/Cameras/OgreCameraComponent.h>
 #include <OgreRenderSubsystem.h>
 #include <OgreSceneManager.h>
 #include <OgreRenderWindow.h>

@@ -1,5 +1,5 @@
 #pragma once
-#include <Components/BaseOgreLightComponent.h>
+#include <Components/Lights/BaseOgreLightComponent.h>
 
 namespace UnknownEngine
 {
@@ -27,12 +27,14 @@ namespace UnknownEngine
 				};
 				
 				OgrePointLightComponent ( const std::string& name, const Descriptor& desc, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context );
+				virtual ~OgrePointLightComponent();
 				virtual Core::ComponentType getType();
 				virtual void init ( const Core::Entity* parent_entity );
 				
+				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
+				
 			private:
 				Descriptor desc;
-				Core::LogHelper* log_helper;
 			
 		};
 	}

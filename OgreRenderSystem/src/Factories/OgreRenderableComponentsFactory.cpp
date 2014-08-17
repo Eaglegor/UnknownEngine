@@ -1,8 +1,8 @@
 #include <stdafx.h>
 
 #include <Factories/OgreRenderableComponentsFactory.h>
-#include <Components/OgreRenderableComponent.h>
-#include <Parsers/OgreRenderableDescriptorParser.h>
+#include <Components/Renderables/OgreRenderableComponent.h>
+#include <Parsers/Descriptors/OgreRenderableDescriptorParser.h>
 #include <OgreRenderSubsystem.h>
 #include <ComponentDesc.h>
 

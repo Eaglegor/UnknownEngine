@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Components/OgreRenderableComponent.h>
+#include <Components/Renderables/OgreRenderableComponent.h>
 #include <Properties/Properties.h>
 
 namespace UnknownEngine

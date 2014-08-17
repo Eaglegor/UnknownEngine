@@ -1,5 +1,5 @@
 #include <Listeners/BaseOgreLightComponentListener.h>
-#include <Components/BaseOgreLightComponent.h>
+#include <Components/Lights/BaseOgreLightComponent.h>
 
 namespace UnknownEngine
 {

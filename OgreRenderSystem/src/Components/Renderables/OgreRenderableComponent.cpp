@@ -1,7 +1,7 @@
 #include <stdafx.h>
 
 #include <Ogre.h>
-#include <Components/OgreRenderableComponent.h>
+#include <Components/Renderables/OgreRenderableComponent.h>
 #include <OgreRenderSubsystem.h>
 #include <DataProviders/OgreMeshPtrProvider.h>
 #include <Listeners/OgreRenderableComponentListener.h>

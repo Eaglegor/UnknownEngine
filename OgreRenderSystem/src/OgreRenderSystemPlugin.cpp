@@ -26,15 +26,12 @@
 #include <Factories/OgreCameraComponentsFactory.h>
 #include <Factories/OgreLightComponentsFactory.h>
 #include <Listeners/OgreUpdateFrameListener.h>
-#include <Parsers/OgreSubsystemDescParser.h>
+#include <Parsers/Descriptors/OgreSubsystemDescParser.h>
 
 #include <LogHelper.h>
 
 #include <Objects/Entity.h>
 #include <Objects/Component.h>
-
-#include <Components/OgreRenderableComponent.h>
-#include <Components/OgreCameraComponent.h>
 
 namespace UnknownEngine
 {

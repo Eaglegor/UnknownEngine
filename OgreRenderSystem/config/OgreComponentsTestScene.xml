@@ -65,6 +65,10 @@
 					<option name="log_level" value="none"/>
 					<option name="throw_exception_on_missing_mesh_data" value="false"/>
 					
+					<options_section name="Material">
+						<option name="material_name" value="Test"/>
+					</options_section>
+					
 					<options_section name="InitialTransform">
 						<option name="position" value="Vector3(x:50, y:0, z:0)"/>
 					</options_section>
@@ -93,14 +97,15 @@
 		</entity>
 		
 		<entity name="LightEntity">
-			<component name="LightComponent" type="Graphics.Light.Point">
+			<component name="LightComponentP" type="Graphics.Light.Point">
 				<options_section>
 					
 					<option name="log_level" value="none"/>
 					
 					<options_section name="LightSettings">
-						<option name="intensity" value="100"/>
-						<option name="diffuse_color" value="Vector3(x:1, y:0, z:0)"/>
+						<option name="intensity" value="1"/>
+						<option name="diffuse_color" value="Colour(r:1, g:0, b:0)"/>
+						<option name="specular_color" value="Colour(r:1, g:0, b:0)"/>
 					</options_section>
 					
 					<options_section name="InitialTransform">
@@ -108,7 +113,47 @@
 					</options_section>
 					
 				</options_section>
+				</component>
+			
+			<component name="LightComponentD" type="Graphics.Light.Directional">
+				<options_section>
+					
+					<option name="log_level" value="none"/>
+					
+					<options_section name="LightSettings">
+						<option name="intensity" value="1"/>
+						<option name="diffuse_color" value="Colour(r:0, g:1, b:0)"/>
+						<option name="specular_color" value="Colour(r:0, g:1, b:0)"/>
+					</options_section>
+					
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:100, y:0, z:0)"/>
+						<option name="initial_look_at" value="Vector3(x:0, y:0, z:0)"/>
+					</options_section>
+					
+				</options_section>
 			</component>
+			
+			<component name="LightComponentS" type="Graphics.Light.Spot">
+				<options_section>
+					
+					<option name="log_level" value="none"/>
+					
+					<options_section name="LightSettings">
+						<option name="intensity" value="1"/>
+						<option name="diffuse_color" value="Colour(r:0, g:1, b:1)"/>
+						<option name="specular_color" value="Colour(r:0, g:1, b:1)"/>
+						<option name="spotlight_outer_angle" value="100"/>
+					</options_section>
+					
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:0, y:0, z:100)"/>
+						<option name="initial_look_at" value="Vector3(x:0, y:0, z:0)"/>
+					</options_section>
+					
+				</options_section>
+			</component>
+			
 		</entity>
 		
 	</entities>

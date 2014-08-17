@@ -3,7 +3,7 @@
 #include <Listeners/OgreRenderableComponentListener.h>
 #include <EngineContext.h>
 #include <MessageSystem/MessageDictionary.h>
-#include <Components/OgreRenderableComponent.h>
+#include <Components/Renderables/OgreRenderableComponent.h>
 
 #define MessageProcessor(processor) &OgreRenderableComponentListener::processor
 

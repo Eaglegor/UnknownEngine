@@ -1,5 +1,5 @@
 #pragma once
-#include <Components/BaseOgreLightComponent.h>
+#include <Components/Lights/BaseOgreLightComponent.h>
 
 namespace UnknownEngine
 {

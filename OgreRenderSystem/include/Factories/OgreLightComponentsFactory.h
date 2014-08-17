@@ -14,6 +14,10 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
+		class OgreSpotLightComponent;
+
+		class OgreDirectionalLightComponent;
+
 		class OgrePointLightComponent;
 
 		class OgreRenderSubsystem;
@@ -37,6 +41,12 @@ namespace UnknownEngine
 			
 			OgrePointLightComponent* createPointLightComponent(const Core::ComponentDesc& desc );
 			void destroyPointLightComponent( Core::Component* object );
+			
+			OgreDirectionalLightComponent* createDirectionalLightComponent(const Core::ComponentDesc& desc );
+			void destroyDirectionalLightComponent( Core::Component* object );
+			
+			OgreSpotLightComponent* createSpotLightComponent ( const Core::ComponentDesc &desc );
+			void destroySpotLightComponent( Core::Component* object);
 		};
 	}
 }
