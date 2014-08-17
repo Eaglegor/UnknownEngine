@@ -40,6 +40,8 @@
 			</options_section>
 			
 		</subsystem>
+		
+		<subsystem name="MeshDataLoader" module="AssimpMeshDataLoader"/>
 	
 	</subsystems>
 
@@ -49,47 +51,95 @@
 			<component type="Graphics.Camera" name="Camera">
 				<options_section>
 					
+					<option name="log_level" value="debug"/>
+					
 					<options_section name="InitialTransform">
-						<option name="position" value="Vector3(x:0, y:0, z:300)"/>
+						<option name="position" value="Vector3(x:0, y:0, z:100)"/>
 						<option name="look_at" value="Vector3(x:0, y:0, z:0)"/>
 					</options_section>
+					
+					<option name="near_clip_distance" value="0.0001"/>
 					
 				</options_section>
 			</component>
 		</entity>
 
+		<data_provider name="TeapotMesh" type="Loader.MeshData.AssimpMeshDataLoader">
+			<options_section>
+				<option name="filename" value="teapot.obj"/>
+				<option name="log_level" value="debug"/>
+				
+				<options_section name="Postprocessing">
+					<option name="generate_normals" value="true"/>
+					<option name="triangulate" value="true"/>
+				</options_section>
+					
+			</options_section>
+		</data_provider>
+		
+		<data_provider name="OgreAdaptedTeapotMesh" type="Loader.OgreMeshPtr.OgreMeshPtrFromMeshDataProvider">
+			<options_section>
+				<provided_data name="mesh_data_provider" data_provider_name="TeapotMesh"/>
+				<option name="log_level" value="none"/>
+			</options_section>
+		</data_provider>
+		
 		<entity name="TestRenderable">
 			<component name="RenderableComponent" type="Graphics.Renderable">
 				<options_section>
 					
 					<option name="log_level" value="none"/>
-					<option name="throw_exception_on_missing_mesh_data" value="false"/>
+					<option name="throw_exception_on_missing_mesh_data" value="true"/>
+					
+					<provided_data name="mesh_ptr_provider" data_provider_name="OgreAdaptedTeapotMesh"/>
 					
 					<options_section name="Material">
 						<option name="material_name" value="Test"/>
 					</options_section>
 					
 					<options_section name="InitialTransform">
-						<option name="position" value="Vector3(x:50, y:0, z:0)"/>
+						<option name="position" value="Vector3(x:0, y:0, z:0)"/>
 					</options_section>
 					
 				</options_section>
 			</component>
 		</entity>
 		
+		<data_provider name="ShuttleMesh" type="Loader.MeshData.AssimpMeshDataLoader">
+			<options_section>
+				<option name="filename" value="shuttle.obj"/>
+				<option name="log_level" value="debug"/>
+				
+				<options_section name="Postprocessing">
+					<option name="generate_normals" value="true"/>
+					<option name="triangulate" value="true"/>
+				</options_section>
+					
+			</options_section>
+		</data_provider>
+		
+		<data_provider name="OgreAdaptedShuttleMesh" type="Loader.OgreMeshPtr.OgreMeshPtrFromMeshDataProvider">
+			<options_section>
+				<provided_data name="mesh_data_provider" data_provider_name="ShuttleMesh"/>
+				<option name="log_level" value="none"/>
+			</options_section>
+		</data_provider>
+		
 		<entity name="TestRenderable2">
 			<component name="RenderableComponent" type="Graphics.Renderable">
 				<options_section>
 					
 					<option name="log_level" value="none"/>
-					<option name="throw_exception_on_missing_mesh_data" value="false"/>
+					<option name="throw_exception_on_missing_mesh_data" value="true"/>
+					
+					<provided_data name="mesh_ptr_provider" data_provider_name="OgreAdaptedShuttleMesh"/>
 					
 					<options_section name="Material">
 						<option name="material_name" value="Test"/>
 					</options_section>
 					
 					<options_section name="InitialTransform">
-						<option name="position" value="Vector3(x:-50, y:0, z:0)"/>
+						<option name="position" value="Vector3(x:3, y:0, z:-200)"/>
 					</options_section>
 					
 				</options_section>
@@ -97,24 +147,7 @@
 		</entity>
 		
 		<entity name="LightEntity">
-			<component name="LightComponentP" type="Graphics.Light.Point">
-				<options_section>
-					
-					<option name="log_level" value="none"/>
-					
-					<options_section name="LightSettings">
-						<option name="intensity" value="1"/>
-						<option name="diffuse_color" value="Colour(r:1, g:0, b:0)"/>
-						<option name="specular_color" value="Colour(r:1, g:0, b:0)"/>
-					</options_section>
-					
-					<options_section name="InitialTransform">
-						<option name="position" value="Vector3(x:-110, y:0, z:50)"/>
-					</options_section>
-					
-				</options_section>
-				</component>
-			
+		
 			<component name="LightComponentD" type="Graphics.Light.Directional">
 				<options_section>
 					
@@ -134,20 +167,19 @@
 				</options_section>
 			</component>
 			
-			<component name="LightComponentS" type="Graphics.Light.Spot">
+			<component name="LightComponentD2" type="Graphics.Light.Directional">
 				<options_section>
 					
 					<option name="log_level" value="none"/>
 					
 					<options_section name="LightSettings">
 						<option name="intensity" value="1"/>
-						<option name="diffuse_color" value="Colour(r:0, g:1, b:1)"/>
-						<option name="specular_color" value="Colour(r:0, g:1, b:1)"/>
-						<option name="spotlight_outer_angle" value="100"/>
+						<option name="diffuse_color" value="Colour(r:0, g:0, b:1)"/>
+						<option name="specular_color" value="Colour(r:0, g:0, b:1)"/>
 					</options_section>
 					
 					<options_section name="InitialTransform">
-						<option name="position" value="Vector3(x:0, y:0, z:100)"/>
+						<option name="position" value="Vector3(x:-100, y:0, z:0)"/>
 						<option name="initial_look_at" value="Vector3(x:0, y:0, z:0)"/>
 					</options_section>
 					

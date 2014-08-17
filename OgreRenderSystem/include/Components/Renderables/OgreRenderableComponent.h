@@ -67,7 +67,7 @@ namespace UnknownEngine
 					Descriptor() :
 						mesh_data_provider ( nullptr ),
 						initial_transform ( Core::Transform::getIdentity() ),
-						log_level(Core::LogMessage::LOG_SEVERITY_NONE),
+						log_level(Core::LogMessage::Severity::LOG_SEVERITY_NONE),
 						throw_exception_on_missing_mesh_data(true)
 					{}
 				};

@@ -14,7 +14,7 @@ namespace UnknownEngine
 		BaseOgreLightComponent ( name, render_subsystem, engine_context, desc.light_settings ), 
 		desc(desc)
 		{
-			if(desc.log_level > Core::LogMessage::LOG_SEVERITY_NONE)
+			if(desc.log_level > Core::LogMessage::Severity::LOG_SEVERITY_NONE)
 			{
 				log_helper = new Core::LogHelper ( getName(), desc.log_level, engine_context );
 			}

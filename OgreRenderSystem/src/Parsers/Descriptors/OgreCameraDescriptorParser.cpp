@@ -17,6 +17,8 @@ namespace UnknownEngine
 		namespace GLOBAL_OPTIONS
 		{
 			const std::string LOG_LEVEL = "log_level"; // optional
+			const std::string NEAR_CLIP_DISTANCE = "near_clip_distance";
+			const std::string FAR_CLIP_DISTANCE = "far_clip_distance";
 		}
 
 		namespace INITIAL_TRANSFORM_SECTION
@@ -43,10 +45,13 @@ namespace UnknownEngine
 			}
 			
 			OptionalStringOption log_level = properties.get_optional<std::string>(GLOBAL_OPTIONS::LOG_LEVEL);
-			if(log_level.is_initialized())
-			{
-				desc.log_level = Core::LogHelper::parseLogLevel(log_level.get());
-			}
+			if(log_level.is_initialized()) desc.log_level = Core::LogHelper::parseLogLevel(log_level.get());
+			
+			OptionalStringOption near_clip_distance = properties.get_optional<std::string>(GLOBAL_OPTIONS::NEAR_CLIP_DISTANCE);
+			if(near_clip_distance.is_initialized()) desc.near_clip_distance = boost::lexical_cast<Math::Scalar>(near_clip_distance.get());
+
+			OptionalStringOption far_clip_distance = properties.get_optional<std::string>(GLOBAL_OPTIONS::FAR_CLIP_DISTANCE);
+			if(far_clip_distance.is_initialized()) desc.far_clip_distance = boost::lexical_cast<Math::Scalar>(far_clip_distance.get());
 			
 			return desc;
 		}

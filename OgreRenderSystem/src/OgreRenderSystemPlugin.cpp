@@ -22,16 +22,21 @@
 #include <OgreRenderSubsystem.h>
 
 #include <ComponentsManager.h>
+
 #include <Factories/OgreRenderableComponentsFactory.h>
 #include <Factories/OgreCameraComponentsFactory.h>
 #include <Factories/OgreLightComponentsFactory.h>
+#include <Factories/OgreMeshPtrDataProvidersFactory.h>
+
 #include <Listeners/OgreUpdateFrameListener.h>
+
 #include <Parsers/Descriptors/OgreSubsystemDescParser.h>
 
 #include <LogHelper.h>
 
 #include <Objects/Entity.h>
 #include <Objects/Component.h>
+#include <ResourceManager.h>
 
 namespace UnknownEngine
 {
@@ -108,6 +113,12 @@ namespace UnknownEngine
 			LOG_INFO ( log_helper, "Registering factory for light components" );
 			engine_context->getComponentsManager()->addComponentFactory ( light_components_factory );
 
+			LOG_INFO ( log_helper, "Creating factory for Ogre::MeshPtr data providers" );
+			mesh_ptr_data_providers_factory = new OgreMeshPtrDataProvidersFactory ( log_helper, engine_context, render_system );
+			
+			LOG_INFO ( log_helper, "Registering factory for Ogre::MeshPtr data providers" );
+			engine_context->getResourceManager()->addDataProviderFactory ( mesh_ptr_data_providers_factory );
+			
 			return true;
 		}
 
@@ -145,6 +156,12 @@ namespace UnknownEngine
 
 			LOG_INFO ( log_helper, "Uninstalling subsystem OGRE render subsystem" );
 
+			LOG_INFO ( log_helper, "Unregistering Ogre::MeshPtr data providers factory" );
+			engine_context->getResourceManager()->removeDataProviderFactory ( mesh_ptr_data_providers_factory );
+
+			LOG_INFO ( log_helper, "Destroying Ogre::MeshPtr data providers factory" );
+			delete mesh_ptr_data_providers_factory;
+			
 			LOG_INFO ( log_helper, "Unregistering camera components factory" );
 			engine_context->getComponentsManager()->removeComponentFactory ( camera_components_factory );
 

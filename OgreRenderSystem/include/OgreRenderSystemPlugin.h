@@ -27,6 +27,8 @@ namespace UnknownEngine
 		class OgreRenderableComponentsFactory;
 		class OgreCameraComponentsFactory;
 		class OgreLightComponentsFactory;
+		class OgreMeshPtrDataProvidersFactory;
+		
 		class OgreUpdateFrameListener;
 
 		class OgreRenderSystemPlugin: public Core::Plugin
@@ -51,9 +53,12 @@ namespace UnknownEngine
 				Core::EngineContext *engine_context;
 
 				OgreRenderSubsystem* render_system;
+				
 				OgreRenderableComponentsFactory* renderable_components_factory;
 				OgreCameraComponentsFactory* camera_components_factory;
 				OgreLightComponentsFactory* light_components_factory;
+				
+				OgreMeshPtrDataProvidersFactory* mesh_ptr_data_providers_factory;
 
 				OgreUpdateFrameListener* update_frame_listener;
 

@@ -22,7 +22,7 @@ namespace UnknownEngine
 					UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 					
 					Descriptor():
-					log_level(Core::LogMessage::LOG_SEVERITY_NONE)
+					log_level(Core::LogMessage::Severity::LOG_SEVERITY_NONE)
 					{}
 				};
 				
