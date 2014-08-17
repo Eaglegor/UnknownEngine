@@ -1,7 +1,7 @@
 #include <stdafx.h>
 
 #include <Ogre.h>
-#include <Components/OgreRenderableComponent.h>
+#include <Components/Renderables/OgreRenderableComponent.h>
 #include <OgreRenderSubsystem.h>
 #include <DataProviders/OgreMeshPtrProvider.h>
 #include <Listeners/OgreRenderableComponentListener.h>
@@ -84,7 +84,7 @@ namespace UnknownEngine
 			  messaging_policies_manager ( engine_context ),
 			  log_helper(nullptr)
 		{
-			if(desc.log_level > Core::LogMessage::LOG_SEVERITY_NONE)
+			if(desc.log_level > Core::LogMessage::Severity::LOG_SEVERITY_NONE)
 			{
 				log_helper = new Core::LogHelper ( getName(), desc.log_level, engine_context );
 			}
@@ -102,8 +102,8 @@ namespace UnknownEngine
 				delete listener;
 			}
 
-			//mesh_data_provider->release();
-
+			if(desc.mesh_data_provider != nullptr) desc.mesh_data_provider->release();
+			
 			LOG_INFO ( log_helper, "Destroying scene node" );
 			render_system->getSceneManager()->destroySceneNode ( scene_node );
 

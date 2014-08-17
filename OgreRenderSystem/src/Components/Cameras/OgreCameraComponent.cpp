@@ -1,9 +1,10 @@
 #include <stdafx.h>
 
-#include <Components/OgreCameraComponent.h>
+#include <Components/Cameras/OgreCameraComponent.h>
 #include <OgreRenderSubsystem.h>
 #include <OgreSceneManager.h>
 #include <OgreRenderWindow.h>
+#include <boost/lexical_cast.hpp>
 #include <Converters/OgreVector3Converter.h>
 #include <Converters/OgreQuaternionConverter.h>
 #include <Listeners/OgreCameraComponentListener.h>
@@ -47,7 +48,19 @@ namespace UnknownEngine
 
 			scene_node->setPosition ( OgreVector3Converter::toOgreVector(desc.initial_transform.getPosition()) );
 			scene_node->setOrientation( OgreQuaternionConverter::toOgreQuaternion(desc.initial_transform.getOrientation()) );
-			if(desc.initial_look_at.is_initialized()) camera->lookAt( OgreVector3Converter::toOgreVector(desc.initial_look_at.get()) );
+			
+			if(desc.initial_look_at.is_initialized()) 
+			{
+				LOG_DEBUG (log_helper, "Setting look at: " +
+				boost::lexical_cast<std::string>(desc.initial_look_at->x()) + ", " +
+				boost::lexical_cast<std::string>(desc.initial_look_at->y()) + ", " +
+				boost::lexical_cast<std::string>(desc.initial_look_at->z()));
+				
+				camera->lookAt( OgreVector3Converter::toOgreVector(desc.initial_look_at.get()) );
+			}
+			
+			if(desc.near_clip_distance.is_initialized()) camera->setNearClipDistance(desc.near_clip_distance.get());
+			if(desc.far_clip_distance.is_initialized()) camera->setFarClipDistance(desc.far_clip_distance.get());
 		}
 
 		OgreCameraComponent::OgreCameraComponent ( const std::string &name, const OgreCameraComponent::Descriptor &desc, OgreRenderSubsystem *render_subsystem, Core::EngineContext *engine_context )
@@ -60,7 +73,7 @@ namespace UnknownEngine
 			  log_helper(nullptr),
 			  desc(desc)
 		{
-			if(desc.log_level > Core::LogMessage::LOG_SEVERITY_NONE)
+			if(desc.log_level > Core::LogMessage::Severity::LOG_SEVERITY_NONE)
 			{
 				log_helper = new Core::LogHelper ( getName(), desc.log_level, engine_context );
 			}

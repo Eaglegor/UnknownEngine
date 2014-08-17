@@ -1,7 +1,7 @@
 #include <stdafx.h>
 
 #include <Listeners/OgreCameraComponentListener.h>
-#include <Components/OgreCameraComponent.h>
+#include <Components/Cameras/OgreCameraComponent.h>
 #include <MessageSystem/PackedMessage.h>
 
 #define MessageProcessor(processor) &OgreCameraComponentListener::processor

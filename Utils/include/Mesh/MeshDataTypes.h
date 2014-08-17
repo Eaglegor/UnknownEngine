@@ -5,6 +5,7 @@
 #include <Vectors/Vector3.h>
 #include <InlineSpecification.h>
 #include <Exception.h>
+#include <AlignedNew.h>
 
 namespace UnknownEngine
 {
@@ -23,19 +24,19 @@ namespace UnknownEngine
 				TextureCoordinateType(){}
 				
 				UNKNOWNENGINE_INLINE
-				float u()
+				float u() const
 				{
 					return x();
 				}
 
 				UNKNOWNENGINE_INLINE
-				float v()
+				float v() const
 				{
 					return y();
 				}
 
 				UNKNOWNENGINE_INLINE
-				float w()
+				float w() const
 				{
 					return z();
 				}
@@ -65,11 +66,17 @@ namespace UnknownEngine
 
 		UNKNOWNENGINE_SIMPLE_EXCEPTION ( NoSuchVertexElementException );
 
-		class VertexType
+		UNKNOWNENGINE_ALIGNED_CLASS(16) VertexType
 		{
 
 			public:
 
+				VertexType():
+				has_normal(false),
+				has_tangent(false),
+				has_texture_coordinate(false)
+				{}
+				
 				UNKNOWNENGINE_INLINE
 				Math::Vector3 getPosition() const
 				{
@@ -154,6 +161,8 @@ namespace UnknownEngine
 					return has_texture_coordinate;
 				}
 
+				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
+				
 			private:
 				Math::Vector3 position;
 

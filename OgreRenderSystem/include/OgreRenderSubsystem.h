@@ -33,6 +33,7 @@ namespace UnknownEngine
 					std::string ogre_config_filename;
 					std::string ogre_log_filename;
 					std::string render_window_name;
+					boost::optional<std::string> ogre_resources_filename;
 					
 					bool show_config_dialog;
 					
@@ -50,6 +51,8 @@ namespace UnknownEngine
 				virtual ~OgreRenderSubsystem();
 				void onFrameUpdated ( const Core::UpdateFrameMessage& msg );
 
+				void loadResourcesFile(const std::string &filename);
+				
 				UNKNOWNENGINE_INLINE
 				Ogre::SceneManager* getSceneManager()
 				{

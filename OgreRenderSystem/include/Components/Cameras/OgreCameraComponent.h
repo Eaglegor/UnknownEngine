@@ -43,11 +43,13 @@ namespace UnknownEngine
 					Core::Transform initial_transform;
 					
 					boost::optional<Math::Vector3> initial_look_at;
+					boost::optional<Math::Scalar> near_clip_distance;
+					boost::optional<Math::Scalar> far_clip_distance;
 					
 					UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
 					Descriptor():
-					log_level(Core::LogMessage::LOG_SEVERITY_NONE){}
+					log_level(Core::LogMessage::Severity::LOG_SEVERITY_NONE){}
 				};
 
 				virtual UnknownEngine::Core::ComponentType getType();

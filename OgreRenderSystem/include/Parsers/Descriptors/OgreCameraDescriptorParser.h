@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Components/OgreCameraComponent.h>
+#include <Components/Cameras/OgreCameraComponent.h>
 #include <Properties/Properties.h>
 
 namespace UnknownEngine

@@ -1,8 +1,8 @@
 #include <stdafx.h>
 
 #include <Factories/OgreCameraComponentsFactory.h>
-#include <Components/OgreCameraComponent.h>
-#include <Parsers/OgreCameraDescriptorParser.h>
+#include <Components/Cameras/OgreCameraComponent.h>
+#include <Parsers/Descriptors/OgreCameraDescriptorParser.h>
 
 #include <OgreRenderSubsystem.h>
 #include <ComponentDesc.h>

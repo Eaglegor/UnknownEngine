@@ -48,7 +48,10 @@ namespace UnknownEngine
 			}
 			
 			OptionalStringOption log_level = props.get_optional<std::string>(GLOBAL_OPTIONS::LOG_LEVEL);
-			if(log_level.is_initialized()) desc.log_level = Core::LogHelper::parseLogLevel(log_level.get());
+			if(log_level.is_initialized()) 
+			{
+				desc.log_level = Core::LogHelper::parseLogLevel(log_level.get());
+			}
 			
 			return desc;
 		}

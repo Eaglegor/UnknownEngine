@@ -5,6 +5,7 @@
 #include <DataProvider/DataProviderDesc.h>
 #include <DataProvider/IDataProvider.h>
 
+#define ENABLE_CORE_SUBSYSTEM_INFO_LOG
 #include <CoreLogging.h>
 
 namespace UnknownEngine {

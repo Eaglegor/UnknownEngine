@@ -7,12 +7,14 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		class OgreMeshPtrProvider : public UnknownEngine::Loader::IDataProvider
+		class OgreMeshPtrProvider : public Loader::ReferencesCountingDataProvider
 		{
 			public:
-				explicit OgreMeshPtrProvider ( const std::string &name ) : UnknownEngine::Loader::IDataProvider ( name )
+				explicit OgreMeshPtrProvider ( const std::string &name ) : Loader::ReferencesCountingDataProvider(name)
 				{}
 
+				virtual void startLoading(){};
+				
 				virtual ~OgreMeshPtrProvider() {};
 		};
 	}
