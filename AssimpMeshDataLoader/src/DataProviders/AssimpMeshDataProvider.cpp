@@ -26,7 +26,7 @@ namespace UnknownEngine
 			desc ( desc ),
 			engine_context(engine_context)
 		{
-			if(desc.log_level > Core::LogMessage::LOG_SEVERITY_NONE)
+			if(desc.log_level > Core::LogMessage::Severity::LOG_SEVERITY_NONE)
 			{
 				log_helper.reset(new Core::LogHelper(name, desc.log_level, engine_context));
 				LOG_INFO(log_helper, "Logger initialized");

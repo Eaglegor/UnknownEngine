@@ -31,16 +31,16 @@ namespace UnknownEngine
 
 			switch ( severity )
 			{
-			case Core::LogMessage::LOG_SEVERITY_INFO:
+			case Core::LogMessage::Severity::LOG_SEVERITY_INFO:
 				std::cout << "INFO";
 				break;
-			case Core::LogMessage::LOG_SEVERITY_ERROR:
+			case Core::LogMessage::Severity::LOG_SEVERITY_ERROR:
 				std::cout << "ERROR";
 				break;
-			case Core::LogMessage::LOG_SEVERITY_WARNING:
+			case Core::LogMessage::Severity::LOG_SEVERITY_WARNING:
 				std::cout << "WARNING";
 				break;
-			case Core::LogMessage::LOG_SEVERITY_DEBUG:
+			case Core::LogMessage::Severity::LOG_SEVERITY_DEBUG:
 				std::cout << "DEBUG";
 				break;
 			}

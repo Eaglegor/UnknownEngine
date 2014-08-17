@@ -47,7 +47,7 @@ namespace UnknownEngine
 			this->desc = desc;
 			this->engine_context = plugins_manager->getEngineContext();
 		  
-			log_helper = new Core::LogHelper(getName(), Core::LogMessage::LOG_SEVERITY_DEBUG, engine_context);
+			log_helper = new Core::LogHelper(getName(), Core::LogMessage::Severity::LOG_SEVERITY_DEBUG, engine_context);
 		  
 			LOG_INFO(log_helper, "Logger started");
 			

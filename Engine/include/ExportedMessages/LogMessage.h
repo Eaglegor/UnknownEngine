@@ -28,8 +28,8 @@ namespace UnknownEngine
 
 		struct LogMessage
 		{
-
-			enum Severity
+			
+			enum class Severity : int
 			{
 			    LOG_SEVERITY_NONE = 0,
 			    LOG_SEVERITY_ERROR = 1,
