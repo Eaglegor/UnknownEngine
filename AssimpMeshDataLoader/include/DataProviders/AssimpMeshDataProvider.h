@@ -45,7 +45,7 @@ namespace UnknownEngine
 				std::string filename;
 				Core::LogMessage::Severity log_level;
 									
-				Descriptor():log_level(Core::LogMessage::LOG_SEVERITY_NONE){};
+				Descriptor():log_level(Core::LogMessage::Severity::LOG_SEVERITY_NONE){};
 			};
 			
 			AssimpMeshDataProvider ( const std::string& name, const Descriptor &desc, Core::EngineContext* engine_context );
