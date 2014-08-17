@@ -47,11 +47,11 @@ namespace UnknownEngine
 					std::string lower_case_level = log_level_name;
 					boost::to_lower(lower_case_level);
 					boost::trim(lower_case_level);
-					if ( lower_case_level == "info" ) return LogMessage::LOG_SEVERITY_INFO;
-					if ( lower_case_level == "warning" ) return LogMessage::LOG_SEVERITY_WARNING;
-					if ( lower_case_level == "error" ) return LogMessage::LOG_SEVERITY_ERROR;
-					if ( lower_case_level == "debug" ) return LogMessage::LOG_SEVERITY_DEBUG;
-					return LogMessage::LOG_SEVERITY_NONE;
+					if ( lower_case_level == "info" ) return LogMessage::Severity::LOG_SEVERITY_INFO;
+					if ( lower_case_level == "warning" ) return LogMessage::Severity::LOG_SEVERITY_WARNING;
+					if ( lower_case_level == "error" ) return LogMessage::Severity::LOG_SEVERITY_ERROR;
+					if ( lower_case_level == "debug" ) return LogMessage::Severity::LOG_SEVERITY_DEBUG;
+					return LogMessage::Severity::LOG_SEVERITY_NONE;
 				}
 
 			private:
@@ -60,10 +60,10 @@ namespace UnknownEngine
 				MessageDispatcher *message_dispatcher;
 		};
 
-#define LOG_INFO(log_helper, e) if(log_helper) log_helper->log(Core::LogMessage::LOG_SEVERITY_INFO, e);
-#define LOG_WARNING(log_helper, e) if(log_helper) log_helper->log(Core::LogMessage::LOG_SEVERITY_WARNING, e);
-#define LOG_ERROR(log_helper, e) if(log_helper) log_helper->log(Core::LogMessage::LOG_SEVERITY_ERROR, e);
-#define LOG_DEBUG(log_helper, e) if(log_helper) log_helper->log(Core::LogMessage::LOG_SEVERITY_DEBUG, e);
+#define LOG_INFO(log_helper, e) if(log_helper) log_helper->log(Core::LogMessage::Severity::LOG_SEVERITY_INFO, e);
+#define LOG_WARNING(log_helper, e) if(log_helper) log_helper->log(Core::LogMessage::Severity::LOG_SEVERITY_WARNING, e);
+#define LOG_ERROR(log_helper, e) if(log_helper) log_helper->log(Core::LogMessage::Severity::LOG_SEVERITY_ERROR, e);
+#define LOG_DEBUG(log_helper, e) if(log_helper) log_helper->log(Core::LogMessage::Severity::LOG_SEVERITY_DEBUG, e);
 
 	}
 }
