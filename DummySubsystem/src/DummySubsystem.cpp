@@ -31,7 +31,7 @@ namespace UnknownEngine
 		bool DummySubsystemPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) throw ( Core::PluginError )
 		{
 		  
-			log_helper = new Core::LogHelper(getName(), Core::LogMessage::LOG_SEVERITY_INFO, plugins_manager->getEngineContext());
+			log_helper = new Core::LogHelper(getName(), Core::LogMessage::Severity::LOG_SEVERITY_INFO, plugins_manager->getEngineContext());
 		  
 			LOG_INFO(log_helper, "Logger initialized");
 			

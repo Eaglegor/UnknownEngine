@@ -61,6 +61,7 @@ namespace UnknownEngine
 
 			this->desc = desc;
 			this->engine_context = plugins_manager->getEngineContext();
+		  
 
 			boost::optional<const std::string&> log_level = desc.creation_options.get_optional<std::string> ( "log_level" );
 			if ( log_level.is_initialized() )
