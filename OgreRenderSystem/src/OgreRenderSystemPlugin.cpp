@@ -28,8 +28,6 @@
 #include <Factories/OgreLightComponentsFactory.h>
 #include <Factories/OgreMeshPtrDataProvidersFactory.h>
 
-#include <Listeners/OgreUpdateFrameListener.h>
-
 #include <Parsers/Descriptors/OgreSubsystemDescParser.h>
 
 #include <LogHelper.h>
@@ -86,14 +84,14 @@ namespace UnknownEngine
 				LOG_INFO ( log_helper, "Predefined descriptor found" );
 				LOG_INFO ( log_helper, "Creating subsystem object" );
 
-				render_system = new OgreRenderSubsystem ( desc.prepared_descriptor.get<OgreRenderSubsystem::Descriptor>(), log_helper );
+				render_system = new OgreRenderSubsystem ( desc.prepared_descriptor.get<OgreRenderSubsystem::Descriptor>(), log_helper, engine_context );
 			}
 			else
 			{
 				LOG_WARNING ( log_helper, "Predefined descriptor not found - string parser will be used" );
 				LOG_INFO ( log_helper, "Creating subsystem object" );
 
-				render_system = new OgreRenderSubsystem ( OgreRenderSubsystemDescriptorParser::parse ( desc.creation_options ), log_helper );
+				render_system = new OgreRenderSubsystem ( OgreRenderSubsystemDescriptorParser::parse ( desc.creation_options ), log_helper, engine_context );
 			}
 
 			LOG_INFO ( log_helper, "Creating factory for renderable components" );
@@ -127,10 +125,7 @@ namespace UnknownEngine
 		{
 			LOG_INFO ( log_helper, "Initializing OGRE render subsystem" );
 
-			LOG_INFO ( log_helper, "Registering update frame listener..." );
-
-			update_frame_listener = new OgreUpdateFrameListener ( "Graphics.Ogre.Listeners.UpdateFrameListener", render_system );
-			engine_context->getMessageDispatcher()->addListener ( Core::UpdateFrameMessage::getTypeName(), update_frame_listener );
+			render_system->start();
 
 			LOG_INFO ( log_helper, "OGRE render system initialized" );
 
@@ -142,10 +137,7 @@ namespace UnknownEngine
 
 			LOG_INFO ( log_helper, "Shutting down OGRE render subsystem" );
 
-			LOG_INFO ( log_helper, "Unregistering update frame listener" );
-
-			engine_context->getMessageDispatcher()->removeListener ( update_frame_listener );
-			delete update_frame_listener;
+			render_system->stop();
 
 			LOG_INFO ( log_helper, "OGRE render system is shut down" );
 

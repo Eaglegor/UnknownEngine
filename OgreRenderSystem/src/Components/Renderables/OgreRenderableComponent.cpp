@@ -17,12 +17,12 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		void OgreRenderableComponent::init ( const Core::Entity *parent_entity )
+		void OgreRenderableComponent::internalInit( const UnknownEngine::Core::Entity* parent_entity )
 		{
 			LOG_INFO ( log_helper, "Creating OGRE entity" );
 			if(desc.mesh_data_provider!=nullptr)
 			{
-				entity = render_system->getSceneManager()->createEntity ( getName() + ".OgreEntity", desc.mesh_data_provider->getResource().getData<Ogre::MeshPtr>() );
+				entity = render_subsystem->getSceneManager()->createEntity ( getName() + ".OgreEntity", desc.mesh_data_provider->getResource().getData<Ogre::MeshPtr>() );
 			}
 			else
 			{
@@ -33,19 +33,19 @@ namespace UnknownEngine
 				else
 				{
 					LOG_ERROR ( log_helper, "No mesh data provider found. Using substitute mesh (Ogre::PT_SPHERE) instead");
-					entity = render_system->getSceneManager()->createEntity ( getName() + ".OgreEntity", Ogre::SceneManager::PT_SPHERE );
+					entity = render_subsystem->getSceneManager()->createEntity ( getName() + ".OgreEntity", Ogre::SceneManager::PT_SPHERE );
 				}
 			}
 
 			entity->setMaterialName ( desc.material_desc.name );
 
 			LOG_INFO ( log_helper, "Creating OGRE scene node" )
-			scene_node = render_system->getSceneManager()->getRootSceneNode()->createChildSceneNode ( getName() + ".SceneNode" );
+			scene_node = render_subsystem->getSceneManager()->getRootSceneNode()->createChildSceneNode ( getName() + ".SceneNode" );
 
 			scene_node->setPosition ( OgreVector3Converter::toOgreVector(desc.initial_transform.getPosition()) );
 			scene_node->setOrientation ( OgreQuaternionConverter::toOgreQuaternion(desc.initial_transform.getOrientation()) );
 		}
-
+		
 		void OgreRenderableComponent::start()
 		{
 			LOG_INFO ( log_helper, "Starting" );
@@ -60,7 +60,7 @@ namespace UnknownEngine
 
 		Core::ComponentType OgreRenderableComponent::getType()
 		{
-			return type;
+			return OGRE_RENDERABLE_COMPONENT_TYPE;
 		}
 
 		void OgreRenderableComponent::onTransformChanged ( const Core::TransformChangedMessage &message )
@@ -75,18 +75,13 @@ namespace UnknownEngine
 		}
 
 		OgreRenderableComponent::OgreRenderableComponent ( const std::string &name, const Descriptor &desc, OgreRenderSubsystem *render_system, Core::EngineContext *engine_context )
-			: Core::Component ( name ),
-			  render_system ( render_system ),
-			  type ( OGRE_RENDERABLE_COMPONENT_TYPE ),
+			: BaseOgreComponent(name, render_subsystem, engine_context),
 			  desc ( desc ),
-			  listener ( nullptr ),
-			  engine_context ( engine_context ),
-			  messaging_policies_manager ( engine_context ),
-			  log_helper(nullptr)
+			  listener ( nullptr )
 		{
 			if(desc.log_level > Core::LogMessage::Severity::LOG_SEVERITY_NONE)
 			{
-				log_helper = new Core::LogHelper ( getName(), desc.log_level, engine_context );
+				log_helper.reset(new Core::LogHelper ( getName(), desc.log_level, engine_context ));
 			}
 			
 			LOG_INFO ( log_helper, "Logger initialized" );
@@ -105,17 +100,15 @@ namespace UnknownEngine
 			if(desc.mesh_data_provider != nullptr) desc.mesh_data_provider->release();
 			
 			LOG_INFO ( log_helper, "Destroying scene node" );
-			render_system->getSceneManager()->destroySceneNode ( scene_node );
+			render_subsystem->getSceneManager()->destroySceneNode ( scene_node );
 
 			LOG_INFO ( log_helper, "Destroying entity" );
-			render_system->getSceneManager()->destroyEntity ( entity );
-
-			if ( log_helper ) delete log_helper;
+			render_subsystem->getSceneManager()->destroyEntity ( entity );
 		}
 
 		void OgreRenderableComponent::addReceivedMessageType ( const Core::ReceivedMessageDesc &received_message )
 		{
-			if ( listener == nullptr ) listener = new OgreRenderableComponentListener ( getName() + ".Listener", this, engine_context );
+			if ( listener == nullptr ) listener = new OgreRenderableComponentListener ( getName() + ".Listener", this, engine_context, render_subsystem );
 			if ( listener->supportsMessageTypeName ( received_message.message_type_name ) )
 			{
 				engine_context->getMessageDispatcher()->addListener (

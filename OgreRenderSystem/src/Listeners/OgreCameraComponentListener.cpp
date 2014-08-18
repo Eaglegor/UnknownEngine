@@ -11,8 +11,8 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		OgreCameraComponentListener::OgreCameraComponentListener ( const std::string &object_name, OgreCameraComponent *camera_component, Core::EngineContext *engine_context )
-			: BaseOgreComponentListener< UnknownEngine::Graphics::OgreCameraComponentListener > ( object_name ),
+		OgreCameraComponentListener::OgreCameraComponentListener ( const std::string &object_name, OgreCameraComponent *camera_component, Core::EngineContext *engine_context, OgreRenderSubsystem *render_system )
+			: BaseOgreComponentListener< UnknownEngine::Graphics::OgreCameraComponentListener > ( object_name, render_system ),
 			  camera_component ( camera_component ),
 			  engine_context ( engine_context )
 		{

@@ -7,6 +7,7 @@
 #include <AlignedNew.h>
 #include <Transform/Transform.h>
 #include <ExportedMessages/LogMessage.h>
+#include <Components/BaseOgreComponent.h>
 #include <OgreColourValue.h>
 
 namespace Ogre
@@ -57,13 +58,12 @@ namespace UnknownEngine
 			
 		};
 		
-		class BaseOgreLightComponent : public Core::Component
+		class BaseOgreLightComponent : public BaseOgreComponent
 		{
 			public:
 				virtual UnknownEngine::Core::ComponentType getType() = 0;
 				virtual void shutdown();
 				virtual void start();
-				virtual void init ( const UnknownEngine::Core::Entity* parent_entity );
 				BaseOgreLightComponent ( const std::string& name, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context, const OgreLightSettings& light_settings );
 				void addReceivedMessageType ( const Core::ReceivedMessageDesc &received_message );
 				
@@ -72,16 +72,15 @@ namespace UnknownEngine
 				virtual ~BaseOgreLightComponent();
 				
 			protected:
+				virtual void internalInit(const Core::Entity* parent_entity);
+				
 				OgreLightSettings light_settings;
+				
 				Ogre::Light* ogre_light;
 				Ogre::SceneNode* ogre_scene_node;
-				Core::LogHelper* log_helper;
-
+				
 			private:
-				Core::EngineContext* engine_context;
-				OgreRenderSubsystem* render_subsystem;
 				BaseOgreLightComponentListener* listener;
-				Core::MessagingPoliciesManager messaging_policies_manager;
 		};
 	}
 }

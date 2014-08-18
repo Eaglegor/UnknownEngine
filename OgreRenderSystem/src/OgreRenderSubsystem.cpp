@@ -1,6 +1,7 @@
 #include <stdafx.h>
 
 #include <Ogre.h>
+#include <OgreFrameListener.h>
 #include <OgreRenderSubsystem.h>
 #include <LogHelper.h>
 #include <EngineContext.h>
@@ -10,13 +11,22 @@
 
 #include <ExportedMessages/StopEngineActionMessage.h>
 
+#include <Listeners/OgreUpdateFrameListener.h>
+
+#ifdef ENABLE_OGRE_SEPARATE_THREAD_RENDERING
+#include <OgreRenderCallback.h>
+#endif
+
 namespace UnknownEngine
 {
 	namespace Graphics
 	{
-
-		OgreRenderSubsystem::OgreRenderSubsystem ( const UnknownEngine::Graphics::OgreRenderSubsystem::Descriptor& desc, UnknownEngine::Core::LogHelper* log_helper )
-			: log_helper ( log_helper )
+	
+		OgreRenderSubsystem::OgreRenderSubsystem ( const OgreRenderSubsystem::Descriptor& desc, Core::LogHelper* log_helper, Core::EngineContext* engine_context ):
+		log_helper ( log_helper ),
+		engine_context(engine_context),
+		update_frame_listener(nullptr),
+		desc(desc)
 		{
 
 			ogre_log_manager = new Ogre::LogManager;
@@ -40,6 +50,7 @@ namespace UnknownEngine
 			
 			scene_manager = root->createSceneManager ( Ogre::ST_GENERIC );
 			render_window = root->initialise ( true, desc.render_window_name );
+			
 		}
 
 		void OgreRenderSubsystem::onFrameUpdated ( const Core::UpdateFrameMessage &msg )
@@ -88,6 +99,68 @@ namespace UnknownEngine
 			
 			Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 			
+		}
+
+		void OgreRenderSubsystem::start()
+		{
+			#ifdef ENABLE_OGRE_SEPARATE_THREAD_RENDERING
+			if(!desc.separate_rendering_thread)
+			{
+			#endif
+				LOG_INFO ( log_helper, "Registering update frame listener..." );
+				update_frame_listener = new OgreUpdateFrameListener ( "Graphics.Ogre.Listeners.UpdateFrameListener", this );
+				engine_context->getMessageDispatcher()->addListener ( Core::UpdateFrameMessage::getTypeName(), update_frame_listener );
+				
+			#ifdef ENABLE_OGRE_SEPARATE_THREAD_RENDERING
+			}
+			else
+			{
+				render_synchronize_callback.reset(new OgreRenderCallback());
+				
+				root->addFrameListener(render_synchronize_callback.get());
+				rendering_thread.reset( new boost::thread( [&](){root->startRendering();} ) );
+			}
+			#endif
+		}
+
+		void OgreRenderSubsystem::stop()
+		{
+			LOG_INFO ( log_helper, "Unregistering update frame listener" );
+			if(update_frame_listener != nullptr)
+			{
+				engine_context->getMessageDispatcher()->removeListener ( update_frame_listener );
+				delete update_frame_listener;
+			}
+			
+			#ifdef ENABLE_OGRE_SEPARATE_THREAD_RENDERING
+			if(desc.separate_rendering_thread)
+			{
+				render_synchronize_callback->stopRendering();
+				render_synchronize_callback->waitUntilFinished();
+				render_synchronize_callback.reset();
+			}
+			#endif
+			
+		}
+
+		void OgreRenderSubsystem::addInitCallback ( const std::string& name, const std::function< void() >& callback )
+		{
+			if(render_synchronize_callback != nullptr) render_synchronize_callback->addInitCallback(name, callback);
+		}
+
+		void OgreRenderSubsystem::addRemoveCallback ( const std::string& name, const std::function< void() >& callback )
+		{
+			if(render_synchronize_callback != nullptr) render_synchronize_callback->addRemoveCallback(name, callback);
+		}
+
+		void OgreRenderSubsystem::addSynchronizeCallback ( const std::string& name, const std::function< void() >& callback )
+		{
+			if(render_synchronize_callback != nullptr) render_synchronize_callback->addSynchronizeCallback(name, callback);
+		}
+
+		void OgreRenderSubsystem::removeSynchronizeCallback ( const std::string& name )
+		{
+			if(render_synchronize_callback != nullptr) render_synchronize_callback->removeSynchronizeCallback(name);
 		}
 
 		

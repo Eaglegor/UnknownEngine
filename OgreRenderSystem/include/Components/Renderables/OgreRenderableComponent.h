@@ -4,6 +4,7 @@
 #include <Objects/Component.h>
 #include <Mesh/MeshData.h>
 #include <Listeners/OgreRenderableComponentListener.h>
+#include <Components/BaseOgreComponent.h>
 #include <MessageSystem/MessagingPoliciesManager.h>
 #include <ExportedMessages/LogMessage.h>
 #include <Exception.h>
@@ -37,7 +38,7 @@ namespace UnknownEngine
 
 		const Core::ComponentType OGRE_RENDERABLE_COMPONENT_TYPE = "Graphics.Renderable";
 
-		class OgreRenderableComponent: public Core::Component
+		class OgreRenderableComponent: public BaseOgreComponent
 		{
 			public:
 
@@ -71,36 +72,9 @@ namespace UnknownEngine
 						throw_exception_on_missing_mesh_data(true)
 					{}
 				};
-
-				/**
-				 * @brief Is called when the component is created
-				 *
-				 * The init stuff must be done in this method. Is called by parent entity after component addition.
-				 *
-				 */
-				virtual void init ( const Core::Entity* parent_entity );
-
-				/**
-				 *  @brief Is called when the parent entity is started
-				 *
-				 *  At this moment it's known that all components of the entity are created. Start processing logic.
-				 *
-				 */
+				
 				virtual void start();
-
-				/**
-				 *  @brief Is called when the parent entity is about to be destroyed
-				 *
-				 * Stop any logic there. Prepare to destruction;
-				 * Is called by entity.
-				 *
-				 */
 				virtual void shutdown();
-
-				/**
-				 * @brief Returns the type of component
-				 * @return Type of component
-				 */
 				virtual Core::ComponentType getType();
 
 				virtual void onTransformChanged ( const Core::TransformChangedMessage &message );
@@ -113,18 +87,17 @@ namespace UnknownEngine
 
 				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
+			protected:
+				virtual void internalInit(const Core::Entity* parent_entity);
+				
 			private:
-				const Core::ComponentType type;
-				OgreRenderSubsystem* render_system;
-				OgreRenderableComponentListener* listener;
-				Ogre::Entity* entity;
-				Ogre::SceneNode* scene_node;
-				Core::EngineContext* engine_context;
-				Core::MessagingPoliciesManager messaging_policies_manager;
 
 				Descriptor desc;
-
-				Core::LogHelper* log_helper;
+				
+				OgreRenderableComponentListener* listener;
+				
+				Ogre::Entity* entity;
+				Ogre::SceneNode* scene_node;
 		};
 
 	} // namespace Graphics

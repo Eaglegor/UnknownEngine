@@ -6,6 +6,7 @@
 #include <ExportedMessages/LogMessage.h>
 #include <Transform/Transform.h>
 #include <AlignedNew.h>
+#include <Components/BaseOgreComponent.h>
 
 namespace Ogre
 {
@@ -33,7 +34,7 @@ namespace UnknownEngine
 
 		const Core::ComponentType OGRE_CAMERA_COMPONENT_TYPE = "Graphics.Camera";
 
-		class OgreCameraComponent : public UnknownEngine::Core::Component
+		class OgreCameraComponent : public BaseOgreComponent
 		{
 			public:
 
@@ -55,7 +56,6 @@ namespace UnknownEngine
 				virtual UnknownEngine::Core::ComponentType getType();
 				virtual void shutdown();
 				virtual void start();
-				virtual void init ( const UnknownEngine::Core::Entity *parent_entity );
 
 				void onTransformChanged ( const Core::TransformChangedMessage& msg );
 				void doLookAt ( const CameraLookAtActionMessage& msg );
@@ -67,18 +67,16 @@ namespace UnknownEngine
 
 				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
+			protected:
+				virtual void internalInit ( const UnknownEngine::Core::Entity *parent_entity );
+				
 			private:
-				OgreRenderSubsystem *render_subsystem;
-				Ogre::SceneNode *scene_node;
-				Ogre::Camera *camera;
-				Core::EngineContext* engine_context;
-				const Core::ComponentType type;
-				OgreCameraComponentListener* listener;
-				Core::MessagingPoliciesManager messaging_policies_manager;
 				Descriptor desc;
 				
-				Core::LogHelper *log_helper;
-
+				OgreCameraComponentListener* listener;
+				
+				Ogre::SceneNode *scene_node;
+				Ogre::Camera *camera;
 		};
 	}
 }

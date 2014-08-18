@@ -21,7 +21,7 @@ namespace UnknownEngine
 
 		UnknownEngine::Core::ComponentType OgreCameraComponent::getType()
 		{
-			return type;
+			return OGRE_CAMERA_COMPONENT_TYPE;
 		}
 
 		void OgreCameraComponent::shutdown()
@@ -36,7 +36,7 @@ namespace UnknownEngine
 			this->scene_node->attachObject ( this->camera );
 		}
 
-		void OgreCameraComponent::init ( const UnknownEngine::Core::Entity *parent_entity )
+		void OgreCameraComponent::internalInit ( const UnknownEngine::Core::Entity *parent_entity )
 		{
 			LOG_INFO ( log_helper, "Creating OGRE camera" );
 			this->camera = render_subsystem->getSceneManager()->createCamera ( getName() + ".Camera" );
@@ -64,18 +64,13 @@ namespace UnknownEngine
 		}
 
 		OgreCameraComponent::OgreCameraComponent ( const std::string &name, const OgreCameraComponent::Descriptor &desc, OgreRenderSubsystem *render_subsystem, Core::EngineContext *engine_context )
-			: Component ( name ),
-			  type ( OGRE_CAMERA_COMPONENT_TYPE ),
-			  render_subsystem ( render_subsystem ),
-			  engine_context ( engine_context ),
+			: BaseOgreComponent(name, render_subsystem, engine_context),
 			  listener ( nullptr ),
-			  messaging_policies_manager ( engine_context ),
-			  log_helper(nullptr),
 			  desc(desc)
 		{
 			if(desc.log_level > Core::LogMessage::Severity::LOG_SEVERITY_NONE)
 			{
-				log_helper = new Core::LogHelper ( getName(), desc.log_level, engine_context );
+				log_helper.reset(new Core::LogHelper ( getName(), desc.log_level, engine_context ));
 			}
 			
 			LOG_INFO ( log_helper, "Logger initialized" );
@@ -96,8 +91,6 @@ namespace UnknownEngine
 
 			LOG_INFO ( log_helper, "Destroying OGRE scene node" );
 			render_subsystem->getSceneManager()->destroySceneNode ( this->scene_node );
-
-			if ( log_helper ) delete log_helper;
 		}
 
 		void OgreCameraComponent::onTransformChanged ( const Core::TransformChangedMessage &msg )
@@ -110,7 +103,7 @@ namespace UnknownEngine
 		{
 			if ( listener == nullptr )
 			{
-				listener = new OgreCameraComponentListener ( getName() + ".Listener", this, engine_context );
+				listener = new OgreCameraComponentListener ( getName() + ".Listener", this, engine_context, render_subsystem );
 			}
 
 			if ( listener->supportsMessageTypeName ( received_message.message_type_name ) )

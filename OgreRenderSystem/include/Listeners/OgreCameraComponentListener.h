@@ -22,7 +22,7 @@ namespace UnknownEngine
 		class OgreCameraComponentListener : public BaseOgreComponentListener<OgreCameraComponentListener>
 		{
 			public:
-				OgreCameraComponentListener ( const std::string& object_name, OgreCameraComponent* camera_component, Core::EngineContext* engine_context );
+				OgreCameraComponentListener ( const std::string& object_name, UnknownEngine::Graphics::OgreCameraComponent* camera_component, UnknownEngine::Core::EngineContext* engine_context, UnknownEngine::Graphics::OgreRenderSubsystem* render_system );
 
 			private:
 				void processTransformChangedMessage ( const Core::PackedMessage& msg );

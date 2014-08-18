@@ -17,9 +17,7 @@ namespace UnknownEngine
 	{
 
 		OgreRenderableComponentsFactory::OgreRenderableComponentsFactory ( UnknownEngine::Graphics::OgreRenderSubsystem* render_system, UnknownEngine::Core::EngineContext* engine_context, UnknownEngine::Core::LogHelper* log_helper )
-			: render_system ( render_system ),
-			  engine_context ( engine_context ),
-			  log_helper(log_helper)
+			: BaseOgreComponentFactory(render_system, engine_context, log_helper)
 		{
 			supported_types.insert ( OGRE_RENDERABLE_COMPONENT_TYPE );
 		}
@@ -51,7 +49,7 @@ namespace UnknownEngine
 			return component;
 		}
 
-		void OgreRenderableComponentsFactory::destroyObject ( Core::Component *object )
+		void OgreRenderableComponentsFactory::internalDestroyObject ( Core::Component *object )
 		{
 			if ( object->getType() == OGRE_RENDERABLE_COMPONENT_TYPE ) destroyRenderableComponent ( object );
 		}
@@ -63,12 +61,12 @@ namespace UnknownEngine
 			if ( !desc.descriptor.isEmpty() )
 			{
 				LOG_INFO ( log_helper, "Predefined descriptor found" );
-				component = new OgreRenderableComponent ( desc.name, desc.descriptor.get<OgreRenderableComponent::Descriptor>(), render_system, engine_context );
+				component = new OgreRenderableComponent ( desc.name, desc.descriptor.get<OgreRenderableComponent::Descriptor>(), render_subsystem, engine_context );
 			}
 			else
 			{
 				LOG_WARNING ( log_helper, "Predefined descriptor not found. String parser will be used instead." );
-				component = new OgreRenderableComponent ( desc.name, OgreRenderableDescriptorParser::parse ( desc.creation_options ), render_system, engine_context );
+				component = new OgreRenderableComponent ( desc.name, OgreRenderableDescriptorParser::parse ( desc.creation_options ), render_subsystem, engine_context );
 			}
 			LOG_INFO ( log_helper, "Registering component's listeners" );
 			registerRenderableComponentListeners ( component, desc.received_messages );

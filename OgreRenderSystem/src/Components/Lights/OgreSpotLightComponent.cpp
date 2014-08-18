@@ -16,7 +16,7 @@ namespace UnknownEngine
 		{
 			if(desc.log_level > Core::LogMessage::Severity::LOG_SEVERITY_NONE)
 			{
-				log_helper = new Core::LogHelper ( getName(), desc.log_level, engine_context );
+				log_helper.reset(new Core::LogHelper ( getName(), desc.log_level, engine_context ));
 			}
 			
 			LOG_INFO ( log_helper, "Logger initialized" );			
@@ -24,7 +24,6 @@ namespace UnknownEngine
 		
 		OgreSpotLightComponent::~OgreSpotLightComponent()
 		{
-			if(log_helper) delete log_helper;
 		}
 		
 		UnknownEngine::Core::ComponentType OgreSpotLightComponent::getType()
@@ -32,9 +31,9 @@ namespace UnknownEngine
 			return OGRE_SPOT_LIGHT_COMPONENT_TYPE;
 		}
 
-		void OgreSpotLightComponent::init ( const UnknownEngine::Core::Entity* parent_entity )
+		void OgreSpotLightComponent::internalInit (const UnknownEngine::Core::Entity* parent_entity)
 		{
-			BaseOgreLightComponent::init(parent_entity);
+			BaseOgreLightComponent::internalInit(parent_entity);
 			ogre_light->setType(Ogre::Light::LT_SPOTLIGHT);
 			
 			ogre_light->setPosition( OgreVector3Converter::toOgreVector(desc.initial_transform.getPosition()) );

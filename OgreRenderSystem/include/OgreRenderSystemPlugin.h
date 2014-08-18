@@ -29,8 +29,6 @@ namespace UnknownEngine
 		class OgreLightComponentsFactory;
 		class OgreMeshPtrDataProvidersFactory;
 		
-		class OgreUpdateFrameListener;
-
 		class OgreRenderSystemPlugin: public Core::Plugin
 		{
 			public:
@@ -59,8 +57,6 @@ namespace UnknownEngine
 				OgreLightComponentsFactory* light_components_factory;
 				
 				OgreMeshPtrDataProvidersFactory* mesh_ptr_data_providers_factory;
-
-				OgreUpdateFrameListener* update_frame_listener;
 
 				Core::LogHelper *log_helper;
 

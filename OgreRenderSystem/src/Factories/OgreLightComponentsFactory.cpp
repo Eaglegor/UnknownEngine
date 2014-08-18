@@ -33,7 +33,7 @@ namespace UnknownEngine {
 			return component;
 		}
 
-		void OgreLightComponentsFactory::destroyObject ( Core::Component* object )
+		void OgreLightComponentsFactory::internalDestroyObject ( Core::Component* object )
 		{
 			if(object->getType() == OGRE_POINT_LIGHT_COMPONENT_TYPE)
 			{
@@ -91,9 +91,7 @@ namespace UnknownEngine {
 		}
 		
 		OgreLightComponentsFactory::OgreLightComponentsFactory ( UnknownEngine::Graphics::OgreRenderSubsystem* render_subsystem, UnknownEngine::Core::EngineContext* engine_context, UnknownEngine::Core::LogHelper* log_helper ):
-		engine_context(engine_context),
-		render_subsystem(render_subsystem),
-		log_helper(log_helper)
+		BaseOgreComponentFactory(render_subsystem, engine_context, log_helper)
 		{
 			supported_types.insert(OGRE_POINT_LIGHT_COMPONENT_TYPE);
 			supported_types.insert(OGRE_DIRECTIONAL_LIGHT_COMPONENT_TYPE);

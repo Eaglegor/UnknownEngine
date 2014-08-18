@@ -25,7 +25,7 @@ namespace UnknownEngine
 			ogre_scene_node->attachObject(ogre_light);
 		}
 
-		void BaseOgreLightComponent::init ( const UnknownEngine::Core::Entity* parent_entity )
+		void BaseOgreLightComponent::internalInit( const UnknownEngine::Core::Entity* parent_entity )
 		{
 			ogre_light = render_subsystem->getSceneManager()->createLight(getName() + ".Light");
 			ogre_scene_node = render_subsystem->getSceneManager()->getRootSceneNode()->createChildSceneNode(getName()+".SceneNode");
@@ -47,15 +47,11 @@ namespace UnknownEngine
 				ogre_light->setCastShadows(light_settings.cast_shadows.get());
 			}
 		}
-
+		
 		BaseOgreLightComponent::BaseOgreLightComponent ( const std::string& name, UnknownEngine::Graphics::OgreRenderSubsystem* render_subsystem, UnknownEngine::Core::EngineContext* engine_context, const UnknownEngine::Graphics::OgreLightSettings& light_settings ):
-		Component(name),
-		render_subsystem(render_subsystem),
-		engine_context(engine_context),
+		BaseOgreComponent(name, render_subsystem, engine_context),
 		listener(nullptr),
-		messaging_policies_manager(engine_context),
-		light_settings(light_settings),
-		log_helper(nullptr)
+		light_settings(light_settings)
 		{
 		}
 		
@@ -81,7 +77,7 @@ namespace UnknownEngine
 		{
 			if ( listener == nullptr )
 			{
-				listener = new BaseOgreLightComponentListener ( getName() + ".Listener", this );
+				listener = new BaseOgreLightComponentListener ( getName() + ".Listener", this, engine_context, render_subsystem );
 			}
 
 			if ( listener->supportsMessageTypeName ( received_message.message_type_name ) )

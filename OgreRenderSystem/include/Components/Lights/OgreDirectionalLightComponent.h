@@ -32,9 +32,11 @@ namespace UnknownEngine
 				OgreDirectionalLightComponent ( const std::string& name, const Descriptor& desc, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context );
 				virtual ~OgreDirectionalLightComponent();
 				virtual Core::ComponentType getType();
-				virtual void init ( const Core::Entity* parent_entity );
 				
 				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
+				
+			protected:
+				virtual void internalInit (const Core::Entity* parent_entity);
 				
 			private:
 				Descriptor desc;

@@ -12,8 +12,8 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		OgreRenderableComponentListener::OgreRenderableComponentListener ( const std::string &name, OgreRenderableComponent *component, Core::EngineContext *engine_context )
-			: BaseOgreComponentListener< UnknownEngine::Graphics::OgreRenderableComponentListener > ( name ),
+		OgreRenderableComponentListener::OgreRenderableComponentListener ( const std::string &name, OgreRenderableComponent *component, Core::EngineContext *engine_context, OgreRenderSubsystem *render_system )
+			: BaseOgreComponentListener< UnknownEngine::Graphics::OgreRenderableComponentListener > ( name, render_system ),
 			  renderable_component ( component )
 		{
 			registerProcessor<Core::TransformChangedMessage> ( MessageProcessor ( processTransformChangedMessage ), engine_context );

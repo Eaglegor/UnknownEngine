@@ -39,6 +39,7 @@ namespace UnknownEngine
 		namespace GLOBAL_OPTIONS
 		{
 			const std::string SHOW_CONFIG_DIALOG = "show_config_dialog";
+			const std::string SEPARATE_RENDERING_THREAD = "separate_rendering_thread";
 		}
 
 		OgreRenderSubsystem::Descriptor OgreRenderSubsystemDescriptorParser::parse ( const Core::Properties &properties )
@@ -59,6 +60,9 @@ namespace UnknownEngine
 				desc.ogre_log_filename = ogre_config_files_section->get<std::string>( CONFIG_FILES_SECTION::OPTIONS::OGRE_LOG_FILENAME, desc.ogre_log_filename );
 				desc.ogre_resources_filename = ogre_config_files_section->get_optional<std::string>( CONFIG_FILES_SECTION::OPTIONS::OGRE_RESOURCES_FILENAME );
 			}
+			
+			OptionalStringOption separate_rendering_thread = properties.get_optional<std::string>(GLOBAL_OPTIONS::SEPARATE_RENDERING_THREAD);
+			if(separate_rendering_thread.is_initialized()) desc.separate_rendering_thread = boost::lexical_cast<bool>( separate_rendering_thread );
 			
 			OptionalStringOption show_config_dialog = properties.get_optional<std::string>( GLOBAL_OPTIONS::SHOW_CONFIG_DIALOG );
 			if(show_config_dialog.is_initialized()) desc.show_config_dialog = boost::lexical_cast<bool>(show_config_dialog.get());
