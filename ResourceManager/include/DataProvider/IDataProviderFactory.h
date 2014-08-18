@@ -2,13 +2,9 @@
 
 #include <AbstractObjectFactory.h>
 #include <DataProvider/DataProviderType.h>
+#include <Properties/Properties_fwd.h>
 
 namespace UnknownEngine {
-
-	namespace Core
-	{
-		class Properties;
-	}
 
 	namespace Loader {
 

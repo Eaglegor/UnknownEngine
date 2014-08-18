@@ -27,8 +27,6 @@ int main(int argc, char** argv)
 	boost::program_options::store(boost::program_options::command_line_parser(argc, argv).options(options_desc).positional(p).run(), vm);
 	boost::program_options::notify(vm);
 	
-	
-
 	if(vm.count("help"))
 	{
 	  std::cout << options_desc << std::endl;

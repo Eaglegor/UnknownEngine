@@ -52,7 +52,7 @@ namespace UnknownEngine
 
 			private:
 				void parseGlobalConstants ( const boost::property_tree::ptree &root );
-				void processEngineSettings ( const boost::property_tree::ptree &node );
+				void processTemplates ( const boost::property_tree::ptree &node );
 				void processSubsystems ( const boost::property_tree::ptree &node, Core::PluginsManager* plugins_manager );
 				void processEntities ( const boost::property_tree::ptree &node, Core::EngineContext *engine_context );
 

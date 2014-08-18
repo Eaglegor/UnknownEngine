@@ -29,13 +29,8 @@ namespace UnknownEngine {
 				const ResourceContainer& getResource() override;
 
 				virtual bool mayBeDestructed() const;
-				
-			protected:
-				/// Worker method
-				virtual void internalLoad(ResourceContainer &out_container) = 0;
 
 			private:
-
 				/// Worker method starter
 				void separateLoaderThreadFunc();
 
@@ -49,7 +44,6 @@ namespace UnknownEngine {
 
 				volatile bool load_finished;
 				volatile bool load_started;
-				ResourceContainer resource_container;
 		};
 
 	} // namespace Loader

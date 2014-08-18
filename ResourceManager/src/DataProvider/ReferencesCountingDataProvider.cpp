@@ -11,7 +11,7 @@ namespace UnknownEngine {
 		{
 		}
 
-		void UnknownEngine::Loader::ReferencesCountingDataProvider::release()
+		void ReferencesCountingDataProvider::release()
 		{
 			this->decreaseReferencesCounter();
 		}
@@ -31,5 +31,16 @@ namespace UnknownEngine {
 			references_counter.fetch_sub(1);
 		}
 
+		const ResourceContainer& ReferencesCountingDataProvider::getResource()
+		{
+			this->increaseReferencesCounter();
+			if(!loading_finished)
+			{
+				internalLoad(resource_container);
+				loading_finished = true;
+			}
+			return resource_container;
+		}
+		
 	} // namespace Loader
 } // namespace UnknownEngine
