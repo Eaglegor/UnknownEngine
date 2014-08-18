@@ -18,6 +18,7 @@ namespace UnknownEngine
 				ReferencesCountingDataProvider ( const std::string &name );
 
 				/// Returns the loaded data increasing the references counter
+				RESOURCEMANAGER_EXPORT
 				virtual const ResourceContainer& getResource() override;
 
 				/// Decreases references counter
