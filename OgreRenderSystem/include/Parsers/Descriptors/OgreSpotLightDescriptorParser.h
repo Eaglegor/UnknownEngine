@@ -1,5 +1,7 @@
 #pragma once
-#include <Components/Lights/OgreSpotLightComponent.h>
+
+#include <Properties/Properties_fwd.h>
+#include <Descriptors/Components/Lights/OgreSpotLightComponentDescriptor.h>
 
 namespace UnknownEngine
 {
@@ -9,7 +11,7 @@ namespace UnknownEngine
 		class OgreSpotLightDescriptorParser
 		{
 		public:
-			static OgreSpotLightComponent::Descriptor parse(const Core::Properties &props);
+			static OgreSpotLightComponentDescriptor parse(const Core::Properties &props);
 		};
 	}
 }

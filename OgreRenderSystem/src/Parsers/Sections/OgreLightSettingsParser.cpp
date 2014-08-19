@@ -3,6 +3,7 @@
 #include <CommonParsers/Vector3Parser.h>
 #include <boost/lexical_cast.hpp>
 #include <CommonParsers/LexicalCastForBoolAlpha.h>
+#include <Properties/Properties.h>
 
 namespace UnknownEngine {
 	namespace Graphics {

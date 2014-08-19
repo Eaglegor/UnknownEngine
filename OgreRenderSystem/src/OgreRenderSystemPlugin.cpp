@@ -84,7 +84,7 @@ namespace UnknownEngine
 				LOG_INFO ( log_helper, "Predefined descriptor found" );
 				LOG_INFO ( log_helper, "Creating subsystem object" );
 
-				render_system = new OgreRenderSubsystem ( desc.prepared_descriptor.get<OgreRenderSubsystem::Descriptor>(), log_helper, engine_context );
+				render_system = new OgreRenderSubsystem ( desc.prepared_descriptor.get<OgreRenderSubsystemDescriptor>(), log_helper, engine_context );
 			}
 			else
 			{

@@ -10,7 +10,7 @@ namespace UnknownEngine {
 		{
 		}
 		
-		BaseOgreComponentFactory::BaseOgreComponentFactory ( UnknownEngine::Graphics::OgreRenderSubsystem* render_subsystem, UnknownEngine::Core::EngineContext* engine_context, UnknownEngine::Core::LogHelper* log_helper ):
+		BaseOgreComponentFactory::BaseOgreComponentFactory ( OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context, Core::LogHelper* log_helper ):
 		render_subsystem(render_subsystem),
 		engine_context(engine_context),
 		log_helper(log_helper)

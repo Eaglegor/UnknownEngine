@@ -50,7 +50,7 @@ namespace UnknownEngine {
 		{
 			if(!desc.descriptor.isEmpty())
 			{
-				return new OgreMeshPtrFromMeshDataProvider(desc.name, desc.descriptor.get<OgreMeshPtrFromMeshDataProvider::Descriptor>(), render_subsystem, engine_context);
+				return new OgreMeshPtrFromMeshDataProvider(desc.name, desc.descriptor.get<OgreMeshPtrFromMeshDataProviderDescriptor>(), render_subsystem, engine_context);
 			}
 			else
 			{

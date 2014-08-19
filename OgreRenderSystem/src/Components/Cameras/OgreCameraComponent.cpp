@@ -19,51 +19,8 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		UnknownEngine::Core::ComponentType OgreCameraComponent::getType()
-		{
-			return OGRE_CAMERA_COMPONENT_TYPE;
-		}
-
-		void OgreCameraComponent::shutdown()
-		{
-			LOG_INFO ( log_helper, "Shutting down" );
-			this->scene_node->detachObject ( this->camera );
-		}
-
-		void OgreCameraComponent::start()
-		{
-			LOG_INFO ( log_helper, "Starting" );
-			this->scene_node->attachObject ( this->camera );
-		}
-
-		void OgreCameraComponent::internalInit ( const UnknownEngine::Core::Entity *parent_entity )
-		{
-			LOG_INFO ( log_helper, "Creating OGRE camera" );
-			this->camera = render_subsystem->getSceneManager()->createCamera ( getName() + ".Camera" );
-
-			LOG_INFO ( log_helper, "Creating OGRE scene node" );
-			this->scene_node = render_subsystem->getSceneManager()->getRootSceneNode()->createChildSceneNode ( getName() + ".SceneNode" );
-
-			render_subsystem->getRenderWindow()->addViewport ( camera );
-
-			scene_node->setPosition ( OgreVector3Converter::toOgreVector(desc.initial_transform.getPosition()) );
-			scene_node->setOrientation( OgreQuaternionConverter::toOgreQuaternion(desc.initial_transform.getOrientation()) );
-			
-			if(desc.initial_look_at.is_initialized()) 
-			{
-				LOG_DEBUG (log_helper, "Setting look at: " +
-				boost::lexical_cast<std::string>(desc.initial_look_at->x()) + ", " +
-				boost::lexical_cast<std::string>(desc.initial_look_at->y()) + ", " +
-				boost::lexical_cast<std::string>(desc.initial_look_at->z()));
-				
-				camera->lookAt( OgreVector3Converter::toOgreVector(desc.initial_look_at.get()) );
-			}
-			
-			if(desc.near_clip_distance.is_initialized()) camera->setNearClipDistance(desc.near_clip_distance.get());
-			if(desc.far_clip_distance.is_initialized()) camera->setFarClipDistance(desc.far_clip_distance.get());
-		}
-
-		OgreCameraComponent::OgreCameraComponent ( const std::string &name, const OgreCameraComponent::Descriptor &desc, OgreRenderSubsystem *render_subsystem, Core::EngineContext *engine_context )
+		
+		OgreCameraComponent::OgreCameraComponent ( const std::string &name, const OgreCameraComponentDescriptor &desc, OgreRenderSubsystem *render_subsystem, Core::EngineContext *engine_context )
 			: BaseOgreComponent(name, render_subsystem, engine_context),
 			  listener ( nullptr ),
 			  desc(desc)
@@ -92,13 +49,48 @@ namespace UnknownEngine
 			LOG_INFO ( log_helper, "Destroying OGRE scene node" );
 			render_subsystem->getSceneManager()->destroySceneNode ( this->scene_node );
 		}
-
-		void OgreCameraComponent::onTransformChanged ( const Core::TransformChangedMessage &msg )
+		
+		UnknownEngine::Core::ComponentType OgreCameraComponent::getType()
 		{
-			this->scene_node->setPosition ( OgreVector3Converter::toOgreVector ( msg.new_transform.getPosition() ) );
-			this->scene_node->setOrientation ( OgreQuaternionConverter::toOgreQuaternion ( msg.new_transform.getOrientation() ) );
+			return OGRE_CAMERA_COMPONENT_TYPE;
 		}
 
+		
+		void OgreCameraComponent::internalInit ( const UnknownEngine::Core::Entity *parent_entity )
+		{
+			LOG_INFO ( log_helper, "Creating OGRE camera" );
+			this->camera = render_subsystem->getSceneManager()->createCamera ( getName() + ".Camera" );
+
+			LOG_INFO ( log_helper, "Creating OGRE scene node" );
+			this->scene_node = render_subsystem->getSceneManager()->getRootSceneNode()->createChildSceneNode ( getName() + ".SceneNode" );
+
+			render_subsystem->getRenderWindow()->addViewport ( camera );
+
+			scene_node->setPosition ( OgreVector3Converter::toOgreVector(desc.initial_transform.getPosition()) );
+			scene_node->setOrientation( OgreQuaternionConverter::toOgreQuaternion(desc.initial_transform.getOrientation()) );
+			
+			if(desc.initial_look_at.is_initialized()) 
+			{
+				LOG_DEBUG (log_helper, "Setting look at: " +
+				boost::lexical_cast<std::string>(desc.initial_look_at->x()) + ", " +
+				boost::lexical_cast<std::string>(desc.initial_look_at->y()) + ", " +
+				boost::lexical_cast<std::string>(desc.initial_look_at->z()));
+				
+				camera->lookAt( OgreVector3Converter::toOgreVector(desc.initial_look_at.get()) );
+			}
+			
+			if(desc.near_clip_distance.is_initialized()) camera->setNearClipDistance(desc.near_clip_distance.get());
+			if(desc.far_clip_distance.is_initialized()) camera->setFarClipDistance(desc.far_clip_distance.get());
+			
+			this->scene_node->attachObject ( this->camera );
+		}
+		
+		void OgreCameraComponent::internalShutdown()
+		{
+			LOG_INFO ( log_helper, "Shutting down" );
+			this->scene_node->detachObject ( this->camera );
+		}
+		
 		void OgreCameraComponent::addReceivedMessageType ( const Core::ReceivedMessageDesc &received_message )
 		{
 			if ( listener == nullptr )
@@ -117,6 +109,12 @@ namespace UnknownEngine
 			{
 				throw Core::IMessageListener::MessageTypeNotSupportedByListener ( "Listener of component " + getName() + " doesn't support message type " + received_message.message_type_name );
 			}
+		}
+		
+		void OgreCameraComponent::onTransformChanged ( const Core::TransformChangedMessage &msg )
+		{
+			this->scene_node->setPosition ( OgreVector3Converter::toOgreVector ( msg.new_transform.getPosition() ) );
+			this->scene_node->setOrientation ( OgreQuaternionConverter::toOgreQuaternion ( msg.new_transform.getOrientation() ) );
 		}
 
 		void OgreCameraComponent::doLookAt ( const CameraLookAtActionMessage &msg )

@@ -17,64 +17,7 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		void OgreRenderableComponent::internalInit( const UnknownEngine::Core::Entity* parent_entity )
-		{
-			LOG_INFO ( log_helper, "Creating OGRE entity" );
-			if(desc.mesh_data_provider!=nullptr)
-			{
-				entity = render_subsystem->getSceneManager()->createEntity ( getName() + ".OgreEntity", desc.mesh_data_provider->getResource().getData<Ogre::MeshPtr>() );
-			}
-			else
-			{
-				if(desc.throw_exception_on_missing_mesh_data){
-					LOG_ERROR( log_helper, "No mesh data provider found!" );
-					throw NoMeshDataProvidedException("No mesh data provided to construct renderable component");
-				}
-				else
-				{
-					LOG_ERROR ( log_helper, "No mesh data provider found. Using substitute mesh (Ogre::PT_SPHERE) instead");
-					entity = render_subsystem->getSceneManager()->createEntity ( getName() + ".OgreEntity", Ogre::SceneManager::PT_SPHERE );
-				}
-			}
-
-			entity->setMaterialName ( desc.material_desc.name );
-
-			LOG_INFO ( log_helper, "Creating OGRE scene node" )
-			scene_node = render_subsystem->getSceneManager()->getRootSceneNode()->createChildSceneNode ( getName() + ".SceneNode" );
-
-			scene_node->setPosition ( OgreVector3Converter::toOgreVector(desc.initial_transform.getPosition()) );
-			scene_node->setOrientation ( OgreQuaternionConverter::toOgreQuaternion(desc.initial_transform.getOrientation()) );
-		}
-		
-		void OgreRenderableComponent::start()
-		{
-			LOG_INFO ( log_helper, "Starting" );
-			scene_node->attachObject ( entity );
-		}
-
-		void OgreRenderableComponent::shutdown()
-		{
-			LOG_INFO ( log_helper, "Shutting down" );
-			scene_node->detachObject ( entity );
-		}
-
-		Core::ComponentType OgreRenderableComponent::getType()
-		{
-			return OGRE_RENDERABLE_COMPONENT_TYPE;
-		}
-
-		void OgreRenderableComponent::onTransformChanged ( const Core::TransformChangedMessage &message )
-		{
-			this->scene_node->setPosition ( OgreVector3Converter::toOgreVector ( message.new_transform.getPosition() ) );
-			this->scene_node->setOrientation ( OgreQuaternionConverter::toOgreQuaternion ( message.new_transform.getOrientation() ) );
-		}
-
-		void OgreRenderableComponent::doChangeMaterial ( const ChangeMaterialActionMessage &message )
-		{
-			this->entity->setMaterialName ( message.new_material_name );
-		}
-
-		OgreRenderableComponent::OgreRenderableComponent ( const std::string &name, const Descriptor &desc, OgreRenderSubsystem *render_system, Core::EngineContext *engine_context )
+		OgreRenderableComponent::OgreRenderableComponent ( const std::string &name, const OgreRenderableComponentDescriptor &desc, OgreRenderSubsystem *render_subsystem, Core::EngineContext *engine_context )
 			: BaseOgreComponent(name, render_subsystem, engine_context),
 			  desc ( desc ),
 			  listener ( nullptr )
@@ -96,7 +39,46 @@ namespace UnknownEngine
 				LOG_INFO ( log_helper, "Deleting listener" );
 				delete listener;
 			}
+		}
+		
+		void OgreRenderableComponent::internalInit( const UnknownEngine::Core::Entity* parent_entity )
+		{
+			LOG_INFO ( log_helper, "Creating OGRE entity" );
+			if(desc.mesh_data_provider!=nullptr)
+			{
+				Ogre::MeshPtr mesh_data = desc.mesh_data_provider->getResource().getData<Ogre::MeshPtr>();
+				entity = render_subsystem->getSceneManager()->createEntity ( getName() + ".OgreEntity", mesh_data );
+			}
+			else
+			{
+				if(desc.throw_exception_on_missing_mesh_data){
+					LOG_ERROR( log_helper, "No mesh data provider found!" );
+					throw NoMeshDataProvidedException("No mesh data provided to construct renderable component");
+				}
+				else
+				{
+					LOG_ERROR ( log_helper, "No mesh data provider found. Using substitute mesh (Ogre::PT_SPHERE) instead");
+					entity = render_subsystem->getSceneManager()->createEntity ( getName() + ".OgreEntity", Ogre::SceneManager::PT_SPHERE );
+				}
+			}
 
+			entity->setMaterialName ( desc.material_desc.name );
+
+			LOG_INFO ( log_helper, "Creating OGRE scene node" )
+			scene_node = render_subsystem->getSceneManager()->getRootSceneNode()->createChildSceneNode ( getName() + ".SceneNode" );
+
+			scene_node->setPosition ( OgreVector3Converter::toOgreVector(desc.initial_transform.getPosition()) );
+			scene_node->setOrientation ( OgreQuaternionConverter::toOgreQuaternion(desc.initial_transform.getOrientation()) );
+			
+			LOG_INFO ( log_helper, "Starting" );
+			scene_node->attachObject ( entity );
+		}
+
+		void OgreRenderableComponent::internalShutdown()
+		{
+			LOG_INFO ( log_helper, "Shutting down" );
+			scene_node->detachObject ( entity );
+			
 			if(desc.mesh_data_provider != nullptr) desc.mesh_data_provider->release();
 			
 			LOG_INFO ( log_helper, "Destroying scene node" );
@@ -104,6 +86,11 @@ namespace UnknownEngine
 
 			LOG_INFO ( log_helper, "Destroying entity" );
 			render_subsystem->getSceneManager()->destroyEntity ( entity );
+		}
+
+		Core::ComponentType OgreRenderableComponent::getType()
+		{
+			return OGRE_RENDERABLE_COMPONENT_TYPE;
 		}
 
 		void OgreRenderableComponent::addReceivedMessageType ( const Core::ReceivedMessageDesc &received_message )
@@ -120,6 +107,17 @@ namespace UnknownEngine
 			{
 				throw Core::IMessageListener::MessageTypeNotSupportedByListener ( "Listener of component " + getName() + " doesn't support message type " + received_message.message_type_name );
 			}
+		}
+
+		void OgreRenderableComponent::onTransformChanged ( const Core::TransformChangedMessage &message )
+		{
+			this->scene_node->setPosition ( OgreVector3Converter::toOgreVector ( message.new_transform.getPosition() ) );
+			this->scene_node->setOrientation ( OgreQuaternionConverter::toOgreQuaternion ( message.new_transform.getOrientation() ) );
+		}
+
+		void OgreRenderableComponent::doChangeMaterial ( const ChangeMaterialActionMessage &message )
+		{
+			this->entity->setMaterialName ( message.new_material_name );
 		}
 
 	} // namespace Graphics

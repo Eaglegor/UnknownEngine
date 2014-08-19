@@ -61,7 +61,7 @@ namespace UnknownEngine
 			if ( !desc.descriptor.isEmpty() )
 			{
 				LOG_INFO ( log_helper, "Predefined descriptor found" );
-				component = new OgreRenderableComponent ( desc.name, desc.descriptor.get<OgreRenderableComponent::Descriptor>(), render_subsystem, engine_context );
+				component = new OgreRenderableComponent ( desc.name, desc.descriptor.get<OgreRenderableComponentDescriptor>(), render_subsystem, engine_context );
 			}
 			else
 			{

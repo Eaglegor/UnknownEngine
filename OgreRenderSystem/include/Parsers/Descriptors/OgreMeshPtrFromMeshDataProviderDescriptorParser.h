@@ -1,6 +1,7 @@
 #pragma once
 
-#include <DataProviders/OgreMeshPtrFromMeshDataProvider.h>
+#include <Properties/Properties_fwd.h>
+#include <Descriptors/DataProviders/OgreMeshPtrFromMeshDataProviderDescriptor.h>
 
 namespace UnknownEngine
 {
@@ -9,7 +10,7 @@ namespace UnknownEngine
 		class OgreMeshPtrFromMeshDataProviderDescriptorParser
 		{
 		public:
-			static OgreMeshPtrFromMeshDataProvider::Descriptor parse(const Core::Properties& props);
+			static OgreMeshPtrFromMeshDataProviderDescriptor parse(const Core::Properties& props);
 		};
 	}
 }

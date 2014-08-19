@@ -70,7 +70,7 @@ namespace UnknownEngine {
 			
 			if(!desc.descriptor.isEmpty())
 			{
-				component = new OgrePointLightComponent(desc.name, desc.descriptor.get<OgrePointLightComponent::Descriptor>(), render_subsystem, engine_context);
+				component = new OgrePointLightComponent(desc.name, desc.descriptor.get<OgrePointLightComponentDescriptor>(), render_subsystem, engine_context);
 			}
 			else
 			{
@@ -104,7 +104,7 @@ namespace UnknownEngine {
 			
 			if(!desc.descriptor.isEmpty())
 			{
-				component = new OgreDirectionalLightComponent(desc.name, desc.descriptor.get<OgreDirectionalLightComponent::Descriptor>(), render_subsystem, engine_context);
+				component = new OgreDirectionalLightComponent(desc.name, desc.descriptor.get<OgreDirectionalLightComponentDescriptor>(), render_subsystem, engine_context);
 			}
 			else
 			{
@@ -130,7 +130,7 @@ namespace UnknownEngine {
 			
 			if(!desc.descriptor.isEmpty())
 			{
-				component = new OgreSpotLightComponent(desc.name, desc.descriptor.get<OgreSpotLightComponent::Descriptor>(), render_subsystem, engine_context);
+				component = new OgreSpotLightComponent(desc.name, desc.descriptor.get<OgreSpotLightComponentDescriptor>(), render_subsystem, engine_context);
 			}
 			else
 			{

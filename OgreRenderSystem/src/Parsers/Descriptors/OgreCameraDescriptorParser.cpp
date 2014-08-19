@@ -31,9 +31,9 @@ namespace UnknownEngine
 			}
 		}
 		
-		OgreCameraComponent::Descriptor OgreCameraDescriptorParser::parse ( const Core::Properties &properties )
+		OgreCameraComponentDescriptor OgreCameraDescriptorParser::parse ( const Core::Properties &properties )
 		{
-			OgreCameraComponent::Descriptor desc;
+			OgreCameraComponentDescriptor desc;
 			
 			OptionalOptionsSection initial_transform_section = properties.get_optional<Core::Properties>( INITIAL_TRANSFORM_SECTION::SECTION_NAME );
 			if ( initial_transform_section.is_initialized() )

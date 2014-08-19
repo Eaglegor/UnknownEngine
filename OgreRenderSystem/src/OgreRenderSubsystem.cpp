@@ -22,7 +22,7 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 	
-		OgreRenderSubsystem::OgreRenderSubsystem ( const OgreRenderSubsystem::Descriptor& desc, Core::LogHelper* log_helper, Core::EngineContext* engine_context ):
+		OgreRenderSubsystem::OgreRenderSubsystem ( const OgreRenderSubsystemDescriptor& desc, Core::LogHelper* log_helper, Core::EngineContext* engine_context ):
 		log_helper ( log_helper ),
 		engine_context(engine_context),
 		update_frame_listener(nullptr),
@@ -142,7 +142,7 @@ namespace UnknownEngine
 			#endif
 			
 		}
-
+/*
 		void OgreRenderSubsystem::addInitCallback ( const std::string& name, const std::function< void() >& callback )
 		{
 			if(render_synchronize_callback != nullptr) render_synchronize_callback->addInitCallback(name, callback);
@@ -162,7 +162,7 @@ namespace UnknownEngine
 		{
 			if(render_synchronize_callback != nullptr) render_synchronize_callback->removeSynchronizeCallback(name);
 		}
-
+*/
 		
 	} // namespace Graphics
 } // namespace UnknownEngine

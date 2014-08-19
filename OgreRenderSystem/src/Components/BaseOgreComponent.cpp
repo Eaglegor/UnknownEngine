@@ -14,6 +14,10 @@ namespace UnknownEngine {
 		{
 		}
 
+		BaseOgreComponent::~BaseOgreComponent()
+		{
+		}
+		
 		void BaseOgreComponent::init ( const Core::Entity* parent_entity )
 		{
 #ifdef ENABLE_OGRE_SEPARATE_THREAD_RENDERING
@@ -30,11 +34,11 @@ namespace UnknownEngine {
 #endif
 
 		}
-		
-		BaseOgreComponent::~BaseOgreComponent()
-		{
-		}
 
+		void BaseOgreComponent::shutdown()
+		{
+			internalShutdown();
+		}
 		
 	}
 }

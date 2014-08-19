@@ -40,9 +40,9 @@ namespace UnknownEngine
 			const std::string SECTION_NAME = "InitialTransform"; // optional
 		}
 
-		OgreRenderableComponent::Descriptor OgreRenderableDescriptorParser::parse ( const Core::Properties &properties )
+		OgreRenderableComponentDescriptor OgreRenderableDescriptorParser::parse ( const Core::Properties &properties )
 		{
-			OgreRenderableComponent::Descriptor desc;
+			OgreRenderableComponentDescriptor desc;
 
 			OptionalOptionsSection material_section = properties.get_optional<Core::Properties>( MATERIAL_SECTION::SECTION_NAME );
 			if ( material_section.is_initialized() )

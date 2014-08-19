@@ -10,7 +10,7 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 		
-		OgreDirectionalLightComponent::OgreDirectionalLightComponent ( const std::string& name, const Descriptor& desc, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context ) : 
+		OgreDirectionalLightComponent::OgreDirectionalLightComponent ( const std::string& name, const OgreDirectionalLightComponentDescriptor& desc, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context ) : 
 		BaseOgreLightComponent ( name, render_subsystem, engine_context, desc.light_settings ), 
 		desc(desc)
 		{

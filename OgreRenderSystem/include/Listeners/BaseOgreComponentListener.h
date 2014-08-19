@@ -58,10 +58,10 @@ namespace UnknownEngine
 				
 				virtual ~BaseOgreComponentListener()
 				{
-					if(render_subsystem->hasSeparateRenderThreadEnabled())
+					/*if(render_subsystem->hasSeparateRenderThreadEnabled())
 					{
 						render_subsystem->removeSynchronizeCallback(getName());
-					}
+					}*/
 				}
 
 				virtual void processMessage ( const Core::PackedMessage& msg )

@@ -1,14 +1,8 @@
 #pragma once
 
-#include <Objects/Component.h>
-#include <MessageSystem/MessageListenerDesc.h>
-#include <MessageSystem/MessagingPoliciesManager.h>
-#include <Vectors/Vector3.h>
-#include <AlignedNew.h>
-#include <Transform/Transform.h>
-#include <ExportedMessages/LogMessage.h>
 #include <Components/BaseOgreComponent.h>
-#include <OgreColourValue.h>
+#include <MessageSystem/MessageListenerDesc.h>
+#include <Descriptors/Components/Lights/OgreLightSettings.h>
 
 namespace Ogre
 {
@@ -23,56 +17,29 @@ namespace UnknownEngine
 
 		struct TransformChangedMessage;
 		class EngineContext;
-		class LogHelper;
 	}
 
 	namespace Graphics
 	{
 
 		class BaseOgreLightComponentListener;
-
 		class OgreRenderSubsystem;
-
-		struct OgreLightSettings
-		{
-			struct Attenuation
-			{
-				Math::Scalar range;
-				Math::Scalar constant;
-				Math::Scalar linear;
-				Math::Scalar quadratic;
-			};
-			
-			boost::optional<Attenuation> attenuation;
-			boost::optional<bool> cast_shadows;
-			
-			Math::Scalar intensity;
-			Ogre::ColourValue diffuse_color;
-			Ogre::ColourValue specular_color;
-			
-			OgreLightSettings():
-			diffuse_color(1,1,1),
-			specular_color(1,1,1),
-			intensity(1)
-			{}
-			
-		};
-		
+	
 		class BaseOgreLightComponent : public BaseOgreComponent
 		{
 			public:
-				virtual UnknownEngine::Core::ComponentType getType() = 0;
-				virtual void shutdown();
-				virtual void start();
 				BaseOgreLightComponent ( const std::string& name, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context, const OgreLightSettings& light_settings );
+				virtual ~BaseOgreLightComponent();
+				
+				virtual UnknownEngine::Core::ComponentType getType() = 0;
+				
 				void addReceivedMessageType ( const Core::ReceivedMessageDesc &received_message );
 				
 				void onTransformChanged(const Core::TransformChangedMessage& msg);
 
-				virtual ~BaseOgreLightComponent();
-				
 			protected:
-				virtual void internalInit(const Core::Entity* parent_entity);
+				virtual void internalInit(const Core::Entity* parent_entity) override;
+				virtual void internalShutdown() override;
 				
 				OgreLightSettings light_settings;
 				

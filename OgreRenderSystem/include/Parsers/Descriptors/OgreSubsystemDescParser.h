@@ -1,6 +1,7 @@
 #pragma once
 
-#include <OgreRenderSubsystem.h>
+#include <Properties/Properties_fwd.h>
+#include <Descriptors/OgreRenderSubsystemDescriptor.h>
 
 namespace UnknownEngine
 {
@@ -10,7 +11,7 @@ namespace UnknownEngine
 		class OgreRenderSubsystemDescriptorParser
 		{
 			public:
-				static OgreRenderSubsystem::Descriptor parse ( const Core::Properties& properties );
+				static OgreRenderSubsystemDescriptor parse ( const Core::Properties& properties );
 		};
 
 	} // namespace Graphics

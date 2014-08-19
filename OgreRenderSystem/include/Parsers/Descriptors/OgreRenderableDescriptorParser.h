@@ -1,7 +1,8 @@
 #pragma once
 
-#include <Components/Renderables/OgreRenderableComponent.h>
-#include <Properties/Properties.h>
+#include <Properties/Properties_fwd.h>
+#include <Descriptors/Components/Renderables/OgreRenderableComponentDescriptor.h>
+
 
 namespace UnknownEngine
 {
@@ -11,7 +12,7 @@ namespace UnknownEngine
 		class OgreRenderableDescriptorParser
 		{
 			public:
-				static OgreRenderableComponent::Descriptor parse ( const Core::Properties& properties );
+				static OgreRenderableComponentDescriptor parse ( const Core::Properties& properties );
 		};
 
 	} // namespace Graphics

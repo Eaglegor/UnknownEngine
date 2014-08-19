@@ -34,9 +34,9 @@ namespace UnknownEngine {
 			const std::string FALLOFF = "spotlight_falloff";
 		}
 		
-		OgreSpotLightComponent::Descriptor OgreSpotLightDescriptorParser::parse ( const UnknownEngine::Core::Properties& props )
+		OgreSpotLightComponentDescriptor OgreSpotLightDescriptorParser::parse ( const UnknownEngine::Core::Properties& props )
 		{
-			OgreSpotLightComponent::Descriptor desc;
+			OgreSpotLightComponentDescriptor desc;
 			
 			OptionalOptionsSection light_settings_section = props.get_optional<Core::Properties>(LIGHT_SETTINGS::SECTION_NAME);
 			if(light_settings_section.is_initialized())

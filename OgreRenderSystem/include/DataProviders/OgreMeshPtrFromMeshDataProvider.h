@@ -2,7 +2,7 @@
 
 #include <DataProviders/OgreMeshPtrProvider.h>
 #include <DataProvider/DataProviderType.h>
-#include <ExportedMessages/LogMessage.h>
+#include <Descriptors/DataProviders/OgreMeshPtrFromMeshDataProviderDescriptor.h>
 
 namespace UnknownEngine
 {
@@ -23,20 +23,7 @@ namespace UnknownEngine
 		class OgreMeshPtrFromMeshDataProvider : public OgreMeshPtrProvider
 		{
 			public:
-
-				struct Descriptor
-				{
-					Loader::IDataProvider* mesh_data_provider;
-					
-					Core::LogMessage::Severity log_level;
-					
-					Descriptor():
-					mesh_data_provider(nullptr),
-					log_level(Core::LogMessage::Severity::LOG_SEVERITY_NONE)
-					{}
-				};
-
-				OgreMeshPtrFromMeshDataProvider ( const std::string &name, const Descriptor &descriptor, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context );
+				OgreMeshPtrFromMeshDataProvider ( const std::string &name, const OgreMeshPtrFromMeshDataProviderDescriptor &descriptor, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context );
 				
 				virtual const Loader::DataProviderType& getType() override;
 				

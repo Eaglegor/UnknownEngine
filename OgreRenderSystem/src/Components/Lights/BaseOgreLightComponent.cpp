@@ -15,16 +15,22 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		void BaseOgreLightComponent::shutdown()
+		BaseOgreLightComponent::BaseOgreLightComponent ( const std::string& name, UnknownEngine::Graphics::OgreRenderSubsystem* render_subsystem, UnknownEngine::Core::EngineContext* engine_context, const UnknownEngine::Graphics::OgreLightSettings& light_settings ):
+		BaseOgreComponent(name, render_subsystem, engine_context),
+		listener(nullptr),
+		light_settings(light_settings)
 		{
-			ogre_scene_node->detachObject(ogre_light);
 		}
-
-		void BaseOgreLightComponent::start()
+		
+		BaseOgreLightComponent::~BaseOgreLightComponent()
 		{
-			ogre_scene_node->attachObject(ogre_light);
+			if(listener != nullptr)
+			{
+				engine_context->getMessageDispatcher()->removeListener(listener);
+				delete listener;
+			}
 		}
-
+		
 		void BaseOgreLightComponent::internalInit( const UnknownEngine::Core::Entity* parent_entity )
 		{
 			ogre_light = render_subsystem->getSceneManager()->createLight(getName() + ".Light");
@@ -46,22 +52,13 @@ namespace UnknownEngine
 			{
 				ogre_light->setCastShadows(light_settings.cast_shadows.get());
 			}
+			
+			ogre_scene_node->attachObject(ogre_light);
 		}
 		
-		BaseOgreLightComponent::BaseOgreLightComponent ( const std::string& name, UnknownEngine::Graphics::OgreRenderSubsystem* render_subsystem, UnknownEngine::Core::EngineContext* engine_context, const UnknownEngine::Graphics::OgreLightSettings& light_settings ):
-		BaseOgreComponent(name, render_subsystem, engine_context),
-		listener(nullptr),
-		light_settings(light_settings)
+		void BaseOgreLightComponent::internalShutdown()
 		{
-		}
-		
-		BaseOgreLightComponent::~BaseOgreLightComponent()
-		{
-			if(listener != nullptr)
-			{
-				engine_context->getMessageDispatcher()->removeListener(listener);
-				delete listener;
-			}
+			ogre_scene_node->detachObject(ogre_light);
 			
 			render_subsystem->getSceneManager()->destroyLight(ogre_light);
 			render_subsystem->getSceneManager()->destroySceneNode(ogre_scene_node);

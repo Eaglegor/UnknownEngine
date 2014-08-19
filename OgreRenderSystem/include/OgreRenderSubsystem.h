@@ -3,6 +3,7 @@
 #include <InlineSpecification.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 #include <ExportedMessages/LogMessage.h>
+#include <Descriptors/OgreRenderSubsystemDescriptor.h>
 #include <functional>
 
 namespace boost
@@ -38,30 +39,7 @@ namespace UnknownEngine
 		{
 			public:
 
-				struct Descriptor
-				{
-					std::string ogre_plugins_filename;
-					std::string ogre_config_filename;
-					std::string ogre_log_filename;
-					std::string render_window_name;
-					boost::optional<std::string> ogre_resources_filename;
-					
-					bool separate_rendering_thread;
-					
-					bool show_config_dialog;
-					
-					Descriptor() :
-						render_window_name ( "Untitled window" ),
-						ogre_config_filename ( "ogre.cfg" ),
-						ogre_log_filename ( "Ogre.log" ),
-						ogre_plugins_filename ( "plugins.cfg" ),
-						show_config_dialog(false),
-						separate_rendering_thread(true)
-					{}
-
-				};
-
-				explicit OgreRenderSubsystem ( const OgreRenderSubsystem::Descriptor& desc, Core::LogHelper* log_helper, Core::EngineContext* engine_context );
+				explicit OgreRenderSubsystem ( const OgreRenderSubsystemDescriptor& desc, Core::LogHelper* log_helper, Core::EngineContext* engine_context );
 				virtual ~OgreRenderSubsystem();
 				void onFrameUpdated ( const Core::UpdateFrameMessage& msg );
 
@@ -107,7 +85,7 @@ namespace UnknownEngine
 				Core::EngineContext* engine_context;
 				OgreUpdateFrameListener* update_frame_listener;
 		
-				Descriptor desc;
+				OgreRenderSubsystemDescriptor desc;
 				
 #ifdef ENABLE_OGRE_SEPARATE_THREAD_RENDERING
 				std::unique_ptr<boost::thread> rendering_thread;

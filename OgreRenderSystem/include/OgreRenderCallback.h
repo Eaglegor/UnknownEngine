@@ -14,8 +14,16 @@ namespace UnknownEngine
 				typedef tbb::concurrent_unordered_map< std::string, std::function<void()> > ConcurrentMap;
 
 			public:
-				virtual bool frameStarted ( const Ogre::FrameEvent& evt )
+				
+				virtual bool frameStarted( const Ogre::FrameEvent& evt)
 				{
+					std::cout << "Starting frame" << std::endl;
+					return true;
+				}
+				
+				virtual bool frameEnded ( const Ogre::FrameEvent& evt )
+				{
+					std::cout << "Ending frame" << std::endl;
 					ConcurrentMap::iterator init_iterator = init_callbacks.begin();
 					while ( init_iterator != init_callbacks.end() )
 					{
@@ -42,9 +50,12 @@ namespace UnknownEngine
 						finished = true;
 						wait_for_finish_var.notify_all();
 					}
+					
+					std::cout << "Frame ended" << std::endl;
+					
 					return !stopped;
 				};
-
+				
 				void addInitCallback ( const std::string &name, const std::function<void()> &callback )
 				{
 					init_callbacks.insert ( std::make_pair ( name, callback ) );

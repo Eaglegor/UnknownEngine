@@ -42,9 +42,9 @@ namespace UnknownEngine
 			const std::string SEPARATE_RENDERING_THREAD = "separate_rendering_thread";
 		}
 
-		OgreRenderSubsystem::Descriptor OgreRenderSubsystemDescriptorParser::parse ( const Core::Properties &properties )
+		OgreRenderSubsystemDescriptor OgreRenderSubsystemDescriptorParser::parse ( const Core::Properties &properties )
 		{
-			OgreRenderSubsystem::Descriptor desc;
+			OgreRenderSubsystemDescriptor desc;
 			
 			OptionalOptionsSection render_window_section = properties.get_optional<Core::Properties>( RENDER_WINDOW_SECTION::SECTION_NAME );
 			if ( render_window_section.is_initialized() )

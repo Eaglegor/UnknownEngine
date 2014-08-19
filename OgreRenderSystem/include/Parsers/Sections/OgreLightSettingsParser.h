@@ -1,5 +1,7 @@
 #pragma once
-#include <Components/Lights/BaseOgreLightComponent.h>
+
+#include <Properties/Properties_fwd.h>
+#include <Descriptors/Components/Lights/OgreLightSettings.h>
 
 namespace UnknownEngine
 {

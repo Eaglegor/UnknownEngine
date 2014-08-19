@@ -27,9 +27,9 @@ namespace UnknownEngine {
 			const std::string SECTION_NAME = "LightSettings";
 		}
 		
-		OgrePointLightComponent::Descriptor OgrePointLightDescriptorParser::parse ( const UnknownEngine::Core::Properties& props )
+		OgrePointLightComponentDescriptor OgrePointLightDescriptorParser::parse ( const UnknownEngine::Core::Properties& props )
 		{
-			OgrePointLightComponent::Descriptor desc;
+			OgrePointLightComponentDescriptor desc;
 			
 			OptionalOptionsSection light_settings_section = props.get_optional<Core::Properties>(LIGHT_SETTINGS::SECTION_NAME);
 			if(light_settings_section.is_initialized())

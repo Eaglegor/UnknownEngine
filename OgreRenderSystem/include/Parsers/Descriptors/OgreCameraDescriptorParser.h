@@ -1,7 +1,7 @@
 #pragma once
 
+#include <Properties/Properties_fwd.h>
 #include <Components/Cameras/OgreCameraComponent.h>
-#include <Properties/Properties.h>
 
 namespace UnknownEngine
 {
@@ -11,7 +11,7 @@ namespace UnknownEngine
 		class OgreCameraDescriptorParser
 		{
 			public:
-				static OgreCameraComponent::Descriptor parse ( const Core::Properties& properties );
+				static OgreCameraComponentDescriptor parse ( const Core::Properties& properties );
 		};
 
 	} // namespace Graphics

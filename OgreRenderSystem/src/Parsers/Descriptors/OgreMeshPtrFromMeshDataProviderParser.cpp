@@ -11,7 +11,7 @@ namespace UnknownEngine {
 			const std::string LOG_LEVEL = "log_level";
 		};
 
-		typedef OgreMeshPtrFromMeshDataProvider::Descriptor DescriptorType;
+		typedef OgreMeshPtrFromMeshDataProviderDescriptor DescriptorType;
 		
 		DescriptorType OgreMeshPtrFromMeshDataProviderDescriptorParser::parse( const UnknownEngine::Core::Properties& props )
 		{

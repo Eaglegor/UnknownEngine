@@ -1,5 +1,6 @@
 #pragma once
 #include <Components/Lights/BaseOgreLightComponent.h>
+#include <Descriptors/Components/Lights/OgrePointLightComponentDescriptor.h>
 
 namespace UnknownEngine
 {
@@ -12,35 +13,20 @@ namespace UnknownEngine
 		{
 			public:
 				
-				UNKNOWNENGINE_ALIGNED_STRUCT(16) Descriptor
-				{
-					OgreLightSettings light_settings;
-					
-					Core::Transform initial_transform;
-					Core::LogMessage::Severity log_level;
-					
-					UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
-					
-					Descriptor():
-					log_level(Core::LogMessage::Severity::LOG_SEVERITY_NONE)
-					{}
-				};
-				
-				OgrePointLightComponent ( const std::string& name, const Descriptor& desc, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context );
+				OgrePointLightComponent ( const std::string& name, const OgrePointLightComponentDescriptor& desc, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context );
 				virtual ~OgrePointLightComponent();
-				virtual Core::ComponentType getType();
+				
+				virtual Core::ComponentType getType() override;
 				
 				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 				
 			protected:
-				virtual void internalInit (const Core::Entity* parent_entity);
+				virtual void internalInit (const Core::Entity* parent_entity) override;
 				
 			private:
-				Descriptor desc;
+				OgrePointLightComponentDescriptor desc;
 			
 		};
 	}
 }
 
-#include <AlignedAnyHolder.h>
-ALIGNED_BOOST_ANY_HOLDER(UnknownEngine::Graphics::OgrePointLightComponent::Descriptor);
