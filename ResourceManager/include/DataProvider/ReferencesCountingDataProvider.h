@@ -17,10 +17,14 @@ namespace UnknownEngine
 				RESOURCEMANAGER_EXPORT
 				ReferencesCountingDataProvider ( const std::string &name );
 
-				/// Returns the loaded data increasing the references counter
+				/// Returns the loaded data
 				RESOURCEMANAGER_EXPORT
 				virtual const ResourceContainer& getResource() override;
 
+				/// Increases references counter
+				RESOURCEMANAGER_EXPORT
+				virtual void reserve() override;
+				
 				/// Decreases references counter
 				RESOURCEMANAGER_EXPORT
 				virtual void release() override;

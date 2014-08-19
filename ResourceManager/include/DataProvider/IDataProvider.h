@@ -63,6 +63,11 @@ namespace UnknownEngine
                 virtual const ResourceContainer& getResource() = 0;
 
 				/**
+				 * @brief Informs data provider that the user wants to get data
+				 */
+                virtual void reserve() = 0;
+				
+				/**
 				 * @brief Informs data provider that the user doesn't need it's data anymore
 				 */
                 virtual void release() = 0;

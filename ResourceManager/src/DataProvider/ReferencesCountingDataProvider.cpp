@@ -11,6 +11,11 @@ namespace UnknownEngine {
 		{
 		}
 
+		void ReferencesCountingDataProvider::reserve()
+		{
+			this->increaseReferencesCounter();
+		}
+		
 		void ReferencesCountingDataProvider::release()
 		{
 			this->decreaseReferencesCounter();
@@ -33,7 +38,6 @@ namespace UnknownEngine {
 
 		const ResourceContainer& ReferencesCountingDataProvider::getResource()
 		{
-			this->increaseReferencesCounter();
 			if(!loading_finished)
 			{
 				internalLoad(resource_container);
