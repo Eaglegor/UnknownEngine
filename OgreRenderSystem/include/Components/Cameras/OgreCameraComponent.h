@@ -1,5 +1,6 @@
 #pragma once
 
+#include <OgreRenderSubsystem_fwd.h>
 #include <Components/BaseOgreComponent.h>
 #include <ComponentType.h>
 #include <AlignedNew.h>
@@ -24,7 +25,6 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		class OgreRenderSubsystem;
 		class OgreCameraComponentListener;
 		struct CameraLookAtActionMessage;
 

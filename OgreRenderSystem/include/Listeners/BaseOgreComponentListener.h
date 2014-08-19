@@ -24,7 +24,6 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		class OgreRenderSubsystem;
 		template <typename ListenerClass>
 		class BaseOgreComponentListener : public UnknownEngine::Core::IMessageListener
 		{

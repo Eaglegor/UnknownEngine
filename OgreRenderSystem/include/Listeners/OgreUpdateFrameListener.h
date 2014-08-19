@@ -1,5 +1,6 @@
 #pragma once
 
+#include <OgreRenderSubsystem_fwd.h>
 #include <MessageSystem/IMessageListener.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 
@@ -7,8 +8,6 @@ namespace UnknownEngine
 {
 	namespace Graphics
 	{
-
-		class OgreRenderSubsystem;
 
 		class OgreUpdateFrameListener: public Core::IMessageListener
 		{

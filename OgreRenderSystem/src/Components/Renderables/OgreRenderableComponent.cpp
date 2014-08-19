@@ -27,6 +27,8 @@ namespace UnknownEngine
 				log_helper.reset(new Core::LogHelper ( getName(), desc.log_level, engine_context ));
 			}
 			
+			if(desc.mesh_data_provider!=nullptr) desc.mesh_data_provider->reserve();
+			
 			LOG_INFO ( log_helper, "Logger initialized" );
 		}
 
@@ -34,6 +36,9 @@ namespace UnknownEngine
 		{
 			if ( listener != nullptr )
 			{
+				
+				if(desc.mesh_data_provider != nullptr) desc.mesh_data_provider->release();
+				
 				LOG_INFO ( log_helper, "Unregistering listener" );
 				engine_context->getMessageDispatcher()->removeListener ( listener );
 				LOG_INFO ( log_helper, "Deleting listener" );
@@ -78,8 +83,6 @@ namespace UnknownEngine
 		{
 			LOG_INFO ( log_helper, "Shutting down" );
 			scene_node->detachObject ( entity );
-			
-			if(desc.mesh_data_provider != nullptr) desc.mesh_data_provider->release();
 			
 			LOG_INFO ( log_helper, "Destroying scene node" );
 			render_subsystem->getSceneManager()->destroySceneNode ( scene_node );

@@ -4,7 +4,8 @@
 #include <ComponentDesc.h>
 #include <MessageSystem/MessageListenerDesc.h>
 #include <Exception.h>
-#include "BaseOgreComponentFactory.h"
+#include <Factories/BaseOgreComponentFactory.h>
+#include <OgreRenderSubsystem_fwd.h>
 
 namespace UnknownEngine
 {
@@ -20,7 +21,6 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		class OgreRenderSubsystem;
 		class OgreCameraComponent;
 
 		/**

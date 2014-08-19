@@ -10,6 +10,7 @@
 #include <Plugins/Plugin.h>
 #include <InlineSpecification.h>
 #include <SubsystemDesc.h>
+#include <OgreRenderSubsystem_fwd.h>
 
 namespace UnknownEngine
 {
@@ -23,7 +24,6 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		class OgreRenderSubsystem;
 		class OgreRenderableComponentsFactory;
 		class OgreCameraComponentsFactory;
 		class OgreLightComponentsFactory;

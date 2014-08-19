@@ -1,5 +1,6 @@
 #pragma once
 
+#include <OgreRenderSubsystem_fwd.h>
 #include <IComponentFactory.h>
 #include <ComponentDesc.h>
 #include <MessageSystem/MessageListenerDesc.h>
@@ -20,7 +21,6 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		class OgreRenderSubsystem;
 		class OgreRenderableComponent;
 
 		/**

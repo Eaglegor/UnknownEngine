@@ -1,5 +1,6 @@
 #pragma once
 
+#include <OgreRenderSubsystem_fwd.h>
 #include <Components/BaseOgreComponent.h>
 #include <Exception.h>
 #include <Descriptors/Components/Renderables/OgreRenderableComponentDescriptor.h>
@@ -22,7 +23,6 @@ namespace UnknownEngine
 
 	namespace Graphics
 	{
-		class OgreRenderSubsystem;
 		class OgreRenderableComponentListener;
 		struct ChangeMaterialActionMessage;
 

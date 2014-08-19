@@ -1,5 +1,6 @@
 #pragma once
 
+#include <OgreRenderSubsystem_fwd.h>
 #include <DataProvider/IDataProviderFactory.h>
 
 namespace UnknownEngine
@@ -13,7 +14,6 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		class OgreRenderSubsystem;
 		class OgreMeshPtrDataProvidersFactory : public Loader::IDataProviderFactory
 		{
 		public:
