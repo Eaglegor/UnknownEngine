@@ -62,8 +62,13 @@ namespace UnknownEngine
 					else
 					{
 						frame_listener.reset(new OgreRenderFrameListener());
-						root->addFrameListener(frame_listener.get());
-						rendering_thread.reset(new boost::thread( [this](){this->root->startRendering();}));
+						rendering_thread.reset(new boost::thread( [this](){
+							initOgre();
+							root->addFrameListener(frame_listener.get());
+							this->root->startRendering();
+							root->removeFrameListener(frame_listener.get());
+							shutdownOgre();
+						}));
 					}
 				}
 
@@ -80,8 +85,8 @@ namespace UnknownEngine
 					{
 						frame_listener->stopRendering();
 						frame_listener->waitUntilFinished();
+						frame_listener.reset();
 					}
-					
 				}
 
 				void addSynchronizeCallback ( const std::string &name, const std::function<void() > &callback )

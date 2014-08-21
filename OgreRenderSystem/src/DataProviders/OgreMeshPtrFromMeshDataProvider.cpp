@@ -21,6 +21,7 @@ namespace UnknownEngine
 			  render_subsystem(render_subsystem),
 			  log_helper(nullptr)
 		{
+			mesh_data_provider->reserve();
 			if(descriptor.log_level > Core::LogMessage::Severity::LOG_SEVERITY_NONE)
 			{
 				log_helper.reset( new Core::LogHelper(getName(), descriptor.log_level, engine_context) );

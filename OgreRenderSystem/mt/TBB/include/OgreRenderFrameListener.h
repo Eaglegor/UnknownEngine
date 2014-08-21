@@ -98,8 +98,6 @@ namespace UnknownEngine
 			boost::condition_variable wait_for_finish_var;
 			boost::mutex loading_finished_mutex;
 
-
-
 			/// Callbacks for components initialization which can be only done when rendering is inactive
 			ConcurrentQueue init_callbacks;
 

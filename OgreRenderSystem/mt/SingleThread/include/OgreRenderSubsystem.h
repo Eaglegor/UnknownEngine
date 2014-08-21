@@ -48,6 +48,8 @@ namespace UnknownEngine
 				
 				virtual void start()
 				{
+					initOgre();
+					
 					LOG_INFO ( log_helper, "Registering update frame listener..." );
 					update_frame_listener = new OgreUpdateFrameListener ( "Graphics.Ogre.Listeners.UpdateFrameListener", this );
 					engine_context->getMessageDispatcher()->addListener ( Core::UpdateFrameMessage::getTypeName(), update_frame_listener );
@@ -61,6 +63,8 @@ namespace UnknownEngine
 						engine_context->getMessageDispatcher()->removeListener ( update_frame_listener );
 						delete update_frame_listener;
 					}
+					
+					shutdownOgre();
 				}
 		};
 

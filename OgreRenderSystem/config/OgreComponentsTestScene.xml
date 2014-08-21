@@ -1,7 +1,8 @@
 <scene>
 
-	<subsystems>
+	<constant name="global_log_level" value="none"/>
 
+	<subsystems>
 		<subsystem name="Logger" module="ConsoleLogger">
 			<received_messages>
 				<message type="Engine.LogMessage">
@@ -24,7 +25,7 @@
 		
 			<options_section>
 				
-				<option name="log_level" value="none"/>
+				<option name="log_level" value="${global_log_level}"/>
 
 				<options_section name="RenderWindow">
 					<option name="title" value="Hello window"/>
@@ -51,7 +52,7 @@
 			<component type="Graphics.Camera" name="Camera">
 				<options_section>
 					
-					<option name="log_level" value="debug"/>
+					<option name="log_level" value="${global_log_level}"/>
 					
 					<options_section name="InitialTransform">
 						<option name="position" value="Vector3(x:0, y:0, z:100)"/>
@@ -67,7 +68,7 @@
 		<data_provider name="TeapotMesh" type="Loader.MeshData.AssimpMeshDataLoader">
 			<options_section>
 				<option name="filename" value="teapot.obj"/>
-				<option name="log_level" value="debug"/>
+				<option name="log_level" value="${global_log_level}"/>
 				
 				<options_section name="Postprocessing">
 					<option name="generate_normals" value="true"/>
@@ -80,7 +81,7 @@
 		<data_provider name="OgreAdaptedTeapotMesh" type="Loader.OgreMeshPtr.OgreMeshPtrFromMeshDataProvider">
 			<options_section>
 				<provided_data name="mesh_data_provider" data_provider_name="TeapotMesh"/>
-				<option name="log_level" value="none"/>
+				<option name="log_level" value="${global_log_level}"/>
 			</options_section>
 		</data_provider>
 		
@@ -88,7 +89,7 @@
 			<component name="RenderableComponent" type="Graphics.Renderable">
 				<options_section>
 					
-					<option name="log_level" value="none"/>
+					<option name="log_level" value="${global_log_level}"/>
 					<option name="throw_exception_on_missing_mesh_data" value="true"/>
 					
 					<provided_data name="mesh_ptr_provider" data_provider_name="OgreAdaptedTeapotMesh"/>
@@ -108,7 +109,7 @@
 		<data_provider name="ShuttleMesh" type="Loader.MeshData.AssimpMeshDataLoader">
 			<options_section>
 				<option name="filename" value="shuttle.obj"/>
-				<option name="log_level" value="debug"/>
+				<option name="log_level" value="${global_log_level}"/>
 				
 				<options_section name="Postprocessing">
 					<option name="generate_normals" value="true"/>
@@ -121,7 +122,7 @@
 		<data_provider name="OgreAdaptedShuttleMesh" type="Loader.OgreMeshPtr.OgreMeshPtrFromMeshDataProvider">
 			<options_section>
 				<provided_data name="mesh_data_provider" data_provider_name="ShuttleMesh"/>
-				<option name="log_level" value="none"/>
+				<option name="log_level" value="${global_log_level}"/>
 			</options_section>
 		</data_provider>
 		
@@ -129,7 +130,7 @@
 			<component name="RenderableComponent" type="Graphics.Renderable">
 				<options_section>
 					
-					<option name="log_level" value="none"/>
+					<option name="log_level" value="${global_log_level}"/>
 					<option name="throw_exception_on_missing_mesh_data" value="true"/>
 					
 					<provided_data name="mesh_ptr_provider" data_provider_name="OgreAdaptedShuttleMesh"/>
@@ -151,7 +152,7 @@
 			<component name="LightComponentD" type="Graphics.Light.Directional">
 				<options_section>
 					
-					<option name="log_level" value="none"/>
+					<option name="log_level" value="${global_log_level}"/>
 					
 					<options_section name="LightSettings">
 						<option name="intensity" value="1"/>
@@ -170,7 +171,7 @@
 			<component name="LightComponentD2" type="Graphics.Light.Directional">
 				<options_section>
 					
-					<option name="log_level" value="none"/>
+					<option name="log_level" value="${global_log_level}"/>
 					
 					<options_section name="LightSettings">
 						<option name="intensity" value="1"/>

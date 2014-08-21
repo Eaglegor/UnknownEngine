@@ -59,8 +59,11 @@ namespace UnknownEngine
 					return render_window;
 				}
 				
-
 			protected:
+				
+				void initOgre();
+				void shutdownOgre();
+				
 				Ogre::Root* root;
 				Ogre::SceneManager* scene_manager;
 				Ogre::RenderWindow* render_window;

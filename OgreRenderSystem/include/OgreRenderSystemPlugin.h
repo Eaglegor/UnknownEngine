@@ -45,8 +45,6 @@ namespace UnknownEngine
 
 			private:
 
-				void createTestScene();
-
 				Core::SubsystemDesc desc;
 				Core::EngineContext *engine_context;
 
