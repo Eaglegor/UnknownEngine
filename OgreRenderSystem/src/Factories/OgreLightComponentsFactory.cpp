@@ -13,7 +13,7 @@
 namespace UnknownEngine {
 	namespace Graphics {
 		
-		Core::Component* OgreLightComponentsFactory::createObject ( const Core::ComponentDesc& desc )
+		Core::Component* OgreLightComponentsFactory::internalCreateObject ( const Core::ComponentDesc& desc )
 		{
 			Core::Component* component = nullptr;
 			

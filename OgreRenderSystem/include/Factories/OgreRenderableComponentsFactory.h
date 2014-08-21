@@ -36,9 +36,9 @@ namespace UnknownEngine
 				virtual const std::string getName();
 				virtual const std::unordered_set<Core::ComponentType>& getSupportedTypes();
 				virtual const bool supportsType ( const Core::ComponentType &object_type );
-				virtual Core::Component* createObject ( const Core::ComponentDesc& desc );
 
 			protected:
+				virtual Core::Component* internalCreateObject ( const Core::ComponentDesc& desc );
 				virtual void internalDestroyObject ( Core::Component* object );
 
 			private:

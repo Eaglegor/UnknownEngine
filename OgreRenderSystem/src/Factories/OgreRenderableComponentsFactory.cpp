@@ -37,7 +37,7 @@ namespace UnknownEngine
 			return supported_types.find ( object_type ) != supported_types.end();
 		}
 
-		Core::Component *OgreRenderableComponentsFactory::createObject ( const Core::ComponentDesc &desc )
+		Core::Component *OgreRenderableComponentsFactory::internalCreateObject ( const Core::ComponentDesc &desc )
 		{
 			Core::Component* component = nullptr;
 

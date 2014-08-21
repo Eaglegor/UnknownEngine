@@ -8,14 +8,9 @@
 #include <Descriptors/OgreRenderSubsystemDescriptor.h>
 #include <functional>
 
-#include <BaseOgreRenderSubsystem.h>
+#include <ThreadIndependentOgreRenderSystemBase.h>
 #include <Listeners/OgreUpdateFrameListener.h>
 #include <LogHelper.h>
-
-namespace boost
-{
-	class thread;
-}
 
 namespace Ogre
 {
@@ -41,12 +36,12 @@ namespace UnknownEngine
 
 		class OgreUpdateFrameListener;
 
-		class SingleThreadedOgreRenderSubsystem : public BaseOgreRenderSubsystem
+		class SingleThreadedOgreRenderSubsystem : public ThreadIndependentOgreRenderSystemBase
 		{
 			public:
 
 				SingleThreadedOgreRenderSubsystem ( const OgreRenderSubsystemDescriptor& desc, Core::LogHelper* log_helper, Core::EngineContext* engine_context ):
-				BaseOgreRenderSubsystem(desc, log_helper, engine_context)
+				ThreadIndependentOgreRenderSystemBase(desc, log_helper, engine_context)
 				{};
 				
 				virtual ~SingleThreadedOgreRenderSubsystem(){};

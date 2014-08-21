@@ -26,12 +26,12 @@ namespace UnknownEngine
 		{
 		public:
 			OgreLightComponentsFactory(OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context, Core::LogHelper* log_helper);
-			virtual Core::Component* createObject ( const Core::ComponentDesc& desc );
 			virtual const std::string getName();
 			virtual const std::unordered_set< Core::ComponentType >& getSupportedTypes();
 			virtual const bool supportsType ( const Core::ComponentType& object_type );
 
 		protected:
+			virtual Core::Component* internalCreateObject ( const Core::ComponentDesc& desc );
 			virtual void internalDestroyObject ( Core::Component* object );
 			
 		private:

@@ -35,12 +35,12 @@ namespace UnknownEngine
 
 		class OgreUpdateFrameListener;
 
-		class BaseOgreRenderSubsystem
+		class ThreadIndependentOgreRenderSystemBase
 		{
 			public:
 
-				explicit BaseOgreRenderSubsystem ( const OgreRenderSubsystemDescriptor& desc, Core::LogHelper* log_helper, Core::EngineContext* engine_context );
-				virtual ~BaseOgreRenderSubsystem();
+				explicit ThreadIndependentOgreRenderSystemBase ( const OgreRenderSubsystemDescriptor& desc, Core::LogHelper* log_helper, Core::EngineContext* engine_context );
+				virtual ~ThreadIndependentOgreRenderSystemBase();
 				
 				virtual void onFrameUpdated ( const Core::UpdateFrameMessage& msg );
 

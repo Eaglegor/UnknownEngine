@@ -2,7 +2,7 @@
 
 #include <Ogre.h>
 #include <OgreFrameListener.h>
-#include <BaseOgreRenderSubsystem.h>
+#include <ThreadIndependentOgreRenderSystemBase.h>
 #include <LogHelper.h>
 #include <EngineContext.h>
 
@@ -18,7 +18,7 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 	
-		BaseOgreRenderSubsystem::BaseOgreRenderSubsystem ( const OgreRenderSubsystemDescriptor& desc, Core::LogHelper* log_helper, Core::EngineContext* engine_context ):
+		ThreadIndependentOgreRenderSystemBase::ThreadIndependentOgreRenderSystemBase ( const OgreRenderSubsystemDescriptor& desc, Core::LogHelper* log_helper, Core::EngineContext* engine_context ):
 		log_helper ( log_helper ),
 		engine_context(engine_context),
 		update_frame_listener(nullptr),
@@ -49,7 +49,7 @@ namespace UnknownEngine
 			
 		}
 
-		void BaseOgreRenderSubsystem::onFrameUpdated ( const UnknownEngine::Core::UpdateFrameMessage& msg )
+		void ThreadIndependentOgreRenderSystemBase::onFrameUpdated ( const UnknownEngine::Core::UpdateFrameMessage& msg )
 		{
 			//LOG_DEBUG(log_helper, "Rendering frame");
 			if ( msg.stage == Core::UpdateFrameMessage::PROCESSING )
@@ -60,7 +60,7 @@ namespace UnknownEngine
 
 		}
 
-		BaseOgreRenderSubsystem::~BaseOgreRenderSubsystem()
+		ThreadIndependentOgreRenderSystemBase::~ThreadIndependentOgreRenderSystemBase()
 		{
 			root->shutdown();
 			delete root;
@@ -70,7 +70,7 @@ namespace UnknownEngine
 			
 		}
 
-		void BaseOgreRenderSubsystem::loadResourcesFile ( const std::string& filename )
+		void ThreadIndependentOgreRenderSystemBase::loadResourcesFile ( const std::string& filename )
 		{
 			Ogre::ConfigFile cf;
 			cf.load(filename);

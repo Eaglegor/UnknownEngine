@@ -21,6 +21,7 @@ namespace UnknownEngine {
 			{
 				return createOgreMeshPtrFromMeshDataProvider(desc);
 			}
+			return nullptr;
 		}
 
 		void OgreMeshPtrDataProvidersFactory::destroyObject ( Loader::IDataProvider* object )

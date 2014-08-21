@@ -1,5 +1,6 @@
 #pragma once
 #include <Components/BaseOgreComponent_fwd.h>
+#include <Components/ThreadIndependentOgreComponentBase.h>
 #include <Objects/Component.h>
 #include <MessageSystem/MessagingPoliciesManager.h>
 #include <LogHelper.h>
@@ -17,21 +18,16 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		class SingleThreadedBaseOgreComponent : public Core::Component
+		class SingleThreadedBaseOgreComponent : public ThreadIndependentOgreComponentBase
 		{
 		public:
-			// Construction
 			SingleThreadedBaseOgreComponent(const std::string &name, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context):
-			Core::Component ( name ),
-			render_subsystem(render_subsystem),
-			engine_context(engine_context),
-			messaging_policies_manager(engine_context)
+			ThreadIndependentOgreComponentBase ( name, render_subsystem, engine_context )
 			{}
 			
 			virtual ~SingleThreadedBaseOgreComponent()
 			{}
 			
-			// Lifecycle
 			virtual void init ( const Core::Entity* parent_entity ) override
 			{
 				internalInit( parent_entity );
@@ -41,15 +37,7 @@ namespace UnknownEngine
 			{
 				internalShutdown();
 			}
-			
-		protected:
-			virtual void internalInit( const Core::Entity* parent_entity ) = 0;
-			virtual void internalShutdown( ) = 0;
-			
-			OgreRenderSubsystem* render_subsystem;
-			Core::EngineContext* engine_context;
-			Core::MessagingPoliciesManager messaging_policies_manager;
-			std::unique_ptr<Core::LogHelper> log_helper;
+
 		};
 		
 	}
