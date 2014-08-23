@@ -2,6 +2,7 @@
 
 #include <ResourceManager_export.h>
 #include <atomic>
+#include <boost/thread.hpp>
 #include <DataProvider/IDataProvider.h>
 #include <ResourceContainer.h>
 
@@ -17,6 +18,8 @@ namespace UnknownEngine
 				RESOURCEMANAGER_EXPORT
 				ReferencesCountingDataProvider ( const std::string &name );
 
+				virtual ~ReferencesCountingDataProvider();
+				
 				/// Returns the loaded data
 				RESOURCEMANAGER_EXPORT
 				virtual const ResourceContainer& getResource() override;
@@ -34,19 +37,36 @@ namespace UnknownEngine
 				virtual bool mayBeDestructed() const override;
 
 			protected:
+				void onLoadStarted();
+				void onLoadFinished();		
+				
+				bool isLoadStarted();
+				bool isLoadFinished();
+				
+				/// Actual resource getter
+				virtual const ResourceContainer& internalGetResource() = 0;	
 
+				/// Waits until loading is finished
+				void waitUntilLoadFinished();
+				
 				virtual void internalLoad ( ResourceContainer &out_container ) = 0;
 
 				ResourceContainer resource_container;
-
+				
+			private:
 				/// Increases the references counter
 				void increaseReferencesCounter();
 
 				/// Decreases the references counter
 				void decreaseReferencesCounter();
-
-			private:
-				bool loading_finished;
+				
+				volatile bool load_finished;
+				volatile bool load_started;
+				
+				boost::mutex loading_started_mutex;
+				boost::mutex loading_finished_mutex;
+				boost::condition_variable wait_for_finish_var;
+				
 				volatile std::atomic<size_t> references_counter; ///< References counter
 
 		};

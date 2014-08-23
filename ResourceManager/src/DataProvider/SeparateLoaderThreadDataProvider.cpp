@@ -7,8 +7,6 @@ namespace UnknownEngine {
 
 		SeparateLoaderThreadDataProvider::SeparateLoaderThreadDataProvider(const std::string &name) :
 			ReferencesCountingDataProvider(name),
-			load_started(false),
-			load_finished(false),
 			separate_loading_thread(nullptr)
 		{
 		}
@@ -19,45 +17,23 @@ namespace UnknownEngine {
 
 		void SeparateLoaderThreadDataProvider::startLoading()
 		{
-			boost::lock_guard<boost::mutex> guard(loading_started_mutex);
-			if(load_started) return;
+			if(isLoadStarted()) return;
+			onLoadStarted();
 			separate_loading_thread = std::move(std::unique_ptr<boost::thread>(new boost::thread(boost::bind(&SeparateLoaderThreadDataProvider::separateLoaderThreadFunc, this))));
-			load_started = true;
-		}
-
-		const ResourceContainer &SeparateLoaderThreadDataProvider::getResource()
-		{
-			increaseReferencesCounter();
-			waitUntilLoadFinished();
-			return resource_container;
 		}
 
 		void SeparateLoaderThreadDataProvider::separateLoaderThreadFunc()
 		{
 			internalLoad(resource_container);
-
-			{
-				boost::lock_guard<boost::mutex> guard(loading_finished_mutex);
-				load_finished = true;
-			}
-
-			wait_for_finish_var.notify_all();
+			
+			onLoadFinished();
 		}
 
-		void SeparateLoaderThreadDataProvider::waitUntilLoadFinished()
+		const ResourceContainer& SeparateLoaderThreadDataProvider::internalGetResource()
 		{
-			boost::unique_lock<boost::mutex> lock(loading_finished_mutex);
-			while(!load_finished)
-			{
-				wait_for_finish_var.wait(lock);
-			}
+			waitUntilLoadFinished();
+			return resource_container;
 		}
 		
-		bool SeparateLoaderThreadDataProvider::mayBeDestructed() const
-		{
-			return UnknownEngine::Loader::ReferencesCountingDataProvider::mayBeDestructed() && (load_finished || !load_started);
-		}
-
-
 	} // namespace Loader
 } // namespace UnknownEngine
