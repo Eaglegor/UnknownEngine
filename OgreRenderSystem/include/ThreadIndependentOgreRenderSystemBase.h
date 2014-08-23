@@ -4,7 +4,6 @@
 #include <ExportedMessages/UpdateFrameMessage.h>
 #include <ExportedMessages/LogMessage.h>
 #include <Descriptors/OgreRenderSubsystemDescriptor.h>
-#include <functional>
 
 namespace boost
 {

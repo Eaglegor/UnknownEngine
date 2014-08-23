@@ -1,3 +1,5 @@
+#include <stdafx.h>
+
 #include <Parsers/Descriptors/OgreMeshPtrFromMeshDataProviderDescriptorParser.h>
 #include <Properties/PropertiesTree.h>
 #include <LogHelper.h>

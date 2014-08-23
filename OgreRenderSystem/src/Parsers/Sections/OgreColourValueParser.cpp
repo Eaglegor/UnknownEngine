@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <Parsers/Sections/OgreColourValueParser.h>
 
 namespace UnknownEngine

@@ -1,5 +1,4 @@
 #pragma once
-#include <Factories/BaseOgreComponentFactory_fwd.h>
 #include <IComponentFactory.h>
 #include <OgreRenderSubsystem_fwd.h>
 

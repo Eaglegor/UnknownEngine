@@ -1,3 +1,5 @@
+#include <stdafx.h>
+
 #include <Parsers/Descriptors/OgreDirectionalLightDescriptorParser.h>
 #include <Parsers/Sections/OgreLightSettingsParser.h>
 #include <Parsers/Sections/InitialTransformSectionParser.h>

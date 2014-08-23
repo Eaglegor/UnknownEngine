@@ -1,10 +1,3 @@
-/*
- * DirectX10RenderSystemPlugin.cpp
- *
- *  Created on: 17 июня 2014 г.
- *      Author: Eaglegor
- */
-
 #include <stdafx.h>
 
 #include <boost/lexical_cast.hpp>

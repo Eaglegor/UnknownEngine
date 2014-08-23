@@ -1,3 +1,5 @@
+#include <stdafx.h>
+
 #include <Factories/OgreMeshPtrDataProvidersFactory.h>
 
 #include <DataProviders/OgreMeshPtrFromMeshDataProvider.h>

@@ -5,7 +5,7 @@
 #include <MessageSystem/MessageDictionary.h>
 #include <Components/Renderables/OgreRenderableComponent.h>
 
-#define MessageProcessor(processor) &OgreRenderableComponentListener::processor
+#define MessageProcessor(processor) std::bind(&OgreRenderableComponentListener::processor, this)
 
 namespace UnknownEngine
 {
@@ -13,11 +13,11 @@ namespace UnknownEngine
 	{
 
 		OgreRenderableComponentListener::OgreRenderableComponentListener ( const std::string &name, OgreRenderableComponent *component, Core::EngineContext *engine_context, OgreRenderSubsystem *render_system )
-			: BaseOgreComponentListener< UnknownEngine::Graphics::OgreRenderableComponentListener > ( name, render_system ),
+			: BaseOgreComponentListener ( name, render_system, engine_context ),
 			  renderable_component ( component )
 		{
-			registerProcessor<Core::TransformChangedMessage> ( MessageProcessor ( processTransformChangedMessage ), engine_context );
-			registerProcessor<Graphics::ChangeMaterialActionMessage> ( MessageProcessor ( processChangeMaterialActionMessage ), engine_context );
+			registerProcessor<Core::TransformChangedMessage> ( std::bind(&OgreRenderableComponentListener::processTransformChangedMessage, this, std::placeholders::_1) );
+			registerProcessor<Graphics::ChangeMaterialActionMessage> ( std::bind(&OgreRenderableComponentListener::processChangeMaterialActionMessage, this, std::placeholders::_1) );
 		}
 
 		void OgreRenderableComponentListener::processTransformChangedMessage ( const Core::PackedMessage &msg )

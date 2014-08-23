@@ -62,7 +62,7 @@ namespace UnknownEngine
 			}
 			
 			OptionalStringOption separate_rendering_thread = properties.get_optional<std::string>(GLOBAL_OPTIONS::SEPARATE_RENDERING_THREAD);
-			if(separate_rendering_thread.is_initialized()) desc.separate_rendering_thread = boost::lexical_cast<bool>( separate_rendering_thread );
+			if(separate_rendering_thread.is_initialized()) desc.separate_rendering_thread = boost::lexical_cast<bool>( separate_rendering_thread.get() );
 			
 			OptionalStringOption show_config_dialog = properties.get_optional<std::string>( GLOBAL_OPTIONS::SHOW_CONFIG_DIALOG );
 			if(show_config_dialog.is_initialized()) desc.show_config_dialog = boost::lexical_cast<bool>(show_config_dialog.get());

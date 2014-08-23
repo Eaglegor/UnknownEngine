@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <Parsers/Sections/OgreLightSettingsParser.h>
 #include <Parsers/Sections/OgreColourValueParser.h>
 #include <CommonParsers/Vector3Parser.h>

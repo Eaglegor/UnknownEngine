@@ -4,7 +4,7 @@
 #include <Components/Cameras/OgreCameraComponent.h>
 #include <MessageSystem/PackedMessage.h>
 
-#define MessageProcessor(processor) &OgreCameraComponentListener::processor
+#define MessageProcessor(processor) std::bind(&OgreCameraComponentListener::processor, this)
 
 namespace UnknownEngine
 {
@@ -12,11 +12,12 @@ namespace UnknownEngine
 	{
 
 		OgreCameraComponentListener::OgreCameraComponentListener ( const std::string &object_name, OgreCameraComponent *camera_component, Core::EngineContext *engine_context, OgreRenderSubsystem *render_system )
-			: BaseOgreComponentListener< UnknownEngine::Graphics::OgreCameraComponentListener > ( object_name, render_system ),
+			: BaseOgreComponentListener( object_name, render_system, engine_context ),
 			  camera_component ( camera_component ),
 			  engine_context ( engine_context )
 		{
-			registerProcessor<Core::TransformChangedMessage> ( MessageProcessor ( processTransformChangedMessage ), engine_context );
+			registerProcessor<Core::TransformChangedMessage> ( std::bind(&OgreCameraComponentListener::processTransformChangedMessage, this, std::placeholders::_1) );
+			registerProcessor<Graphics::CameraLookAtActionMessage> ( std::bind(&OgreCameraComponentListener::processCameraLookAtActionMessage, this, std::placeholders::_1) );
 		}
 
 		void OgreCameraComponentListener::processTransformChangedMessage ( const Core::PackedMessage &msg )

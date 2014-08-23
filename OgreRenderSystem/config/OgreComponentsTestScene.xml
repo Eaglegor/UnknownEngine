@@ -27,6 +27,8 @@
 				
 				<option name="log_level" value="${global_log_level}"/>
 
+				<option name="separate_rendering_thread" value="true"/>
+				
 				<options_section name="RenderWindow">
 					<option name="title" value="Hello window"/>
 				</options_section>
@@ -99,32 +101,12 @@
 					</options_section>
 					
 					<options_section name="InitialTransform">
-						<option name="position" value="Vector3(x:0, y:0, z:0)"/>
+						<option name="position" value="Vector3(x:30, y:0, z:0)"/>
 					</options_section>
 					
 				</options_section>
 			</component>
 		</entity>
-		
-		<data_provider name="ShuttleMesh" type="Loader.MeshData.AssimpMeshDataLoader">
-			<options_section>
-				<option name="filename" value="shuttle.obj"/>
-				<option name="log_level" value="${global_log_level}"/>
-				
-				<options_section name="Postprocessing">
-					<option name="generate_normals" value="true"/>
-					<option name="triangulate" value="true"/>
-				</options_section>
-					
-			</options_section>
-		</data_provider>
-		
-		<data_provider name="OgreAdaptedShuttleMesh" type="Loader.OgreMeshPtr.OgreMeshPtrFromMeshDataProvider">
-			<options_section>
-				<provided_data name="mesh_data_provider" data_provider_name="ShuttleMesh"/>
-				<option name="log_level" value="${global_log_level}"/>
-			</options_section>
-		</data_provider>
 		
 		<entity name="TestRenderable2">
 			<component name="RenderableComponent" type="Graphics.Renderable">
@@ -133,14 +115,14 @@
 					<option name="log_level" value="${global_log_level}"/>
 					<option name="throw_exception_on_missing_mesh_data" value="true"/>
 					
-					<provided_data name="mesh_ptr_provider" data_provider_name="OgreAdaptedShuttleMesh"/>
+					<provided_data name="mesh_ptr_provider" data_provider_name="OgreAdaptedTeapotMesh"/>
 					
 					<options_section name="Material">
 						<option name="material_name" value="Test"/>
 					</options_section>
 					
 					<options_section name="InitialTransform">
-						<option name="position" value="Vector3(x:3, y:0, z:-200)"/>
+						<option name="position" value="Vector3(x:-30, y:0, z:0)"/>
 					</options_section>
 					
 				</options_section>

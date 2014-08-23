@@ -19,10 +19,10 @@ namespace UnknownEngine
 
 		class OgreCameraComponent;
 
-		class OgreCameraComponentListener : public BaseOgreComponentListener<OgreCameraComponentListener>
+		class OgreCameraComponentListener : public BaseOgreComponentListener
 		{
 			public:
-				OgreCameraComponentListener ( const std::string& object_name, UnknownEngine::Graphics::OgreCameraComponent* camera_component, UnknownEngine::Core::EngineContext* engine_context, UnknownEngine::Graphics::OgreRenderSubsystem* render_system );
+				OgreCameraComponentListener ( const std::string& object_name, OgreCameraComponent* camera_component, Core::EngineContext* engine_context, OgreRenderSubsystem* render_system );
 
 			private:
 				void processTransformChangedMessage ( const Core::PackedMessage& msg );

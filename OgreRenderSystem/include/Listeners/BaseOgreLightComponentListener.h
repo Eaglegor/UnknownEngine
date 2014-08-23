@@ -10,10 +10,10 @@ namespace UnknownEngine
 
 		class BaseOgreLightComponent;
 		
-		class BaseOgreLightComponentListener : public UnknownEngine::Graphics::BaseOgreComponentListener<BaseOgreLightComponentListener>
+		class BaseOgreLightComponentListener : public BaseOgreComponentListener
 		{
 			public:
-				BaseOgreLightComponentListener ( const std::string& object_name, UnknownEngine::Graphics::BaseOgreLightComponent* component, UnknownEngine::Core::EngineContext* engine_context, UnknownEngine::Graphics::OgreRenderSubsystem* render_system );
+				BaseOgreLightComponentListener ( const std::string& object_name, BaseOgreLightComponent* component, Core::EngineContext* engine_context, OgreRenderSubsystem* render_system );
 				
 			private:
 				void processTransformChangedMessage ( const Core::PackedMessage &msg );

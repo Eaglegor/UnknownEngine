@@ -1,9 +1,9 @@
 #pragma once
 
-#include <Components/BaseOgreComponent_fwd.h>
+#include <OgreRenderSubsystem_fwd.h>
+
 #include <Objects/Component.h>
 #include <MessageSystem/MessagingPoliciesManager.h>
-#include <OgreRenderSubsystem.h>
 
 namespace UnknownEngine
 {
@@ -21,14 +21,9 @@ namespace UnknownEngine
 		{
 			public:
 				// Construction
-				ThreadIndependentOgreComponentBase ( const std::string &name, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context ) :
-					Core::Component ( name ),
-					render_subsystem ( render_subsystem ),
-					engine_context ( engine_context ),
-					messaging_policies_manager ( engine_context )
-				{}
+				ThreadIndependentOgreComponentBase ( const std::string &name, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context );
 
-				virtual ~ThreadIndependentOgreComponentBase() {};
+				virtual ~ThreadIndependentOgreComponentBase();
 
 			protected:
 				virtual void internalInit ( const Core::Entity* parent_entity ) = 0;

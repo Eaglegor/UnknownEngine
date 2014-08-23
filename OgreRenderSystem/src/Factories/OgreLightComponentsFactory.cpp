@@ -1,3 +1,5 @@
+#include <stdafx.h>
+
 #include <Factories/OgreLightComponentsFactory.h>
 #include <ComponentDesc.h>
 

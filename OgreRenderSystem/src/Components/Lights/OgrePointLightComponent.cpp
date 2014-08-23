@@ -1,3 +1,5 @@
+#include <stdafx.h>
+
 #include <Components/Lights/OgrePointLightComponent.h>
 #include <Converters/OgreVector3Converter.h>
 #include <Converters/OgreQuaternionConverter.h>

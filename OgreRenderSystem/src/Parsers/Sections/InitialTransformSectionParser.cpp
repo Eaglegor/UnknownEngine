@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <Parsers/Sections/InitialTransformSectionParser.h>
 #include <CommonParsers/Vector3Parser.h>
 #include <CommonParsers/QuaternionParser.h>
