@@ -65,6 +65,14 @@ namespace UnknownEngine
 				{
 				}
 
+				/**
+				 * @brief Constructor
+				 */
+				PackedMessage ( )
+					: message_type_id ( INVALID_NUMERIC_IDENTIFIER )
+				{
+				}
+				
 				virtual ~PackedMessage ()
 				{
 				}

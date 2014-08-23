@@ -49,7 +49,7 @@ namespace UnknownEngine
 			
 			if(desc.postprocessing.flip_texture_coordinates) 
 			{
-				LOG_INFO(log_helper, "Turning on postprocessor: Flip normals");
+				LOG_INFO(log_helper, "Turning on postprocessor: Flip texture coordinates");
 				flags |= aiProcess_FlipUVs;
 			}
 			
@@ -98,9 +98,20 @@ namespace UnknownEngine
 				Utils::VertexType vertex;
 				vertex.setPosition( convertAssimpVector (vertices[i]) );
 				
-				if(first_mesh->HasNormals()) vertex.setNormal( convertAssimpVector (normals[i]) );
-				if(first_mesh->HasTangentsAndBitangents()) vertex.setTangent( convertAssimpVector (tangents[i]) );
-				if(first_mesh->HasTextureCoords(0)) vertex.setTextureCoordinate( convertAssimpTexCoord (texture_coordinates[i]) );
+				if(first_mesh->HasNormals()) 
+				{
+					vertex.setNormal( convertAssimpVector (normals[i]) );
+				}
+				
+				if(first_mesh->HasTangentsAndBitangents()) 
+				{
+					vertex.setTangent( convertAssimpVector (tangents[i]) );
+				}
+				
+				if(first_mesh->HasTextureCoords(0)) 
+				{
+					vertex.setTextureCoordinate( convertAssimpTexCoord (texture_coordinates[i]) );
+				}
 				
 				mesh_data.getVertices().push_back(vertex);
 			}

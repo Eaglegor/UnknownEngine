@@ -10,6 +10,7 @@
 #include <Plugins/Plugin.h>
 #include <InlineSpecification.h>
 #include <SubsystemDesc.h>
+#include <OgreRenderSubsystem_fwd.h>
 
 namespace UnknownEngine
 {
@@ -23,33 +24,38 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		class OgreRenderSubsystem;
 		class OgreRenderableComponentsFactory;
-		class OgreUpdateFrameListener;
-
+		class OgreCameraComponentsFactory;
+		class OgreLightComponentsFactory;
+		class OgreMeshPtrDataProvidersFactory;
+		
 		class OgreRenderSystemPlugin: public Core::Plugin
 		{
 			public:
 				OgreRenderSystemPlugin();
 				virtual ~OgreRenderSystemPlugin();
 
-				virtual bool install(Core::PluginsManager* plugins_manager, const Core::SubsystemDesc &desc) throw (Core::PluginError) override;
+				virtual bool install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc &desc ) throw ( Core::PluginError ) override;
 
-				virtual bool init() throw (Core::PluginError) override;
+				virtual bool init() throw ( Core::PluginError ) override;
 
-				virtual bool shutdown() throw (Core::PluginError) override;
+				virtual bool shutdown() throw ( Core::PluginError ) override;
 
-				virtual bool uninstall() throw (Core::PluginError) override;
+				virtual bool uninstall() throw ( Core::PluginError ) override;
 
 			private:
+
 				Core::SubsystemDesc desc;
 				Core::EngineContext *engine_context;
 
 				OgreRenderSubsystem* render_system;
-				OgreRenderableComponentsFactory* renderable_components_factory;
-
-				OgreUpdateFrameListener* update_frame_listener;
 				
+				OgreRenderableComponentsFactory* renderable_components_factory;
+				OgreCameraComponentsFactory* camera_components_factory;
+				OgreLightComponentsFactory* light_components_factory;
+				
+				OgreMeshPtrDataProvidersFactory* mesh_ptr_data_providers_factory;
+
 				Core::LogHelper *log_helper;
 
 		};

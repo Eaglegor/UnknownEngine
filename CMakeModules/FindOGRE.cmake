@@ -23,6 +23,7 @@
     SET(OGRE_INCLUDE_DIRS ${OGRESDK}/include/OGRE)
     SET(OGRE_LIBRARY_DIRS ${OGRESDK}/lib)
 
+
 	if(WIN32)
 		if(CMAKE_BUILD_TYPE MATCHES Debug)
 			FIND_PATH(OGRE_BINARY_DIR OgreMain_d.dll ${OGRESDK}/bin/Debug)
@@ -37,7 +38,7 @@
     MESSAGE(STATUS "Using OGRE built from source")
     SET(OGRE_INCLUDE_DIRS $ENV{OGRE_SRC}/OgreMain/include/OGRE)
     SET(OGRE_LIBRARY_DIRS $ENV{OGRE_SRC}/lib)
-	
+
 	if(WIN32)
 		if(CMAKE_BUILD_TYPE MATCHES Debug)
 			FIND_PATH(OGRE_BINARY_DIR OgreMain_d.dll $ENV{OGRE_SRC}/bin/Debug)

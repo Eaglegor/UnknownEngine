@@ -1,16 +1,19 @@
-#pragma once 
+#pragma once
 
-#include <DataProvider/SeparateLoaderThreadDataProvider.h>
+#include <DataProvider/LazyLoadDataProvider.h>
 
-namespace UnknownEngine {
-namespace Graphics {
+namespace UnknownEngine
+{
+	namespace Graphics
+	{
 
-  class OgreMeshPtrProvider : public UnknownEngine::Loader::IDataProvider
-  {
-    public:
-      explicit OgreMeshPtrProvider(const std::string &name) : UnknownEngine::Loader::IDataProvider(name)
-      {}
-	
-      virtual ~OgreMeshPtrProvider(){};
-  };
-}}
+		class OgreMeshPtrProvider : public Loader::LazyLoadDataProvider
+		{
+			public:
+				explicit OgreMeshPtrProvider ( const std::string &name ) : Loader::LazyLoadDataProvider(name)
+				{}
+
+				virtual ~OgreMeshPtrProvider() {};
+		};
+	}
+}

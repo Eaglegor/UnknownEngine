@@ -1,79 +1,51 @@
 #pragma once
 
+#include <OgreRenderSubsystem_fwd.h>
 #include <IComponentFactory.h>
 #include <ComponentDesc.h>
 #include <MessageSystem/MessageListenerDesc.h>
 #include <Exception.h>
+#include <Factories/BaseOgreComponentFactory.h>
 
-namespace UnknownEngine {
+namespace UnknownEngine
+{
 
 	namespace Core
 	{
 		class EngineContext;
 		class IMessageListener;
-		class ReceivedMessageDesc;
+		struct ReceivedMessageDesc;
+		class LogHelper;
 	}
 
-	namespace Graphics {
+	namespace Graphics
+	{
 
-		class OgreRenderSubsystem;
 		class OgreRenderableComponent;
 
 		/**
 		 * @brief Factory for creating solid and compound non-deformable (mesh doesn't change during the whole lifetime) renderable components
 		 */
-		class OgreRenderableComponentsFactory: public Core::IComponentFactory
+		class OgreRenderableComponentsFactory: public BaseOgreComponentFactory
 		{
 			public:
 
-				OgreRenderableComponentsFactory(OgreRenderSubsystem* render_system, Core::EngineContext *engine_context);
+				OgreRenderableComponentsFactory ( OgreRenderSubsystem* render_system, Core::EngineContext *engine_context, Core::LogHelper* log_helper = nullptr );
+				virtual ~OgreRenderableComponentsFactory();
 
-				/**
-				 * @brief Returns a factory name.
-				 *
-				 * The name must be unique across all registered factories.
-				 *
-				 * @return Factory name
-				 */
 				virtual const std::string getName();
-
-				/**
-				 * @brief Returns a set of object type identifiers supported by this factory
-				 * @return Set of identifiers of object types which can be created by this factory
-				 */
 				virtual const std::unordered_set<Core::ComponentType>& getSupportedTypes();
+				virtual const bool supportsType ( const Core::ComponentType &object_type );
 
-				/**
-				 * @brief Checks if a factory is able to create specific type
-				 * @param object_type - Type to check for
-				 * @return true if the factory supports passed type
-				 */
-				virtual const bool supportsType(const Core::ComponentType &object_type);
-
-				/**
-				 * @brief Creates an object according to passed descriptor
-				 * @param desc - Object descriptor
-				 * @return Pointer to a newly created object
-				 */
-				virtual Core::Component* createObject(const Core::ComponentDesc& desc);
-
-				/**
-				 * @brief Deletes object considering it's creation process
-				 * @param object - The object to be deleted
-				 */
-				virtual void destroyObject(Core::Component* object);
+			protected:
+				virtual Core::Component* internalCreateObject ( const Core::ComponentDesc& desc );
+				virtual void internalDestroyObject ( Core::Component* object );
 
 			private:
-
 				// Solid renderable components
-				Core::Component* createRenderableComponent(const Core::ComponentDesc &desc);
-				void destroyRenderableComponent(const Core::Component* component);
-				void registerRenderableComponentListeners(OgreRenderableComponent* component, const Core::ReceivedMessageDescriptorsList &received_messages);
-				void registerRenderableComponentListener(Core::IMessageListener* listener, const Core::ReceivedMessageDesc &message_desc);
-
-				Core::EngineContext* engine_context;
-				std::unordered_set<Core::ComponentType> supported_types;
-				OgreRenderSubsystem* render_system;
+				Core::Component* createRenderableComponent ( const Core::ComponentDesc &desc );
+				void destroyRenderableComponent ( const Core::Component* component );
+				void registerRenderableComponentListeners ( OgreRenderableComponent* component, const Core::ReceivedMessageDescriptorsList &received_messages );
 		};
 
 	} // namespace Graphics

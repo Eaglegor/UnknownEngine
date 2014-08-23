@@ -1,0 +1,11 @@
+material Test
+{
+	technique
+	{
+		pass
+		{
+			diffuse 1 1 1 1
+			specular 1 1 1 1
+		}
+	}
+}

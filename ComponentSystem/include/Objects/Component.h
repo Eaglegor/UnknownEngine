@@ -84,10 +84,14 @@ namespace UnknownEngine
 				/**
 				 *  @brief Is called when the parent entity is started
 				 *
-				 *  At this moment it's known that all components of the entity are created. You may start processing logic.
+				 *  At this moment it's known that all components of the entity are created.
+				 * 
+				 *  @deprecated I think, there is no need for such a method because we don't exactly want
+				 *  to have all components start their life simultaneously. We may want to add/delete components during
+				 *  the entity's lifetime.
 				 *
 				 */
-				virtual void start() = 0;
+				virtual void start(){};
 
 				/**
 				 *  @brief Is called when the parent entity is about to be destroyed
