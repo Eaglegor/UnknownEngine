@@ -9,6 +9,7 @@ namespace UnknownEngine
 		{
 			if ( render_subsystem->hasSeparateRenderThreadEnabled() )
 			{
+				transform_changed_message_type = engine_context->getMessageDictionary()->getMessageTypeId(Core::TransformChangedMessage::getTypeName());
 				render_subsystem->addSynchronizeCallback ( this->getName(), [this]()
 				{
 					this->processAllQueuedMessages();
@@ -28,7 +29,15 @@ namespace UnknownEngine
 		{
 			if ( this->render_subsystem->hasSeparateRenderThreadEnabled() )
 			{
-				messages_queue.push ( msg );
+				if(msg.getMessageTypeId() == transform_changed_message_type)
+				{
+					transform_changed_dedicated_queue.clear();
+					transform_changed_dedicated_queue.push(msg);
+				}
+				else
+				{
+					messages_queue.push ( msg );
+				}
 			}
 			else
 			{
@@ -40,6 +49,10 @@ namespace UnknownEngine
 		{
 			Core::PackedMessage current_msg;
 			while ( messages_queue.try_pop ( current_msg ) )
+			{
+				this->internalProcessMessage ( current_msg );
+			}
+			while ( transform_changed_dedicated_queue.try_pop ( current_msg ) )
 			{
 				this->internalProcessMessage ( current_msg );
 			}

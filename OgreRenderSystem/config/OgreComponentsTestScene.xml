@@ -45,6 +45,7 @@
 		</subsystem>
 		
 		<subsystem name="MeshDataLoader" module="AssimpMeshDataLoader"/>
+		<subsystem name="SimpleBehavior" module="SimpleBehaviorPlugin"/>
 	
 	</subsystems>
 
@@ -57,7 +58,7 @@
 					<option name="log_level" value="${global_log_level}"/>
 					
 					<options_section name="InitialTransform">
-						<option name="position" value="Vector3(x:0, y:0, z:100)"/>
+						<option name="position" value="Vector3(x:0, y:0, z:50)"/>
 						<option name="look_at" value="Vector3(x:0, y:0, z:0)"/>
 					</options_section>
 					
@@ -88,7 +89,21 @@
 		</data_provider>
 		
 		<entity name="TestRenderable">
+			
+			<component name="Rotation" type="Behavior.SimpleRotation"/>
+			
 			<component name="RenderableComponent" type="Graphics.Renderable">
+				
+				<received_messages>
+					<message type="Engine.TransformChangedMessage">
+						<receive_policy type="FromSingleSenderMessageReceivePolicy">
+							<options_section>
+								<option name="sender_name" value="TestRenderable.Rotation"/>
+							</options_section>
+						</receive_policy>
+					</message>
+				</received_messages>
+				
 				<options_section>
 					
 					<option name="log_level" value="${global_log_level}"/>
@@ -101,7 +116,7 @@
 					</options_section>
 					
 					<options_section name="InitialTransform">
-						<option name="position" value="Vector3(x:30, y:0, z:0)"/>
+						<option name="position" value="Vector3(x:10, y:0, z:0)"/>
 					</options_section>
 					
 				</options_section>
@@ -122,16 +137,27 @@
 					</options_section>
 					
 					<options_section name="InitialTransform">
-						<option name="position" value="Vector3(x:-30, y:0, z:0)"/>
+						<option name="position" value="Vector3(x:-10, y:0, z:0)"/>
 					</options_section>
 					
 				</options_section>
 			</component>
-		</entity>
+			</entity>
 		
 		<entity name="LightEntity">
 		
 			<component name="LightComponentD" type="Graphics.Light.Directional">
+
+				<received_messages>
+					<message type="Engine.TransformChangedMessage">
+						<receive_policy type="FromSingleSenderMessageReceivePolicy">
+							<options_section>
+								<option name="sender_name" value="TestRenderable.Rotation"/>
+							</options_section>
+						</receive_policy>
+					</message>
+				</received_messages>
+			
 				<options_section>
 					
 					<option name="log_level" value="${global_log_level}"/>
@@ -143,8 +169,8 @@
 					</options_section>
 					
 					<options_section name="InitialTransform">
-						<option name="position" value="Vector3(x:100, y:0, z:0)"/>
-						<option name="initial_look_at" value="Vector3(x:0, y:0, z:0)"/>
+						<option name="position" value="Vector3(x:10, y:0, z:100)"/>
+						<option name="initial_look_at" value="Vector3(x:-30, y:0, z:-50)"/>
 					</options_section>
 					
 				</options_section>
@@ -162,8 +188,8 @@
 					</options_section>
 					
 					<options_section name="InitialTransform">
-						<option name="position" value="Vector3(x:-100, y:0, z:0)"/>
-						<option name="initial_look_at" value="Vector3(x:0, y:0, z:0)"/>
+						<option name="position" value="Vector3(x:-10, y:0, z:100)"/>
+						<option name="initial_look_at" value="Vector3(x:30, y:0, z:-50)"/>
 					</options_section>
 					
 				</options_section>

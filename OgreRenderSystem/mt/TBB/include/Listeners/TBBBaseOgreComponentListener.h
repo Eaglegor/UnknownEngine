@@ -6,6 +6,7 @@
 #include <tbb/concurrent_queue.h>
 
 #include <OgreRenderSubsystem.h>
+#include <ExportedMessages/TransformChangedMessage.h>
 
 namespace UnknownEngine
 {
@@ -29,8 +30,11 @@ namespace UnknownEngine
 				
 			private:
 
-				
 				tbb::concurrent_queue<Core::PackedMessage> messages_queue;
+				
+				tbb::concurrent_queue<Core::PackedMessage> transform_changed_dedicated_queue;
+				
+				Core::MessageType transform_changed_message_type;
 				
 				void processAllQueuedMessages();
 
