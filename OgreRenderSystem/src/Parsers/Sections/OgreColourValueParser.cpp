@@ -16,7 +16,7 @@ namespace UnknownEngine
 			Ogre::Real bv;
 			Ogre::Real av;
 
-			bool r = false, g = false, b = false;
+			bool r = false, g = false, b = false, a = false;
 
 			for ( size_t i = 1; i < split_value.size(); i += 2 )
 			{
@@ -38,13 +38,15 @@ namespace UnknownEngine
 				if ( split_value[i] == "a" )
 				{
 					av = boost::lexical_cast<Math::Scalar> ( split_value[i + 1] );
+					a = true;
 				}
 			}
 
 			if ( !r ) throw OgreColourValueParseError ( "Invalid Colour format. 'r' value not set. Got: " + input );
 			if ( !g ) throw OgreColourValueParseError ( "Invalid Colour format. 'g' value not set. Got: " + input );
 			if ( !b ) throw OgreColourValueParseError ( "Invalid Colour format. 'b' value not set. Got: " + input );
-
+			if ( !a ) av = 1;
+			
 			return Ogre::ColourValue ( rv, gv, bv, av );
 		}
 	}

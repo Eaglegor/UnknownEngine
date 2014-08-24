@@ -57,7 +57,7 @@
 					<option name="log_level" value="${global_log_level}"/>
 					
 					<options_section name="InitialTransform">
-						<option name="position" value="Vector3(x:0, y:0, z:100)"/>
+						<option name="position" value="Vector3(x:0, y:0, z:50)"/>
 						<option name="look_at" value="Vector3(x:0, y:0, z:0)"/>
 					</options_section>
 					
@@ -101,7 +101,7 @@
 					</options_section>
 					
 					<options_section name="InitialTransform">
-						<option name="position" value="Vector3(x:30, y:0, z:0)"/>
+						<option name="position" value="Vector3(x:10, y:0, z:0)"/>
 					</options_section>
 					
 				</options_section>
@@ -122,12 +122,12 @@
 					</options_section>
 					
 					<options_section name="InitialTransform">
-						<option name="position" value="Vector3(x:-30, y:0, z:0)"/>
+						<option name="position" value="Vector3(x:-10, y:0, z:0)"/>
 					</options_section>
 					
 				</options_section>
 			</component>
-		</entity>
+			</entity>
 		
 		<entity name="LightEntity">
 		
@@ -143,8 +143,8 @@
 					</options_section>
 					
 					<options_section name="InitialTransform">
-						<option name="position" value="Vector3(x:100, y:0, z:0)"/>
-						<option name="initial_look_at" value="Vector3(x:0, y:0, z:0)"/>
+						<option name="position" value="Vector3(x:10, y:0, z:100)"/>
+						<option name="initial_look_at" value="Vector3(x:-30, y:0, z:-50)"/>
 					</options_section>
 					
 				</options_section>
@@ -162,8 +162,8 @@
 					</options_section>
 					
 					<options_section name="InitialTransform">
-						<option name="position" value="Vector3(x:-100, y:0, z:0)"/>
-						<option name="initial_look_at" value="Vector3(x:0, y:0, z:0)"/>
+						<option name="position" value="Vector3(x:-10, y:0, z:100)"/>
+						<option name="initial_look_at" value="Vector3(x:30, y:0, z:-50)"/>
 					</options_section>
 					
 				</options_section>
