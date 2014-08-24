@@ -26,6 +26,7 @@
 
 #define ENABLE_CORE_SUBSYSTEM_INFO_LOG
 #include <CoreLogging.h>
+#include <ExportedMessages/TransformChangedMessage.h>
 
 namespace UnknownEngine
 {
@@ -152,6 +153,9 @@ namespace UnknownEngine
 			CORE_SUBSYSTEM_INFO ( "Registering message type: " + std::string ( UpdateFrameMessage::getTypeName() ) );
 			context.message_dictionary->registerNewMessageType ( UpdateFrameMessage::getTypeName() );
 
+			CORE_SUBSYSTEM_INFO ( "Registering message type: " + std::string ( TransformChangedMessage::getTypeName() ) );
+			context.message_dictionary->registerNewMessageType ( TransformChangedMessage::getTypeName() );
+			
 			CORE_SUBSYSTEM_INFO ( "Registering message type: " + std::string ( StopEngineActionMessage::getTypeName() ) );
 			context.message_dictionary->registerNewMessageType ( StopEngineActionMessage::getTypeName() );
 		}
