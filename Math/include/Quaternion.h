@@ -3,6 +3,7 @@
 #include <InlineSpecification.h>
 #include <AlignedNew.h>
 #include <Eigen/Geometry>
+#include <Vectors/Vector3.h>
 #include <Scalar.h>
 
 namespace UnknownEngine
@@ -27,6 +28,11 @@ namespace UnknownEngine
 			  setY(y);
 			  setZ(z);
 			  setW(w);
+			}
+		  
+			Quaternion(const Scalar& angle, const Math::Vector3& axis):
+			Eigen::Quaternion<Scalar>( Eigen::AngleAxis<Scalar>(angle, axis) )
+			{
 			}
 		  
 			UNKNOWNENGINE_INLINE
