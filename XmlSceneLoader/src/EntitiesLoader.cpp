@@ -138,7 +138,6 @@ namespace UnknownEngine
 			{
 				if ( iter.first == Tags::MESSAGE_LISTENER )
 				{
-					const std::string name = iter.second.get_child ( XMLATTR ).get<std::string> ( Attributes::MESSAGE_LISTENER::NAME );
 					component_desc.received_messages = MessageListenerParser::parseMessageListener ( iter.second, scene_loader->getConstantsHolder() );
 				}
 				else if ( iter.first == Tags::OPTIONS_SECTION )
