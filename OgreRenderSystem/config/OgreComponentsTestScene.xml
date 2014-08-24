@@ -45,6 +45,7 @@
 		</subsystem>
 		
 		<subsystem name="MeshDataLoader" module="AssimpMeshDataLoader"/>
+		<subsystem name="SimpleBehavior" module="SimpleBehaviorPlugin"/>
 	
 	</subsystems>
 
@@ -88,7 +89,21 @@
 		</data_provider>
 		
 		<entity name="TestRenderable">
+			
+			<component name="Rotation" type="Behavior.SimpleRotation"/>
+			
 			<component name="RenderableComponent" type="Graphics.Renderable">
+				
+				<received_messages>
+					<message type="Engine.TransformChangedMessage">
+						<receive_policy type="FromSingleSenderMessageReceivePolicy">
+							<options_section>
+								<option name="sender_name" value="TestRenderable.Rotation"/>
+							</options_section>
+						</receive_policy>
+					</message>
+				</received_messages>
+				
 				<options_section>
 					
 					<option name="log_level" value="${global_log_level}"/>
@@ -132,6 +147,17 @@
 		<entity name="LightEntity">
 		
 			<component name="LightComponentD" type="Graphics.Light.Directional">
+
+				<received_messages>
+					<message type="Engine.TransformChangedMessage">
+						<receive_policy type="FromSingleSenderMessageReceivePolicy">
+							<options_section>
+								<option name="sender_name" value="TestRenderable.Rotation"/>
+							</options_section>
+						</receive_policy>
+					</message>
+				</received_messages>
+			
 				<options_section>
 					
 					<option name="log_level" value="${global_log_level}"/>
