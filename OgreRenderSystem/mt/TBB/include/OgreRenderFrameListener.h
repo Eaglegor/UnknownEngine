@@ -5,6 +5,8 @@
 #include <tbb/concurrent_queue.h>
 #include <tbb/concurrent_unordered_map.h>
 
+#include <iostream>
+
 typedef tbb::concurrent_unordered_map< std::string, std::function<void() > > ConcurrentMap;
 typedef tbb::concurrent_queue< std::function<void() > > ConcurrentQueue;
 
@@ -16,6 +18,11 @@ namespace UnknownEngine
 		{
 		public:
 
+			OgreRenderFrameListener():
+			stopped(false),
+			finished(false)
+			{}
+			
 			virtual bool frameStarted( const Ogre::FrameEvent& evt )
 			{
 
@@ -30,7 +37,7 @@ namespace UnknownEngine
 				while ( synchronize_iterator != synchronize_callbacks.end() )
 				{
 					synchronize_iterator->second();
-					synchronize_iterator = synchronize_callbacks.unsafe_erase ( synchronize_iterator );
+					++synchronize_iterator;
 				}
 
 				while ( shutdown_callbacks.try_pop(callback) )
