@@ -10,6 +10,9 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
+		class ChangeMaterialActionMessagePacker;
+		class ChangeMaterialActionMessageUnpacker;
+
 		/**
 		 * @brief Command to change entity's material
 		 *
@@ -17,13 +20,16 @@ namespace UnknownEngine
 		struct ChangeMaterialActionMessage
 		{
 
-				UNKNOWNENGINE_INLINE
-				static const std::string getTypeName()
-				{
-					return "Graphics.ChangeMaterialActionMessage";
-				}
+			typedef ChangeMaterialActionMessagePacker PackerClass;
+			typedef ChangeMaterialActionMessageUnpacker UnpackerClass;
 
-				std::string new_material_name;
+			UNKNOWNENGINE_INLINE
+			static std::string getTypeName()
+			{
+				return "Graphics.ChangeMaterialActionMessage";
+			}
+
+			std::string new_material_name;
 		};
 
 		/**
@@ -33,15 +39,15 @@ namespace UnknownEngine
 		{
 			public:
 
-				ChangeMaterialActionMessagePacker(Core::MessageSystemParticipantId sender_info) :
-						Core::MessagePacker<ChangeMaterialActionMessage>(sender_info)
+				ChangeMaterialActionMessagePacker ( Core::MessageSystemParticipantId sender_info ) :
+					Core::MessagePacker<ChangeMaterialActionMessage> ( sender_info )
 				{
 				}
 
 				UNKNOWNENGINE_INLINE
-				Core::PackedMessage packMessage(const ChangeMaterialActionMessage& msg) override
+				Core::PackedMessage packMessage ( const ChangeMaterialActionMessage& msg ) override
 				{
-					Core::PackedMessage result(Core::MessageDictionary::getSingleton()->getMessageTypeId(ChangeMaterialActionMessage::getTypeName()), sender_info);
+					Core::PackedMessage result ( Core::MessageDictionary::getSingleton()->getMessageTypeId ( ChangeMaterialActionMessage::getTypeName() ), sender_info );
 					return result;
 				}
 
@@ -55,7 +61,7 @@ namespace UnknownEngine
 			public:
 
 				UNKNOWNENGINE_INLINE
-				ChangeMaterialActionMessage unpackMessage(const Core::PackedMessage &msg) throw (Core::InvalidMessageFormatException) override
+				ChangeMaterialActionMessage unpackMessage ( const Core::PackedMessage &msg ) throw ( Core::InvalidMessageFormatException ) override
 				{
 					ChangeMaterialActionMessage result;
 					return result;

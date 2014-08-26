@@ -16,6 +16,9 @@ namespace UnknownEngine
 	namespace Core
 	{
 
+		class UpdateFrameMessagePacker;
+		class UpdateFrameMessageUnpacker;
+
 		/**
 		 * @brief Frame synchronization message
 		 *
@@ -26,8 +29,11 @@ namespace UnknownEngine
 		struct UpdateFrameMessage
 		{
 
+			typedef UpdateFrameMessagePacker PackerClass;
+			typedef UpdateFrameMessageUnpacker UnpackerClass;
+
 			UNKNOWNENGINE_INLINE
-			static const std::string getTypeName()
+			static std::string getTypeName()
 			{
 				return "Engine.MainLoop.UpdateFrameMessage";
 			}

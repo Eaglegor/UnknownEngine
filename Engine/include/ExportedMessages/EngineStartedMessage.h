@@ -10,13 +10,21 @@ namespace UnknownEngine
 {
 	namespace Core
 	{
+
+		class EngineStartedMessagePacker;
+		class EngineStartedMessageUnpacker;
+
 		/**
 		 * @brief Indicator of engine start
 		 *
 		 */
 		struct EngineStartedMessage
 		{
-			constexpr static const char* getTypeName()
+			typedef EngineStartedMessagePacker PackerClass;
+			typedef EngineStartedMessageUnpacker UnpackerClass;
+
+			UNKNOWNENGINE_INLINE
+			static std::string getTypeName()
 			{
 				return "Engine.EngineStartedMessage";
 			}

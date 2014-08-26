@@ -11,6 +11,9 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
+		class CameraLookAtActionMessagePacker;
+		class CameraLookAtActionMessageUnpacker;
+
 		/**
 		 * @brief Command for camera to look at some position
 		 *
@@ -18,13 +21,16 @@ namespace UnknownEngine
 		struct CameraLookAtActionMessage
 		{
 
-				UNKNOWNENGINE_INLINE
-				static const std::string getTypeName()
-				{
-					return "Graphics.CameraLookAtActionMessage";
-				}
+			typedef CameraLookAtActionMessagePacker PackerClass;
+			typedef CameraLookAtActionMessageUnpacker UnpackerClass;
 
-				Math::Vector3 look_at_position;
+			UNKNOWNENGINE_INLINE
+			static std::string getTypeName()
+			{
+				return "Graphics.CameraLookAtActionMessage";
+			}
+
+			Math::Vector3 look_at_position;
 		};
 
 		/**
@@ -34,16 +40,16 @@ namespace UnknownEngine
 		{
 			public:
 
-				CameraLookAtActionMessagePacker(Core::MessageSystemParticipantId sender_info) :
-						Core::MessagePacker<CameraLookAtActionMessage>(sender_info)
+				CameraLookAtActionMessagePacker ( Core::MessageSystemParticipantId sender_info ) :
+					Core::MessagePacker<CameraLookAtActionMessage> ( sender_info )
 				{
 				}
 
 				UNKNOWNENGINE_INLINE
-				Core::PackedMessage packMessage(const CameraLookAtActionMessage& msg) override
+				Core::PackedMessage packMessage ( const CameraLookAtActionMessage& msg ) override
 				{
-					Core::PackedMessage result(Core::MessageDictionary::getSingleton()->getMessageTypeId(CameraLookAtActionMessage::getTypeName()), sender_info);
-					result.getProperties().set<Math::Vector3>("look_at_position", msg.look_at_position);
+					Core::PackedMessage result ( Core::MessageDictionary::getSingleton()->getMessageTypeId ( CameraLookAtActionMessage::getTypeName() ), sender_info );
+					result.getProperties().set<Math::Vector3> ( "look_at_position", msg.look_at_position );
 					return result;
 				}
 
@@ -57,10 +63,10 @@ namespace UnknownEngine
 			public:
 
 				UNKNOWNENGINE_INLINE
-				CameraLookAtActionMessage unpackMessage(const Core::PackedMessage &msg) throw (Core::InvalidMessageFormatException) override
+				CameraLookAtActionMessage unpackMessage ( const Core::PackedMessage &msg ) throw ( Core::InvalidMessageFormatException ) override
 				{
 					CameraLookAtActionMessage result;
-					result.look_at_position = msg.getProperties().get<Math::Vector3>("look_at_position");
+					result.look_at_position = msg.getProperties().get<Math::Vector3> ( "look_at_position" );
 					return result;
 				}
 

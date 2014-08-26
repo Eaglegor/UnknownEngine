@@ -18,6 +18,9 @@ namespace UnknownEngine
 	namespace Core
 	{
 
+		class LogMessagePacker;
+		class LogMessageUnpacker;
+
 		/**
 		 * @brief Log entry message
 		 *
@@ -28,7 +31,10 @@ namespace UnknownEngine
 
 		struct LogMessage
 		{
-			
+
+			typedef LogMessagePacker PackerClass;
+			typedef LogMessageUnpacker UnpackerClass;
+
 			enum class Severity : int
 			{
 			    LOG_SEVERITY_NONE = 0,
