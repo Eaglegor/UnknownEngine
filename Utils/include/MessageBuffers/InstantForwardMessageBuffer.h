@@ -9,32 +9,24 @@ namespace UnknownEngine
 	namespace Utils
 	{
 		template <typename MessageClass>
-		class OnlyLastMessageBuffer : public MessageBuffer<MessageClass>
+		class InstantForwardMessageBuffer : public MessageBuffer<MessageClass>
 		{
 		public:
-			OnlyLastMessageBuffer(std::function<void(const MessageClass&)> process_message_callback):
+			InstantForwardMessageBuffer(std::function<void(const MessageClass&)> process_message_callback):
 			MessageBuffer<MessageClass>(process_message_callback){}
 			
 			virtual void flush()
-			{
-				boost::lock_guard<boost::mutex> guard(message_guard_mutex);
-				if(accumulated_message)
-				{
-					this->process_message_callback(accumulated_message.get());
-					accumulated_message = boost::none;
-				}
-			}
+			{}
 
 		protected:
 			virtual void pushConcreteMessage(const MessageClass& message)
 			{
 				boost::lock_guard<boost::mutex> guard(message_guard_mutex);
-				accumulated_message = message;
+				this->process_message_callback(message);
 			}
 			
 		private:
 			boost::mutex message_guard_mutex;
-			boost::optional<MessageClass> accumulated_message;
 		};
 	}
 }

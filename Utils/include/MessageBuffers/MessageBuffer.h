@@ -16,6 +16,8 @@ namespace UnknownEngine
 			{
 				push(message);
 			}
+
+			virtual ~IMessageBuffer(){}
 			
 			virtual void push(const Core::PackedMessage& message) = 0;
 			virtual void flush() = 0;
@@ -25,8 +27,8 @@ namespace UnknownEngine
 		class MessageBuffer
 		{
 		public:
-			MessageBuffer( std::function<void(const MessageClass&)> flush_callback ):
-			flush_callback(flush_callback){}
+			MessageBuffer( std::function<void(const MessageClass&)> process_message_callback ):
+			flush_callback(process_message_callback){}
 			
 			void push(const Core::PackedMessage& message)
 			{
