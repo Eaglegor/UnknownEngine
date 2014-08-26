@@ -21,15 +21,17 @@ namespace UnknownEngine
 	namespace Core
 	{
 		
+		class MessageDispatcher;
+		
 		class BaseMessageListener : public IMessageListener
 		{
 		public:
 			UNKNOWNENGINE_SIMPLE_EXCEPTION(NoMessageProcessorFoundException);
 			
-			BaseMessageListener ( const std::string& object_name );
+			BaseMessageListener ( const std::string& object_name, const ReceivedMessageDescriptorsList& received_messages_list );
 			
-			void registerSupportedMessageType( const std::string& message_type_name );
-			void registerSupportedMessageType(const MessageType &message_type_id);
+			void registerSupportedMessageType( const std::string& message_type_name, IMessageReceivePolicy* receive_policy);
+			void registerSupportedMessageType( const MessageType &message_type_id, IMessageReceivePolicy* receive_policy);
 			
 			bool registerMessageBuffer( const MessageType& message_type, std::unique_ptr<Utils::IMessageBuffer> buffer);
 
@@ -38,11 +40,28 @@ namespace UnknownEngine
 			virtual void processMessage ( const PackedMessage& msg );
 			virtual void flushAllMessageBuffers();
 			
-		private:
-			std::unordered_map<MessageType, std::unique_ptr<Utils::IMessageBuffer> > message_buffers;
-			MessagingPoliciesManager messaging_policies_manager;
-			std::mutex message_buffers_mutex;
+			virtual void registerListener(MessageDispatcher* message_dispatcher);
+			virtual void unregisterListener(MessageDispatcher* message_dispatcher);
 			
+		private:
+			
+			virtual void setSupportedMessageTypes(const ReceivedMessageDescriptorsList& received_messages_list);
+			
+			struct ReceivedMessage
+			{
+				std::unique_ptr<Utils::IMessageBuffer> message_buffer;
+				IMessageReceivePolicy* receive_policy;
+				
+				ReceivedMessage(IMessageReceivePolicy* receive_policy):
+				receive_policy(receive_policy)
+				{}
+				
+			};
+			
+			std::unordered_map<MessageType, ReceivedMessage > received_messages;
+			MessagingPoliciesManager messaging_policies_manager;
+			
+			std::mutex message_buffers_mutex;
 		};
 		
 	}
