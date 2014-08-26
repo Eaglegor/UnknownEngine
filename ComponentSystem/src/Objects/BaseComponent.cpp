@@ -13,7 +13,10 @@ namespace UnknownEngine
 
 		void BaseComponent::initializeLogHelper ( const LogMessage::Severity& log_level )
 		{
-			log_helper.reset( new LogHelper( getName(), log_level, engine_context) );
+			if(log_level > LogMessage::Severity::LOG_SEVERITY_NONE)
+			{
+				log_helper.reset( new LogHelper( getName(), log_level, engine_context) );
+			}
 		}
 
 		void BaseComponent::initializeMessageListener ( const ReceivedMessagesDesc& received_messages )
@@ -25,14 +28,14 @@ namespace UnknownEngine
 
 		void BaseComponent::init ( const Entity* parent_entity )
 		{
-			initComponentImpl(parent_entity);
+			initImpl(parent_entity);
 			if(message_listener) message_listener->registerListener(engine_context->getMessageDispatcher());
 		}
 
 		void BaseComponent::shutdown()
 		{
 			if(message_listener) message_listener->unregisterListener(engine_context->getMessageDispatcher());
-			shutdownComponentImpl();
+			shutdownImpl();
 		}
 	
 	}
