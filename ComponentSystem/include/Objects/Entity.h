@@ -16,7 +16,7 @@ namespace UnknownEngine
 	namespace Core
 	{
 
-		class Component;
+		class IComponent;
 		class ComponentsManager;
 
 		/**

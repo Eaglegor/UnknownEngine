@@ -24,7 +24,7 @@ namespace UnknownEngine
 	{
 
 		class IComponentFactory;
-		class Component;
+		class IComponent;
 		struct ComponentDesc;
 		struct SubsystemDesc;
 		class Entity;

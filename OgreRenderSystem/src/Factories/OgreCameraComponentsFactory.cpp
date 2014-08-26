@@ -35,9 +35,9 @@ namespace UnknownEngine
 			return supported_types.find ( object_type ) != supported_types.end();
 		}
 
-		Core::Component *OgreCameraComponentsFactory::internalCreateObject ( const Core::ComponentDesc &desc )
+		Core::IComponent *OgreCameraComponentsFactory::internalCreateObject ( const Core::ComponentDesc &desc )
 		{
-			Core::Component* component = nullptr;
+			Core::IComponent* component = nullptr;
 
 			if ( desc.type == OGRE_CAMERA_COMPONENT_TYPE )
 			{
@@ -47,12 +47,12 @@ namespace UnknownEngine
 			return component;
 		}
 
-		void OgreCameraComponentsFactory::internalDestroyObject ( Core::Component *object )
+		void OgreCameraComponentsFactory::internalDestroyObject ( Core::IComponent *object )
 		{
 			if ( object->getType() == OGRE_CAMERA_COMPONENT_TYPE ) destroyCameraComponent ( object );
 		}
 
-		Core::Component *OgreCameraComponentsFactory::createCameraComponent ( const Core::ComponentDesc &desc )
+		Core::IComponent *OgreCameraComponentsFactory::createCameraComponent ( const Core::ComponentDesc &desc )
 		{
 			OgreCameraComponent* component;
 			if ( !desc.descriptor.isEmpty() )
@@ -67,7 +67,7 @@ namespace UnknownEngine
 			return component;
 		}
 
-		void OgreCameraComponentsFactory::destroyCameraComponent ( const Core::Component *component )
+		void OgreCameraComponentsFactory::destroyCameraComponent ( const Core::IComponent *component )
 		{
 			delete component;
 		}

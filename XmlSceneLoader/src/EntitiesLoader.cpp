@@ -124,7 +124,7 @@ namespace UnknownEngine
 			scene_loader->getConstantsHolder()->popScope();
 		}
 
-		Core::Component* EntitiesLoader::loadComponent ( Core::Entity* parent_entity, const std::string &name, const ptree &component_node )
+		Core::IComponent* EntitiesLoader::loadComponent ( Core::Entity* parent_entity, const std::string &name, const ptree &component_node )
 		{
 			scene_loader->getConstantsHolder()->pushScope();
 

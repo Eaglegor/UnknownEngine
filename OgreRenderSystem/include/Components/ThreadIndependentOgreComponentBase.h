@@ -17,7 +17,7 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		class ThreadIndependentOgreComponentBase : public Core::Component
+		class ThreadIndependentOgreComponentBase : public Core::IComponent
 		{
 			public:
 				// Construction

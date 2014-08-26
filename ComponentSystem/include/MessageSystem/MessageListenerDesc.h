@@ -44,7 +44,7 @@ namespace UnknownEngine
 			};
 			
 			std::string message_type_name; ///< %String message type representation
-			ReceivePolicyDesc receive_policy;
+			boost::optional<ReceivePolicyDesc> receive_policy;
 			
 		};
 

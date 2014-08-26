@@ -15,9 +15,9 @@
 namespace UnknownEngine {
 	namespace Graphics {
 		
-		Core::Component* OgreLightComponentsFactory::internalCreateObject ( const Core::ComponentDesc& desc )
+		Core::IComponent* OgreLightComponentsFactory::internalCreateObject ( const Core::ComponentDesc& desc )
 		{
-			Core::Component* component = nullptr;
+			Core::IComponent* component = nullptr;
 			
 			if(desc.type == OGRE_POINT_LIGHT_COMPONENT_TYPE)
 			{
@@ -35,7 +35,7 @@ namespace UnknownEngine {
 			return component;
 		}
 
-		void OgreLightComponentsFactory::internalDestroyObject ( Core::Component* object )
+		void OgreLightComponentsFactory::internalDestroyObject ( Core::IComponent* object )
 		{
 			if(object->getType() == OGRE_POINT_LIGHT_COMPONENT_TYPE)
 			{
@@ -87,7 +87,7 @@ namespace UnknownEngine {
 			return component;
 		}
 
-		void OgreLightComponentsFactory::destroyPointLightComponent ( Core::Component* object )
+		void OgreLightComponentsFactory::destroyPointLightComponent ( Core::IComponent* object )
 		{
 			delete object;
 		}
@@ -121,7 +121,7 @@ namespace UnknownEngine {
 			return component;
 		}
 
-		void OgreLightComponentsFactory::destroyDirectionalLightComponent ( Core::Component* object )
+		void OgreLightComponentsFactory::destroyDirectionalLightComponent ( Core::IComponent* object )
 		{
 			delete object;
 		}
@@ -147,7 +147,7 @@ namespace UnknownEngine {
 			return component;
 		}
 
-		void OgreLightComponentsFactory::destroySpotLightComponent ( Core::Component* object )
+		void OgreLightComponentsFactory::destroySpotLightComponent ( Core::IComponent* object )
 		{
 			delete object;
 		}

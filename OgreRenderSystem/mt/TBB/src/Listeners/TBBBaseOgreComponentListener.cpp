@@ -14,6 +14,7 @@ namespace UnknownEngine
 				{
 					this->processAllQueuedMessages();
 				} );
+				
 			}
 		}
 
@@ -31,8 +32,7 @@ namespace UnknownEngine
 			{
 				if(msg.getMessageTypeId() == transform_changed_message_type)
 				{
-					transform_changed_dedicated_queue.clear();
-					transform_changed_dedicated_queue.push(msg);
+					if(transform_changed_buffer) transform_changed_buffer->push(msg);
 				}
 				else
 				{
@@ -45,6 +45,11 @@ namespace UnknownEngine
 			}
 		}
 
+		void TBBOgreComponentListener::setTransformChangedMessageCallback ( std::function< void(const Core::TransformChangedMessage&) > callback )
+		{
+				transform_changed_buffer.reset( new Utils::OnlyLastMessageBuffer<Core::TransformChangedMessage>( callback ) );
+		}
+	
 		void TBBOgreComponentListener::processAllQueuedMessages()
 		{
 			Core::PackedMessage current_msg;
@@ -52,10 +57,7 @@ namespace UnknownEngine
 			{
 				this->internalProcessMessage ( current_msg );
 			}
-			while ( transform_changed_dedicated_queue.try_pop ( current_msg ) )
-			{
-				this->internalProcessMessage ( current_msg );
-			}
+			if(transform_changed_buffer) transform_changed_buffer->flush();
 		}
 	}
 }

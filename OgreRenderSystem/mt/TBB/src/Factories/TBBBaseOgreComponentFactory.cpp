@@ -16,12 +16,12 @@ namespace UnknownEngine
 			
 		}
 		
-		UnknownEngine::Core::Component* TBBBaseOgreComponentFactory::createObject ( const UnknownEngine::Core::ComponentDesc& desc )
+		UnknownEngine::Core::IComponent* TBBBaseOgreComponentFactory::createObject ( const UnknownEngine::Core::ComponentDesc& desc )
 		{
 			return internalCreateObject ( desc );
 		}
 		
-		void TBBBaseOgreComponentFactory::destroyObject ( UnknownEngine::Core::Component* object )
+		void TBBBaseOgreComponentFactory::destroyObject ( UnknownEngine::Core::IComponent* object )
 		{
 			if ( render_subsystem->hasSeparateRenderThreadEnabled() )
 			{

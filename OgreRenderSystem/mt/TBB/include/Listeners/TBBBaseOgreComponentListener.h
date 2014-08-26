@@ -5,6 +5,8 @@
 
 #include <tbb/concurrent_queue.h>
 
+#include <MessageBuffers/OnlyLastMessageBuffer.h>
+
 #include <OgreRenderSubsystem.h>
 #include <ExportedMessages/TransformChangedMessage.h>
 
@@ -28,11 +30,13 @@ namespace UnknownEngine
 
 				virtual void processMessage ( const Core::PackedMessage& msg );
 				
+				virtual void setTransformChangedMessageCallback( std::function<void (const Core::TransformChangedMessage& msg)> callback );
+				
 			private:
 
 				tbb::concurrent_queue<Core::PackedMessage> messages_queue;
 				
-				tbb::concurrent_queue<Core::PackedMessage> transform_changed_dedicated_queue;
+				std::unique_ptr< Utils::OnlyLastMessageBuffer<Core::TransformChangedMessage> > transform_changed_buffer;
 				
 				Core::MessageType transform_changed_message_type;
 				

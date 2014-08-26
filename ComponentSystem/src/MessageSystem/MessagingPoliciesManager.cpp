@@ -56,11 +56,13 @@ namespace UnknownEngine
 
 		bool MessagingPoliciesManager::isPrefabReceivePolicyType ( const MessagePolicyType &type )
 		{
+			if ( type.empty() || type == EMPTY_POLICY_TYPE ) return true;
 			return receive_policy_creator_methods.find ( type ) != receive_policy_creator_methods.end();
 		}
 
 		bool MessagingPoliciesManager::isPrefabDeliveryPolicyType ( const MessagePolicyType &type )
 		{
+			if ( type.empty() || type == EMPTY_POLICY_TYPE ) return true;
 			return delivery_policy_creator_methods.find ( type ) != delivery_policy_creator_methods.end();
 		}
 

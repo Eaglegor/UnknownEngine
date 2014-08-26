@@ -23,8 +23,8 @@ namespace UnknownEngine
 		{
 		public:
 			SimpleBehaviorsFactory(SimpleBehaviorUpdateFrameListener* update_frame_listener, Core::EngineContext* engine_context );
-			virtual Core::Component* createObject ( const Core::ComponentDesc& desc );
-			virtual void destroyObject ( Core::Component* object );
+			virtual Core::IComponent* createObject ( const Core::ComponentDesc& desc );
+			virtual void destroyObject ( Core::IComponent* object );
 			virtual const std::string getName();	
 			
 			UNKNOWNENGINE_INLINE

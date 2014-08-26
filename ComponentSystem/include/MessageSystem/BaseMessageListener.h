@@ -28,7 +28,7 @@ namespace UnknownEngine
 			
 			BaseMessageListener ( const std::string& object_name );
 			
-			void registerSupportedMessageType(const std::string &message_type_name);
+			void registerSupportedMessageType( const std::string& message_type_name );
 			void registerSupportedMessageType(const MessageType &message_type_id);
 			
 			bool registerMessageBuffer( const MessageType& message_type, std::unique_ptr<Utils::IMessageBuffer> buffer);
@@ -36,6 +36,7 @@ namespace UnknownEngine
 			MessagingPoliciesManager& getMessagingPoliciesManager();
 			
 			virtual void processMessage ( const PackedMessage& msg );
+			virtual void flushAllMessageBuffers();
 			
 		private:
 			std::unordered_map<MessageType, std::unique_ptr<Utils::IMessageBuffer> > message_buffers;

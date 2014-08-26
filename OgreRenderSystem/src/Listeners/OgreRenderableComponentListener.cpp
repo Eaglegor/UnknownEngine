@@ -17,6 +17,7 @@ namespace UnknownEngine
 			  renderable_component ( component )
 		{
 			registerProcessor<Core::TransformChangedMessage> ( std::bind(&OgreRenderableComponentListener::processTransformChangedMessage, this, std::placeholders::_1) );
+			setTransformChangedMessageCallback( std::bind(&OgreRenderableComponent::onTransformChanged, component, std::placeholders::_1) );
 			registerProcessor<Graphics::ChangeMaterialActionMessage> ( std::bind(&OgreRenderableComponentListener::processChangeMaterialActionMessage, this, std::placeholders::_1) );
 		}
 
@@ -24,7 +25,7 @@ namespace UnknownEngine
 		{
 			if ( renderable_component != nullptr )
 			{
-				renderable_component->onTransformChanged ( transform_changed_unpacker.unpackMessage ( msg ) );
+				//renderable_component->onTransformChanged ( transform_changed_unpacker.unpackMessage ( msg ) );
 			}
 		}
 

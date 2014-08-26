@@ -31,18 +31,18 @@ namespace UnknownEngine
 			virtual const bool supportsType ( const Core::ComponentType& object_type );
 
 		protected:
-			virtual Core::Component* internalCreateObject ( const Core::ComponentDesc& desc );
-			virtual void internalDestroyObject ( Core::Component* object );
+			virtual Core::IComponent* internalCreateObject ( const Core::ComponentDesc& desc );
+			virtual void internalDestroyObject ( Core::IComponent* object );
 			
 		private:
 			OgrePointLightComponent* createPointLightComponent(const Core::ComponentDesc& desc );
-			void destroyPointLightComponent( Core::Component* object );
+			void destroyPointLightComponent( Core::IComponent* object );
 			
 			OgreDirectionalLightComponent* createDirectionalLightComponent(const Core::ComponentDesc& desc );
-			void destroyDirectionalLightComponent( Core::Component* object );
+			void destroyDirectionalLightComponent( Core::IComponent* object );
 			
 			OgreSpotLightComponent* createSpotLightComponent ( const Core::ComponentDesc &desc );
-			void destroySpotLightComponent( Core::Component* object);
+			void destroySpotLightComponent( Core::IComponent* object);
 		};
 	}
 }

@@ -17,7 +17,7 @@ namespace UnknownEngine
 			supported_types.insert(SIMPLE_ROTATION_COMPONENT_TYPE);
 		}
 		
-		Core::Component* SimpleBehaviorsFactory::createObject ( const Core::ComponentDesc& desc )
+		Core::IComponent* SimpleBehaviorsFactory::createObject ( const Core::ComponentDesc& desc )
 		{
 			SimpleBehaviorComponent* component = nullptr;
 			if(desc.type == SIMPLE_ROTATION_COMPONENT_TYPE)
@@ -28,7 +28,7 @@ namespace UnknownEngine
 			return component;
 		}
 
-		void SimpleBehaviorsFactory::destroyObject ( Core::Component* object )
+		void SimpleBehaviorsFactory::destroyObject ( Core::IComponent* object )
 		{
 			SimpleBehaviorComponent* component = dynamic_cast<SimpleBehaviorComponent*>(object);
 			if(component != nullptr && object->getType() == SIMPLE_ROTATION_COMPONENT_TYPE)

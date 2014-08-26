@@ -67,10 +67,10 @@ namespace UnknownEngine
 
 		class Entity;
 
-		class Component
+		class IComponent
 		{
 			public:
-				explicit Component ( const std::string &name )
+				explicit IComponent ( const std::string &name )
 					: name ( name ) {}
 
 				/**
@@ -114,7 +114,7 @@ namespace UnknownEngine
 					return name;
 				}
 
-				virtual ~Component () {};
+				virtual ~IComponent () {};
 
 			private:
 				std::string name;
