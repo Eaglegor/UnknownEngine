@@ -44,7 +44,7 @@ namespace UnknownEngine
 		 *
 		 */
 
-		class IComponentFactory : public AbstractObjectFactory<Component, ComponentType, ComponentDesc>
+		class IComponentFactory : public AbstractObjectFactory<IComponent, ComponentType, ComponentDesc>
 		{
 		};
 

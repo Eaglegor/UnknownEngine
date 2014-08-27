@@ -2,7 +2,7 @@
 
 #include <OgreRenderSubsystem_fwd.h>
 
-#include <Objects/Component.h>
+#include <Objects/BaseComponent.h>
 #include <MessageSystem/MessagingPoliciesManager.h>
 
 namespace UnknownEngine
@@ -17,7 +17,7 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		class ThreadIndependentOgreComponentBase : public Core::IComponent
+		class ThreadIndependentOgreComponentBase : public Core::BaseComponent
 		{
 			public:
 				// Construction
@@ -25,14 +25,15 @@ namespace UnknownEngine
 
 				virtual ~ThreadIndependentOgreComponentBase();
 
+				virtual void processMessages(){};
+				
 			protected:
 				virtual void internalInit ( const Core::Entity* parent_entity ) = 0;
 				virtual void internalShutdown( ) = 0;
 
+				virtual void registerMessageProcessors ( Core::BaseMessageListener* message_listener ){}
+				
 				OgreRenderSubsystem* render_subsystem;
-				Core::EngineContext* engine_context;
-				Core::MessagingPoliciesManager messaging_policies_manager;
-				std::unique_ptr<Core::LogHelper> log_helper;
 		};
 
 	}

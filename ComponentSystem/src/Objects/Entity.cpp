@@ -9,7 +9,7 @@
 
 #include <ComponentsManager.h>
 #include <Objects/Entity.h>
-#include <Objects/Component.h>
+#include <Objects/IComponent.h>
 
 #define ENABLE_CORE_SUBSYSTEM_INFO_LOG
 #include <CoreLogging.h>
@@ -33,7 +33,7 @@ namespace UnknownEngine
 			}
 		}
 
-		void Entity::addComponent ( const std::string &name, Component *component )
+		void Entity::addComponent ( const std::string &name, IComponent *component )
 		{
 			if ( components.find ( name ) != components.end() ) throw DuplicateComponentNameException ( "Duplicate component name: " + name );
 

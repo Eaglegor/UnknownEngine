@@ -44,11 +44,15 @@ namespace UnknownEngine
 				virtual void onTransformChanged ( const Core::TransformChangedMessage &message );
 				virtual void doChangeMaterial ( const ChangeMaterialActionMessage &message );
 
+				virtual void processMessages();
+				
 				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
 			protected:
 				virtual void internalInit(const Core::Entity* parent_entity) override;
 				virtual void internalShutdown() override;
+				
+				virtual void registerMessageProcessors ( Core::BaseMessageListener* message_listener );
 				
 			private:
 				OgreRenderableComponentDescriptor desc;

@@ -18,10 +18,12 @@ namespace UnknownEngine {
 			void SingleThreadedBaseOgreComponent::init ( const Core::Entity* parent_entity )
 			{
 				internalInit( parent_entity );
+				registerListener();
 			}
 			
 			void SingleThreadedBaseOgreComponent::shutdown ( )
 			{
+				unregisterListener();
 				internalShutdown();
 			}
 	}

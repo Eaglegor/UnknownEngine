@@ -93,7 +93,7 @@ namespace UnknownEngine
 		
 		void OgreCameraComponent::addReceivedMessageType ( const Core::ReceivedMessageDesc &received_message )
 		{
-			if ( listener == nullptr )
+			/*if ( listener == nullptr )
 			{
 				listener = new OgreCameraComponentListener ( getName() + ".Listener", this, engine_context, render_subsystem );
 			}
@@ -102,13 +102,13 @@ namespace UnknownEngine
 			{
 				engine_context->getMessageDispatcher()->addListener (
 				    received_message.message_type_name, listener,
-				    messaging_policies_manager.createPrefabReceiveMessagePolicy ( received_message.receive_policy_type_name, received_message.receive_policy_options )
+				    messaging_policies_manager.createPrefabReceiveMessagePolicy ( received_message.receive_policy., received_message.receive_policy_options )
 				);
 			}
 			else
 			{
 				throw Core::IMessageListener::MessageTypeNotSupportedByListener ( "Listener of component " + getName() + " doesn't support message type " + received_message.message_type_name );
-			}
+			}*/
 		}
 		
 		void OgreCameraComponent::onTransformChanged ( const Core::TransformChangedMessage &msg )

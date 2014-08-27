@@ -82,10 +82,7 @@ namespace UnknownEngine
 
 		void OgreRenderableComponentsFactory::registerRenderableComponentListeners ( OgreRenderableComponent* component, const Core::ReceivedMessageDescriptorsList &received_messages )
 		{
-			for ( const Core::ReceivedMessageDesc & message_desc : received_messages )
-			{
-				component->addReceivedMessageType ( message_desc );
-			}
+			component->initializeMessageListener(received_messages);
 		}
 
 		OgreRenderableComponentsFactory::~OgreRenderableComponentsFactory()

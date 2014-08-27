@@ -10,7 +10,7 @@
 #include <ComponentsManager.h>
 #include <IComponentFactory.h>
 #include <ComponentDesc.h>
-#include <Objects/Component.h>
+#include <Objects/IComponent.h>
 #include <algorithm>
 #include <Objects/Entity.h>
 
@@ -60,7 +60,7 @@ namespace UnknownEngine
 			return entity;
 		}
 
-		Component* ComponentsManager::createComponent ( const ComponentDesc &desc, Entity *parent_entity ) throw ( NoSuitableFactoryFoundException )
+		IComponent* ComponentsManager::createComponent ( const UnknownEngine::Core::ComponentDesc& desc, UnknownEngine::Core::Entity* parent_entity ) throw ( NoSuitableFactoryFoundException )
 		{
 			CORE_SUBSYSTEM_INFO ( "Creating component '" + desc.name + "' of type '" + desc.type + "' to be attached to the entity '" + parent_entity->getName() + "'" );
 			for ( auto & factory : component_factories )
@@ -68,7 +68,7 @@ namespace UnknownEngine
 				if ( factory.second->supportsType ( desc.type ) )
 				{
 					CORE_SUBSYSTEM_INFO ( "Found suitable factory : " + factory.second->getName() );
-					Component* component = factory.second->createObject ( desc );
+					IComponent* component = factory.second->createObject ( desc );
 					CORE_SUBSYSTEM_INFO ( "Attaching component '" + desc.name + "' to the entity '" + parent_entity->getName() + "'" );
 					parent_entity->addComponent ( desc.name, component );
 					CORE_SUBSYSTEM_INFO ( "Component '" + desc.name + "' created" );
@@ -79,7 +79,7 @@ namespace UnknownEngine
 			throw NoSuitableFactoryFoundException ( "Can't find factory for component" );
 		}
 
-		void ComponentsManager::removeComponent ( Component *component )
+		void ComponentsManager::removeComponent ( IComponent *component )
 		{
 			CORE_SUBSYSTEM_INFO ( "Destroying component '" + component->getName() + "'" );
 			for ( auto & factory : component_factories )

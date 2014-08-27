@@ -24,11 +24,11 @@ namespace UnknownEngine
 		};
 		
 		template <typename MessageClass>
-		class MessageBuffer
+		class MessageBuffer : public IMessageBuffer
 		{
 		public:
 			MessageBuffer( std::function<void(const MessageClass&)> process_message_callback ):
-			flush_callback(process_message_callback){}
+			process_message_callback(process_message_callback){}
 			
 			void push(const Core::PackedMessage& message)
 			{
@@ -38,7 +38,7 @@ namespace UnknownEngine
 		protected:
 			virtual void pushConcreteMessage(const MessageClass& message) = 0;
 			
-			std::function< void(const MessageClass&)> flush_callback;
+			std::function< void(const MessageClass&)> process_message_callback;
 			
 		private:
 			typename MessageClass::UnpackerClass message_unpacker;

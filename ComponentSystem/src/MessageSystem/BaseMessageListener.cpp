@@ -7,29 +7,30 @@ namespace UnknownEngine
 {
 	namespace Core
 	{
-		BaseMessageListener::BaseMessageListener ( const std::string& object_name ) : 
-		IMessageListener ( object_name )
+		BaseMessageListener::BaseMessageListener ( const std::string& object_name, EngineContext* engine_context ) : 
+		IMessageListener ( object_name ),
+		messaging_policies_manager(engine_context)
 		{}
 
 		bool BaseMessageListener::registerMessageBuffer ( const Core::MessageType& message_type, std::unique_ptr< Utils::IMessageBuffer > buffer )
 		{
-			std::lock_guard<std::mutex> ( message_buffers_mutex );
-			auto& iter = received_messages.find ( message_type );
+			std::lock_guard<std::mutex> guard( message_buffers_mutex );
+			auto iter = received_messages.find ( message_type );
 			if ( iter == received_messages.end() ) return false;
-			iter.second->message_buffer = buffer;
+			iter->second.message_buffer = std::move(buffer);
 
 			return true;
 		}
 
 		void BaseMessageListener::registerSupportedMessageType ( const UnknownEngine::Core::MessageType& message_type_id, UnknownEngine::Core::IMessageReceivePolicy* receive_policy )
 		{
-			std::lock_guard<std::mutex> ( message_buffers_mutex );
+			std::lock_guard<std::mutex> guard( message_buffers_mutex );
 			received_messages.emplace ( message_type_id, ReceivedMessage(receive_policy) );
 		}
 
 		void BaseMessageListener::registerSupportedMessageType ( const std::string& message_type_name, UnknownEngine::Core::IMessageReceivePolicy* receive_policy )
 		{
-			registerSupportedMessageType ( MESSAGE_TYPE_ID ( message_type_name ) );
+			registerSupportedMessageType ( MESSAGE_TYPE_ID ( message_type_name ), receive_policy );
 		}
 
 		MessagingPoliciesManager& BaseMessageListener::getMessagingPoliciesManager()
@@ -39,27 +40,27 @@ namespace UnknownEngine
 
 		void BaseMessageListener::processMessage ( const PackedMessage& msg )
 		{
-			std::lock_guard<std::mutex> ( message_buffers_mutex );
-			auto& iter = received_messages.find ( msg.getMessageTypeId() );
+			std::lock_guard<std::mutex> guard( message_buffers_mutex );
+			auto iter = received_messages.find ( msg.getMessageTypeId() );
 			if ( iter == received_messages.end() ) throw NoMessageProcessorFoundException ( "Can't find message processor for message type: " + MESSAGE_TYPE_NAME ( msg.getMessageTypeId() ) );
-			if ( iter.second->message_buffer ) iter.second->message_buffer->push ( msg );
+			if ( iter->second.message_buffer ) iter->second.message_buffer->push ( msg );
 		}
 
 		void BaseMessageListener::flushAllMessageBuffers()
 		{
-			std::lock_guard<std::mutex> ( message_buffers_mutex );
+			std::lock_guard<std::mutex> guard( message_buffers_mutex );
 			for ( auto & iter : received_messages )
 			{
-				if ( iter.second->message_buffer ) iter.second->message_buffer->flush();
+				if ( iter.second.message_buffer ) iter.second.message_buffer->flush();
 			}
 		}
 
 		void BaseMessageListener::registerListener ( MessageDispatcher* message_dispatcher )
 		{
-			std::lock_guard<std::mutex> ( message_buffers_mutex );
+			std::lock_guard<std::mutex> guard( message_buffers_mutex );
 			for(auto& iter : received_messages)
 			{
-				if(iter.second->message_buffer) message_dispatcher->addListener(iter.first, this, iter.second->receive_policy);
+				if(iter.second.message_buffer) message_dispatcher->addListener(iter.first, this, iter.second.receive_policy);
 			}
 		}
 
@@ -74,7 +75,7 @@ namespace UnknownEngine
 			{
 				if( message.receive_policy && messaging_policies_manager.isPrefabReceivePolicyType(message.receive_policy->receive_policy_type_name))
 				{
-					Core::IMessageReceivePolicy* receive_policy = messaging_policies_manager.createPrefabDeliveryMessagePolicy(
+					Core::IMessageReceivePolicy* receive_policy = messaging_policies_manager.createPrefabReceiveMessagePolicy(
 						message.receive_policy->receive_policy_type_name,
 						message.receive_policy->receive_policy_options
 					);

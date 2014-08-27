@@ -66,7 +66,7 @@ namespace UnknownEngine
 				 * @param component - Component to add
 				 */
 				COMPONENTSYSTEM_EXPORT
-				void addComponent ( const std::string &name, Component *component );
+				void addComponent ( const std::string &name, IComponent *component );
 
 				/**
 				 * @brief Removes the component from the entity
@@ -98,14 +98,14 @@ namespace UnknownEngine
 				  * @brief Returns the stored components map
 				  */
 				UNKNOWNENGINE_INLINE
-				const std::unordered_map<std::string, Component*>& getComponents()
+				const std::unordered_map<std::string, IComponent*>& getComponents()
 				{
 					return components;
 				}
 
 			private:
 
-				typedef std::unordered_map<std::string, Component*> InternalMapType;
+				typedef std::unordered_map<std::string, IComponent*> InternalMapType;
 
 				InternalMapType components; ///< Components map
 				std::string name; ///< Entity name

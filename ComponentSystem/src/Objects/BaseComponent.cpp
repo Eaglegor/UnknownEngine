@@ -1,4 +1,5 @@
 #include <Objects/BaseComponent.h>
+#include <MessageSystem/BaseMessageListener.h>
 
 namespace UnknownEngine
 {
@@ -19,24 +20,28 @@ namespace UnknownEngine
 			}
 		}
 
-		void BaseComponent::initializeMessageListener ( const ReceivedMessagesDesc& received_messages )
+		void BaseComponent::initializeMessageListener ( const UnknownEngine::Core::ReceivedMessageDescriptorsList& received_messages )
 		{
-			if(received_messages.empty) return;
-			message_listener.reset( new BaseMessageListener(getName() + ".Listener", received_messages) );
-			this->registerMessageProcessors();
+			if(received_messages.empty()) return;
+			message_listener.reset( new BaseMessageListener(getName() + ".Listener", engine_context) );
+			message_listener->setSupportedMessageTypes(received_messages);
+			this->registerMessageProcessors(message_listener.get());
 		}
 
-		void BaseComponent::init ( const Entity* parent_entity )
+		void BaseComponent::registerListener()
 		{
-			initImpl(parent_entity);
 			if(message_listener) message_listener->registerListener(engine_context->getMessageDispatcher());
 		}
 
-		void BaseComponent::shutdown()
+		void BaseComponent::unregisterListener()
 		{
 			if(message_listener) message_listener->unregisterListener(engine_context->getMessageDispatcher());
-			shutdownImpl();
 		}
-	
+		
+		void BaseComponent::flushMessages()
+		{
+			if(message_listener) message_listener->flushAllMessageBuffers();
+		}
+		
 	}
 }

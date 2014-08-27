@@ -74,7 +74,7 @@ namespace UnknownEngine
 
 		void BaseOgreLightComponent::addReceivedMessageType ( const Core::ReceivedMessageDesc &received_message )
 		{
-			if ( listener == nullptr )
+			/*if ( listener == nullptr )
 			{
 				listener = new BaseOgreLightComponentListener ( getName() + ".Listener", this, engine_context, render_subsystem );
 			}
@@ -89,7 +89,7 @@ namespace UnknownEngine
 			else
 			{
 				throw Core::IMessageListener::MessageTypeNotSupportedByListener ( "Listener of component " + getName() + " doesn't support message type " + received_message.message_type_name );
-			}
+			}*/
 		}
 		
 	}

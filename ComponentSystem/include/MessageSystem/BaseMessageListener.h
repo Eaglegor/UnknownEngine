@@ -8,6 +8,7 @@
 #include <MessageSystem/MessageType.h>
 #include <MessageSystem/MessagingPoliciesManager.h>
 #include <MessageSystem/MessageListenerDesc.h>
+#include <MessageBuffers/MessageBuffer.h>
 #include <Exception.h>
 
 
@@ -28,10 +29,10 @@ namespace UnknownEngine
 		public:
 			UNKNOWNENGINE_SIMPLE_EXCEPTION(NoMessageProcessorFoundException);
 			
-			BaseMessageListener ( const std::string& object_name, const ReceivedMessageDescriptorsList& received_messages_list );
+			BaseMessageListener ( const std::string& object_name, EngineContext* engine_context );
 			
 			void registerSupportedMessageType( const std::string& message_type_name, IMessageReceivePolicy* receive_policy);
-			void registerSupportedMessageType( const MessageType &message_type_id, IMessageReceivePolicy* receive_policy);
+			void registerSupportedMessageType( const MessageType& message_type_id, IMessageReceivePolicy* receive_policy);
 			
 			bool registerMessageBuffer( const MessageType& message_type, std::unique_ptr<Utils::IMessageBuffer> buffer);
 
@@ -43,9 +44,9 @@ namespace UnknownEngine
 			virtual void registerListener(MessageDispatcher* message_dispatcher);
 			virtual void unregisterListener(MessageDispatcher* message_dispatcher);
 			
-		private:
-			
 			virtual void setSupportedMessageTypes(const ReceivedMessageDescriptorsList& received_messages_list);
+			
+		private:
 			
 			struct ReceivedMessage
 			{
