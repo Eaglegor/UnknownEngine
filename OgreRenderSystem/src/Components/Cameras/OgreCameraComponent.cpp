@@ -7,7 +7,6 @@
 #include <boost/lexical_cast.hpp>
 #include <Converters/OgreVector3Converter.h>
 #include <Converters/OgreQuaternionConverter.h>
-#include <Listeners/OgreCameraComponentListener.h>
 #include <MessageSystem/MessageListenerDesc.h>
 #include <EngineContext.h>
 #include <MessageSystem/MessageDispatcher.h>
@@ -15,6 +14,9 @@
 #include <LogHelper.h>
 #include <Listeners/BaseMessageListenerBufferRegistrator.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
+#include <MessageBuffers/OnlyLastMessageBuffer.h>
+#include <ExportedMessages/TransformChangedMessage.h>
+#include <ExportedMessages/RenderSystem/CameraLookAtActionMessage.h>
 
 namespace UnknownEngine
 {

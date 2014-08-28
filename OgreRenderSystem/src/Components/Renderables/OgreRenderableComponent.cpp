@@ -4,7 +4,6 @@
 #include <Components/Renderables/OgreRenderableComponent.h>
 #include <OgreRenderSubsystem.h>
 #include <DataProviders/OgreMeshPtrProvider.h>
-#include <Listeners/OgreRenderableComponentListener.h>
 #include <EngineContext.h>
 #include <MessageSystem/MessageDispatcher.h>
 #include <MessageSystem/MessageListenerDesc.h>
@@ -15,6 +14,8 @@
 #include <MessageBuffers/OnlyLastMessageBuffer.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <Listeners/BaseMessageListenerBufferRegistrator.h>
+#include <ExportedMessages/TransformChangedMessage.h>
+#include <ExportedMessages/RenderSystem/ChangeMaterialActionMessage.h>
 
 namespace UnknownEngine
 {
