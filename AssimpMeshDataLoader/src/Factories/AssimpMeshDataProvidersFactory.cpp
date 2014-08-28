@@ -43,7 +43,7 @@ namespace UnknownEngine {
 			delete object;
 		}
 
-		const std::string AssimpMeshDataProvidersFactory::getName()
+		const char* AssimpMeshDataProvidersFactory::getName()
 		{
 			return "Loader.MeshData.AssimpMeshDataProvidersFactory";
 		}

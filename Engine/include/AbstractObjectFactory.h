@@ -41,7 +41,7 @@ namespace UnknownEngine
 				 *
 				 * @return Factory name
 				 */
-				virtual const std::string getName() = 0;
+				virtual const char* getName() = 0;
 
 				/**
 				 * @brief Returns a set of object type identifiers supported by this factory

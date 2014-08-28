@@ -38,7 +38,7 @@ namespace UnknownEngine
 			}
 		}
 
-		const std::string SimpleBehaviorsFactory::getName()
+		const char* SimpleBehaviorsFactory::getName()
 		{
 			return "SimpleBehaviorPlugin.SimpleBehaviorFactory";
 		}

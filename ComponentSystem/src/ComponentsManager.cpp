@@ -67,7 +67,7 @@ namespace UnknownEngine
 			{
 				if ( factory.second->supportsType ( desc.type ) )
 				{
-					CORE_SUBSYSTEM_INFO ( "Found suitable factory : " + factory.second->getName() );
+					CORE_SUBSYSTEM_INFO ( "Found suitable factory : " + std::string(factory.second->getName()) );
 					IComponent* component = factory.second->createObject ( desc );
 					CORE_SUBSYSTEM_INFO ( "Attaching component '" + desc.name + "' to the entity '" + parent_entity->getName() + "'" );
 					parent_entity->addComponent ( desc.name, component );
@@ -81,18 +81,18 @@ namespace UnknownEngine
 
 		void ComponentsManager::removeComponent ( IComponent *component )
 		{
-			CORE_SUBSYSTEM_INFO ( "Destroying component '" + component->getName() + "'" );
+			CORE_SUBSYSTEM_INFO ( "Destroying component '" + std::string(component->getName()) + "'" );
 			for ( auto & factory : component_factories )
 			{
 				if ( factory.second->supportsType ( component->getType() ) )
 				{
-					CORE_SUBSYSTEM_INFO ( "Shutting down component '" + component->getName() + "'" );
+					CORE_SUBSYSTEM_INFO ( "Shutting down component '" + std::string(component->getName()) + "'" );
 					component->shutdown();
 					factory.second->destroyObject ( component );
 					return;
 				}
 			}
-			CORE_SUBSYSTEM_ERROR ( "No suitable factory found to destroy component '" + component->getName() + "'" );
+			CORE_SUBSYSTEM_ERROR ( "No suitable factory found to destroy component '" + std::string(component->getName()) + "'" );
 			throw NoSuitableFactoryFoundException ( "Can't find factory able to destroy component" );
 		}
 

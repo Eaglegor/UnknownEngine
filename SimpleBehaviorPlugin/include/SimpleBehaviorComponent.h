@@ -1,15 +1,16 @@
 #pragma once
-#include <Objects/IComponent.h>
+#include <Objects/BaseComponent.h>
 
 namespace UnknownEngine
 {
 	namespace Behavior
 	{
-		class SimpleBehaviorComponent : public Core::IComponent
+		class SimpleBehaviorComponent : public Core::BaseComponent
 		{
 		public:
 			explicit SimpleBehaviorComponent ( const std::string& name ):
-			Core::IComponent(name){}
+			Core::BaseComponent(name)
+			{}
 			
 			virtual void act() = 0;
 		};

@@ -37,7 +37,7 @@ namespace UnknownEngine
 		{
 			if ( components.find ( name ) != components.end() ) throw DuplicateComponentNameException ( "Duplicate component name: " + name );
 
-			CORE_SUBSYSTEM_INFO ( "Initializing component '" + component->getName() + "'" );
+			CORE_SUBSYSTEM_INFO ( "Initializing component '" + std::string(component->getName()) + "'" );
 			component->init ( this );
 			components[name] = component;
 		}

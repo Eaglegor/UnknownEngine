@@ -70,9 +70,6 @@ namespace UnknownEngine
 		class IComponent
 		{
 			public:
-				explicit IComponent ( const std::string &name )
-					: name ( name ) {}
-
 				/**
 				 * @brief Is called when the component is created
 				 *
@@ -108,16 +105,9 @@ namespace UnknownEngine
 				 */
 				virtual ComponentType getType() = 0;
 
-				UNKNOWNENGINE_INLINE
-				std::string getName()
-				{
-					return name;
-				}
+				virtual const char* getName() = 0;
 
 				virtual ~IComponent () {};
-
-			private:
-				std::string name;
 		};
 
 	} /* namespace Core */

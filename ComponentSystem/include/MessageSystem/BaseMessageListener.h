@@ -10,7 +10,7 @@
 #include <MessageSystem/MessageListenerDesc.h>
 #include <MessageBuffers/MessageBuffer.h>
 #include <Exception.h>
-
+#include <LogHelper.h>
 
 namespace UnknownEngine
 {
@@ -40,11 +40,9 @@ namespace UnknownEngine
 			
 			virtual void processMessage ( const PackedMessage& msg );
 			virtual void flushAllMessageBuffers();
-			
-			virtual void registerListener(MessageDispatcher* message_dispatcher);
-			virtual void unregisterListener(MessageDispatcher* message_dispatcher);
-			
-			virtual void setSupportedMessageTypes(const ReceivedMessageDescriptorsList& received_messages_list);
+
+			void registerAtDispatcher();
+			void unregisterAtDispatcher();
 			
 		private:
 			
@@ -61,9 +59,12 @@ namespace UnknownEngine
 			
 			std::unordered_map<MessageType, ReceivedMessage > received_messages;
 			MessagingPoliciesManager messaging_policies_manager;
+			EngineContext* engine_context;
+			
+			std::unique_ptr<LogHelper> log_helper;
 			
 			std::mutex message_buffers_mutex;
 		};
-		
+
 	}
 }
