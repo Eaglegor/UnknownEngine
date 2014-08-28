@@ -19,7 +19,7 @@ namespace UnknownEngine
 		public:
 			OgreMeshPtrDataProvidersFactory(Core::LogHelper* log_helper, Core::EngineContext* engine_context, OgreRenderSubsystem* render_subsystem);
 			virtual Loader::IDataProvider* createObject ( const Loader::DataProviderDesc& desc );
-			virtual const std::string getName();
+			virtual const char* getName();
 			virtual const std::unordered_set< Loader::DataProviderType >& getSupportedTypes();
 			virtual const bool supportsType ( const Loader::DataProviderType& object_type );
 			virtual void destroyObject ( Loader::IDataProvider* object );

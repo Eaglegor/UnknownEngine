@@ -26,7 +26,7 @@
 #include <LogHelper.h>
 
 #include <Objects/Entity.h>
-#include <Objects/Component.h>
+#include <Objects/IComponent.h>
 #include <ResourceManager.h>
 
 namespace UnknownEngine

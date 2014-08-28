@@ -21,9 +21,9 @@ namespace UnknownEngine
 				SingleThreadedBaseOgreComponentFactory ( OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context, Core::LogHelper* log_helper );
 				virtual ~SingleThreadedBaseOgreComponentFactory();
 
-				virtual Core::Component* createObject ( const Core::ComponentDesc& desc );
+				virtual Core::IComponent* createObject ( const Core::ComponentDesc& desc );
 
-				virtual void destroyObject ( Core::Component* object );
+				virtual void destroyObject ( Core::IComponent* object );
 
 		};
 	}

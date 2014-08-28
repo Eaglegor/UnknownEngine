@@ -36,12 +36,14 @@ namespace UnknownEngine
 			boost::optional<const ptree&> receive_policy = message_node.get_child_optional ( Tags::RECEIVE_POLICY );
 			if ( receive_policy.is_initialized() )
 			{
-				message_desc.receive_policy_type_name = receive_policy.get().get_child ( XMLATTR ).get<std::string> ( Attributes::RECEIVE_POLICY::TYPE );
+				Core::ReceivedMessageDesc::ReceivePolicyDesc receive_policy_desc;
+				receive_policy_desc.receive_policy_type_name = receive_policy.get().get_child ( XMLATTR ).get<std::string> ( Attributes::RECEIVE_POLICY::TYPE );
 				boost::optional<const ptree&> receive_policy_options = receive_policy.get().get_child_optional ( Tags::OPTIONS_SECTION );
 				if ( receive_policy_options.is_initialized() )
 				{
-					message_desc.receive_policy_options = OptionsParser::parseOptions ( receive_policy_options.get(), constants_holder );
+					receive_policy_desc.receive_policy_options = OptionsParser::parseOptions ( receive_policy_options.get(), constants_holder );
 				}
+				message_desc.receive_policy = receive_policy_desc;
 			}
 
 			return message_desc;

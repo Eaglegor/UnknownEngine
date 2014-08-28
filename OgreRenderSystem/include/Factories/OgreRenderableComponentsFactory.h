@@ -33,18 +33,18 @@ namespace UnknownEngine
 				OgreRenderableComponentsFactory ( OgreRenderSubsystem* render_system, Core::EngineContext *engine_context, Core::LogHelper* log_helper = nullptr );
 				virtual ~OgreRenderableComponentsFactory();
 
-				virtual const std::string getName();
+				virtual const char* getName();
 				virtual const std::unordered_set<Core::ComponentType>& getSupportedTypes();
 				virtual const bool supportsType ( const Core::ComponentType &object_type );
 
 			protected:
-				virtual Core::Component* internalCreateObject ( const Core::ComponentDesc& desc );
-				virtual void internalDestroyObject ( Core::Component* object );
+				virtual Core::IComponent* internalCreateObject ( const Core::ComponentDesc& desc );
+				virtual void internalDestroyObject ( Core::IComponent* object );
 
 			private:
 				// Solid renderable components
-				Core::Component* createRenderableComponent ( const Core::ComponentDesc &desc );
-				void destroyRenderableComponent ( const Core::Component* component );
+				Core::IComponent* createRenderableComponent ( const Core::ComponentDesc &desc );
+				void destroyRenderableComponent ( const Core::IComponent* component );
 				void registerRenderableComponentListeners ( OgreRenderableComponent* component, const Core::ReceivedMessageDescriptorsList &received_messages );
 		};
 

@@ -8,8 +8,10 @@
 
 #include <EngineContext.h>
 #include <MessageSystem/MessageDispatcher.h>
+#include <MessageSystem/BaseMessageListener.h>
 
 #include <LogHelper.h>
+#include <Listeners/BaseMessageListenersFactory.h>
 
 namespace UnknownEngine
 {
@@ -22,7 +24,7 @@ namespace UnknownEngine
 			supported_types.insert ( OGRE_RENDERABLE_COMPONENT_TYPE );
 		}
 
-		const std::string OgreRenderableComponentsFactory::getName()
+		const char* OgreRenderableComponentsFactory::getName()
 		{
 			return "Graphics.OgreRenderSubsystem.RenderableComponentsFactory";
 		}
@@ -37,9 +39,9 @@ namespace UnknownEngine
 			return supported_types.find ( object_type ) != supported_types.end();
 		}
 
-		Core::Component *OgreRenderableComponentsFactory::internalCreateObject ( const Core::ComponentDesc &desc )
+		Core::IComponent *OgreRenderableComponentsFactory::internalCreateObject ( const Core::ComponentDesc &desc )
 		{
-			Core::Component* component = nullptr;
+			Core::IComponent* component = nullptr;
 
 			if ( desc.type == OGRE_RENDERABLE_COMPONENT_TYPE )
 			{
@@ -49,12 +51,12 @@ namespace UnknownEngine
 			return component;
 		}
 
-		void OgreRenderableComponentsFactory::internalDestroyObject ( Core::Component *object )
+		void OgreRenderableComponentsFactory::internalDestroyObject ( Core::IComponent *object )
 		{
 			if ( object->getType() == OGRE_RENDERABLE_COMPONENT_TYPE ) destroyRenderableComponent ( object );
 		}
 
-		Core::Component *OgreRenderableComponentsFactory::createRenderableComponent ( const Core::ComponentDesc &desc )
+		Core::IComponent *OgreRenderableComponentsFactory::createRenderableComponent ( const Core::ComponentDesc &desc )
 		{
 			LOG_INFO ( log_helper, "Creating renderablec component" );
 			OgreRenderableComponent* component;
@@ -75,17 +77,20 @@ namespace UnknownEngine
 			return component;
 		}
 
-		void OgreRenderableComponentsFactory::destroyRenderableComponent ( const Core::Component *component )
+		void OgreRenderableComponentsFactory::destroyRenderableComponent ( const Core::IComponent *component )
 		{
 			delete component;
 		}
 
 		void OgreRenderableComponentsFactory::registerRenderableComponentListeners ( OgreRenderableComponent* component, const Core::ReceivedMessageDescriptorsList &received_messages )
 		{
-			for ( const Core::ReceivedMessageDesc & message_desc : received_messages )
-			{
-				component->addReceivedMessageType ( message_desc );
-			}
+			std::unique_ptr<Core::BaseMessageListener> listener = Utils::BaseMessageListenersFactory::createBaseMessageListener(
+				std::string(component->getName())+".Listener",
+				engine_context,
+				received_messages
+			);
+			
+			component->setMessageListener(std::move(listener));			
 		}
 
 		OgreRenderableComponentsFactory::~OgreRenderableComponentsFactory()

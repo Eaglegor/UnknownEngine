@@ -18,6 +18,9 @@ namespace UnknownEngine
 	namespace Core
 	{
 
+		class StopEngineActionMessagePacker;
+		class StopEngineActionMessageUnpacker;
+
 		/**
 		 * @brief Engine stop command
 		 *
@@ -26,6 +29,10 @@ namespace UnknownEngine
 
 		struct StopEngineActionMessage
 		{
+
+			typedef StopEngineActionMessagePacker PackerClass;
+			typedef StopEngineActionMessageUnpacker UnpackerClass;
+
 			UNKNOWNENGINE_INLINE
 			static std::string getTypeName()
 			{

@@ -15,11 +15,18 @@ namespace UnknownEngine
 	namespace Core
 	{
 
+		class TransformChangedMessagePacker;
+		class TransformChangedMessageUnpacker;
+
 		/**
 		 * @brief Indicates that some simulation object changed its world transform
 		 */
 		struct TransformChangedMessage
 		{
+
+			typedef TransformChangedMessagePacker PackerClass;
+			typedef TransformChangedMessageUnpacker UnpackerClass;
+
 			UNKNOWNENGINE_INLINE
 			static std::string getTypeName()
 			{

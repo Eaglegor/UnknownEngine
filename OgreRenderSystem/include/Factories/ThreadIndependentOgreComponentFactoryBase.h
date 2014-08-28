@@ -25,8 +25,8 @@ namespace UnknownEngine
 					log_helper ( log_helper ) {}
 
 			protected:
-				virtual Core::Component* internalCreateObject ( const Core::ComponentDesc& desc ) = 0;
-				virtual void internalDestroyObject ( Core::Component* object ) = 0;
+				virtual Core::IComponent* internalCreateObject ( const Core::ComponentDesc& desc ) = 0;
+				virtual void internalDestroyObject ( Core::IComponent* object ) = 0;
 
 				std::unordered_set<Core::ComponentType> supported_types;
 				Core::LogHelper* log_helper;

@@ -8,6 +8,7 @@
 #include <ComponentDesc.h>
 #include <EngineContext.h>
 #include <MessageSystem/MessageDispatcher.h>
+#include <Listeners/BaseMessageListenersFactory.h>
 
 namespace UnknownEngine
 {
@@ -20,7 +21,7 @@ namespace UnknownEngine
 			supported_types.insert ( OGRE_CAMERA_COMPONENT_TYPE );
 		}
 
-		const std::string OgreCameraComponentsFactory::getName()
+		const char* OgreCameraComponentsFactory::getName()
 		{
 			return "Graphics.OgreRenderSubsystem.CameraComponentsFactory";
 		}
@@ -35,9 +36,9 @@ namespace UnknownEngine
 			return supported_types.find ( object_type ) != supported_types.end();
 		}
 
-		Core::Component *OgreCameraComponentsFactory::internalCreateObject ( const Core::ComponentDesc &desc )
+		Core::IComponent *OgreCameraComponentsFactory::internalCreateObject ( const Core::ComponentDesc &desc )
 		{
-			Core::Component* component = nullptr;
+			Core::IComponent* component = nullptr;
 
 			if ( desc.type == OGRE_CAMERA_COMPONENT_TYPE )
 			{
@@ -47,12 +48,12 @@ namespace UnknownEngine
 			return component;
 		}
 
-		void OgreCameraComponentsFactory::internalDestroyObject ( Core::Component *object )
+		void OgreCameraComponentsFactory::internalDestroyObject ( Core::IComponent *object )
 		{
 			if ( object->getType() == OGRE_CAMERA_COMPONENT_TYPE ) destroyCameraComponent ( object );
 		}
 
-		Core::Component *OgreCameraComponentsFactory::createCameraComponent ( const Core::ComponentDesc &desc )
+		Core::IComponent *OgreCameraComponentsFactory::createCameraComponent ( const Core::ComponentDesc &desc )
 		{
 			OgreCameraComponent* component;
 			if ( !desc.descriptor.isEmpty() )
@@ -67,17 +68,20 @@ namespace UnknownEngine
 			return component;
 		}
 
-		void OgreCameraComponentsFactory::destroyCameraComponent ( const Core::Component *component )
+		void OgreCameraComponentsFactory::destroyCameraComponent ( const Core::IComponent *component )
 		{
 			delete component;
 		}
 
 		void OgreCameraComponentsFactory::registerCameraComponentListeners ( OgreCameraComponent* component, const Core::ReceivedMessageDescriptorsList &received_messages )
 		{
-			for ( const Core::ReceivedMessageDesc & message_desc : received_messages )
-			{
-				component->addReceivedMessageType ( message_desc );
-			}
+			std::unique_ptr<Core::BaseMessageListener> listener = Utils::BaseMessageListenersFactory::createBaseMessageListener(
+				std::string(component->getName())+".Listener",
+				engine_context,
+				received_messages
+			);
+			
+			component->setMessageListener(std::move(listener));			
 		}
 
 	} // namespace Graphics

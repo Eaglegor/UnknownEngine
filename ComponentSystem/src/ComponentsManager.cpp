@@ -10,7 +10,7 @@
 #include <ComponentsManager.h>
 #include <IComponentFactory.h>
 #include <ComponentDesc.h>
-#include <Objects/Component.h>
+#include <Objects/IComponent.h>
 #include <algorithm>
 #include <Objects/Entity.h>
 
@@ -60,15 +60,15 @@ namespace UnknownEngine
 			return entity;
 		}
 
-		Component* ComponentsManager::createComponent ( const ComponentDesc &desc, Entity *parent_entity ) throw ( NoSuitableFactoryFoundException )
+		IComponent* ComponentsManager::createComponent ( const UnknownEngine::Core::ComponentDesc& desc, UnknownEngine::Core::Entity* parent_entity ) throw ( NoSuitableFactoryFoundException )
 		{
 			CORE_SUBSYSTEM_INFO ( "Creating component '" + desc.name + "' of type '" + desc.type + "' to be attached to the entity '" + parent_entity->getName() + "'" );
 			for ( auto & factory : component_factories )
 			{
 				if ( factory.second->supportsType ( desc.type ) )
 				{
-					CORE_SUBSYSTEM_INFO ( "Found suitable factory : " + factory.second->getName() );
-					Component* component = factory.second->createObject ( desc );
+					CORE_SUBSYSTEM_INFO ( "Found suitable factory : " + std::string(factory.second->getName()) );
+					IComponent* component = factory.second->createObject ( desc );
 					CORE_SUBSYSTEM_INFO ( "Attaching component '" + desc.name + "' to the entity '" + parent_entity->getName() + "'" );
 					parent_entity->addComponent ( desc.name, component );
 					CORE_SUBSYSTEM_INFO ( "Component '" + desc.name + "' created" );
@@ -79,20 +79,20 @@ namespace UnknownEngine
 			throw NoSuitableFactoryFoundException ( "Can't find factory for component" );
 		}
 
-		void ComponentsManager::removeComponent ( Component *component )
+		void ComponentsManager::removeComponent ( IComponent *component )
 		{
-			CORE_SUBSYSTEM_INFO ( "Destroying component '" + component->getName() + "'" );
+			CORE_SUBSYSTEM_INFO ( "Destroying component '" + std::string(component->getName()) + "'" );
 			for ( auto & factory : component_factories )
 			{
 				if ( factory.second->supportsType ( component->getType() ) )
 				{
-					CORE_SUBSYSTEM_INFO ( "Shutting down component '" + component->getName() + "'" );
+					CORE_SUBSYSTEM_INFO ( "Shutting down component '" + std::string(component->getName()) + "'" );
 					component->shutdown();
 					factory.second->destroyObject ( component );
 					return;
 				}
 			}
-			CORE_SUBSYSTEM_ERROR ( "No suitable factory found to destroy component '" + component->getName() + "'" );
+			CORE_SUBSYSTEM_ERROR ( "No suitable factory found to destroy component '" + std::string(component->getName()) + "'" );
 			throw NoSuitableFactoryFoundException ( "Can't find factory able to destroy component" );
 		}
 

@@ -33,21 +33,18 @@ namespace UnknownEngine
 				
 				virtual UnknownEngine::Core::ComponentType getType() = 0;
 				
-				void addReceivedMessageType ( const Core::ReceivedMessageDesc &received_message );
-				
 				void onTransformChanged(const Core::TransformChangedMessage& msg);
 
 			protected:
 				virtual void internalInit(const Core::Entity* parent_entity) override;
 				virtual void internalShutdown() override;
 				
+				virtual void initMessageListenerBuffers ( bool can_be_multi_threaded );
+				
 				OgreLightSettings light_settings;
 				
 				Ogre::Light* ogre_light;
 				Ogre::SceneNode* ogre_scene_node;
-				
-			private:
-				BaseOgreLightComponentListener* listener;
 		};
 	}
 }

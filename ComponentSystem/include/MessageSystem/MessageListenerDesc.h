@@ -37,9 +37,15 @@ namespace UnknownEngine
 		 */
 		struct ReceivedMessageDesc
 		{
+			struct ReceivePolicyDesc
+			{
+				std::string receive_policy_type_name; ///< %Message receive policy name
+				Properties receive_policy_options; ///< %Message receive policy options
+			};
+			
 			std::string message_type_name; ///< %String message type representation
-			std::string receive_policy_type_name; ///< %Message receive policy name
-			Properties receive_policy_options; ///< %Message receive policy options
+			boost::optional<ReceivePolicyDesc> receive_policy;
+			
 		};
 
 		typedef std::vector<ReceivedMessageDesc> ReceivedMessageDescriptorsList; ///< %Message subscriptions list

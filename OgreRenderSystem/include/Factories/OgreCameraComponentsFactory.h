@@ -32,18 +32,18 @@ namespace UnknownEngine
 
 				OgreCameraComponentsFactory ( OgreRenderSubsystem* render_subsystem, Core::EngineContext *engine_context, Core::LogHelper* log_helper = nullptr );
 
-				virtual const std::string getName();
+				virtual const char* getName();
 				virtual const std::unordered_set<Core::ComponentType>& getSupportedTypes();
 				virtual const bool supportsType ( const Core::ComponentType &object_type );
 
 			protected:
-				virtual Core::Component* internalCreateObject ( const Core::ComponentDesc& desc );
-				virtual void internalDestroyObject ( Core::Component* object );
+				virtual Core::IComponent* internalCreateObject ( const Core::ComponentDesc& desc );
+				virtual void internalDestroyObject ( Core::IComponent* object );
 				
 			private:
 				// Solid renderable components
-				Core::Component* createCameraComponent ( const Core::ComponentDesc &desc );
-				void destroyCameraComponent ( const Core::Component* component );
+				Core::IComponent* createCameraComponent ( const Core::ComponentDesc &desc );
+				void destroyCameraComponent ( const Core::IComponent* component );
 				void registerCameraComponentListeners ( OgreCameraComponent* component, const Core::ReceivedMessageDescriptorsList &received_messages );
  				
 		};

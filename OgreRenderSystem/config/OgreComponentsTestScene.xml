@@ -1,6 +1,6 @@
 <scene>
 
-	<constant name="global_log_level" value="none"/>
+	<constant name="global_log_level" value="false"/>
 
 	<subsystems>
 		<subsystem name="Logger" module="ConsoleLogger">
@@ -142,7 +142,7 @@
 					
 				</options_section>
 			</component>
-			</entity>
+		</entity>
 		
 		<entity name="LightEntity">
 		

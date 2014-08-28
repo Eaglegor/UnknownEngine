@@ -14,6 +14,11 @@ namespace UnknownEngine
 {
 	namespace Core
 	{
+		template<typename SubObjectIdentifierType>
+		class TransformChangedMessagePacker;
+
+		template<typename SubObjectIdentifierType>
+		class TransformChangedMessageUnpacker;
 
 		/**
 		 * @brief Indicates that some subobject changed its local transform in CS of parent object
@@ -23,8 +28,12 @@ namespace UnknownEngine
 		template<typename SubObjectIdentifierType>
 		struct LocalTransformChangedMessage
 		{
+
+			typedef TransformChangedMessagePacker<SubObjectIdentifierType> PackerClass;
+			typedef TransformChangedMessageUnpacker<SubObjectIdentifierType> UnpackerClass;
+
 			UNKNOWNENGINE_INLINE
-			constexpr static const char* getTypeName()
+			static std::string getTypeName()
 			{
 				return "Engine.LocalTransformChangedMessage";
 			}

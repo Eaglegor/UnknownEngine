@@ -18,7 +18,7 @@ namespace UnknownEngine
 			
 			AssimpMeshDataProvidersFactory(Core::LogHelper* log_helper, Core::EngineContext* engine_context);
 			
-			virtual const std::string getName();
+			virtual const char* getName();
 			virtual const std::unordered_set< DataProviderType >& getSupportedTypes();
 			virtual void destroyObject ( IDataProvider* object );
 			virtual IDataProvider* createObject ( const DataProviderDesc& desc );

@@ -24,7 +24,7 @@ namespace UnknownEngine
 	{
 
 		class IComponentFactory;
-		class Component;
+		class IComponent;
 		struct ComponentDesc;
 		struct SubsystemDesc;
 		class Entity;
@@ -115,14 +115,14 @@ namespace UnknownEngine
 				 * @return Pointer to the newly created component
 				 */
 				COMPONENTSYSTEM_EXPORT
-				virtual Component* createComponent ( const ComponentDesc &desc, Entity* parent_entity ) throw ( NoSuitableFactoryFoundException );
+				virtual IComponent* createComponent ( const ComponentDesc &desc, Entity* parent_entity ) throw ( NoSuitableFactoryFoundException );
 
 				/**
 				 * @brief Removes the component
 				 * @param component - The component to be removed
 				 */
 				COMPONENTSYSTEM_EXPORT
-				virtual void removeComponent ( Component* component );
+				virtual void removeComponent ( IComponent* component );
 
 			private:
 				ComponentFactoriesMap component_factories; ///< Map of registered component factories

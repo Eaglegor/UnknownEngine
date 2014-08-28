@@ -67,12 +67,9 @@ namespace UnknownEngine
 
 		class Entity;
 
-		class Component
+		class IComponent
 		{
 			public:
-				explicit Component ( const std::string &name )
-					: name ( name ) {}
-
 				/**
 				 * @brief Is called when the component is created
 				 *
@@ -108,16 +105,9 @@ namespace UnknownEngine
 				 */
 				virtual ComponentType getType() = 0;
 
-				UNKNOWNENGINE_INLINE
-				std::string getName()
-				{
-					return name;
-				}
+				virtual const char* getName() = 0;
 
-				virtual ~Component () {};
-
-			private:
-				std::string name;
+				virtual ~IComponent () {};
 		};
 
 	} /* namespace Core */

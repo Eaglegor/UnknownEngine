@@ -1,5 +1,6 @@
 #include <Components/TBBBaseOgreComponent.h>
 #include <TBBOgreRenderSubsystem.h>
+#include <MessageSystem/BaseMessageListener.h>
 
 namespace UnknownEngine
 {
@@ -8,7 +9,10 @@ namespace UnknownEngine
 		TBBBaseOgreComponent::TBBBaseOgreComponent ( const std::string& name, UnknownEngine::Graphics::OgreRenderSubsystem* render_subsystem, UnknownEngine::Core::EngineContext* engine_context ) :
 			ThreadIndependentOgreComponentBase ( name, render_subsystem, engine_context )
 		{
-			
+			render_subsystem->addSynchronizeCallback ( this->getName(), [this]()
+				{
+					if(listener) listener->flushAllMessageBuffers();
+				} );
 		}
 		
 		
@@ -21,6 +25,7 @@ namespace UnknownEngine
 		{
 			if ( render_subsystem->hasSeparateRenderThreadEnabled() )
 			{
+				initMessageListenerBuffers(true);
 				render_subsystem->addInitCallback ( [this, parent_entity]()
 				{
 					this->internalInit ( parent_entity );
@@ -28,6 +33,7 @@ namespace UnknownEngine
 			}
 			else
 			{
+				initMessageListenerBuffers(false);
 				this->internalInit ( parent_entity );
 			}
 		}
