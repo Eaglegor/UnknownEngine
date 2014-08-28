@@ -34,7 +34,7 @@ namespace UnknownEngine {
 			}
 		}
 
-		const std::string OgreMeshPtrDataProvidersFactory::getName()
+		const char* OgreMeshPtrDataProvidersFactory::getName()
 		{
 			return "Graphics.OgreRenderSystem.OgreMeshPtrDataProvidersFactory";
 		}

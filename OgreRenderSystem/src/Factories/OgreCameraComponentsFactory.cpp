@@ -8,6 +8,7 @@
 #include <ComponentDesc.h>
 #include <EngineContext.h>
 #include <MessageSystem/MessageDispatcher.h>
+#include <Listeners/BaseMessageListenersFactory.h>
 
 namespace UnknownEngine
 {
@@ -20,7 +21,7 @@ namespace UnknownEngine
 			supported_types.insert ( OGRE_CAMERA_COMPONENT_TYPE );
 		}
 
-		const std::string OgreCameraComponentsFactory::getName()
+		const char* OgreCameraComponentsFactory::getName()
 		{
 			return "Graphics.OgreRenderSubsystem.CameraComponentsFactory";
 		}
@@ -74,10 +75,13 @@ namespace UnknownEngine
 
 		void OgreCameraComponentsFactory::registerCameraComponentListeners ( OgreCameraComponent* component, const Core::ReceivedMessageDescriptorsList &received_messages )
 		{
-			for ( const Core::ReceivedMessageDesc & message_desc : received_messages )
-			{
-				component->addReceivedMessageType ( message_desc );
-			}
+			std::unique_ptr<Core::BaseMessageListener> listener = Utils::BaseMessageListenersFactory::createBaseMessageListener(
+				std::string(component->getName())+".Listener",
+				engine_context,
+				received_messages
+			);
+			
+			component->setMessageListener(std::move(listener));			
 		}
 
 	} // namespace Graphics

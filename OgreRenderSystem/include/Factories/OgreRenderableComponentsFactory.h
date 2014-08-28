@@ -33,7 +33,7 @@ namespace UnknownEngine
 				OgreRenderableComponentsFactory ( OgreRenderSubsystem* render_system, Core::EngineContext *engine_context, Core::LogHelper* log_helper = nullptr );
 				virtual ~OgreRenderableComponentsFactory();
 
-				virtual const std::string getName();
+				virtual const char* getName();
 				virtual const std::unordered_set<Core::ComponentType>& getSupportedTypes();
 				virtual const bool supportsType ( const Core::ComponentType &object_type );
 

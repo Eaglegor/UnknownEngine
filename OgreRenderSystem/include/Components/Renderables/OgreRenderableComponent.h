@@ -39,25 +39,19 @@ namespace UnknownEngine
 			
 				virtual Core::ComponentType getType() override;
 
-				virtual void addReceivedMessageType ( const Core::ReceivedMessageDesc &received_message );
-				
 				virtual void onTransformChanged ( const Core::TransformChangedMessage &message );
 				virtual void doChangeMaterial ( const ChangeMaterialActionMessage &message );
 
-				virtual void processMessages();
-				
 				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
 			protected:
 				virtual void internalInit(const Core::Entity* parent_entity) override;
 				virtual void internalShutdown() override;
 				
-				virtual void registerMessageProcessors ( Core::BaseMessageListener* message_listener );
+				virtual void initMessageListenerBuffers ( bool can_be_multi_threaded );
 				
 			private:
 				OgreRenderableComponentDescriptor desc;
-				
-				OgreRenderableComponentListener* listener;
 				
 				Ogre::Entity* entity;
 				Ogre::SceneNode* scene_node;

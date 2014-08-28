@@ -8,8 +8,10 @@
 
 #include <EngineContext.h>
 #include <MessageSystem/MessageDispatcher.h>
+#include <MessageSystem/BaseMessageListener.h>
 
 #include <LogHelper.h>
+#include <Listeners/BaseMessageListenersFactory.h>
 
 namespace UnknownEngine
 {
@@ -22,7 +24,7 @@ namespace UnknownEngine
 			supported_types.insert ( OGRE_RENDERABLE_COMPONENT_TYPE );
 		}
 
-		const std::string OgreRenderableComponentsFactory::getName()
+		const char* OgreRenderableComponentsFactory::getName()
 		{
 			return "Graphics.OgreRenderSubsystem.RenderableComponentsFactory";
 		}
@@ -82,7 +84,13 @@ namespace UnknownEngine
 
 		void OgreRenderableComponentsFactory::registerRenderableComponentListeners ( OgreRenderableComponent* component, const Core::ReceivedMessageDescriptorsList &received_messages )
 		{
-			component->initializeMessageListener(received_messages);
+			std::unique_ptr<Core::BaseMessageListener> listener = Utils::BaseMessageListenersFactory::createBaseMessageListener(
+				std::string(component->getName())+".Listener",
+				engine_context,
+				received_messages
+			);
+			
+			component->setMessageListener(std::move(listener));			
 		}
 
 		OgreRenderableComponentsFactory::~OgreRenderableComponentsFactory()

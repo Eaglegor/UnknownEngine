@@ -39,8 +39,6 @@ namespace UnknownEngine
 				
 				virtual UnknownEngine::Core::ComponentType getType() override;				
 
-				virtual void addReceivedMessageType ( const Core::ReceivedMessageDesc &received_message );
-				
 				void onTransformChanged ( const Core::TransformChangedMessage& msg );
 				void doLookAt ( const CameraLookAtActionMessage& msg );
 
@@ -50,10 +48,10 @@ namespace UnknownEngine
 				virtual void internalInit ( const UnknownEngine::Core::Entity *parent_entity ) override;
 				virtual void internalShutdown (  ) override;
 				
+				virtual void initMessageListenerBuffers ( bool can_be_multi_threaded );
+				
 			private:
 				OgreCameraComponentDescriptor desc;
-				
-				OgreCameraComponentListener* listener;
 				
 				Ogre::SceneNode *scene_node;
 				Ogre::Camera *camera;
