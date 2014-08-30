@@ -1,6 +1,6 @@
 <scene>
 
-	<constant name="global_log_level" value="none"/>
+	<constant name="global_log_level" value="debug"/>
 
 	<subsystems>
 		<subsystem name="Logger" module="ConsoleLogger">
@@ -10,7 +10,7 @@
 				</message>
 			</received_messages>
 		</subsystem>
-
+		
 		<subsystem name="Graphics" module="OgreRenderSystem">
 		
 			<received_messages>
@@ -49,9 +49,16 @@
 		<subsystem name="SimpleBehavior" module="SimpleBehaviorPlugin">
 			<received_messages>
 				<message type="Engine.MainLoop.UpdateFrameMessage"/>
+				<message type="IO.KeyStateChanged"/>
 			</received_messages>
 		</subsystem>
-	
+				
+		<subsystem name="UserInput" module="SDLUserInputPlugin">
+			<received_messages>
+				<message type="Engine.MainLoop.UpdateFrameMessage"/>
+			</received_messages>
+		</subsystem>
+		
 	</subsystems>
 
 	<entities>

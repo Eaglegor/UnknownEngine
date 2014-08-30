@@ -38,6 +38,7 @@ namespace UnknownEngine
 					this->root->startRendering();
 					root->removeFrameListener ( frame_listener.get() );
 					shutdownOgre();
+					frame_listener->setFinished();
 				} ) );
 			}
 		}
@@ -54,7 +55,9 @@ namespace UnknownEngine
 			if ( desc.separate_rendering_thread )
 			{
 				frame_listener->stopRendering();
+				LOG_INFO( log_helper, "Waiting for OGRE shutdown");
 				frame_listener->waitUntilFinished();
+				LOG_INFO( log_helper, "Ogre shut down");
 				frame_listener.reset();
 			}
 			else

@@ -53,9 +53,13 @@ namespace UnknownEngine
 
 		void ThreadIndependentOgreRenderSystemBase::shutdownOgre()
 		{
+			LOG_INFO(log_helper, "Shutting down OGRE");
 			root->shutdown();
+			
+			LOG_INFO(log_helper, "Deleting OGRE root");
 			delete root;
 
+			LOG_INFO(log_helper, "Deleting OGRE Log Manager");
 			ogre_log_manager->destroyLog("DefaultLog");
 			delete ogre_log_manager;
 		}
