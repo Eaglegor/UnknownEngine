@@ -10,10 +10,14 @@
 #include <vector>
 #include <MessageSystem/IMessageSystemParticipant.h>
 
+#include <chrono>
+
 namespace UnknownEngine
 {
 	namespace Core
 	{
+
+		class EngineContext;
 
 		/**
 		 * @brief The main loop
@@ -25,7 +29,7 @@ namespace UnknownEngine
 				 * @brief Constructor. Called by Engine
 				 */
 				ENGINE_EXPORT
-				MainLoop ();
+				MainLoop (EngineContext* engine_context);
 
 				ENGINE_EXPORT
 				virtual ~MainLoop ();
@@ -47,8 +51,12 @@ namespace UnknownEngine
 
 				bool stopped;
 
-				float current_time; ///< Current time
-				float dt; ///< Delta time from last frame
+				typedef std::chrono::steady_clock ClockType;
+				
+				ClockType::time_point current_time; ///< Current time
+				std::chrono::duration<float> dt; ///< Delta time from last frame
+				
+				EngineContext* engine_context;
 
 		};
 

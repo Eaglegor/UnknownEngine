@@ -7,7 +7,11 @@
 
 #include <iostream>
 
-#include <boost/chrono.hpp>
+//#define AVERAGE_FPS_FRAMES_COUNT 10000
+
+#ifdef AVERAGE_FPS_FRAMES_COUNT
+	#include <chrono>
+#endif
 
 typedef tbb::concurrent_unordered_map< std::string, std::function<void() > > ConcurrentMap;
 typedef tbb::concurrent_queue< std::function<void() > > ConcurrentQueue;
@@ -22,29 +26,34 @@ namespace UnknownEngine
 
 			OgreRenderFrameListener():
 			stopped(false),
+
 			finished(false)
-			//dur(0),
-			//counter(0)
+#ifdef AVERAGE_FPS_FRAMES_COUNT
+			,
+			dur(0),
+			counter(0)
+#endif
 			{}
 			
 			virtual bool frameStarted( const Ogre::FrameEvent& evt )
 			{
 
-				//boost::chrono::high_resolution_clock::time_point newTime = boost::chrono::high_resolution_clock::now();
+#ifdef AVERAGE_FPS_FRAMES_COUNT
+				std::chrono::steady_clock::time_point newTime = std::chrono::steady_clock::now();
 				
-				//dur += newTime - old;
-				//++counter;
-				//old = newTime;
+				dur += newTime - old;
+				++counter;
+				old = newTime;
 				
-				//if(counter == 10000)
-				//{
-					//double tm = static_cast<double> ( boost::chrono::duration_cast<boost::chrono::nanoseconds>( dur / static_cast<double>(counter) ).count() ) / 1000000000.0;
-					//std::cout << tm << std::endl;
-					//std::cout << 1 / tm << std::endl;
-					//counter = 0;
-					//dur = dur.zero();
-				//}
-				
+				if(counter == AVERAGE_FPS_FRAMES_COUNT)
+				{
+					float tm = dur.count() / static_cast<float>(counter);
+					std::cout << "Average frame period: " << tm << " s" << std::endl;
+					std::cout << "Average fps: " <<  1 / tm << std::endl;
+					counter = 0;
+					dur = dur.zero();
+				}
+#endif
 				std::function<void()> callback;
 
 				while ( init_callbacks.try_pop(callback) )
@@ -136,9 +145,11 @@ namespace UnknownEngine
 			/// Callbacks for components removal
 			ConcurrentQueue remove_callbacks;
 			
-			//size_t counter;
-			//boost::chrono::duration<double> dur;
-			//boost::chrono::high_resolution_clock::time_point old;
+#ifdef AVERAGE_FPS_FRAMES_COUNT
+			size_t counter;
+			std::chrono::duration<float> dur;
+			std::chrono::steady_clock::time_point old;
+#endif
 
 		};
 

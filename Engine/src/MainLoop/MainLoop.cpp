@@ -11,15 +11,19 @@
 #include <ExportedMessages/UpdateFrameMessage.h>
 #include <MessageSystem/MessageDispatcher.h>
 #include <MessageSystem/MessageSystemParticipantId.h>
+#include <MessageSystem/MessageSender.h>
+
+
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
 
-		MainLoop::MainLoop () :
+		MainLoop::MainLoop ( UnknownEngine::Core::EngineContext* engine_context ) :
 			IMessageSystemParticipant ( "Engine.MainLoop" ),
-			stopped ( true )
+			stopped ( true ),
+			engine_context(engine_context)
 		{
 		}
 
@@ -32,33 +36,31 @@ namespace UnknownEngine
 		{
 			stopped = false;
 
-			current_time = clock() / static_cast<float> ( CLOCKS_PER_SEC );
+			current_time = ClockType::now();
+			dt = dt.zero();
+			
 			UpdateFrameMessage msg;
+			
+			MessageSender<UpdateFrameMessage> update_frame_message_sender(
+				MessageSystemParticipantId("Engine", MessageSystemParticipantId::AutoRegistrationPolicy::AUTO_REGISTER),
+				engine_context
+			);
+			
 			UpdateFrameMessagePacker packer ( getMessageSystemParticipantId() );
 			while ( !stopped )
 			{
-				/*
-				msg.stage = UpdateFrameMessage::PREPROCESSING;
-				msg.dt = dt;
-				MessageDispatcher::getSingleton()->deliverMessage(packer.packMessage(msg));
-				*/
-
 				msg.stage = UpdateFrameMessage::PROCESSING;
-				msg.dt = dt;
-				MessageDispatcher::getSingleton()->deliverMessage ( packer.packMessage ( msg ) );
+				msg.dt = dt.count();
+				
+				update_frame_message_sender.sendMessage( msg );
 
 				updateTime();
-
-				/*msg.stage = UpdateFrameMessage::POSTPROCESSING;
-				msg.dt = dt;
-				MessageDispatcher::getSingleton()->deliverMessage(packer.packMessage(msg));
-				*/
 			}
 		}
 
 		void MainLoop::updateTime ()
 		{
-			float temp_time = clock() / static_cast<float> ( CLOCKS_PER_SEC );
+			ClockType::time_point temp_time = ClockType::now();
 			dt = temp_time - current_time;
 			current_time = temp_time;
 		}
@@ -67,6 +69,6 @@ namespace UnknownEngine
 		{
 			stopped = true;
 		}
-
+		
 	} /* namespace Core */
 } /* namespace UnknownEngine */
