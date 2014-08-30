@@ -49,6 +49,9 @@ ConsoleLogger
 RenderSystem
 OgreRenderSystem
 AssimpMeshDataLoader
+
+UserInput
+SDLUserInputPlugin
 )
 
 set(
