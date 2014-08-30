@@ -53,7 +53,7 @@ namespace UnknownEngine
 
 			state = STARTED;
 
-			MainLoop main_loop;
+			MainLoop main_loop(&context);
 
 			CORE_SUBSYSTEM_INFO ( "Registering engine stop listener" );
 			StopEngineListener stop_listener ( "Engine.EngineStopListener", &main_loop );
