@@ -52,7 +52,6 @@ namespace UnknownEngine
 
 			OptionalStringOption far_clip_distance = properties.get_optional<std::string>(GLOBAL_OPTIONS::FAR_CLIP_DISTANCE);
 			if(far_clip_distance.is_initialized()) desc.far_clip_distance = boost::lexical_cast<Math::Scalar>(far_clip_distance.get());
-			
 			return desc;
 		}
 

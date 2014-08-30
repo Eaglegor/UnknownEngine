@@ -11,7 +11,10 @@ namespace UnknownEngine
 		SimpleRotationComponent::SimpleRotationComponent ( const std::string& name, UnknownEngine::Core::EngineContext* engine_context ) : 
 		SimpleBehaviorComponent ( name ),
 		engine_context(engine_context),
-		message_packer( Core::MessageSystemParticipantId(name) )
+		transform_changed_message_sender ( 
+			Core::MessageSystemParticipantId(name, Core::MessageSystemParticipantId::AutoRegistrationPolicy::AUTO_REGISTER), 
+			engine_context
+		)
 		{
 			current_angle = 0;
 		}
@@ -33,7 +36,7 @@ namespace UnknownEngine
 			Core::TransformChangedMessage message;
 			message.new_transform.setOrientation( Math::Quaternion(current_angle, Math::Vector3(0,1,0)) );
 			
-			engine_context->getMessageDispatcher()->deliverMessage(message_packer.packMessage(message) );
+			transform_changed_message_sender.sendMessage(message);
 			
 		}
 		

@@ -4,49 +4,41 @@
 #include <SimpleRotationComponent.h>
 #include <SimpleBehaviorUpdateFrameListener.h>
 #include <EngineContext.h>
+#include <SimpleBehaviorsPerformer.h>
 
 namespace UnknownEngine
 {
 	namespace Behavior
 	{
 		
-		SimpleBehaviorsFactory::SimpleBehaviorsFactory ( UnknownEngine::Behavior::SimpleBehaviorUpdateFrameListener* update_frame_listener, UnknownEngine::Core::EngineContext* engine_context ):
-		update_frame_listener(update_frame_listener),
-		engine_context(engine_context)
+		SimpleBehaviorsFactory::SimpleBehaviorsFactory ( UnknownEngine::Core::EngineContext* engine_context, UnknownEngine::Behavior::SimpleBehaviorsPerformer* behaviors_performer ):
+		engine_context(engine_context),
+		behaviors_performer(behaviors_performer)
 		{
-			supported_types.insert(SIMPLE_ROTATION_COMPONENT_TYPE);
+			CreatableObjectDesc creatable_component;
+			creatable_component.type = SIMPLE_ROTATION_COMPONENT_TYPE;
+			creatable_component.creator = std::bind(&SimpleBehaviorsFactory::createSimpleRotationComponent, this, std::placeholders::_1);
+			creatable_component.deleter = std::bind(&SimpleBehaviorsFactory::destroySimpleBehaviorComponent, this, std::placeholders::_1);
+			registerCreator(creatable_component);
 		}
-		
-		Core::IComponent* SimpleBehaviorsFactory::createObject ( const Core::ComponentDesc& desc )
+
+		Core::IComponent* SimpleBehaviorsFactory::createSimpleRotationComponent ( const Core::ComponentDesc& desc )
 		{
-			SimpleBehaviorComponent* component = nullptr;
-			if(desc.type == SIMPLE_ROTATION_COMPONENT_TYPE)
-			{
-				 component = createSimpleRotationComponent(desc);
-				 update_frame_listener->addSimpleBehaviorComponent(component);
-			}
+			SimpleRotationComponent* component = new SimpleRotationComponent(desc.name, engine_context);
+			behaviors_performer->addSimpleBehaviorComponent(component);
 			return component;
 		}
-
-		void SimpleBehaviorsFactory::destroyObject ( Core::IComponent* object )
+		
+		void SimpleBehaviorsFactory::destroySimpleBehaviorComponent ( Core::IComponent* object )
 		{
-			SimpleBehaviorComponent* component = dynamic_cast<SimpleBehaviorComponent*>(object);
-			if(component != nullptr && object->getType() == SIMPLE_ROTATION_COMPONENT_TYPE)
-			{
-				update_frame_listener->removeSimpleBehaviorComponent(component);
-				delete object;
-			}
-		}
-
-		const char* SimpleBehaviorsFactory::getName()
-		{
-			return "SimpleBehaviorPlugin.SimpleBehaviorFactory";
+			behaviors_performer->removeSimpleBehaviorComponent( static_cast<SimpleBehaviorComponent*>(object) );
+			delete object;
 		}
 		
-		SimpleRotationComponent* SimpleBehaviorsFactory::createSimpleRotationComponent ( const Core::ComponentDesc& desc )
+		const char* SimpleBehaviorsFactory::getName()
 		{
-			engine_context->getMessageSystemParticipantDictionary()->registerNewMessageParticipant(desc.name);
-			return new SimpleRotationComponent(desc.name, engine_context);
+			return "SimpleBehaviorPlugin.Factories.SimpleBehaviorFactory";
 		}
+
 	}
 }

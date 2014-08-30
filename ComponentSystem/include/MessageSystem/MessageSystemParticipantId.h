@@ -31,9 +31,17 @@ namespace UnknownEngine
 		*/
 		struct MessageSystemParticipantId
 		{
+			
+			enum class AutoRegistrationPolicy
+			{
+				AUTO_REGISTER,
+				DONT_AUTO_REGISTER
+			};
+			
 			/**
 			 * @brief Constructor. Automatically fills id for **already registered** object
 			 * @param object_name - name of object
+			 * @param auto_registration_policy - defines if the object name must be automatically registered in the system if it doesn't exist yet
 			 *
 			 * Tries to automatically set the id. If object name wasn't registered at dictionaty throws an exception
 			 *
@@ -41,7 +49,7 @@ namespace UnknownEngine
 			 *
 			 */
 			COMPONENTSYSTEM_EXPORT
-			explicit MessageSystemParticipantId ( const std::string &object_name );
+			explicit MessageSystemParticipantId ( const std::string &object_name, AutoRegistrationPolicy auto_registration_policy = AutoRegistrationPolicy::DONT_AUTO_REGISTER );
 
 			/**
 			 * @brief Default constructor. Doesn't fill anything. Address is empty.

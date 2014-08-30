@@ -65,27 +65,27 @@ namespace UnknownEngine
 		
 		void TBBOgreRenderSubsystem::addSynchronizeCallback ( const std::string& name, const std::function< void() >& callback )
 		{
-			frame_listener->addSynchronizeCallback ( name, callback );
+			if(frame_listener) frame_listener->addSynchronizeCallback ( name, callback );
 		}
 		
 		void TBBOgreRenderSubsystem::removeSynchronizeCallback ( const std::string& name )
 		{
-			frame_listener->removeSynchronizeCallback ( name );
+			if(frame_listener) frame_listener->removeSynchronizeCallback ( name );
 		}
 		
 		void TBBOgreRenderSubsystem::addInitCallback ( const std::function< void() >& callback )
 		{
-			frame_listener->addInitCallback ( callback );
+			if(frame_listener) frame_listener->addInitCallback ( callback );
 		}
 		
 		void TBBOgreRenderSubsystem::addShutdownCallback ( const std::function< void() >& callback )
 		{
-			frame_listener->addShutdownCallback ( callback );
+			if(frame_listener) frame_listener->addShutdownCallback ( callback );
 		}
 		
 		void TBBOgreRenderSubsystem::addRemoveCallback ( const std::function< void() >& callback )
 		{
-			frame_listener->addRemoveCallback ( callback );
+			if(frame_listener) frame_listener->addRemoveCallback ( callback );
 		}
 		
 	}

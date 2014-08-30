@@ -9,12 +9,12 @@
 #include <Dictionary.h>
 #include <NoSuitableFactoryFoundException.h>
 #include <Properties/Properties_fwd.h>
+#include <DataProvider/IDataProviderFactory_fwd.h>
 
 namespace UnknownEngine {
 
 	namespace Loader
 	{
-		class IDataProviderFactory;
 		class IDataProvider;
 		struct DataProviderDesc;
 	}

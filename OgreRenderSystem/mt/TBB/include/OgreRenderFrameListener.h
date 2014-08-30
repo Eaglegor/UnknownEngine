@@ -7,6 +7,8 @@
 
 #include <iostream>
 
+#include <boost/chrono.hpp>
+
 typedef tbb::concurrent_unordered_map< std::string, std::function<void() > > ConcurrentMap;
 typedef tbb::concurrent_queue< std::function<void() > > ConcurrentQueue;
 
@@ -21,11 +23,28 @@ namespace UnknownEngine
 			OgreRenderFrameListener():
 			stopped(false),
 			finished(false)
+			//dur(0),
+			//counter(0)
 			{}
 			
 			virtual bool frameStarted( const Ogre::FrameEvent& evt )
 			{
 
+				//boost::chrono::high_resolution_clock::time_point newTime = boost::chrono::high_resolution_clock::now();
+				
+				//dur += newTime - old;
+				//++counter;
+				//old = newTime;
+				
+				//if(counter == 10000)
+				//{
+					//double tm = static_cast<double> ( boost::chrono::duration_cast<boost::chrono::nanoseconds>( dur / static_cast<double>(counter) ).count() ) / 1000000000.0;
+					//std::cout << tm << std::endl;
+					//std::cout << 1 / tm << std::endl;
+					//counter = 0;
+					//dur = dur.zero();
+				//}
+				
 				std::function<void()> callback;
 
 				while ( init_callbacks.try_pop(callback) )
@@ -116,6 +135,10 @@ namespace UnknownEngine
 
 			/// Callbacks for components removal
 			ConcurrentQueue remove_callbacks;
+			
+			//size_t counter;
+			//boost::chrono::duration<double> dur;
+			//boost::chrono::high_resolution_clock::time_point old;
 
 		};
 

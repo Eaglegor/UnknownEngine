@@ -24,6 +24,8 @@ namespace UnknownEngine
 			public:
 				AbstractObjectFactory() : internal_id ( INVALID_NUMERIC_IDENTIFIER ) {}
 
+				virtual ~AbstractObjectFactory(){}
+				
 				/**
 				 * @brief Compare to another factory based on internal id
 				 * @param rhs - Second factory to compare with
@@ -54,7 +56,7 @@ namespace UnknownEngine
 				 * @param object_type - Type to check for
 				 * @return true if the factory supports passed type
 				 */
-				virtual const bool supportsType ( const ObjectTypeId &object_type ) = 0;
+				virtual bool supportsType ( const ObjectTypeId &object_type ) = 0;
 
 				/**
 				 * @brief Creates an object according to passed descriptor

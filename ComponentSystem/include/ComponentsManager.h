@@ -18,12 +18,13 @@
 #include <Dictionary.h>
 #include <NoSuitableFactoryFoundException.h>
 
+#include <IComponentFactory_fwd.h>
+
 namespace UnknownEngine
 {
 	namespace Core
 	{
 
-		class IComponentFactory;
 		class IComponent;
 		struct ComponentDesc;
 		struct SubsystemDesc;
