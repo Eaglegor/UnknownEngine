@@ -13,6 +13,12 @@
 
 namespace UnknownEngine
 {
+	namespace IO
+	{
+
+		struct KeyStateChangedMessage;
+	}
+
 
 	namespace Core
 	{
@@ -21,6 +27,9 @@ namespace UnknownEngine
 		class LogHelper;
 		class BaseMessageListener;
 		struct UpdateFrameMessage;
+		template<class MessageClass >
+		class MessageSender;
+		struct StopEngineActionMessage;
 	}
 
 	namespace Behavior
@@ -42,12 +51,15 @@ namespace UnknownEngine
 				virtual bool uninstall() throw (Core::PluginError) override;
 				
 				void onUpdateFrame(const Core::UpdateFrameMessage& msg);
+				void onKeyPressed(const IO::KeyStateChangedMessage& msg);
 
 			private:
 				Core::SubsystemDesc desc;
 				Core::EngineContext* engine_context;
 				std::unique_ptr<Core::LogHelper> log_helper;
 
+				std::unique_ptr<Core::MessageSender<Core::StopEngineActionMessage> > stop_engine_message_sender;
+				
 				std::unique_ptr<SimpleBehaviorsPerformer> behaviors_performer;
 				std::unique_ptr<Core::BaseMessageListener> listener;
 				std::unique_ptr<SimpleBehaviorsFactory> simple_behaviors_factory;
