@@ -1,7 +1,7 @@
 #pragma once
 
 #include <OgreRenderSubsystem_fwd.h>
-#include <DataProvider/IDataProviderFactory.h>
+#include <DataProvider/BaseDataProviderFactory.h>
 
 namespace UnknownEngine
 {
@@ -14,24 +14,20 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		class OgreMeshPtrDataProvidersFactory : public Loader::IDataProviderFactory
+		class OgreMeshPtrDataProvidersFactory : public Loader::BaseDataProviderFactory
 		{
 		public:
 			OgreMeshPtrDataProvidersFactory(Core::LogHelper* log_helper, Core::EngineContext* engine_context, OgreRenderSubsystem* render_subsystem);
-			virtual Loader::IDataProvider* createObject ( const Loader::DataProviderDesc& desc );
 			virtual const char* getName();
-			virtual const std::unordered_set< Loader::DataProviderType >& getSupportedTypes();
-			virtual const bool supportsType ( const Loader::DataProviderType& object_type );
-			virtual void destroyObject ( Loader::IDataProvider* object );
 			
 		private:
-			std::unordered_set<Loader::DataProviderType> supported_types;
+			Loader::IDataProvider* createOgreMeshPtrFromMeshDataProvider ( const Loader::DataProviderDesc& desc );
+			
 			Core::LogHelper* log_helper;
+			
 			Core::EngineContext* engine_context;
 			OgreRenderSubsystem* render_subsystem;
-
-			Loader::IDataProvider* createOgreMeshPtrFromMeshDataProvider ( const Loader::DataProviderDesc &desc );
-			void destroyOgreMeshPtrFromMeshDataProvider ( Loader::IDataProvider* data_provider );
+			
 		};
 	}
 }

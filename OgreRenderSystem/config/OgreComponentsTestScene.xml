@@ -1,6 +1,6 @@
 <scene>
 
-	<constant name="global_log_level" value="false"/>
+	<constant name="global_log_level" value="none"/>
 
 	<subsystems>
 		<subsystem name="Logger" module="ConsoleLogger">
@@ -45,7 +45,12 @@
 		</subsystem>
 		
 		<subsystem name="MeshDataLoader" module="AssimpMeshDataLoader"/>
-		<subsystem name="SimpleBehavior" module="SimpleBehaviorPlugin"/>
+		
+		<subsystem name="SimpleBehavior" module="SimpleBehaviorPlugin">
+			<received_messages>
+				<message type="Engine.MainLoop.UpdateFrameMessage"/>
+			</received_messages>
+		</subsystem>
 	
 	</subsystems>
 

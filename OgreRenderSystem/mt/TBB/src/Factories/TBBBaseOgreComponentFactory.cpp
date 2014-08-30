@@ -18,7 +18,7 @@ namespace UnknownEngine
 		
 		UnknownEngine::Core::IComponent* TBBBaseOgreComponentFactory::createObject ( const UnknownEngine::Core::ComponentDesc& desc )
 		{
-			return internalCreateObject ( desc );
+			return Core::BaseComponentFactory::createObject ( desc );
 		}
 		
 		void TBBBaseOgreComponentFactory::destroyObject ( UnknownEngine::Core::IComponent* object )
@@ -27,12 +27,12 @@ namespace UnknownEngine
 			{
 				render_subsystem->addRemoveCallback ( [this, object]()
 				{
-					internalDestroyObject ( object );
+					Core::BaseComponentFactory::destroyObject ( object );
 				} );
 			}
 			else
 			{
-				internalDestroyObject ( object );
+				Core::BaseComponentFactory::destroyObject ( object );
 			}
 		}
 	}

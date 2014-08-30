@@ -1,5 +1,5 @@
 #pragma once
-#include <DataProvider/IDataProviderFactory.h>
+#include <DataProvider/BaseDataProviderFactory.h>
 
 namespace UnknownEngine
 {
@@ -12,20 +12,17 @@ namespace UnknownEngine
 
 	namespace Loader
 	{
-		class AssimpMeshDataProvidersFactory : public IDataProviderFactory
+		class AssimpMeshDataProvidersFactory : public BaseDataProviderFactory
 		{
 		public:
 			
 			AssimpMeshDataProvidersFactory(Core::LogHelper* log_helper, Core::EngineContext* engine_context);
-			
+
 			virtual const char* getName();
-			virtual const std::unordered_set< DataProviderType >& getSupportedTypes();
-			virtual void destroyObject ( IDataProvider* object );
-			virtual IDataProvider* createObject ( const DataProviderDesc& desc );
-			virtual const bool supportsType ( const DataProviderType& object_type );
 			
 		private:
-			std::unordered_set< DataProviderType > supported_types;
+			IDataProvider* createAssimpMeshDataLoader( const DataProviderDesc& desc );
+			
 			Core::LogHelper* log_helper;
 			Core::EngineContext* engine_context;
 		};

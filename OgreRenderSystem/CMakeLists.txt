@@ -40,7 +40,7 @@ if(OGRE_FOUND)
 	list(APPEND LINKED_LIBS ${TBB_LIBRARIES})
 	link_directories(${TBB_LIBRARY_DIRS})
 
-    find_package(Boost 1.55.0 REQUIRED COMPONENTS system thread)
+    find_package(Boost 1.55.0 REQUIRED COMPONENTS system thread chrono)
     list(APPEND LINKED_LIBS ${Boost_LIBRARIES})
     link_directories(${Boost_LIBRARY_DIRS})
 	

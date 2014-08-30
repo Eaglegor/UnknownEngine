@@ -1,6 +1,8 @@
 #pragma once
-#include <IComponentFactory.h>
+#include <BaseComponentFactory.h>
+#include <MessageSystem/BaseMessageListener.h>
 #include <OgreRenderSubsystem_fwd.h>
+#include <Listeners/BaseMessageListenersFactory.h>
 
 namespace UnknownEngine
 {
@@ -14,7 +16,7 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		class ThreadIndependentOgreComponentFactoryBase : public Core::IComponentFactory
+		class ThreadIndependentOgreComponentFactoryBase : public Core::BaseComponentFactory
 		{
 			public:
 
@@ -25,10 +27,7 @@ namespace UnknownEngine
 					log_helper ( log_helper ) {}
 
 			protected:
-				virtual Core::IComponent* internalCreateObject ( const Core::ComponentDesc& desc ) = 0;
-				virtual void internalDestroyObject ( Core::IComponent* object ) = 0;
-
-				std::unordered_set<Core::ComponentType> supported_types;
+			
 				Core::LogHelper* log_helper;
 				OgreRenderSubsystem* render_subsystem;
 				Core::EngineContext* engine_context;

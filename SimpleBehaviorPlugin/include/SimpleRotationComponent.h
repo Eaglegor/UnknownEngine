@@ -3,6 +3,7 @@
 #include <SimpleBehaviorComponent.h>
 #include <Quaternion.h>
 #include <AlignedNew.h>
+#include <MessageSystem/MessageSender.h>
 #include <ExportedMessages/TransformChangedMessage.h>
 
 namespace UnknownEngine
@@ -35,7 +36,9 @@ namespace UnknownEngine
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 			
 		private:
-			Core::TransformChangedMessagePacker message_packer;
+			
+			Core::MessageSender<Core::TransformChangedMessage> transform_changed_message_sender;
+			
 			Core::EngineContext* engine_context;
 			Math::Scalar current_angle;
 			Math::Quaternion quaterion;

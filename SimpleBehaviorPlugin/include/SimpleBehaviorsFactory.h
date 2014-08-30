@@ -1,50 +1,35 @@
 #pragma once
 
 #include <InlineSpecification.h>
-#include <IComponentFactory.h>
+#include <BaseComponentFactory.h>
+#include <memory>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
-
+		class BaseComponentListener;
 		class EngineContext;
 	}
-
 
 	namespace Behavior
 	{
 
-		class SimpleBehaviorUpdateFrameListener;
+		class SimpleBehaviorsPerformer;
 
-		class SimpleRotationComponent;
-		
-		class SimpleBehaviorsFactory : public Core::IComponentFactory
+		class SimpleBehaviorsFactory : public Core::BaseComponentFactory
 		{
 		public:
-			SimpleBehaviorsFactory(SimpleBehaviorUpdateFrameListener* update_frame_listener, Core::EngineContext* engine_context );
-			virtual Core::IComponent* createObject ( const Core::ComponentDesc& desc );
-			virtual void destroyObject ( Core::IComponent* object );
+			SimpleBehaviorsFactory( UnknownEngine::Core::EngineContext* engine_context, SimpleBehaviorsPerformer* behaviors_performer );
 			virtual const char* getName();	
-			
-			UNKNOWNENGINE_INLINE
-			virtual const std::unordered_set< Core::ComponentType >& getSupportedTypes()
-			{
-				return supported_types;
-			}
-			
-			UNKNOWNENGINE_INLINE
-			virtual const bool supportsType ( const Core::ComponentType& object_type )
-			{
-				return supported_types.find(object_type) != supported_types.end();
-			}
-			
+
 		private:
-			SimpleRotationComponent* createSimpleRotationComponent(const Core::ComponentDesc& desc);
+			Core::IComponent* createSimpleRotationComponent(const Core::ComponentDesc& desc);
 			
+			void destroySimpleBehaviorComponent(Core::IComponent* object);
+			
+			SimpleBehaviorsPerformer* behaviors_performer;
 			Core::EngineContext* engine_context;
-			std::unordered_set<Core::ComponentType> supported_types;
-			SimpleBehaviorUpdateFrameListener* update_frame_listener;
 		};
 		
 	}

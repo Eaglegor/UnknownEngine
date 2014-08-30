@@ -12,10 +12,13 @@ namespace UnknownEngine {
 		log_helper(log_helper),
 		engine_context(engine_context)
 		{
-			supported_types.insert(ASSIMP_MESH_DATA_PROVIDER_TYPE_NAME);
+			CreatableObjectDesc creatable_data_provider;
+			creatable_data_provider.type = ASSIMP_MESH_DATA_PROVIDER_TYPE_NAME;
+			creatable_data_provider.creator = std::bind( &AssimpMeshDataProvidersFactory::createAssimpMeshDataLoader, this, std::placeholders::_1);
+			registerCreator(creatable_data_provider);
 		}
 		
-		IDataProvider* AssimpMeshDataProvidersFactory::createObject ( const DataProviderDesc& desc )
+		IDataProvider* AssimpMeshDataProvidersFactory::createAssimpMeshDataLoader ( const DataProviderDesc& desc )
 		{
 			IDataProvider* result;
 
@@ -38,25 +41,10 @@ namespace UnknownEngine {
 			
 		}
 
-		void AssimpMeshDataProvidersFactory::destroyObject ( IDataProvider* object )
-		{
-			delete object;
-		}
-
 		const char* AssimpMeshDataProvidersFactory::getName()
 		{
 			return "Loader.MeshData.AssimpMeshDataProvidersFactory";
 		}
-
-		const std::unordered_set< DataProviderType >& AssimpMeshDataProvidersFactory::getSupportedTypes()
-		{
-			return supported_types;
-		}
-
-		const bool AssimpMeshDataProvidersFactory::supportsType ( const DataProviderType& object_type )
-		{
-			return supported_types.find(object_type)!=supported_types.end();
-		}
-
+		
 	}
 }
