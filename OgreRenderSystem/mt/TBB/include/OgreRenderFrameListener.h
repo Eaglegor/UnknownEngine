@@ -26,7 +26,6 @@ namespace UnknownEngine
 
 			OgreRenderFrameListener():
 			stopped(false),
-
 			finished(false)
 #ifdef AVERAGE_FPS_FRAMES_COUNT
 			,
@@ -77,16 +76,16 @@ namespace UnknownEngine
 				{
 					callback();
 				}
-
-				if(stopped) 
-				{
-					finished = true;
-					wait_for_finish_var.notify_all();
-				}
 				
 				return !stopped;
 			}
 
+			void setFinished()
+			{
+				boost::unique_lock<boost::mutex> lock(loading_finished_mutex);
+				finished = true;
+				wait_for_finish_var.notify_all();
+			}
 
 			void stopRendering()
 			{

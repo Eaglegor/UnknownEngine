@@ -80,6 +80,8 @@ namespace UnknownEngine
 			CORE_SUBSYSTEM_INFO ( "Destroying remaining entities" );
 			this->context.components_manager->clearEntities();
 
+			this->context.resource_manager->cleanup();
+			
 			CORE_SUBSYSTEM_INFO ( "Destroying plugins manager" );
 			delete this->plugins_manager;
 

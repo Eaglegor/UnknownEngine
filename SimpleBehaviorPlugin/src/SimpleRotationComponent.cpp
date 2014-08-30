@@ -31,7 +31,7 @@ namespace UnknownEngine
 
 		void SimpleRotationComponent::act()
 		{
-			current_angle += 0.00001;
+			current_angle += 0.0001;
 		
 			Core::TransformChangedMessage message;
 			message.new_transform.setOrientation( Math::Quaternion(current_angle, Math::Vector3(0,1,0)) );

@@ -13,12 +13,6 @@
 
 namespace UnknownEngine
 {
-	namespace IO
-	{
-
-		struct KeyStateChangedMessage;
-	}
-
 
 	namespace Core
 	{
@@ -27,42 +21,35 @@ namespace UnknownEngine
 		class LogHelper;
 		class BaseMessageListener;
 		struct UpdateFrameMessage;
-		template<class MessageClass >
-		class MessageSender;
-		struct StopEngineActionMessage;
 	}
 
-	namespace Behavior
+	namespace IO
 	{
 
-		class SimpleBehaviorsPerformer;
+		class KeyboardListener;
 
-		class SimpleBehaviorsFactory;
-
-		class SimpleBehaviorPlugin: public Core::Plugin
+		class SDLUserInputPlugin: public Core::Plugin
 		{
 			public:
-				SimpleBehaviorPlugin();
-				virtual ~SimpleBehaviorPlugin();
+				SDLUserInputPlugin();
+				virtual ~SDLUserInputPlugin();
 
 				virtual bool install(Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc) throw (Core::PluginError) override;
 				virtual bool init() throw (Core::PluginError) override;
 				virtual bool shutdown() throw (Core::PluginError) override;
 				virtual bool uninstall() throw (Core::PluginError) override;
-				
-				void onUpdateFrame(const Core::UpdateFrameMessage& msg);
-				void onKeyPressed(const IO::KeyStateChangedMessage& msg);
 
 			private:
+				void initSDL();
+				void shutdownSDL();
+				void onUpdateFrame(const Core::UpdateFrameMessage& msg);
+
+				std::unique_ptr< KeyboardListener > keyboard_listener;
+				
+				std::unique_ptr< Core::BaseMessageListener > listener;
 				Core::SubsystemDesc desc;
 				Core::EngineContext* engine_context;
 				std::unique_ptr<Core::LogHelper> log_helper;
-
-				std::unique_ptr<Core::MessageSender<Core::StopEngineActionMessage> > stop_engine_message_sender;
-				
-				std::unique_ptr<SimpleBehaviorsPerformer> behaviors_performer;
-				std::unique_ptr<Core::BaseMessageListener> listener;
-				std::unique_ptr<SimpleBehaviorsFactory> simple_behaviors_factory;
 		};
 
 	} /* namespace Graphics */
