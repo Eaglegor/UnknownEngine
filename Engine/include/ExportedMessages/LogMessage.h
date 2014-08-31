@@ -9,7 +9,8 @@
 #include <string>
 
 #include <InlineSpecification.h>
-#include <MessageSystem/MessagePacker.h>
+#include <MessageSystem/TypeCachingMessagePacker.h>
+#include <MessageSystem/MessageUnpacker.h>
 #include <MessageSystem/PackedMessage.h>
 #include <MessageSystem/MessageDictionary.h>
 
@@ -57,21 +58,19 @@ namespace UnknownEngine
 		/**
 		 * @brief Message packer for LogMessage
 		 */
-		class LogMessagePacker: public MessagePacker<LogMessage>
+		class LogMessagePacker: public TypeCachingMessagePacker<LogMessage>
 		{
 			public:
 
 				LogMessagePacker ( const MessageSystemParticipantId &sender_info ) :
-					MessagePacker<LogMessage> ( sender_info )
+					TypeCachingMessagePacker<LogMessage> ( sender_info )
 				{
 				}
 
 				UNKNOWNENGINE_INLINE
 				PackedMessage packMessage ( const LogMessage& msg ) override
 				{
-					PackedMessage result (
-					    MessageDictionary::getSingleton()->getMessageTypeId (
-					        LogMessage::getTypeName() ), sender_info );
+					PackedMessage result (getMessageType(), sender_info );
 					result.getProperties().set<std::string> ( "log_entry", msg.log_entry );
 					result.getProperties().set<LogMessage::Severity> ( "severity", msg.severity );
 					return result;
