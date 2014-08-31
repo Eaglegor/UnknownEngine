@@ -2,7 +2,8 @@
 
 #include <InlineSpecification.h>
 #include <Vectors/Vector3.h>
-#include <MessageSystem/MessagePacker.h>
+#include <MessageSystem/MessageUnpacker.h>
+#include <MessageSystem/TypeCachingMessagePacker.h>
 #include <MessageSystem/PackedMessage.h>
 #include <MessageSystem/MessageDictionary.h>
 
@@ -36,19 +37,19 @@ namespace UnknownEngine
 		/**
 		 * @brief Message packer for UpdateFrameMessage
 		 */
-		class CameraLookAtActionMessagePacker: public Core::MessagePacker<CameraLookAtActionMessage>
+		class CameraLookAtActionMessagePacker: public Core::TypeCachingMessagePacker<CameraLookAtActionMessage>
 		{
 			public:
 
 				CameraLookAtActionMessagePacker ( Core::MessageSystemParticipantId sender_info ) :
-					Core::MessagePacker<CameraLookAtActionMessage> ( sender_info )
+					Core::TypeCachingMessagePacker<CameraLookAtActionMessage> ( sender_info )
 				{
 				}
 
 				UNKNOWNENGINE_INLINE
 				Core::PackedMessage packMessage ( const CameraLookAtActionMessage& msg ) override
 				{
-					Core::PackedMessage result ( Core::MessageDictionary::getSingleton()->getMessageTypeId ( CameraLookAtActionMessage::getTypeName() ), sender_info );
+ 					Core::PackedMessage result ( getMessageType(), sender_info );
 					result.getProperties().set<Math::Vector3> ( "look_at_position", msg.look_at_position );
 					return result;
 				}

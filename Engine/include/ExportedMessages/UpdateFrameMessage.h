@@ -7,7 +7,8 @@
  */
 
 #include <InlineSpecification.h>
-#include <MessageSystem/MessagePacker.h>
+#include <MessageSystem/TypeCachingMessagePacker.h>
+#include <MessageSystem/MessageUnpacker.h>
 #include <MessageSystem/PackedMessage.h>
 #include <MessageSystem/MessageDictionary.h>
 
@@ -58,19 +59,19 @@ namespace UnknownEngine
 		/**
 		 * @brief Message packer for UpdateFrameMessage
 		 */
-		class UpdateFrameMessagePacker: public MessagePacker<UpdateFrameMessage>
+		class UpdateFrameMessagePacker: public TypeCachingMessagePacker<UpdateFrameMessage>
 		{
 			public:
 
 				UpdateFrameMessagePacker ( MessageSystemParticipantId sender_info ) :
-					MessagePacker<UpdateFrameMessage> ( sender_info )
+					TypeCachingMessagePacker<UpdateFrameMessage> ( sender_info )
 				{
 				}
 
 				UNKNOWNENGINE_INLINE
 				PackedMessage packMessage ( const UpdateFrameMessage& msg ) override
 				{
-					PackedMessage result ( MessageDictionary::getSingleton()->getMessageTypeId ( UpdateFrameMessage::getTypeName() ), sender_info );
+					PackedMessage result ( getMessageType(), sender_info );
 					result.getProperties().set<float> ( "dt", msg.dt );
 					result.getProperties().set<int> ( "stage", msg.stage );
 					return result;

@@ -1,27 +1,14 @@
 #pragma once
-/*
- * MessageParser.h
- *
- *  Created on: 19 июня 2014 г.
- *      Author: gorbachenko
- */
 
-#include <ComponentSystem_export.h>
-#include <string>
-
-#include <Exception.h>
-#include <MessageSystem/MessageSystemParticipantId.h>
-#include <MessageSystem/MessageType.h>
 #include <MessageSystem/InvalidMessageFormatException.h>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
-		class PackedMessage;
-
+		
 		/**
-		 * @brief Class to convert from concrete message class to a packed message
+		 * @brief Class to convert from packed message to the concrete message class
 		 *
 		 * \tparam T Concrete message class
 		 *
@@ -47,35 +34,34 @@ namespace UnknownEngine
 		 * packer/unpacker model we just rewrite some isolated converter classes and don't touch logic part of code.
 		 *
 		 * ###Notes
-		 * There is no magic. The user code still must know which message class it's converting and use an appropriate
-		 * packer.
+		 * There is no magic. User code must know which message it's handling and call an appropriate unpacker.
+		 * Recommended behavior for message unpacker is to log a warning message when detecting unexpected fields and
+		 * throw an exception when it can't find some mandatory fields.
+		 * If user calls wrong unpacker it causes an undefined behaviour and depends on the unpacker's implementation.
 		 *
 		 */
 		template <typename T>
-		class MessagePacker
+		class MessageUnpacker
 		{
 			public:
+
 				/**
-				 * @brief Construcror
-				 * @param sender_info - a message system participant id of sender
+				 * @brief Default constructor
 				 */
-				MessagePacker ( const MessageSystemParticipantId &sender_info )
-					: sender_info ( sender_info )
+				MessageUnpacker ( )
 				{
 				}
 
-				virtual ~MessagePacker () {};
+				virtual ~MessageUnpacker () {};
 
 				/**
-				 * @brief Converts a concrete message class to a packed message
-				 * @param msg - Concrete message object
-				 * @return Packed message ready to be sent with a message dispatcher
+				 * @brief Converts packed message to a concrete message class
+				 * @param msg - Packed message
+				 * @return Concrete message class
+				 * @throw InvalidMessageFormatException - Is thrown if message can't be correctly processed (value limits violation, not all fields set, etc.)
 				 */
-				virtual PackedMessage packMessage ( const T& msg ) = 0;
-			protected:
-				MessageSystemParticipantId sender_info; ///< Id of sender
+				virtual T unpackMessage ( const PackedMessage &msg ) throw ( InvalidMessageFormatException ) = 0;
 		};
-
-
-	} /* namespace Core */
-} /* namespace UnknownEngine */
+		
+	}
+}

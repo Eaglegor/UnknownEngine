@@ -9,7 +9,8 @@
 #include <string>
 
 #include <InlineSpecification.h>
-#include <MessageSystem/MessagePacker.h>
+#include <MessageSystem/TypeCachingMessagePacker.h>
+#include <MessageSystem/MessageUnpacker.h>
 #include <MessageSystem/PackedMessage.h>
 #include <MessageSystem/MessageDictionary.h>
 
@@ -43,21 +44,19 @@ namespace UnknownEngine
 		/**
 		 * @brief Message packer for StopEngineActionMessage
 		 */
-		class StopEngineActionMessagePacker: public MessagePacker<StopEngineActionMessage>
+		class StopEngineActionMessagePacker: public TypeCachingMessagePacker<StopEngineActionMessage>
 		{
 			public:
 
 				StopEngineActionMessagePacker ( const MessageSystemParticipantId &sender_info ) :
-					MessagePacker<StopEngineActionMessage> ( sender_info )
+					TypeCachingMessagePacker<StopEngineActionMessage> ( sender_info )
 				{
 				}
 
 				UNKNOWNENGINE_INLINE
 				PackedMessage packMessage ( const StopEngineActionMessage &msg ) override
 				{
-					return PackedMessage (
-					           MessageDictionary::getSingleton()->getMessageTypeId (
-					               StopEngineActionMessage::getTypeName() ), sender_info );
+					return PackedMessage (getMessageType(), sender_info );
 				}
 
 		};

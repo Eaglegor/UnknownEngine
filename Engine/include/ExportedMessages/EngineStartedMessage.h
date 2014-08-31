@@ -2,7 +2,8 @@
 
 #include <InlineSpecification.h>
 #include <MessageSystem/MessageType.h>
-#include <MessageSystem/MessagePacker.h>
+#include <MessageSystem/MessageUnpacker.h>
+#include <MessageSystem/TypeCachingMessagePacker.h>
 #include <MessageSystem/MessageSystemParticipantId.h>
 #include <MessageSystem/MessageDictionary.h>
 
@@ -33,24 +34,19 @@ namespace UnknownEngine
 		/**
 		 * @brief Message packer for EngineStartedMessage
 		 */
-		class EngineStartedMessagePacker: public MessagePacker<EngineStartedMessage>
+		class EngineStartedMessagePacker: public TypeCachingMessagePacker<EngineStartedMessage>
 		{
 			public:
 
 				EngineStartedMessagePacker ( const MessageSystemParticipantId &sender_info ) :
-					MessagePacker<EngineStartedMessage> ( sender_info )
-				{
-					message_type = MessageDictionary::getSingleton()->getMessageTypeId ( EngineStartedMessage::getTypeName() );
-				}
+					TypeCachingMessagePacker<EngineStartedMessage> ( sender_info )
+				{}
 
 				UNKNOWNENGINE_INLINE
 				PackedMessage packMessage ( const EngineStartedMessage& msg ) override
 				{
-					return PackedMessage ( message_type, sender_info );
+					return PackedMessage ( getMessageType(), sender_info );
 				}
-
-			private:
-				MessageType message_type;
 
 		};
 

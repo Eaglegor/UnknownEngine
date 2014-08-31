@@ -3,7 +3,8 @@
 #include <string>
 
 #include <InlineSpecification.h>
-#include <MessageSystem/MessagePacker.h>
+#include <MessageSystem/MessageUnpacker.h>
+#include <MessageSystem/TypeCachingMessagePacker.h>
 #include <MessageSystem/PackedMessage.h>
 #include <MessageSystem/MessageDictionary.h>
 #include <Transform/Transform.h>
@@ -46,20 +47,19 @@ namespace UnknownEngine
 		 * @brief Message packer for TransformChangedMessageUnpacker
 		 */
 		template<typename SubObjectIdentifierType>
-		class TransformChangedMessagePacker: public MessagePacker<LocalTransformChangedMessage<SubObjectIdentifierType> >
+		class TransformChangedMessagePacker: public TypeCachingMessagePacker<LocalTransformChangedMessage<SubObjectIdentifierType> >
 		{
 			public:
 
 				TransformChangedMessagePacker ( const MessageSystemParticipantId &sender_info ) :
-					MessagePacker<LocalTransformChangedMessage> ( sender_info )
+					TypeCachingMessagePacker<LocalTransformChangedMessage> ( sender_info )
 				{
-					message_type_id = MessageDictionary::getSingleton()->getMessageTypeId ( LocalTransformChangedMessage<SubObjectIdentifierType>::getTypeName() );
 				}
 
 				UNKNOWNENGINE_INLINE
 				PackedMessage packMessage ( const LocalTransformChangedMessage& msg ) override
 				{
-					PackedMessage result ( message_type_id, sender_info );
+					PackedMessage result ( getMessageType(), sender_info );
 
 					Properties& properties = result.getProperties();
 					properties.set<Transform> ( "new_transform", msg.new_transform );
@@ -67,9 +67,6 @@ namespace UnknownEngine
 
 					return result;
 				}
-
-			private:
-				MessageType message_type_id;
 
 		};
 

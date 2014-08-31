@@ -1,9 +1,11 @@
 #pragma once
 
 #include <InlineSpecification.h>
-#include <MessageSystem/MessagePacker.h>
+#include <MessageSystem/MessageUnpacker.h>
+#include <MessageSystem/TypeCachingMessagePacker.h>
 #include <MessageSystem/PackedMessage.h>
 #include <MessageSystem/MessageDictionary.h>
+#include <NumericIdentifierType.h>
 
 namespace UnknownEngine
 {
@@ -35,19 +37,19 @@ namespace UnknownEngine
 		/**
 		 * @brief Message packer for UpdateFrameMessage
 		 */
-		class ChangeMaterialActionMessagePacker: public Core::MessagePacker<ChangeMaterialActionMessage>
+		class ChangeMaterialActionMessagePacker: public Core::TypeCachingMessagePacker<ChangeMaterialActionMessage>
 		{
 			public:
 
 				ChangeMaterialActionMessagePacker ( Core::MessageSystemParticipantId sender_info ) :
-					Core::MessagePacker<ChangeMaterialActionMessage> ( sender_info )
+					Core::TypeCachingMessagePacker<ChangeMaterialActionMessage> ( sender_info )
 				{
 				}
 
 				UNKNOWNENGINE_INLINE
 				Core::PackedMessage packMessage ( const ChangeMaterialActionMessage& msg ) override
 				{
-					Core::PackedMessage result ( Core::MessageDictionary::getSingleton()->getMessageTypeId ( ChangeMaterialActionMessage::getTypeName() ), sender_info );
+					Core::PackedMessage result ( getMessageType(), sender_info );
 					return result;
 				}
 
