@@ -3,7 +3,8 @@
 #include <string>
 
 #include <InlineSpecification.h>
-#include <MessageSystem/MessagePacker.h>
+#include <MessageSystem/TypeCachingMessagePacker.h>
+#include <MessageSystem/MessageUnpacker.h>
 #include <MessageSystem/PackedMessage.h>
 #include <MessageSystem/MessageDictionary.h>
 
@@ -43,19 +44,19 @@ namespace UnknownEngine
 		/**
 		 * @brief Message packer for LogMessage
 		 */
-		class KeyStateChangedMessagePacker: public Core::MessagePacker<KeyStateChangedMessage>
+		class KeyStateChangedMessagePacker: public Core::TypeCachingMessagePacker<KeyStateChangedMessage>
 		{
 			public:
 
 				KeyStateChangedMessagePacker ( const Core::MessageSystemParticipantId &sender_info ) :
-					Core::MessagePacker<KeyStateChangedMessage> ( sender_info )
+					Core::TypeCachingMessagePacker<KeyStateChangedMessage> ( sender_info )
 				{
 				}
 
 				UNKNOWNENGINE_INLINE
 				Core::PackedMessage packMessage ( const KeyStateChangedMessage& msg ) override
 				{
-					Core::PackedMessage result ( MESSAGE_TYPE_ID ( KeyStateChangedMessage::getTypeName() ), sender_info );
+					Core::PackedMessage result ( getMessageType(), sender_info );
 					result.getProperties().set<KeyState>("new_state", msg.new_state);
 					result.getProperties().set<Key>("key", msg.key);
 					return result;
