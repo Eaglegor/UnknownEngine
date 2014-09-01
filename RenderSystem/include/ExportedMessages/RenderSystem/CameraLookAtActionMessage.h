@@ -64,7 +64,7 @@ namespace UnknownEngine
 			public:
 
 				UNKNOWNENGINE_INLINE
-				CameraLookAtActionMessage unpackMessage ( const Core::PackedMessage &msg ) throw ( Core::InvalidMessageFormatException ) override
+				CameraLookAtActionMessage unpackMessage ( const Core::PackedMessage &msg )  override
 				{
 					CameraLookAtActionMessage result;
 					result.look_at_position = msg.getProperties().get<Math::Vector3> ( "look_at_position" );

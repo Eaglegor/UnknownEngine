@@ -30,7 +30,7 @@ namespace UnknownEngine
 		{
 		}
 
-		bool AssimpMeshDataLoaderPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) throw ( Core::PluginError )
+		bool AssimpMeshDataLoaderPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) 
 		{
 		  
 			boost::optional<const std::string&> log_level_name = desc.creation_options.get_optional<std::string>("log_level");
@@ -49,7 +49,7 @@ namespace UnknownEngine
 			return true;
 		}
 
-		bool AssimpMeshDataLoaderPlugin::init () throw ( Core::PluginError )
+		bool AssimpMeshDataLoaderPlugin::init () 
 		{
 			
 			LOG_INFO(log_helper, "Initializing Assimp mesh data loader plugin")
@@ -63,7 +63,7 @@ namespace UnknownEngine
 			return true;
 		}
 
-		bool AssimpMeshDataLoaderPlugin::shutdown () throw ( Core::PluginError )
+		bool AssimpMeshDataLoaderPlugin::shutdown () 
 		{
 			LOG_INFO(log_helper, "Shutting down Assimp mesh data loader plugin");
 		  
@@ -76,7 +76,7 @@ namespace UnknownEngine
 			return true;
 		}
 
-		bool AssimpMeshDataLoaderPlugin::uninstall () throw ( Core::PluginError )
+		bool AssimpMeshDataLoaderPlugin::uninstall () 
 		{
 			LOG_INFO(log_helper, "Uninstalling Assimp mesh data loader plugin");
 		  

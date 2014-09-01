@@ -80,7 +80,7 @@ namespace UnknownEngine
 
 				UNKNOWNENGINE_INLINE
 				LogMessage unpackMessage ( const PackedMessage &msg )
-				throw ( InvalidMessageFormatException ) override
+				 override
 				{
 					LocalTransformChangedMessage result;
 					result.new_transform = msg.getProperties().get<Transform> ( "new_transform" );

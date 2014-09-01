@@ -60,7 +60,7 @@ namespace UnknownEngine
 				 * @return Concrete message class
 				 * @throw InvalidMessageFormatException - Is thrown if message can't be correctly processed (value limits violation, not all fields set, etc.)
 				 */
-				virtual T unpackMessage ( const PackedMessage &msg ) throw ( InvalidMessageFormatException ) = 0;
+				virtual T unpackMessage ( const PackedMessage &msg )  = 0;
 		};
 		
 	}

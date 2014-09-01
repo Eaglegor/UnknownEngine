@@ -177,7 +177,7 @@ namespace UnknownEngine
 			*/
 			template<typename V>
 			UNKNOWNENGINE_INLINE
-			const V& get(const K& name) const throw (PropertyNotFoundException)
+			const V& get(const K& name) const 
 			{
 				const V* pointer = get_pointer<V>(name);
 				if(pointer == nullptr) throw PropertyNotFoundException("Can't find requested property: " + name);

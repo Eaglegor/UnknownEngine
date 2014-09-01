@@ -43,7 +43,7 @@ namespace UnknownEngine
 		{
 		}
 
-		void Engine::start() throw ( InvalidEngineStateException )
+		void Engine::start() 
 		{
 
 			CORE_SUBSYSTEM_INFO ( "Starting engine" );
@@ -69,7 +69,7 @@ namespace UnknownEngine
 
 		}
 
-		void Engine::shutdown() throw ( InvalidEngineStateException )
+		void Engine::shutdown() 
 		{
 
 			CORE_SUBSYSTEM_INFO ( "Shutting down engine" );
@@ -108,7 +108,7 @@ namespace UnknownEngine
 			return context;
 		}
 
-		void Engine::init() throw ( InvalidEngineStateException )
+		void Engine::init() 
 		{
 
 			CORE_SUBSYSTEM_INFO ( "Initializing engine" );

@@ -59,7 +59,7 @@ namespace UnknownEngine
 
 				UNKNOWNENGINE_INLINE
 				EngineStartedMessage unpackMessage ( const PackedMessage &msg )
-				throw ( InvalidMessageFormatException ) override
+				 override
 				{
 					return EngineStartedMessage();
 				}

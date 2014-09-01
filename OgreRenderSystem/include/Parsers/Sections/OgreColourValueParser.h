@@ -16,7 +16,7 @@ namespace UnknownEngine
 			public:
 				UNKNOWNENGINE_SIMPLE_EXCEPTION ( OgreColourValueParseError );
 
-				static Ogre::ColourValue parse ( const std::string &input ) throw ( OgreColourValueParseError );
+				static Ogre::ColourValue parse ( const std::string &input ) ;
 		};
 	}
 }

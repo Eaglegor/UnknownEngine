@@ -34,7 +34,7 @@ namespace UnknownEngine {
 			factory->setInternalId(Core::INVALID_NUMERIC_IDENTIFIER);
 		}
 
-		Loader::IDataProvider *ResourceManager::createDataProvider(const Loader::DataProviderDesc &desc) throw (NoSuitableFactoryFoundException)
+		Loader::IDataProvider *ResourceManager::createDataProvider(const Loader::DataProviderDesc &desc) 
 		{
 			for( auto &factory : data_provider_factories )
 			{

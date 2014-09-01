@@ -38,7 +38,7 @@ namespace UnknownEngine
 				void loadTemplate ( const std::string &template_name, const std::string &filename );
 
 				UNKNOWNENGINE_INLINE
-				const boost::property_tree::ptree &getTemplate ( const std::string &template_name ) throw ( TemplateNotFound )
+				const boost::property_tree::ptree &getTemplate ( const std::string &template_name ) 
 				{
 					auto found = aliases.find ( template_name );
 					if ( found == aliases.end() ) throw TemplateNotFound ( "Requested template not found" );

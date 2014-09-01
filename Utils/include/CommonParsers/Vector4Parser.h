@@ -15,7 +15,7 @@ namespace UnknownEngine
 			public:
 				UNKNOWNENGINE_SIMPLE_EXCEPTION ( Vector4ParseError );
 
-				static Math::Vector4 parse ( const std::string &input ) throw ( Vector4ParseError )
+				static Math::Vector4 parse ( const std::string &input ) 
 				{
 					std::vector<std::string> split_value;
 					boost::algorithm::split ( split_value, input, boost::algorithm::is_any_of ( "(,: )" ), boost::algorithm::token_compress_on );

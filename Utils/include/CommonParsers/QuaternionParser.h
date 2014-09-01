@@ -15,7 +15,7 @@ namespace UnknownEngine
 			public:
 				UNKNOWNENGINE_SIMPLE_EXCEPTION ( QuaternionParseError );
 
-				static Math::Quaternion parse ( const std::string &input ) throw ( QuaternionParseError )
+				static Math::Quaternion parse ( const std::string &input ) 
 				{
 
 					std::vector<std::string> split_value;

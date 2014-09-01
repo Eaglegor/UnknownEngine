@@ -82,7 +82,7 @@ namespace UnknownEngine
 				 * @throws UnknownEngine::Core::InvalidEngineStateException - Is thrown after double initialization
 				 */
 				ENGINE_EXPORT
-				void init() throw ( InvalidEngineStateException );
+				void init() ;
 
 				/**
 				 * @brief Starts engine
@@ -93,7 +93,7 @@ namespace UnknownEngine
 				 * @throw UnknownEngine::Core::InvalidEngineStateException - Is thrown if starting uninitialized engine
 				 */
 				ENGINE_EXPORT
-				void start() throw ( InvalidEngineStateException );
+				void start() ;
 
 				/**
 				 * @brief Shutdowns engine
@@ -103,7 +103,7 @@ namespace UnknownEngine
 				 * @throw UnknownEngine::Core::InvalidEngineStateException - Is thrown if shutting down engine before it's stop
 				 */
 				ENGINE_EXPORT
-				void shutdown() throw ( InvalidEngineStateException );
+				void shutdown() ;
 
 				/**
 				 * @brief Returns engine context
