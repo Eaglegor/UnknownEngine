@@ -72,8 +72,7 @@ namespace UnknownEngine
 			public:
 
 				UNKNOWNENGINE_INLINE
-				KeyStateChangedMessage unpackMessage ( const Core::PackedMessage &msg )
-				throw ( Core::InvalidMessageFormatException ) override
+				KeyStateChangedMessage unpackMessage ( const Core::PackedMessage &msg )	override
 				{
 					KeyStateChangedMessage result;
 					result.new_state = msg.getProperties().get<KeyState>("new_state");

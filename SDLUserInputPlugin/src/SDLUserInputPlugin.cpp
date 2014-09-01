@@ -34,7 +34,7 @@ namespace UnknownEngine
 		{
 		}
 
-		bool SDLUserInputPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) throw ( Core::PluginError )
+		bool SDLUserInputPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) 
 		{
 		  
 			log_helper.reset( new Core::LogHelper(getName(), Core::LogMessage::Severity::LOG_SEVERITY_INFO, plugins_manager->getEngineContext()) );
@@ -51,7 +51,7 @@ namespace UnknownEngine
 			return true;
 		}
 
-		bool SDLUserInputPlugin::init () throw ( Core::PluginError )
+		bool SDLUserInputPlugin::init () 
 		{
 			LOG_INFO(log_helper, "Initializing SDL plugin")
 
@@ -79,7 +79,7 @@ namespace UnknownEngine
 			return true;
 		}
 
-		bool SDLUserInputPlugin::shutdown () throw ( Core::PluginError )
+		bool SDLUserInputPlugin::shutdown () 
 		{
 			LOG_INFO(log_helper, "Shutting down SDL plugin");
 		  
@@ -90,7 +90,7 @@ namespace UnknownEngine
 			return true;
 		}
 
-		bool SDLUserInputPlugin::uninstall () throw ( Core::PluginError )
+		bool SDLUserInputPlugin::uninstall () 
 		{
 			LOG_INFO(log_helper, "Uninstalling SDL plugin");
 		  
