@@ -84,7 +84,7 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				Math::Vector3 getNormal() const throw ( NoSuchVertexElementException )
+				Math::Vector3 getNormal() const 
 				{
 					if ( this->hasNormal() )
 					{
@@ -95,7 +95,7 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				Math::Vector3 getTangent() const throw ( NoSuchVertexElementException )
+				Math::Vector3 getTangent() const 
 				{
 					if ( this->hasTangent() )
 					{
@@ -106,7 +106,7 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				TextureCoordinateType getTextureCoordinate() const throw ( NoSuchVertexElementException )
+				TextureCoordinateType getTextureCoordinate() const 
 				{
 					if ( this->hasTextureCoordinate() )
 					{

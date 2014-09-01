@@ -63,7 +63,7 @@ namespace UnknownEngine
 				 * @param library_name - Shared library name
 				 * @param desc - Subsystem descriptor
 				 */
-				void loadModule(const std::string &library_name, const SubsystemDesc &desc) throw(PluginError);
+				void loadModule(const std::string &library_name, const SubsystemDesc &desc) ;
 
 				EngineContext* engine_context; ///< %Engine context
 				std::list<Plugin*> plugins; ///< List of loaded plugins

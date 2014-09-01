@@ -89,7 +89,7 @@ namespace UnknownEngine
 				 * @throw Utils::Dictionary::EntryNotFoundInDictionary - Is thrown if there is no such message type identifier registered
 				 */
 				COMPONENTSYSTEM_EXPORT
-				std::string getMessageTypeName ( const MessageType &type_id ) const throw ( InternalDictionaryType::EntryNotFoundInDictionary );
+				std::string getMessageTypeName ( const MessageType &type_id ) const ;
 
 				/**
 				 * @brief Returns a message type id if the message type name is known
@@ -98,7 +98,7 @@ namespace UnknownEngine
 				 * @throw Utils::Dictionary::EntryNotFoundInDictionary - Is thrown if there is no such message type identifier registered
 				 */
 				COMPONENTSYSTEM_EXPORT
-				MessageType getMessageTypeId ( const std::string &type_name ) const throw ( InternalDictionaryType::EntryNotFoundInDictionary );
+				MessageType getMessageTypeId ( const std::string &type_name ) const ;
 
 			private:
 				InternalDictionaryType internal_dictionary; ///< Internal dictionary implementation

@@ -63,7 +63,7 @@ namespace UnknownEngine
 			public:
 
 				UNKNOWNENGINE_INLINE
-				ChangeMaterialActionMessage unpackMessage ( const Core::PackedMessage &msg ) throw ( Core::InvalidMessageFormatException ) override
+				ChangeMaterialActionMessage unpackMessage ( const Core::PackedMessage &msg )  override
 				{
 					ChangeMaterialActionMessage result;
 					return result;

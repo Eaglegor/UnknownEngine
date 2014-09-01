@@ -73,7 +73,7 @@ namespace UnknownEngine
 				 *
 				 * @return true if plugin successfully installed
 				 */
-				virtual bool install (PluginsManager* plugins_manager, const SubsystemDesc &desc ) throw (PluginError) = 0;
+				virtual bool install (PluginsManager* plugins_manager, const SubsystemDesc &desc )  = 0;
 
 				/**
 				 * @brief Performs actions needed to init plugin
@@ -89,7 +89,7 @@ namespace UnknownEngine
 				 *
 				 * @return true if plugin init successfully
 				 */
-				virtual bool init () throw (PluginError) = 0;
+				virtual bool init ()  = 0;
 
 				/**
 				 * @brief Shuts down the plugin
@@ -102,7 +102,7 @@ namespace UnknownEngine
 				 *
 				 * @return true if shutdown successful
 				 */
-				virtual bool shutdown () throw (PluginError) = 0;
+				virtual bool shutdown ()  = 0;
 
 				/**
 				 * @brief Uninstalls the plugin
@@ -114,7 +114,7 @@ namespace UnknownEngine
 				 *
 				 * @return true if uninstalled successful
 				 */
-				virtual bool uninstall () throw (PluginError) = 0;
+				virtual bool uninstall ()  = 0;
 
 			private:
 				std::string name; ///< Subsystem name

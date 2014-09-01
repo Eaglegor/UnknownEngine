@@ -65,7 +65,7 @@ namespace UnknownEngine {
 				 * @return Pointer to the created data provider
 				 */
 				RESOURCEMANAGER_EXPORT
-				Loader::IDataProvider* createDataProvider(const Loader::DataProviderDesc &desc) throw (NoSuitableFactoryFoundException);
+				Loader::IDataProvider* createDataProvider(const Loader::DataProviderDesc &desc) ;
 
 				/**
 				 * @brief Removes specified data provider is it's allowed

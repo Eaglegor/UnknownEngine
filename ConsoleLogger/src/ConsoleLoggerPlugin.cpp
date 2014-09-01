@@ -27,7 +27,7 @@ namespace UnknownEngine
 		{
 		}
 
-		bool ConsoleLoggerPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) throw ( Core::PluginError )
+		bool ConsoleLoggerPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) 
 		{
 
 			console_logger.setDefaultSenderName(desc.name);
@@ -60,7 +60,7 @@ namespace UnknownEngine
 			return true;
 		}
 
-		bool ConsoleLoggerPlugin::init () throw ( Core::PluginError )
+		bool ConsoleLoggerPlugin::init () 
 		{
 			console_logger.log(Core::LogMessage::Severity::LOG_SEVERITY_INFO, "Initializing console logger plugin");
 
@@ -69,7 +69,7 @@ namespace UnknownEngine
 			return true;
 		}
 
-		bool ConsoleLoggerPlugin::shutdown () throw ( Core::PluginError )
+		bool ConsoleLoggerPlugin::shutdown () 
 		{
 			console_logger.log(Core::LogMessage::Severity::LOG_SEVERITY_INFO, "Shutting down console logger plugin");
 			
@@ -82,7 +82,7 @@ namespace UnknownEngine
 			return true;
 		}
 
-		bool ConsoleLoggerPlugin::uninstall () throw ( Core::PluginError )
+		bool ConsoleLoggerPlugin::uninstall () 
 		{
 			console_logger.log(Core::LogMessage::Severity::LOG_SEVERITY_INFO, "Uninstalling console logger plugin");
 			

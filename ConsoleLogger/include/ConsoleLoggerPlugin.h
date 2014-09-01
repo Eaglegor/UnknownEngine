@@ -23,10 +23,10 @@ namespace UnknownEngine
 				ConsoleLoggerPlugin();
 				virtual ~ConsoleLoggerPlugin();
 
-				virtual bool install(Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc) throw (Core::PluginError) override;
-				virtual bool init() throw (Core::PluginError) override;
-				virtual bool shutdown() throw (Core::PluginError) override;
-				virtual bool uninstall() throw (Core::PluginError) override;
+				virtual bool install(Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc)  override;
+				virtual bool init()  override;
+				virtual bool shutdown()  override;
+				virtual bool uninstall()  override;
 
 			private:
 				Core::SubsystemDesc desc;

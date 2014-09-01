@@ -33,7 +33,7 @@ namespace UnknownEngine
 		{
 		}
 
-		bool SimpleBehaviorPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) throw ( Core::PluginError )
+		bool SimpleBehaviorPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) 
 		{
 		  
 			log_helper.reset ( new Core::LogHelper(getName(), Core::LogMessage::Severity::LOG_SEVERITY_INFO, plugins_manager->getEngineContext()) );
@@ -48,7 +48,7 @@ namespace UnknownEngine
 			return true;
 		}
 
-		bool SimpleBehaviorPlugin::init () throw ( Core::PluginError )
+		bool SimpleBehaviorPlugin::init () 
 		{
 			LOG_INFO(log_helper, "Initializing simple behavior plugin")
 
@@ -90,7 +90,7 @@ namespace UnknownEngine
 			return true;
 		}
 
-		bool SimpleBehaviorPlugin::shutdown () throw ( Core::PluginError )
+		bool SimpleBehaviorPlugin::shutdown () 
 		{
 			LOG_INFO(log_helper, "Shutting down simple behavior plugin");
 		  
@@ -101,7 +101,7 @@ namespace UnknownEngine
 			return true;
 		}
 
-		bool SimpleBehaviorPlugin::uninstall () throw ( Core::PluginError )
+		bool SimpleBehaviorPlugin::uninstall () 
 		{
 			LOG_INFO(log_helper, "Uninstalling simple behavior plugin");
 

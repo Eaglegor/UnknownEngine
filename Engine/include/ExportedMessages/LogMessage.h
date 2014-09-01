@@ -87,7 +87,7 @@ namespace UnknownEngine
 
 				UNKNOWNENGINE_INLINE
 				LogMessage unpackMessage ( const PackedMessage &msg )
-				throw ( InvalidMessageFormatException ) override
+				 override
 				{
 					LogMessage result;
 					result.log_entry = msg.getProperties().get<std::string> ( "log_entry" );

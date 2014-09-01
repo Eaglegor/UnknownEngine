@@ -47,7 +47,7 @@ namespace UnknownEngine
 			// TODO Auto-generated destructor stub
 		}
 
-		bool OgreRenderSystemPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc &desc ) throw ( Core::PluginError )
+		bool OgreRenderSystemPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc &desc ) 
 		{
 
 			this->desc = desc;
@@ -114,7 +114,7 @@ namespace UnknownEngine
 			return true;
 		}
 
-		bool OgreRenderSystemPlugin::init () throw ( Core::PluginError )
+		bool OgreRenderSystemPlugin::init () 
 		{
 			LOG_INFO ( log_helper, "Initializing OGRE render subsystem" );
 
@@ -125,7 +125,7 @@ namespace UnknownEngine
 			return true;
 		}
 
-		bool OgreRenderSystemPlugin::shutdown () throw ( Core::PluginError )
+		bool OgreRenderSystemPlugin::shutdown () 
 		{
 
 			LOG_INFO ( log_helper, "Shutting down OGRE render subsystem" );
@@ -137,7 +137,7 @@ namespace UnknownEngine
 			return true;
 		}
 
-		bool OgreRenderSystemPlugin::uninstall () throw ( Core::PluginError )
+		bool OgreRenderSystemPlugin::uninstall () 
 		{
 
 			LOG_INFO ( log_helper, "Uninstalling subsystem OGRE render subsystem" );

@@ -70,7 +70,7 @@ namespace UnknownEngine
 
 				UNKNOWNENGINE_INLINE
 				StopEngineActionMessage unpackMessage ( const PackedMessage &msg )
-				throw ( InvalidMessageFormatException ) override
+				 override
 				{
 					return StopEngineActionMessage();
 				}

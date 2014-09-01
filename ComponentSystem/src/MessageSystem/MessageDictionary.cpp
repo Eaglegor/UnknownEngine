@@ -29,12 +29,12 @@ namespace UnknownEngine
 			return internal_dictionary.registerNewValue ( message_type_name );
 		}
 
-		std::string MessageDictionary::getMessageTypeName ( const MessageType &type_id ) const throw ( InternalDictionaryType::EntryNotFoundInDictionary )
+		std::string MessageDictionary::getMessageTypeName ( const MessageType &type_id ) const 
 		{
 			return internal_dictionary.getValueByKey ( type_id );
 		}
 
-		MessageType MessageDictionary::getMessageTypeId ( const std::string &type_name ) const throw ( InternalDictionaryType::EntryNotFoundInDictionary )
+		MessageType MessageDictionary::getMessageTypeId ( const std::string &type_name ) const 
 		{
 			return internal_dictionary.getKeyByValue ( type_name );
 		}

@@ -70,8 +70,7 @@ namespace UnknownEngine
 			public:
 
 				UNKNOWNENGINE_INLINE
-				TransformChangedMessage unpackMessage ( const PackedMessage &msg )
-				throw ( InvalidMessageFormatException ) override
+				TransformChangedMessage unpackMessage ( const PackedMessage &msg ) override
 				{
 					TransformChangedMessage result;
 					result.new_transform = msg.getProperties().get<Transform> ( "new_transform" );

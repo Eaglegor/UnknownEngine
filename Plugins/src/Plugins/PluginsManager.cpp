@@ -83,7 +83,7 @@ namespace UnknownEngine
 			loadModule(desc.module_name, desc);
 		}
 
-		void PluginsManager::loadModule (const std::string &library_name, const SubsystemDesc &desc ) throw ( UnknownEngine::Core::PluginError )
+		void PluginsManager::loadModule (const std::string &library_name, const SubsystemDesc &desc ) 
 		{
 		  
 			CORE_SUBSYSTEM_INFO("Loading shared library " + library_name);

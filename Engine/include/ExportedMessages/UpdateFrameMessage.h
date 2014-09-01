@@ -87,7 +87,7 @@ namespace UnknownEngine
 			public:
 
 				UNKNOWNENGINE_INLINE
-				UpdateFrameMessage unpackMessage ( const PackedMessage &msg ) throw ( InvalidMessageFormatException ) override
+				UpdateFrameMessage unpackMessage ( const PackedMessage &msg )  override
 				{
 					UpdateFrameMessage result;
 					result.dt = msg.getProperties().get<float> ( "dt" );

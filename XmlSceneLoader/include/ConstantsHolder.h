@@ -35,7 +35,7 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				std::string getConstantValue ( const std::string &constant_name ) const throw ( LoaderConstantNotFoundException )
+				std::string getConstantValue ( const std::string &constant_name ) const 
 				{
 					for ( auto iter = constants_maps.rbegin(); iter != constants_maps.rend(); ++iter )
 					{

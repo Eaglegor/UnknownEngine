@@ -28,7 +28,7 @@ namespace UnknownEngine
 		{
 		}
 
-		bool DummySubsystemPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) throw ( Core::PluginError )
+		bool DummySubsystemPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) 
 		{
 		  
 			log_helper = new Core::LogHelper(getName(), Core::LogMessage::Severity::LOG_SEVERITY_INFO, plugins_manager->getEngineContext());
@@ -50,21 +50,21 @@ namespace UnknownEngine
 			return true;
 		}
 
-		bool DummySubsystemPlugin::init () throw ( Core::PluginError )
+		bool DummySubsystemPlugin::init () 
 		{
 			LOG_INFO(log_helper, "Initializing dummy plugin")
 
 			return true;
 		}
 
-		bool DummySubsystemPlugin::shutdown () throw ( Core::PluginError )
+		bool DummySubsystemPlugin::shutdown () 
 		{
 			LOG_INFO(log_helper, "Shutting down dummy plugin");
 		  
 			return true;
 		}
 
-		bool DummySubsystemPlugin::uninstall () throw ( Core::PluginError )
+		bool DummySubsystemPlugin::uninstall () 
 		{
 			LOG_INFO(log_helper, "Uninstalling dummy plugin");
 		  

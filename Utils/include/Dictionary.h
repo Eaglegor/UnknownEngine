@@ -26,7 +26,7 @@ namespace UnknownEngine
 
 				virtual ~Dictionary() {}
 
-				KeyType registerNewValue ( const ValueType &value ) throw ( ValueAlreadyExists )
+				KeyType registerNewValue ( const ValueType &value ) 
 				{
 					if ( valueIsRegistered ( value ) ) throw ValueAlreadyExists ( "Can't add value to dictionary " + name + " - already exists" );
 					key_value_mapping.insert ( std::make_pair ( next_key_value, value ) );
@@ -44,7 +44,7 @@ namespace UnknownEngine
 					return key_value_mapping.find ( key ) != key_value_mapping.end();
 				}
 
-				const ValueType& getValueByKey ( const KeyType &key ) const throw ( EntryNotFoundInDictionary )
+				const ValueType& getValueByKey ( const KeyType &key ) const 
 				{
 					if ( keyIsRegistered ( key ) ) return key_value_mapping.find ( key )->second;
 					throw EntryNotFoundInDictionary ( "Can't find requested key in dictionary " + name );
