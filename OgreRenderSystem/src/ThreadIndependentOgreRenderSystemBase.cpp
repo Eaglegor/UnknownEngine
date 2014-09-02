@@ -8,10 +8,12 @@
 
 #include <MessageSystem/MessageSystemParticipantDictionary.h>
 #include <MessageSystem/MessageDispatcher.h>
+#include <MessageSystem/MessageSender.h>
 
 #include <ExportedMessages/StopEngineActionMessage.h>
 
 #include <Listeners/OgreUpdateFrameListener.h>
+#include <ExportedMessages/RenderSystem/GetWindowHandleMessage.h>
 
 namespace UnknownEngine
 {
@@ -28,6 +30,9 @@ namespace UnknownEngine
 
 		void ThreadIndependentOgreRenderSystemBase::initOgre()
 		{
+			
+			LOG_INFO(log_helper, "Initializing OGRE");
+			
 			ogre_log_manager = new Ogre::LogManager;
 			ogre_log_manager->createLog(desc.ogre_log_filename, true, false, false);
 
@@ -48,7 +53,32 @@ namespace UnknownEngine
 			if(desc.ogre_resources_filename.is_initialized()) loadResourcesFile(desc.ogre_resources_filename.get());
 			
 			scene_manager = root->createSceneManager ( Ogre::ST_GENERIC );
-			render_window = root->initialise ( true, desc.render_window_name );
+			root->initialise ( false, desc.render_window_name );
+			
+			Ogre::String string_handle;
+			
+			Core::MessageSender<Graphics::GetWindowHandleMessage> sender(
+				Core::MessageSystemParticipantId("OgreRenderSubsystem", Core::MessageSystemParticipantId::AutoRegistrationPolicy::AUTO_REGISTER),
+																   engine_context);
+			
+			Graphics::GetWindowHandleMessage msg;
+			msg.requested_window_name = "";
+			msg.result_callback = [&](const NativeWindowHandleType& handle)
+			{
+				std::cout << "Got window handle : " << handle << std::endl;
+				string_handle = Ogre::StringConverter::toString(handle);
+			};
+			
+			sender.sendMessage(msg);
+			
+			Ogre::NameValuePairList params;
+			
+			//params["externalWindowHandle"] = string_handle;
+			//params["externalGLControl"] = "True";
+			params["currentGLContext"] = "True";
+			
+			render_window = root->createRenderWindow("Hello", 800, 600, false, &params);
+			render_window->setVisible(true);
 		}
 
 		void ThreadIndependentOgreRenderSystemBase::shutdownOgre()

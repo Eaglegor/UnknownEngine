@@ -11,8 +11,15 @@
 #include <Plugins/Plugin.h>
 #include <SubsystemDesc.h>
 
+class SDL_Window;
 namespace UnknownEngine
 {
+	namespace Graphics
+	{
+
+		struct GetWindowHandleMessage;
+	}
+
 
 	namespace Core
 	{
@@ -43,8 +50,11 @@ namespace UnknownEngine
 				void initSDL();
 				void shutdownSDL();
 				void onUpdateFrame(const Core::UpdateFrameMessage& msg);
+				void getWindowHandle( const Graphics::GetWindowHandleMessage& msg );
 
 				std::unique_ptr< KeyboardListener > keyboard_listener;
+				
+				SDL_Window* sdl_window;
 				
 				std::unique_ptr< Core::BaseMessageListener > listener;
 				Core::SubsystemDesc desc;

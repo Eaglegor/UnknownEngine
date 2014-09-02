@@ -78,16 +78,16 @@ namespace UnknownEngine
 			keys_mapping.emplace(SDLK_y, Key::Y);
 			keys_mapping.emplace(SDLK_z, Key::Z);
 			keys_mapping.emplace(SDLK_DELETE, Key::DELETE);
-			keys_mapping.emplace(SDLK_KP0, Key::KP0);
-			keys_mapping.emplace(SDLK_KP1, Key::KP1);
-			keys_mapping.emplace(SDLK_KP2, Key::KP2);
-			keys_mapping.emplace(SDLK_KP3, Key::KP3);
-			keys_mapping.emplace(SDLK_KP4, Key::KP4);
-			keys_mapping.emplace(SDLK_KP5, Key::KP5);
-			keys_mapping.emplace(SDLK_KP6, Key::KP6);
-			keys_mapping.emplace(SDLK_KP7, Key::KP7);
-			keys_mapping.emplace(SDLK_KP8, Key::KP8);
-			keys_mapping.emplace(SDLK_KP9, Key::KP9);
+			keys_mapping.emplace(SDLK_KP_0, Key::KP0);
+			keys_mapping.emplace(SDLK_KP_1, Key::KP1);
+			keys_mapping.emplace(SDLK_KP_2, Key::KP2);
+			keys_mapping.emplace(SDLK_KP_3, Key::KP3);
+			keys_mapping.emplace(SDLK_KP_4, Key::KP4);
+			keys_mapping.emplace(SDLK_KP_5, Key::KP5);
+			keys_mapping.emplace(SDLK_KP_6, Key::KP6);
+			keys_mapping.emplace(SDLK_KP_7, Key::KP7);
+			keys_mapping.emplace(SDLK_KP_8, Key::KP8);
+			keys_mapping.emplace(SDLK_KP_9, Key::KP9);
 			keys_mapping.emplace(SDLK_KP_PERIOD, Key::KP_PERIOD);
 			keys_mapping.emplace(SDLK_KP_DIVIDE, Key::KP_DIVIDE);
 			keys_mapping.emplace(SDLK_KP_MULTIPLY, Key::KP_MULTIPLY);
@@ -118,27 +118,23 @@ namespace UnknownEngine
 			keys_mapping.emplace(SDLK_F13, Key::F13);
 			keys_mapping.emplace(SDLK_F14, Key::F14);
 			keys_mapping.emplace(SDLK_F15, Key::F15);
-			keys_mapping.emplace(SDLK_NUMLOCK, Key::NUMLOCK);
+			keys_mapping.emplace(SDLK_NUMLOCKCLEAR, Key::NUMLOCK);
 			keys_mapping.emplace(SDLK_CAPSLOCK, Key::CAPSLOCK);
-			keys_mapping.emplace(SDLK_SCROLLOCK, Key::SCROLLOCK);
+			keys_mapping.emplace(SDLK_SCROLLLOCK, Key::SCROLLLOCK);
 			keys_mapping.emplace(SDLK_RSHIFT, Key::RSHIFT);
 			keys_mapping.emplace(SDLK_LSHIFT, Key::LSHIFT);
 			keys_mapping.emplace(SDLK_RCTRL, Key::RCTRL);
 			keys_mapping.emplace(SDLK_LCTRL, Key::LCTRL);
 			keys_mapping.emplace(SDLK_RALT, Key::RALT);
 			keys_mapping.emplace(SDLK_LALT, Key::LALT);
-			keys_mapping.emplace(SDLK_RMETA, Key::RMETA);
-			keys_mapping.emplace(SDLK_LMETA, Key::LMETA);
-			keys_mapping.emplace(SDLK_LSUPER, Key::LSUPER);
-			keys_mapping.emplace(SDLK_RSUPER, Key::RSUPER);
+			keys_mapping.emplace(SDLK_RGUI, Key::RMETA);
+			keys_mapping.emplace(SDLK_LGUI, Key::LMETA);
 			keys_mapping.emplace(SDLK_MODE, Key::MODE);
 			keys_mapping.emplace(SDLK_HELP, Key::HELP);
-			keys_mapping.emplace(SDLK_PRINT, Key::PRINT);
+			keys_mapping.emplace(SDLK_PRINTSCREEN, Key::PRINTSCREEN);
 			keys_mapping.emplace(SDLK_SYSREQ, Key::SYSREQ);
-			keys_mapping.emplace(SDLK_BREAK, Key::BREAK);
 			keys_mapping.emplace(SDLK_MENU, Key::MENU);
 			keys_mapping.emplace(SDLK_POWER, Key::POWER);
-			keys_mapping.emplace(SDLK_EURO, Key::EURO);
 			
 			key_modifiers_mapping.emplace(KMOD_NONE, KeyModifier::NONE);
 			key_modifiers_mapping.emplace(KMOD_NUM, KeyModifier::NUMLOCK);
@@ -151,14 +147,14 @@ namespace UnknownEngine
 			key_modifiers_mapping.emplace(KMOD_LALT, KeyModifier::LALT);
 		}
 		
-		Key SDLKeyCodesConverter::getUnknownEngineKey ( const SDLKey& sdl_key )
+		Key SDLKeyCodesConverter::getUnknownEngineKey ( const SDL_Keycode& sdl_key )
 		{
 			auto iter = keys_mapping.find(sdl_key);
 			if(iter == keys_mapping.end()) return Key::NONE;
 			return iter->second;
 		}
 		
-		KeyModifier SDLKeyCodesConverter::getUnknownEngineKeyModifier ( const SDLMod& sdl_key_modifier )
+		KeyModifier SDLKeyCodesConverter::getUnknownEngineKeyModifier ( const SDL_Keymod& sdl_key_modifier )
 		{
 			auto iter = key_modifiers_mapping.find(sdl_key_modifier);
 			if(iter == key_modifiers_mapping.end()) return KeyModifier::NONE;

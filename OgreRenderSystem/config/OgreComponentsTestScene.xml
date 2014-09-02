@@ -11,7 +11,18 @@
 			</received_messages>
 		</subsystem>
 		
+		<subsystem name="UserInput" module="SDLUserInputPlugin">
+			<received_messages>
+				<message type="Engine.MainLoop.UpdateFrameMessage"/>
+				<message type="Graphics.GUI.GetWindowHandleMessage"/>
+			</received_messages>
+		</subsystem>
+		
 		<subsystem name="Graphics" module="OgreRenderSystem">
+		
+			<dependencies>
+				<dependency>UserInput</dependency>
+			</dependencies>
 		
 			<received_messages>
 				<message type="Engine.MainLoop.UpdateFrameMessage">
@@ -27,7 +38,7 @@
 				
 				<option name="log_level" value="${global_log_level}"/>
 
-				<option name="separate_rendering_thread" value="true"/>
+				<option name="separate_rendering_thread" value="false"/>
 				
 				<options_section name="RenderWindow">
 					<option name="title" value="Hello window"/>
@@ -50,12 +61,6 @@
 			<received_messages>
 				<message type="Engine.MainLoop.UpdateFrameMessage"/>
 				<message type="IO.KeyStateChanged"/>
-			</received_messages>
-		</subsystem>
-				
-		<subsystem name="UserInput" module="SDLUserInputPlugin">
-			<received_messages>
-				<message type="Engine.MainLoop.UpdateFrameMessage"/>
 			</received_messages>
 		</subsystem>
 		

@@ -1,17 +1,18 @@
 set(TARGET_NAME SDLUserInputPlugin)
 set(LINKAGE SHARED)
 
-set(INCLUDED_MODULE_HEADERS SDLUserInputPlugin UserInput Plugins ComponentSystem Utils Engine UserInput)
+set(INCLUDED_MODULE_HEADERS SDLUserInputPlugin UserInput Plugins ComponentSystem Utils Engine UserInput RenderSystem)
 set(LINKED_LIBS Engine ComponentSystem Plugins )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 
-find_package(SDL)
+INCLUDE(FindPkgConfig)
+PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
 
-if(SDL_FOUND)
+if(SDL2_FOUND)
 
-	list( APPEND INCLUDED_HEADERS ${SDL_INCLUDE_DIR})
-	list( APPEND LINKED_LIBS ${SDL_LIBRARY})
+	list( APPEND INCLUDED_HEADERS ${SDL2_INCLUDE_DIRS})
+	list( APPEND LINKED_LIBS ${SDL2_LIBRARIES})
 
 	include(${MODULE_TEMPLATE_CMAKELISTS_FILE})
   
-endif(SDL_FOUND)
+endif(SDL2_FOUND)
