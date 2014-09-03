@@ -38,7 +38,7 @@
 				
 				<option name="log_level" value="${global_log_level}"/>
 
-				<option name="separate_rendering_thread" value="false"/>
+				<option name="separate_rendering_thread" value="true"/>
 				
 				<options_section name="RenderWindow">
 					<option name="title" value="Hello window"/>

@@ -114,12 +114,11 @@ namespace UnknownEngine
 		
 		void SDLUserInputPlugin::initSDL()
 		{
+			SDL_SetHint(SDL_HINT_RENDER_DRIVER, "software");
 			int result = SDL_Init( SDL_INIT_VIDEO );
 			
-			sdl_window = SDL_CreateWindow("Test window", 100, 100, 800, 600, SDL_WINDOW_OPENGL);
+			sdl_window = SDL_CreateWindow("Test window", 100, 100, 800, 600, SDL_WINDOW_SHOWN);
 			
-			SDL_GL_CreateContext(sdl_window);
-		
 			if(result < 0) 
 			{
 				LOG_ERROR(log_helper, "SDL initialization failed");

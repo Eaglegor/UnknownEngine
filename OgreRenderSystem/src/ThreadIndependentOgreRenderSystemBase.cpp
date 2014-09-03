@@ -73,9 +73,9 @@ namespace UnknownEngine
 			
 			Ogre::NameValuePairList params;
 			
-			//params["externalWindowHandle"] = string_handle;
+			params["externalWindowHandle"] = string_handle;
 			//params["externalGLControl"] = "True";
-			params["currentGLContext"] = "True";
+			//params["currentGLContext"] = "True";
 			
 			render_window = root->createRenderWindow("Hello", 800, 600, false, &params);
 			render_window->setVisible(true);
