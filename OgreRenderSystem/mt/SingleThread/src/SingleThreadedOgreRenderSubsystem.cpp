@@ -16,19 +16,29 @@ namespace UnknownEngine
 		{
 			initOgre();
 
-			LOG_INFO ( log_helper, "Registering update frame listener..." );
-			update_frame_listener = new OgreUpdateFrameListener ( "Graphics.Ogre.Listeners.UpdateFrameListener", this );
-			engine_context->getMessageDispatcher()->addListener ( Core::UpdateFrameMessage::getTypeName(), update_frame_listener );
+			listener.reset ( new Core::BaseMessageListener(std::string("Graphics.Ogre.Listeners.UpdateFrameListener"), engine_context) );
+
+			listener->registerSupportedMessageType(Core::UpdateFrameMessage::getTypeName(), nullptr);
+			listener->registerSupportedMessageType(Graphics::WindowResizedMessage::getTypeName(), nullptr);
+			
+			Utils::BaseMessageListenerBufferRegistrator<SingleThreadedOgreRenderSubsystem> registrator(listener.get(), this);
+			
+			registrator.registerStandardMessageBuffer<
+			Core::UpdateFrameMessage,
+			Utils::InstantForwardMessageBuffer<Core::UpdateFrameMessage>
+			>(&SingleThreadedOgreRenderSubsystem::onFrameUpdated);
+			
+			registrator.registerStandardMessageBuffer<
+			Graphics::WindowResizedMessage,
+			Utils::InstantForwardMessageBuffer<Graphics::WindowResizedMessage>
+			>(&SingleThreadedOgreRenderSubsystem::onWindowResized);
+			
+			if(listener) listener->registerAtDispatcher();
 		}
 		
 		void SingleThreadedOgreRenderSubsystem::stop()
 		{
-			LOG_INFO ( log_helper, "Unregistering update frame listener" );
-			if ( update_frame_listener != nullptr )
-			{
-				engine_context->getMessageDispatcher()->removeListener ( update_frame_listener );
-				delete update_frame_listener;
-			}
+			if(listener) listener->unregisterAtDispatcher();
 
 			shutdownOgre();
 		}

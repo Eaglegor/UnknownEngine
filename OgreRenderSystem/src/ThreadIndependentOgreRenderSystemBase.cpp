@@ -14,6 +14,8 @@
 
 #include <Listeners/OgreUpdateFrameListener.h>
 #include <ExportedMessages/RenderSystem/GetWindowHandleMessage.h>
+#include <ExportedMessages/RenderSystem/WindowResizedMessage.h>
+#include <MessageSystem/BaseMessageListener.h>
 
 namespace UnknownEngine
 {
@@ -23,7 +25,6 @@ namespace UnknownEngine
 		ThreadIndependentOgreRenderSystemBase::ThreadIndependentOgreRenderSystemBase ( const OgreRenderSubsystemDescriptor& desc, Core::LogHelper* log_helper, Core::EngineContext* engine_context ):
 		log_helper ( log_helper ),
 		engine_context(engine_context),
-		update_frame_listener(nullptr),
 		desc(desc)
 		{
 		}
@@ -136,5 +137,10 @@ namespace UnknownEngine
 			
 		}
 		
+		void ThreadIndependentOgreRenderSystemBase::onWindowResized ( const WindowResizedMessage& msg )
+		{
+			render_window->resize(msg.width, msg.height);
+		}
+	
 	} // namespace Graphics
 } // namespace UnknownEngine

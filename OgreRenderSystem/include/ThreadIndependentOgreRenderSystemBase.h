@@ -25,10 +25,13 @@ namespace UnknownEngine
 	{
 		class LogHelper;
 		class EngineContext;
+		class BaseMessageListener;
 	}
 
 	namespace Graphics
 	{
+
+		struct WindowResizedMessage;
 
 		class OgreRenderCallback;
 
@@ -42,7 +45,9 @@ namespace UnknownEngine
 				virtual ~ThreadIndependentOgreRenderSystemBase();
 				
 				virtual void onFrameUpdated ( const Core::UpdateFrameMessage& msg );
-
+				virtual void onWindowResized( const Graphics::WindowResizedMessage& msg );
+				
+				
 				void loadResourcesFile(const std::string &filename);
 
 				virtual void start() = 0;
@@ -70,8 +75,9 @@ namespace UnknownEngine
 				Ogre::LogManager* ogre_log_manager;
 				
 				Core::EngineContext* engine_context;
-				OgreUpdateFrameListener* update_frame_listener;
 		
+				std::unique_ptr<Core::BaseMessageListener> listener;
+				
 				OgreRenderSubsystemDescriptor desc;
 		};
 

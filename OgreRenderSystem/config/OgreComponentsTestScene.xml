@@ -11,7 +11,7 @@
 			</received_messages>
 		</subsystem>
 		
-		<subsystem name="UserInput" module="SDLUserInputPlugin">
+		<subsystem name="UserInput" module="SDLWindowManagerPlugin">
 			<received_messages>
 				<message type="Engine.MainLoop.UpdateFrameMessage"/>
 				<message type="Graphics.GUI.GetWindowHandleMessage"/>

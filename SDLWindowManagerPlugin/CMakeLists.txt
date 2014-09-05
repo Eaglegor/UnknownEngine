@@ -1,7 +1,7 @@
-set(TARGET_NAME SDLUserInputPlugin)
+set(TARGET_NAME SDLWindowManagerPlugin)
 set(LINKAGE SHARED)
 
-set(INCLUDED_MODULE_HEADERS SDLUserInputPlugin UserInput Plugins ComponentSystem Utils Engine UserInput RenderSystem)
+set(INCLUDED_MODULE_HEADERS SDLWindowManagerPlugin UserInput Plugins ComponentSystem Utils Engine UserInput RenderSystem)
 set(LINKED_LIBS Engine ComponentSystem Plugins )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 

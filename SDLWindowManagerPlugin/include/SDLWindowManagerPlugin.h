@@ -33,13 +33,13 @@ namespace UnknownEngine
 	namespace IO
 	{
 
-		class KeyboardListener;
+		class WindowEventsListener;
 
-		class SDLUserInputPlugin: public Core::Plugin
+		class SDLWindowManagerPlugin: public Core::Plugin
 		{
 			public:
-				SDLUserInputPlugin();
-				virtual ~SDLUserInputPlugin();
+				SDLWindowManagerPlugin();
+				virtual ~SDLWindowManagerPlugin();
 
 				virtual bool install(Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc) override;
 				virtual bool init() override;
@@ -52,7 +52,7 @@ namespace UnknownEngine
 				void onUpdateFrame(const Core::UpdateFrameMessage& msg);
 				void getWindowHandle( const Graphics::GetWindowHandleMessage& msg );
 
-				std::unique_ptr< KeyboardListener > keyboard_listener;
+				std::unique_ptr< WindowEventsListener > keyboard_listener;
 				
 				SDL_Window* sdl_window;
 				

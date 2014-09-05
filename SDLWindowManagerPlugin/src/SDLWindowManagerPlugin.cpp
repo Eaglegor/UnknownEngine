@@ -9,8 +9,8 @@
 
 #include <Plugins/PluginsManager.h>
 #include <Properties/Properties.h>
-#include <SDLUserInputPlugin.h>
-#include <KeyboardListener.h>
+#include <SDLWindowManagerPlugin.h>
+#include <WindowEventsListener.h>
 #include <MessageSystem/MessageDictionary.h>
 #include <EngineContext.h>
 #include <LogHelper.h>
@@ -28,16 +28,16 @@ namespace UnknownEngine
 	namespace IO
 	{
 
-		SDLUserInputPlugin::SDLUserInputPlugin ()
+		SDLWindowManagerPlugin::SDLWindowManagerPlugin ()
 		:log_helper(nullptr)
 		{
 		}
 
-		SDLUserInputPlugin::~SDLUserInputPlugin ()
+		SDLWindowManagerPlugin::~SDLWindowManagerPlugin ()
 		{
 		}
 
-		bool SDLUserInputPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) 
+		bool SDLWindowManagerPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) 
 		{
 		  
 			log_helper.reset( new Core::LogHelper(getName(), Core::LogMessage::Severity::LOG_SEVERITY_INFO, plugins_manager->getEngineContext()) );
@@ -51,17 +51,18 @@ namespace UnknownEngine
 
 			engine_context->getMessageDictionary()->registerNewMessageType( IO::KeyStateChangedMessage::getTypeName() );
 			engine_context->getMessageDictionary()->registerNewMessageType( Graphics::GetWindowHandleMessage::getTypeName() );
+			engine_context->getMessageDictionary()->registerNewMessageType( Graphics::WindowResizedMessage::getTypeName() );
 			
 			return true;
 		}
 
-		bool SDLUserInputPlugin::init () 
+		bool SDLWindowManagerPlugin::init () 
 		{
 			LOG_INFO(log_helper, "Initializing SDL plugin")
 
 			initSDL();
 			
-			keyboard_listener.reset ( new KeyboardListener( std::string(getName()) +  ".KeyboardListener", engine_context) );
+			keyboard_listener.reset ( new WindowEventsListener( std::string(getName()) +  ".KeyboardListener", engine_context) );
 			
 			listener = std::move(
 				Utils::BaseMessageListenersFactory::createBaseMessageListener(
@@ -71,24 +72,24 @@ namespace UnknownEngine
 				) 
 			);
 			
-			Utils::BaseMessageListenerBufferRegistrator<SDLUserInputPlugin> registrator(listener.get(), this);
+			Utils::BaseMessageListenerBufferRegistrator<SDLWindowManagerPlugin> registrator(listener.get(), this);
 			
 			registrator.registerStandardMessageBuffer<
 			Core::UpdateFrameMessage, 
 			Utils::InstantForwardMessageBuffer<Core::UpdateFrameMessage>
-			>( &SDLUserInputPlugin::onUpdateFrame );
+			>( &SDLWindowManagerPlugin::onUpdateFrame );
 			
 			registrator.registerStandardMessageBuffer<
 			Graphics::GetWindowHandleMessage, 
 			Utils::InstantForwardMessageBuffer<Graphics::GetWindowHandleMessage>
-			>( &SDLUserInputPlugin::getWindowHandle );
+			>( &SDLWindowManagerPlugin::getWindowHandle );
 			
 			listener->registerAtDispatcher();
 			
 			return true;
 		}
 
-		bool SDLUserInputPlugin::shutdown () 
+		bool SDLWindowManagerPlugin::shutdown () 
 		{
 			LOG_INFO(log_helper, "Shutting down SDL plugin");
 		  
@@ -99,7 +100,7 @@ namespace UnknownEngine
 			return true;
 		}
 
-		bool SDLUserInputPlugin::uninstall () 
+		bool SDLWindowManagerPlugin::uninstall () 
 		{
 			LOG_INFO(log_helper, "Uninstalling SDL plugin");
 		  
@@ -107,17 +108,17 @@ namespace UnknownEngine
 			return true;
 		}
 		
-		void SDLUserInputPlugin::onUpdateFrame(const Core::UpdateFrameMessage& msg)
+		void SDLWindowManagerPlugin::onUpdateFrame(const Core::UpdateFrameMessage& msg)
 		{
 			keyboard_listener->processEvents();
 		}
 		
-		void SDLUserInputPlugin::initSDL()
+		void SDLWindowManagerPlugin::initSDL()
 		{
 			SDL_SetHint(SDL_HINT_RENDER_DRIVER, "software");
 			int result = SDL_Init( SDL_INIT_VIDEO );
 			
-			sdl_window = SDL_CreateWindow("Test window", 100, 100, 800, 600, SDL_WINDOW_SHOWN);
+			sdl_window = SDL_CreateWindow("Test window", 100, 100, 800, 600, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 			
 			if(result < 0) 
 			{
@@ -130,16 +131,16 @@ namespace UnknownEngine
 			
 		}
 		
-		void SDLUserInputPlugin::shutdownSDL()
+		void SDLWindowManagerPlugin::shutdownSDL()
 		{
 			
 			LOG_INFO(log_helper, "Shutting down SDL");
-			//SDL_Quit();
+			SDL_Quit();
 			
 			LOG_INFO(log_helper, "SDL shut down successfully");
 		}
 		
-		void SDLUserInputPlugin::getWindowHandle ( const Graphics::GetWindowHandleMessage& msg )
+		void SDLWindowManagerPlugin::getWindowHandle ( const Graphics::GetWindowHandleMessage& msg )
 		{
 			
 			SDL_SysWMinfo info;
