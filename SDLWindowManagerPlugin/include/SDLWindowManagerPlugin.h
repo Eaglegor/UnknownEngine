@@ -30,10 +30,12 @@ namespace UnknownEngine
 		struct UpdateFrameMessage;
 	}
 
-	namespace IO
+	namespace GUI
 	{
 
-		class WindowEventsListener;
+		class SDLWindowManager;
+
+		class WindowEventsProcessor;
 
 		class SDLWindowManagerPlugin: public Core::Plugin
 		{
@@ -47,16 +49,8 @@ namespace UnknownEngine
 				virtual bool uninstall() override;
 
 			private:
-				void initSDL();
-				void shutdownSDL();
-				void onUpdateFrame(const Core::UpdateFrameMessage& msg);
-				void getWindowHandle( const Graphics::GetWindowHandleMessage& msg );
 
-				std::unique_ptr< WindowEventsListener > keyboard_listener;
-				
-				SDL_Window* sdl_window;
-				
-				std::unique_ptr< Core::BaseMessageListener > listener;
+				std::unique_ptr<SDLWindowManager> window_manager;
 				Core::SubsystemDesc desc;
 				Core::EngineContext* engine_context;
 				std::unique_ptr<Core::LogHelper> log_helper;

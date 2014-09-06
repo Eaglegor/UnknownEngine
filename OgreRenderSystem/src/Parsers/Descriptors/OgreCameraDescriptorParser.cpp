@@ -19,6 +19,7 @@ namespace UnknownEngine
 			const std::string LOG_LEVEL = "log_level"; // optional
 			const std::string NEAR_CLIP_DISTANCE = "near_clip_distance";
 			const std::string FAR_CLIP_DISTANCE = "far_clip_distance";
+			const std::string RENDER_WINDOW_NAME = "render_window_name";
 		}
 
 		namespace INITIAL_TRANSFORM_SECTION
@@ -43,6 +44,8 @@ namespace UnknownEngine
 				OptionalStringOption initial_look_at = initial_transform_section->get_optional<std::string> ( INITIAL_TRANSFORM_SECTION::OPTIONS::LOOK_AT );
 				if ( initial_look_at.is_initialized() ) desc.initial_look_at = Utils::Vector3Parser::parse ( initial_look_at.get() );
 			}
+			
+			desc.render_window_name = properties.get<std::string>(GLOBAL_OPTIONS::RENDER_WINDOW_NAME);
 			
 			OptionalStringOption log_level = properties.get_optional<std::string>(GLOBAL_OPTIONS::LOG_LEVEL);
 			if(log_level.is_initialized()) desc.log_level = Core::LogHelper::parseLogLevel(log_level.get());

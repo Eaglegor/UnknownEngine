@@ -51,7 +51,7 @@ namespace UnknownEngine
 				}
 			}
 			
-			if(desc.ogre_resources_filename.is_initialized()) loadResourcesFile(desc.ogre_resources_filename.get());
+			if(!desc.ogre_resources_filename.empty()) loadResourcesFile(desc.ogre_resources_filename);
 			
 			scene_manager = root->createSceneManager ( Ogre::ST_GENERIC );
 			root->initialise ( false, desc.render_window_name );
@@ -63,10 +63,9 @@ namespace UnknownEngine
 																   engine_context);
 			
 			Graphics::GetWindowHandleMessage msg;
-			msg.requested_window_name = "";
+			msg.requested_window_name = "TestWindow";
 			msg.result_callback = [&](const NativeWindowHandleType& handle)
 			{
-				std::cout << "Got window handle : " << handle << std::endl;
 				string_handle = Ogre::StringConverter::toString(handle);
 			};
 			
@@ -74,12 +73,12 @@ namespace UnknownEngine
 			
 			Ogre::NameValuePairList params;
 			
-			params["externalWindowHandle"] = string_handle;
+			params["parentWindowHandle"] = string_handle;
 			//params["externalGLControl"] = "True";
 			//params["currentGLContext"] = "True";
 			
-			render_window = root->createRenderWindow("Hello", 800, 600, false, &params);
-			render_window->setVisible(true);
+			render_windows.emplace( "TestWindow", root->createRenderWindow("Hello", 640, 480, false, &params) );
+			render_windows["TestWindow"]->setVisible(true);
 		}
 
 		void ThreadIndependentOgreRenderSystemBase::shutdownOgre()
@@ -139,8 +138,20 @@ namespace UnknownEngine
 		
 		void ThreadIndependentOgreRenderSystemBase::onWindowResized ( const WindowResizedMessage& msg )
 		{
-			render_window->resize(msg.width, msg.height);
+			Ogre::RenderWindow *window = getRenderWindow(msg.window_name);
+			if(window != nullptr)
+			{
+				window->resize(msg.width, msg.height);
+			}
 		}
+		
+		Ogre::RenderWindow* ThreadIndependentOgreRenderSystemBase::getRenderWindow ( const std::string& name )
+		{
+			auto iter = render_windows.find(name);
+			if(iter == render_windows.end() ) return nullptr;
+			else return iter->second;
+		}
+
 	
 	} // namespace Graphics
 } // namespace UnknownEngine

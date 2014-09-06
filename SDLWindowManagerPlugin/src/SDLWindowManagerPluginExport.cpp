@@ -6,7 +6,7 @@
 #include <SDLWindowManagerPlugin.h>
 #include <SubsystemDesc.h>
 
-using namespace UnknownEngine::IO;
+using namespace UnknownEngine::GUI;
 using namespace UnknownEngine::Core;
 
 static SDLWindowManagerPlugin* instance = nullptr;

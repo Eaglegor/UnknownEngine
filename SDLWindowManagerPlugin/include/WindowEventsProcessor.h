@@ -4,14 +4,17 @@
 #include <ExportedMessages/RenderSystem/WindowResizedMessage.h>
 #include <SDLKeyCodesConverter.h>
 
+
 namespace UnknownEngine
 {
-	namespace IO
+	namespace GUI
 	{
-		class WindowEventsListener
+		class SDLWindowManager;
+		
+		class WindowEventsProcessor
 		{
 		public:
-			WindowEventsListener(const std::string &window_name, Core::EngineContext* engine_context);
+			WindowEventsProcessor(const std::string &name, SDLWindowManager *window_manager, Core::EngineContext* engine_context);
 			
 			void processEvents();
 						
@@ -19,9 +22,10 @@ namespace UnknownEngine
 			Core::MessageSender<IO::KeyStateChangedMessage> key_pressed_message_sender;
 			Core::MessageSender<Graphics::WindowResizedMessage> window_resized_message_sender;
 			
-			SDLKeyCodesConverter keys_converter;
+			IO::SDLKeyCodesConverter keys_converter;
 
-			std::string window_name;
+			std::string name;
+			SDLWindowManager *window_manager;
 		};
 	}
 }

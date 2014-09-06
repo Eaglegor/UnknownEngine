@@ -38,10 +38,23 @@
 				
 				<option name="log_level" value="${global_log_level}"/>
 
-				<option name="separate_rendering_thread" value="true"/>
+				<option name="separate_rendering_thread" value="false"/>
 				
 				<options_section name="RenderWindow">
-					<option name="title" value="Hello window"/>
+					<option name="type" value="external"/>
+					<option name="title" value="TestWindow"/>
+					
+					<option name="window_name" value="ParserTestWindowName"/>
+					<option name="window_title" value="ParserTestWindowTitle"/>
+					<option name="window_type" value="external"/>
+					
+					<option name="width" value="1024"/>
+					<option name="height" value="768"/>
+					
+					<options_section name="window_flags">
+						<option name="fullscreen" value="true"/>
+					</options_section>
+					
 				</options_section>
 				
 				<options_section name="ConfigFiles">
@@ -72,6 +85,7 @@
 			<component type="Graphics.Camera" name="Camera">
 				<options_section>
 					
+					<option name="render_window_name" value="TestWindow"/>
 					<option name="log_level" value="${global_log_level}"/>
 					
 					<options_section name="InitialTransform">

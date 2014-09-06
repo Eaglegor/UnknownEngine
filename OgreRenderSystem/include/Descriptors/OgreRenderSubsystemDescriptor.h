@@ -10,11 +10,19 @@ namespace UnknownEngine
 	{
 		struct OgreRenderSubsystemDescriptor
 		{
+			struct RenderWindowDescriptor
+			{
+				
+				
+				std::string name;
+				
+			};
+			
 			std::string ogre_plugins_filename;
 			std::string ogre_config_filename;
 			std::string ogre_log_filename;
 			std::string render_window_name;
-			boost::optional<std::string> ogre_resources_filename;
+			std::string ogre_resources_filename;
 			
 			Core::LogMessage::Severity log_level;
 

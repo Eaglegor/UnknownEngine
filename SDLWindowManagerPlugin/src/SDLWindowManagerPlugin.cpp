@@ -10,7 +10,9 @@
 #include <Plugins/PluginsManager.h>
 #include <Properties/Properties.h>
 #include <SDLWindowManagerPlugin.h>
-#include <WindowEventsListener.h>
+#include <WindowEventsProcessor.h>
+#include <SDLWindowManager.h>
+#include <SDLWindowDesc.h>
 #include <MessageSystem/MessageDictionary.h>
 #include <EngineContext.h>
 #include <LogHelper.h>
@@ -25,7 +27,7 @@
 
 namespace UnknownEngine
 {
-	namespace IO
+	namespace GUI
 	{
 
 		SDLWindowManagerPlugin::SDLWindowManagerPlugin ()
@@ -60,31 +62,18 @@ namespace UnknownEngine
 		{
 			LOG_INFO(log_helper, "Initializing SDL plugin")
 
-			initSDL();
+			window_manager.reset ( new SDLWindowManager(std::string(getName()), engine_context, log_helper.get()) );
+			window_manager->init(desc.received_messages);
 			
-			keyboard_listener.reset ( new WindowEventsListener( std::string(getName()) +  ".KeyboardListener", engine_context) );
+			GUI::SDLWindowDesc window_desc;
+			window_desc.full_screen = false;
+			window_desc.resizable = true;
+			window_desc.width = 640;
+			window_desc.height = 480;
+			window_desc.window_name="TestWindow";
+			window_desc.window_title = "Hello!";
 			
-			listener = std::move(
-				Utils::BaseMessageListenersFactory::createBaseMessageListener(
-					std::string(getName())  + ".Listener",
-					engine_context,
-					desc.received_messages
-				) 
-			);
-			
-			Utils::BaseMessageListenerBufferRegistrator<SDLWindowManagerPlugin> registrator(listener.get(), this);
-			
-			registrator.registerStandardMessageBuffer<
-			Core::UpdateFrameMessage, 
-			Utils::InstantForwardMessageBuffer<Core::UpdateFrameMessage>
-			>( &SDLWindowManagerPlugin::onUpdateFrame );
-			
-			registrator.registerStandardMessageBuffer<
-			Graphics::GetWindowHandleMessage, 
-			Utils::InstantForwardMessageBuffer<Graphics::GetWindowHandleMessage>
-			>( &SDLWindowManagerPlugin::getWindowHandle );
-			
-			listener->registerAtDispatcher();
+			window_manager->createWindow(window_desc);
 			
 			return true;
 		}
@@ -93,9 +82,8 @@ namespace UnknownEngine
 		{
 			LOG_INFO(log_helper, "Shutting down SDL plugin");
 		  
-			listener->unregisterAtDispatcher();
-			
-			shutdownSDL();
+			window_manager->shutdown();
+			window_manager.reset();
 			
 			return true;
 		}
@@ -106,60 +94,6 @@ namespace UnknownEngine
 		  
 			log_helper.reset();
 			return true;
-		}
-		
-		void SDLWindowManagerPlugin::onUpdateFrame(const Core::UpdateFrameMessage& msg)
-		{
-			keyboard_listener->processEvents();
-		}
-		
-		void SDLWindowManagerPlugin::initSDL()
-		{
-			SDL_SetHint(SDL_HINT_RENDER_DRIVER, "software");
-			int result = SDL_Init( SDL_INIT_VIDEO );
-			
-			sdl_window = SDL_CreateWindow("Test window", 100, 100, 800, 600, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
-			
-			if(result < 0) 
-			{
-				LOG_ERROR(log_helper, "SDL initialization failed");
-			}
-			else
-			{
-				LOG_INFO(log_helper, "SDL initialized successfully");
-			}
-			
-		}
-		
-		void SDLWindowManagerPlugin::shutdownSDL()
-		{
-			
-			LOG_INFO(log_helper, "Shutting down SDL");
-			SDL_Quit();
-			
-			LOG_INFO(log_helper, "SDL shut down successfully");
-		}
-		
-		void SDLWindowManagerPlugin::getWindowHandle ( const Graphics::GetWindowHandleMessage& msg )
-		{
-			
-			SDL_SysWMinfo info;
-			SDL_VERSION(&info.version);
-			
-			if(SDL_GetWindowWMInfo(sdl_window, &info))
-			{
-#ifdef _MSC_VER
-				Graphics::NativeWindowHandleType handle = info.win.window;
-#else
-				Graphics::NativeWindowHandleType handle = info.info.x11.window;
-#endif
-				msg.result_callback(handle);
-			}
-			else
-			{
-				LOG_ERROR(log_helper, "Failed to retrieve window handle");
-			}
-			
 		}
 		
 	} /* namespace Graphics */
