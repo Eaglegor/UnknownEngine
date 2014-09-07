@@ -51,34 +51,47 @@ namespace UnknownEngine
 				}
 			}
 			
-			if(!desc.ogre_resources_filename.empty()) loadResourcesFile(desc.ogre_resources_filename);
+			if(desc.ogre_resources_filename) loadResourcesFile(desc.ogre_resources_filename.get());
 			
 			scene_manager = root->createSceneManager ( Ogre::ST_GENERIC );
-			root->initialise ( false, desc.render_window_name );
-			
-			Ogre::String string_handle;
-			
-			Core::MessageSender<Graphics::GetWindowHandleMessage> sender(
-				Core::MessageSystemParticipantId("OgreRenderSubsystem", Core::MessageSystemParticipantId::AutoRegistrationPolicy::AUTO_REGISTER),
-																   engine_context);
-			
-			Graphics::GetWindowHandleMessage msg;
-			msg.requested_window_name = "TestWindow";
-			msg.result_callback = [&](const NativeWindowHandleType& handle)
-			{
-				string_handle = Ogre::StringConverter::toString(handle);
-			};
-			
-			sender.sendMessage(msg);
-			
+			root->initialise ( false, desc.render_window_descriptor.window_name );
+
 			Ogre::NameValuePairList params;
 			
-			params["parentWindowHandle"] = string_handle;
-			//params["externalGLControl"] = "True";
-			//params["currentGLContext"] = "True";
+			if(desc.render_window_descriptor.type != OgreRenderWindowDescriptor::WindowType::OWN)
+			{
+				Ogre::String string_handle;
+
+				Core::MessageSender<Graphics::GetWindowHandleMessage> sender(
+					Core::MessageSystemParticipantId("OgreRenderSubsystem", Core::MessageSystemParticipantId::AutoRegistrationPolicy::AUTO_REGISTER),
+																	engine_context);
+				
+				Graphics::GetWindowHandleMessage msg;
+				msg.requested_window_name = desc.render_window_descriptor.window_name;
+				msg.result_callback = [&](const NativeWindowHandleType& handle)
+				{
+					string_handle = Ogre::StringConverter::toString(handle);
+				};
+				
+				sender.sendMessage(msg);
+
+				switch(desc.render_window_descriptor.type)
+				{
+					case OgreRenderWindowDescriptor::WindowType::EXTERNAL:
+					{
+						params["externalWindowHandle"] = string_handle;
+						break;
+					}
+					case OgreRenderWindowDescriptor::WindowType::PARENT:
+					{
+						params["parentWindowHandle"] = string_handle;
+						break;
+					}
+				}
+			}
 			
-			render_windows.emplace( "TestWindow", root->createRenderWindow("Hello", 640, 480, false, &params) );
-			render_windows["TestWindow"]->setVisible(true);
+			render_windows.emplace( desc.render_window_descriptor.window_name, root->createRenderWindow(desc.render_window_descriptor.window_title, desc.render_window_descriptor.width, desc.render_window_descriptor.height, desc.render_window_descriptor.fullscreen, &params) );
+			render_windows[desc.render_window_descriptor.window_name]->setVisible(true);
 		}
 
 		void ThreadIndependentOgreRenderSystemBase::shutdownOgre()

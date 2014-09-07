@@ -1,6 +1,6 @@
 <scene>
 
-	<constant name="global_log_level" value="debug"/>
+	<constant name="global_log_level" value="none"/>
 
 	<subsystems>
 		<subsystem name="Logger" module="ConsoleLogger">
@@ -38,13 +38,11 @@
 				
 				<option name="log_level" value="${global_log_level}"/>
 
-				<option name="separate_rendering_thread" value="false"/>
+				<option name="separate_rendering_thread" value="true"/>
 				
 				<options_section name="RenderWindow">
-					<option name="type" value="external"/>
-					<option name="title" value="TestWindow"/>
-					
-					<option name="window_name" value="ParserTestWindowName"/>
+
+					<option name="window_name" value="TestWindow"/>
 					<option name="window_title" value="ParserTestWindowTitle"/>
 					<option name="window_type" value="external"/>
 					
@@ -52,7 +50,7 @@
 					<option name="height" value="768"/>
 					
 					<options_section name="window_flags">
-						<option name="fullscreen" value="true"/>
+						<option name="fullscreen" value="false"/>
 					</options_section>
 					
 				</options_section>

@@ -8,6 +8,7 @@
 #include <DataProviders/OgreMeshPtrProvider.h>
 #include <LogHelper.h>
 #include <CommonParsers/LexicalCastForBoolAlpha.h>
+#include <CommonParsers/PropertiesParser.h>
 
 namespace UnknownEngine
 {
@@ -44,32 +45,39 @@ namespace UnknownEngine
 		{
 			OgreRenderableComponentDescriptor desc;
 
-			OptionalOptionsSection material_section = properties.get_optional<Core::Properties>( MATERIAL_SECTION::SECTION_NAME );
-			if ( material_section.is_initialized() )
-			{
-				desc.material_desc.name = material_section->get<std::string> ( MATERIAL_SECTION::OPTIONS::MATERIAL_NAME, desc.material_desc.name );
-			}
-
-			OptionalOptionsSection initial_transform_section = properties.get_optional<Core::Properties>( INITIAL_TRANSFORM_SECTION::SECTION_NAME );
-			if ( initial_transform_section.is_initialized() )
-			{
-				desc.initial_transform = InitialTransformSectionParser::parse(initial_transform_section.get());
-			}
+			using Utils::PropertiesParser;
 			
-			OptionalStringOption log_level = properties.get_optional<std::string>(GLOBAL_OPTIONS::LOG_LEVEL);
-			if(log_level.is_initialized())
-			{
-				desc.log_level = Core::LogHelper::parseLogLevel(log_level.get());
-			}
+			PropertiesParser::parse
+			(
+				properties,
+				{
+					{
+						"InitialTransform",
+						PropertiesParser::ExternalParserOptionalNestedValue<Core::Transform, InitialTransformSectionParser>
+						(desc.initial_transform)
+					},
+					{
+						"Material",
+						PropertiesParser::OptionalNestedValue
+						(
+							{
+								{"material_name", PropertiesParser::OptionalValue<std::string>( desc.material_desc.name)},
+							}
+						)
+					},
+					{"log_level", PropertiesParser::OptionalValue<Core::LogMessage::Severity>(desc.log_level)},
+			 
+					{"mesh_ptr_provider", PropertiesParser::RequiredRawValue<Loader::IDataProvider*>( 
+						[&](Loader::IDataProvider* data_provider){
+							desc.mesh_data_provider = dynamic_cast<OgreMeshPtrProvider*>(data_provider);
+						} 
+					)},
+	
+					{"throw_exception_on_missing_mesh_data", PropertiesParser::OptionalValue<bool>(desc.throw_exception_on_missing_mesh_data)}
+					
+				}
+			);
 
-			Loader::IDataProvider* data_provider = properties.get<Loader::IDataProvider*> ( GLOBAL_OPTIONS::MESH_PTR_PROVIDER, nullptr );
-			OgreMeshPtrProvider* mesh_ptr_provider = dynamic_cast<OgreMeshPtrProvider*> ( data_provider );
-			desc.mesh_data_provider = mesh_ptr_provider;
-
-		
-			OptionalStringOption throw_exception_on_missing_mesh_data = properties.get_optional<std::string>( GLOBAL_OPTIONS::THROW_EXCEPTION_ON_MISSING_MESH_DATA );
-			if(throw_exception_on_missing_mesh_data.is_initialized()) desc.throw_exception_on_missing_mesh_data = boost::lexical_cast<bool>(throw_exception_on_missing_mesh_data.get());
-			
 			return desc;
 		}
 

@@ -2,6 +2,7 @@
 #include <Properties/Properties.h>
 #include <boost/lexical_cast.hpp>
 #include <boost/optional/optional.hpp>
+#include <functional>
 
 namespace UnknownEngine
 {
@@ -12,6 +13,43 @@ namespace UnknownEngine
 
 			public:
 
+				template<typename T>
+				struct Setter
+				{
+				public:
+					typedef std::function<void(const T&)> type;
+				};
+				
+				template<typename T>
+				class DefaultSetter
+				{
+				public:
+					DefaultSetter(T &t):t(t){}
+					
+					void operator()(const T& value)
+					{
+						t = value;
+					}
+					
+				private:
+					T &t;
+				};
+				
+				template<typename T>
+				class BoostOptionalSetter
+				{
+				public:
+					BoostOptionalSetter(boost::optional<T> &t):t(t){}
+					
+					void operator()(const T& value)
+					{
+						t = value;
+					}
+					
+				private:
+					boost::optional<T> &t;
+				};
+				
 				class PropertiesValue
 				{
 					public:
@@ -40,26 +78,93 @@ namespace UnknownEngine
 
 
 			public:
+				
+				template<typename T>
+				class OptionalRawValue : public PropertiesValue
+				{
+					public:
+						OptionalRawValue ( T& out_value ) :
+							setter ( DefaultSetter<T>(out_value) )
+						{
+						}
+
+						OptionalRawValue ( typename Setter<T>::type setter ) :
+							setter ( setter )
+						{
+						}
+						
+						OptionalRawValue ( boost::optional<T> &out_value ) :
+							setter ( BoostOptionalSetter<T>(out_value) )
+						{
+						}
+						
+						virtual void setOutputValue ( const Core::Properties& properties, const std::string& property_name )
+						{
+							boost::optional<const T&> value = properties.get_optional<T> ( property_name );
+							if ( value )
+							{
+								setter( value.get() );
+							}
+						}
+
+					private:
+						typename Setter<T>::type setter;
+				};
+				
+				template<typename T>
+				class RequiredRawValue : public PropertiesValue
+				{
+					public:
+						RequiredRawValue ( T& out_value ) :
+							setter ( DefaultSetter<T>(out_value) )
+						{
+						}
+
+						RequiredRawValue ( typename Setter<T>::type setter ) :
+							setter ( setter )
+						{
+						}
+						
+						virtual void setOutputValue ( const Core::Properties& properties, const std::string& property_name )
+						{
+							const T& value = properties.get<T> ( property_name );
+							setter( value );
+						}
+
+					private:
+						typename Setter<T>::type setter;
+				};
+				
 				template<typename T>
 				class OptionalValue : public PropertiesValue
 				{
 					public:
 						OptionalValue ( T& out_value ) :
-							out_value ( out_value )
+							setter ( DefaultSetter<T>(out_value) )
 						{
 						}
 
+						OptionalValue ( typename Setter<T>::type setter ) :
+							setter ( setter )
+						{
+						}
+						
+						OptionalValue ( boost::optional<T> &out_value ) :
+							setter ( BoostOptionalSetter<T>(out_value) )
+						{
+						}
+						
 						virtual void setOutputValue ( const Core::Properties& properties, const std::string& property_name )
 						{
 							boost::optional<const std::string&> string_value = properties.get_optional<std::string> ( property_name );
 							if ( string_value )
 							{
-								out_value = boost::lexical_cast<T> ( string_value.get() );
+								setter(boost::lexical_cast<T> ( string_value.get() ));
 							}
 						}
 
 					private:
-						T& out_value;
+						typename Setter<T>::type setter;
 				};
 
 				template<typename T>
@@ -67,18 +172,23 @@ namespace UnknownEngine
 				{
 					public:
 						RequiredValue ( T& out_value ) :
-							out_value ( out_value )
+							setter ( DefaultSetter<T>(out_value) )
 						{
 						}
 
+						RequiredValue ( typename Setter<T>::type setter ) :
+							setter(setter)
+						{
+						}
+						
 						virtual void setOutputValue ( const Core::Properties& properties, const std::string& property_name )
 						{
 							std::string string_value = properties.get<std::string> ( property_name );
-							out_value = boost::lexical_cast<T> ( string_value );
+							setter( boost::lexical_cast<T> ( string_value ) );
 						}
 
 					private:
-						T& out_value;
+						typename Setter<T>::type setter;
 				};
 
 				class OptionalNestedValue : public PropertiesValue
@@ -172,3 +282,5 @@ namespace UnknownEngine
 		};
 	};
 }
+
+

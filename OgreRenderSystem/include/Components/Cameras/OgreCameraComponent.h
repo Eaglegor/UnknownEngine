@@ -5,6 +5,7 @@
 #include <ComponentType.h>
 #include <AlignedNew.h>
 #include <Descriptors/Components/Cameras/OgreCameraComponentDescriptor.h>
+#include <Exception.h>
 
 namespace Ogre
 {
@@ -34,6 +35,8 @@ namespace UnknownEngine
 		{
 			public:
 
+				UNKNOWNENGINE_SIMPLE_EXCEPTION(RenderWindowNotFound);
+				
 				OgreCameraComponent ( const std::string &name, const OgreCameraComponentDescriptor& desc, OgreRenderSubsystem *render_subsystem, Core::EngineContext* engine_context );
 				virtual ~OgreCameraComponent();
 				
