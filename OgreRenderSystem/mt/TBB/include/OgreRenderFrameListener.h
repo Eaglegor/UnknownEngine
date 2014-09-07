@@ -15,6 +15,7 @@
 
 typedef tbb::concurrent_unordered_map< std::string, std::function<void() > > ConcurrentMap;
 typedef tbb::concurrent_queue< std::function<void() > > ConcurrentQueue;
+typedef tbb::concurrent_queue< std::function<bool() > > RemoveConcurrentQueue;
 
 namespace UnknownEngine
 {
@@ -72,10 +73,17 @@ namespace UnknownEngine
 					callback();
 				}
 
-				while ( remove_callbacks.try_pop(callback) )
+				std::function<bool()> remove_callback;
+				while ( remove_callbacks.try_pop(remove_callback) )
 				{
-					callback();
+					bool result = remove_callback();
+					if(result == false) unsuccessful_remove_callbacks.push_back(remove_callback);
 				}
+				for(std::function<bool()> &unsuccessful_callback: unsuccessful_remove_callbacks)				
+				{
+					remove_callbacks.push(unsuccessful_callback);
+				}
+				unsuccessful_remove_callbacks.clear();
 				
 				return !stopped;
 			}
@@ -121,12 +129,14 @@ namespace UnknownEngine
 				shutdown_callbacks.push(callback);
 			}
 
-			void addRemoveCallback ( const std::function<void() > &callback )
+			void addRemoveCallback ( const std::function<bool() > &callback )
 			{
 				remove_callbacks.push(callback);
 			}
 
 		private:
+			std::vector<std::function<bool()> > unsuccessful_remove_callbacks;
+			
 			volatile bool stopped;
 			volatile bool finished;
 			boost::condition_variable wait_for_finish_var;
@@ -142,7 +152,7 @@ namespace UnknownEngine
 			ConcurrentQueue shutdown_callbacks;
 
 			/// Callbacks for components removal
-			ConcurrentQueue remove_callbacks;
+			RemoveConcurrentQueue remove_callbacks;
 			
 #ifdef AVERAGE_FPS_FRAMES_COUNT
 			size_t counter;

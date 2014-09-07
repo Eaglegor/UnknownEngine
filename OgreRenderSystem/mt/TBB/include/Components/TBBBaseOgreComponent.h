@@ -24,6 +24,10 @@ namespace UnknownEngine
 
 				virtual void shutdown ( ) override;
 
+				bool isShutdown();
+				
+			private:
+				volatile bool is_shutdown;
 		};
 
 	}

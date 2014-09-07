@@ -1,5 +1,6 @@
 #include <Factories/TBBBaseOgreComponentFactory.h>
 #include <TBBOgreRenderSubsystem.h>
+#include <Components/TBBBaseOgreComponent.h>
 
 namespace UnknownEngine
 {
@@ -27,7 +28,16 @@ namespace UnknownEngine
 			{
 				render_subsystem->addRemoveCallback ( [this, object]()
 				{
-					Core::BaseComponentFactory::destroyObject ( object );
+					TBBBaseOgreComponent* component = static_cast<TBBBaseOgreComponent*>(object);
+					if(component->isShutdown()) 
+					{
+						Core::BaseComponentFactory::destroyObject ( object );
+						return true;
+					}
+					else
+					{
+						return false;
+					}
 				} );
 			}
 			else
