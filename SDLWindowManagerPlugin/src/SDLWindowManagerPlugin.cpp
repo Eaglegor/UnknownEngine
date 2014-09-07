@@ -13,6 +13,8 @@
 #include <WindowEventsProcessor.h>
 #include <SDLWindowManager.h>
 #include <SDLWindowDesc.h>
+#include <SDLWindowManagerDescriptor.h>
+#include <SDLWindowManagerDescriptorParser.h>
 #include <MessageSystem/MessageDictionary.h>
 #include <EngineContext.h>
 #include <LogHelper.h>
@@ -65,15 +67,16 @@ namespace UnknownEngine
 			window_manager.reset ( new SDLWindowManager(std::string(getName()), engine_context, log_helper.get()) );
 			window_manager->init(desc.received_messages);
 			
-			GUI::SDLWindowDesc window_desc;
-			window_desc.full_screen = false;
-			window_desc.resizable = true;
-			window_desc.width = 640;
-			window_desc.height = 480;
-			window_desc.window_name="TestWindow";
-			window_desc.window_title = "Hello!";
-			
-			window_manager->createWindow(window_desc);
+			if(!desc.prepared_descriptor.isEmpty())
+			{
+				SDLWindowManagerDescriptor wm_desc = desc.prepared_descriptor.get<SDLWindowManagerDescriptor>();
+				window_manager->createWindow( wm_desc.window_desc );
+			}
+			else
+			{
+				SDLWindowManagerDescriptor wm_desc = SDLWindowManagerDescriptorParser::parse(desc.creation_options);
+				window_manager->createWindow( wm_desc.window_desc );
+			}
 			
 			return true;
 		}

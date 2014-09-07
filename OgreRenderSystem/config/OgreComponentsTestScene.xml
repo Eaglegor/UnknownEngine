@@ -11,11 +11,23 @@
 			</received_messages>
 		</subsystem>
 		
-		<subsystem name="UserInput" module="SDLWindowManagerPlugin">
+		<subsystem name="WindowManager" module="SDLWindowManagerPlugin">
 			<received_messages>
 				<message type="Engine.MainLoop.UpdateFrameMessage"/>
 				<message type="Graphics.GUI.GetWindowHandleMessage"/>
 			</received_messages>
+			
+			<options_section>
+				<options_section name="RenderWindow">
+					<option name="width" value="800"/>
+					<option name="height" value="600"/>
+					<option name="window_name" value="TestWindow"/>
+					<option name="window_title" value="Test render window"/>
+					<option name="fullscreen" value="false"/>
+					<option name="resizable" value="false"/>
+				</options_section>
+			</options_section>
+			
 		</subsystem>
 		
 		<subsystem name="Graphics" module="OgreRenderSystem">
