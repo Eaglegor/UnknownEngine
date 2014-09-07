@@ -83,4 +83,10 @@ namespace UnknownEngine
 			std::string name; ///< String object name
 		};
 	}
+	
+	static Core::MessageSystemParticipantId GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(const std::string &name)
+	{
+		return std::move(Core::MessageSystemParticipantId(name, Core::MessageSystemParticipantId::AutoRegistrationPolicy::AUTO_REGISTER));
+	}
+	
 }

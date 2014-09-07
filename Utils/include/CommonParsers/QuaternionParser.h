@@ -60,3 +60,15 @@ namespace UnknownEngine
 		};
 	}
 }
+
+
+namespace boost
+{
+	template<>
+	UNKNOWNENGINE_INLINE
+	UnknownEngine::Math::Quaternion lexical_cast<UnknownEngine::Math::Quaternion, std::string>(const std::string& string_value)
+	{
+		return UnknownEngine::Utils::QuaternionParser::parse(string_value);
+	}
+}
+

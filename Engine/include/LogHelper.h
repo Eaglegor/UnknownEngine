@@ -7,6 +7,7 @@
 #include <InlineSpecification.h>
 #include <boost/algorithm/string/case_conv.hpp>
 #include <boost/algorithm/string/trim.hpp>
+#include <boost/lexical_cast.hpp>
 
 namespace UnknownEngine
 {
@@ -65,5 +66,17 @@ namespace UnknownEngine
 #define LOG_ERROR(log_helper, e) if(log_helper) log_helper->log(Core::LogMessage::Severity::LOG_SEVERITY_ERROR, e);
 #define LOG_DEBUG(log_helper, e) if(log_helper) log_helper->log(Core::LogMessage::Severity::LOG_SEVERITY_DEBUG, e);
 
+	}
+}
+
+namespace boost
+{
+	typedef UnknownEngine::Core::LogMessage::Severity UnknownEngineLogSeverity;
+	
+	template<>
+	UNKNOWNENGINE_INLINE
+	UnknownEngineLogSeverity lexical_cast<UnknownEngineLogSeverity, std::string>(const std::string& string_value)
+	{
+		return UnknownEngine::Core::LogHelper::parseLogLevel(string_value);
 	}
 }

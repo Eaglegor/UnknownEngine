@@ -53,3 +53,14 @@ namespace UnknownEngine
 		};
 	}
 }
+
+
+namespace boost
+{
+	template<>
+	UNKNOWNENGINE_INLINE
+	UnknownEngine::Math::Vector3 lexical_cast<UnknownEngine::Math::Vector3, std::string>(const std::string& string_value)
+	{
+		return UnknownEngine::Utils::Vector3Parser::parse(string_value);
+	}
+}

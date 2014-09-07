@@ -1,6 +1,6 @@
 <scene>
 
-	<constant name="global_log_level" value="debug"/>
+	<constant name="global_log_level" value="none"/>
 
 	<subsystems>
 		<subsystem name="Logger" module="ConsoleLogger">
@@ -11,7 +11,30 @@
 			</received_messages>
 		</subsystem>
 		
+		<subsystem name="WindowManager" module="SDLWindowManagerPlugin">
+			<received_messages>
+				<message type="Engine.MainLoop.UpdateFrameMessage"/>
+				<message type="Graphics.GUI.GetWindowHandleMessage"/>
+			</received_messages>
+			
+			<options_section>
+				<options_section name="RenderWindow">
+					<option name="width" value="800"/>
+					<option name="height" value="600"/>
+					<option name="window_name" value="TestWindow"/>
+					<option name="window_title" value="Test render window"/>
+					<option name="fullscreen" value="false"/>
+					<option name="resizable" value="false"/>
+				</options_section>
+			</options_section>
+			
+		</subsystem>
+		
 		<subsystem name="Graphics" module="OgreRenderSystem">
+		
+			<dependencies>
+				<dependency>UserInput</dependency>
+			</dependencies>
 		
 			<received_messages>
 				<message type="Engine.MainLoop.UpdateFrameMessage">
@@ -30,7 +53,18 @@
 				<option name="separate_rendering_thread" value="true"/>
 				
 				<options_section name="RenderWindow">
-					<option name="title" value="Hello window"/>
+
+					<option name="window_name" value="TestWindow"/>
+					<option name="window_title" value="ParserTestWindowTitle"/>
+					<option name="window_type" value="external"/>
+					
+					<option name="width" value="1024"/>
+					<option name="height" value="768"/>
+					
+					<options_section name="window_flags">
+						<option name="fullscreen" value="false"/>
+					</options_section>
+					
 				</options_section>
 				
 				<options_section name="ConfigFiles">
@@ -52,12 +86,6 @@
 				<message type="IO.KeyStateChanged"/>
 			</received_messages>
 		</subsystem>
-				
-		<subsystem name="UserInput" module="SDLUserInputPlugin">
-			<received_messages>
-				<message type="Engine.MainLoop.UpdateFrameMessage"/>
-			</received_messages>
-		</subsystem>
 		
 	</subsystems>
 
@@ -67,6 +95,7 @@
 			<component type="Graphics.Camera" name="Camera">
 				<options_section>
 					
+					<option name="render_window_name" value="TestWindow"/>
 					<option name="log_level" value="${global_log_level}"/>
 					
 					<options_section name="InitialTransform">

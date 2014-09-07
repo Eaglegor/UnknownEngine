@@ -59,7 +59,9 @@ namespace UnknownEngine
 			LOG_INFO ( log_helper, "Creating OGRE scene node" );
 			this->scene_node = render_subsystem->getSceneManager()->getRootSceneNode()->createChildSceneNode ( Ogre::String ( getName() ) + ".SceneNode" );
 
-			render_subsystem->getRenderWindow()->addViewport ( camera );
+			Ogre::RenderWindow* render_window = render_subsystem->getRenderWindow(desc.render_window_name);
+			if(!render_window) throw RenderWindowNotFound("Can't find render window " + desc.render_window_name + " to create viewport for camera " + std::string(getName()));
+			render_window->addViewport ( camera );
 
 			scene_node->setPosition ( OgreVector3Converter::toOgreVector ( desc.initial_transform.getPosition() ) );
 			scene_node->setOrientation ( OgreQuaternionConverter::toOgreQuaternion ( desc.initial_transform.getOrientation() ) );

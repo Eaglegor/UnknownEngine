@@ -20,3 +20,13 @@ namespace UnknownEngine
 		};
 	}
 }
+
+namespace boost
+{
+	template<>
+	UNKNOWNENGINE_INLINE
+	Ogre::ColourValue lexical_cast<Ogre::ColourValue, std::string>(const std::string& string_value)
+	{
+		return UnknownEngine::Graphics::OgreColourValueParser::parse(string_value);
+	}
+}

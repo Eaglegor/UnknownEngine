@@ -8,10 +8,14 @@
 
 #include <MessageSystem/MessageSystemParticipantDictionary.h>
 #include <MessageSystem/MessageDispatcher.h>
+#include <MessageSystem/MessageSender.h>
 
 #include <ExportedMessages/StopEngineActionMessage.h>
 
 #include <Listeners/OgreUpdateFrameListener.h>
+#include <ExportedMessages/RenderSystem/GetWindowHandleMessage.h>
+#include <ExportedMessages/RenderSystem/WindowResizedMessage.h>
+#include <MessageSystem/BaseMessageListener.h>
 
 namespace UnknownEngine
 {
@@ -21,13 +25,15 @@ namespace UnknownEngine
 		ThreadIndependentOgreRenderSystemBase::ThreadIndependentOgreRenderSystemBase ( const OgreRenderSubsystemDescriptor& desc, Core::LogHelper* log_helper, Core::EngineContext* engine_context ):
 		log_helper ( log_helper ),
 		engine_context(engine_context),
-		update_frame_listener(nullptr),
 		desc(desc)
 		{
 		}
 
 		void ThreadIndependentOgreRenderSystemBase::initOgre()
 		{
+			
+			LOG_INFO(log_helper, "Initializing OGRE");
+			
 			ogre_log_manager = new Ogre::LogManager;
 			ogre_log_manager->createLog(desc.ogre_log_filename, true, false, false);
 
@@ -45,10 +51,47 @@ namespace UnknownEngine
 				}
 			}
 			
-			if(desc.ogre_resources_filename.is_initialized()) loadResourcesFile(desc.ogre_resources_filename.get());
+			if(desc.ogre_resources_filename) loadResourcesFile(desc.ogre_resources_filename.get());
 			
 			scene_manager = root->createSceneManager ( Ogre::ST_GENERIC );
-			render_window = root->initialise ( true, desc.render_window_name );
+			root->initialise ( false, desc.render_window_descriptor.window_name );
+
+			Ogre::NameValuePairList params;
+			
+			if(desc.render_window_descriptor.type != OgreRenderWindowDescriptor::WindowType::OWN)
+			{
+				Ogre::String string_handle;
+
+				Core::MessageSender<Graphics::GetWindowHandleMessage> sender(
+					Core::MessageSystemParticipantId("OgreRenderSubsystem", Core::MessageSystemParticipantId::AutoRegistrationPolicy::AUTO_REGISTER),
+																	engine_context);
+				
+				Graphics::GetWindowHandleMessage msg;
+				msg.requested_window_name = desc.render_window_descriptor.window_name;
+				msg.result_callback = [&](const NativeWindowHandleType& handle)
+				{
+					string_handle = Ogre::StringConverter::toString(handle);
+				};
+				
+				sender.sendMessage(msg);
+
+				switch(desc.render_window_descriptor.type)
+				{
+					case OgreRenderWindowDescriptor::WindowType::EXTERNAL:
+					{
+						params["externalWindowHandle"] = string_handle;
+						break;
+					}
+					case OgreRenderWindowDescriptor::WindowType::PARENT:
+					{
+						params["parentWindowHandle"] = string_handle;
+						break;
+					}
+				}
+			}
+			
+			render_windows.emplace( desc.render_window_descriptor.window_name, root->createRenderWindow(desc.render_window_descriptor.window_title, desc.render_window_descriptor.width, desc.render_window_descriptor.height, desc.render_window_descriptor.fullscreen, &params) );
+			render_windows[desc.render_window_descriptor.window_name]->setVisible(true);
 		}
 
 		void ThreadIndependentOgreRenderSystemBase::shutdownOgre()
@@ -106,5 +149,22 @@ namespace UnknownEngine
 			
 		}
 		
+		void ThreadIndependentOgreRenderSystemBase::onWindowResized ( const WindowResizedMessage& msg )
+		{
+			Ogre::RenderWindow *window = getRenderWindow(msg.window_name);
+			if(window != nullptr)
+			{
+				window->resize(msg.width, msg.height);
+			}
+		}
+		
+		Ogre::RenderWindow* ThreadIndependentOgreRenderSystemBase::getRenderWindow ( const std::string& name )
+		{
+			auto iter = render_windows.find(name);
+			if(iter == render_windows.end() ) return nullptr;
+			else return iter->second;
+		}
+
+	
 	} // namespace Graphics
 } // namespace UnknownEngine

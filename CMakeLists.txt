@@ -51,7 +51,7 @@ OgreRenderSystem
 AssimpMeshDataLoader
 
 UserInput
-SDLUserInputPlugin
+SDLWindowManagerPlugin
 )
 
 set(

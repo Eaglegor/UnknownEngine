@@ -3,6 +3,7 @@
 #include <string>
 #include <boost/optional.hpp>
 #include <ExportedMessages/LogMessage.h>
+#include <Descriptors/OgreRenderWindowDescriptor.h>
 
 namespace UnknownEngine
 {
@@ -10,10 +11,11 @@ namespace UnknownEngine
 	{
 		struct OgreRenderSubsystemDescriptor
 		{
+			
 			std::string ogre_plugins_filename;
 			std::string ogre_config_filename;
 			std::string ogre_log_filename;
-			std::string render_window_name;
+
 			boost::optional<std::string> ogre_resources_filename;
 			
 			Core::LogMessage::Severity log_level;
@@ -22,8 +24,9 @@ namespace UnknownEngine
 
 			bool show_config_dialog;
 
+			OgreRenderWindowDescriptor render_window_descriptor;
+			
 			OgreRenderSubsystemDescriptor() :
-				render_window_name ( "Untitled window" ),
 				ogre_config_filename ( "ogre.cfg" ),
 				ogre_log_filename ( "Ogre.log" ),
 				ogre_plugins_filename ( "plugins.cfg" ),
