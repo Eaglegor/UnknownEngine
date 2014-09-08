@@ -7,8 +7,7 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 		TBBBaseOgreComponent::TBBBaseOgreComponent ( const std::string& name, UnknownEngine::Graphics::OgreRenderSubsystem* render_subsystem, UnknownEngine::Core::EngineContext* engine_context ) :
-			ThreadIndependentOgreComponentBase ( name, render_subsystem, engine_context ),
-			is_shutdown(false)
+			ThreadIndependentOgreComponentBase ( name, render_subsystem, engine_context )
 		{
 			render_subsystem->addSynchronizeCallback ( this->getName(), [this]()
 				{
@@ -46,7 +45,6 @@ namespace UnknownEngine
 				render_subsystem->addShutdownCallback ( [this]()
 				{
 					this->internalShutdown ( );
-					is_shutdown = true;
 				} );
 			}
 			else
@@ -55,10 +53,5 @@ namespace UnknownEngine
 			}
 		}
 		
-		bool TBBBaseOgreComponent::isShutdown()
-		{
-			return is_shutdown;
-		}
-
 	}
 }

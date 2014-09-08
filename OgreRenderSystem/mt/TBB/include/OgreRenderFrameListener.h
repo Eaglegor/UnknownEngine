@@ -6,6 +6,8 @@
 #include <tbb/concurrent_unordered_map.h>
 
 #include <iostream>
+#include <mutex>
+#include <condition_variable>
 
 //#define AVERAGE_FPS_FRAMES_COUNT 10000
 
@@ -15,7 +17,6 @@
 
 typedef tbb::concurrent_unordered_map< std::string, std::function<void() > > ConcurrentMap;
 typedef tbb::concurrent_queue< std::function<void() > > ConcurrentQueue;
-typedef tbb::concurrent_queue< std::function<bool() > > RemoveConcurrentQueue;
 
 namespace UnknownEngine
 {
@@ -68,29 +69,25 @@ namespace UnknownEngine
 					++synchronize_iterator;
 				}
 
-				while ( shutdown_callbacks.try_pop(callback) )
 				{
-					callback();
-				}
+					std::unique_lock<std::mutex> guard(atomized_shutdown_and_remove_mutex);
+					while ( shutdown_callbacks.try_pop(callback) )
+					{
+						callback();
+					}
 
-				std::function<bool()> remove_callback;
-				while ( remove_callbacks.try_pop(remove_callback) )
-				{
-					bool result = remove_callback();
-					if(result == false) unsuccessful_remove_callbacks.push_back(remove_callback);
+					while ( remove_callbacks.try_pop(callback) )
+					{
+						callback();
+					}
 				}
-				for(std::function<bool()> &unsuccessful_callback: unsuccessful_remove_callbacks)				
-				{
-					remove_callbacks.push(unsuccessful_callback);
-				}
-				unsuccessful_remove_callbacks.clear();
 				
 				return !stopped;
 			}
 
 			void setFinished()
 			{
-				boost::unique_lock<boost::mutex> lock(loading_finished_mutex);
+				std::unique_lock<std::mutex> lock(loading_finished_mutex);
 				finished = true;
 				wait_for_finish_var.notify_all();
 			}
@@ -102,7 +99,7 @@ namespace UnknownEngine
 
 			void waitUntilFinished()
 			{
-				boost::unique_lock<boost::mutex> lock(loading_finished_mutex);
+				std::unique_lock<std::mutex> lock(loading_finished_mutex);
 				while(!finished)
 				{
 					wait_for_finish_var.wait(lock);
@@ -126,21 +123,23 @@ namespace UnknownEngine
 
 			void addShutdownCallback ( const std::function<void() > &callback )
 			{
+				std::unique_lock<std::mutex> guard(atomized_shutdown_and_remove_mutex);
 				shutdown_callbacks.push(callback);
 			}
 
-			void addRemoveCallback ( const std::function<bool() > &callback )
+			void addRemoveCallback ( const std::function<void() > &callback )
 			{
+				std::unique_lock<std::mutex> guard(atomized_shutdown_and_remove_mutex);
 				remove_callbacks.push(callback);
 			}
 
 		private:
-			std::vector<std::function<bool()> > unsuccessful_remove_callbacks;
 			
 			volatile bool stopped;
 			volatile bool finished;
-			boost::condition_variable wait_for_finish_var;
-			boost::mutex loading_finished_mutex;
+			std::condition_variable wait_for_finish_var;
+			std::mutex loading_finished_mutex;
+			std::mutex atomized_shutdown_and_remove_mutex;
 
 			/// Callbacks for components initialization which can be only done when rendering is inactive
 			ConcurrentQueue init_callbacks;
@@ -152,7 +151,7 @@ namespace UnknownEngine
 			ConcurrentQueue shutdown_callbacks;
 
 			/// Callbacks for components removal
-			RemoveConcurrentQueue remove_callbacks;
+			ConcurrentQueue remove_callbacks;
 			
 #ifdef AVERAGE_FPS_FRAMES_COUNT
 			size_t counter;

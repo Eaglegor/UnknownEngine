@@ -111,7 +111,7 @@ namespace UnknownEngine
 			if(frame_listener) frame_listener->addShutdownCallback ( callback );
 		}
 		
-		void TBBOgreRenderSubsystem::addRemoveCallback ( const std::function< bool() >& callback )
+		void TBBOgreRenderSubsystem::addRemoveCallback ( const std::function< void() >& callback )
 		{
 			if(frame_listener) frame_listener->addRemoveCallback ( callback );
 		}

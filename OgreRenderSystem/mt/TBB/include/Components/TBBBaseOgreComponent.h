@@ -23,11 +23,6 @@ namespace UnknownEngine
 				virtual void init ( const Core::Entity* parent_entity ) override;
 
 				virtual void shutdown ( ) override;
-
-				bool isShutdown();
-				
-			private:
-				volatile bool is_shutdown;
 		};
 
 	}
