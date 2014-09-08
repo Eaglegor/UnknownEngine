@@ -49,7 +49,7 @@ namespace UnknownEngine
 				
 				void addShutdownCallback ( const std::function<void() > &callback );
 				
-				void addRemoveCallback ( const std::function<void() > &callback );
+				void addRemoveCallback ( const std::function< void() >& callback );
 
 				UNKNOWNENGINE_INLINE
 				bool hasSeparateRenderThreadEnabled()

@@ -1,6 +1,8 @@
 #pragma once
 
-#include <boost/lockfree/queue.hpp>
+#include <queue>
+#include <mutex>
+#include <Spinlock.h>
 #include <MessageBuffers/MessageBuffer.h>
 
 namespace UnknownEngine
@@ -16,21 +18,24 @@ namespace UnknownEngine
 			
 			virtual void flush()
 			{
-				MessageClass message;
-				while(messages_queue.pop(message))
+				std::unique_lock<Spinlock> guard( queue_spinlock );
+				while(!message_queue.empty())
 				{
-					this->process_message_callback(message);
+					this->process_message_callback(message_queue.front());
+					message_queue.pop();
 				}
 			}
 			
 		protected:
 			virtual void pushConcreteMessage(const MessageClass& message)
 			{
-				messages_queue.push(message);
+				std::unique_lock<Spinlock> guard( queue_spinlock );
+				message_queue.push(message);
 			}
 			
 		private:
-			boost::lockfree::queue<MessageClass> messages_queue;
+			std::queue<MessageClass> message_queue;
+			Spinlock queue_spinlock;
 			
 		};
 	}

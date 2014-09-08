@@ -23,7 +23,6 @@ namespace UnknownEngine
 				virtual void init ( const Core::Entity* parent_entity ) override;
 
 				virtual void shutdown ( ) override;
-
 		};
 
 	}

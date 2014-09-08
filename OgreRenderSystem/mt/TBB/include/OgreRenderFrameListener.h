@@ -6,6 +6,8 @@
 #include <tbb/concurrent_unordered_map.h>
 
 #include <iostream>
+#include <mutex>
+#include <condition_variable>
 
 //#define AVERAGE_FPS_FRAMES_COUNT 10000
 
@@ -67,14 +69,17 @@ namespace UnknownEngine
 					++synchronize_iterator;
 				}
 
-				while ( shutdown_callbacks.try_pop(callback) )
 				{
-					callback();
-				}
+					std::unique_lock<std::mutex> guard(atomized_shutdown_and_remove_mutex);
+					while ( shutdown_callbacks.try_pop(callback) )
+					{
+						callback();
+					}
 
-				while ( remove_callbacks.try_pop(callback) )
-				{
-					callback();
+					while ( remove_callbacks.try_pop(callback) )
+					{
+						callback();
+					}
 				}
 				
 				return !stopped;
@@ -82,7 +87,7 @@ namespace UnknownEngine
 
 			void setFinished()
 			{
-				boost::unique_lock<boost::mutex> lock(loading_finished_mutex);
+				std::unique_lock<std::mutex> lock(loading_finished_mutex);
 				finished = true;
 				wait_for_finish_var.notify_all();
 			}
@@ -94,7 +99,7 @@ namespace UnknownEngine
 
 			void waitUntilFinished()
 			{
-				boost::unique_lock<boost::mutex> lock(loading_finished_mutex);
+				std::unique_lock<std::mutex> lock(loading_finished_mutex);
 				while(!finished)
 				{
 					wait_for_finish_var.wait(lock);
@@ -118,19 +123,23 @@ namespace UnknownEngine
 
 			void addShutdownCallback ( const std::function<void() > &callback )
 			{
+				std::unique_lock<std::mutex> guard(atomized_shutdown_and_remove_mutex);
 				shutdown_callbacks.push(callback);
 			}
 
 			void addRemoveCallback ( const std::function<void() > &callback )
 			{
+				std::unique_lock<std::mutex> guard(atomized_shutdown_and_remove_mutex);
 				remove_callbacks.push(callback);
 			}
 
 		private:
+			
 			volatile bool stopped;
 			volatile bool finished;
-			boost::condition_variable wait_for_finish_var;
-			boost::mutex loading_finished_mutex;
+			std::condition_variable wait_for_finish_var;
+			std::mutex loading_finished_mutex;
+			std::mutex atomized_shutdown_and_remove_mutex;
 
 			/// Callbacks for components initialization which can be only done when rendering is inactive
 			ConcurrentQueue init_callbacks;
