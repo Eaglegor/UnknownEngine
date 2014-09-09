@@ -3,10 +3,13 @@
 #include <LogHelper.h>
 #include <DataProvider/DataProviderDesc.h>
 #include <Parsers/AssimpMeshDataProviderDescParser.h>
+#include <DataProviders/AssimpMeshDataProviderDescriptorGetter.h>
 
 namespace UnknownEngine {
 	namespace Loader
 	{
+		
+		static AssimpMeshDataProviderDescriptorGetter descriptor_getter;
 		
 		AssimpMeshDataProvidersFactory::AssimpMeshDataProvidersFactory ( UnknownEngine::Core::LogHelper* log_helper, UnknownEngine::Core::EngineContext* engine_context ):
 		log_helper(log_helper),
@@ -24,16 +27,7 @@ namespace UnknownEngine {
 
 			LOG_INFO(log_helper, "Creating Assimp mesh data provider");
 		
-			if(!desc.descriptor.isEmpty())
-			{
-				LOG_INFO(log_helper, "Predefined descriptor found");
-				result = new AssimpMeshDataProvider(desc.name, desc.descriptor.get<AssimpMeshDataProvider::Descriptor>(), engine_context);
-			}
-			else
-			{
-				LOG_WARNING(log_helper, "Predefined descriptor not found. String parser will be used instead");
-				result = new AssimpMeshDataProvider(desc.name, AssimpMeshDataProviderDescParser::parse(desc.creation_options), engine_context);
-			}
+			result = new AssimpMeshDataProvider(desc.name, desc.descriptor.apply_visitor(descriptor_getter), engine_context);
 
 			LOG_INFO(log_helper, "Data provider created");
 			

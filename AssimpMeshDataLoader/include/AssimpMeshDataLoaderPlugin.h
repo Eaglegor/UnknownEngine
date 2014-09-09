@@ -40,8 +40,8 @@ namespace UnknownEngine
 			private:
 				Core::SubsystemDesc desc;
 				Core::EngineContext* engine_context;
-				Core::LogHelper* log_helper;
-				AssimpMeshDataProvidersFactory* data_provider_factory;
+				std::unique_ptr<Core::LogHelper> log_helper;
+				std::unique_ptr<AssimpMeshDataProvidersFactory> data_provider_factory;
 		};
 
 	} /* namespace Graphics */

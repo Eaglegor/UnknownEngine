@@ -48,15 +48,15 @@ namespace UnknownEngine
 				Core::SubsystemDesc desc;
 				Core::EngineContext *engine_context;
 
-				OgreRenderSubsystem* render_system;
+				std::unique_ptr<OgreRenderSubsystem> render_system;
 				
-				OgreRenderableComponentsFactory* renderable_components_factory;
-				OgreCameraComponentsFactory* camera_components_factory;
-				OgreLightComponentsFactory* light_components_factory;
+				std::unique_ptr<OgreRenderableComponentsFactory> renderable_components_factory;
+				std::unique_ptr<OgreCameraComponentsFactory> camera_components_factory;
+				std::unique_ptr<OgreLightComponentsFactory> light_components_factory;
 				
-				OgreMeshPtrDataProvidersFactory* mesh_ptr_data_providers_factory;
+				std::unique_ptr<OgreMeshPtrDataProvidersFactory> mesh_ptr_data_providers_factory;
 
-				Core::LogHelper *log_helper;
+				std::unique_ptr<Core::LogHelper> log_helper;
 
 		};
 

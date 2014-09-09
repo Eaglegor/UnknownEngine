@@ -142,7 +142,7 @@ namespace UnknownEngine
 				}
 				else if ( iter.first == Tags::OPTIONS_SECTION )
 				{
-					component_desc.creation_options = OptionsParser::parseOptions ( iter.second, scene_loader->getConstantsHolder(), &data_providers );
+					component_desc.descriptor = OptionsParser::parseOptions ( iter.second, scene_loader->getConstantsHolder(), &data_providers );
 				}
 				else if ( iter.first == Tags::CONSTANT )
 				{
@@ -171,7 +171,7 @@ namespace UnknownEngine
 				}
 				else if (iter.first == Tags::OPTIONS_SECTION)
 				{
-					desc.creation_options = OptionsParser::parseOptions( iter.second, scene_loader->getConstantsHolder(), &data_providers );
+					desc.descriptor = OptionsParser::parseOptions( iter.second, scene_loader->getConstantsHolder(), &data_providers );
 				}
 			}
 

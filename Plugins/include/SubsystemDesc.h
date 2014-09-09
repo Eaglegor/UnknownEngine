@@ -3,6 +3,7 @@
 #include <vector>
 #include <MessageSystem/MessageListenerDesc.h>
 #include <DescriptorContainer.h>
+#include <boost/variant.hpp>
 
 namespace UnknownEngine
 {
@@ -16,8 +17,7 @@ namespace UnknownEngine
 			std::string name; ///< **Unique** name of subsystem
 			std::string module_name; ///< Shared library filename
 			ReceivedMessageDescriptorsList received_messages; ///< List of message subscriptions
-			Properties creation_options; ///< String representation of creation options
-			DescriptorContainer prepared_descriptor; ///< Optional prepared descriptor. Check if this is not empty to avoid parsing.
+			boost::variant<DescriptorContainer, Properties> descriptor;
 		};
 
 	}

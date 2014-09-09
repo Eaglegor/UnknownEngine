@@ -5,9 +5,12 @@
 #include <DataProviders/OgreMeshPtrFromMeshDataProvider.h>
 #include <Parsers/Descriptors/OgreMeshPtrFromMeshDataProviderDescriptorParser.h>
 #include <DataProvider/DataProviderDesc.h>
+#include <Factories/OgreGetDescriptorVisitor.h>
 
 namespace UnknownEngine {
 	namespace Graphics {
+		
+		static OgreGetDescriptorVisitor<OgreMeshPtrFromMeshDataProviderDescriptor, OgreMeshPtrFromMeshDataProviderDescriptorParser> descriptor_getter;
 		
 		OgreMeshPtrDataProvidersFactory::OgreMeshPtrDataProvidersFactory( UnknownEngine::Core::LogHelper* log_helper, UnknownEngine::Core::EngineContext* engine_context, UnknownEngine::Graphics::OgreRenderSubsystem* render_subsystem )
 		:log_helper(log_helper),
@@ -30,14 +33,7 @@ namespace UnknownEngine {
 
 		Loader::IDataProvider* OgreMeshPtrDataProvidersFactory::createOgreMeshPtrFromMeshDataProvider ( const Loader::DataProviderDesc& desc )
 		{
-			if(!desc.descriptor.isEmpty())
-			{
-				return new OgreMeshPtrFromMeshDataProvider(desc.name, desc.descriptor.get<OgreMeshPtrFromMeshDataProviderDescriptor>(), render_subsystem, engine_context);
-			}
-			else
-			{
-				return new OgreMeshPtrFromMeshDataProvider(desc.name, OgreMeshPtrFromMeshDataProviderDescriptorParser::parse(desc.creation_options), render_subsystem, engine_context);
-			}
+			return new OgreMeshPtrFromMeshDataProvider(desc.name, desc.descriptor.apply_visitor(descriptor_getter), render_subsystem, engine_context);
 		}
 		
 	}

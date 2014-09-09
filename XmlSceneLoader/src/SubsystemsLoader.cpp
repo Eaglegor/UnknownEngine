@@ -92,7 +92,7 @@ namespace UnknownEngine
 				}
 				else if ( iter.first == Tags::OPTIONS_SECTION )
 				{
-					desc.creation_options = OptionsParser::parseOptions ( iter.second, scene_loader->getConstantsHolder() );
+					desc.descriptor = OptionsParser::parseOptions ( iter.second, scene_loader->getConstantsHolder() );
 				}
 				else if ( iter.first == Tags::CONSTANT )
 				{

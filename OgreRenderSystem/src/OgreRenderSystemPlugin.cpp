@@ -16,6 +16,8 @@
 
 #include <ComponentsManager.h>
 
+#include <Factories/OgreGetDescriptorVisitor.h>
+
 #include <Factories/OgreRenderableComponentsFactory.h>
 #include <Factories/OgreCameraComponentsFactory.h>
 #include <Factories/OgreLightComponentsFactory.h>
@@ -53,12 +55,10 @@ namespace UnknownEngine
 			this->desc = desc;
 			this->engine_context = plugins_manager->getEngineContext();
 		  
+			OgreGetDescriptorVisitor<OgreRenderSubsystemDescriptor, OgreRenderSubsystemDescriptorParser> descriptor_getter;
+			OgreRenderSubsystemDescriptor render_system_desc = desc.descriptor.apply_visitor(descriptor_getter);
 
-			boost::optional<const std::string&> log_level = desc.creation_options.get_optional<std::string> ( "log_level" );
-			if ( log_level.is_initialized() )
-			{
-				log_helper = new Core::LogHelper ( getName(), Core::LogHelper::parseLogLevel ( log_level.get() ), engine_context );
-			}
+			log_helper.reset( new Core::LogHelper ( getName(), render_system_desc.log_level, engine_context ) );
 
 			LOG_INFO ( log_helper, "Logger started" );
 
@@ -72,44 +72,31 @@ namespace UnknownEngine
 
 			LOG_INFO ( log_helper, "Creating OGRE rendering subsystem" );
 
-			if ( !desc.prepared_descriptor.isEmpty() )
-			{
-				LOG_INFO ( log_helper, "Predefined descriptor found" );
-				LOG_INFO ( log_helper, "Creating subsystem object" );
-
-				render_system = new OgreRenderSubsystem ( desc.prepared_descriptor.get<OgreRenderSubsystemDescriptor>(), log_helper, engine_context );
-			}
-			else
-			{
-				LOG_WARNING ( log_helper, "Predefined descriptor not found - string parser will be used" );
-				LOG_INFO ( log_helper, "Creating subsystem object" );
-
-				render_system = new OgreRenderSubsystem ( OgreRenderSubsystemDescriptorParser::parse ( desc.creation_options ), log_helper, engine_context );
-			}
+			render_system.reset( new OgreRenderSubsystem( render_system_desc, log_helper.get(), engine_context ) );
 
 			LOG_INFO ( log_helper, "Creating factory for renderable components" );
-			renderable_components_factory = new OgreRenderableComponentsFactory ( render_system, engine_context, log_helper );
+			renderable_components_factory.reset( new OgreRenderableComponentsFactory ( render_system.get(), engine_context, log_helper.get() ) );
 
 			LOG_INFO ( log_helper, "Registering factory for renderable components" );
-			engine_context->getComponentsManager()->addComponentFactory ( renderable_components_factory );
+			engine_context->getComponentsManager()->addComponentFactory ( renderable_components_factory.get() );
 
 			LOG_INFO ( log_helper, "Creating factory for camera components" );
-			camera_components_factory = new OgreCameraComponentsFactory ( render_system, engine_context, log_helper );
+			camera_components_factory.reset( new OgreCameraComponentsFactory ( render_system.get(), engine_context, log_helper.get() ) );
 
 			LOG_INFO ( log_helper, "Registering factory for camera components" );
-			engine_context->getComponentsManager()->addComponentFactory ( camera_components_factory );
+			engine_context->getComponentsManager()->addComponentFactory ( camera_components_factory.get() );
 			
 			LOG_INFO ( log_helper, "Creating factory for light components" );
-			light_components_factory = new OgreLightComponentsFactory ( render_system, engine_context, log_helper );
+			light_components_factory.reset( new OgreLightComponentsFactory ( render_system.get(), engine_context, log_helper.get() ) );
 			
 			LOG_INFO ( log_helper, "Registering factory for light components" );
-			engine_context->getComponentsManager()->addComponentFactory ( light_components_factory );
+			engine_context->getComponentsManager()->addComponentFactory ( light_components_factory.get() );
 
 			LOG_INFO ( log_helper, "Creating factory for Ogre::MeshPtr data providers" );
-			mesh_ptr_data_providers_factory = new OgreMeshPtrDataProvidersFactory ( log_helper, engine_context, render_system );
+			mesh_ptr_data_providers_factory.reset( new OgreMeshPtrDataProvidersFactory ( log_helper.get(), engine_context, render_system.get() ) );
 			
 			LOG_INFO ( log_helper, "Registering factory for Ogre::MeshPtr data providers" );
-			engine_context->getResourceManager()->addDataProviderFactory ( mesh_ptr_data_providers_factory );
+			engine_context->getResourceManager()->addDataProviderFactory ( mesh_ptr_data_providers_factory.get() );
 			
 			return true;
 		}
@@ -143,36 +130,36 @@ namespace UnknownEngine
 			LOG_INFO ( log_helper, "Uninstalling subsystem OGRE render subsystem" );
 
 			LOG_INFO ( log_helper, "Unregistering Ogre::MeshPtr data providers factory" );
-			engine_context->getResourceManager()->removeDataProviderFactory ( mesh_ptr_data_providers_factory );
+			engine_context->getResourceManager()->removeDataProviderFactory ( mesh_ptr_data_providers_factory.get() );
 
 			LOG_INFO ( log_helper, "Destroying Ogre::MeshPtr data providers factory" );
-			delete mesh_ptr_data_providers_factory;
+			mesh_ptr_data_providers_factory.reset();
 			
 			LOG_INFO ( log_helper, "Unregistering camera components factory" );
-			engine_context->getComponentsManager()->removeComponentFactory ( camera_components_factory );
+			engine_context->getComponentsManager()->removeComponentFactory ( camera_components_factory.get() );
 
 			LOG_INFO ( log_helper, "Destroying camera components factory" );
-			delete camera_components_factory;
+			camera_components_factory.reset();
 
 			LOG_INFO ( log_helper, "Unregistering renderable components factory" );
-			engine_context->getComponentsManager()->removeComponentFactory ( renderable_components_factory );
+			engine_context->getComponentsManager()->removeComponentFactory ( renderable_components_factory.get() );
 
 			LOG_INFO ( log_helper, "Destroying renderable components factory" );
-			delete renderable_components_factory;
+			renderable_components_factory.reset();
 
 			LOG_INFO ( log_helper, "Unregistering light components factory" );
-			engine_context->getComponentsManager()->removeComponentFactory ( light_components_factory );
+			engine_context->getComponentsManager()->removeComponentFactory ( light_components_factory.get() );
 
 			LOG_INFO ( log_helper, "Destroying light components factory" );
-			delete light_components_factory;
+			light_components_factory.reset();
 			
 			LOG_INFO ( log_helper, "Destroying subsystem object" );
 
-			delete render_system;
+			render_system.reset();
 
 			LOG_INFO ( log_helper, "Subsystem uninstallation done" );
 
-			if ( log_helper ) delete log_helper;
+			log_helper.reset();
 
 			return true;
 		}

@@ -11,6 +11,7 @@
 #include <Properties/Properties.h>
 #include <AssimpMeshDataLoaderPlugin.h>
 #include <Factories/AssimpMeshDataProvidersFactory.h>
+#include <AssimpMeshDataLoaderDescriptorGetter.h>
 #include <EngineContext.h>
 #include <LogHelper.h>
 #include <ResourceManager.h>
@@ -33,11 +34,10 @@ namespace UnknownEngine
 		bool AssimpMeshDataLoaderPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) 
 		{
 		  
-			boost::optional<const std::string&> log_level_name = desc.creation_options.get_optional<std::string>("log_level");
-			if(log_level_name.is_initialized())
-			{
-				log_helper = new Core::LogHelper(getName(), Core::LogHelper::parseLogLevel(log_level_name.get()), plugins_manager->getEngineContext());
-			}
+			AssimpMeshDataLoaderDescriptorGetter descriptor_getter;
+			AssimpMeshDataLoaderDescriptor descriptor = desc.descriptor.apply_visitor(descriptor_getter);
+			
+			log_helper.reset( new Core::LogHelper(getName(), descriptor.log_level, plugins_manager->getEngineContext()) );
 		  
 			LOG_INFO(log_helper, "Logger initialized");
 			
@@ -55,10 +55,10 @@ namespace UnknownEngine
 			LOG_INFO(log_helper, "Initializing Assimp mesh data loader plugin")
 
 			LOG_INFO(log_helper, "Creating Assimp mesh data provider factory");
-			data_provider_factory = new AssimpMeshDataProvidersFactory(log_helper, engine_context);
+			data_provider_factory.reset( new AssimpMeshDataProvidersFactory(log_helper.get(), engine_context) );
 			
 			LOG_INFO(log_helper, "Registering mesh data provider factory");
-			engine_context->getResourceManager()->addDataProviderFactory(data_provider_factory);
+			engine_context->getResourceManager()->addDataProviderFactory(data_provider_factory.get());
 			
 			return true;
 		}
@@ -68,10 +68,10 @@ namespace UnknownEngine
 			LOG_INFO(log_helper, "Shutting down Assimp mesh data loader plugin");
 		  
 			LOG_INFO(log_helper, "Unregistering mesh data provider factory");
-			engine_context->getResourceManager()->removeDataProviderFactory(data_provider_factory);
+			engine_context->getResourceManager()->removeDataProviderFactory(data_provider_factory.get());
 			
 			LOG_INFO(log_helper, "Destroying Assimp mesh data provider factory");
-			if(data_provider_factory) delete data_provider_factory;
+			data_provider_factory.reset();
 			
 			return true;
 		}
@@ -80,7 +80,7 @@ namespace UnknownEngine
 		{
 			LOG_INFO(log_helper, "Uninstalling Assimp mesh data loader plugin");
 		  
-			if(log_helper) delete log_helper;
+			log_helper.reset();
 			return true;
 		}
 
