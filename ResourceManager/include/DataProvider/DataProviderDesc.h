@@ -5,6 +5,7 @@
 #include <Properties/Properties.h>
 #include <DescriptorContainer.h>
 #include <Properties/Properties_fwd.h>
+#include <boost/variant.hpp>
 
 namespace UnknownEngine
 {
@@ -15,8 +16,7 @@ namespace UnknownEngine
 		{
 			std::string name; ///< Data provider name
 			DataProviderType type; ///< Data provider type
-			Core::DescriptorContainer descriptor; ///< Descriptor of concrete data provider. Check if it's set to avoid parsing
-			Core::Properties creation_options; ///< String representation of options. Parse if descriptor isn't set
+			boost::variant<Core::DescriptorContainer, Core::Properties> descriptor;
 		};
 
 	}

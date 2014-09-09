@@ -15,10 +15,16 @@
 
 #include <Factories/DefaultComponentCreatorFunc.h>
 
+#include <Factories/OgreGetDescriptorVisitor.h>
+
 namespace UnknownEngine
 {
 	namespace Graphics
 	{
+		
+		static OgreGetDescriptorVisitor<OgrePointLightComponentDescriptor, OgrePointLightDescriptorParser> point_light_descriptor_getter;
+		static OgreGetDescriptorVisitor<OgreDirectionalLightComponentDescriptor, OgreDirectionalLightDescriptorParser> directional_light_descriptor_getter;
+		static OgreGetDescriptorVisitor<OgreSpotLightComponentDescriptor, OgreSpotLightDescriptorParser> spot_light_descriptor_getter;
 		
 		OgreLightComponentsFactory::OgreLightComponentsFactory ( OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context, Core::LogHelper* log_helper ) :
 		BaseOgreComponentFactory ( render_subsystem, engine_context, log_helper )
@@ -26,15 +32,15 @@ namespace UnknownEngine
 			CreatableObjectDesc creatable_component;
 			
 			creatable_component.type = OGRE_POINT_LIGHT_COMPONENT_TYPE;
-			creatable_component.creator = getDefaultCreator<OgrePointLightComponent, OgrePointLightComponentDescriptor, OgrePointLightDescriptorParser>(render_subsystem, engine_context);
+			creatable_component.creator = getDefaultCreator<OgrePointLightComponent>(point_light_descriptor_getter, render_subsystem, engine_context);
 			registerCreator(creatable_component);
 			
 			creatable_component.type = OGRE_DIRECTIONAL_LIGHT_COMPONENT_TYPE;
-			creatable_component.creator = getDefaultCreator<OgreDirectionalLightComponent, OgreDirectionalLightComponentDescriptor, OgreDirectionalLightDescriptorParser>(render_subsystem, engine_context);
+			creatable_component.creator = getDefaultCreator<OgreDirectionalLightComponent>(directional_light_descriptor_getter, render_subsystem, engine_context);
 			registerCreator(creatable_component);
 			
 			creatable_component.type = OGRE_SPOT_LIGHT_COMPONENT_TYPE;
-			creatable_component.creator = getDefaultCreator<OgreSpotLightComponent, OgreSpotLightComponentDescriptor, OgreSpotLightDescriptorParser>(render_subsystem, engine_context);
+			creatable_component.creator = getDefaultCreator<OgreSpotLightComponent>(spot_light_descriptor_getter, render_subsystem, engine_context);
 			registerCreator(creatable_component);
 		}
 
