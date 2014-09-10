@@ -10,7 +10,7 @@ namespace UnknownEngine
 		class BaseObjectFactory;
 		
 		class IComponent;
-		class ComponentDesc;
+		struct ComponentDesc;
 		
 		typedef BaseObjectFactory<IComponent, ComponentType, ComponentDesc> BaseComponentFactory;
 	}

@@ -10,7 +10,7 @@ namespace UnknownEngine
 		class AbstractObjectFactory;
 		
 		class IComponent;
-		class ComponentDesc;
+		struct ComponentDesc;
 		
 		/**
 		 * @brief Factory to create components

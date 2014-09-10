@@ -60,7 +60,7 @@ namespace UnknownEngine
 			return entity;
 		}
 
-		IComponent* ComponentsManager::createComponent ( const UnknownEngine::Core::ComponentDesc& desc, UnknownEngine::Core::Entity* parent_entity ) 
+		IComponent* ComponentsManager::createComponent ( const ComponentDesc& desc, Entity* parent_entity ) 
 		{
 			CORE_SUBSYSTEM_INFO ( "Creating component '" + desc.name + "' of type '" + desc.type + "' to be attached to the entity '" + parent_entity->getName() + "'" );
 			for ( auto & factory : component_factories )

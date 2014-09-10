@@ -10,12 +10,12 @@ namespace UnknownEngine
 		
 		SingleThreadedBaseOgreComponentFactory::~SingleThreadedBaseOgreComponentFactory() {}
 		
-		Core::Component* SingleThreadedBaseOgreComponentFactory::createObject ( const Core::ComponentDesc& desc )
+		Core::IComponent* SingleThreadedBaseOgreComponentFactory::createObject ( const Core::ComponentDesc& desc )
 		{
 			return Core::BaseComponentFactory::createObject ( desc );
 		}
 		
-		void SingleThreadedBaseOgreComponentFactory::destroyObject ( Core::Component* object )
+		void SingleThreadedBaseOgreComponentFactory::destroyObject ( Core::IComponent* object )
 		{
 			Core::BaseComponentFactory::destroyObject ( object );
 		}

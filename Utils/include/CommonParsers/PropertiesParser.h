@@ -194,7 +194,7 @@ namespace UnknownEngine
 				class OptionalNestedValue : public PropertiesValue
 				{
 					public:
-						OptionalNestedValue ( std::initializer_list < std::pair< std::string, PropertiesValueHolder > > nested ) :
+						OptionalNestedValue ( std::vector < std::pair< std::string, PropertiesValueHolder > > nested ) :
 							nested_definitions ( nested )
 						{
 						}
@@ -209,13 +209,13 @@ namespace UnknownEngine
 						}
 
 					private:
-						std::initializer_list < std::pair <std::string, PropertiesValueHolder> > nested_definitions;
+						std::vector < std::pair <std::string, PropertiesValueHolder> > nested_definitions;
 				};
 				
 				class RequiredNestedValue : public PropertiesValue
 				{
 					public:
-						RequiredNestedValue ( std::initializer_list < std::pair < std::string, PropertiesValueHolder > > nested ) :
+						RequiredNestedValue ( std::vector < std::pair < std::string, PropertiesValueHolder > > nested ) :
 							nested_definitions ( nested )
 						{
 						}
@@ -227,7 +227,7 @@ namespace UnknownEngine
 						}
 
 					private:
-						std::initializer_list < std::pair <std::string, PropertiesValueHolder > > nested_definitions;
+						std::vector < std::pair <std::string, PropertiesValueHolder > > nested_definitions;
 				};
 				
 				template<typename T, typename ParserType>
@@ -272,7 +272,7 @@ namespace UnknownEngine
 				};
 
 			public:
-				static void parse ( const Core::Properties& properties, std::initializer_list< std::pair< std::string, PropertiesValueHolder > > const &rules )
+				static void parse ( const Core::Properties& properties, std::vector< std::pair< std::string, PropertiesValueHolder > > const &rules )
 				{
 					for ( auto & rule : rules )
 					{

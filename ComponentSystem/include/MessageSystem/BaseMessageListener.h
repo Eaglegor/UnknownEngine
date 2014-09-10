@@ -55,7 +55,7 @@ namespace UnknownEngine
 				receive_policy(receive_policy)
 				{}
 				
-				ReceivedMessage(const &ReceivedMessage) = delete;
+				ReceivedMessage(const ReceivedMessage&);
 
 			};
 			
