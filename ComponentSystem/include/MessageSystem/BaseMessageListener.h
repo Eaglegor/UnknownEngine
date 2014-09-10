@@ -55,6 +55,8 @@ namespace UnknownEngine
 				receive_policy(receive_policy)
 				{}
 				
+				ReceivedMessage(const &ReceivedMessage) = delete;
+
 			};
 			
 			std::unordered_map<MessageType, ReceivedMessage > received_messages;
