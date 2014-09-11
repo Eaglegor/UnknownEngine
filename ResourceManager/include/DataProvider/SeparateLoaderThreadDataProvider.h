@@ -32,8 +32,6 @@ namespace UnknownEngine
 				/// Worker method starter
 				void separateLoaderThreadFunc();
 
-				std::unique_ptr<boost::thread> separate_loading_thread;
-
 		};
 
 	} // namespace Loader

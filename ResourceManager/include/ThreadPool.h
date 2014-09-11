@@ -3,30 +3,31 @@
 #include <functional>
 #include <queue>
 #include <vector>
-#inlcude <mutex>
+#include <mutex>
 #include <condition_variable>
 #include <thread>
+#include <Singleton.h>
 
 namespace UnknownEngine
 {
     namespace Core
     {
-        class ThreadPool
+        class ThreadPool : public Singleton<ThreadPool>
         {
         public:
-            ThreadPool(size_t workers_count, size_t worker_tasks_limit);
+            ThreadPool(size_t workers_count);
             virtual ~ThreadPool();
 
             typedef std::function<void()> Task;
 
-            void pushTask(Task &task);
+            bool pushTask(Task task);
 
         private:
 
             class Worker
             {
             public:
-                explicit Worker(size_t tasks_limit);
+                explicit Worker();
                 bool pushTask(Task &task);
                 void join();
 
@@ -35,13 +36,11 @@ namespace UnknownEngine
 
                 void threadFunction();
 
-                volatile bool is_available;
                 volatile bool is_shutdown;
                 LockPrimitive lock;
                 std::queue<Task> tasks;
                 std::condition_variable wait_for_tasks_cv;
                 std::condition_variable wait_for_availability_cv;
-                size_t tasks_count_limit;
                 std::thread worker_thread;
             };
 
@@ -50,6 +49,7 @@ namespace UnknownEngine
             typedef std::mutex LockPrimitive;
 
             LockPrimitive lock;
+			volatile bool is_shutdown;
             size_t current_worker_id;
             std::vector<Worker> workers;
         };

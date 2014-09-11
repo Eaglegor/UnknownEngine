@@ -55,7 +55,8 @@ namespace UnknownEngine
 				receive_policy(receive_policy)
 				{}
 				
-				ReceivedMessage(const ReceivedMessage&);
+				ReceivedMessage(const ReceivedMessage &msg):
+				receive_policy(msg.receive_policy){};
 
 			};
 			

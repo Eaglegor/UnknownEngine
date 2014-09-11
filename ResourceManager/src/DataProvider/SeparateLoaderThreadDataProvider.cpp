@@ -1,13 +1,13 @@
 #include <stdafx.h>
 
 #include <DataProvider/SeparateLoaderThreadDataProvider.h>
+#include <ThreadPool.h>
 
 namespace UnknownEngine {
 	namespace Loader {
 
 		SeparateLoaderThreadDataProvider::SeparateLoaderThreadDataProvider(const std::string &name) :
-			ReferencesCountingDataProvider(name),
-			separate_loading_thread(nullptr)
+			ReferencesCountingDataProvider(name)
 		{
 		}
 
@@ -19,7 +19,7 @@ namespace UnknownEngine {
 		{
 			if(isLoadStarted()) return;
 			onLoadStarted();
-			separate_loading_thread = std::move(std::unique_ptr<boost::thread>(new boost::thread(boost::bind(&SeparateLoaderThreadDataProvider::separateLoaderThreadFunc, this))));
+			Core::ThreadPool::getSingleton()->pushTask( std::bind(&SeparateLoaderThreadDataProvider::separateLoaderThreadFunc, this) );
 		}
 
 		void SeparateLoaderThreadDataProvider::separateLoaderThreadFunc()

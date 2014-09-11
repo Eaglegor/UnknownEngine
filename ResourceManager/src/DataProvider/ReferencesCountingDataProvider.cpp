@@ -47,7 +47,7 @@ namespace UnknownEngine
 
 		void ReferencesCountingDataProvider::waitUntilLoadFinished()
 		{
-			boost::unique_lock<boost::mutex> lock ( loading_finished_mutex );
+			std::unique_lock<std::mutex> lock ( loading_finished_mutex );
 			while ( !load_finished )
 			{
 				wait_for_finish_var.wait ( lock );
@@ -56,7 +56,7 @@ namespace UnknownEngine
 
 		void ReferencesCountingDataProvider::onLoadFinished()
 		{
-			boost::lock_guard<boost::mutex> guard ( loading_finished_mutex );
+			std::lock_guard<std::mutex> guard ( loading_finished_mutex );
 			load_finished = true;
 
 			wait_for_finish_var.notify_all();
@@ -64,19 +64,19 @@ namespace UnknownEngine
 
 		void ReferencesCountingDataProvider::onLoadStarted()
 		{
-			boost::lock_guard<boost::mutex> guard(loading_started_mutex);
+			std::lock_guard<std::mutex> guard(loading_started_mutex);
 			load_started = true;
 		}
 
 		bool ReferencesCountingDataProvider::isLoadFinished()
 		{
-			boost::lock_guard<boost::mutex> guard ( loading_finished_mutex );
+			std::lock_guard<std::mutex> guard ( loading_finished_mutex );
 			return load_finished;
 		}
 
 		bool ReferencesCountingDataProvider::isLoadStarted()
 		{
-			boost::lock_guard<boost::mutex> guard(loading_started_mutex);
+			std::lock_guard<std::mutex> guard(loading_started_mutex);
 			return load_started;
 		}
 

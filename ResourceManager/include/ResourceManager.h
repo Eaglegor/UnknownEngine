@@ -21,6 +21,8 @@ namespace UnknownEngine {
 
 	namespace Core {
 
+		class ThreadPool;
+		
 		/**
 		 * @brief Resource manager class
 		 *
@@ -43,7 +45,7 @@ namespace UnknownEngine {
 				RESOURCEMANAGER_EXPORT
 				ResourceManager();
 
-				virtual ~ResourceManager(){}
+				virtual ~ResourceManager();
 
 				/**
 				 * @brief Registers new data provider factory
@@ -87,6 +89,8 @@ namespace UnknownEngine {
 				
 				std::vector<Loader::IDataProvider*> data_providers;
 
+				ThreadPool* thread_pool;
+				
 				/// Internal dictionary implementation
 				Utils::Dictionary<NumericIdentifierType, std::string> internal_dictionary;
 		};

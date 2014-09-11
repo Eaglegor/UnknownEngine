@@ -1,98 +1,96 @@
 #include <ThreadPool.h>
-#include <system_error>
+
+#include <iostream>
 
 namespace UnknownEngine
 {
-    namespace Core
-    {
+	namespace Core
+	{
 
-        ThreadPool::Worker::Worker(size_t tasks_limit):
-        is_shutdown(false),
-        is_available(true),
-        tasks_count_limit(tasks_limit),
-        worker_thread(&ThreadPool::Worker::threadFunction, this)
-        {
-        }
+		template<>
+		ThreadPool* Singleton<ThreadPool>::instance = nullptr;
 
-        void ThreadPool::Worker::threadFunction()
-        {
-            std::unique_lock <LockPrimitive> guard(this->lock);
+		ThreadPool::ThreadPool ( size_t workers_count ) :
+			workers ( workers_count ),
+			current_worker_id ( 0 ),
+			is_shutdown ( false )
+		{}
 
-            while(!is_shutdown || !tasks.empty())
-            {
-                while (tasks.empty())
-                {
-                    wait_for_tasks_cv.wait(this->lock);
-                }
+		ThreadPool::~ThreadPool()
+		{
+			{
+				std::lock_guard<LockPrimitive> guard ( lock );
+				is_shutdown = true;
+			}
+			for ( Worker & worker : workers )
+			{
+				worker.join();
+			}
+		}
 
-                Task task = tasks.front();
-                tasks.pop();
+		bool ThreadPool::pushTask ( UnknownEngine::Core::ThreadPool::Task task )
+		{
+			std::lock_guard<LockPrimitive> guard ( lock );
+			if ( is_shutdown ) return false;
+			Worker &worker = findWorker();
+			worker.pushTask ( task );
+		}
 
-                if(tasks.size() == tasks_count_limit - 1 )
-                {
-                    is_available = true;
-                    wait_for_availability_cv.notifyAll();
-                }
-                guard.unlock();
+		ThreadPool::Worker &ThreadPool::findWorker()
+		{
+			Worker& worker = workers[current_worker_id];
+			current_worker_id = ( current_worker_id + 1 ) % workers.size();
+			return worker;
+		}
 
-                task();
 
-                guard.lock();
-            }
-        }
+		ThreadPool::Worker::Worker() :
+			is_shutdown ( false ),
+			worker_thread ( &ThreadPool::Worker::threadFunction, this )
+		{
+		}
 
-        bool ThreadPool::pushTask(Task &task)
-        {
-            std::unique_lock<LockPrimitive> guard(lock);
-            if(is_shutdown) return false;
-            Worker &worker = findWorker();
-            worker->pushTask(task);
-        }
+		void ThreadPool::Worker::threadFunction()
+		{
+			std::unique_lock <LockPrimitive> guard ( lock );
 
-        void ThreadPool::Worker::pushTask(ThreadPool::Task &task) {
-            std::unique_lock<LockPrimitive> guard(lock);
-            while(!is_available)
-            {
-                wait_for_availability_cv.wait(lock);
-            }
-            tasks.push(task);
-            if(tasks_count == tasks_limit)
-            {
-                is_available = false;
-            }
-            wait_for_tasks_cv.notifyAll();
-        }
+			while ( !is_shutdown || !tasks.empty() )
+			{
+				if ( !tasks.empty() )
+				{
+					Task task = tasks.front();
+					tasks.pop();
 
-        void ThreadPool::Worker::join()
-        {
-            {
-                std::unique_lock<LockPrimitive> guard(lock);
-                is_shutdown = true;
-            }
-            worker_thread.join();
-        }
+					guard.unlock();
 
-        ThreadPool::Worker &ThreadPool::findWorker() {
-            current_worker_id = current_worker_id + 1 % workers.size();
-            return workers[current_worker_id];
-        }
+					task();
 
-        bool ThreadPool::Worker::isIdle() {
-            std::unique_lock<LockPrimitive> guard(lock);
-            return tasks.empty();
-        }
+					guard.lock();
+				}
+				else
+				{
+					wait_for_tasks_cv.wait ( guard );
+				}
+			}
+		}
 
-        ThreadPool::ThreadPool(size_t workers_count, size_t worker_tasks_limit):
-        workers(workers_count, Worker(worker_tasks_limit))
-        {}
+		bool ThreadPool::Worker::pushTask ( ThreadPool::Task &task )
+		{
+			std::lock_guard<LockPrimitive> guard ( lock );
+			if ( is_shutdown ) return false;
+			tasks.push ( task );
+			wait_for_tasks_cv.notify_all();
+		}
 
-        virtual ThreadPool::~ThreadPool()
-        {
-            for(Worker& worker: workers)
-            {
-                worker.join();
-            }
-        }
+		void ThreadPool::Worker::join()
+		{
+			{
+				std::lock_guard<LockPrimitive> guard ( lock );
+				is_shutdown = true;
+				wait_for_tasks_cv.notify_all();
+			}
+			worker_thread.join();
+		}
 
-    }
+	}
 }

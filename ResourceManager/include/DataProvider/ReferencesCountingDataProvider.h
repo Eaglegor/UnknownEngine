@@ -2,7 +2,9 @@
 
 #include <ResourceManager_export.h>
 #include <atomic>
-#include <boost/thread.hpp>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
 #include <DataProvider/IDataProvider.h>
 #include <ResourceContainer.h>
 
@@ -63,9 +65,9 @@ namespace UnknownEngine
 				volatile bool load_finished;
 				volatile bool load_started;
 				
-				boost::mutex loading_started_mutex;
-				boost::mutex loading_finished_mutex;
-				boost::condition_variable wait_for_finish_var;
+				std::mutex loading_started_mutex;
+				std::mutex loading_finished_mutex;
+				std::condition_variable wait_for_finish_var;
 				
 				volatile std::atomic<size_t> references_counter; ///< References counter
 

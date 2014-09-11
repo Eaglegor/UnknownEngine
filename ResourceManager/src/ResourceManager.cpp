@@ -4,6 +4,7 @@
 #include <DataProvider/IDataProviderFactory.h>
 #include <DataProvider/DataProviderDesc.h>
 #include <DataProvider/IDataProvider.h>
+#include <ThreadPool.h>
 
 #define ENABLE_CORE_SUBSYSTEM_INFO_LOG
 #include <CoreLogging.h>
@@ -15,10 +16,16 @@ namespace UnknownEngine {
 		ResourceManager* Singleton<ResourceManager>::instance = nullptr;
 
 		ResourceManager::ResourceManager() :
-			internal_dictionary("ResourceManager.Dictionary", NUMERIC_IDENTIFIER_INITIAL_VALUE, INVALID_NUMERIC_IDENTIFIER)
+			internal_dictionary("ResourceManager.Dictionary", NUMERIC_IDENTIFIER_INITIAL_VALUE, INVALID_NUMERIC_IDENTIFIER),
+			thread_pool(new ThreadPool(2))
 		{
 		}
 
+		ResourceManager::~ResourceManager()
+		{
+			delete thread_pool;
+		}
+		
 		void ResourceManager::addDataProviderFactory(Loader::IDataProviderFactory * factory)
 		{
 			if(factory->getInternalId() != Core::INVALID_NUMERIC_IDENTIFIER) return;
