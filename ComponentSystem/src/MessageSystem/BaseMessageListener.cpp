@@ -4,6 +4,7 @@
 #include <MessageSystem/MessageDispatcher.h>
 #include <EngineContext.h>
 #include <LogHelper.h>
+#include <mutex>
 
 namespace UnknownEngine
 {

@@ -1,6 +1,10 @@
 #include <SingleThreadedOgreRenderSubsystem.h>
 #include <LogHelper.h>
 #include <Listeners/OgreUpdateFrameListener.h>
+#include <MessageSystem/BaseMessageListener.h>
+#include <ExportedMessages/RenderSystem/WindowResizedMessage.h>
+#include <Listeners/BaseMessageListenerBufferRegistrator.h>
+#include <MessageBuffers/InstantForwardMessageBuffer.h>
 
 namespace UnknownEngine
 {

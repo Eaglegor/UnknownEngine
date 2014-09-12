@@ -11,6 +11,7 @@
 #include <MessageBuffers/MessageBuffer.h>
 #include <Exception.h>
 #include <LogHelper.h>
+#include <ComponentSystem_export.h>
 
 namespace UnknownEngine
 {
@@ -29,19 +30,31 @@ namespace UnknownEngine
 		public:
 			UNKNOWNENGINE_SIMPLE_EXCEPTION(NoMessageProcessorFoundException);
 			
+			COMPONENTSYSTEM_EXPORT
 			BaseMessageListener ( const std::string& object_name, EngineContext* engine_context );
 			
+			COMPONENTSYSTEM_EXPORT
 			void registerSupportedMessageType( const std::string& message_type_name, IMessageReceivePolicy* receive_policy);
+
+			COMPONENTSYSTEM_EXPORT
 			void registerSupportedMessageType( const MessageType& message_type_id, IMessageReceivePolicy* receive_policy);
 			
+			COMPONENTSYSTEM_EXPORT
 			bool registerMessageBuffer( const MessageType& message_type, std::unique_ptr<Utils::IMessageBuffer> buffer);
 
+			COMPONENTSYSTEM_EXPORT
 			MessagingPoliciesManager& getMessagingPoliciesManager();
 			
+			COMPONENTSYSTEM_EXPORT
 			virtual void processMessage ( const PackedMessage& msg );
+
+			COMPONENTSYSTEM_EXPORT
 			virtual void flushAllMessageBuffers();
 
+			COMPONENTSYSTEM_EXPORT
 			void registerAtDispatcher();
+
+			COMPONENTSYSTEM_EXPORT
 			void unregisterAtDispatcher();
 			
 		private:
@@ -70,4 +83,5 @@ namespace UnknownEngine
 		};
 
 	}
+
 }
