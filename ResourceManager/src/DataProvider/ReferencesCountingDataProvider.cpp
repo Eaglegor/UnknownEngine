@@ -7,11 +7,11 @@ namespace UnknownEngine
 	namespace Loader
 	{
 
-		ReferencesCountingDataProvider::ReferencesCountingDataProvider ( const std::string &name )
-			: references_counter ( 1 ),
-			  load_started ( false ),
-			  load_finished ( false ),
-			  IDataProvider ( name )
+		ReferencesCountingDataProvider::ReferencesCountingDataProvider ( const std::string &name ):
+			IDataProvider ( name ),
+			load_started ( false ),
+			load_finished ( false ),
+			references_counter ( 1 )
 		{
 		}
 

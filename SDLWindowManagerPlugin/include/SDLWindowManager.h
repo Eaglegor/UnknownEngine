@@ -4,8 +4,9 @@
 #include <memory>
 #include <unordered_map>
 #include <MessageSystem/MessageListenerDesc.h>
+#include <Exception.h>
 
-class SDL_Window;
+struct SDL_Window;
 
 namespace UnknownEngine
 {
@@ -15,23 +16,26 @@ namespace UnknownEngine
 		class EngineContext;
 		class BaseMessageListener;
 		class LogHelper;
-		class UpdateFrameMessage;
+		struct UpdateFrameMessage;
 	}
 
 	namespace Graphics
 	{
-		class GetWindowHandleMessage;
+		struct GetWindowHandleMessage;
 	}
 	
 	namespace GUI
 	{
 
 		class WindowEventsProcessor;
-		class SDLWindowDesc;
+		struct SDLWindowDesc;
 		
 		class SDLWindowManager
 		{
 		public:
+			
+			UNKNOWNENGINE_SIMPLE_EXCEPTION(WindowNotFound);
+			
 			SDLWindowManager(const std::string &name, Core::EngineContext* engine_context, Core::LogHelper* log_helper);
 			virtual ~SDLWindowManager();
 			
@@ -47,8 +51,6 @@ namespace UnknownEngine
 			void shutdownSDL();
 			void onUpdateFrame(const Core::UpdateFrameMessage& msg);
 			void getWindowHandle( const Graphics::GetWindowHandleMessage& msg );
-			
-			size_t window_id_counter;
 			
 			std::vector<std::string> window_names;
 			

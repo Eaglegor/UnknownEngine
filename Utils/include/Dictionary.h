@@ -18,9 +18,9 @@ namespace UnknownEngine
 				UNKNOWNENGINE_SIMPLE_EXCEPTION ( ValueAlreadyExists );
 
 				Dictionary ( const std::string& name, const KeyType &initial_key_value, const KeyType &invalid_key_value ) :
+					name ( name ),
 					next_key_value ( initial_key_value ),
-					invalid_key_value ( invalid_key_value ),
-					name ( name )
+					invalid_key_value ( invalid_key_value )
 				{
 				}
 

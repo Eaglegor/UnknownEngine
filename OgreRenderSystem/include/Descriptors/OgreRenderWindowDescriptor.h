@@ -21,9 +21,9 @@ namespace UnknownEngine
 			bool fullscreen;
 			
 			OgreRenderWindowDescriptor():
-			type(WindowType::OWN),
 			width(640),
-			height(480)
+			height(480),
+			type(WindowType::OWN)
 			{}
 		};
 	}

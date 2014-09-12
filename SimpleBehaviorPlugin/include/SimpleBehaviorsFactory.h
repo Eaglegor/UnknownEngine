@@ -28,8 +28,8 @@ namespace UnknownEngine
 			
 			void destroySimpleBehaviorComponent(Core::IComponent* object);
 			
-			SimpleBehaviorsPerformer* behaviors_performer;
 			Core::EngineContext* engine_context;
+			SimpleBehaviorsPerformer* behaviors_performer;
 		};
 		
 	}

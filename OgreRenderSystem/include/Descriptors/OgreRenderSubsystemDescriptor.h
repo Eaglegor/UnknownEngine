@@ -27,12 +27,12 @@ namespace UnknownEngine
 			OgreRenderWindowDescriptor render_window_descriptor;
 			
 			OgreRenderSubsystemDescriptor() :
+				ogre_plugins_filename ( "plugins.cfg" ),
 				ogre_config_filename ( "ogre.cfg" ),
 				ogre_log_filename ( "Ogre.log" ),
-				ogre_plugins_filename ( "plugins.cfg" ),
-				show_config_dialog ( false ),
+				log_level(Core::LogMessage::Severity::LOG_SEVERITY_NONE),
 				separate_rendering_thread ( true ),
-				log_level(Core::LogMessage::Severity::LOG_SEVERITY_NONE)
+				show_config_dialog ( false )
 			{}
 
 		};

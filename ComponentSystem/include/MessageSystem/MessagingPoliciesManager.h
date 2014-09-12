@@ -47,8 +47,6 @@ namespace UnknownEngine
 				std::vector<ReceivePolicyPtr> receive_policies;
 				std::vector<DeliveryPolicyPtr> delivery_policies;
 
-				const MessagePolicyType EMPTY_POLICY_TYPE;
-
 				typedef ReceivePolicyPtr ( MessagingPoliciesManager::*ReceivePolicyCreator ) ( const Properties& );
 				typedef DeliveryPolicyPtr ( MessagingPoliciesManager::*DeliveryPolicyCreator ) ( const Properties& );
 
@@ -68,6 +66,8 @@ namespace UnknownEngine
 				std::unordered_map<MessagePolicyType, DeliveryPolicyCreator> delivery_policy_creator_methods;
 
 				EngineContext* engine_context;
+				
+				const MessagePolicyType EMPTY_POLICY_TYPE;
 
 		};
 

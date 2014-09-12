@@ -16,8 +16,8 @@ namespace UnknownEngine
 	{
 
 		SDLWindowManager::SDLWindowManager ( const std::string& name, Core::EngineContext* engine_context, Core::LogHelper* log_helper ):
-		log_helper(log_helper),
 		engine_context(engine_context),
+		log_helper(log_helper),
 		name(name)
 		{
 			initSDL();
@@ -140,6 +140,7 @@ namespace UnknownEngine
 			{
 				return window_names[window_id - 1];
 			}
+			throw WindowNotFound("Can't get window name for window id " + std::to_string(window_id));
 		}
 		
 	}

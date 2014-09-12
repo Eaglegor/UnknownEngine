@@ -23,13 +23,14 @@ namespace UnknownEngine
 				virtual ~ThreadIndependentOgreComponentFactoryBase(){};
 				ThreadIndependentOgreComponentFactoryBase ( OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context, Core::LogHelper* log_helper ) :
 					render_subsystem ( render_subsystem ),
-					engine_context ( engine_context ),
-					log_helper ( log_helper ) {}
+					log_helper ( log_helper ),
+					engine_context ( engine_context )
+					{}
 
 			protected:
 			
-				Core::LogHelper* log_helper;
 				OgreRenderSubsystem* render_subsystem;
+				Core::LogHelper* log_helper;
 				Core::EngineContext* engine_context;
 		};
 	}

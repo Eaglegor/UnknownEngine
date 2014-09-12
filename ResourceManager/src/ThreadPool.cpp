@@ -11,9 +11,9 @@ namespace UnknownEngine
 		ThreadPool* Singleton<ThreadPool>::instance = nullptr;
 
 		ThreadPool::ThreadPool ( size_t workers_count ) :
-			workers ( workers_count ),
+			is_shutdown ( false ),
 			current_worker_id ( 0 ),
-			is_shutdown ( false )
+			workers ( workers_count )
 		{}
 
 		ThreadPool::~ThreadPool()
@@ -33,7 +33,7 @@ namespace UnknownEngine
 			std::lock_guard<LockPrimitive> guard ( lock );
 			if ( is_shutdown ) return false;
 			Worker &worker = findWorker();
-			worker.pushTask ( task );
+			return worker.pushTask ( task );
 		}
 
 		ThreadPool::Worker &ThreadPool::findWorker()
@@ -80,6 +80,7 @@ namespace UnknownEngine
 			if ( is_shutdown ) return false;
 			tasks.push ( task );
 			wait_for_tasks_cv.notify_all();
+			return true;
 		}
 
 		void ThreadPool::Worker::join()

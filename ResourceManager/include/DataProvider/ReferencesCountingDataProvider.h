@@ -62,8 +62,8 @@ namespace UnknownEngine
 				/// Decreases the references counter
 				void decreaseReferencesCounter();
 				
-				volatile bool load_finished;
 				volatile bool load_started;
+				volatile bool load_finished;
 				
 				std::mutex loading_started_mutex;
 				std::mutex loading_finished_mutex;

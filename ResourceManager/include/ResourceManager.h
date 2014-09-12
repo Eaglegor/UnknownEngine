@@ -89,10 +89,11 @@ namespace UnknownEngine {
 				
 				std::vector<Loader::IDataProvider*> data_providers;
 
-				ThreadPool* thread_pool;
-				
 				/// Internal dictionary implementation
 				Utils::Dictionary<NumericIdentifierType, std::string> internal_dictionary;
+				
+				/// Thread pool for data providers
+				ThreadPool* thread_pool;
 		};
 
 	} // namespace Core

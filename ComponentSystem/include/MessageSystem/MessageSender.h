@@ -9,7 +9,7 @@ namespace UnknownEngine
 	namespace Core
 	{
 		
-		class MessageSystemParticipantId;
+		struct MessageSystemParticipantId;
 		
 		template<typename MessageClass>
 		class MessageSender
@@ -27,8 +27,8 @@ namespace UnknownEngine
 			}
 			
 		private:
-			IMessageDeliveryPolicy* message_delivery_policy;
 			EngineContext* engine_context;
+			IMessageDeliveryPolicy* message_delivery_policy;
 			typename MessageClass::PackerClass message_packer;
 		};
 		

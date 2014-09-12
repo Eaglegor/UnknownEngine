@@ -42,19 +42,19 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				float setU ( float u )
+				void setU ( float u )
 				{
 					setX ( u );
 				}
 
 				UNKNOWNENGINE_INLINE
-				float setV ( float v )
+				void setV ( float v )
 				{
 					setY ( v );
 				}
 
 				UNKNOWNENGINE_INLINE
-				float setW ( float w )
+				void setW ( float w )
 				{
 					setZ ( w );
 				}

@@ -13,7 +13,7 @@ namespace UnknownEngine
 	namespace Loader
 	{
 		class IDataProvider;
-		class DataProviderDesc;
+		struct DataProviderDesc;
 		
 		typedef Core::BaseObjectFactory<IDataProvider, DataProviderType, DataProviderDesc> BaseDataProviderFactory;
 	}

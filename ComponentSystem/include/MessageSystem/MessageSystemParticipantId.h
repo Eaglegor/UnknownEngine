@@ -3,6 +3,7 @@
 #include <ComponentSystem_export.h>
 #include <string>
 #include <NumericIdentifierType.h>
+#include <InlineSpecification.h>
 
 namespace UnknownEngine
 {
@@ -79,12 +80,13 @@ namespace UnknownEngine
 				return id == rhs.id;
 			}
 
-			NumericIdentifierType id; ///< Numeric address identifier
 			std::string name; ///< String object name
+			NumericIdentifierType id; ///< Numeric address identifier
 		};
 	}
 	
-	static Core::MessageSystemParticipantId GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(const std::string &name)
+	UNKNOWNENGINE_INLINE
+	Core::MessageSystemParticipantId GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(const std::string &name)
 	{
 		return std::move(Core::MessageSystemParticipantId(name, Core::MessageSystemParticipantId::AutoRegistrationPolicy::AUTO_REGISTER));
 	}

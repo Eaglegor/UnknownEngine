@@ -21,9 +21,9 @@ namespace UnknownEngine
 			boost::optional<Attenuation> attenuation;
 			boost::optional<bool> cast_shadows;
 
-			Math::Scalar intensity;
 			Ogre::ColourValue diffuse_color;
 			Ogre::ColourValue specular_color;
+			Math::Scalar intensity;
 
 			OgreLightSettings() :
 				diffuse_color ( 1, 1, 1 ),
