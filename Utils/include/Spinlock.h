@@ -9,7 +9,7 @@ namespace UnknownEngine
 		class Spinlock
 		{
 		public:
-			Spinlock():spinlock(ATOMIC_FLAG_INIT){}
+			Spinlock(){}
 
 			void lock()
 			{
