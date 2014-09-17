@@ -17,8 +17,8 @@ namespace UnknownEngine
 			
 			void onEvent(Math::Scalar new_value);
 			
-			void perform();
-			void reset();
+			void perform() override;
+			void reset() override;
 			
 		private:
 			std::unique_ptr<IRangedValue> value;

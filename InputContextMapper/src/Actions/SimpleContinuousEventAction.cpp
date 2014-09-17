@@ -32,5 +32,10 @@ namespace UnknownEngine
 				reactor();
 			}
 		}
+
+		void SimpleContinuousAction::reset()
+		{
+			event_active = false;
+		}
 	}
 }

@@ -21,7 +21,12 @@ namespace UnknownEngine
 
 		void RangedContinuousEventAction::perform()
 		{
-			reactor(value->getAbsoluteValue());
+			reactor(value->getValue(IRangedValue::ValueSemantics::ABSOLUTE));
+		}
+
+		void RangedContinuousEventAction::reset()
+		{
+			value->reset();
 		}
 	}
 }

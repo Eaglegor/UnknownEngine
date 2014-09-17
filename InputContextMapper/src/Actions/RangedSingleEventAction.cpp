@@ -21,11 +21,16 @@ namespace UnknownEngine
 
 		void RangedSingleEventAction::perform()
 		{
-			if(value->hasUsefulValue())
+			if(!value->empty(IRangedValue::ValueSemantics::RELATIVE))
 			{
-				reactor(value->getRelativeValue());
-				value->reset(value->getAbsoluteValue());
+				reactor(value->getValue(IRangedValue::ValueSemantics::RELATIVE));
+				value->reset(value->getValue(IRangedValue::ValueSemantics::ABSOLUTE));
 			}
+		}
+
+		void RangedSingleEventAction::reset()
+		{
+			value->reset();
 		}
 	}
 }

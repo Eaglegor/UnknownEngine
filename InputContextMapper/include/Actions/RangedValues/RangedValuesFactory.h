@@ -11,7 +11,7 @@ namespace UnknownEngine
 		class RangedValuesFactory
 		{
 		public:
-			static std::unique_ptr<IRangedValue> createRangedValue(IRangedValue::UpdateValueSemantics update_value_semantics, Math::Scalar valueable_range_delta = Math::ZERO_PRECISION);
+			static std::unique_ptr<IRangedValue> createRangedValue(IRangedValue::ValueSemantics input_value_semantics, Math::Scalar valueable_range_delta = Math::ZERO_PRECISION);
 		};
 	}
 }

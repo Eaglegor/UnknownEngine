@@ -16,8 +16,8 @@ namespace UnknownEngine
 			void onEventStarted();
 			void onEventEnded();
 			
-			void perform();
-			void reset();
+			void perform() override;
+			void reset() override;
 			
 		private:
 			bool event_active;
