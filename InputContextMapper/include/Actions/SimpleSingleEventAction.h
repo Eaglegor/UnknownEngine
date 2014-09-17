@@ -10,7 +10,7 @@ namespace UnknownEngine
 		class SimpleSingleEventAction : public SimpleAction
 		{
 		public:
-			SimpleSingleEventAction(std::function<void()> reactor);
+			SimpleSingleEventAction(const CallbackType &reactor);
 			virtual ~SimpleSingleEventAction();
 			
 			void onEventStarted();
@@ -21,7 +21,7 @@ namespace UnknownEngine
 			
 		private:
 			bool event_active;
-			std::function<void()> reactor;
+			CallbackType reactor;
 		};
 	}
 }

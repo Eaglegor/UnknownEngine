@@ -4,7 +4,7 @@ namespace UnknownEngine
 {
 	namespace IO
 	{
-		SimpleSingleEventAction::SimpleSingleEventAction( std::function< void() > reactor ):
+		SimpleSingleEventAction::SimpleSingleEventAction( const CallbackType &reactor ):
 		event_active(false),
 		reactor(reactor)
 		{

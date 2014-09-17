@@ -4,7 +4,7 @@ namespace UnknownEngine
 {
 	namespace IO
 	{
-		SimpleContinuousAction::SimpleContinuousAction( const std::function< void() >& reactor ):
+		SimpleContinuousAction::SimpleContinuousAction( const CallbackType& reactor ):
 		event_active(false),
 		reactor(reactor)
 		{
