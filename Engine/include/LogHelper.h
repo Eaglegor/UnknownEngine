@@ -1,9 +1,9 @@
 #pragma once
 
 #include <ExportedMessages/LogMessage.h>
+#include <MessageSystem/MessageSender.h>
 #include <MessageSystem/MessageSystemParticipantId.h>
 #include <EngineContext.h>
-#include <MessageSystem/MessageDispatcher.h>
 #include <InlineSpecification.h>
 #include <boost/algorithm/string/case_conv.hpp>
 #include <boost/algorithm/string/trim.hpp>
@@ -18,9 +18,8 @@ namespace UnknownEngine
 		{
 			public:
 				LogHelper ( const std::string &name, const LogMessage::Severity& minimal_severity, EngineContext* engine_context )
-					: packer ( MessageSystemParticipantId ( name ) ),
-					  minimal_severity ( minimal_severity ),
-					  message_dispatcher ( engine_context->getMessageDispatcher() )
+					: message_sender ( MessageSystemParticipantId ( name ), engine_context ),
+					  minimal_severity ( minimal_severity )
 				{}
 
 				void log ( const LogMessage::Severity& severity, const std::string& message )
@@ -29,7 +28,7 @@ namespace UnknownEngine
 					LogMessage msg;
 					msg.severity = severity;
 					msg.log_entry = message;
-					message_dispatcher->deliverMessage ( packer.packMessage ( msg ) );
+					message_sender.sendMessage(msg);
 				}
 
 				void operator() ( const LogMessage::Severity& severity, const std::string &message )
@@ -56,9 +55,8 @@ namespace UnknownEngine
 				}
 
 			private:
-				LogMessagePacker packer;
+				MessageSender<LogMessage> message_sender;
 				LogMessage::Severity minimal_severity;
-				MessageDispatcher *message_dispatcher;
 		};
 
 #define LOG_INFO(log_helper, e) if(log_helper) log_helper->log(Core::LogMessage::Severity::LOG_SEVERITY_INFO, e);

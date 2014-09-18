@@ -8,12 +8,12 @@
 
 #include <ComponentSystem_export.h>
 #include <string>
-#include <unordered_map>
+#include <boost/any.hpp>
 
 #include <InlineSpecification.h>
-#include <Properties/Properties.h>
 #include <MessageSystem/MessageType.h>
 #include <MessageSystem/MessageSystemParticipantId.h>
+#include <MessageSystem/MessageDictionary.h>
 
 namespace UnknownEngine
 {
@@ -55,23 +55,34 @@ namespace UnknownEngine
 		class PackedMessage
 		{
 			public:
+
 				/**
-				 * @brief Constructor
-				 * @param message_type_id - numeric identifier of message type (can be obtained by call to MessageDictionary)
+				 * @brief Constructor querying message dictionary for message type
+				 * @param message - concrete typed message
 				 * @param sender_info - information about message sender
 				 */
-				PackedMessage ( const NumericIdentifierType &message_type_id, const MessageSystemParticipantId &sender_info )
-					: message_type_id ( message_type_id ), sender_info ( sender_info )
+				template<typename T>
+				PackedMessage ( const T& message, const MessageSystemParticipantId &sender_info ):
+				message_type_id ( MESSAGE_TYPE_ID(T::getTypeName()) ), 
+				sender_info ( sender_info ),
+				message_container(message)
 				{
 				}
 
 				/**
-				 * @brief Constructor
+				 * @brief Constructor without query to message dictionary for message type (faster but you need to know message_type_id)
+				 * @param message - concrete typed message
+				 * @param message_type_id - numeric identifier of message type
+				 * @param sender_info - information about message sender
 				 */
-				PackedMessage ( )
-					: message_type_id ( INVALID_NUMERIC_IDENTIFIER )
+				template<typename T>
+				PackedMessage ( const T& message, MessageType message_type, const MessageSystemParticipantId &sender_info ):
+				message_type_id ( message_type ), 
+				sender_info ( sender_info ),
+				message_container(message)
 				{
 				}
+				
 				
 				virtual ~PackedMessage ()
 				{
@@ -102,33 +113,21 @@ namespace UnknownEngine
 				}
 
 				/**
-				 *
-				 * @brief Returns non-const map of properties avaiable to edit
-				 * @return Non-const properties map
-				 *
+				 * @brief Returns concrete message packed to this container
+				 * @return Concrete message class specified by a template
+				 * @throw boost::bad_any_cast if requested message type is not matching with stored
 				 */
+				template<typename T>
 				UNKNOWNENGINE_INLINE
-				Properties &getProperties ()
+				const T& get() const
 				{
-					return properties;
+					return boost::any_cast<const T&>(message_container);
 				}
-
-				/**
-				 *
-				 * @brief Returns const read-only map of properties
-				 * @return Read-only map of properties
-				 *
-				 */
-				UNKNOWNENGINE_INLINE
-				const Properties &getProperties () const
-				{
-					return properties;
-				}
-
+				
 			private:
 				MessageType message_type_id; ///< Numeric message type identifier
-				Properties properties; ///< Properties map
 				MessageSystemParticipantId sender_info; ///< Information about sender
+				boost::any message_container;
 
 		};
 

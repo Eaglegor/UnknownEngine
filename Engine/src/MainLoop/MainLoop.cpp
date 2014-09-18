@@ -14,7 +14,6 @@
 #include <MessageSystem/MessageSender.h>
 
 
-
 namespace UnknownEngine
 {
 	namespace Core
@@ -42,11 +41,10 @@ namespace UnknownEngine
 			UpdateFrameMessage msg;
 			
 			MessageSender<UpdateFrameMessage> update_frame_message_sender(
-				MessageSystemParticipantId("Engine", MessageSystemParticipantId::AutoRegistrationPolicy::AUTO_REGISTER),
+				GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID("Engine"),
 				engine_context
 			);
 			
-			UpdateFrameMessagePacker packer ( getMessageSystemParticipantId() );
 			while ( !stopped )
 			{
 				msg.stage = UpdateFrameMessage::PROCESSING;
