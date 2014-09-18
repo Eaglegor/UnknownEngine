@@ -17,7 +17,6 @@ namespace UnknownEngine
 
 			private:
 				OgreRenderSubsystem* render_system;
-				Core::UpdateFrameMessageUnpacker message_unpacker;
 		};
 
 	} // namespace Graphics

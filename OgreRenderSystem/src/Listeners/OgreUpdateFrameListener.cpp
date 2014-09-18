@@ -2,6 +2,7 @@
 
 #include <Listeners/OgreUpdateFrameListener.h>
 #include <OgreRenderSubsystem.h>
+#include <MessageSystem/PackedMessage.h>
 
 namespace UnknownEngine
 {
@@ -16,7 +17,7 @@ namespace UnknownEngine
 
 		void OgreUpdateFrameListener::processMessage ( const Core::PackedMessage &msg )
 		{
-			render_system->onFrameUpdated ( message_unpacker.unpackMessage ( msg ) );
+			render_system->onFrameUpdated ( msg.get<Core::UpdateFrameMessage>() );
 		}
 
 	} // namespace Graphics

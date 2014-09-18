@@ -1,9 +1,13 @@
 #pragma once
 
+#include <unordered_map>
+#include <memory>
+
 #include <InlineSpecification.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 #include <ExportedMessages/LogMessage.h>
 #include <Descriptors/OgreRenderSubsystemDescriptor.h>
+
 
 namespace boost
 {

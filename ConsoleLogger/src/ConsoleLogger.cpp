@@ -15,7 +15,7 @@ namespace UnknownEngine
 
 		void ConsoleLogger::processMessage ( const Core::PackedMessage &msg )
 		{
-			Core::LogMessage unpacked_message = message_unpacker.unpackMessage ( msg );
+			Core::LogMessage unpacked_message = msg.get<Core::LogMessage>();
 			log ( msg.getSenderInfo().name, unpacked_message.severity, unpacked_message.log_entry );
 		}
 

@@ -1,5 +1,6 @@
 #include <StopEngineListener.h>
 #include <MainLoop/MainLoop.h>
+#include <MessageSystem/PackedMessage.h>
 
 UnknownEngine::Core::StopEngineListener::StopEngineListener ( const std::string name, MainLoop* main_loop )
 	: IMessageListener ( name ),

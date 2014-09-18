@@ -32,16 +32,13 @@ namespace UnknownEngine
 			
 			void push(const Core::PackedMessage& message)
 			{
-				pushConcreteMessage(message_unpacker.unpackMessage(message));
+				pushConcreteMessage(message.get<MessageClass>());
 			}
 			
 		protected:
 			virtual void pushConcreteMessage(const MessageClass& message) = 0;
 			
 			std::function< void(const MessageClass&)> process_message_callback;
-			
-		private:
-			typename MessageClass::UnpackerClass message_unpacker;
 		};
 		
 	}

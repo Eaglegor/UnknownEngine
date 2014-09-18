@@ -1,24 +1,11 @@
 #pragma once
-/*
- * UpdateFrameMessage.h
- *
- *  Created on: 19 июня 2014 г.
- *      Author: gorbachenko
- */
 
-#include <InlineSpecification.h>
-#include <MessageSystem/TypeCachingMessagePacker.h>
-#include <MessageSystem/MessageUnpacker.h>
-#include <MessageSystem/PackedMessage.h>
-#include <MessageSystem/MessageDictionary.h>
+#include <MessageSystem/Message.h>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
-
-		class UpdateFrameMessagePacker;
-		class UpdateFrameMessageUnpacker;
 
 		/**
 		 * @brief Frame synchronization message
@@ -27,18 +14,10 @@ namespace UnknownEngine
 		 * It may be sent more than once per frame.
 		 *
 		 */
-		struct UpdateFrameMessage
+		struct UpdateFrameMessage : public Message
 		{
-
-			typedef UpdateFrameMessagePacker PackerClass;
-			typedef UpdateFrameMessageUnpacker UnpackerClass;
-
-			UNKNOWNENGINE_INLINE
-			static std::string getTypeName()
-			{
-				return "Engine.MainLoop.UpdateFrameMessage";
-			}
-
+			constexpr static const char* getTypeName(){return "Engine.MainLoop.UpdateFrameMessage";}
+			
 			/**
 			 * @brief Updating stage
 			 *
@@ -56,57 +35,6 @@ namespace UnknownEngine
 			float dt; ///< Delta time from last frame
 		};
 
-		/**
-		 * @brief Message packer for UpdateFrameMessage
-		 */
-		class UpdateFrameMessagePacker: public TypeCachingMessagePacker<UpdateFrameMessage>
-		{
-			public:
-
-				UpdateFrameMessagePacker ( MessageSystemParticipantId sender_info ) :
-					TypeCachingMessagePacker<UpdateFrameMessage> ( sender_info )
-				{
-				}
-
-				UNKNOWNENGINE_INLINE
-				PackedMessage packMessage ( const UpdateFrameMessage& msg ) override
-				{
-					PackedMessage result ( getMessageType(), sender_info );
-					result.getProperties().set<float> ( "dt", msg.dt );
-					result.getProperties().set<int> ( "stage", msg.stage );
-					return result;
-				}
-
-		};
-
-		/**
-		 * @brief Message unpacker for UpdateFrameMessage
-		 */
-		class UpdateFrameMessageUnpacker: public MessageUnpacker<UpdateFrameMessage>
-		{
-			public:
-
-				UNKNOWNENGINE_INLINE
-				UpdateFrameMessage unpackMessage ( const PackedMessage &msg )  override
-				{
-					UpdateFrameMessage result;
-					result.dt = msg.getProperties().get<float> ( "dt" );
-					switch ( msg.getProperties().get<int> ( "stage" ) )
-					{
-					case 0:
-						result.stage = UpdateFrameMessage::PREPROCESSING;
-						break;
-					case 2:
-						result.stage = UpdateFrameMessage::POSTPROCESSING;
-						break;
-					default:
-						result.stage = UpdateFrameMessage::PROCESSING;
-						break;
-					}
-					return result;
-				}
-
-		};
-
+		
 	} /* namespace Core */
 } /* namespace UnknownEngine */

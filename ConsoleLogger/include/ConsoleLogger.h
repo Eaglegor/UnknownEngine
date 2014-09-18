@@ -17,7 +17,6 @@ namespace UnknownEngine {
 				void setDefaultSenderName(const std::string &name);
 				
 			private:
-				Core::LogMessageUnpacker message_unpacker;
 				std::string name;
 		};
 
