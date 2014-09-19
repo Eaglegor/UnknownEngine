@@ -30,6 +30,7 @@ namespace UnknownEngine
 		class MessageBuffer : public IMessageBuffer
 		{
 		public:
+			
 			MessageBuffer( std::function<void(const MessageClass&)> process_message_callback ):
 			process_message_callback(process_message_callback),
 			message_type( MESSAGE_TYPE_ID(MessageClass::getTypeName()) )

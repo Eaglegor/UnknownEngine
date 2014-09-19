@@ -31,7 +31,7 @@ namespace UnknownEngine
 				typedef Core::UpdateFrameMessage MessageType;
 				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
 
-				BufferType buffer = factory.createBuffer<BufferType>(&SingleThreadedOgreRenderSubsystem::onFrameUpdated);
+				BufferType buffer = factory.createBuffer<BufferType, MessageType>(&SingleThreadedOgreRenderSubsystem::onFrameUpdated);
 				listener->registerMessageBuffer(buffer);
 			}
 			
@@ -39,7 +39,7 @@ namespace UnknownEngine
 				typedef Graphics::WindowResizedMessage MessageType;
 				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
 
-				BufferType buffer = factory.createBuffer<BufferType>(&SingleThreadedOgreRenderSubsystem::onWindowResized);
+				BufferType buffer = factory.createBuffer<BufferType, MessageType>(&SingleThreadedOgreRenderSubsystem::onWindowResized);
 				listener->registerMessageBuffer(buffer);
 			}
 			
