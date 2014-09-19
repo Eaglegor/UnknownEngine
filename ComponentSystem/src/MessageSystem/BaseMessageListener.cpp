@@ -18,26 +18,6 @@ namespace UnknownEngine
 			//log_helper.reset( new LogHelper(object_name, LogMessage::Severity::LOG_SEVERITY_DEBUG, engine_context ) );
 		}
 
-		bool BaseMessageListener::registerMessageBuffer ( const Core::MessageType& message_type, std::unique_ptr< Utils::IMessageBuffer > buffer )
-		{
-			LOG_DEBUG(log_helper, "Register buffer: Acquiring lock...");
-			
-			std::lock_guard<std::mutex> guard( message_buffers_mutex );
-			
-			LOG_DEBUG(log_helper, "Searching for supported message type...");
-			
-			auto iter = received_messages.find ( message_type );
-			if ( iter == received_messages.end() ) return false;
-			
-			LOG_DEBUG(log_helper, "Message buffer found, ...");
-			
-			iter->second.message_buffer = std::move(buffer);
-			
-			LOG_DEBUG(log_helper, "Buffer registered...");
-			
-			return true;
-		}
-
 		void BaseMessageListener::registerSupportedMessageType ( const UnknownEngine::Core::MessageType& message_type_id, UnknownEngine::Core::IMessageReceivePolicy* receive_policy )
 		{
 			LOG_DEBUG(log_helper, "Register message type: Acquiring lock...");

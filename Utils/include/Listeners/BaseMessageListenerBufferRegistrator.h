@@ -20,8 +20,8 @@ namespace UnknownEngine
 			{
 				typedef std::function<void(const MessageClass&)> MessageProcessorClass;
 				MessageProcessorClass processor = std::bind( processor_method, owner, std::placeholders::_1 );
-				std::unique_ptr< StandardMessageBufferClass > buffer ( new StandardMessageBufferClass(processor) );
-				listener->registerMessageBuffer( MESSAGE_TYPE_ID(MessageClass::getTypeName()), std::move(buffer) );
+				StandardMessageBufferClass buffer(processor);
+				listener->registerMessageBuffer( MESSAGE_TYPE_ID(MessageClass::getTypeName()), buffer );
 			}
 			
 		private:

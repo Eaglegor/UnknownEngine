@@ -16,6 +16,9 @@ namespace UnknownEngine
 			QueuedMessageBuffer(std::function<void(const MessageClass&)> process_message_callback):
 			MessageBuffer<MessageClass>(process_message_callback){}
 			
+			QueuedMessageBuffer(const QueuedMessageBuffer& rhs) :
+			MessageBuffer<MessageClass>(static_cast<const MessageBuffer<MessageClass>&>(rhs)){}
+
 			virtual void flush()
 			{
 				std::unique_lock<Spinlock> guard( queue_spinlock );

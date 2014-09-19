@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <Scalar.h>
 
 namespace UnknownEngine
 {

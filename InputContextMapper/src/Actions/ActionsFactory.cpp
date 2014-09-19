@@ -15,7 +15,7 @@ namespace UnknownEngine
 				{
 					return std::move( std::unique_ptr<SimpleAction>(new SimpleSingleEventAction(desc.callback)) );
 				}
-				case ActionType::CONTINUOUS_ACTION
+				case ActionType::CONTINUOUS_ACTION:
 				{
 					return std::move( std::unique_ptr<SimpleAction>(new SimpleContinuousAction(desc.callback)) );
 				}
