@@ -6,7 +6,7 @@
 #include <Converters/OgreColourValueConverter.h>
 #include <Converters/OgreQuaternionConverter.h>
 #include <ExportedMessages/TransformChangedMessage.h>
-#include <Listeners/BaseMessageListenerBufferRegistrator.h>
+#include <Listeners/StandardMessageBuffersFactory.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <MessageBuffers/OnlyLastMessageBuffer.h>
 #include <MessageSystem/BaseMessageListener.h>

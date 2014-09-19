@@ -16,7 +16,7 @@
 #include <MessageSystem/BaseMessageListener.h>
 #include <MessageSystem/MessageSender.h>
 #include <Listeners/BaseMessageListenersFactory.h>
-#include <Listeners/BaseMessageListenerBufferRegistrator.h>
+#include <Listeners/StandardMessageBuffersFactory.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <../UserInput/include/ExportedMessages/UserInput/KeyStateChangedMessage.h>
 

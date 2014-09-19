@@ -13,7 +13,7 @@
 #include <LogHelper.h>
 #include <MessageBuffers/OnlyLastMessageBuffer.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
-#include <Listeners/BaseMessageListenerBufferRegistrator.h>
+#include <Listeners/StandardMessageBuffersFactory.h>
 #include <ExportedMessages/TransformChangedMessage.h>
 #include <ExportedMessages/RenderSystem/ChangeMaterialActionMessage.h>
 
@@ -132,6 +132,7 @@ namespace UnknownEngine
 					BufferType buffer = factory.createBuffer<BufferType>(&OgreRenderableComponent::doChangeMaterial);
 					listener->registerMessageBuffer(buffer);
 				}
+				
 			}
 			else
 			{

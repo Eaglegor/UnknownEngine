@@ -2,7 +2,7 @@
 #include <LogHelper.h>
 #include <Listeners/OgreUpdateFrameListener.h>
 #include <MessageSystem/BaseMessageListener.h>
-#include <Listeners/BaseMessageListenerBufferRegistrator.h>
+#include <Listeners/StandardMessageBuffersFactory.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <MessageBuffers/OnlyLastMessageBuffer.h>
 #include <ExportedMessages/RenderSystem/WindowResizedMessage.h>

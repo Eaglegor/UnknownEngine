@@ -5,7 +5,7 @@
 #include <LogHelper.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 #include <ExportedMessages/RenderSystem/GetWindowHandleMessage.h>
-#include <Listeners/BaseMessageListenerBufferRegistrator.h>
+#include <Listeners/StandardMessageBuffersFactory.h>
 #include <Listeners/BaseMessageListenersFactory.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <SDL_syswm.h>

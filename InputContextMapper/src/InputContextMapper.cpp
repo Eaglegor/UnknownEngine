@@ -1,7 +1,7 @@
 #include <InputContextMapper.h>
 #include <MessageSystem/BaseMessageListener.h>
 #include <Listeners/BaseMessageListenersFactory.h>
-#include <Listeners/BaseMessageListenerBufferRegistrator.h>
+#include <Listeners/StandardMessageBuffersFactory.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 #include <MessageBuffers/QueuedMessageBuffer.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>

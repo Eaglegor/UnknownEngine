@@ -13,7 +13,7 @@
 #include <MessageSystem/BaseMessageListener.h>
 
 #include <LogHelper.h>
-#include <Listeners/BaseMessageListenerBufferRegistrator.h>
+#include <Listeners/StandardMessageBuffersFactory.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <MessageBuffers/OnlyLastMessageBuffer.h>
 #include <ExportedMessages/TransformChangedMessage.h>

@@ -20,7 +20,7 @@
 #include <LogHelper.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 #include <Listeners/BaseMessageListenersFactory.h>
-#include <Listeners/BaseMessageListenerBufferRegistrator.h>
+#include <Listeners/StandardMessageBuffersFactory.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <ExportedMessages/RenderSystem/GetWindowHandleMessage.h>
 #include <SDL.h>
