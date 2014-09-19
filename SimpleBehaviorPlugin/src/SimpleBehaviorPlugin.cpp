@@ -70,17 +70,23 @@ namespace UnknownEngine
 				) 
 			);
 			
-			Utils::BaseMessageListenerBufferRegistrator<SimpleBehaviorPlugin> registrator(listener.get(), this);
+			Utils::StandardMessageBuffersFactory<SimpleBehaviorPlugin> factory(this);
 			
-			registrator.registerStandardMessageBuffer<
-			Core::UpdateFrameMessage, 
-			Utils::InstantForwardMessageBuffer<Core::UpdateFrameMessage>
-			>( &SimpleBehaviorPlugin::onUpdateFrame );
+			{
+				typedef Core::UpdateFrameMessage MessageType;
+				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
 
-			registrator.registerStandardMessageBuffer<
-			IO::KeyStateChangedMessage, 
-			Utils::InstantForwardMessageBuffer<IO::KeyStateChangedMessage>
-			>( &SimpleBehaviorPlugin::onKeyPressed );
+				BufferType buffer = factory.createBuffer<BufferType>(&SimpleBehaviorPlugin::onUpdateFrame);
+				listener->registerMessageBuffer(buffer);
+			}
+
+			{
+				typedef IO::KeyStateChangedMessage MessageType;
+				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
+
+				BufferType buffer = factory.createBuffer<BufferType>(&SimpleBehaviorPlugin::onKeyPressed);
+				listener->registerMessageBuffer(buffer);
+			}
 			
 			listener->registerAtDispatcher();
 			

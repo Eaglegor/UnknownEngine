@@ -1,5 +1,5 @@
 #pragma once
-#include <MessageSystem/BaseMessageListener.h>
+
 #include <MessageSystem/MessageDictionary.h>
 
 namespace UnknownEngine
@@ -7,25 +7,23 @@ namespace UnknownEngine
 	namespace Utils
 	{
 		template<typename OwnerClass>
-		class BaseMessageListenerBufferRegistrator
+		class StandardMessageBuffersFactory
 		{
 		public:
-			BaseMessageListenerBufferRegistrator(Core::BaseMessageListener* listener, OwnerClass* owner):
-			listener(listener),
+			StandardMessageBuffersFactory(OwnerClass* owner) :
 			owner(owner)
 			{}
 			
-			template<typename MessageClass, typename StandardMessageBufferClass>
-			void registerStandardMessageBuffer( void (OwnerClass::*processor_method)(const MessageClass&) )
+			template<typename MessageBufferClass, typename MessageClass>
+			MessageBufferClass createBuffer( void (OwnerClass::*processor_method)(const MessageClass&) )
 			{
 				typedef std::function<void(const MessageClass&)> MessageProcessorClass;
 				MessageProcessorClass processor = std::bind( processor_method, owner, std::placeholders::_1 );
-				StandardMessageBufferClass buffer(processor);
-				listener->registerMessageBuffer( MESSAGE_TYPE_ID(MessageClass::getTypeName()), buffer );
+				MessageBufferClass buffer(processor);
+				return std::move(buffer);
 			}
 			
 		private:
-			Core::BaseMessageListener* listener;
 			OwnerClass* owner;
 
 		};

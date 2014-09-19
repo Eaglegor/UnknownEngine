@@ -25,17 +25,23 @@ namespace UnknownEngine
 			listener->registerSupportedMessageType(Core::UpdateFrameMessage::getTypeName(), nullptr);
 			listener->registerSupportedMessageType(Graphics::WindowResizedMessage::getTypeName(), nullptr);
 			
-			Utils::BaseMessageListenerBufferRegistrator<SingleThreadedOgreRenderSubsystem> registrator(listener.get(), this);
+			Utils::StandardMessageBuffersFactory<SingleThreadedOgreRenderSubsystem> factory(this);
 			
-			registrator.registerStandardMessageBuffer<
-			Core::UpdateFrameMessage,
-			Utils::InstantForwardMessageBuffer<Core::UpdateFrameMessage>
-			>(&SingleThreadedOgreRenderSubsystem::onFrameUpdated);
+			{
+				typedef Core::UpdateFrameMessage MessageType;
+				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
+
+				BufferType buffer = factory.createBuffer<BufferType>(&SingleThreadedOgreRenderSubsystem::onFrameUpdated);
+				listener->registerMessageBuffer(buffer);
+			}
 			
-			registrator.registerStandardMessageBuffer<
-			Graphics::WindowResizedMessage,
-			Utils::InstantForwardMessageBuffer<Graphics::WindowResizedMessage>
-			>(&SingleThreadedOgreRenderSubsystem::onWindowResized);
+			{
+				typedef Graphics::WindowResizedMessage MessageType;
+				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
+
+				BufferType buffer = factory.createBuffer<BufferType>(&SingleThreadedOgreRenderSubsystem::onWindowResized);
+				listener->registerMessageBuffer(buffer);
+			}
 			
 			if(listener) listener->registerAtDispatcher();
 		}

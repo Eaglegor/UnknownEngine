@@ -40,9 +40,9 @@ namespace UnknownEngine
 			void registerSupportedMessageType( const MessageType& message_type_id, IMessageReceivePolicy* receive_policy);
 
 			template<typename BufferClass>
-			bool registerMessageBuffer( const MessageType& message_type, const BufferClass &buffer)
+			bool registerMessageBuffer( const BufferClass &buffer)
 			{
-				static_assert(std::is_base_of<Utils::IMessageBuffer, BufferClass>::value, "Trying to register not a message buffer class as message buffer" );
+				static_assert(std::is_base_of<Utils::IMessageBuffer, BufferClass>::value, "Message buffer must implement Utils::IMessageBuffer" );
 
 				LOG_DEBUG(log_helper, "Register buffer: Acquiring lock...");
 
@@ -50,7 +50,7 @@ namespace UnknownEngine
 
 				LOG_DEBUG(log_helper, "Searching for supported message type...");
 
-				auto iter = received_messages.find ( message_type );
+				auto iter = received_messages.find ( buffer.getMessageType() );
 				if ( iter == received_messages.end() ) return false;
 
 				LOG_DEBUG(log_helper, "Message buffer found, ...");

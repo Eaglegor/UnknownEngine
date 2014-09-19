@@ -17,17 +17,23 @@ namespace UnknownEngine
 		{
 			listener = std::move(Utils::BaseMessageListenersFactory::createBaseMessageListener(creation_options.name, creation_options.engine_context, creation_options.received_messages));
 
-			Utils::BaseMessageListenerBufferRegistrator<InputContextMapper> registrator(listener.get(), this);
+			Utils::StandardMessageBuffersFactory<InputContextMapper> factory(this);
 
-			registrator.registerStandardMessageBuffer<
-					Core::UpdateFrameMessage,
-					Utils::InstantForwardMessageBuffer<Core::UpdateFrameMessage> >
-					(&InputContextMapper::update);
+			{
+				typedef Core::UpdateFrameMessage MessageType;
+				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
 
-			registrator.registerStandardMessageBuffer<
-					KeyStateChangedMessage,
-					Utils::QueuedMessageBuffer<KeyStateChangedMessage> >
-					(&InputContextMapper::onKeyPressed);
+				BufferType buffer = factory.createBuffer<BufferType>(&InputContextMapper::update);
+				listener->registerMessageBuffer(buffer);
+			}
+
+			{
+				typedef IO::KeyStateChangedMessage MessageType;
+				typedef Utils::QueuedMessageBuffer<MessageType> BufferType;
+
+				BufferType buffer = factory.createBuffer<BufferType>(&InputContextMapper::onKeyPressed);
+				listener->registerMessageBuffer(buffer);
+			}
 
 		}
 
