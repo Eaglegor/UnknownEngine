@@ -1,13 +1,10 @@
 #pragma once
 
-#include <unordered_map>
-
 #include <Keys.h>
-#include <KeycodeHash.h>
-#include <Actions/SimpleAction.h>
-#include <Actions/RangedAction.h>
-#include <EventHandlers/KeyboardEventHandler.h>
-#include <Actions/ActionPerformerDescriptor.h>
+#include <Scalar.h>
+#include <functional>
+#include <unordered_map>
+#include <ActionSlot.h>
 
 namespace UnknownEngine
 {
@@ -16,25 +13,18 @@ namespace UnknownEngine
 		class InputContext
 		{
 		public:
-			InputContext(bool enabled = false);
+			void processEvent(const Key &key, const KeyState &new_state);
+			void addAction(const std::string &action_slot_name, std::function<void()> action);
+			void addAction(const std::string &action_slot_name, std::function<void(const Math::Scalar&)> action);
 			
-			enum class EventInterceptionStatus
-			{
-				INTERCEPTED,
-				NOT_INTERCEPTED
-			};
+			void addActionSlot(const std::string &action_slot_name, std::unique_ptr<ActionSlot> action_slot);
 			
-			EventInterceptionStatus processEvent(Key &key, KeyState &state);
-
-			void addSimpleActionPerformer( const UnknownEngine::IO::SimpleActionPerformerDescriptor& desc );
-			void performActions();
-			
-			bool isEnabled() const;
-			void setEnabled(bool new_enabled);
+			void update();
 			
 		private:
-			bool enabled;
-			std::unordered_map<Key, KeyboardEventHandler> keyboard_events;
+			
+			std::unordered_map<std::string, std::unique_ptr<ActionSlot> > actions;
+			
 		};
 	}
 }

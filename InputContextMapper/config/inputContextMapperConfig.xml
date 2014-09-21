@@ -1,0 +1,67 @@
+<contexts>
+	
+	<context name="GenericContext">
+		
+		<action_slot name="StopEngine" type="SingleEvent"/> operator()
+						
+	</context>
+	
+	<context name="MouseLook">
+		
+		<action name="MLookYaw" type="SingleRangeEvent"/>  operator(Scalar new_value, Scalar delta)
+		<action name="MLookPitch" type="SingleRangeEvent"/> operator()
+
+		<action name="MLookFastMovementOn" type="SingleEvent"/> operator()
+		<action name="MLookFastMovementOff" type="SingleEvent"/> operator()
+
+		<action name="MLookMoveForward" type="ContinuousEvent"/> operator()
+		<action name="MLookMoveBackward" type="ContinuousEvent"/> operator()
+		<action name="MLookStrafeLeft" type="ContinuousEvent"/> operator()
+		<action name="MLookStrafeRight" type="ContinuousEvent"/> operator()
+		<action name="MLookStrafeUp" type="ContinuousEvent"/> operator()
+		<action name="MLookStrafeDown" type="ContinuousEvent"/> operator()
+	
+	</context>
+	
+	<context name="LeftInstrumentMovement">
+		
+		<action name="MoveX" type="ContinuousRangeEvent"/> operator(Scalar new_value, Scalar delta)
+		<action name="MoveY" type="ContinuousRangeEvent"/> operator(Scalar new_value, Scalar delta)
+		<action name="MoveBranchesTogether" type="ContinuousEvent"/> operator()
+		<action name="RotateLeft" type="ContinuousEvent"/> operator()
+		<action name="RotateRight" type="ContinuousEvent"/> operator()
+
+	</context>
+	
+	<context name="LeftInstrumentCoagulation">
+		<action name="Coagulate" type="ContinuousEvent"/>
+	</context>
+	
+</contexts>
+
+
+
+[GenericContext]
+StopEngine = Esc
+
+[MouseLook]
+MLookYaw = MouseMove(mid:0, axis:0)
+MLookPitch = MouseMove(mid:0, axis:1)
+MLookFastMovementOn = LeftShift
+MLookFastMovementOff = KeyReleased(LeftShift)
+MLookMoveForward = W
+MLookMoveBackward = S
+MLookStrafeLeft = A
+MLookStrafeRight = D
+MLookStrafeUp = E
+MLookStrafeDown = Q
+
+[LeftInstrumentMovement | JoystickId = 0]
+MoveX = JoystickAxis(jid: ${JoystickId}, axis:0)
+MoveY = JoystickAxis(jid: ${JoystickId}, axis:1)
+MoveBranchesTogether = JoystickButton(jid: ${JoystickId}, button:0)
+RotateLeft = JoystickButton(jid: ${JoystickId}, button:1)
+RotateRight = JoystickButton(jid: ${JoystickId}, button:2)
+
+[LeftInstrumentCoagulation]
+Coagulate = F5

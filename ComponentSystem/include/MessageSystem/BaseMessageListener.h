@@ -44,10 +44,6 @@ namespace UnknownEngine
 			{
 				static_assert(std::is_base_of<Utils::IMessageBuffer, BufferClass>::value, "Message buffer must implement Utils::IMessageBuffer" );
 
-				LOG_DEBUG(log_helper, "Register buffer: Acquiring lock...");
-
-				std::lock_guard<std::mutex> guard( message_buffers_mutex );
-
 				LOG_DEBUG(log_helper, "Searching for supported message type...");
 
 				auto iter = received_messages.find ( buffer.getMessageType() );
@@ -104,8 +100,6 @@ namespace UnknownEngine
 			EngineContext* engine_context;
 			
 			std::unique_ptr<LogHelper> log_helper;
-			
-			std::mutex message_buffers_mutex;
 		};
 
 	}

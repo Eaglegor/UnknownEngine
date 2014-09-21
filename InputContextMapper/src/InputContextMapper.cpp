@@ -8,6 +8,9 @@
 #include <ExportedMessages/UserInput/KeyStateChangedMessage.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 
+#include <KeyIsDownCondition.h>
+#include <ActionSlot.h>
+
 namespace UnknownEngine
 {
 	namespace IO
@@ -35,36 +38,32 @@ namespace UnknownEngine
 				listener->registerMessageBuffer(buffer);
 			}
 
+			
+			std::unique_ptr<ActionSlot> test_action_slot(new ActionSlot());
+			std::unique_ptr<ActionCondition> condition(new KeyIsDownCondition(Key::T));
+			test_action_slot->setCondition(std::move(condition));
+			
+			test_action_slot->setAction([](){ std::cout << "Key is down!" << std::endl; });
+			
+			context.addActionSlot("Test", std::move(test_action_slot));
+			
+			listener->registerAtDispatcher();
+			
 		}
 
-		InputContextMapper::~InputContextMapper(){};
+		InputContextMapper::~InputContextMapper(){
+			listener->unregisterAtDispatcher();
+		};
 
 		void InputContextMapper::update(const Core::UpdateFrameMessage& msg)
 		{
 			listener->flushAllMessageBuffers();
+			context.update();
 		}
 
 		void InputContextMapper::onKeyPressed(const KeyStateChangedMessage &msg)
 		{
-			switch(msg.new_state)
-			{
-				case KeyState::KEY_PRESSED:
-				{
-					LOG_DEBUG(creation_options.log_helper, "Processing key press: " + std::to_string(static_cast<int>(msg.key)));
-
-
-
-					break;
-				}
-				case KeyState::KEY_UNPRESSED:
-				{
-					LOG_DEBUG(creation_options.log_helper, "Processing key release: " + std::to_string(static_cast<int>(msg.key)));
-
-
-
-					break;
-				}
-			}
+			context.processEvent(msg.key, msg.new_state);
 		}
 	}
 }

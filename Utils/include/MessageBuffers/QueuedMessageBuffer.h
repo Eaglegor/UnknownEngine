@@ -5,6 +5,8 @@
 #include <Spinlock.h>
 #include <MessageBuffers/MessageBuffer.h>
 
+#include <iostream>
+
 namespace UnknownEngine
 {
 	namespace Utils

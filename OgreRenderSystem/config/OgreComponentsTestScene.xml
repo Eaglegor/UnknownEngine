@@ -80,6 +80,13 @@
 		
 		<subsystem name="MeshDataLoader" module="AssimpMeshDataLoader"/>
 		
+		<subsystem name="InputContext" module="InputContextMapper">
+			<received_messages>
+				<message type="Engine.MainLoop.UpdateFrameMessage"/>
+				<message type="IO.KeyStateChanged"/>
+			</received_messages>
+		</subsystem>
+		
 		<subsystem name="SimpleBehavior" module="SimpleBehaviorPlugin">
 			<received_messages>
 				<message type="Engine.MainLoop.UpdateFrameMessage"/>

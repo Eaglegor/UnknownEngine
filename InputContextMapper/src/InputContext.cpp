@@ -1,55 +1,44 @@
 #include <InputContext.h>
-#include <Actions/ActionsFactory.h>
 
 namespace UnknownEngine
 {
 	namespace IO
 	{
 		
-		InputContext::InputContext( bool enabled ):
-		enabled(enabled)
+		void InputContext::addAction ( const std::string& action_slot_name, std::function< void() > action )
 		{
+			auto iter = actions.find(action_slot_name);
+			if(iter == actions.end()) return;
+			iter->second->setAction(action);
+		}
+
+		void InputContext::addAction ( const std::string& action_slot_name, std::function< void(const Math::Scalar&) > action )
+		{
+			auto iter = actions.find(action_slot_name);
+			if(iter == actions.end()) return;
+			iter->second->setAction(action);
 		}
 		
-		void InputContext::performActions()
+		void InputContext::addActionSlot ( const std::string& action_slot_name, std::unique_ptr<ActionSlot> action_slot )
 		{
-			for(auto& iter : keyboard_events)
+			actions.emplace( action_slot_name, std::move(action_slot) );
+		}
+
+		void InputContext::processEvent ( const Key& key, const KeyState& new_state )
+		{
+			for(auto &iter : actions)
 			{
-				iter.second.performAction();
+				iter.second->processEvent(key, new_state);
 			}
 		}
 
-		void InputContext::addSimpleActionPerformer ( const SimpleActionPerformerDescriptor& desc )
+		void InputContext::update()
 		{
-			for(auto& iter : keyboard_events)
+			for(auto &iter : actions)
 			{
-				if(iter.second.getActionName() == desc.action_name)
-				{
-					iter.second.setAction( std::move( ActionsFactory::createSimpleAction(desc) ) );
-				}
+				iter.second->update();
 			}
 		}
 		
-		InputContext::EventInterceptionStatus InputContext::processEvent ( Key& key, KeyState& state )
-		{
-			auto iter = keyboard_events.find(key);
-			if(iter != keyboard_events.end())
-			{
-				bool intercepted = iter->second.processEvent(state);
-				if(intercepted) return EventInterceptionStatus::INTERCEPTED;
-			}
-			return EventInterceptionStatus::NOT_INTERCEPTED;
-		}
-
-		bool InputContext::isEnabled() const
-		{
-			return enabled;
-		}
-
-		void InputContext::setEnabled ( bool new_enabled )
-		{
-			enabled = new_enabled;
-		}
-
 	}
 }

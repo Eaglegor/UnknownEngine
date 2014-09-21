@@ -1,9 +1,13 @@
 #pragma once
 
+#include <unordered_map>
+
 #include <InputContextMapperDescriptor.h>
 #include <InputContextMapperCreationOptions.h>
 #include <EngineContext.h>
 #include <LogHelper.h>
+
+#include <InputContext.h>
 
 namespace UnknownEngine
 {
@@ -32,6 +36,9 @@ namespace UnknownEngine
         private:
             std::unique_ptr<Core::BaseMessageListener> listener;
             InputContextMapperCreationOptions creation_options;
+			
+			InputContext context;
+			
         };
     }
 }
