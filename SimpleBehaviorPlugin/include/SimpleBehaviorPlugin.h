@@ -51,7 +51,7 @@ namespace UnknownEngine
 				virtual bool uninstall()  override;
 				
 				void onUpdateFrame(const Core::UpdateFrameMessage& msg);
-				void onKeyPressed(const IO::KeyStateChangedMessage& msg);
+				void stopEngine();
 
 			private:
 				Core::SubsystemDesc desc;

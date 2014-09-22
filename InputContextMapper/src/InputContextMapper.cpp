@@ -1,4 +1,5 @@
 #include <InputContextMapper.h>
+#include <ExportedMessages/InputContext/AddSimpleActionMessage.h>
 #include <MessageSystem/BaseMessageListener.h>
 #include <Listeners/BaseMessageListenersFactory.h>
 #include <Listeners/StandardMessageBuffersFactory.h>
@@ -27,6 +28,14 @@ namespace UnknownEngine
 				BufferType buffer = factory.createBuffer<BufferType>(&InputContextMapper::update);
 				listener->registerMessageBuffer(buffer);
 			}
+			
+			{
+				typedef AddSimpleActionMessage MessageType;
+				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
+				
+				BufferType buffer = factory.createBuffer<BufferType>(&InputContextMapper::addSimpleAction);
+				listener->registerMessageBuffer(buffer);
+			}
 
 			{
 				typedef IO::KeyStateChangedMessage MessageType;
@@ -36,20 +45,10 @@ namespace UnknownEngine
 				listener->registerMessageBuffer(buffer);
 			}
 
-			InputContext* context = createContext("Test");
-			
-			SimpleActionSlot* action_slot = context->createSimpleActionSlot("KeyDown", SimpleActionSlot::ConditionType::EVENT_ACTIVE);
-			action_slot->setAction([](){std::cout << "Key is down" << std::endl;});
-			keyboard_event_handler.addActionSlotSubscription("Test", "KeyDown", Key::T);
-			
-			action_slot = context->createSimpleActionSlot("KeyPressed", SimpleActionSlot::ConditionType::EVENT_STARTED);
-			action_slot->setAction([](){std::cout << "Key pressed" << std::endl;});
-			keyboard_event_handler.addActionSlotSubscription("Test", "KeyPressed", Key::W);
-			
-			action_slot = context->createSimpleActionSlot("KeyReleased", SimpleActionSlot::ConditionType::EVENT_ENDED);
-			action_slot->setAction([](){std::cout << "Key released" << std::endl;});
-			keyboard_event_handler.addActionSlotSubscription("Test", "KeyReleased", Key::S);
-			
+			InputContext* context = createContext("Generic");
+			context->createSimpleActionSlot("StopEngine", SimpleActionSlot::ConditionType::EVENT_STARTED);
+			keyboard_event_handler.addActionSlotSubscription("Generic", "StopEngine", Key::ESCAPE);
+
 			listener->registerAtDispatcher();
 			
 		}
@@ -83,5 +82,15 @@ namespace UnknownEngine
 		{
 			keyboard_event_handler.processEvent(msg.key, msg.new_state);
 		}
+		
+		void InputContextMapper::addSimpleAction(const AddSimpleActionMessage &msg)
+		{
+			InputContext* context = findContext(msg.context_name);
+			if(context == nullptr) throw InputContextNotFoundException("Can't find requested input context: " + msg.context_name);
+			SimpleActionSlot* action_slot = context->findSimpleActionSlot(msg.action_slot_name);
+			if(action_slot == nullptr) throw ActionSlotNotFoundException("Can't find requested action slot: " + msg.action_slot_name);
+			action_slot->setAction(msg.action_callback);
+		}
+		
 	}
 }

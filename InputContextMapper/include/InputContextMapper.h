@@ -6,6 +6,7 @@
 #include <InputContextMapperCreationOptions.h>
 #include <EngineContext.h>
 #include <LogHelper.h>
+#include <Exception.h>
 
 #include <InputContext.h>
 #include "EventHandlers/Keyboard/KeyboardEventHandler.h"
@@ -24,10 +25,15 @@ namespace UnknownEngine
     namespace IO
     {
         struct KeyStateChangedMessage;
+		struct AddSimpleActionMessage;
 
         class InputContextMapper
         {
         public:
+			
+			UNKNOWNENGINE_SIMPLE_EXCEPTION(InputContextNotFoundException);
+			UNKNOWNENGINE_SIMPLE_EXCEPTION(ActionSlotNotFoundException);
+			
             InputContextMapper(const InputContextMapperDescriptor& desc, const InputContextMapperCreationOptions& creation_options);
 			virtual ~InputContextMapper();
 
@@ -35,7 +41,8 @@ namespace UnknownEngine
 			InputContext* findContext(const std::string& name);
 			
             void update(const Core::UpdateFrameMessage &msg);
-            void onKeyPressed(const KeyStateChangedMessage& msg);
+            void onKeyPressed(const KeyStateChangedMessage &msg);
+			void addSimpleAction(const AddSimpleActionMessage &msg);
 
         private:
             std::unique_ptr<Core::BaseMessageListener> listener;

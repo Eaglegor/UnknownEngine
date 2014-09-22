@@ -9,6 +9,7 @@
 #include <LogHelper.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 #include <ExportedMessages/StopEngineActionMessage.h>
+#include <ExportedMessages/InputContext/AddSimpleActionMessage.h>
 #include <SimpleBehaviorsFactory.h>
 #include <SimpleBehaviorUpdateFrameListener.h>
 #include <SimpleBehaviorsPerformer.h>
@@ -18,7 +19,6 @@
 #include <Listeners/BaseMessageListenersFactory.h>
 #include <Listeners/StandardMessageBuffersFactory.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
-#include <../UserInput/include/ExportedMessages/UserInput/KeyStateChangedMessage.h>
 
 namespace UnknownEngine
 {
@@ -58,7 +58,7 @@ namespace UnknownEngine
 
 
 			stop_engine_message_sender.reset ( new Core::MessageSender<Core::StopEngineActionMessage>(
-				Core::MessageSystemParticipantId("SimpleBehaviorPlugin", Core::MessageSystemParticipantId::AutoRegistrationPolicy::AUTO_REGISTER),
+				GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(std::string(getName())),
 				engine_context
 			) );
 			
@@ -79,14 +79,16 @@ namespace UnknownEngine
 				BufferType buffer = factory.createBuffer<BufferType>(&SimpleBehaviorPlugin::onUpdateFrame);
 				listener->registerMessageBuffer(buffer);
 			}
-
-			{
-				typedef IO::KeyStateChangedMessage MessageType;
-				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
-
-				BufferType buffer = factory.createBuffer<BufferType>(&SimpleBehaviorPlugin::onKeyPressed);
-				listener->registerMessageBuffer(buffer);
-			}
+			
+			Core::MessageSender<IO::AddSimpleActionMessage> add_action_sender(
+				GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(std::string(getName())),
+				engine_context
+			);
+			IO::AddSimpleActionMessage msg;
+			msg.context_name = "Generic";
+			msg.action_slot_name = "StopEngine";
+			msg.action_callback = std::bind(&SimpleBehaviorPlugin::stopEngine, this);
+			add_action_sender.sendMessage(msg);
 			
 			listener->registerAtDispatcher();
 			
@@ -119,13 +121,9 @@ namespace UnknownEngine
 			behaviors_performer->perform();
 		}
 
-		void SimpleBehaviorPlugin::onKeyPressed ( const IO::KeyStateChangedMessage& msg )
+		void SimpleBehaviorPlugin::stopEngine ( )
 		{
-			if(msg.key == IO::Key::ESCAPE && msg.new_state == IO::KeyState::KEY_PRESSED)
-			{
-				Core::StopEngineActionMessage msg;
-				stop_engine_message_sender->sendMessage(msg);
-			}
+			stop_engine_message_sender->sendMessage(Core::StopEngineActionMessage());
 		}
 		
 	} /* namespace Graphics */

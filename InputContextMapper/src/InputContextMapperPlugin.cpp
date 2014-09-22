@@ -1,6 +1,7 @@
 #include <InputContextMapper.h>
 #include <InputContextMapperPlugin.h>
 #include <InputContextMapperDescriptorGetter.h>
+#include <ExportedMessages/InputContext/AddSimpleActionMessage.h>
 #include <LogHelper.h>
 
 namespace UnknownEngine
@@ -15,6 +16,9 @@ namespace UnknownEngine
         bool InputContextMapperPlugin::install(Core::PluginsManager *plugins_manager, Core::SubsystemDesc const &desc) {
             this->desc = desc;
             this->engine_context = plugins_manager->getEngineContext();
+			
+			this->engine_context->getMessageDictionary()->registerNewMessageType(AddSimpleActionMessage::getTypeName());
+			
             return true;
         }
 
