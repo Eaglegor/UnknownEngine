@@ -4,39 +4,40 @@ namespace UnknownEngine
 {
 	namespace IO
 	{
-		
-		void InputContext::addAction ( const std::string& action_slot_name, std::function< void() > action )
-		{
-			auto iter = actions.find(action_slot_name);
-			if(iter == actions.end()) return;
-			iter->second->setAction(action);
-		}
 
-		void InputContext::addAction ( const std::string& action_slot_name, std::function< void(const Math::Scalar&) > action )
+		RangeActionSlot* InputContext::createRangeActionSlot( const std::string& action_slot_name )
 		{
-			auto iter = actions.find(action_slot_name);
-			if(iter == actions.end()) return;
-			iter->second->setAction(action);
+			return &(range_actions.emplace(action_slot_name, RangeActionSlot()).first->second);
 		}
 		
-		void InputContext::addActionSlot ( const std::string& action_slot_name, std::unique_ptr<ActionSlot> action_slot )
+		SimpleActionSlot* InputContext::createSimpleActionSlot( const std::string& action_slot_name, const UnknownEngine::IO::SimpleActionSlot::ConditionType& condition_type )
 		{
-			actions.emplace( action_slot_name, std::move(action_slot) );
+			return &(simple_actions.emplace(std::string(action_slot_name), SimpleActionSlot(condition_type)).first->second);
 		}
 
-		void InputContext::processEvent ( const Key& key, const KeyState& new_state )
+		SimpleActionSlot* InputContext::findSimpleActionSlot(const std::string &action_slot_name)
 		{
-			for(auto &iter : actions)
-			{
-				iter.second->processEvent(key, new_state);
-			}
+			auto iter = simple_actions.find(action_slot_name);
+			if(iter == simple_actions.end()) return nullptr;
+			return &iter->second;
 		}
-
+		
+		RangeActionSlot* InputContext::findRangeActionSlot(const std::string &action_slot_name)
+		{
+			auto iter = range_actions.find(action_slot_name);
+			if(iter == range_actions.end()) return nullptr;
+			return &iter->second;
+		}
+		
 		void InputContext::update()
 		{
-			for(auto &iter : actions)
+			for(auto &iter : simple_actions)
 			{
-				iter.second->update();
+				iter.second.update();
+			}
+			for(auto &iter : range_actions)
+			{
+				iter.second.update();
 			}
 		}
 		

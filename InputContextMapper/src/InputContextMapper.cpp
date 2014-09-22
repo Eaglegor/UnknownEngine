@@ -8,15 +8,13 @@
 #include <ExportedMessages/UserInput/KeyStateChangedMessage.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 
-#include <KeyIsDownCondition.h>
-#include <ActionSlot.h>
-
 namespace UnknownEngine
 {
 	namespace IO
 	{
-		InputContextMapper::InputContextMapper(const InputContextMapperDescriptor &desc, const InputContextMapperCreationOptions &creation_options)
-				: creation_options(creation_options)
+		InputContextMapper::InputContextMapper(const InputContextMapperDescriptor &desc, const InputContextMapperCreationOptions &creation_options):
+		creation_options(creation_options),
+		keyboard_event_handler(this)
 		{
 			listener = std::move(Utils::BaseMessageListenersFactory::createBaseMessageListener(creation_options.name, creation_options.engine_context, creation_options.received_messages));
 
@@ -38,14 +36,19 @@ namespace UnknownEngine
 				listener->registerMessageBuffer(buffer);
 			}
 
+			InputContext* context = createContext("Test");
 			
-			std::unique_ptr<ActionSlot> test_action_slot(new ActionSlot());
-			std::unique_ptr<ActionCondition> condition(new KeyIsDownCondition(Key::T));
-			test_action_slot->setCondition(std::move(condition));
+			SimpleActionSlot* action_slot = context->createSimpleActionSlot("KeyDown", SimpleActionSlot::ConditionType::EVENT_ACTIVE);
+			action_slot->setAction([](){std::cout << "Key is down" << std::endl;});
+			keyboard_event_handler.addActionSlotSubscription("Test", "KeyDown", Key::T);
 			
-			test_action_slot->setAction([](){ std::cout << "Key is down!" << std::endl; });
+			action_slot = context->createSimpleActionSlot("KeyPressed", SimpleActionSlot::ConditionType::EVENT_STARTED);
+			action_slot->setAction([](){std::cout << "Key pressed" << std::endl;});
+			keyboard_event_handler.addActionSlotSubscription("Test", "KeyPressed", Key::W);
 			
-			context.addActionSlot("Test", std::move(test_action_slot));
+			action_slot = context->createSimpleActionSlot("KeyReleased", SimpleActionSlot::ConditionType::EVENT_ENDED);
+			action_slot->setAction([](){std::cout << "Key released" << std::endl;});
+			keyboard_event_handler.addActionSlotSubscription("Test", "KeyReleased", Key::S);
 			
 			listener->registerAtDispatcher();
 			
@@ -58,12 +61,27 @@ namespace UnknownEngine
 		void InputContextMapper::update(const Core::UpdateFrameMessage& msg)
 		{
 			listener->flushAllMessageBuffers();
-			context.update();
+			for(auto &iter : contexts)
+			{
+				iter.second.update();
+			}
 		}
 
+		InputContext* InputContextMapper::createContext(const std::string& name)
+		{
+			return &(contexts.emplace(name, InputContext()).first->second);
+		}
+		
+		InputContext* InputContextMapper::findContext(const std::string& name)
+		{
+			auto iter = contexts.find(name);
+			if(iter == contexts.end()) return nullptr;
+			return &iter->second;
+		}
+		
 		void InputContextMapper::onKeyPressed(const KeyStateChangedMessage &msg)
 		{
-			context.processEvent(msg.key, msg.new_state);
+			keyboard_event_handler.processEvent(msg.key, msg.new_state);
 		}
 	}
 }
