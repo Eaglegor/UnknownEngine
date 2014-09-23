@@ -11,6 +11,7 @@ namespace UnknownEngine
 		key_pressed_message_sender( GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(name), engine_context ),
 		mouse_button_pressed_message_sender( GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(name), engine_context ),
 		mouse_moved_message_sender( GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(name), engine_context ),
+		mouse_wheel_moved_message_sender( GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(name), engine_context ),
 		window_resized_message_sender( GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(name), engine_context ),
 		window_manager(window_manager)
 		{
@@ -42,13 +43,13 @@ namespace UnknownEngine
 
 						IO::MouseButtonStateChangedMessage msg;
 
-						msg.mouse_id = msg.button.which;
+						msg.mouse_id = event.button.which;
 
 						msg.new_state = (event.type == SDL_MOUSEBUTTONDOWN ? IO::MouseButtonState::MOUSE_BUTTON_PRESSED : IO::MouseButtonState::MOUSE_BUTTON_UNPRESSED);
 						msg.clicks_count = event.button.clicks;
 
-						msg.cursor_position_x = msg.button.x;
-						msg.cursor_position_y = msg.button.y;
+						msg.cursor_position_x = event.button.x;
+						msg.cursor_position_y = event.button.y;
 
 						switch(event.button.button)
 						{

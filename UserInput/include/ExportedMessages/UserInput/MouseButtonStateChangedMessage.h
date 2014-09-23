@@ -2,6 +2,12 @@
 
 #include <MessageSystem/Message.h>
 
+#ifdef _MSC_VER
+	typedef __int32 int32_t;
+	typedef unsigned __int32 uint32_t;
+	typedef unsigned __int8 uint8_t;
+#endif
+
 namespace UnknownEngine
 {
 	namespace IO
@@ -20,7 +26,7 @@ namespace UnknownEngine
 		*
 		*/
 
-		struct KeyStateChangedMessage : public Core::Message
+		struct MouseButtonStateChangedMessage : public Core::Message
 		{
 			constexpr static const char* getTypeName(){return "IO.MouseButtonStateChanged";}
 

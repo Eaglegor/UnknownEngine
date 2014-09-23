@@ -100,7 +100,8 @@ namespace UnknownEngine
 					BufferType buffer = factory.createBuffer<BufferType>(&BaseOgreLightComponent::onTransformChanged);
 					listener->registerMessageBuffer(buffer);
 				}
-MO
+
+				
 			}
 		}
 		
