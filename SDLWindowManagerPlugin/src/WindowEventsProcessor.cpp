@@ -56,26 +56,45 @@ namespace UnknownEngine
 							case SDL_BUTTON_LEFT:
 							{
 								msg.button_id = 0;
+								break;
 							}
 							case SDL_BUTTON_RIGHT:
 							{
 								msg.button_id = 1;
+								break;
 							}
 							case SDL_BUTTON_MIDDLE:
 							{
 								msg.button_id = 2;
+								break;
 							}
 							case SDL_BUTTON_X1:
 							{
 								msg.button_id = 3;
+								break;
 							}
 							case SDL_BUTTON_X2:
 							{
 								msg.button_id = 4;
+								break;
 							}
 						}
 
 						mouse_button_pressed_message_sender.sendMessage(msg);
+
+						break;
+					}
+					case SDL_MOUSEWHEEL:
+					{
+
+						IO::MouseWheelMovedMessage msg;
+
+						msg.mouse_id = event.wheel.which;
+
+						msg.delta_x = event.wheel.x;
+						msg.delta_y = event.wheel.y;
+
+						mouse_wheel_moved_message_sender.sendMessage(msg);
 
 						break;
 					}
@@ -90,20 +109,6 @@ namespace UnknownEngine
 						msg.new_y = event.motion.y;
 						msg.delta_x = event.motion.xrel;
 						msg.delta_y = event.motion.yrel;
-
-						mouse_moved_message_sender.sendMessage(msg);
-
-						break;
-					}
-					case SDL_MOUSEWHEEL:
-					{
-
-						IO::MouseMovedMessage msg;
-
-						msg.mouse_id = event.wheel.which;
-
-						msg.delta_x = event.wheel.x;
-						msg.delta_y = event.wheel.y;
 
 						mouse_moved_message_sender.sendMessage(msg);
 

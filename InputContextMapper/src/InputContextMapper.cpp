@@ -7,6 +7,9 @@
 #include <MessageBuffers/QueuedMessageBuffer.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <ExportedMessages/UserInput/KeyStateChangedMessage.h>
+#include <ExportedMessages/UserInput/MouseButtonStateChangedMessage.h>
+#include <ExportedMessages/UserInput/MouseMovedMessage.h>
+#include <ExportedMessages/UserInput/MouseWheelMovedMessage.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 
 namespace UnknownEngine
@@ -15,12 +18,12 @@ namespace UnknownEngine
 	{
 		InputContextMapper::InputContextMapper(const InputContextMapperDescriptor &desc, const InputContextMapperCreationOptions &creation_options):
 		creation_options(creation_options),
-		keyboard_event_handler(this)
+		keyboard_event_handler(this),
+		mouse_event_handler(this)
 		{
 			listener = std::move(Utils::BaseMessageListenersFactory::createBaseMessageListener(creation_options.name, creation_options.engine_context, creation_options.received_messages));
 
 			Utils::StandardMessageBuffersFactory<InputContextMapper> factory(this);
-
 			{
 				typedef Core::UpdateFrameMessage MessageType;
 				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
@@ -45,10 +48,34 @@ namespace UnknownEngine
 				listener->registerMessageBuffer(buffer);
 			}
 
+			{
+				typedef IO::MouseButtonStateChangedMessage MessageType;
+				typedef Utils::QueuedMessageBuffer<MessageType> BufferType;
+				
+				BufferType buffer = factory.createBuffer<BufferType>(&InputContextMapper::onMouseButtonClick);
+				listener->registerMessageBuffer(buffer);
+			}
+			
+			{
+				typedef IO::MouseMovedMessage MessageType;
+				typedef Utils::QueuedMessageBuffer<MessageType> BufferType;
+				
+				BufferType buffer = factory.createBuffer<BufferType>(&InputContextMapper::onMouseMoved);
+				listener->registerMessageBuffer(buffer);
+			}
+			
+			{
+				typedef IO::MouseWheelMovedMessage MessageType;
+				typedef Utils::QueuedMessageBuffer<MessageType> BufferType;
+				
+				BufferType buffer = factory.createBuffer<BufferType>(&InputContextMapper::onMouseWheelMoved);
+				listener->registerMessageBuffer(buffer);
+			}
+			
 			InputContext* context = createContext("Generic");
 			context->createSimpleActionSlot("StopEngine", SimpleActionSlot::ConditionType::EVENT_STARTED);
 			keyboard_event_handler.addActionSlotSubscription("Generic", "StopEngine", Key::ESCAPE);
-
+			
 			listener->registerAtDispatcher();
 			
 		}
@@ -92,5 +119,22 @@ namespace UnknownEngine
 			action_slot->setAction(msg.action_callback);
 		}
 		
+		void InputContextMapper::onMouseButtonClick ( const MouseButtonStateChangedMessage& msg )
+		{
+			mouse_event_handler.processEvent(msg.button_id, msg.new_state);
+		}
+
+		void InputContextMapper::onMouseMoved ( const MouseMovedMessage& msg )
+		{
+			mouse_event_handler.processEvent(MouseAxis::X, msg.delta_x);
+			mouse_event_handler.processEvent(MouseAxis::Y, msg.delta_y);
+		}
+
+		void InputContextMapper::onMouseWheelMoved ( const MouseWheelMovedMessage& msg )
+		{
+			std::cout << "Mouse wheel found" << std::endl;
+			mouse_event_handler.processEvent(MouseAxis::Z, msg.delta_y);
+		}
+
 	}
 }

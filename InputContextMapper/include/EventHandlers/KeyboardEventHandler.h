@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <vector>
 #include <Keys.h>
+#include <KeyState.h>
 #include <KeycodeHash.h>
 #include <ActionSlots/SimpleActionSlot.h>
 #include <Spinlock.h>

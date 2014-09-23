@@ -84,6 +84,9 @@
 			<received_messages>
 				<message type="Engine.MainLoop.UpdateFrameMessage"/>
 				<message type="IO.KeyStateChanged"/>
+				<message type="IO.MouseMoved"/>
+				<message type="IO.MouseWheelMoved"/>
+				<message type="IO.MouseButtonStateChanged"/>
 				<message type="IO.InputContext.AddSimpleActionMessage"/>
 			</received_messages>
 		</subsystem>

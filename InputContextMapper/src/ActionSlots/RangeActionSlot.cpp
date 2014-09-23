@@ -1,4 +1,5 @@
 #include <ActionSlots/RangeActionSlot.h>
+#include <cmath>
 
 namespace UnknownEngine
 {
@@ -16,7 +17,7 @@ namespace UnknownEngine
 		
 		void RangeActionSlot::onEvent ( Math::Scalar new_state )
 		{
-			current_state = new_state;
+			current_state += new_state;
 		}
 
 		void RangeActionSlot::setAction ( RangeActionSlot::ActionType action )
@@ -26,7 +27,11 @@ namespace UnknownEngine
 
 		void RangeActionSlot::update()
 		{
-			action(current_state);
+			if(fabs(current_state) > Math::ZERO_PRECISION)
+			{
+				action(current_state);
+				current_state = 0;
+			}
 		}
 
 	}

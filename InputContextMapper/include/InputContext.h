@@ -11,7 +11,7 @@ namespace UnknownEngine
 		class InputContext
 		{
 		public:
-			RangeActionSlot* createRangeActionSlot(const std::string &action_slot_name);
+			RangeActionSlot* createRangeActionSlot( const std::string& action_slot_name );
 			SimpleActionSlot* createSimpleActionSlot(const std::string &action_slot_name, const SimpleActionSlot::ConditionType &condition_type);
 
 			SimpleActionSlot* findSimpleActionSlot(const std::string &action_slot_name);

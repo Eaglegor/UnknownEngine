@@ -1,6 +1,7 @@
 #pragma once
 
 #include <MessageSystem/Message.h>
+#include <MouseButtonState.h>
 
 #ifdef _MSC_VER
 	typedef __int32 int32_t;
@@ -12,12 +13,6 @@ namespace UnknownEngine
 {
 	namespace IO
 	{
-
-		enum class MouseButtonState
-		{
-			MOUSE_BUTTON_PRESSED,
-			MOUSE_BUTTON_UNPRESSED
-		};
 
 		/**
 		* @brief Mouse button pressed message

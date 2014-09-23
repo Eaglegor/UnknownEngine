@@ -9,7 +9,8 @@
 #include <Exception.h>
 
 #include <InputContext.h>
-#include "EventHandlers/Keyboard/KeyboardEventHandler.h"
+#include <EventHandlers/KeyboardEventHandler.h>
+#include <EventHandlers/MouseEventHandler.h>
 
 namespace UnknownEngine
 {
@@ -24,9 +25,13 @@ namespace UnknownEngine
 
     namespace IO
     {
+
         struct KeyStateChangedMessage;
 		struct AddSimpleActionMessage;
-
+		struct MouseWheelMovedMessage;
+		struct MouseMovedMessage;
+		struct MouseButtonStateChangedMessage;
+		
         class InputContextMapper
         {
         public:
@@ -42,6 +47,11 @@ namespace UnknownEngine
 			
             void update(const Core::UpdateFrameMessage &msg);
             void onKeyPressed(const KeyStateChangedMessage &msg);
+			
+			void onMouseButtonClick(const MouseButtonStateChangedMessage& msg);
+			void onMouseMoved(const MouseMovedMessage &msg);
+			void onMouseWheelMoved(const MouseWheelMovedMessage &msg);
+			
 			void addSimpleAction(const AddSimpleActionMessage &msg);
 
         private:
@@ -49,6 +59,7 @@ namespace UnknownEngine
             InputContextMapperCreationOptions creation_options;
 			
 			KeyboardEventHandler keyboard_event_handler;
+			MouseEventHandler mouse_event_handler;
 			
 			std::unordered_map<std::string, InputContext> contexts;
 			
