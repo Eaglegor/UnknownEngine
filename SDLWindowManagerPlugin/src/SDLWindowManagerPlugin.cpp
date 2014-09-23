@@ -20,7 +20,6 @@
 #include <LogHelper.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 #include <Listeners/BaseMessageListenersFactory.h>
-#include <Listeners/StandardMessageBuffersFactory.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <ExportedMessages/RenderSystem/GetWindowHandleMessage.h>
 #include <SDL.h>
@@ -54,9 +53,12 @@ namespace UnknownEngine
 			engine_context = plugins_manager->getEngineContext();
 
 			engine_context->getMessageDictionary()->registerNewMessageType( IO::KeyStateChangedMessage::getTypeName() );
+			engine_context->getMessageDictionary()->registerNewMessageType( IO::MouseButtonStateChangedMessage::getTypeName() );
+			engine_context->getMessageDictionary()->registerNewMessageType( IO::MouseMovedMessage::getTypeName() );
+			engine_context->getMessageDictionary()->registerNewMessageType( IO::MouseWheelMovedMessage::getTypeName() );
 			engine_context->getMessageDictionary()->registerNewMessageType( Graphics::GetWindowHandleMessage::getTypeName() );
 			engine_context->getMessageDictionary()->registerNewMessageType( Graphics::WindowResizedMessage::getTypeName() );
-			
+
 			return true;
 		}
 
