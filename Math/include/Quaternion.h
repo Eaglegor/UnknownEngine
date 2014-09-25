@@ -35,6 +35,11 @@ namespace UnknownEngine
 			{
 			}
 		  
+			Quaternion(const Eigen::Quaternion<Scalar> &quat):
+			Eigen::Quaternion<Scalar>( quat )
+			{
+			}
+		  
 			UNKNOWNENGINE_INLINE
 			void setX(const Scalar &new_x){this->x() = new_x;}
 
@@ -47,6 +52,18 @@ namespace UnknownEngine
 			UNKNOWNENGINE_INLINE
 			void setW(const Scalar &new_w){this->w() = new_w;}
 
+			UNKNOWNENGINE_INLINE
+			Math::Vector3 operator*(const Math::Vector3& rhs) const
+			{
+				return toRotationMatrix()*rhs;
+			}
+			
+			UNKNOWNENGINE_INLINE
+			Math::Quaternion operator*(const Eigen::Quaternion<Scalar>& rhs) const
+			{
+				return Eigen::Quaternion<Scalar>::operator*(rhs);
+			}
+			
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
 		};

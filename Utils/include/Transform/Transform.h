@@ -32,7 +32,7 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				const Math::Quaternion getOrientation() const
+				const Math::Quaternion &getOrientation() const
 				{
 					return orientation;
 				}

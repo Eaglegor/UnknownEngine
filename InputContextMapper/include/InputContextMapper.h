@@ -28,6 +28,7 @@ namespace UnknownEngine
 
         struct KeyStateChangedMessage;
 		struct AddSimpleActionMessage;
+		struct AddRangeActionMessage;
 		struct MouseWheelMovedMessage;
 		struct MouseMovedMessage;
 		struct MouseButtonStateChangedMessage;
@@ -53,6 +54,7 @@ namespace UnknownEngine
 			void onMouseWheelMoved(const MouseWheelMovedMessage &msg);
 			
 			void addSimpleAction(const AddSimpleActionMessage &msg);
+			void addRangeAction(const AddRangeActionMessage &msg);
 
         private:
             std::unique_ptr<Core::BaseMessageListener> listener;

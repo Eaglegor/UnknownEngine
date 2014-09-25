@@ -3,7 +3,7 @@
 #include <Listeners/OgreUpdateFrameListener.h>
 #include <MessageSystem/BaseMessageListener.h>
 #include <ExportedMessages/RenderSystem/WindowResizedMessage.h>
-#include <Listeners/BaseMessageListenerBufferRegistrator.h>
+#include <Listeners/StandardMessageBuffersFactory.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 
 namespace UnknownEngine

@@ -27,10 +27,13 @@ namespace UnknownEngine
 
 		void RangeActionSlot::update()
 		{
-			if(fabs(current_state) > Math::ZERO_PRECISION)
+			if(action)
 			{
-				action(current_state);
-				current_state = 0;
+				if(fabs(current_state) > Math::ZERO_PRECISION)
+				{
+					action(current_state);
+					current_state = 0;
+				}
 			}
 		}
 

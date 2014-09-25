@@ -1,5 +1,6 @@
 #include <InputContextMapper.h>
 #include <ExportedMessages/InputContext/AddSimpleActionMessage.h>
+#include <ExportedMessages/InputContext/AddRangeActionMessage.h>
 #include <MessageSystem/BaseMessageListener.h>
 #include <Listeners/BaseMessageListenersFactory.h>
 #include <Listeners/StandardMessageBuffersFactory.h>
@@ -41,6 +42,14 @@ namespace UnknownEngine
 			}
 
 			{
+				typedef AddRangeActionMessage MessageType;
+				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
+				
+				BufferType buffer = factory.createBuffer<BufferType>(&InputContextMapper::addRangeAction);
+				listener->registerMessageBuffer(buffer);
+			}
+			
+			{
 				typedef IO::KeyStateChangedMessage MessageType;
 				typedef Utils::QueuedMessageBuffer<MessageType> BufferType;
 
@@ -75,6 +84,27 @@ namespace UnknownEngine
 			InputContext* context = createContext("Generic");
 			context->createSimpleActionSlot("StopEngine", SimpleActionSlot::ConditionType::EVENT_STARTED);
 			keyboard_event_handler.addActionSlotSubscription("Generic", "StopEngine", Key::ESCAPE);
+			
+			context = createContext("MouseLook");
+			context->createSimpleActionSlot("MoveForward", SimpleActionSlot::ConditionType::EVENT_ACTIVE);
+			context->createSimpleActionSlot("MoveBackward", SimpleActionSlot::ConditionType::EVENT_ACTIVE);
+			context->createSimpleActionSlot("StrafeLeft", SimpleActionSlot::ConditionType::EVENT_ACTIVE);
+			context->createSimpleActionSlot("StrafeRight", SimpleActionSlot::ConditionType::EVENT_ACTIVE);
+			context->createSimpleActionSlot("StrafeUp", SimpleActionSlot::ConditionType::EVENT_ACTIVE);
+			context->createSimpleActionSlot("StrafeDown", SimpleActionSlot::ConditionType::EVENT_ACTIVE);
+			
+			keyboard_event_handler.addActionSlotSubscription("MouseLook", "MoveForward", Key::W);
+			keyboard_event_handler.addActionSlotSubscription("MouseLook", "MoveBackward", Key::S);
+			keyboard_event_handler.addActionSlotSubscription("MouseLook", "StrafeLeft", Key::A);
+			keyboard_event_handler.addActionSlotSubscription("MouseLook", "StrafeRight", Key::D);
+			keyboard_event_handler.addActionSlotSubscription("MouseLook", "StrafeUp", Key::E);
+			keyboard_event_handler.addActionSlotSubscription("MouseLook", "StrafeDown", Key::Q);
+			
+			context->createRangeActionSlot("Pitch");
+			context->createRangeActionSlot("Yaw");
+			
+			mouse_event_handler.addActionSlotSubscription("MouseLook", "Pitch", MouseAxis::Y);
+			mouse_event_handler.addActionSlotSubscription("MouseLook", "Yaw", MouseAxis::X);
 			
 			listener->registerAtDispatcher();
 			
@@ -115,6 +145,15 @@ namespace UnknownEngine
 			InputContext* context = findContext(msg.context_name);
 			if(context == nullptr) throw InputContextNotFoundException("Can't find requested input context: " + msg.context_name);
 			SimpleActionSlot* action_slot = context->findSimpleActionSlot(msg.action_slot_name);
+			if(action_slot == nullptr) throw ActionSlotNotFoundException("Can't find requested action slot: " + msg.action_slot_name);
+			action_slot->setAction(msg.action_callback);
+		}
+		
+		void InputContextMapper::addRangeAction(const AddRangeActionMessage &msg)
+		{
+			InputContext* context = findContext(msg.context_name);
+			if(context == nullptr) throw InputContextNotFoundException("Can't find requested input context: " + msg.context_name);
+			RangeActionSlot* action_slot = context->findRangeActionSlot(msg.action_slot_name);
 			if(action_slot == nullptr) throw ActionSlotNotFoundException("Can't find requested action slot: " + msg.action_slot_name);
 			action_slot->setAction(msg.action_callback);
 		}

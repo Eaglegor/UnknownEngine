@@ -39,6 +39,7 @@ namespace UnknownEngine
 			if(context != nullptr)
 			{
 				SimpleActionSlot* action_slot = context->findSimpleActionSlot(action_slot_name);
+				if(action_slot == nullptr) return;
 				auto iter = mouse_button_subscriptions.find(mouse_button);
 				if(iter == mouse_button_subscriptions.end())
 				{
@@ -54,6 +55,7 @@ namespace UnknownEngine
 			if(context != nullptr)
 			{
 				RangeActionSlot* action_slot = context->findRangeActionSlot(action_slot_name);
+				if(action_slot == nullptr) return;
 				auto iter = mouse_move_subscriptions.find(mouse_axis);
 				if(iter == mouse_move_subscriptions.end())
 				{

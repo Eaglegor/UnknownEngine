@@ -5,6 +5,7 @@
 #include <SimpleBehaviorUpdateFrameListener.h>
 #include <EngineContext.h>
 #include <SimpleBehaviorsPerformer.h>
+#include <MouseLookComponent.h>
 
 namespace UnknownEngine
 {
@@ -20,11 +21,23 @@ namespace UnknownEngine
 			creatable_component.creator = std::bind(&SimpleBehaviorsFactory::createSimpleRotationComponent, this, std::placeholders::_1);
 			creatable_component.deleter = std::bind(&SimpleBehaviorsFactory::destroySimpleBehaviorComponent, this, std::placeholders::_1);
 			registerCreator(creatable_component);
+			
+			creatable_component.type = MOUSE_LOOK_COMPONENT_TYPE;
+			creatable_component.creator = std::bind(&SimpleBehaviorsFactory::createMouseLookComponent, this, std::placeholders::_1);
+			creatable_component.deleter = std::bind(&SimpleBehaviorsFactory::destroySimpleBehaviorComponent, this, std::placeholders::_1);
+			registerCreator(creatable_component);
 		}
 
 		Core::IComponent* SimpleBehaviorsFactory::createSimpleRotationComponent ( const Core::ComponentDesc& desc )
 		{
 			SimpleRotationComponent* component = new SimpleRotationComponent(desc.name, engine_context);
+			behaviors_performer->addSimpleBehaviorComponent(component);
+			return component;
+		}
+		
+		Core::IComponent* SimpleBehaviorsFactory::createMouseLookComponent ( const Core::ComponentDesc& desc )
+		{
+			MouseLookComponent* component = new MouseLookComponent(desc.name, engine_context);
 			behaviors_performer->addSimpleBehaviorComponent(component);
 			return component;
 		}

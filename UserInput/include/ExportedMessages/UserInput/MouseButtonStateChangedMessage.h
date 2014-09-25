@@ -2,6 +2,7 @@
 
 #include <MessageSystem/Message.h>
 #include <MouseButtonState.h>
+#include <cstdint>
 
 #ifdef _MSC_VER
 	typedef __int32 int32_t;

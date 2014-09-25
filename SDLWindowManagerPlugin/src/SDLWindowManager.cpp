@@ -38,6 +38,7 @@ namespace UnknownEngine
 			size_t flags = SDL_WINDOW_SHOWN;
 			if(desc.resizable) flags |= SDL_WINDOW_RESIZABLE;
 			if(desc.full_screen) flags |= SDL_WINDOW_FULLSCREEN;
+			SDL_SetRelativeMouseMode(SDL_TRUE);
 			
 			sdl_windows.emplace( desc.window_name, SDL_CreateWindow(desc.window_title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, desc.width, desc.height, flags) );
 			window_names.push_back(desc.window_name);
@@ -81,7 +82,7 @@ namespace UnknownEngine
 				if(SDL_GetWindowWMInfo(window, &info))
 				{
 	#ifdef _MSC_VER
-					Graphics::NativeWindowHandleType handle = info.win.window;
+					Graphics::NativeWindowHandleType handle = info.info.win.window;
 	#else
 					Graphics::NativeWindowHandleType handle = info.info.x11.window;
 	#endif

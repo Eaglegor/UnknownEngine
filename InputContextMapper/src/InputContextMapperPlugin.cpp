@@ -2,6 +2,7 @@
 #include <InputContextMapperPlugin.h>
 #include <InputContextMapperDescriptorGetter.h>
 #include <ExportedMessages/InputContext/AddSimpleActionMessage.h>
+#include <ExportedMessages/InputContext/AddRangeActionMessage.h>
 #include <LogHelper.h>
 
 namespace UnknownEngine
@@ -18,6 +19,7 @@ namespace UnknownEngine
             this->engine_context = plugins_manager->getEngineContext();
 			
 			this->engine_context->getMessageDictionary()->registerNewMessageType(AddSimpleActionMessage::getTypeName());
+			this->engine_context->getMessageDictionary()->registerNewMessageType(AddRangeActionMessage::getTypeName());
 			
             return true;
         }

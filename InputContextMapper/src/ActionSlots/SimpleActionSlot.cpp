@@ -50,7 +50,7 @@ namespace UnknownEngine
 
 		void SimpleActionSlot::update()
 		{
-			if(condition && condition->isTrue())
+			if(action && condition && condition->isTrue())
 			{
 				action();
 			}

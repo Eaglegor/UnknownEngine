@@ -1,6 +1,7 @@
 #pragma once
 
 #include <MessageSystem/Message.h>
+#include <cstdint>
 
 namespace UnknownEngine
 {

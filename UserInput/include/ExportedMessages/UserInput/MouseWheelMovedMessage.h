@@ -1,11 +1,7 @@
 #pragma once
 
 #include <MessageSystem/Message.h>
-
-#ifdef _MSC_VER
-	typedef __int32 int32_t;
-	typedef unsigned __int32 uint32_t;
-#endif
+#include <cstdint>
 
 namespace UnknownEngine
 {
