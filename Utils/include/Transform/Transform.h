@@ -17,7 +17,10 @@ namespace UnknownEngine
 					position ( position ), orientation ( orientation )
 				{}
 
-				Transform() {}
+				Transform():
+				position(0,0,0),
+				orientation(Math::Quaternion::Identity())
+				{}
 
 				UNKNOWNENGINE_INLINE
 				const Math::Vector3& getPosition() const
