@@ -159,8 +159,8 @@ namespace UnknownEngine
 
 		void MouseLookComponent::updateQuaternion()
 		{
-			Math::Quaternion pitch_rotation(current_x_angle/180*3.14, right_axis);
-			Math::Quaternion yaw_rotation(current_y_angle/180*3.14, up_axis);
+			Math::Quaternion pitch_rotation (Math::AngleAxis(current_x_angle/180*3.14, right_axis));
+			Math::Quaternion yaw_rotation (Math::AngleAxis(current_y_angle/180*3.14, up_axis));
 			
 			current_transform.setOrientation( pitch_rotation * yaw_rotation * current_transform.getOrientation() );
 			

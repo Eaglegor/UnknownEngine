@@ -1,5 +1,7 @@
 #pragma once
 
+#include <MathPrerequisites.h>
+
 namespace UnknownEngine
 {
 	namespace Math

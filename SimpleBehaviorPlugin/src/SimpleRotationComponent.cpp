@@ -31,7 +31,7 @@ namespace UnknownEngine
 			current_angle += 0.0001;
 		
 			Core::TransformChangedMessage message;
-			message.new_transform.setOrientation( Math::Quaternion(current_angle, Math::Vector3(0,1,0)) );
+			message.new_transform.setOrientation( Math::Quaternion(Math::AngleAxis(current_angle, Math::Vector3(0,1,0))) );
 			
 			transform_changed_message_sender.sendMessage(message);
 			

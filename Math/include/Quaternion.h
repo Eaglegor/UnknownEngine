@@ -1,72 +1,19 @@
 #pragma once
 
+#include <MathPrerequisites.h>
+
 #include <InlineSpecification.h>
+#include <Vectors/Vector3.h>
 #include <AlignedNew.h>
 #include <Eigen/Geometry>
-#include <Vectors/Vector3.h>
 #include <Scalar.h>
 
 namespace UnknownEngine
 {
 	namespace Math
 	{
-		class Quaternion: public Eigen::Quaternion<Scalar>
-		{
-		public:
-		  
-			Quaternion()
-			{
-			  setX(0);
-			  setY(0);
-			  setZ(0);
-			  setW(1);
-			}
-		  
-			Quaternion(const Scalar &x, const Scalar &y, const Scalar &z, const Scalar &w)
-			{
-			  setX(x);
-			  setY(y);
-			  setZ(z);
-			  setW(w);
-			}
-		  
-			Quaternion(const Scalar& angle, const Math::Vector3& axis):
-			Eigen::Quaternion<Scalar>( Eigen::AngleAxis<Scalar>(angle, axis) )
-			{
-			}
-		  
-			Quaternion(const Eigen::Quaternion<Scalar> &quat):
-			Eigen::Quaternion<Scalar>( quat )
-			{
-			}
-		  
-			UNKNOWNENGINE_INLINE
-			void setX(const Scalar &new_x){this->x() = new_x;}
-
-			UNKNOWNENGINE_INLINE
-			void setY(const Scalar &new_y){this->y() = new_y;}
-
-			UNKNOWNENGINE_INLINE
-			void setZ(const Scalar &new_z){this->z() = new_z;}
-
-			UNKNOWNENGINE_INLINE
-			void setW(const Scalar &new_w){this->w() = new_w;}
-
-			UNKNOWNENGINE_INLINE
-			Math::Vector3 operator*(const Math::Vector3& rhs) const
-			{
-				return toRotationMatrix()*rhs;
-			}
-			
-			UNKNOWNENGINE_INLINE
-			Math::Quaternion operator*(const Eigen::Quaternion<Scalar>& rhs) const
-			{
-				return Eigen::Quaternion<Scalar>::operator*(rhs);
-			}
-			
-			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
-
-		};
+		typedef Eigen::AngleAxis<Scalar> AngleAxis;
+		typedef Eigen::Quaternion < Scalar > Quaternion;
 	}
 }
 
