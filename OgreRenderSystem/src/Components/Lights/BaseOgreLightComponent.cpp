@@ -6,10 +6,10 @@
 #include <Converters/OgreColourValueConverter.h>
 #include <Converters/OgreQuaternionConverter.h>
 #include <ExportedMessages/TransformChangedMessage.h>
-#include <Listeners/BaseMessageListenerBufferRegistrator.h>
+#include <Listeners/StandardMessageBuffersFactory.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <MessageBuffers/OnlyLastMessageBuffer.h>
-#include <MessageSystem/IMessageListener.h>
+#include <MessageSystem/BaseMessageListener.h>
 #include <MessageSystem/MessageDispatcher.h>
 #include <OgreSceneManager.h>
 
@@ -76,21 +76,32 @@ namespace UnknownEngine
 		{
 			if(!listener) return;
 			
-			Utils::BaseMessageListenerBufferRegistrator<BaseOgreLightComponent> registrator(listener.get(), this);
+			Utils::StandardMessageBuffersFactory<BaseOgreLightComponent> factory(this);
 			
 			if(can_be_multi_threaded)
 			{
-				registrator.registerStandardMessageBuffer<
-				Core::TransformChangedMessage, 
-				Utils::OnlyLastMessageBuffer<Core::TransformChangedMessage>
-				>( &BaseOgreLightComponent::onTransformChanged );
+
+				{
+					typedef Core::TransformChangedMessage MessageType;
+					typedef Utils::OnlyLastMessageBuffer<MessageType> BufferType;
+
+					BufferType buffer = factory.createBuffer<BufferType>(&BaseOgreLightComponent::onTransformChanged);
+					listener->registerMessageBuffer(buffer);
+				}
+
 			}
 			else
 			{
-				registrator.registerStandardMessageBuffer<
-				Core::TransformChangedMessage, 
-				Utils::InstantForwardMessageBuffer<Core::TransformChangedMessage>
-				>( &BaseOgreLightComponent::onTransformChanged );
+
+				{
+					typedef Core::TransformChangedMessage MessageType;
+					typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
+
+					BufferType buffer = factory.createBuffer<BufferType>(&BaseOgreLightComponent::onTransformChanged);
+					listener->registerMessageBuffer(buffer);
+				}
+
+				
 			}
 		}
 		

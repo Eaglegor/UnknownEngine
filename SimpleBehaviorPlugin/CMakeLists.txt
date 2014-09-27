@@ -1,7 +1,7 @@
 set(TARGET_NAME SimpleBehaviorPlugin)
 set(LINKAGE SHARED)
 
-set(INCLUDED_MODULE_HEADERS SimpleBehaviorPlugin UserInput Plugins ComponentSystem Utils Engine Math)
+set(INCLUDED_MODULE_HEADERS SimpleBehaviorPlugin InputContextMapper Plugins ComponentSystem Utils Engine Math)
 set(LINKED_LIBS Engine ComponentSystem Plugins )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 

@@ -34,13 +34,32 @@ namespace UnknownEngine
 			BaseMessageListener ( const std::string& object_name, EngineContext* engine_context );
 			
 			COMPONENTSYSTEM_EXPORT
+			~BaseMessageListener ();
+			
+			COMPONENTSYSTEM_EXPORT
 			void registerSupportedMessageType( const std::string& message_type_name, IMessageReceivePolicy* receive_policy);
 
 			COMPONENTSYSTEM_EXPORT
 			void registerSupportedMessageType( const MessageType& message_type_id, IMessageReceivePolicy* receive_policy);
-			
-			COMPONENTSYSTEM_EXPORT
-			bool registerMessageBuffer( const MessageType& message_type, std::unique_ptr<Utils::IMessageBuffer> buffer);
+
+			template<typename BufferClass>
+			bool registerMessageBuffer( const BufferClass &buffer)
+			{
+				static_assert(std::is_base_of<Utils::IMessageBuffer, BufferClass>::value, "Message buffer must implement Utils::IMessageBuffer" );
+
+				LOG_DEBUG(log_helper, "Searching for supported message type...");
+
+				auto iter = received_messages.find ( buffer.getMessageType() );
+				if ( iter == received_messages.end() ) return false;
+
+				LOG_DEBUG(log_helper, "Message buffer found, ...");
+
+				iter->second.setMessageBuffer( buffer );
+
+				LOG_DEBUG(log_helper, "Buffer registered...");
+
+				return true;
+			}
 
 			COMPONENTSYSTEM_EXPORT
 			MessagingPoliciesManager& getMessagingPoliciesManager();
@@ -58,6 +77,8 @@ namespace UnknownEngine
 			void unregisterAtDispatcher();
 			
 		private:
+
+			typedef std::recursive_mutex LockPrimitive;
 			
 			struct ReceivedMessage
 			{
@@ -71,7 +92,15 @@ namespace UnknownEngine
 				ReceivedMessage(const ReceivedMessage &msg):
 				receive_policy(msg.receive_policy){};
 
+				template<typename T>
+				void setMessageBuffer(const T& new_message_buffer)
+				{
+					message_buffer.reset(new T(new_message_buffer));
+				}
+
 			};
+
+			Utils::IMessageBuffer *findMessageBuffer(const PackedMessage &msg);
 			
 			std::unordered_map<MessageType, ReceivedMessage > received_messages;
 			MessagingPoliciesManager messaging_policies_manager;
@@ -79,7 +108,7 @@ namespace UnknownEngine
 			
 			std::unique_ptr<LogHelper> log_helper;
 			
-			std::mutex message_buffers_mutex;
+			LockPrimitive lock_primitive;
 		};
 
 	}

@@ -13,7 +13,7 @@
 #include <LogHelper.h>
 #include <MessageBuffers/OnlyLastMessageBuffer.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
-#include <Listeners/BaseMessageListenerBufferRegistrator.h>
+#include <Listeners/StandardMessageBuffersFactory.h>
 #include <ExportedMessages/TransformChangedMessage.h>
 #include <ExportedMessages/RenderSystem/ChangeMaterialActionMessage.h>
 
@@ -113,31 +113,44 @@ namespace UnknownEngine
 		{
 			if(!listener) return;
 			
-			Utils::BaseMessageListenerBufferRegistrator<OgreRenderableComponent> registrator(listener.get(), this);
-			
+			Utils::StandardMessageBuffersFactory<OgreRenderableComponent> factory(this);
+
 			if(can_be_multi_threaded)
 			{
-				registrator.registerStandardMessageBuffer<
-				Core::TransformChangedMessage, 
-				Utils::OnlyLastMessageBuffer<Core::TransformChangedMessage>
-				>( &OgreRenderableComponent::onTransformChanged );
+				{
+					typedef Core::TransformChangedMessage MessageType;
+					typedef Utils::OnlyLastMessageBuffer<MessageType> BufferType;
+
+					BufferType buffer = factory.createBuffer<BufferType>(&OgreRenderableComponent::onTransformChanged);
+					listener->registerMessageBuffer(buffer);
+				}
+
+				{
+					typedef ChangeMaterialActionMessage MessageType;
+					typedef Utils::OnlyLastMessageBuffer<MessageType> BufferType;
+
+					BufferType buffer = factory.createBuffer<BufferType>(&OgreRenderableComponent::doChangeMaterial);
+					listener->registerMessageBuffer(buffer);
+				}
 				
-				registrator.registerStandardMessageBuffer<
-				ChangeMaterialActionMessage, 
-				Utils::OnlyLastMessageBuffer<ChangeMaterialActionMessage>
-				>( &OgreRenderableComponent::doChangeMaterial );
 			}
 			else
 			{
-				registrator.registerStandardMessageBuffer<
-				Core::TransformChangedMessage, 
-				Utils::InstantForwardMessageBuffer<Core::TransformChangedMessage>
-				>( &OgreRenderableComponent::onTransformChanged );
-				
-				registrator.registerStandardMessageBuffer<
-				ChangeMaterialActionMessage, 
-				Utils::InstantForwardMessageBuffer<ChangeMaterialActionMessage>
-				>( &OgreRenderableComponent::doChangeMaterial );
+				{
+					typedef Core::TransformChangedMessage MessageType;
+					typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
+
+					BufferType buffer = factory.createBuffer<BufferType>(&OgreRenderableComponent::onTransformChanged);
+					listener->registerMessageBuffer(buffer);
+				}
+
+				{
+					typedef ChangeMaterialActionMessage MessageType;
+					typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
+
+					BufferType buffer = factory.createBuffer<BufferType>(&OgreRenderableComponent::doChangeMaterial);
+					listener->registerMessageBuffer(buffer);
+				}
 			}
 		}
 		

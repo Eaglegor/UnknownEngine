@@ -51,7 +51,7 @@ namespace UnknownEngine
 				 * May be used in multithreaded subsystems to wait for message delivery.
 				 *
 				 */
-				virtual void notifySuccessulyDelivered() {}
+				virtual void notifySuccessfullyDelivered() {}
 
 				/**
 				 * @brief Callback to notify that message delivery was finished.

@@ -2,6 +2,7 @@
 
 #include <MessageSystem/Message.h>
 #include <Transform/Transform.h>
+#include <AlignedNew.h>
 
 namespace UnknownEngine
 {
@@ -14,10 +15,12 @@ namespace UnknownEngine
 		 * \tparam - type of subobject identifier (string, index, guid, etc.)
 		 * */
 		template<typename SubObjectIdentifierType>
-		struct LocalTransformChangedMessage : public Message
+		UNKNOWNENGINE_ALIGNED_STRUCT(16) LocalTransformChangedMessage : public Message
 		{
 			constexpr static const char* getTypeName(){return "Engine.LocalTransformChangedMessage";}
 			
+			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
+
 			Transform new_transform;
 			SubObjectIdentifierType sub_object_identifier; ///< Identifier of subobject (number of part, local name etc.)
 		};

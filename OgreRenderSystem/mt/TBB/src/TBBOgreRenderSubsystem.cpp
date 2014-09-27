@@ -2,7 +2,7 @@
 #include <LogHelper.h>
 #include <Listeners/OgreUpdateFrameListener.h>
 #include <MessageSystem/BaseMessageListener.h>
-#include <Listeners/BaseMessageListenerBufferRegistrator.h>
+#include <Listeners/StandardMessageBuffersFactory.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <MessageBuffers/OnlyLastMessageBuffer.h>
 #include <ExportedMessages/RenderSystem/WindowResizedMessage.h>
@@ -31,30 +31,40 @@ namespace UnknownEngine
 			listener->registerSupportedMessageType(Core::UpdateFrameMessage::getTypeName(), nullptr);
 			listener->registerSupportedMessageType(Graphics::WindowResizedMessage::getTypeName(), nullptr);
 			
-			Utils::BaseMessageListenerBufferRegistrator<TBBOgreRenderSubsystem> registrator(listener.get(), this);
+			Utils::StandardMessageBuffersFactory<TBBOgreRenderSubsystem> factory(this);
 			
 			
 			if ( !desc.separate_rendering_thread )
 			{
 				initOgre();
 				
-				registrator.registerStandardMessageBuffer<
-				Core::UpdateFrameMessage,
-				Utils::InstantForwardMessageBuffer<Core::UpdateFrameMessage>
-				>(&TBBOgreRenderSubsystem::onFrameUpdated);
+				{
+					typedef Core::UpdateFrameMessage MessageType;
+					typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
+					
+					BufferType buffer = factory.createBuffer<BufferType, MessageType>(&TBBOgreRenderSubsystem::onFrameUpdated);
+					listener->registerMessageBuffer(buffer);
+				}
 				
-				registrator.registerStandardMessageBuffer<
-				Graphics::WindowResizedMessage,
-				Utils::InstantForwardMessageBuffer<Graphics::WindowResizedMessage>
-				>(&TBBOgreRenderSubsystem::onWindowResized);
+				{
+					typedef Graphics::WindowResizedMessage MessageType;
+					typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
+					
+					BufferType buffer = factory.createBuffer<BufferType, MessageType>(&TBBOgreRenderSubsystem::onWindowResized);
+					listener->registerMessageBuffer(buffer);
+				}
+				
 			}
 			else
 			{
 				
-				registrator.registerStandardMessageBuffer<
-				Graphics::WindowResizedMessage,
-				Utils::OnlyLastMessageBuffer<Graphics::WindowResizedMessage>
-				>(&TBBOgreRenderSubsystem::onWindowResized);
+				{
+					typedef Graphics::WindowResizedMessage MessageType;
+					typedef Utils::OnlyLastMessageBuffer<MessageType> BufferType;
+					
+					BufferType buffer = factory.createBuffer<BufferType, MessageType>(&TBBOgreRenderSubsystem::onWindowResized);
+					listener->registerMessageBuffer(buffer);
+				}
 				
 				frame_listener.reset ( new OgreRenderFrameListener() );
 				rendering_thread.reset ( new boost::thread ( [this]()

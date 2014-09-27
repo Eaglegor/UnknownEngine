@@ -11,7 +11,6 @@
 #include <Plugins/Plugin.h>
 #include <SubsystemDesc.h>
 
-class SDL_Window;
 namespace UnknownEngine
 {
 	namespace Graphics

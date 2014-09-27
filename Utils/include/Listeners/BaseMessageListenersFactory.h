@@ -32,7 +32,6 @@ namespace UnknownEngine
 
 					return std::move ( listener );
 				}
-
 		};
 
 	}

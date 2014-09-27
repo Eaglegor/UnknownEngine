@@ -1,10 +1,5 @@
-#include <stdafx.h>
-
-#include <Plugins/PluginExport.h>
-#include <Plugins/PluginsManager.h>
-#include <Properties/Properties.h>
 #include <DummySubsystem.h>
-#include <SubsystemDesc.h>
+#include <Plugins/PluginExport.h>
 
 using namespace UnknownEngine::Dummy;
 using namespace UnknownEngine::Core;

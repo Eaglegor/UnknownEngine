@@ -5,7 +5,7 @@
 #include <LogHelper.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 #include <ExportedMessages/RenderSystem/GetWindowHandleMessage.h>
-#include <Listeners/BaseMessageListenerBufferRegistrator.h>
+#include <Listeners/StandardMessageBuffersFactory.h>
 #include <Listeners/BaseMessageListenersFactory.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <SDL_syswm.h>
@@ -81,7 +81,7 @@ namespace UnknownEngine
 				if(SDL_GetWindowWMInfo(window, &info))
 				{
 	#ifdef _MSC_VER
-					Graphics::NativeWindowHandleType handle = info.win.window;
+					Graphics::NativeWindowHandleType handle = info.info.win.window;
 	#else
 					Graphics::NativeWindowHandleType handle = info.info.x11.window;
 	#endif
@@ -107,17 +107,23 @@ namespace UnknownEngine
 				) 
 			);
 			
-			Utils::BaseMessageListenerBufferRegistrator<SDLWindowManager> registrator(listener.get(), this);
+			Utils::StandardMessageBuffersFactory<SDLWindowManager> factory(this);
 			
-			registrator.registerStandardMessageBuffer<
-			Core::UpdateFrameMessage, 
-			Utils::InstantForwardMessageBuffer<Core::UpdateFrameMessage>
-			>( &SDLWindowManager::onUpdateFrame );
-			
-			registrator.registerStandardMessageBuffer<
-			Graphics::GetWindowHandleMessage, 
-			Utils::InstantForwardMessageBuffer<Graphics::GetWindowHandleMessage>
-			>( &SDLWindowManager::getWindowHandle );
+			{
+				typedef Core::UpdateFrameMessage MessageType;
+				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
+				
+				BufferType buffer = factory.createBuffer<BufferType>(&SDLWindowManager::onUpdateFrame);
+				listener->registerMessageBuffer(buffer);
+			}
+
+			{
+				typedef Graphics::GetWindowHandleMessage MessageType;
+				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
+				
+				BufferType buffer = factory.createBuffer<BufferType>(&SDLWindowManager::getWindowHandle);
+				listener->registerMessageBuffer(buffer);
+			}
 			
 			listener->registerAtDispatcher();
 		}

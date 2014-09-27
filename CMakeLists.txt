@@ -50,6 +50,7 @@ RenderSystem
 OgreRenderSystem
 AssimpMeshDataLoader
 
+InputContextMapper
 UserInput
 SDLWindowManagerPlugin
 )

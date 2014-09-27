@@ -6,7 +6,11 @@ set(LINKED_LIBS Engine ComponentSystem Plugins )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 
 INCLUDE(FindPkgConfig)
-PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
+PKG_SEARCH_MODULE(SDL2 sdl2)
+
+if(NOT SDL2_FOUND)
+    find_package(SDL2)
+endif()
 
 if(SDL2_FOUND)
 

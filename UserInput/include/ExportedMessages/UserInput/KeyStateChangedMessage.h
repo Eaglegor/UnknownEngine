@@ -2,6 +2,7 @@
 
 #include <MessageSystem/Message.h>
 #include <Keys.h>
+#include <KeyState.h>
 
 namespace UnknownEngine
 {

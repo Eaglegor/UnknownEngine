@@ -14,7 +14,10 @@ namespace UnknownEngine
 		public:
 			OnlyLastMessageBuffer(std::function<void(const MessageClass&)> process_message_callback):
 			MessageBuffer<MessageClass>(process_message_callback){}
-			
+
+			OnlyLastMessageBuffer(const OnlyLastMessageBuffer& rhs) :
+			MessageBuffer<MessageClass>( static_cast<const MessageBuffer<MessageClass>&>(rhs) ){}
+
 			virtual void flush()
 			{
 				boost::lock_guard<boost::mutex> guard(message_guard_mutex);

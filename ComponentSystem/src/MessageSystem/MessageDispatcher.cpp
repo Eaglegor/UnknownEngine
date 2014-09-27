@@ -14,6 +14,9 @@
 #include <MessageSystem/IMessageListener.h>
 #include <MessageSystem/PackedMessage.h>
 
+//#define ENABLE_CORE_SUBSYSTEM_DEBUG_LOG
+#include <CoreLogging.h>
+
 namespace UnknownEngine
 {
 	namespace Core
@@ -122,11 +125,15 @@ namespace UnknownEngine
 							registered_listener.listener->processMessage ( msg );
 							if ( delivery_policy != nullptr )
 							{
-								delivery_policy->notifySuccessulyDelivered();
+								delivery_policy->notifySuccessfullyDelivered();
 							}
 						}
 					}
 				}
+			}
+			else
+			{
+				CORE_SUBSYSTEM_DEBUG( ("Cant find suitable listener for message type: " + MESSAGE_TYPE_NAME(msg.getMessageTypeId()) + "(" + std::to_string(msg.getMessageTypeId())) + ")" );
 			}
 			if ( delivery_policy != nullptr )
 			{

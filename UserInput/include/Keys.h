@@ -154,11 +154,5 @@ namespace UnknownEngine
 			LALT = 0x0800
 		};
 		
-		enum class KeyState
-		{
-			KEY_PRESSED,
-			KEY_UNPRESSED
-		};
-		
 	}
 }

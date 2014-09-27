@@ -15,6 +15,9 @@ namespace UnknownEngine
 			InstantForwardMessageBuffer(std::function<void(const MessageClass&)> process_message_callback):
 			MessageBuffer<MessageClass>(process_message_callback){}
 			
+			InstantForwardMessageBuffer(const InstantForwardMessageBuffer& rhs):
+			MessageBuffer<MessageClass>(static_cast<const MessageBuffer<MessageClass>&>(rhs)){}
+
 			virtual void flush()
 			{}
 

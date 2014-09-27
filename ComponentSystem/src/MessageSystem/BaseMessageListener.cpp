@@ -17,32 +17,13 @@ namespace UnknownEngine
 		{
 			//log_helper.reset( new LogHelper(object_name, LogMessage::Severity::LOG_SEVERITY_DEBUG, engine_context ) );
 		}
-
-		bool BaseMessageListener::registerMessageBuffer ( const Core::MessageType& message_type, std::unique_ptr< Utils::IMessageBuffer > buffer )
+		
+		BaseMessageListener::~BaseMessageListener()
 		{
-			LOG_DEBUG(log_helper, "Register buffer: Acquiring lock...");
-			
-			std::lock_guard<std::mutex> guard( message_buffers_mutex );
-			
-			LOG_DEBUG(log_helper, "Searching for supported message type...");
-			
-			auto iter = received_messages.find ( message_type );
-			if ( iter == received_messages.end() ) return false;
-			
-			LOG_DEBUG(log_helper, "Message buffer found, ...");
-			
-			iter->second.message_buffer = std::move(buffer);
-			
-			LOG_DEBUG(log_helper, "Buffer registered...");
-			
-			return true;
 		}
 
 		void BaseMessageListener::registerSupportedMessageType ( const UnknownEngine::Core::MessageType& message_type_id, UnknownEngine::Core::IMessageReceivePolicy* receive_policy )
 		{
-			LOG_DEBUG(log_helper, "Register message type: Acquiring lock...");
-			std::lock_guard<std::mutex> guard( message_buffers_mutex );
-			
 			LOG_DEBUG(log_helper, "Creating placeholder for message buffer");
 			received_messages.emplace ( message_type_id, ReceivedMessage(receive_policy) );
 			
@@ -61,21 +42,17 @@ namespace UnknownEngine
 
 		void BaseMessageListener::processMessage ( const PackedMessage& msg )
 		{
-			LOG_DEBUG(log_helper, "Process message: Acquiring lock");
-			std::lock_guard<std::mutex> guard( message_buffers_mutex );
-			
-			LOG_DEBUG(log_helper, "Searching for message buffer");
-			auto iter = received_messages.find ( msg.getMessageTypeId() );
-			if ( iter == received_messages.end() ) throw NoMessageProcessorFoundException ( "Can't find message processor for message type: " + MESSAGE_TYPE_NAME ( msg.getMessageTypeId() ) );
-			
+			Utils::IMessageBuffer *buffer = findMessageBuffer(msg);
+
 			LOG_DEBUG(log_helper, "Pushing message to buffer");
-			if ( iter->second.message_buffer ) iter->second.message_buffer->push ( msg );
+			if ( buffer != nullptr ) buffer->push ( msg );
+			
+			LOG_DEBUG(log_helper, "Message processed");
 		}
 
 		void BaseMessageListener::flushAllMessageBuffers()
 		{
-			LOG_DEBUG(log_helper, "Flush all buffers: Acquiring lock");
-			std::lock_guard<std::mutex> guard( message_buffers_mutex );
+			std::lock_guard<LockPrimitive> guard(lock_primitive);
 			for ( auto & iter : received_messages )
 			{
 				LOG_DEBUG(log_helper, "Flushing message buffers");
@@ -86,8 +63,6 @@ namespace UnknownEngine
 
 		void BaseMessageListener::registerAtDispatcher ( )
 		{
-			LOG_DEBUG(log_helper, "Registering at dispatcher: Acquiring lock");
-			std::lock_guard<std::mutex> guard( message_buffers_mutex );
 			for(auto& iter : received_messages)
 			{
 				LOG_DEBUG(log_helper, "Registering at message dispatcher");
@@ -99,6 +74,19 @@ namespace UnknownEngine
 		{
 			LOG_DEBUG(log_helper, "Unregistering at message dispatcher");
 			engine_context->getMessageDispatcher()->removeListener(this);
+		}
+		
+		Utils::IMessageBuffer* BaseMessageListener::findMessageBuffer ( const PackedMessage& msg )
+		{
+			Utils::IMessageBuffer *buffer = nullptr;
+			{
+				std::lock_guard<LockPrimitive> guard(lock_primitive);
+				LOG_DEBUG(log_helper, "Searching for message buffer");
+				auto iter = received_messages.find ( msg.getMessageTypeId() );
+				if ( iter == received_messages.end() ) throw NoMessageProcessorFoundException ( "Can't find message processor for message type: " + MESSAGE_TYPE_NAME ( msg.getMessageTypeId() ) );
+				if ( iter->second.message_buffer ) buffer = iter->second.message_buffer.get();
+			}
+			return buffer;
 		}
 		
 	}

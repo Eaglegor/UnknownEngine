@@ -1,5 +1,7 @@
 #pragma once
 
+#include <MathPrerequisites.h>
+
 #include <Eigen/Dense>
 
 #define UNKNOWNENGINE_ALIGNED_NEW_OPERATOR EIGEN_MAKE_ALIGNED_OPERATOR_NEW
