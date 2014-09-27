@@ -9,7 +9,7 @@
 #include <mutex>
 #include <condition_variable>
 
-#define AVERAGE_FPS_FRAMES_COUNT 10000
+//#define AVERAGE_FPS_FRAMES_COUNT 10000
 
 #ifdef AVERAGE_FPS_FRAMES_COUNT
 	#include <chrono>
