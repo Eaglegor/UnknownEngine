@@ -95,7 +95,7 @@ namespace UnknownEngine
 
 				{
 					typedef Core::TransformChangedMessage MessageType;
-					typedef Utils::OnlyLastMessageBuffer<MessageType> BufferType;
+					typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
 
 					BufferType buffer = factory.createBuffer<BufferType>(&BaseOgreLightComponent::onTransformChanged);
 					listener->registerMessageBuffer(buffer);

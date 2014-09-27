@@ -28,6 +28,18 @@ namespace UnknownEngine
 					case SDL_KEYDOWN:
 					case SDL_KEYUP:
 					{
+						if(event.type == SDL_KEYUP && event.key.keysym.sym == SDLK_F3)
+						{
+							if(SDL_GetRelativeMouseMode() == SDL_TRUE)
+							{
+								SDL_SetRelativeMouseMode(SDL_FALSE);
+							}
+							else
+							{
+								SDL_SetRelativeMouseMode(SDL_TRUE);
+							}
+						}
+						
 						IO::KeyStateChangedMessage msg;
 						
 						msg.key = keys_converter.getUnknownEngineKey(event.key.keysym.sym);

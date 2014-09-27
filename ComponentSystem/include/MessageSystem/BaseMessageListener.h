@@ -34,6 +34,9 @@ namespace UnknownEngine
 			BaseMessageListener ( const std::string& object_name, EngineContext* engine_context );
 			
 			COMPONENTSYSTEM_EXPORT
+			~BaseMessageListener ();
+			
+			COMPONENTSYSTEM_EXPORT
 			void registerSupportedMessageType( const std::string& message_type_name, IMessageReceivePolicy* receive_policy);
 
 			COMPONENTSYSTEM_EXPORT
@@ -75,6 +78,8 @@ namespace UnknownEngine
 			
 		private:
 
+			typedef std::recursive_mutex LockPrimitive;
+			
 			struct ReceivedMessage
 			{
 				std::unique_ptr<Utils::IMessageBuffer> message_buffer;
@@ -94,12 +99,16 @@ namespace UnknownEngine
 				}
 
 			};
+
+			Utils::IMessageBuffer *findMessageBuffer(const PackedMessage &msg);
 			
 			std::unordered_map<MessageType, ReceivedMessage > received_messages;
 			MessagingPoliciesManager messaging_policies_manager;
 			EngineContext* engine_context;
 			
 			std::unique_ptr<LogHelper> log_helper;
+			
+			LockPrimitive lock_primitive;
 		};
 
 	}

@@ -26,8 +26,11 @@ namespace UnknownEngine
 				std::unique_lock<Spinlock> guard( queue_spinlock );
 				while(!message_queue.empty())
 				{
-					this->process_message_callback(message_queue.front());
+					MessageClass msg = message_queue.front();
 					message_queue.pop();
+					guard.unlock();
+					this->process_message_callback(msg);
+					guard.lock();
 				}
 			}
 			
