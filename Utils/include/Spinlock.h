@@ -9,7 +9,15 @@ namespace UnknownEngine
 		class Spinlock
 		{
 		public:
-			Spinlock():spinlock(ATOMIC_FLAG_INIT){}
+			Spinlock()
+#ifndef _MSC_VER
+			:spinlock(ATOMIC_FLAG_INIT)
+#endif
+			{
+#ifdef _MSC_VER
+				spinlock.clear();
+#endif
+			}
 
 			void lock()
 			{
