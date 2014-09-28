@@ -38,7 +38,7 @@ namespace UnknownEngine
             creation_options.received_messages = desc.received_messages;
             creation_options.name = std::string(getName());
 
-            context_mapper.reset( new InputContextMapper(mapper_descriptor, creation_options) );
+            context_mapper.reset( new InputContextMapper(mapper_descriptor, creation_options, log_helper.get()) );
 
             return true;
         }
