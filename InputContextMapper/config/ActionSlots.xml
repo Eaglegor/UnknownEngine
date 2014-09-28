@@ -1,0 +1,28 @@
+<contexts>
+	
+	<context name="Generic">
+		
+		<action_slots>
+			<action_slot name="StopEngine" event="Simple" condition="EventStarted"/>
+			<action_slot name="GrabMouse" event="Simple" condition="EventStarted"/>
+		</action_slots>
+						
+	</context>
+	
+	<context name="MouseLook">
+		
+		<action_slots>
+			<action_slot name="Yaw" event="Range"/>
+			<action_slot name="Pitch" event="Range"/>
+
+			<action_slot name="MoveForward" event="Simple" condition="EventActive"/>
+			<action_slot name="MoveBackward" event="Simple" condition="EventActive"/>
+			<action_slot name="StrafeLeft" event="Simple" condition="EventActive"/>
+			<action_slot name="StrafeRight" event="Simple" condition="EventActive"/>
+			<action_slot name="StrafeUp" event="Simple" condition="EventActive"/>
+			<action_slot name="StrafeDown" event="Simple" condition="EventActive"/>
+		</action_slots>
+	
+	</context>
+	
+</contexts>

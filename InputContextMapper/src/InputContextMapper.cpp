@@ -1,6 +1,8 @@
 #include <InputContextMapper.h>
 #include <ExportedMessages/InputContext/AddSimpleActionMessage.h>
 #include <ExportedMessages/InputContext/AddRangeActionMessage.h>
+#include <Parsers/ActionSlotsConfigParser.h>
+#include <Parsers/InputLayoutConfigParser.h>
 #include <MessageSystem/BaseMessageListener.h>
 #include <Listeners/BaseMessageListenersFactory.h>
 #include <Listeners/StandardMessageBuffersFactory.h>
@@ -17,13 +19,15 @@ namespace UnknownEngine
 {
 	namespace IO
 	{
-		InputContextMapper::InputContextMapper(const InputContextMapperDescriptor &desc, const InputContextMapperCreationOptions &creation_options):
+		InputContextMapper::InputContextMapper( const UnknownEngine::IO::InputContextMapperDescriptor& desc, const UnknownEngine::IO::InputContextMapperCreationOptions& creation_options, UnknownEngine::Core::LogHelper* log_helper ):
 		creation_options(creation_options),
 		keyboard_event_handler(this),
-		mouse_event_handler(this)
+		mouse_event_handler(this),
+		log_helper(log_helper)
 		{
 			listener = std::move(Utils::BaseMessageListenersFactory::createBaseMessageListener(creation_options.name, creation_options.engine_context, creation_options.received_messages));
 
+			LOG_INFO(log_helper, "Registering update frame message buffer");
 			Utils::StandardMessageBuffersFactory<InputContextMapper> factory(this);
 			{
 				typedef Core::UpdateFrameMessage MessageType;
@@ -33,6 +37,7 @@ namespace UnknownEngine
 				listener->registerMessageBuffer(buffer);
 			}
 			
+			LOG_INFO(log_helper, "Registering add simple action message buffer");
 			{
 				typedef AddSimpleActionMessage MessageType;
 				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
@@ -41,6 +46,7 @@ namespace UnknownEngine
 				listener->registerMessageBuffer(buffer);
 			}
 
+			LOG_INFO(log_helper, "Registering add range action message buffer");
 			{
 				typedef AddRangeActionMessage MessageType;
 				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
@@ -49,6 +55,7 @@ namespace UnknownEngine
 				listener->registerMessageBuffer(buffer);
 			}
 			
+			LOG_INFO(log_helper, "Registering on key pressed message buffer");
 			{
 				typedef IO::KeyStateChangedMessage MessageType;
 				typedef Utils::QueuedMessageBuffer<MessageType> BufferType;
@@ -57,6 +64,7 @@ namespace UnknownEngine
 				listener->registerMessageBuffer(buffer);
 			}
 
+			LOG_INFO(log_helper, "Registering on mouse button click message buffer");
 			{
 				typedef IO::MouseButtonStateChangedMessage MessageType;
 				typedef Utils::QueuedMessageBuffer<MessageType> BufferType;
@@ -65,6 +73,7 @@ namespace UnknownEngine
 				listener->registerMessageBuffer(buffer);
 			}
 			
+			LOG_INFO(log_helper, "Registering on mouse moved message buffer");
 			{
 				typedef IO::MouseMovedMessage MessageType;
 				typedef Utils::QueuedMessageBuffer<MessageType> BufferType;
@@ -73,6 +82,7 @@ namespace UnknownEngine
 				listener->registerMessageBuffer(buffer);
 			}
 			
+			LOG_INFO(log_helper, "Registering on mouse wheel moved message buffer");
 			{
 				typedef IO::MouseWheelMovedMessage MessageType;
 				typedef Utils::QueuedMessageBuffer<MessageType> BufferType;
@@ -81,31 +91,25 @@ namespace UnknownEngine
 				listener->registerMessageBuffer(buffer);
 			}
 			
-			InputContext* context = createContext("Generic");
-			context->createSimpleActionSlot("StopEngine", SimpleActionSlot::ConditionType::EVENT_STARTED);
-			keyboard_event_handler.addActionSlotSubscription("Generic", "StopEngine", Key::ESCAPE);
+			if(!desc.action_slots_config_file.empty())
+			{
+				LOG_INFO(log_helper, "Parsing action slots config file");
+				ActionSlotsConfigParser parser(this, log_helper);
+				parser.processConfig(desc.action_slots_config_file);
+			}
+			else
+			{
+				LOG_WARNING(log_helper, "Action slots description file is not set. There will be no action contexts and slots.");
+			}
 			
-			context = createContext("MouseLook");
-			context->createSimpleActionSlot("MoveForward", SimpleActionSlot::ConditionType::EVENT_ACTIVE);
-			context->createSimpleActionSlot("MoveBackward", SimpleActionSlot::ConditionType::EVENT_ACTIVE);
-			context->createSimpleActionSlot("StrafeLeft", SimpleActionSlot::ConditionType::EVENT_ACTIVE);
-			context->createSimpleActionSlot("StrafeRight", SimpleActionSlot::ConditionType::EVENT_ACTIVE);
-			context->createSimpleActionSlot("StrafeUp", SimpleActionSlot::ConditionType::EVENT_ACTIVE);
-			context->createSimpleActionSlot("StrafeDown", SimpleActionSlot::ConditionType::EVENT_ACTIVE);
+			if(!desc.input_layout_config_file.empty())
+			{
+				LOG_INFO(log_helper, "Parsing input layout config file");
+				InputLayoutConfigParser parser(this, log_helper);
+				parser.processConfig(desc.input_layout_config_file);
+			}
 			
-			keyboard_event_handler.addActionSlotSubscription("MouseLook", "MoveForward", Key::W);
-			keyboard_event_handler.addActionSlotSubscription("MouseLook", "MoveBackward", Key::S);
-			keyboard_event_handler.addActionSlotSubscription("MouseLook", "StrafeLeft", Key::A);
-			keyboard_event_handler.addActionSlotSubscription("MouseLook", "StrafeRight", Key::D);
-			keyboard_event_handler.addActionSlotSubscription("MouseLook", "StrafeUp", Key::E);
-			keyboard_event_handler.addActionSlotSubscription("MouseLook", "StrafeDown", Key::Q);
-			
-			context->createRangeActionSlot("Pitch");
-			context->createRangeActionSlot("Yaw");
-			
-			mouse_event_handler.addActionSlotSubscription("MouseLook", "Pitch", MouseAxis::Y);
-			mouse_event_handler.addActionSlotSubscription("MouseLook", "Yaw", MouseAxis::X);
-			
+			LOG_INFO(log_helper, "Registering listener");
 			listener->registerAtDispatcher();
 			
 		}
@@ -125,6 +129,7 @@ namespace UnknownEngine
 
 		InputContext* InputContextMapper::createContext(const std::string& name)
 		{
+			LOG_INFO(log_helper, "Creating input context: " + name);
 			return &(contexts.emplace(name, InputContext()).first->second);
 		}
 		
@@ -142,19 +147,37 @@ namespace UnknownEngine
 		
 		void InputContextMapper::addSimpleAction(const AddSimpleActionMessage &msg)
 		{
+			LOG_INFO(log_helper, "Registering simple action. Context: " + msg.context_name + ", Slot: " + msg.action_slot_name);
 			InputContext* context = findContext(msg.context_name);
-			if(context == nullptr) throw InputContextNotFoundException("Can't find requested input context: " + msg.context_name);
+			if(context == nullptr) 
+			{
+				LOG_ERROR(log_helper, "Can't find requested input context: " + msg.context_name);
+				throw InputContextNotFoundException("Can't find requested input context: " + msg.context_name);
+			}
 			SimpleActionSlot* action_slot = context->findSimpleActionSlot(msg.action_slot_name);
-			if(action_slot == nullptr) throw ActionSlotNotFoundException("Can't find requested action slot: " + msg.action_slot_name);
+			if(action_slot == nullptr) 
+			{
+				LOG_ERROR(log_helper, "Can't find requested action slot: " + msg.action_slot_name);
+				throw ActionSlotNotFoundException("Can't find requested action slot: " + msg.action_slot_name);
+			}
 			action_slot->setAction(msg.action_callback);
 		}
 		
 		void InputContextMapper::addRangeAction(const AddRangeActionMessage &msg)
 		{
+			LOG_INFO(log_helper, "Registering range action. Context: " + msg.context_name + ", Slot: " + msg.action_slot_name);
 			InputContext* context = findContext(msg.context_name);
-			if(context == nullptr) throw InputContextNotFoundException("Can't find requested input context: " + msg.context_name);
+			if(context == nullptr) 
+			{
+				LOG_ERROR(log_helper, "Can't find requested input context: " + msg.context_name);
+				throw InputContextNotFoundException("Can't find requested input context: " + msg.context_name);
+			}
 			RangeActionSlot* action_slot = context->findRangeActionSlot(msg.action_slot_name);
-			if(action_slot == nullptr) throw ActionSlotNotFoundException("Can't find requested action slot: " + msg.action_slot_name);
+			if(action_slot == nullptr) 
+			{
+				LOG_ERROR(log_helper, "Can't find requested action slot: " + msg.action_slot_name);
+				throw ActionSlotNotFoundException("Can't find requested action slot: " + msg.action_slot_name);
+			}
 			action_slot->setAction(msg.action_callback);
 		}
 		
@@ -175,5 +198,15 @@ namespace UnknownEngine
 			mouse_event_handler.processEvent(MouseAxis::Z, msg.delta_y);
 		}
 
+		KeyboardEventHandler* InputContextMapper::getKeyboardEventHandler()
+		{
+			return &keyboard_event_handler;
+		}
+		
+		MouseEventHandler* InputContextMapper::getMouseEventHandler()
+		{
+			return &mouse_event_handler;
+		}
+		
 	}
 }

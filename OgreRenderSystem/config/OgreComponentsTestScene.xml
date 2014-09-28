@@ -81,6 +81,13 @@
 		<subsystem name="MeshDataLoader" module="AssimpMeshDataLoader"/>
 		
 		<subsystem name="InputContext" module="InputContextMapper">
+			
+			<options_section>
+				<option name="log_level" value="debug"/>
+				<option name="action_slots_config_file" value="InputContextMapperConfig/ActionSlots.xml"/>
+				<option name="input_layout_config_file" value="InputContextMapperConfig/InputLayout.cfg"/>
+			</options_section>
+			
 			<received_messages>
 				<message type="Engine.MainLoop.UpdateFrameMessage"/>
 				<message type="IO.KeyStateChanged"/>

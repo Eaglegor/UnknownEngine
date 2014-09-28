@@ -18,6 +18,8 @@ namespace UnknownEngine
 			if(context != nullptr)
 			{
 				SimpleActionSlot* action_slot = context->findSimpleActionSlot(action_slot_name);
+				if(action_slot == nullptr) return;
+				
 				auto iter = subscriptions.find(expected_key);
 				if(iter == subscriptions.end())
 				{
