@@ -31,7 +31,7 @@ namespace UnknownEngine
 			virtual void init ( const Core::Entity* parent_entity );
 			virtual void shutdown();
 			
-			virtual void act();
+			virtual void act(Math::Scalar dt);
 			
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 			

@@ -88,7 +88,7 @@ namespace UnknownEngine
 			
 		}
 
-		void MouseLookComponent::act()
+		void MouseLookComponent::act( Math::Scalar dt )
 		{
 			if(needs_update_quaternion)
 			{

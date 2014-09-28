@@ -1,5 +1,6 @@
 #pragma once
 #include <Objects/BaseComponent.h>
+#include <Scalar.h>
 
 namespace UnknownEngine
 {
@@ -12,7 +13,7 @@ namespace UnknownEngine
 			Core::BaseComponent(name)
 			{}
 			
-			virtual void act() = 0;
+			virtual void act(Math::Scalar dt) = 0;
 		};
 	}
 }

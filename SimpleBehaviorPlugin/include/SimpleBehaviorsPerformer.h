@@ -2,6 +2,7 @@
 
 #include <string>
 #include <unordered_set>
+#include <Scalar.h>
 
 namespace UnknownEngine
 {
@@ -18,7 +19,7 @@ namespace UnknownEngine
 		class SimpleBehaviorsPerformer
 		{
 		public:
-			void perform();
+			void perform( Math::Scalar dt );
 			
 			void addSimpleBehaviorComponent(SimpleBehaviorComponent* component);
 			void removeSimpleBehaviorComponent(SimpleBehaviorComponent* component);

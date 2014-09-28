@@ -2,7 +2,6 @@
 #include <ComponentDesc.h>
 #include <MessageSystem/MessageSystemParticipantDictionary.h>
 #include <SimpleRotationComponent.h>
-#include <SimpleBehaviorUpdateFrameListener.h>
 #include <EngineContext.h>
 #include <SimpleBehaviorsPerformer.h>
 #include <MouseLookComponent.h>

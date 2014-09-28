@@ -26,9 +26,9 @@ namespace UnknownEngine
 			
 		}
 
-		void SimpleRotationComponent::act()
+		void SimpleRotationComponent::act( UnknownEngine::Math::Scalar dt )
 		{
-			current_angle += 0.0001;
+			current_angle += 0.01 * dt;
 		
 			Core::TransformChangedMessage message;
 			message.new_transform.setOrientation( Math::Quaternion(Math::AngleAxis(current_angle, Math::Vector3(0,1,0))) );

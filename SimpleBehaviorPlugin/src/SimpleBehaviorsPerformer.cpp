@@ -16,11 +16,11 @@ namespace UnknownEngine
 			behavior_components.erase(component);
 		}
 		
-		void SimpleBehaviorsPerformer::perform()
+		void SimpleBehaviorsPerformer::perform(Math::Scalar dt)
 		{
 			for(auto component : behavior_components)
 			{
-				component->act();
+				component->act(dt);
 			}
 		}
 		

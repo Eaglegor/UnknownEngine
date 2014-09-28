@@ -11,7 +11,6 @@
 #include <ExportedMessages/StopEngineActionMessage.h>
 #include <ExportedMessages/InputContext/AddSimpleActionMessage.h>
 #include <SimpleBehaviorsFactory.h>
-#include <SimpleBehaviorUpdateFrameListener.h>
 #include <SimpleBehaviorsPerformer.h>
 
 #include <MessageSystem/BaseMessageListener.h>
@@ -118,7 +117,7 @@ namespace UnknownEngine
 
 		void SimpleBehaviorPlugin::onUpdateFrame( const Core::UpdateFrameMessage& msg )
 		{
-			behaviors_performer->perform();
+			behaviors_performer->perform(msg.dt);
 		}
 
 		void SimpleBehaviorPlugin::stopEngine ( )
