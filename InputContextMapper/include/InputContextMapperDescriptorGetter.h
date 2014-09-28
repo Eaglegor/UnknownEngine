@@ -28,7 +28,9 @@ namespace UnknownEngine
                         (
                                 creation_options,
                                 {
-                                        {"log_level", PropertiesParser::OptionalValue<Core::LogMessage::Severity>(desc.log_level)}
+                                        {"log_level", PropertiesParser::OptionalValue<Core::LogMessage::Severity>(desc.log_level)},
+										{"action_slots_config_file", PropertiesParser::OptionalValue<std::string>(desc.action_slots_config_file)},
+										{"input_layout_config_file", PropertiesParser::OptionalValue<std::string>(desc.input_layout_config_file)},
                                 }
                         );
 

@@ -40,7 +40,7 @@ namespace UnknownEngine
 			UNKNOWNENGINE_SIMPLE_EXCEPTION(InputContextNotFoundException);
 			UNKNOWNENGINE_SIMPLE_EXCEPTION(ActionSlotNotFoundException);
 			
-            InputContextMapper(const InputContextMapperDescriptor& desc, const InputContextMapperCreationOptions& creation_options);
+            InputContextMapper(const InputContextMapperDescriptor& desc, const InputContextMapperCreationOptions& creation_options, Core::LogHelper *log_helper);
 			virtual ~InputContextMapper();
 
 			InputContext* createContext(const std::string &name);
@@ -56,6 +56,9 @@ namespace UnknownEngine
 			void addSimpleAction(const AddSimpleActionMessage &msg);
 			void addRangeAction(const AddRangeActionMessage &msg);
 
+			KeyboardEventHandler* getKeyboardEventHandler();
+			MouseEventHandler* getMouseEventHandler();
+			
         private:
             std::unique_ptr<Core::BaseMessageListener> listener;
             InputContextMapperCreationOptions creation_options;
@@ -64,6 +67,8 @@ namespace UnknownEngine
 			MouseEventHandler mouse_event_handler;
 			
 			std::unordered_map<std::string, InputContext> contexts;
+			
+			Core::LogHelper* log_helper;
 			
         };
     }
