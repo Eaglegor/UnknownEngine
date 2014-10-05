@@ -54,6 +54,8 @@ AssimpMeshDataLoader
 InputContextMapper
 UserInput
 SDLWindowManagerPlugin
+
+PhysXPlugin
 )
 
 set(
