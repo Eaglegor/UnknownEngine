@@ -16,36 +16,37 @@ endif()
 
 macro(find_physx3_library name)
 
-	if(MSVC)
-		if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+	if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 
-			find_library(PHYSX_LIBRARY NAMES ${name}${PHYSX3_LIBRARY_SUFFIX}_x64 ${name}_x64 ${name}
-						HINTS
-						$ENV{PHYSX_SDK}
-						$ENV{PHYSX_HOME}
-						$ENV{PHYSX_ROOT}
-						PATH_SUFFIXES 
-						Lib/win64
-						lib/win64
-			)
-		else()
-		
-			find_library(PHYSX_LIBRARY NAMES ${name}${PHYSX3_LIBRARY_SUFFIX}_x86 ${name}_x86 ${name}
-						HINTS
-						$ENV{PHYSX_SDK}
-						$ENV{PHYSX_HOME}
-						$ENV{PHYSX_ROOT}
-						PATH_SUFFIXES 
-						Lib/win32
-						lib/win32
-			)
-		endif()
-		
-		list(APPEND LIBRARIES ${PHYSX_LIBRARY})
-		
-		unset(PHYSX_LIBRARY CACHE)
-		
-	endif(MSVC)
+		find_library(PHYSX_LIBRARY NAMES ${name}${PHYSX3_LIBRARY_SUFFIX}_x64 ${name}_x64 ${name}
+					HINTS
+					$ENV{PHYSX_SDK}
+					$ENV{PHYSX_HOME}
+					$ENV{PHYSX_ROOT}
+					PATH_SUFFIXES 
+					Lib/win64
+					lib/win64
+					Lib/linux64
+					lib/linux64
+		)
+	else()
+	
+		find_library(PHYSX_LIBRARY NAMES ${name}${PHYSX3_LIBRARY_SUFFIX}_x86 ${name}_x86 ${name}
+					HINTS
+					$ENV{PHYSX_SDK}
+					$ENV{PHYSX_HOME}
+					$ENV{PHYSX_ROOT}
+					PATH_SUFFIXES 
+					Lib/win32
+					lib/win32
+					Lib/linux32
+					lib/linux32
+		)
+	endif()
+	
+	list(APPEND LIBRARIES ${PHYSX_LIBRARY})
+	
+	unset(PHYSX_LIBRARY CACHE)
 	
 endmacro()
 
