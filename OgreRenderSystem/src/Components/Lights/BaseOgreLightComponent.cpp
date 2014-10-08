@@ -11,6 +11,7 @@
 #include <MessageBuffers/OnlyLastMessageBuffer.h>
 #include <MessageSystem/BaseMessageListener.h>
 #include <MessageSystem/MessageDispatcher.h>
+#include <OgreSceneNode.h>
 #include <OgreSceneManager.h>
 
 

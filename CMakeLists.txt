@@ -9,7 +9,6 @@ endif(WIN32)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${UNKNOWN_ENGINE_SOURCE_DIR}/CMakeModules/)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${UNKNOWN_ENGINE_SOURCE_DIR}/CMakeModules/FindModules)
 
-
 if(NOT CMAKE_BUILD_TYPE)
 	set(CMAKE_BUILD_TYPE Debug)
 endif()
@@ -74,3 +73,9 @@ foreach(targets_list ${ALL_TARGETS_LIST})
 		add_subdirectory(${target})
 	endforeach(target)
 endforeach(targets_list)
+
+message(STATUS "Building modules:")
+
+foreach(build_module ${MODULES_TO_BUILD})
+	message(STATUS " * ${build_module}")
+endforeach(build_module)
