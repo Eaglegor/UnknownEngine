@@ -61,6 +61,8 @@ macro(find_physx3_component component_name)
 endmacro(find_physx3_component)
 
 find_physx3_library(PhysX3)
+find_physx3_library(PhysX3Common)
+find_physx3_library(PhysX3Extensions)
 
 if(PhysX3_FIND_COMPONENTS)
 	foreach(component ${PhysX3_FIND_COMPONENTS})

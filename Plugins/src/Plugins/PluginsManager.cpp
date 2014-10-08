@@ -21,7 +21,7 @@
 	#define LOAD_LIBRARY(library_name) LoadLibrary(library_name)
 	#define GET_SYMBOL_ADDRESS(library, symbol_name) GetProcAddress( reinterpret_cast<HINSTANCE>(library), symbol_name)
 	#define	UNLOAD_LIBRARY(library) FreeLibrary(reinterpret_cast<HINSTANCE>(library))
-	#define GET_LAST_LOAD_ERROR()
+	#define GET_LAST_LOAD_ERROR() std::string("Error code: " + std::to_string(GetLastError()))
 #else
 	#include <dlfcn.h>
 	#include <link.h>

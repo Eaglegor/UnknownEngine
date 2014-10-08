@@ -5,7 +5,8 @@ namespace UnknownEngine
 	namespace IO
 	{
 		
-		EventActiveCondition::EventActiveCondition ()
+		EventActiveCondition::EventActiveCondition() :
+			is_active(false)
 		{
 		}
 
