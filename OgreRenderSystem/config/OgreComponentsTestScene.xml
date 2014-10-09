@@ -105,6 +105,9 @@
 			</received_messages>
 		</subsystem>
 		
+		<subsystem name="Physics" module="PhysXPlugin">
+		</subsystem>
+		
 	</subsystems>
 
 	<entities>

@@ -35,8 +35,8 @@ namespace UnknownEngine
 
 		PhysXSubsystem::~PhysXSubsystem()
 		{
-			if(px_foundation) px_foundation->release();
 			if (px_physics) px_physics->release();
+			if (px_foundation) px_foundation->release();
 		}
 
 	}

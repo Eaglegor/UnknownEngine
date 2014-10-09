@@ -19,6 +19,7 @@ namespace UnknownEngine
 	{
 
 		class PhysXSubsystem;
+		class PxGeometryDataProvidersFactory;
 
 		class PhysXSubsystemPlugin: public Core::Plugin
 		{
@@ -36,6 +37,8 @@ namespace UnknownEngine
 				Core::EngineContext* engine_context;
 				std::unique_ptr<Core::LogHelper> log_helper;
 				std::unique_ptr<PhysXSubsystem> physx_subsystem;
+
+				std::unique_ptr<PxGeometryDataProvidersFactory> px_geometry_data_providers_factory;
 		};
 
 	} /* namespace Graphics */
