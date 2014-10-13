@@ -70,7 +70,7 @@ namespace UnknownEngine
 				msg.requested_window_name = desc.render_window_descriptor.window_name;
 				msg.result_callback = [&](const NativeWindowHandleType& handle)
 				{
-					string_handle = Ogre::StringConverter::toString(reinterpret_cast<int>(handle));
+					string_handle = Ogre::StringConverter::toString((int)(handle));
 				};
 				
 				sender.sendMessage(msg);

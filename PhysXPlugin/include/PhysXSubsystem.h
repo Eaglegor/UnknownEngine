@@ -26,6 +26,9 @@ namespace UnknownEngine
 			UNKNOWNENGINE_SIMPLE_EXCEPTION(PhysXInitFailed);
 
 			PhysXSubsystem(Core::EngineContext* engine_context, Core::LogHelper* log_helper);
+			
+			physx::PxPhysics* getPxPhysics();
+			
 			~PhysXSubsystem();
 
 			UNKNOWNENGINE_INLINE

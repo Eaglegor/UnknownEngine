@@ -12,7 +12,9 @@ namespace UnknownEngine
 		PhysXSubsystem::PhysXSubsystem(Core::EngineContext* engine_context, Core::LogHelper* log_helper):
 			is_initialized(false),
 			engine_context(engine_context),
-			log_helper(log_helper)
+			log_helper(log_helper),
+			px_foundation(nullptr),
+			px_physics(nullptr)
 		{
 			px_foundation = PxCreateFoundation(PX_PHYSICS_VERSION, gDefaultAllocatorCallback, gDefaultErrorCallback);
 			if (px_foundation == nullptr)
@@ -33,6 +35,11 @@ namespace UnknownEngine
 			}
 		}
 
+		physx::PxPhysics* PhysXSubsystem::getPxPhysics()
+		{
+			return px_physics;
+		}
+		
 		PhysXSubsystem::~PhysXSubsystem()
 		{
 			if (px_physics) px_physics->release();

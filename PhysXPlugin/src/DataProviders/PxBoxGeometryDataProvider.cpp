@@ -1,7 +1,8 @@
-#pragma once
-
 #include <DataProviders/PxBoxGeometryDataProvider.h>
 #include <LogHelper.h>
+
+using std::isfinite;
+
 #include <geometry/PxBoxGeometry.h>
 
 namespace UnknownEngine

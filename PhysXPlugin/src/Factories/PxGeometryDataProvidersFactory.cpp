@@ -9,7 +9,7 @@
 namespace UnknownEngine {
 	namespace Physics {
 
-		static const PxBoxGeometryDataProviderDescriptorGetter descriptor_getter;
+		static PxBoxGeometryDataProviderDescriptorGetter descriptor_getter;
 
 		PxGeometryDataProvidersFactory::PxGeometryDataProvidersFactory(UnknownEngine::Core::LogHelper* log_helper, UnknownEngine::Core::EngineContext* engine_context)
 			:log_helper(log_helper),

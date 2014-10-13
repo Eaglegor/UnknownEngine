@@ -12,6 +12,9 @@ find_path(
 
 if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
 	set(PHYSX3_LIBRARY_SUFFIX "DEBUG")
+	add_definitions(-D_DEBUG)
+else()
+	add_definitions(-DNDEBUG)
 endif()
 
 macro(find_physx3_shared_binary name)
@@ -56,7 +59,7 @@ macro(find_physx3_library name)
 
 	if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 
-		find_library(PHYSX_LIBRARY NAMES ${name}${PHYSX3_LIBRARY_SUFFIX}_x64 ${name}_x64 ${name}
+		find_library(PHYSX_LIBRARY NAMES ${name}${PHYSX3_LIBRARY_SUFFIX}_x64 ${name}${PHYSX3_LIBRARY_SUFFIX} ${name}_x64 ${name}
 					HINTS
 					$ENV{PHYSX_SDK}
 					$ENV{PHYSX_HOME}
@@ -69,8 +72,8 @@ macro(find_physx3_library name)
 		)
 		
 	else()
-	
-		find_library(PHYSX_LIBRARY NAMES ${name}${PHYSX3_LIBRARY_SUFFIX}_x86 ${name}_x86 ${name}
+
+		find_library(PHYSX_LIBRARY NAMES ${name}${PHYSX3_LIBRARY_SUFFIX}_x86 ${name}${PHYSX3_LIBRARY_SUFFIX} ${name}_x86 ${name}
 					HINTS
 					$ENV{PHYSX_SDK}
 					$ENV{PHYSX_HOME}
