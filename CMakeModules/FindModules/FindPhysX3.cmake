@@ -17,41 +17,47 @@ else()
 	add_definitions(-DNDEBUG)
 endif()
 
+if(WIN32)
+	set(SHARED_BINARY_EXTENSION ".dll")
+else()
+	set(SHARED_BINARY_EXTENSION ".so")
+endif()
+
 macro(find_physx3_shared_binary name)
 	
-	if(WIN32)
-	
-		if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+	if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 
-			find_file(PHYSX_SHARED_BINARY NAMES ${name}CHECKED_x64.dll ${name}_x64.dll ${name}.dll
-						HINTS
-						$ENV{PHYSX_SDK}
-						$ENV{PHYSX_HOME}
-						$ENV{PHYSX_ROOT}
-						PATH_SUFFIXES 
-						Bin/win64
-						bin/win64
-			)
-			
-		else()
+		find_file(PHYSX_SHARED_BINARY NAMES ${name}CHECKED_x64${SHARED_BINARY_EXTENSION} ${name}_x64${SHARED_BINARY_EXTENSION} ${name}${SHARED_BINARY_EXTENSION}
+					HINTS
+					$ENV{PHYSX_SDK}
+					$ENV{PHYSX_HOME}
+					$ENV{PHYSX_ROOT}
+					PATH_SUFFIXES 
+					Bin/win64
+					bin/win64
+					Bin/linux64
+					bin/linux64
+		)
+		
+	else()
 
-			find_file(PHYSX_SHARED_BINARY NAMES ${name}CHECKED_x86.dll ${name}_x86.dll ${name}.dll
-						HINTS
-						$ENV{PHYSX_SDK}
-						$ENV{PHYSX_HOME}
-						$ENV{PHYSX_ROOT}
-						PATH_SUFFIXES 
-						Bin/win32
-						bin/win32
-			)
-			
-		endif()
+		find_file(PHYSX_SHARED_BINARY NAMES ${name}CHECKED_x86${SHARED_BINARY_EXTENSION} ${name}_x86${SHARED_BINARY_EXTENSION} ${name}${SHARED_BINARY_EXTENSION}
+					HINTS
+					$ENV{PHYSX_SDK}
+					$ENV{PHYSX_HOME}
+					$ENV{PHYSX_ROOT}
+					PATH_SUFFIXES 
+					Bin/win32
+					bin/win32
+					Bin/linux32
+					bin/linux32
+		)
 		
-		list(APPEND SHARED_BINARIES ${PHYSX_SHARED_BINARY})
-		
-		unset(PHYSX_SHARED_BINARY CACHE)
+	endif()
 	
-	endif(WIN32)
+	list(APPEND SHARED_BINARIES ${PHYSX_SHARED_BINARY})
+	
+	unset(PHYSX_SHARED_BINARY CACHE)
 	
 endmacro()
 
