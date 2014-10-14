@@ -19,15 +19,22 @@ endif()
 
 if(WIN32)
 	set(SHARED_BINARY_EXTENSION ".dll")
+	set(SHARED_BINARY_SUFFIX "CHECKED")
 else()
 	set(SHARED_BINARY_EXTENSION ".so")
+	set(SHARED_BINARY_PREFIX "lib")
+	set(SHARED_BINARY_SUFFIX ${PHYSX3_LIBRARY_SUFFIX})
 endif()
 
 macro(find_physx3_shared_binary name)
 	
 	if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 
-		find_file(PHYSX_SHARED_BINARY NAMES ${name}CHECKED_x64${SHARED_BINARY_EXTENSION} ${name}_x64${SHARED_BINARY_EXTENSION} ${name}${SHARED_BINARY_EXTENSION}
+		find_file(PHYSX_SHARED_BINARY 
+					NAMES 
+					${SHARED_BINARY_PREFIX}${name}${SHARED_BINARY_SUFFIX}_x64${SHARED_BINARY_EXTENSION}
+					${SHARED_BINARY_PREFIX}${name}_x64${SHARED_BINARY_EXTENSION}
+					${SHARED_BINARY_PREFIX}${name}${SHARED_BINARY_EXTENSION}
 					HINTS
 					$ENV{PHYSX_SDK}
 					$ENV{PHYSX_HOME}
@@ -41,7 +48,11 @@ macro(find_physx3_shared_binary name)
 		
 	else()
 
-		find_file(PHYSX_SHARED_BINARY NAMES ${name}CHECKED_x86${SHARED_BINARY_EXTENSION} ${name}_x86${SHARED_BINARY_EXTENSION} ${name}${SHARED_BINARY_EXTENSION}
+		find_file(PHYSX_SHARED_BINARY
+					NAMES 
+					${SHARED_BINARY_PREFIX}${name}${SHARED_BINARY_SUFFIX}_x86${SHARED_BINARY_EXTENSION} 
+					${SHARED_BINARY_PREFIX}${name}_x86${SHARED_BINARY_EXTENSION} 
+					${SHARED_BINARY_PREFIX}${name}${SHARED_BINARY_EXTENSION}
 					HINTS
 					$ENV{PHYSX_SDK}
 					$ENV{PHYSX_HOME}
@@ -75,6 +86,8 @@ macro(find_physx3_library name)
 					lib/win64
 					Lib/linux64
 					lib/linux64
+					Bin/linux64
+					bin/linux64
 		)
 		
 	else()
@@ -89,6 +102,8 @@ macro(find_physx3_library name)
 					lib/win32
 					Lib/linux32
 					lib/linux32
+					Bin/linux32
+					bin/linux64
 		)
 		
 	endif()
@@ -116,7 +131,10 @@ find_physx3_library(PhysX3Extensions)
 
 find_physx3_shared_binary(PhysX3)
 find_physx3_shared_binary(PhysX3Common)
-find_physx3_shared_binary(nvToolsExt32_1)
+
+if(WIN32)
+	find_physx3_shared_binary(nvToolsExt32_1)
+endif()
 
 if(PhysX3_FIND_COMPONENTS)
 	foreach(component ${PhysX3_FIND_COMPONENTS})

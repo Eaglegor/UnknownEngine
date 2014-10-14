@@ -17,4 +17,6 @@ if(PhysX3_FOUND)
 	install(FILES ${PhysX3_SHARED_BINARIES} DESTINATION ${EXECUTABLE_DEPLOY_DIR})
 
 	include(${MODULE_TEMPLATE_CMAKELISTS_FILE})
+	
+	set_target_properties( ${TARGET_NAME} PROPERTIES COMPILE_FLAGS "${CMAKE_CXX_COMPILE_FLAGS} -Wno-return-type-c-linkage" )
 endif()
