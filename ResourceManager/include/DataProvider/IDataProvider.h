@@ -82,7 +82,7 @@ namespace UnknownEngine
 				 * @brief Returns the type of this data provider
 				 * @return Data provider type
 				 */
-				virtual const DataProviderType& getType() = 0;
+				virtual const DataProviderType getType() = 0;
 
 				UNKNOWNENGINE_INLINE
 				std::string getName()

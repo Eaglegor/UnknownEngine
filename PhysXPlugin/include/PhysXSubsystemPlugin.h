@@ -19,7 +19,8 @@ namespace UnknownEngine
 	{
 
 		class PhysXSubsystem;
-		class PxGeometryDataProvidersFactory;
+		class PxShapeDataProvidersFactory;
+		class PxMaterialDataProvidersFactory;
 
 		class PhysXSubsystemPlugin: public Core::Plugin
 		{
@@ -38,7 +39,8 @@ namespace UnknownEngine
 				std::unique_ptr<Core::LogHelper> log_helper;
 				std::unique_ptr<PhysXSubsystem> physx_subsystem;
 
-				std::unique_ptr<PxGeometryDataProvidersFactory> px_geometry_data_providers_factory;
+				std::unique_ptr<PxShapeDataProvidersFactory> px_shape_data_providers_factory;
+				std::unique_ptr<PxMaterialDataProvidersFactory> px_material_data_providers_factory;
 		};
 
 	} /* namespace Graphics */

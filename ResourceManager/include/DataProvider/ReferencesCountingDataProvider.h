@@ -52,6 +52,7 @@ namespace UnknownEngine
 				void waitUntilLoadFinished();
 				
 				virtual void internalLoad ( ResourceContainer &out_container ) = 0;
+				virtual void internalUnload ( ResourceContainer &container ){};
 
 				ResourceContainer resource_container;
 				

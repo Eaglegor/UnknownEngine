@@ -33,7 +33,7 @@ namespace UnknownEngine
 			}
 		}
 
-		const DataProviderType& AssimpMeshDataProvider::getType()
+		const DataProviderType AssimpMeshDataProvider::getType()
 		{
 			return ASSIMP_MESH_DATA_PROVIDER_TYPE_NAME;
 		}

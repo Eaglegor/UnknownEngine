@@ -7,7 +7,8 @@
 #include <EngineContext.h>
 #include <LogHelper.h>
 #include <PhysXSubsystem.h>
-#include <Factories/PxGeometryDataProvidersFactory.h>
+#include <Factories/PxShapeDataProvidersFactory.h>
+#include <Factories/PxMaterialDataProvidersFactory.h>
 #include <ResourceManager.h>
 
 namespace UnknownEngine
@@ -44,11 +45,17 @@ namespace UnknownEngine
 
 			physx_subsystem.reset(new PhysXSubsystem(engine_context, log_helper.get()));
 
-			LOG_INFO(log_helper, "Creating PxGeometry data providers factory");
-			px_geometry_data_providers_factory.reset(new PxGeometryDataProvidersFactory(log_helper.get(), engine_context));
+			LOG_INFO(log_helper, "Creating PxShape data providers factory");
+			px_shape_data_providers_factory.reset(new PxShapeDataProvidersFactory(physx_subsystem.get()));
 
-			LOG_INFO(log_helper, "Registering PxGeometry data providers factory");
-			engine_context->getResourceManager()->addDataProviderFactory(px_geometry_data_providers_factory.get());
+			LOG_INFO(log_helper, "Registering PxShape data providers factory");
+			engine_context->getResourceManager()->addDataProviderFactory(px_shape_data_providers_factory.get());
+			
+			LOG_INFO(log_helper, "Creating PxMaterial data providers factory");
+			px_material_data_providers_factory.reset(new PxMaterialDataProvidersFactory(physx_subsystem.get()));
+			
+			LOG_INFO(log_helper, "Registering PxMaterial data providers factory");
+			engine_context->getResourceManager()->addDataProviderFactory(px_material_data_providers_factory.get());
 
 			return true;
 		}
@@ -57,11 +64,17 @@ namespace UnknownEngine
 		{
 			LOG_INFO(log_helper, "Shutting down PhysX plugin");
 		  
-			LOG_INFO(log_helper, "Unregistering PxGeometry data providers factory");
-			engine_context->getResourceManager()->removeDataProviderFactory(px_geometry_data_providers_factory.get());
+			LOG_INFO(log_helper, "Unregistering PxMaterial data providers factory");
+			engine_context->getResourceManager()->removeDataProviderFactory(px_material_data_providers_factory.get());
 
-			LOG_INFO(log_helper, "Destroying PxGeometry data providers factory");
-			px_geometry_data_providers_factory.reset();
+			LOG_INFO(log_helper, "Destroying PxMaterial data providers factory");
+			px_material_data_providers_factory.reset();
+			
+			LOG_INFO(log_helper, "Unregistering PxShape data providers factory");
+			engine_context->getResourceManager()->removeDataProviderFactory(px_shape_data_providers_factory.get());
+
+			LOG_INFO(log_helper, "Destroying PxShape data providers factory");
+			px_shape_data_providers_factory.reset();
 
 			physx_subsystem.reset();
 
