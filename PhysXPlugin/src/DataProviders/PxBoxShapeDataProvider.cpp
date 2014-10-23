@@ -13,9 +13,8 @@ namespace UnknownEngine
 	namespace Physics
 	{
 		PxBoxShapeDataProvider::PxBoxShapeDataProvider ( const std::string& name, const PxBoxShapeDataProviderDesc& desc, PhysXSubsystem* physx_subsystem ):
-		LazyLoadDataProvider ( name ),
-		desc(desc),
-		physx_subsystem(physx_subsystem)
+		PxShapeDataProvider(name, physx_subsystem),
+		desc(desc)
 		{
 
 		}

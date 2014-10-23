@@ -24,3 +24,6 @@ namespace UnknownEngine
 		};
 	}
 }
+
+#include <AlignedAnyHolder.h>
+ALIGNED_BOOST_ANY_HOLDER(UnknownEngine::Physics::PxBoxShapeDataProviderDesc);

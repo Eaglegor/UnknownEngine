@@ -1,7 +1,8 @@
 #pragma once
 
-#include <DataProvider/LazyLoadDataProvider.h>
+#include <DataProviders/PxShapeDataProvider.h>
 #include <Descriptors/DataProviders/PxBoxShapeDataProviderDesc.h>
+#include <memory>
 
 namespace UnknownEngine
 {
@@ -13,7 +14,7 @@ namespace UnknownEngine
 		
 		const Loader::DataProviderType PX_BOX_SHAPE_DATA_PROVIDER_TYPE = Loader::DataProviderType("Loader.PxShape.PxBoxShapeDataProvider");
 		
-		class PxBoxShapeDataProvider : public Loader::LazyLoadDataProvider
+		class PxBoxShapeDataProvider : public PxShapeDataProvider
 		{
 		public:
 			PxBoxShapeDataProvider(const std::string &name, const PxBoxShapeDataProviderDesc& desc, PhysXSubsystem* physx_subsystem);
@@ -24,8 +25,6 @@ namespace UnknownEngine
 			
 		private:
 			PxBoxShapeDataProviderDesc desc;
-			PhysXSubsystem* physx_subsystem;
-			std::unique_ptr<PxShapeOrientedWrapper> internal_shape;
 			
 		};
 	}

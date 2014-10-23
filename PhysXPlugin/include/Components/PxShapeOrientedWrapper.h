@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Transform/Transform.h>
+#include <AlignedNew.h>
 
 namespace physx
 {
@@ -17,7 +18,7 @@ namespace UnknownEngine
 		
 		class PhysXSubsystem;
 		
-		class PxShapeOrientedWrapper
+		UNKNOWNENGINE_ALIGNED_CLASS(16) PxShapeOrientedWrapper
 		{
 		public:
 			PxShapeOrientedWrapper(const physx::PxGeometry &geometry, const physx::PxMaterial *material, PhysXSubsystem* physx_subsystem);
@@ -29,6 +30,8 @@ namespace UnknownEngine
 			Core::Transform getLocalPose() const;
 			physx::PxShape* getPxShape() const;
 			
+			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
+
 		private:
 			void createPxShape( const physx::PxGeometry& geometry, const physx::PxMaterial* material, PhysXSubsystem* physx_subsystem );
 			void destroyPxShape();

@@ -18,5 +18,4 @@ if(PhysX3_FOUND)
 
 	include(${MODULE_TEMPLATE_CMAKELISTS_FILE})
 	
-	set_target_properties( ${TARGET_NAME} PROPERTIES COMPILE_FLAGS "${CMAKE_CXX_COMPILE_FLAGS} -Wno-return-type-c-linkage" )
 endif()
