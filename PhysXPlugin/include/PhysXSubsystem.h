@@ -8,6 +8,11 @@ namespace physx
 {
 	class PxFoundation;
 	class PxPhysics;
+	class PxScene;
+	class PxCpuDispatcher;
+	class PxGpuDispatcher;
+	class PxCudaContextManager;
+	class PxProfileZoneManager;
 }
 
 namespace UnknownEngine
@@ -28,6 +33,7 @@ namespace UnknownEngine
 			PhysXSubsystem(Core::EngineContext* engine_context, Core::LogHelper* log_helper);
 			
 			physx::PxPhysics* getPxPhysics();
+			physx::PxScene* getPxScene();
 			
 			~PhysXSubsystem();
 
@@ -42,6 +48,12 @@ namespace UnknownEngine
 
 			physx::PxFoundation* px_foundation;
 			physx::PxPhysics* px_physics;
+			physx::PxScene* px_scene;
+			
+			physx::PxCpuDispatcher* px_cpu_dispatcher;
+			physx::PxGpuDispatcher* px_gpu_dispatcher;
+			physx::PxCudaContextManager* px_cuda_context_manager;
+			physx::PxProfileZoneManager* px_profile_zone_manager;
 		};
 	}
 }

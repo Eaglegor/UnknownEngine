@@ -1,36 +1,97 @@
 #include <PhysXSubsystem.h>
 #include <PxPhysicsAPI.h>
+#include <PxScene.h>
 #include <LogHelper.h>
+#include <pxtask/PxCudaContextManager.h>
 
 static physx::PxDefaultErrorCallback gDefaultErrorCallback;
 static physx::PxDefaultAllocator gDefaultAllocatorCallback;
+
+static physx::PxSimulationFilterShader default_simulation_filter_shader = &physx::PxDefaultSimulationFilterShader;
 
 namespace UnknownEngine
 {
 	namespace Physics
 	{
-		PhysXSubsystem::PhysXSubsystem(Core::EngineContext* engine_context, Core::LogHelper* log_helper):
-			is_initialized(false),
-			engine_context(engine_context),
-			log_helper(log_helper),
-			px_foundation(nullptr),
-			px_physics(nullptr)
+		PhysXSubsystem::PhysXSubsystem ( Core::EngineContext* engine_context, Core::LogHelper* log_helper ) :
+			is_initialized ( false ),
+			engine_context ( engine_context ),
+			log_helper ( log_helper ),
+			px_foundation ( nullptr ),
+			px_physics ( nullptr ),
+			px_scene ( nullptr ),
+			px_cpu_dispatcher ( nullptr ),
+			px_gpu_dispatcher ( nullptr ),
+			px_cuda_context_manager ( nullptr ),
+			px_profile_zone_manager ( nullptr )
 		{
-			px_foundation = PxCreateFoundation(PX_PHYSICS_VERSION, gDefaultAllocatorCallback, gDefaultErrorCallback);
-			if (px_foundation == nullptr)
+			px_foundation = PxCreateFoundation ( PX_PHYSICS_VERSION, gDefaultAllocatorCallback, gDefaultErrorCallback );
+			if ( px_foundation == nullptr )
 			{
-				LOG_ERROR(log_helper, "Failed to create PxFoundation class. PhysX not initialized");
+				LOG_ERROR ( log_helper, "Failed to create PxFoundation object. PhysX not initialized" );
 			}
 			else
 			{
-				px_physics = PxCreatePhysics(PX_PHYSICS_VERSION, *px_foundation, physx::PxTolerancesScale());
-				if (px_physics == nullptr)
+				px_physics = PxCreatePhysics ( PX_PHYSICS_VERSION, *px_foundation, physx::PxTolerancesScale() );
+				if ( px_physics == nullptr )
 				{
-					LOG_ERROR(log_helper, "Failed to initialize PxPhysics class. PhysX not initialized");
+					LOG_ERROR ( log_helper, "Failed to initialize PxPhysics class. PhysX not initialized" );
 				}
 				else
 				{
-					is_initialized = true;
+					physx::PxSceneDesc scene_desc ( px_physics->getTolerancesScale() );
+					scene_desc.gravity = physx::PxVec3 ( 0.0f, -9.8f, 0.0f );
+
+					px_cpu_dispatcher = physx::PxDefaultCpuDispatcherCreate ( 2 );
+
+					if ( px_cpu_dispatcher == nullptr )
+					{
+						LOG_ERROR ( log_helper, "Failed to create CPU dispatcher. PhysX not initialized" );
+					}
+					else
+					{
+
+						scene_desc.cpuDispatcher = px_cpu_dispatcher;
+						scene_desc.filterShader = default_simulation_filter_shader;
+
+						px_profile_zone_manager = &physx::PxProfileZoneManager::createProfileZoneManager ( px_foundation );
+						if(px_profile_zone_manager == nullptr)
+						{
+							LOG_ERROR(log_helper, "Failed to create PxProfileZoneManager. GPU support is off");
+						}
+						else
+						{
+							physx::PxCudaContextManagerDesc cuda_context_manager_desc;
+							px_cuda_context_manager = physx::PxCreateCudaContextManager ( *px_foundation, cuda_context_manager_desc, px_profile_zone_manager );
+
+							if(px_cuda_context_manager == nullptr)
+							{
+								LOG_ERROR(log_helper, "Failed to create cuda context manager. GPU support is off");
+							}
+							
+							px_gpu_dispatcher = px_cuda_context_manager->getGpuDispatcher();
+							if(!px_gpu_dispatcher)
+							{
+								LOG_ERROR(log_helper, "Failed to get GPU dispatcher. GPU support is off");
+							}
+							else
+							{
+								scene_desc.gpuDispatcher = px_gpu_dispatcher;
+							}
+						}
+
+						px_scene = px_physics->createScene ( scene_desc );
+
+						if ( px_scene == nullptr )
+						{
+							LOG_ERROR ( log_helper, "Failed to create PxScene. PhysX not initialized" );
+						}
+						else
+						{
+							is_initialized = true;
+						}
+
+					}
 				}
 			}
 		}
@@ -39,11 +100,19 @@ namespace UnknownEngine
 		{
 			return px_physics;
 		}
-		
+
+		physx::PxScene* PhysXSubsystem::getPxScene()
+		{
+			return px_scene;
+		}
+
 		PhysXSubsystem::~PhysXSubsystem()
 		{
-			if (px_physics) px_physics->release();
-			if (px_foundation) px_foundation->release();
+			if ( px_cuda_context_manager ) px_cuda_context_manager->release();
+			if ( px_profile_zone_manager ) px_profile_zone_manager->release();
+			if ( px_scene ) px_scene->release();
+			if ( px_physics ) px_physics->release();
+			if ( px_foundation ) px_foundation->release();
 		}
 
 	}
