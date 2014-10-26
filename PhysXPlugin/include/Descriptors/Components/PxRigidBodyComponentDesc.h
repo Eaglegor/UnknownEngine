@@ -25,8 +25,8 @@ namespace UnknownEngine
 			boost::optional<Math::Scalar> max_angular_velocity;
 			
 			boost::optional<Math::Scalar> stabilization_threshold;
-			boost::optional<Math::Scalar> position_iterations;
-			boost::optional<Math::Scalar> velocity_iterations;
+			boost::optional<size_t> position_iterations;
+			boost::optional<size_t> velocity_iterations;
 			boost::optional<Math::Scalar> contact_report_threshold;
 
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
