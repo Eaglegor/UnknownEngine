@@ -16,7 +16,7 @@ namespace UnknownEngine
 		PxShapeDataProvider(name, physx_subsystem),
 		desc(desc)
 		{
-
+			desc.material->reserve();
 		}
 		
 		const Loader::DataProviderType PxBoxShapeDataProvider::getType()
@@ -33,6 +33,7 @@ namespace UnknownEngine
 
 		PxBoxShapeDataProvider::~PxBoxShapeDataProvider()
 		{
+			desc.material->release();
 		}
 		
 	}

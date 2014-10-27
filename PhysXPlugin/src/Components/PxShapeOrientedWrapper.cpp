@@ -43,7 +43,7 @@ namespace UnknownEngine
 
 		void PxShapeOrientedWrapper::createPxShape ( const physx::PxGeometry& geometry, const physx::PxMaterial *material, PhysXSubsystem* physx_subsystem )
 		{
-			physx_subsystem->getPxPhysics()->createShape(geometry, *material);
+			px_shape = physx_subsystem->getPxPhysics()->createShape(geometry, *material, true);
 		}
 		
 		void PxShapeOrientedWrapper::destroyPxShape()

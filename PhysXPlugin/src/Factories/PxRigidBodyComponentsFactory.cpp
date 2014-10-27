@@ -14,7 +14,9 @@ namespace UnknownEngine
 			return "Physics.PhysXPlugin.PxRigidBodyComponentsFactory";
 		}
 
-		PxRigidBodyComponentsFactory::PxRigidBodyComponentsFactory(PhysXSubsystem* physx_subsystem)
+		PxRigidBodyComponentsFactory::PxRigidBodyComponentsFactory(PhysXSubsystem* physx_subsystem, Core::EngineContext* engine_context):
+		physx_subsystem(physx_subsystem),
+		engine_context(engine_context)
 		{
 			CreatableObjectDesc creatable_data_provider;
 			creatable_data_provider.type = PX_RIGID_BODY_COMPONENT_TYPE;
@@ -25,7 +27,7 @@ namespace UnknownEngine
 		Core::IComponent* PxRigidBodyComponentsFactory::createPxRigidBodyComponent(const Core::ComponentDesc& desc)
 		{
 			PxRigidBodyComponent* result;
-			result = new PxRigidBodyComponent(desc.name, desc.descriptor.apply_visitor(px_rigid_body_descriptor_getter), physx_subsystem);
+			result = new PxRigidBodyComponent(desc.name, desc.descriptor.apply_visitor(px_rigid_body_descriptor_getter), physx_subsystem, engine_context);
 			return result;
 		}
 		

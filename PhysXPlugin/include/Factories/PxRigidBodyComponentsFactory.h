@@ -3,6 +3,12 @@
 
 namespace UnknownEngine
 {
+	
+	namespace Core
+	{
+		class EngineContext;
+	}
+	
 	namespace Physics
 	{
 		class PhysXSubsystem;
@@ -10,7 +16,7 @@ namespace UnknownEngine
 		class PxRigidBodyComponentsFactory : public Core::BaseComponentFactory
 		{
 		public:
-			PxRigidBodyComponentsFactory(PhysXSubsystem *physx_subsystem);
+			PxRigidBodyComponentsFactory( PhysXSubsystem* physx_subsystem, Core::EngineContext* engine_context );
 			
 		private:
 			Core::IComponent* createPxRigidBodyComponent(const Core::ComponentDesc& desc);
@@ -18,6 +24,7 @@ namespace UnknownEngine
 			virtual const char* getName();
 			
 			PhysXSubsystem* physx_subsystem;
+			Core::EngineContext* engine_context;
 			
 		};
 	}

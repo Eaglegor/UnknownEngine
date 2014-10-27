@@ -13,6 +13,7 @@ namespace UnknownEngine
 		struct SubsystemDesc;
 		class EngineContext;
 		class LogHelper;
+		class BaseMessageListener;
 	}
 
 	namespace Physics
@@ -43,6 +44,8 @@ namespace UnknownEngine
 				std::unique_ptr<PxShapeDataProvidersFactory> px_shape_data_providers_factory;
 				std::unique_ptr<PxMaterialDataProvidersFactory> px_material_data_providers_factory;
 				std::unique_ptr<PxRigidBodyComponentsFactory> px_rigid_body_components_factory;
+				
+				std::unique_ptr<Core::BaseMessageListener> listener;
 		};
 
 	} /* namespace Graphics */

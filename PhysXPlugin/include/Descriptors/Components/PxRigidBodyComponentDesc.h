@@ -20,6 +20,8 @@ namespace UnknownEngine
 			Core::Transform initial_transform;
 			RigidBodyDynamicsType dynamics_type;
 
+			Math::Scalar mass;
+			
 			boost::optional<Math::Scalar> linear_damping;
 			boost::optional<Math::Scalar> angular_damping;
 			boost::optional<Math::Scalar> max_angular_velocity;

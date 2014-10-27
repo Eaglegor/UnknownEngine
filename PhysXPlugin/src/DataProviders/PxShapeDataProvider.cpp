@@ -19,7 +19,7 @@ namespace UnknownEngine
 
 		PxShapeOrientedWrapper* PxShapeDataProvider::getPxShapeWrapper()
 		{
-			return resource_container.getData < PxShapeOrientedWrapper* >();
+			return getResource().getData < PxShapeOrientedWrapper* >();
 		}
 
 		PxShapeDataProvider::~PxShapeDataProvider()

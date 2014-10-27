@@ -14,7 +14,8 @@ namespace UnknownEngine
 			return "Physics.PhysXPlugin.PxMaterialDataProvidersFactory";
 		}
 
-		PxMaterialDataProvidersFactory::PxMaterialDataProvidersFactory ( PhysXSubsystem* physx_subsystem )
+		PxMaterialDataProvidersFactory::PxMaterialDataProvidersFactory ( PhysXSubsystem* physx_subsystem ):
+		physx_subsystem(physx_subsystem)
 		{
 			CreatableObjectDesc creatable_data_provider;
 			creatable_data_provider.type = PX_MATERIAL_DATA_PROVIDER_TYPE;

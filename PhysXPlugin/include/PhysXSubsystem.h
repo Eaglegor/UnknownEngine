@@ -3,6 +3,7 @@
 #include <InlineSpecification.h>
 #include <Exception.h>
 #include <memory>
+#include <unordered_map>
 
 namespace physx
 {
@@ -21,10 +22,15 @@ namespace UnknownEngine
 	{
 		class EngineContext;
 		class LogHelper;
+		class BaseMessageListener;
+		struct UpdateFrameMessage;
 	}
 
 	namespace Physics
 	{
+		
+		class PxRigidBodyComponent;
+		
 		class PhysXSubsystem
 		{
 		public:
@@ -40,6 +46,14 @@ namespace UnknownEngine
 			UNKNOWNENGINE_INLINE
 			bool isInitialized(){ return is_initialized; }
 
+			void init();
+			void shutdown();
+			
+			void onUpdateFrame(const Core::UpdateFrameMessage &msg);
+			
+			void addRigidBodyComponent(const std::string& name, PxRigidBodyComponent* rigid_body_component);
+			void removeRigidBodyComponent(const std::string& name);
+			
 		private:
 			bool is_initialized;
 
@@ -54,6 +68,9 @@ namespace UnknownEngine
 			physx::PxGpuDispatcher* px_gpu_dispatcher;
 			physx::PxCudaContextManager* px_cuda_context_manager;
 			physx::PxProfileZoneManager* px_profile_zone_manager;
+			
+			std::unordered_map<std::string, PxRigidBodyComponent*> rigid_body_components;
+			
 		};
 	}
 }

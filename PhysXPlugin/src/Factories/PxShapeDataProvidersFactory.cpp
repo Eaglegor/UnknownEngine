@@ -14,7 +14,8 @@ namespace UnknownEngine
 			return "Physics.PhysXPlugin.PxShapeDataProvidersFactory";
 		}
 
-		PxShapeDataProvidersFactory::PxShapeDataProvidersFactory ( PhysXSubsystem* physx_subsystem )
+		PxShapeDataProvidersFactory::PxShapeDataProvidersFactory ( PhysXSubsystem* physx_subsystem ):
+		physx_subsystem(physx_subsystem)
 		{
 			CreatableObjectDesc creatable_data_provider;
 			creatable_data_provider.type = PX_BOX_SHAPE_DATA_PROVIDER_TYPE;
