@@ -4,11 +4,13 @@
 #include <Properties/Properties.h>
 #include <PhysXSubsystemPlugin.h>
 #include <MessageSystem/MessageDictionary.h>
+#include <ComponentsManager.h>
 #include <EngineContext.h>
 #include <LogHelper.h>
 #include <PhysXSubsystem.h>
 #include <Factories/PxShapeDataProvidersFactory.h>
 #include <Factories/PxMaterialDataProvidersFactory.h>
+#include <Factories/PxRigidBodyComponentsFactory.h>
 #include <ResourceManager.h>
 
 namespace UnknownEngine
@@ -57,6 +59,12 @@ namespace UnknownEngine
 			LOG_INFO(log_helper, "Registering PxMaterial data providers factory");
 			engine_context->getResourceManager()->addDataProviderFactory(px_material_data_providers_factory.get());
 
+			LOG_INFO(log_helper, "Creating PxRigidBody components factory");
+			px_rigid_body_components_factory.reset(new PxRigidBodyComponentsFactory(physx_subsystem.get()));
+
+			LOG_INFO(log_helper, "Registering PxRigidBody components factory");
+			engine_context->getComponentsManager()->addComponentFactory(px_rigid_body_components_factory.get());
+
 			return true;
 		}
 
@@ -64,6 +72,12 @@ namespace UnknownEngine
 		{
 			LOG_INFO(log_helper, "Shutting down PhysX plugin");
 		  
+			LOG_INFO(log_helper, "Unregistering PxRigidBody components factory");
+			engine_context->getComponentsManager()->removeComponentFactory(px_rigid_body_components_factory.get());
+
+			LOG_INFO(log_helper, "Destroying PxRigidBody components factory");
+			px_rigid_body_components_factory.reset();
+
 			LOG_INFO(log_helper, "Unregistering PxMaterial data providers factory");
 			engine_context->getResourceManager()->removeDataProviderFactory(px_material_data_providers_factory.get());
 

@@ -2,6 +2,7 @@
 
 #include <Objects/BaseComponent.h>
 #include <Descriptors/Components/PxRigidBodyComponentDesc.h>
+#include <AlignedNew.h>
 
 namespace physx
 {
@@ -18,7 +19,7 @@ namespace UnknownEngine
 		class PhysXSubsystem;
 		class PxShapeOrientedWrapper;
 		
-		class PxRigidBodyComponent : public Core::BaseComponent
+		UNKNOWNENGINE_ALIGNED_CLASS(16) PxRigidBodyComponent : public Core::BaseComponent
 		{
 		public:
 			PxRigidBodyComponent(const std::string &name, const PxRigidBodyComponentDesc &desc, PhysXSubsystem* physics_subsystem);
@@ -28,6 +29,7 @@ namespace UnknownEngine
 			virtual void init ( const Core::Entity* parent_entity );
 			virtual void shutdown();
 			
+			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 			
 		private:
 			PxRigidBodyComponentDesc desc;

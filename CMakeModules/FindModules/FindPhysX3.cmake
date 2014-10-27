@@ -128,9 +128,10 @@ endmacro(find_physx3_component)
 find_physx3_library(PhysX3)
 find_physx3_library(PhysX3Common)
 find_physx3_library(PhysX3Extensions)
+find_physx3_library(PxTask)
+find_physx3_library(PhysXProfileSDK)
+
 if(NOT WIN32)
-	find_physx3_library(PxTask)
-	find_physx3_library(PhysXProfileSDK)
 	find_physx3_library(PhysX3Gpu)
 endif()
 
