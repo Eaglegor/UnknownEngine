@@ -86,15 +86,15 @@ namespace UnknownEngine
 								}
 							}
 							)
-						}/*,
+						},
 						{"dynamics_type", PropertiesParser::RequiredValue<RigidBodyDynamicsType> ( desc.dynamics_type ) },
-						{"linear_damping", PropertiesParser::OptionalValue<Math::Scalar> ( desc.linear_damping ) },
-						{"angular_damping", PropertiesParser::OptionalValue<Math::Scalar>(desc.angular_damping) },
-						{"max_angular_velocity", PropertiesParser::OptionalValue<Math::Scalar>(desc.max_angular_velocity) },
-						{"stabilization_threshold", PropertiesParser::OptionalValue<Math::Scalar>(desc.stabilization_threshold) },
-						{"position_iterations", PropertiesParser::OptionalValue<size_t>(desc.position_iterations) },
-						{"velocity_iterations", PropertiesParser::OptionalValue<size_t>(desc.velocity_iterations) },
-						{"contact_report_threashold", PropertiesParser::RequiredValue<Math::Scalar> ( desc.contact_report_threshold ) }*/
+						{"linear_damping", PropertiesParser::OptionalValue<Math::Scalar> ( PropertiesParser::BoostOptionalSetter<Math::Scalar>( desc.linear_damping ) ) },
+						{ "angular_damping", PropertiesParser::OptionalValue<Math::Scalar>( PropertiesParser::BoostOptionalSetter<Math::Scalar>(desc.angular_damping) ) },
+						{ "max_angular_velocity", PropertiesParser::OptionalValue<Math::Scalar>(PropertiesParser::BoostOptionalSetter<Math::Scalar>(desc.max_angular_velocity) ) },
+						{ "stabilization_threshold", PropertiesParser::OptionalValue<Math::Scalar>(PropertiesParser::BoostOptionalSetter<Math::Scalar>(desc.stabilization_threshold)) },
+						{ "position_iterations", PropertiesParser::OptionalValue<size_t>(PropertiesParser::BoostOptionalSetter<size_t>(desc.position_iterations)) },
+						{ "velocity_iterations", PropertiesParser::OptionalValue<size_t>(PropertiesParser::BoostOptionalSetter<size_t>(desc.velocity_iterations)) },
+						{ "contact_report_threashold", PropertiesParser::RequiredValue<Math::Scalar>(PropertiesParser::BoostOptionalSetter<Math::Scalar>(desc.contact_report_threshold)) }
 					}
 					);
 
