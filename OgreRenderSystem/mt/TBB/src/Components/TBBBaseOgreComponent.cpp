@@ -7,11 +7,12 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 		TBBBaseOgreComponent::TBBBaseOgreComponent ( const std::string& name, UnknownEngine::Graphics::OgreRenderSubsystem* render_subsystem, UnknownEngine::Core::EngineContext* engine_context ) :
-			ThreadIndependentOgreComponentBase ( name, render_subsystem, engine_context )
+			ThreadIndependentOgreComponentBase ( name, render_subsystem, engine_context ),
+			shutdown_initialized(false)
 		{
 			render_subsystem->addSynchronizeCallback ( this->getName(), [this]()
 				{
-					if(listener) listener->flushAllMessageBuffers();
+					if(!shutdown_initialized && listener) listener->flushAllMessageBuffers();
 				} );
 		}
 		
@@ -30,6 +31,7 @@ namespace UnknownEngine
 				{
 					this->internalInit ( parent_entity );
 				} );
+				shutdown_initialized = false;
 			}
 			else
 			{
@@ -42,6 +44,7 @@ namespace UnknownEngine
 		{
 			if ( render_subsystem->hasSeparateRenderThreadEnabled() )
 			{
+				shutdown_initialized = true;
 				render_subsystem->addShutdownCallback ( [this]()
 				{
 					this->internalShutdown ( );
