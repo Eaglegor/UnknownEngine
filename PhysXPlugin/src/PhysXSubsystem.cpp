@@ -152,6 +152,16 @@ namespace UnknownEngine
 			rigid_body_components.erase(name);
 		}
 		
+		PxRigidBodyComponent* PhysXSubsystem::getRigidBodyComponent(const std::string &name)
+		{
+			auto iter = rigid_body_components.find(name);
+			if (iter == rigid_body_components.end()) {
+				LOG_ERROR(log_helper, "Find request for rigid body component '" + name + "' but it doesn't exist");
+				return nullptr;
+			}
+			return iter->second;
+		}
+
 		PhysXSubsystem::~PhysXSubsystem()
 		{
 		}

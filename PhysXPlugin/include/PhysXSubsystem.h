@@ -53,7 +53,8 @@ namespace UnknownEngine
 			
 			void addRigidBodyComponent(const std::string& name, PxRigidBodyComponent* rigid_body_component);
 			void removeRigidBodyComponent(const std::string& name);
-			
+			PxRigidBodyComponent* getRigidBodyComponent(const std::string &name);
+
 		private:
 			bool is_initialized;
 

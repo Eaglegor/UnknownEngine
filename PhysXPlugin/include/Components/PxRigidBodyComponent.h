@@ -31,6 +31,9 @@ namespace UnknownEngine
 			virtual void init ( const Core::Entity* parent_entity );
 			virtual void shutdown();
 			
+			UNKNOWNENGINE_INLINE
+			physx::PxRigidActor* getPxRigidActor(){ return px_rigid_body; }
+
 			virtual void update();
 			
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
