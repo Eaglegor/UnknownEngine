@@ -5,6 +5,7 @@
 #include <AlignedNew.h>
 #include <MessageSystem/MessageSender.h>
 #include <ExportedMessages/TransformChangedMessage.h>
+#include <memory>
 
 namespace physx
 {
@@ -13,6 +14,12 @@ namespace physx
 
 namespace UnknownEngine
 {
+
+	namespace Core
+	{
+		class LogHelper;
+	}
+
 	namespace Physics
 	{
 
@@ -46,6 +53,9 @@ namespace UnknownEngine
 			PhysXSubsystem* physics_subsystem;
 			physx::PxRigidActor* px_rigid_body;
 			PxShapeOrientedWrapper* px_shape;
+			bool first_update_passed;
+
+			std::unique_ptr<Core::LogHelper> log_helper;
 			
 		};
 	}

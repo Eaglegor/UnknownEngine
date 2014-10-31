@@ -9,6 +9,7 @@
 #include <CommonParsers/PropertiesParser.h>
 #include <CommonParsers/Vector3Parser.h>
 #include <CommonParsers/QuaternionParser.h>
+#include <CommonParsers/LexicalCastForBoolAlpha.h>
 
 namespace UnknownEngine
 {
@@ -39,6 +40,7 @@ namespace UnknownEngine
 						{"width", PropertiesParser::RequiredValue<Math::Scalar> ( desc.width ) },
 						{"height", PropertiesParser::RequiredValue<Math::Scalar> ( desc.height ) },
 						{"depth", PropertiesParser::RequiredValue<Math::Scalar> ( desc.depth ) },
+						{"is_exclusive", PropertiesParser::OptionalValue<bool>(desc.is_exclusive) },
 						{
 							"PoseOffset",
 							PropertiesParser::OptionalNestedValue

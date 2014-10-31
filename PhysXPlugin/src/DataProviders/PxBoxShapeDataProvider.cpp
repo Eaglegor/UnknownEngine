@@ -27,7 +27,7 @@ namespace UnknownEngine
 		void PxBoxShapeDataProvider::internalLoad ( Loader::ResourceContainer& out_container )
 		{
 			physx::PxBoxGeometry box_geometry(desc.width, desc.height, desc.depth);
-			internal_shape.reset( new PxShapeOrientedWrapper(box_geometry, desc.material->getPxMaterial(), desc.pose_offset, physx_subsystem) );
+			internal_shape.reset( new PxShapeOrientedWrapper(box_geometry, desc.material->getPxMaterial(), desc.pose_offset, physx_subsystem, desc.is_exclusive) );
 			out_container.setData<PxShapeOrientedWrapper*>(internal_shape.get());
 		}
 

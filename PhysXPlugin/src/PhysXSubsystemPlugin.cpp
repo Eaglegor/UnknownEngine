@@ -12,6 +12,7 @@
 #include <Factories/PxShapeDataProvidersFactory.h>
 #include <Factories/PxMaterialDataProvidersFactory.h>
 #include <Factories/PxRigidBodyComponentsFactory.h>
+#include <Factories/PxJointComponentsFactory.h>
 #include <ResourceManager.h>
 #include <Listeners/BaseMessageListenersFactory.h>
 #include <Listeners/StandardMessageBuffersFactory.h>
@@ -70,6 +71,12 @@ namespace UnknownEngine
 			LOG_INFO(log_helper, "Registering PxRigidBody components factory");
 			engine_context->getComponentsManager()->addComponentFactory(px_rigid_body_components_factory.get());
 
+			LOG_INFO(log_helper, "Creating PxJoint components factory");
+			px_joint_components_factory.reset(new PxJointComponentsFactory(physx_subsystem.get(), engine_context));
+
+			LOG_INFO(log_helper, "Registering PxJoint components factory");
+			engine_context->getComponentsManager()->addComponentFactory(px_joint_components_factory.get());
+
 			listener = std::move(
 				Utils::BaseMessageListenersFactory::createBaseMessageListener(
 					getName()  + ".Listener",
@@ -99,6 +106,12 @@ namespace UnknownEngine
 
 			listener->unregisterAtDispatcher();
 			
+			LOG_INFO(log_helper, "Unregistering PxJoint components factory");
+			engine_context->getComponentsManager()->removeComponentFactory(px_joint_components_factory.get());
+
+			LOG_INFO(log_helper, "Destroying PxJoint components factory");
+			px_joint_components_factory.reset();
+
 			LOG_INFO(log_helper, "Unregistering PxRigidBody components factory");
 			engine_context->getComponentsManager()->removeComponentFactory(px_rigid_body_components_factory.get());
 

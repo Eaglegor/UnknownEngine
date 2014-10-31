@@ -6,6 +6,7 @@
 #include <Properties/Properties_fwd.h>
 #include <Exception.h>
 #include <CommonParsers/PropertiesParser.h>
+#include <CommonParsers/LexicalCastForBoolAlpha.h>
 
 namespace UnknownEngine
 {
@@ -35,7 +36,8 @@ namespace UnknownEngine
 					{
 						{"actor1_name", PropertiesParser::RequiredValue<std::string>( desc.actor1_name )},
 						{"actor2_name", PropertiesParser::RequiredValue<std::string>(desc.actor2_name) },
-						{"use_projection", PropertiesParser::RequiredValue<bool>(desc.use_projection) },
+						{"use_projection", PropertiesParser::OptionalValue<bool>(desc.use_projection) },
+						{"collision_enabled", PropertiesParser::OptionalValue<bool>(desc.collision_enabled) },
 						{"projection_linear_tolerance", PropertiesParser::OptionalValue<Math::Scalar> ( desc.projection_linear_tolerance ) },
 						{ "projection_angular_tolerance", PropertiesParser::OptionalValue<Math::Scalar>(desc.projection_angular_tolerance) }
 					}

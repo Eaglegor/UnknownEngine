@@ -13,11 +13,13 @@ namespace UnknownEngine
 			std::string actor2_name;
 
 			bool use_projection;
+			bool collision_enabled;
 			boost::optional<Math::Scalar> projection_linear_tolerance;
 			boost::optional<Math::Scalar> projection_angular_tolerance;
 
 			PxFixedJointComponentDesc():
-			use_projection(false)
+			use_projection(false),
+			collision_enabled(false)
 			{}
 		};
 	}

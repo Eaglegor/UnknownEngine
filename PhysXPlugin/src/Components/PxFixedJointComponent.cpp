@@ -42,13 +42,15 @@ namespace UnknownEngine
 				if (desc.projection_angular_tolerance) px_joint->setProjectionAngularTolerance(desc.projection_angular_tolerance.get());
 				if (desc.projection_linear_tolerance) px_joint->setProjectionLinearTolerance(desc.projection_linear_tolerance.get());
 			}
+			
+			px_joint->setConstraintFlag(physx::PxConstraintFlag::eCOLLISION_ENABLED, desc.collision_enabled);
 
 		}
 
 		void PxFixedJointComponent::calculateRelativeTransforms(physx::PxTransform &rel_transform_1, physx::PxTransform &rel_transform_2)
 		{
 			rel_transform_1 = physx::PxTransform::createIdentity();
-			rel_transform_2 = physx::PxTransform::createIdentity();
+			rel_transform_2 = actor1->getGlobalPose() * actor2->getGlobalPose().getInverse();
 		}
 
 		void PxFixedJointComponent::shutdown()

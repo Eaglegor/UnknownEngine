@@ -18,9 +18,13 @@ namespace UnknownEngine
 			Math::Scalar width; // X
 			Math::Scalar height; // Y
 			Math::Scalar depth; // Z
+			bool is_exclusive;
 			
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 			
+			PxBoxShapeDataProviderDesc():
+			is_exclusive(false)
+			{}
 		};
 	}
 }

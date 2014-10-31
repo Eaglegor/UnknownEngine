@@ -49,7 +49,7 @@ namespace UnknownEngine
 				{
 					LOG_INFO ( log_helper, "PxPhysics initialized" );
 					physx::PxSceneDesc scene_desc ( px_physics->getTolerancesScale() );
-					scene_desc.gravity = physx::PxVec3 ( 0.0f, -9.8f, 0.0f );
+					scene_desc.gravity = physx::PxVec3 ( 0.0f, -0.098f, 0.0f );
 
 					px_cpu_dispatcher = physx::PxDefaultCpuDispatcherCreate ( 2 );
 
@@ -77,16 +77,18 @@ namespace UnknownEngine
 							{
 								LOG_ERROR ( log_helper, "Failed to create cuda context manager. GPU support is off" );
 							}
-
-							px_gpu_dispatcher = px_cuda_context_manager->getGpuDispatcher();
-							if ( !px_gpu_dispatcher )
-							{
-								LOG_ERROR ( log_helper, "Failed to get GPU dispatcher. GPU support is off" );
-							}
 							else
 							{
-								LOG_INFO ( log_helper, "GPU dispatcher initialized" );
-								scene_desc.gpuDispatcher = px_gpu_dispatcher;
+								px_gpu_dispatcher = px_cuda_context_manager->getGpuDispatcher();
+								if (!px_gpu_dispatcher)
+								{
+									LOG_ERROR(log_helper, "Failed to get GPU dispatcher. GPU support is off");
+								}
+								else
+								{
+									LOG_INFO(log_helper, "GPU dispatcher initialized");
+									scene_desc.gpuDispatcher = px_gpu_dispatcher;
+								}
 							}
 						}
 

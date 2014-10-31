@@ -23,6 +23,7 @@ namespace UnknownEngine
 		class PxShapeDataProvidersFactory;
 		class PxMaterialDataProvidersFactory;
 		class PxRigidBodyComponentsFactory;
+		class PxJointComponentsFactory;
 
 		class PhysXSubsystemPlugin: public Core::Plugin
 		{
@@ -44,6 +45,7 @@ namespace UnknownEngine
 				std::unique_ptr<PxShapeDataProvidersFactory> px_shape_data_providers_factory;
 				std::unique_ptr<PxMaterialDataProvidersFactory> px_material_data_providers_factory;
 				std::unique_ptr<PxRigidBodyComponentsFactory> px_rigid_body_components_factory;
+				std::unique_ptr<PxJointComponentsFactory> px_joint_components_factory;
 				
 				std::unique_ptr<Core::BaseMessageListener> listener;
 		};

@@ -21,8 +21,8 @@ namespace UnknownEngine
 		UNKNOWNENGINE_ALIGNED_CLASS(16) PxShapeOrientedWrapper
 		{
 		public:
-			PxShapeOrientedWrapper(const physx::PxGeometry &geometry, const physx::PxMaterial *material, PhysXSubsystem* physx_subsystem);
-			explicit PxShapeOrientedWrapper(const physx::PxGeometry &geometry, const physx::PxMaterial *material, const Core::Transform &pose_offset, PhysXSubsystem* physx_subsystem);
+			PxShapeOrientedWrapper(const physx::PxGeometry &geometry, const physx::PxMaterial *material, PhysXSubsystem* physx_subsystem, bool is_exclusive);
+			PxShapeOrientedWrapper(const physx::PxGeometry &geometry, const physx::PxMaterial *material, const Core::Transform &pose_offset, PhysXSubsystem* physx_subsystem, bool is_exclusive );
 			
 			virtual ~PxShapeOrientedWrapper();
 			
@@ -33,7 +33,7 @@ namespace UnknownEngine
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
 		private:
-			void createPxShape( const physx::PxGeometry& geometry, const physx::PxMaterial* material, PhysXSubsystem* physx_subsystem );
+			void createPxShape( const physx::PxGeometry& geometry, const physx::PxMaterial* material, PhysXSubsystem* physx_subsystem, bool is_exclusive );
 			void destroyPxShape();
 			
 			physx::PxShape* px_shape;
