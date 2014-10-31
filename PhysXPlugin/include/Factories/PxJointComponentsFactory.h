@@ -13,13 +13,13 @@ namespace UnknownEngine
 	{
 		class PhysXSubsystem;
 
-		class PxRigidBodyComponentsFactory : public Core::BaseComponentFactory
+		class PxJointComponentsFactory : public Core::BaseComponentFactory
 		{
 		public:
-			PxRigidBodyComponentsFactory( PhysXSubsystem* physx_subsystem, Core::EngineContext* engine_context );
+			PxJointComponentsFactory( PhysXSubsystem* physx_subsystem, Core::EngineContext* engine_context );
 			
 		private:
-			Core::IComponent* createPxRigidBodyComponent(const Core::ComponentDesc& desc);
+			Core::IComponent* createPxFixedJointComponent(const Core::ComponentDesc& desc);
 			
 			virtual const char* getName();
 			

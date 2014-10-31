@@ -18,10 +18,10 @@ namespace UnknownEngine
 		physx_subsystem(physx_subsystem),
 		engine_context(engine_context)
 		{
-			CreatableObjectDesc creatable_data_provider;
-			creatable_data_provider.type = PX_RIGID_BODY_COMPONENT_TYPE;
-			creatable_data_provider.creator = std::bind(&PxRigidBodyComponentsFactory::createPxRigidBodyComponent, this, std::placeholders::_1);
-			registerCreator(creatable_data_provider);
+			CreatableObjectDesc creatable_component;
+			creatable_component.type = PX_RIGID_BODY_COMPONENT_TYPE;
+			creatable_component.creator = std::bind(&PxRigidBodyComponentsFactory::createPxRigidBodyComponent, this, std::placeholders::_1);
+			registerCreator(creatable_component);
 		}
 
 		Core::IComponent* PxRigidBodyComponentsFactory::createPxRigidBodyComponent(const Core::ComponentDesc& desc)

@@ -8,6 +8,7 @@ namespace physx
 {
 	class PxRigidActor;
 	class PxFixedJoint;
+	class PxTransform;
 }
 
 namespace UnknownEngine
@@ -32,6 +33,8 @@ namespace UnknownEngine
 			virtual void shutdown();
 			
 		private:
+			virtual void calculateRelativeTransforms(physx::PxTransform &rel_transform_1, physx::PxTransform &rel_transform_2);
+
 			PxFixedJointComponentDesc desc;
 			physx::PxFixedJoint* px_joint;
 
