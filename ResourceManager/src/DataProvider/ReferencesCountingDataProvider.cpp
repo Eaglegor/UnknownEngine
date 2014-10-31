@@ -82,6 +82,7 @@ namespace UnknownEngine
 
 		ReferencesCountingDataProvider::~ReferencesCountingDataProvider()
 		{
+			internalUnload(resource_container);
 		}
 
 	} // namespace Loader

@@ -50,7 +50,7 @@ namespace UnknownEngine
 			
 			AssimpMeshDataProvider ( const std::string& name, const Descriptor &desc, Core::EngineContext* engine_context );
 			
-			virtual const DataProviderType& getType();
+			virtual const DataProviderType getType();
 			virtual void internalLoad ( ResourceContainer& out_container );
 
 			

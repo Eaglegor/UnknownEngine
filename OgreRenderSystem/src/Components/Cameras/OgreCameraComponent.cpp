@@ -4,6 +4,7 @@
 #include <OgreRenderSubsystem.h>
 #include <OgreSceneManager.h>
 #include <OgreRenderWindow.h>
+#include <OgreSceneNode.h>
 #include <boost/lexical_cast.hpp>
 #include <Converters/OgreVector3Converter.h>
 #include <Converters/OgreQuaternionConverter.h>

@@ -12,7 +12,7 @@ namespace UnknownEngine
 {
 	namespace Behavior 
 	{
-		MouseLookComponent::MouseLookComponent ( const std::string& name, UnknownEngine::Core::EngineContext* engine_context ) : 
+		MouseLookComponent::MouseLookComponent ( const std::string& name, UnknownEngine::Core::EngineContext* engine_context, const Core::Transform &initial_transform ) : 
 		SimpleBehaviorComponent ( name ),
 		transform_changed_message_sender ( GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(name), engine_context ),
 		engine_context(engine_context),
@@ -23,7 +23,8 @@ namespace UnknownEngine
 		current_y_angle(0),
 		needs_update_quaternion(false),
 		linear_speed(0.001f),
-		angular_speed(0.1f)
+		angular_speed(0.1f),
+		current_transform(initial_transform)
 		{
 		}
 

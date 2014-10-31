@@ -8,7 +8,7 @@ set(DEPENDS_ON_TARGETS Engine ComponentSystem Plugins ResourceManager )
 find_package(Eigen REQUIRED)
 list(APPEND INCLUDED_HEADERS ${EIGEN_INCLUDE_DIR})
 
-find_package(OGRE REQUIRED)
+find_package(OGRE)
 list( APPEND INCLUDED_HEADERS ${OGRE_INCLUDE_DIRS})
 list( APPEND LINKED_LIBS ${OGRE_LIBRARIES})
 link_directories(${OGRE_LIBRARY_DIRS})
@@ -34,7 +34,7 @@ if(OGRE_FOUND)
   find_package(TBB)
   if(TBB_FOUND)
   
-	message("${TARGET_NAME}: Intel Threading Building Blocks found - turning on multithreading")
+	message(WARNING "${TARGET_NAME}: Intel Threading Building Blocks found - turning on multithreading")
   
 	list(APPEND INCLUDED_HEADERS ${TBB_INCLUDE_DIRS})
 	list(APPEND LINKED_LIBS ${TBB_LIBRARIES})
@@ -50,7 +50,7 @@ if(OGRE_FOUND)
 	
   else()
 
-	message("${TARGET_NAME}: No multithreading library found - using single threaded version")
+	message(WARNING "${TARGET_NAME}: No multithreading library found - using single threaded version")
   
 	list(APPEND INCLUDED_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/mt/SingleThread/include)
 	file(GLOB_RECURSE ADDITIONAL_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/mt/SingleThread/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/mt/SingleThread/*.h")

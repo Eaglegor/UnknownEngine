@@ -25,6 +25,7 @@ namespace UnknownEngine
 				void startLoading() override;
 
 			protected:
+				RESOURCEMANAGER_EXPORT
 				virtual const ResourceContainer& internalGetResource() override;
 
 			private:

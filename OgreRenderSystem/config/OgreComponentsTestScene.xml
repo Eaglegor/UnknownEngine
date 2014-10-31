@@ -105,6 +105,12 @@
 			</received_messages>
 		</subsystem>
 		
+		<subsystem name="Physics" module="PhysXPlugin">
+			<received_messages>
+				<message type="Engine.MainLoop.UpdateFrameMessage"/>
+			</received_messages>
+		</subsystem>
+		
 	</subsystems>
 
 	<entities>
@@ -129,12 +135,6 @@
 					
 					<option name="render_window_name" value="TestWindow"/>
 					<option name="log_level" value="${global_log_level}"/>
-					
-					<options_section name="InitialTransform">
-						<option name="position" value="Vector3(x:0, y:0, z:50)"/>
-						<option name="look_at" value="Vector3(x:0, y:0, z:0)"/>
-					</options_section>
-					
 					<option name="near_clip_distance" value="0.0001"/>
 					
 				</options_section>
@@ -164,12 +164,7 @@
 						<option name="spotlight_inner_angle" value="8"/>
 						<option name="spotlight_outer_angle" value="15"/>
 					</options_section>
-					
-					<options_section name="InitialTransform">
-						<option name="position" value="Vector3(x:0, y:0, z:0)"/>
-						<option name="initial_look_at" value="Vector3(x:0, y:0, z:-1)"/>
-					</options_section>
-					
+
 				</options_section>
 			</component>
 			
@@ -196,9 +191,48 @@
 			</options_section>
 		</data_provider>
 		
+		<data_provider name="SimpleMaterial" type="Loader.PxMaterial.PxMaterialDataProvider">
+			<options_section>
+				<option name="static_friction" value="1"/>
+				<option name="dynamic_friction" value="1"/>
+				<option name="restitution" value="1"/>
+			</options_section>
+		</data_provider>
+		
+		<data_provider name="SimpleBoxShape" type="Loader.PxShape.PxBoxShapeDataProvider">
+			<options_section>
+				<provided_data name="material" data_provider_name="SimpleMaterial"/>
+				<option name="width" value="0.2"/>
+				<option name="height" value="0.2"/>
+				<option name="depth" value="0.2"/>
+			</options_section>
+		</data_provider>
+		
+		<data_provider name="SimpleBoxShape2" type="Loader.PxShape.PxBoxShapeDataProvider">
+			<options_section>
+				<provided_data name="material" data_provider_name="SimpleMaterial"/>
+				<option name="width" value="0.2"/>
+				<option name="height" value="0.2"/>
+				<option name="depth" value="0.2"/>
+			</options_section>
+		</data_provider>
+		
 		<entity name="TestRenderable">
 			
 			<component name="Rotation" type="Behavior.SimpleRotation"/>
+			
+			<component name="RigidBodyComponent" type="Physics.RigidBody">
+				<options_section>
+					<provided_data name="shape" data_provider_name="SimpleBoxShape"/>
+					<option name="dynamics_type" value="dynamic"/>
+					<option name="mass" value="0.5"/>
+					
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:10, y:0, z:0)"/>
+					</options_section>
+					
+				</options_section>
+			</component>
 			
 			<component name="RenderableComponent" type="Graphics.Renderable">
 				
@@ -206,7 +240,7 @@
 					<message type="Engine.TransformChangedMessage">
 						<receive_policy type="FromSingleSenderMessageReceivePolicy">
 							<options_section>
-								<option name="sender_name" value="TestRenderable.Rotation"/>
+								<option name="sender_name" value="TestRenderable.RigidBodyComponent"/>
 							</options_section>
 						</receive_policy>
 					</message>
@@ -232,6 +266,20 @@
 		</entity>
 		
 		<entity name="TestRenderable2">
+		
+			<component name="RigidBodyComponent" type="Physics.RigidBody">
+				<options_section>
+					<provided_data name="shape" data_provider_name="SimpleBoxShape2"/>
+					<option name="dynamics_type" value="static"/>
+					<option name="mass" value="0.5"/>
+					
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:-10, y:0, z:0)"/>
+					</options_section>
+					
+				</options_section>
+			</component>
+		
 			<component name="RenderableComponent" type="Graphics.Renderable">
 				<options_section>
 					
@@ -250,6 +298,14 @@
 					
 				</options_section>
 			</component>
+			
+			<component name="Joint" type="Physics.Joint.Fixed">
+				<options_section>
+					<option name="actor1_name" value="TestRenderable.RigidBodyComponent"/>
+					<option name="actor2_name" value="TestRenderable2.RigidBodyComponent"/>
+				</options_section>
+			</component>
+			
 		</entity>
 		
 		<entity name="LightEntity">
