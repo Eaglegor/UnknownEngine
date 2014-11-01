@@ -11,7 +11,7 @@
 #include <Objects/Entity.h>
 #include <Objects/IComponent.h>
 
-#define ENABLE_CORE_SUBSYSTEM_INFO_LOG
+//#define ENABLE_CORE_SUBSYSTEM_INFO_LOG
 #include <CoreLogging.h>
 
 namespace UnknownEngine

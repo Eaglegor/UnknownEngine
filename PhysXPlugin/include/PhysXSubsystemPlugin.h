@@ -3,6 +3,7 @@
 #include <InlineSpecification.h>
 #include <Plugins/Plugin.h>
 #include <SubsystemDesc.h>
+#include "Descriptors/PhysXSubsystemDesc.h"
 #include <memory>
 
 namespace UnknownEngine
@@ -41,7 +42,8 @@ namespace UnknownEngine
 				virtual bool uninstall()  override;
 
 			private:
-				Core::SubsystemDesc desc;
+				PhysXSubsystemDesc desc;
+				Core::SubsystemDesc raw_desc;
 				Core::EngineContext* engine_context;
 				std::unique_ptr<Utils::LogHelper> log_helper;
 				std::unique_ptr<PhysXSubsystem> physx_subsystem;
