@@ -16,8 +16,8 @@ namespace UnknownEngine
 		{
 
 			PxShapeDataProvider* shape_data_provider;
-			Core::Transform local_shape_transform;
-			Core::Transform initial_transform;
+			Math::Transform local_shape_transform;
+			Math::Transform initial_transform;
 			RigidBodyDynamicsType dynamics_type;
 
 			Math::Scalar mass;

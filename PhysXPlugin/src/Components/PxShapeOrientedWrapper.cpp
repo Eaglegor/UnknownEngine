@@ -19,7 +19,7 @@ namespace UnknownEngine
 			createPxShape(geometry, material, physx_subsystem, is_exclusive);
 		}
 
-		PxShapeOrientedWrapper::PxShapeOrientedWrapper ( const physx::PxGeometry& geometry, const physx::PxMaterial *material, const Core::Transform& pose_offset, PhysXSubsystem* physx_subsystem, bool is_exclusive ):
+		PxShapeOrientedWrapper::PxShapeOrientedWrapper ( const physx::PxGeometry& geometry, const physx::PxMaterial *material, const Math::Transform& pose_offset, PhysXSubsystem* physx_subsystem, bool is_exclusive ):
 		px_shape(nullptr),
 		pose_offset(pose_offset),
 		physx_subsystem(physx_subsystem)
@@ -32,12 +32,12 @@ namespace UnknownEngine
 			return px_shape;
 		}
 
-		Core::Transform PxShapeOrientedWrapper::getLocalPose() const
+		Math::Transform PxShapeOrientedWrapper::getLocalPose() const
 		{
-			return Core::Transform();
+			return Math::Transform();
 		}
 		
-		void PxShapeOrientedWrapper::setLocalPose (const Core::Transform& local_pose)
+		void PxShapeOrientedWrapper::setLocalPose (const Math::Transform& local_pose)
 		{
 			px_shape->setLocalPose( PxTransformConverter::toPxTransform(local_pose) ); // TODO implement transform offset
 		}

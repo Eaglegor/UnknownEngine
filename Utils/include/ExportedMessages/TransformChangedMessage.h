@@ -18,7 +18,7 @@ namespace UnknownEngine
 			
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
-			Transform new_transform;
+			Math::Transform new_transform;
 		};
 
 	} /* namespace Core */

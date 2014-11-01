@@ -22,7 +22,7 @@ namespace UnknownEngine
 
 			OgreMeshPtrProvider* mesh_data_provider;
 
-			Core::Transform initial_transform;
+			Math::Transform initial_transform;
 			Utils::LogSeverity log_level;
 
 			MaterialDesc material_desc;
@@ -33,7 +33,7 @@ namespace UnknownEngine
 
 			OgreRenderableComponentDescriptor() :
 				mesh_data_provider ( nullptr ),
-				initial_transform ( Core::Transform::getIdentity() ),
+				initial_transform ( Math::Transform::getIdentity() ),
 				log_level ( Utils::LogSeverity::NONE ),
 				throw_exception_on_missing_mesh_data ( true )
 			{}

@@ -12,7 +12,7 @@ namespace UnknownEngine
 		class PxTransformConverter
 		{
 		public:
-			static physx::PxTransform toPxTransform(const Core::Transform &transform)
+			static physx::PxTransform toPxTransform(const Math::Transform &transform)
 			{
 				physx::PxTransform result;
 				const Math::Vector3 &position = transform.getPosition();
@@ -27,9 +27,9 @@ namespace UnknownEngine
 				return result;
 			}
 			
-			static Core::Transform fromPxTransform(const physx::PxTransform &transform)
+			static Math::Transform fromPxTransform(const physx::PxTransform &transform)
 			{
-				Core::Transform result;
+				Math::Transform result;
 				result.setPosition( Math::Vector3(transform.p.x, transform.p.y, transform.p.z) );
 				result.setOrientation( Math::Quaternion(transform.q.w, transform.q.x, transform.q.y, transform.q.z) );
 				return result;

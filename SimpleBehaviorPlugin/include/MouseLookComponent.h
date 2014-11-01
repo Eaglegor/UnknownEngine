@@ -22,7 +22,7 @@ namespace UnknownEngine
 		UNKNOWNENGINE_ALIGNED_CLASS(16) MouseLookComponent : public SimpleBehaviorComponent
 		{
 		public:
-			explicit MouseLookComponent(const std::string& name, Core::EngineContext* engine_context, const Core::Transform &initial_transform = Core::Transform() );
+			explicit MouseLookComponent(const std::string& name, Core::EngineContext* engine_context, const Math::Transform &initial_transform = Math::Transform() );
 			virtual ~MouseLookComponent();
 				
 			UNKNOWNENGINE_INLINE
@@ -52,7 +52,7 @@ namespace UnknownEngine
 			Core::MessageSender<Core::TransformChangedMessage> transform_changed_message_sender;
 			
 			Core::EngineContext* engine_context;
-			Core::Transform current_transform;
+			Math::Transform current_transform;
 			
 			Math::Vector3 forward_axis;
 			Math::Vector3 right_axis;

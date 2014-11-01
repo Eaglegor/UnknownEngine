@@ -9,9 +9,9 @@
 namespace UnknownEngine {
 	namespace Graphics {
 
-		Core::Transform InitialTransformSectionParser::parse ( const UnknownEngine::Core::Properties& initial_transform_section )
+		Math::Transform InitialTransformSectionParser::parse ( const UnknownEngine::Core::Properties& initial_transform_section )
 		{
-			Core::Transform result;
+			Math::Transform result;
 		
 			using Utils::PropertiesParser;
 			

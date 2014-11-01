@@ -13,7 +13,7 @@ namespace UnknownEngine
 		{
 			OgreLightSettings light_settings;
 
-			Core::Transform initial_transform;
+			Math::Transform initial_transform;
 			Utils::LogSeverity log_level;
 
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;

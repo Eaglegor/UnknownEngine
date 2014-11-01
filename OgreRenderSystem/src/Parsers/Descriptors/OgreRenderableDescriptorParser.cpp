@@ -53,7 +53,7 @@ namespace UnknownEngine
 				{
 					{
 						"InitialTransform",
-						PropertiesParser::ExternalParserOptionalNestedValue<Core::Transform, InitialTransformSectionParser>
+						PropertiesParser::ExternalParserOptionalNestedValue<Math::Transform, InitialTransformSectionParser>
 						(desc.initial_transform)
 					},
 					{

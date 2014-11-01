@@ -38,7 +38,7 @@ namespace UnknownEngine
 		
 		Core::IComponent* SimpleBehaviorsFactory::createMouseLookComponent ( const Core::ComponentDesc& desc )
 		{
-			MouseLookComponent* component = new MouseLookComponent(desc.name, engine_context, Core::Transform( Math::Vector3(0,0,50), Math::Quaternion::Identity() ));
+			MouseLookComponent* component = new MouseLookComponent(desc.name, engine_context, Math::Transform( Math::Vector3(0,0,50), Math::Quaternion::Identity() ));
 			behaviors_performer->addSimpleBehaviorComponent(component);
 			return component;
 		}
