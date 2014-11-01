@@ -52,6 +52,7 @@ namespace UnknownEngine
 				std::unique_ptr<PxJointComponentsFactory> px_joint_components_factory;
 				
 				std::unique_ptr<Core::BaseMessageListener> listener;
+				
 		};
 
 	} /* namespace Graphics */

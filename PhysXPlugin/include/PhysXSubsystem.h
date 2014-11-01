@@ -32,6 +32,8 @@ namespace UnknownEngine
 	
 	namespace Physics
 	{
+
+		class PhysXErrorCallback;
 		
 		class PxRigidBodyComponent;
 		
@@ -75,6 +77,8 @@ namespace UnknownEngine
 			physx::PxProfileZoneManager* px_profile_zone_manager;
 			
 			std::unordered_map<std::string, PxRigidBodyComponent*> rigid_body_components;
+			
+			std::unique_ptr<PhysXErrorCallback> physx_logger;
 			
 		};
 	}

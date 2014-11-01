@@ -6,8 +6,8 @@
 #include <pxtask/PxCudaContextManager.h>
 #include <Listeners/BaseMessageListenersFactory.h>
 #include <Components/PxRigidBodyComponent.h>
+#include <PhysXErrorCallback.h>
 
-static physx::PxDefaultErrorCallback gDefaultErrorCallback;
 static physx::PxDefaultAllocator gDefaultAllocatorCallback;
 
 static physx::PxSimulationFilterShader default_simulation_filter_shader = &physx::PxDefaultSimulationFilterShader;
@@ -32,7 +32,10 @@ namespace UnknownEngine
 
 		void PhysXSubsystem::init()
 		{
-			px_foundation = PxCreateFoundation ( PX_PHYSICS_VERSION, gDefaultAllocatorCallback, gDefaultErrorCallback );
+			
+			physx_logger.reset(new PhysXErrorCallback(log_helper));
+			
+			px_foundation = PxCreateFoundation ( PX_PHYSICS_VERSION, gDefaultAllocatorCallback, *physx_logger );
 			if ( px_foundation == nullptr )
 			{
 				LOG_ERROR ( log_helper, "Failed to create PxFoundation object. PhysX not initialized" );
@@ -117,6 +120,7 @@ namespace UnknownEngine
 			if ( px_scene ) px_scene->release();
 			if ( px_physics ) px_physics->release();
 			if ( px_foundation ) px_foundation->release();
+			physx_logger.reset();
 		}
 
 		physx::PxPhysics* PhysXSubsystem::getPxPhysics()

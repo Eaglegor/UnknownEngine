@@ -13,7 +13,7 @@ namespace UnknownEngine
 		
 		void PhysXErrorCallback::reportError ( physx::PxErrorCode::Enum code, const char* message, const char* file, int line )
 		{
-			//LOG_ERROR(log_helper, "PhysX SDK error " + message + "\nFile: " + file + " ( " + std::to_string(line) + ")" );
+			LOG_ERROR(log_helper, "PhysX SDK error: " + std::string(message) + ". File: " + std::string(file) + " (line " + std::to_string(line) + ")" );
 		}
 		
 	}

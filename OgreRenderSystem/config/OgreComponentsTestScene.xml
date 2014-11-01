@@ -5,7 +5,7 @@
 	<subsystems>
 		<subsystem name="Logger" module="ConsoleLogger">
 			<received_messages>
-				<message type="Engine.LogMessage">
+				<message type="Utils.LogMessage">
 					<receive_policy type="AnyMessageReceivePolicy"/>
 				</message>
 			</received_messages>
