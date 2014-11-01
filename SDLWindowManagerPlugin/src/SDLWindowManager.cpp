@@ -15,7 +15,7 @@ namespace UnknownEngine
 	namespace GUI
 	{
 
-		SDLWindowManager::SDLWindowManager ( const std::string& name, Core::EngineContext* engine_context, Core::LogHelper* log_helper ):
+		SDLWindowManager::SDLWindowManager ( const std::string& name, Core::EngineContext* engine_context, Utils::LogHelper* log_helper ):
 		engine_context(engine_context),
 		log_helper(log_helper),
 		name(name)

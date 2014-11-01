@@ -6,6 +6,7 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/foreach.hpp>
+#include <LogHelper.h>
 
 namespace UnknownEngine 
 {
@@ -14,7 +15,7 @@ namespace UnknownEngine
 		
 		using namespace boost::property_tree;
 		
-		ActionSlotsConfigParser::ActionSlotsConfigParser ( UnknownEngine::IO::InputContextMapper* context_mapper, UnknownEngine::Core::LogHelper* log_helper ):
+		ActionSlotsConfigParser::ActionSlotsConfigParser ( InputContextMapper* context_mapper, Utils::LogHelper* log_helper ):
 		context_mapper(context_mapper),
 		log_helper(log_helper)
 		{

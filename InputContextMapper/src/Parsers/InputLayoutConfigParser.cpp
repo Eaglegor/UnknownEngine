@@ -9,6 +9,7 @@
 #include <boost/algorithm/string/classification.hpp>
 #include <boost/lexical_cast.hpp>
 #include <vector>
+#include <LogHelper.h>
 
 namespace UnknownEngine 
 {
@@ -17,7 +18,7 @@ namespace UnknownEngine
 		
 		using namespace boost::property_tree;
 		
-		InputLayoutConfigParser::InputLayoutConfigParser ( UnknownEngine::IO::InputContextMapper* context_mapper, UnknownEngine::Core::LogHelper* log_helper ):
+		InputLayoutConfigParser::InputLayoutConfigParser ( InputContextMapper* context_mapper, Utils::LogHelper* log_helper ):
 		context_mapper(context_mapper),
 		log_helper(log_helper)
 		{

@@ -15,7 +15,7 @@ namespace physx
 namespace UnknownEngine
 {
 
-	namespace Core
+	namespace Utils
 	{
 		class LogHelper;
 	}
@@ -55,7 +55,7 @@ namespace UnknownEngine
 			PxShapeOrientedWrapper* px_shape;
 			bool first_update_passed;
 
-			std::unique_ptr<Core::LogHelper> log_helper;
+			std::unique_ptr<Utils::LogHelper> log_helper;
 			
 		};
 	}

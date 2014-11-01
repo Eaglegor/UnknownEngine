@@ -2,7 +2,7 @@
 
 #include <memory>
 #include <Objects/BaseComponent.h>
-#include <LogHelper.h>
+#include <LogSeverity.h>
 
 namespace physx
 {
@@ -18,6 +18,11 @@ namespace UnknownEngine
 		class EngineContext;
 	}
 
+	namespace Utils
+	{
+		class LogHelper;
+	}
+	
 	namespace Physics
 	{
 
@@ -31,14 +36,14 @@ namespace UnknownEngine
 
 		protected:
 
-			void initializeLogger(Core::LogMessage::Severity severity);
+			void initializeLogger(Utils::LogSeverity severity);
 
 			PhysXSubsystem* physics_subsystem;
 			physx::PxRigidActor* actor1;
 			physx::PxRigidActor* actor2;
 			Core::EngineContext* engine_context;
 			
-			std::unique_ptr<Core::LogHelper> log_helper;
+			std::unique_ptr<Utils::LogHelper> log_helper;
 
 		};
 	}

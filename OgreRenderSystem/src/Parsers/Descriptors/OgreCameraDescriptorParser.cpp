@@ -37,7 +37,7 @@ namespace UnknownEngine
 						)
 					},
 					{"render_window_name", PropertiesParser::RequiredValue<std::string>(desc.render_window_name)},
-					{"log_level", PropertiesParser::OptionalValue<Core::LogMessage::Severity>(desc.log_level)},
+					{"log_level", PropertiesParser::OptionalValue<Utils::LogSeverity>(desc.log_level)},
 					{"near_clip_distance", PropertiesParser::OptionalValue<Math::Scalar>(desc.near_clip_distance)},
 					{"far_clip_distance", PropertiesParser::OptionalValue<Math::Scalar>(desc.far_clip_distance)}
 				}

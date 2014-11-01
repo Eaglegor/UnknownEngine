@@ -1,4 +1,5 @@
 #include <Components/PxJointComponent.h>
+#include <LogHelper.h>
 
 namespace UnknownEngine
 {
@@ -18,9 +19,9 @@ namespace UnknownEngine
 		{
 		}
 
-		void PxJointComponent::initializeLogger(Core::LogMessage::Severity severity)
+		void PxJointComponent::initializeLogger(Utils::LogSeverity severity)
 		{
-			log_helper.reset(new Core::LogHelper(getName(), severity, engine_context));
+			log_helper.reset(new Utils::LogHelper(getName(), severity, engine_context));
 		}
 
 	}

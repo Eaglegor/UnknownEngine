@@ -2,12 +2,15 @@
 
 #include <ConsoleLogger.h>
 #include <MessageSystem/PackedMessage.h>
+#include <ExportedMessages/LogMessage.h>
 
 namespace UnknownEngine
 {
 	namespace Logger
 	{
 
+		using Utils::LogSeverity;
+		
 		ConsoleLogger::ConsoleLogger( ) :
 			Core::IMessageListener ( "Logger.ConsoleLogger.LoggerObject" )
 		{
@@ -15,32 +18,33 @@ namespace UnknownEngine
 
 		void ConsoleLogger::processMessage ( const Core::PackedMessage &msg )
 		{
-			Core::LogMessage unpacked_message = msg.get<Core::LogMessage>();
+			Utils::LogMessage unpacked_message = msg.get<Utils::LogMessage>();
 			log ( msg.getSenderInfo().name, unpacked_message.severity, unpacked_message.log_entry );
 		}
 
-		void ConsoleLogger::log ( const Core::LogMessage::Severity& severity, const std::string& msg )
+		void ConsoleLogger::log ( const LogSeverity& severity, const std::string& msg )
 		{
 			log ( name, severity, msg );
 		}
 
-
-		void ConsoleLogger::log ( const std::string &sender, const Core::LogMessage::Severity &severity, const std::string &msg )
+		void ConsoleLogger::log ( const std::string &sender, const LogSeverity &severity, const std::string &msg )
 		{
 			std::cout << "[";
 
+			using Utils::LogSeverity;
+			
 			switch ( severity )
 			{
-			case Core::LogMessage::Severity::LOG_SEVERITY_INFO:
+			case LogSeverity::INFO:
 				std::cout << "INFO";
 				break;
-			case Core::LogMessage::Severity::LOG_SEVERITY_ERROR:
+			case LogSeverity::ERROR:
 				std::cout << "ERROR";
 				break;
-			case Core::LogMessage::Severity::LOG_SEVERITY_WARNING:
+			case LogSeverity::WARNING:
 				std::cout << "WARNING";
 				break;
-			case Core::LogMessage::Severity::LOG_SEVERITY_DEBUG:
+			case LogSeverity::DEBUG:
 				std::cout << "DEBUG";
 				break;
 			}

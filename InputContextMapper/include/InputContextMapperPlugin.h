@@ -10,8 +10,12 @@ namespace UnknownEngine
 
     namespace Core
     {
-        class LogHelper;
         class EngineContext;
+    }
+    
+    namespace Utils
+    {
+		class LogHelper;
     }
 
     namespace IO
@@ -35,7 +39,7 @@ namespace UnknownEngine
 
         private:
             Core::SubsystemDesc desc;
-            std::unique_ptr<Core::LogHelper> log_helper;
+            std::unique_ptr<Utils::LogHelper> log_helper;
             std::unique_ptr<InputContextMapper> context_mapper;
             Core::EngineContext* engine_context;
 

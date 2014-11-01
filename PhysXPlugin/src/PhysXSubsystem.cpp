@@ -16,7 +16,7 @@ namespace UnknownEngine
 {
 	namespace Physics
 	{
-		PhysXSubsystem::PhysXSubsystem ( Core::EngineContext* engine_context, Core::LogHelper* log_helper ) :
+		PhysXSubsystem::PhysXSubsystem ( Core::EngineContext* engine_context, Utils::LogHelper* log_helper ) :
 			is_initialized ( false ),
 			engine_context ( engine_context ),
 			log_helper ( log_helper ),

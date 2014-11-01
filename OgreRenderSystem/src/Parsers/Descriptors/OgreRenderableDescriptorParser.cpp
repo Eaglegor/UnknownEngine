@@ -65,7 +65,7 @@ namespace UnknownEngine
 							}
 						)
 					},
-					{"log_level", PropertiesParser::OptionalValue<Core::LogMessage::Severity>(desc.log_level)},
+					{"log_level", PropertiesParser::OptionalValue<Utils::LogSeverity>(desc.log_level)},
 			 
 					{"mesh_ptr_provider", PropertiesParser::RequiredRawValue<Loader::IDataProvider*>( 
 						[&](Loader::IDataProvider* data_provider){

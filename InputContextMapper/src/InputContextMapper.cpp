@@ -15,11 +15,13 @@
 #include <ExportedMessages/UserInput/MouseWheelMovedMessage.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 
+#include <LogHelper.h>
+
 namespace UnknownEngine
 {
 	namespace IO
 	{
-		InputContextMapper::InputContextMapper( const UnknownEngine::IO::InputContextMapperDescriptor& desc, const UnknownEngine::IO::InputContextMapperCreationOptions& creation_options, UnknownEngine::Core::LogHelper* log_helper ):
+		InputContextMapper::InputContextMapper( const InputContextMapperDescriptor& desc, const InputContextMapperCreationOptions& creation_options, Utils::LogHelper* log_helper ):
 		creation_options(creation_options),
 		keyboard_event_handler(this),
 		mouse_event_handler(this),

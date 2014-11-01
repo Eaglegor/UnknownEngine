@@ -22,9 +22,9 @@ namespace UnknownEngine
 			  log_helper(nullptr)
 		{
 			mesh_data_provider->reserve();
-			if(descriptor.log_level > Core::LogMessage::Severity::LOG_SEVERITY_NONE)
+			if(descriptor.log_level > Utils::LogSeverity::NONE)
 			{
-				log_helper.reset( new Core::LogHelper(getName(), descriptor.log_level, engine_context) );
+				log_helper.reset( new Utils::LogHelper(getName(), descriptor.log_level, engine_context) );
 			}
 		}
 

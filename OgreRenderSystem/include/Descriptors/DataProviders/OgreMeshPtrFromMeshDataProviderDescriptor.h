@@ -11,11 +11,11 @@ namespace UnknownEngine
 		{
 			Loader::IDataProvider* mesh_data_provider;
 
-			Core::LogMessage::Severity log_level;
+			Utils::LogSeverity log_level;
 
 			OgreMeshPtrFromMeshDataProviderDescriptor() :
 				mesh_data_provider ( nullptr ),
-				log_level ( Core::LogMessage::Severity::LOG_SEVERITY_NONE )
+				log_level ( Utils::LogSeverity::NONE )
 			{}
 		};
 	}

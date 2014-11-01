@@ -27,11 +27,15 @@ namespace UnknownEngine
 
 	namespace Core
 	{
-		class LogHelper;
 		class EngineContext;
 		class BaseMessageListener;
 	}
 
+	namespace Utils
+	{
+		class LogHelper;
+	}
+	
 	namespace Graphics
 	{
 
@@ -45,7 +49,7 @@ namespace UnknownEngine
 		{
 			public:
 
-				explicit ThreadIndependentOgreRenderSystemBase ( const OgreRenderSubsystemDescriptor& desc, Core::LogHelper* log_helper, Core::EngineContext* engine_context );
+				explicit ThreadIndependentOgreRenderSystemBase ( const OgreRenderSubsystemDescriptor& desc, Utils::LogHelper* log_helper, Core::EngineContext* engine_context );
 				virtual ~ThreadIndependentOgreRenderSystemBase();
 				
 				virtual void onFrameUpdated ( const Core::UpdateFrameMessage& msg );
@@ -76,7 +80,7 @@ namespace UnknownEngine
 				
 				Ogre::Root* root;
 				Ogre::SceneManager* scene_manager;
-				Core::LogHelper* log_helper;
+				Utils::LogHelper* log_helper;
 				Ogre::LogManager* ogre_log_manager;
 				
 				Core::EngineContext* engine_context;

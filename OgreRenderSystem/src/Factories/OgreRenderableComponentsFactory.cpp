@@ -16,7 +16,7 @@ namespace UnknownEngine
 
 		static OgreGetDescriptorVisitor<OgreRenderableComponentDescriptor, OgreRenderableDescriptorParser> renderable_descriptor_getter;
 		
-		OgreRenderableComponentsFactory::OgreRenderableComponentsFactory ( OgreRenderSubsystem* render_system, Core::EngineContext* engine_context, Core::LogHelper* log_helper ):
+		OgreRenderableComponentsFactory::OgreRenderableComponentsFactory ( OgreRenderSubsystem* render_system, Core::EngineContext* engine_context, Utils::LogHelper* log_helper ):
 		BaseOgreComponentFactory(render_system, engine_context, log_helper)
 		{
 			CreatableObjectDesc creatable_component;

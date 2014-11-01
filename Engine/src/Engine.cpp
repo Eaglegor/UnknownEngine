@@ -149,8 +149,8 @@ namespace UnknownEngine
 
 		void Engine::registerInternalMessageTypes()
 		{
-			CORE_SUBSYSTEM_INFO ( "Registering message type: " + std::string ( LogMessage::getTypeName() ) );
-			context.message_dictionary->registerNewMessageType ( LogMessage::getTypeName() );
+			CORE_SUBSYSTEM_INFO ( "Registering message type: " + std::string ( Utils::LogMessage::getTypeName() ) );
+			context.message_dictionary->registerNewMessageType ( Utils::LogMessage::getTypeName() );
 
 			CORE_SUBSYSTEM_INFO ( "Registering message type: " + std::string ( UpdateFrameMessage::getTypeName() ) );
 			context.message_dictionary->registerNewMessageType ( UpdateFrameMessage::getTypeName() );

@@ -30,7 +30,7 @@ namespace UnknownEngine
             InputContextMapperDescriptor mapper_descriptor = desc.descriptor.apply_visitor(descriptor_getter);
 
 
-            log_helper.reset( new Core::LogHelper(std::string(getName()), mapper_descriptor.log_level, engine_context) );
+            log_helper.reset( new Utils::LogHelper(std::string(getName()), mapper_descriptor.log_level, engine_context) );
 
             InputContextMapperCreationOptions creation_options;
             creation_options.log_helper = log_helper.get();

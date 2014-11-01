@@ -35,7 +35,7 @@ namespace UnknownEngine
 		bool SimpleBehaviorPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) 
 		{
 		  
-			log_helper.reset ( new Core::LogHelper(getName(), Core::LogMessage::Severity::LOG_SEVERITY_INFO, plugins_manager->getEngineContext()) );
+			log_helper.reset ( new Utils::LogHelper(getName(), Utils::LogSeverity::INFO, plugins_manager->getEngineContext()) );
 		  
 			LOG_INFO(log_helper, "Logger initialized");
 			

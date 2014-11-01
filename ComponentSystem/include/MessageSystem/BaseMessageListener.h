@@ -106,7 +106,7 @@ namespace UnknownEngine
 			MessagingPoliciesManager messaging_policies_manager;
 			EngineContext* engine_context;
 			
-			std::unique_ptr<LogHelper> log_helper;
+			std::unique_ptr<Utils::LogHelper> log_helper;
 			
 			LockPrimitive lock_primitive;
 		};

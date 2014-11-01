@@ -7,11 +7,12 @@
 
 namespace UnknownEngine
 {
-	namespace Core
+
+	namespace Utils
 	{
 		class LogHelper;
 	}
-
+	
 	namespace IO
 	{
 		
@@ -23,7 +24,7 @@ namespace UnknownEngine
 		public:
 			UNKNOWNENGINE_SIMPLE_EXCEPTION(InvalidActionSlotsConfigFileFormat);
 			
-			ActionSlotsConfigParser(InputContextMapper* context_mapper, Core::LogHelper* log_helper);
+			ActionSlotsConfigParser(InputContextMapper* context_mapper, Utils::LogHelper* log_helper);
 			
 			void processConfig(const std::string &filename);
 			void processConfig(std::istream& input_stream);
@@ -33,7 +34,7 @@ namespace UnknownEngine
 			void processActionSlot(InputContext* input_context, const boost::property_tree::ptree& node);
 			
 			InputContextMapper* context_mapper;
-			Core::LogHelper* log_helper;
+			Utils::LogHelper* log_helper;
 		};
 	}
 }
