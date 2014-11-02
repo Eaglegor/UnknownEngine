@@ -12,14 +12,16 @@ namespace UnknownEngine
 		{
 			render_subsystem->addSynchronizeCallback ( this->getName(), [this]()
 				{
-					if(!shutdown_initialized && listener) listener->flushAllMessageBuffers();
+					if(!shutdown_initialized && listener) 
+					{
+						listener->flushAllMessageBuffers();
+					}
 				} );
 		}
 		
-		
 		TBBBaseOgreComponent::~TBBBaseOgreComponent() 
 		{
-			
+			render_subsystem->removeSynchronizeCallback ( this->getName() );
 		}
 		
 		void TBBBaseOgreComponent::init ( const UnknownEngine::Core::Entity* parent_entity )
@@ -31,7 +33,6 @@ namespace UnknownEngine
 				{
 					this->internalInit ( parent_entity );
 				} );
-				shutdown_initialized = false;
 			}
 			else
 			{
@@ -48,6 +49,7 @@ namespace UnknownEngine
 				render_subsystem->addShutdownCallback ( [this]()
 				{
 					this->internalShutdown ( );
+					shutdown_initialized = false;
 				} );
 			}
 			else
@@ -55,6 +57,8 @@ namespace UnknownEngine
 				this->internalShutdown();
 			}
 		}
+		
+		
 		
 	}
 }
