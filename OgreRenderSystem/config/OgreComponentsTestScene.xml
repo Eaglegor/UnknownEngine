@@ -1,6 +1,6 @@
 <scene>
 
-	<constant name="global_log_level" value="none"/>
+	<constant name="global_log_level" value="error"/>
 
 	<subsystems>
 		<subsystem name="Logger" module="ConsoleLogger">
@@ -50,7 +50,7 @@
 				
 				<option name="log_level" value="${global_log_level}"/>
 
-				<option name="separate_rendering_thread" value="false"/>
+				<option name="separate_rendering_thread" value="true"/>
 				
 				<options_section name="RenderWindow">
 
@@ -111,8 +111,10 @@
 			</received_messages>
 			
 			<options_section>
-				<option name="gravity" value="Vector3(x:0, y:0, z:0)"/>
+				<option name="gravity" value="Vector3(x:0, y:-9.8, z:0)"/>
 				<option name="log_level" value="${global_log_level}"/>
+				<option name="enable_profiling" value="false"/>
+				<option name="enable_hardware" value="false"/>
 			</options_section>
 		</subsystem>
 		
@@ -142,7 +144,12 @@
 					<option name="log_level" value="${global_log_level}"/>
 					<option name="near_clip_distance" value="0.0001"/>
 					
+					<options_section name="InitialTransform">
+						<option name="initial_direction" value="Vector3(x:0, y:0, z:-50)"/>
+					</options_section>
+					
 				</options_section>
+					
 			</component>
 			
 			
@@ -159,6 +166,10 @@
 				</received_messages>
 			
 				<options_section>
+					
+					<options_section name="InitialTransform">
+						<option name="initial_direction" value="Vector3(x:0, y:0, z:-50)"/>
+					</options_section>
 					
 					<option name="log_level" value="${global_log_level}"/>
 					
@@ -250,7 +261,7 @@
 					<provided_data name="mesh_ptr_provider" data_provider_name="OgreAdaptedTeapotMesh"/>
 					
 					<options_section name="Material">
-						<option name="material_name" value="Test"/>
+						<option name="material_name" value="Ambient"/>
 					</options_section>
 					
 					<options_section name="InitialTransform">
@@ -301,6 +312,7 @@
 					<option name="actor2_name" value="TestRenderable2.RigidBodyComponent"/>
 				</options_section>
 			</component>
+			
 			
 		</entity>
 		

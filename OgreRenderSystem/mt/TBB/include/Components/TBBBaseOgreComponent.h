@@ -26,7 +26,7 @@ namespace UnknownEngine
 				
 			private:
 				bool shutdown_initialized;
-			
+				
 		};
 
 	}

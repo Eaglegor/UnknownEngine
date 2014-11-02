@@ -1,0 +1,28 @@
+vertex_program SimpleVertexShader glsl
+{
+	source SimpleVertexShader.glsl
+}
+
+fragment_program AmbientShader glsl
+{
+	source AmbientShader.glsl
+}
+
+material Ambient
+{
+	technique
+	{
+		pass
+		{
+			
+			vertex_program_ref SimpleVertexShader
+			{
+			}
+			
+			fragment_program_ref AmbientShader
+			{
+				param_named color float4 0 0 1 1
+			}
+		}
+	}
+}

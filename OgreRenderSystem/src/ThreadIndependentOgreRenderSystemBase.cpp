@@ -34,7 +34,7 @@ namespace UnknownEngine
 			
 			LOG_INFO(log_helper, "Initializing OGRE");
 			
-			ogre_log_manager = new Ogre::LogManager;
+			ogre_log_manager = new Ogre::LogManager();
 			ogre_log_manager->createLog(desc.ogre_log_filename, true, false, false);
 
 			root = new Ogre::Root ( desc.ogre_plugins_filename, desc.ogre_config_filename, desc.ogre_log_filename );
@@ -51,10 +51,8 @@ namespace UnknownEngine
 				}
 			}
 			
-			if(desc.ogre_resources_filename) loadResourcesFile(desc.ogre_resources_filename.get());
-			
 			scene_manager = root->createSceneManager ( Ogre::ST_GENERIC );
-			root->initialise ( false, desc.render_window_descriptor.window_name );
+			root->initialise ( false );
 
 			Ogre::NameValuePairList params;
 			
@@ -92,6 +90,8 @@ namespace UnknownEngine
 			
 			render_windows.emplace( desc.render_window_descriptor.window_name, root->createRenderWindow(desc.render_window_descriptor.window_title, desc.render_window_descriptor.width, desc.render_window_descriptor.height, desc.render_window_descriptor.fullscreen, &params) );
 			render_windows[desc.render_window_descriptor.window_name]->setVisible(true);
+			
+			if(desc.ogre_resources_filename) loadResourcesFile(desc.ogre_resources_filename.get());
 		}
 
 		void ThreadIndependentOgreRenderSystemBase::shutdownOgre()
