@@ -11,7 +11,7 @@ namespace UnknownEngine {
 		
 		static AssimpMeshDataProviderDescriptorGetter descriptor_getter;
 		
-		AssimpMeshDataProvidersFactory::AssimpMeshDataProvidersFactory ( UnknownEngine::Core::LogHelper* log_helper, UnknownEngine::Core::EngineContext* engine_context ):
+		AssimpMeshDataProvidersFactory::AssimpMeshDataProvidersFactory ( Utils::LogHelper* log_helper, UnknownEngine::Core::EngineContext* engine_context ):
 		log_helper(log_helper),
 		engine_context(engine_context)
 		{

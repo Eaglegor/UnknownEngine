@@ -8,11 +8,14 @@ namespace UnknownEngine
 {
 	namespace Core
 	{
-
 		class EngineContext;
-		class LogHelper;
 	}
 
+	namespace Utils
+	{
+		class LogHelper;
+	}
+	
 	namespace Graphics
 	{
 
@@ -21,7 +24,7 @@ namespace UnknownEngine
 			public:
 
 				virtual ~ThreadIndependentOgreComponentFactoryBase(){};
-				ThreadIndependentOgreComponentFactoryBase ( OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context, Core::LogHelper* log_helper ) :
+				ThreadIndependentOgreComponentFactoryBase ( OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context, Utils::LogHelper* log_helper ) :
 					render_subsystem ( render_subsystem ),
 					log_helper ( log_helper ),
 					engine_context ( engine_context )
@@ -30,7 +33,7 @@ namespace UnknownEngine
 			protected:
 			
 				OgreRenderSubsystem* render_subsystem;
-				Core::LogHelper* log_helper;
+				Utils::LogHelper* log_helper;
 				Core::EngineContext* engine_context;
 		};
 	}

@@ -4,6 +4,7 @@
 #include <Exception.h>
 #include <memory>
 #include <unordered_map>
+#include <Descriptors/PhysXSubsystemDesc.h>
 
 namespace physx
 {
@@ -21,13 +22,19 @@ namespace UnknownEngine
 	namespace Core
 	{
 		class EngineContext;
-		class LogHelper;
 		class BaseMessageListener;
 		struct UpdateFrameMessage;
 	}
 
+	namespace Utils
+	{
+		class LogHelper;
+	}
+	
 	namespace Physics
 	{
+
+		class PhysXErrorCallback;
 		
 		class PxRigidBodyComponent;
 		
@@ -36,7 +43,7 @@ namespace UnknownEngine
 		public:
 			UNKNOWNENGINE_SIMPLE_EXCEPTION(PhysXInitFailed);
 
-			PhysXSubsystem(Core::EngineContext* engine_context, Core::LogHelper* log_helper);
+			PhysXSubsystem(const PhysXSubsystemDesc &desc, Core::EngineContext* engine_context, Utils::LogHelper* log_helper);
 			
 			physx::PxPhysics* getPxPhysics();
 			physx::PxScene* getPxScene();
@@ -59,7 +66,7 @@ namespace UnknownEngine
 			bool is_initialized;
 
 			Core::EngineContext* engine_context;
-			Core::LogHelper* log_helper;
+			Utils::LogHelper* log_helper;
 
 			physx::PxFoundation* px_foundation;
 			physx::PxPhysics* px_physics;
@@ -71,6 +78,10 @@ namespace UnknownEngine
 			physx::PxProfileZoneManager* px_profile_zone_manager;
 			
 			std::unordered_map<std::string, PxRigidBodyComponent*> rigid_body_components;
+			
+			PhysXSubsystemDesc desc;
+			
+			std::unique_ptr<PhysXErrorCallback> physx_logger;
 			
 		};
 	}

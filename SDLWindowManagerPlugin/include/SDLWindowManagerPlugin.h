@@ -24,11 +24,15 @@ namespace UnknownEngine
 	{
 		struct SubsystemDesc;
 		class EngineContext;
-		class LogHelper;
 		class BaseMessageListener;
 		struct UpdateFrameMessage;
 	}
 
+	namespace Utils
+	{
+		class LogHelper;
+	}
+	
 	namespace GUI
 	{
 
@@ -52,7 +56,7 @@ namespace UnknownEngine
 				std::unique_ptr<SDLWindowManager> window_manager;
 				Core::SubsystemDesc desc;
 				Core::EngineContext* engine_context;
-				std::unique_ptr<Core::LogHelper> log_helper;
+				std::unique_ptr<Utils::LogHelper> log_helper;
 		};
 
 	} /* namespace Graphics */

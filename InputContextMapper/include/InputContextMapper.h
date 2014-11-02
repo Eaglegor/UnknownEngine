@@ -5,7 +5,6 @@
 #include <InputContextMapperDescriptor.h>
 #include <InputContextMapperCreationOptions.h>
 #include <EngineContext.h>
-#include <LogHelper.h>
 #include <Exception.h>
 
 #include <InputContext.h>
@@ -18,9 +17,13 @@ namespace UnknownEngine
     namespace Core
     {
         class EngineContext;
-        class LogHelper;
         class BaseMessageListener;
 		struct UpdateFrameMessage;
+    }
+    
+    namespace Utils
+    {
+		class LogHelper;
     }
 
     namespace IO
@@ -40,7 +43,7 @@ namespace UnknownEngine
 			UNKNOWNENGINE_SIMPLE_EXCEPTION(InputContextNotFoundException);
 			UNKNOWNENGINE_SIMPLE_EXCEPTION(ActionSlotNotFoundException);
 			
-            InputContextMapper(const InputContextMapperDescriptor& desc, const InputContextMapperCreationOptions& creation_options, Core::LogHelper *log_helper);
+            InputContextMapper(const InputContextMapperDescriptor& desc, const InputContextMapperCreationOptions& creation_options, Utils::LogHelper *log_helper);
 			virtual ~InputContextMapper();
 
 			InputContext* createContext(const std::string &name);
@@ -68,7 +71,7 @@ namespace UnknownEngine
 			
 			std::unordered_map<std::string, InputContext> contexts;
 			
-			Core::LogHelper* log_helper;
+			Utils::LogHelper* log_helper;
 			
         };
     }

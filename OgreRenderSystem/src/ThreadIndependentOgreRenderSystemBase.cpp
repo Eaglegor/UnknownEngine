@@ -22,7 +22,7 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 	
-		ThreadIndependentOgreRenderSystemBase::ThreadIndependentOgreRenderSystemBase ( const OgreRenderSubsystemDescriptor& desc, Core::LogHelper* log_helper, Core::EngineContext* engine_context ):
+		ThreadIndependentOgreRenderSystemBase::ThreadIndependentOgreRenderSystemBase ( const OgreRenderSubsystemDescriptor& desc, Utils::LogHelper* log_helper, Core::EngineContext* engine_context ):
 		log_helper ( log_helper ),
 		engine_context(engine_context),
 		desc(desc)

@@ -3,6 +3,7 @@
 #include <InlineSpecification.h>
 #include <Plugins/Plugin.h>
 #include <SubsystemDesc.h>
+#include "Descriptors/PhysXSubsystemDesc.h"
 #include <memory>
 
 namespace UnknownEngine
@@ -12,10 +13,14 @@ namespace UnknownEngine
 	{
 		struct SubsystemDesc;
 		class EngineContext;
-		class LogHelper;
 		class BaseMessageListener;
 	}
 
+	namespace Utils
+	{
+		class LogHelper;
+	}
+	
 	namespace Physics
 	{
 
@@ -37,9 +42,10 @@ namespace UnknownEngine
 				virtual bool uninstall()  override;
 
 			private:
-				Core::SubsystemDesc desc;
+				PhysXSubsystemDesc desc;
+				Core::SubsystemDesc raw_desc;
 				Core::EngineContext* engine_context;
-				std::unique_ptr<Core::LogHelper> log_helper;
+				std::unique_ptr<Utils::LogHelper> log_helper;
 				std::unique_ptr<PhysXSubsystem> physx_subsystem;
 
 				std::unique_ptr<PxShapeDataProvidersFactory> px_shape_data_providers_factory;
@@ -48,6 +54,7 @@ namespace UnknownEngine
 				std::unique_ptr<PxJointComponentsFactory> px_joint_components_factory;
 				
 				std::unique_ptr<Core::BaseMessageListener> listener;
+				
 		};
 
 	} /* namespace Graphics */

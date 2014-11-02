@@ -14,7 +14,7 @@
 #include <algorithm>
 #include <Objects/Entity.h>
 
-#define ENABLE_CORE_SUBSYSTEM_INFO_LOG
+//#define ENABLE_CORE_SUBSYSTEM_INFO_LOG
 #define ENABLE_CORE_SUBSYSTEM_ERROR_LOG
 #include <CoreLogging.h>
 

@@ -8,22 +8,26 @@ namespace UnknownEngine
 	namespace Core
 	{
 		class EngineContext;
-		class LogHelper;
 	}
 
+	namespace Utils
+	{
+		class LogHelper;
+	}
+	
 	namespace Graphics
 	{
 
 		class OgreMeshPtrDataProvidersFactory : public Loader::BaseDataProviderFactory
 		{
 		public:
-			OgreMeshPtrDataProvidersFactory(Core::LogHelper* log_helper, Core::EngineContext* engine_context, OgreRenderSubsystem* render_subsystem);
+			OgreMeshPtrDataProvidersFactory(Utils::LogHelper* log_helper, Core::EngineContext* engine_context, OgreRenderSubsystem* render_subsystem);
 			virtual const char* getName();
 			
 		private:
 			Loader::IDataProvider* createOgreMeshPtrFromMeshDataProvider ( const Loader::DataProviderDesc& desc );
 			
-			Core::LogHelper* log_helper;
+			Utils::LogHelper* log_helper;
 			
 			Core::EngineContext* engine_context;
 			OgreRenderSubsystem* render_subsystem;

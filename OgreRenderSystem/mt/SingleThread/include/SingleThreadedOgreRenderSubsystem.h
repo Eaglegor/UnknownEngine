@@ -15,8 +15,12 @@ namespace UnknownEngine
 
 	namespace Core
 	{
-		class LogHelper;
 		class EngineContext;
+	}
+	
+	namespace Utils
+	{
+		class LogHelper;
 	}
 
 	namespace Graphics
@@ -30,7 +34,7 @@ namespace UnknownEngine
 		{
 			public:
 
-				SingleThreadedOgreRenderSubsystem ( const OgreRenderSubsystemDescriptor& desc, Core::LogHelper* log_helper, Core::EngineContext* engine_context );
+				SingleThreadedOgreRenderSubsystem ( const OgreRenderSubsystemDescriptor& desc, Utils::LogHelper* log_helper, Core::EngineContext* engine_context );
 				
 				virtual ~SingleThreadedOgreRenderSubsystem();
 				

@@ -7,29 +7,29 @@
 
 namespace UnknownEngine
 {
-	namespace Core
+	namespace Math
 	{
 		UNKNOWNENGINE_ALIGNED_STRUCT(16) Transform
 		{
 			public:
 
-				Transform ( const Math::Vector3 &position, const Math::Quaternion &orientation ) :
+				Transform ( const Vector3 &position, const Quaternion &orientation ) :
 					position ( position ), orientation ( orientation )
 				{}
 
 				Transform():
 				position(0,0,0),
-				orientation(Math::Quaternion::Identity())
+				orientation(Quaternion::Identity())
 				{}
 
 				UNKNOWNENGINE_INLINE
-				const Math::Vector3& getPosition() const
+				const Vector3& getPosition() const
 				{
 					return position;
 				}
 
 				UNKNOWNENGINE_INLINE
-				void setPosition ( const Math::Vector3 &value )
+				void setPosition ( const Vector3 &value )
 				{
 					position = value;
 				}
@@ -41,7 +41,7 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				void setOrientation ( const Math::Quaternion &value )
+				void setOrientation ( const Quaternion &value )
 				{
 					orientation = value;
 				}
@@ -63,8 +63,8 @@ namespace UnknownEngine
 				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
 			private:
-				Math::Vector3 position;
-				Math::Quaternion orientation;
+				Vector3 position;
+				Quaternion orientation;
 
 		};
 
@@ -73,4 +73,4 @@ namespace UnknownEngine
 }
 
 #include <AlignedAnyHolder.h>
-ALIGNED_BOOST_ANY_HOLDER(UnknownEngine::Core::Transform)
+ALIGNED_BOOST_ANY_HOLDER(UnknownEngine::Math::Transform)

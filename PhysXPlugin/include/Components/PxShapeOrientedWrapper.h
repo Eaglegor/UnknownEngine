@@ -22,12 +22,12 @@ namespace UnknownEngine
 		{
 		public:
 			PxShapeOrientedWrapper(const physx::PxGeometry &geometry, const physx::PxMaterial *material, PhysXSubsystem* physx_subsystem, bool is_exclusive);
-			PxShapeOrientedWrapper(const physx::PxGeometry &geometry, const physx::PxMaterial *material, const Core::Transform &pose_offset, PhysXSubsystem* physx_subsystem, bool is_exclusive );
+			PxShapeOrientedWrapper(const physx::PxGeometry &geometry, const physx::PxMaterial *material, const Math::Transform &pose_offset, PhysXSubsystem* physx_subsystem, bool is_exclusive );
 			
 			virtual ~PxShapeOrientedWrapper();
 			
-			void setLocalPose(const Core::Transform &local_pose);
-			Core::Transform getLocalPose() const;
+			void setLocalPose(const Math::Transform &local_pose);
+			Math::Transform getLocalPose() const;
 			physx::PxShape* getPxShape() const;
 			
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
@@ -37,7 +37,7 @@ namespace UnknownEngine
 			void destroyPxShape();
 			
 			physx::PxShape* px_shape;
-			Core::Transform pose_offset;
+			Math::Transform pose_offset;
 			PhysXSubsystem* physx_subsystem;
 		};
 	}

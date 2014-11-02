@@ -19,7 +19,7 @@ namespace UnknownEngine
 		{
 			public:
 
-				TBBBaseOgreComponentFactory ( OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context, Core::LogHelper* log_helper );
+				TBBBaseOgreComponentFactory ( OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context, Utils::LogHelper* log_helper );
 				virtual ~TBBBaseOgreComponentFactory();
 
 				virtual Core::IComponent* createObject (const Core::ComponentDesc &desc);

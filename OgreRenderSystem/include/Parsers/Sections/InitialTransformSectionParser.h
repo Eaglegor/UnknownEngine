@@ -9,7 +9,7 @@ namespace UnknownEngine
 		class InitialTransformSectionParser
 		{
 		public:
-			static Core::Transform parse(const Core::Properties &props);
+			static Math::Transform parse(const Core::Properties &props);
 		};
 	}
 }

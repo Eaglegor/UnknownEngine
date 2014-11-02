@@ -9,9 +9,12 @@ namespace UnknownEngine
 {
 	namespace Core
 	{
-
-		class LogHelper;
 		class EngineContext;
+	}
+	
+	namespace Utils
+	{
+		class LogHelper;
 	}
 
 	namespace Graphics
@@ -30,7 +33,7 @@ namespace UnknownEngine
 				virtual void internalLoad ( Loader::ResourceContainer &out_container ) override;
 				Loader::IDataProvider* mesh_data_provider;
 				OgreRenderSubsystem* render_subsystem;
-				std::unique_ptr<Core::LogHelper> log_helper;
+				std::unique_ptr<Utils::LogHelper> log_helper;
 				bool loaded;
 				Loader::ResourceContainer cont;
 		};

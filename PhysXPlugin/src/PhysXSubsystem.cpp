@@ -1,4 +1,7 @@
 #include <PhysXSubsystem.h>
+
+using std::isfinite;
+
 #include <PxPhysicsAPI.h>
 #include <PxScene.h>
 #include <LogHelper.h>
@@ -6,8 +9,9 @@
 #include <pxtask/PxCudaContextManager.h>
 #include <Listeners/BaseMessageListenersFactory.h>
 #include <Components/PxRigidBodyComponent.h>
+#include <PhysXErrorCallback.h>
+#include <Converters/PxVec3Converter.h>
 
-static physx::PxDefaultErrorCallback gDefaultErrorCallback;
 static physx::PxDefaultAllocator gDefaultAllocatorCallback;
 
 static physx::PxSimulationFilterShader default_simulation_filter_shader = &physx::PxDefaultSimulationFilterShader;
@@ -16,7 +20,7 @@ namespace UnknownEngine
 {
 	namespace Physics
 	{
-		PhysXSubsystem::PhysXSubsystem ( Core::EngineContext* engine_context, Core::LogHelper* log_helper ) :
+		PhysXSubsystem::PhysXSubsystem ( const PhysXSubsystemDesc& desc, Core::EngineContext* engine_context, Utils::LogHelper* log_helper ) :
 			is_initialized ( false ),
 			engine_context ( engine_context ),
 			log_helper ( log_helper ),
@@ -26,13 +30,17 @@ namespace UnknownEngine
 			px_cpu_dispatcher ( nullptr ),
 			px_gpu_dispatcher ( nullptr ),
 			px_cuda_context_manager ( nullptr ),
-			px_profile_zone_manager ( nullptr )
+			px_profile_zone_manager ( nullptr ),
+			desc(desc)
 		{
 		}
 
 		void PhysXSubsystem::init()
 		{
-			px_foundation = PxCreateFoundation ( PX_PHYSICS_VERSION, gDefaultAllocatorCallback, gDefaultErrorCallback );
+			
+			physx_logger.reset(new PhysXErrorCallback(log_helper));
+			
+			px_foundation = PxCreateFoundation ( PX_PHYSICS_VERSION, gDefaultAllocatorCallback, *physx_logger );
 			if ( px_foundation == nullptr )
 			{
 				LOG_ERROR ( log_helper, "Failed to create PxFoundation object. PhysX not initialized" );
@@ -40,7 +48,22 @@ namespace UnknownEngine
 			else
 			{
 				LOG_INFO ( log_helper, "PxFoundation initialized" );
-				px_physics = PxCreatePhysics ( PX_PHYSICS_VERSION, *px_foundation, physx::PxTolerancesScale() );
+				
+				if(desc.enable_profiling)
+				{
+					px_profile_zone_manager = &physx::PxProfileZoneManager::createProfileZoneManager ( px_foundation );
+					if ( px_profile_zone_manager == nullptr )
+					{
+						LOG_ERROR ( log_helper, "Failed to create PxProfileZoneManager. Profiling not enabled" );
+					}
+				}
+				
+				physx::PxTolerancesScale tolerance_scale;
+				if(desc.length_tolerance_scale) tolerance_scale.length = desc.length_tolerance_scale.get();
+				if(desc.mass_tolerance_scale) tolerance_scale.mass = desc.mass_tolerance_scale.get();
+				if(desc.speed_tolerance_scale) tolerance_scale.speed = desc.speed_tolerance_scale.get();
+				
+				px_physics = PxCreatePhysics ( PX_PHYSICS_VERSION, *px_foundation, tolerance_scale, desc.track_outstanding_allocations, px_profile_zone_manager );
 				if ( px_physics == nullptr )
 				{
 					LOG_ERROR ( log_helper, "Failed to initialize PxPhysics class. PhysX not initialized" );
@@ -49,9 +72,9 @@ namespace UnknownEngine
 				{
 					LOG_INFO ( log_helper, "PxPhysics initialized" );
 					physx::PxSceneDesc scene_desc ( px_physics->getTolerancesScale() );
-					scene_desc.gravity = physx::PxVec3 ( 0.0f, -0.098f, 0.0f );
+					scene_desc.gravity = PxVec3Converter::toPxVec3(desc.gravity);
 
-					px_cpu_dispatcher = physx::PxDefaultCpuDispatcherCreate ( 2 );
+					px_cpu_dispatcher = physx::PxDefaultCpuDispatcherCreate ( desc.cpu_threads_count );
 
 					if ( px_cpu_dispatcher == nullptr )
 					{
@@ -63,12 +86,7 @@ namespace UnknownEngine
 						scene_desc.cpuDispatcher = px_cpu_dispatcher;
 						scene_desc.filterShader = default_simulation_filter_shader;
 
-						px_profile_zone_manager = &physx::PxProfileZoneManager::createProfileZoneManager ( px_foundation );
-						if ( px_profile_zone_manager == nullptr )
-						{
-							LOG_ERROR ( log_helper, "Failed to create PxProfileZoneManager. GPU support is off" );
-						}
-						else
+						if(desc.enable_hardware)
 						{
 							physx::PxCudaContextManagerDesc cuda_context_manager_desc;
 							px_cuda_context_manager = physx::PxCreateCudaContextManager ( *px_foundation, cuda_context_manager_desc, px_profile_zone_manager );
@@ -91,7 +109,7 @@ namespace UnknownEngine
 								}
 							}
 						}
-
+						
 						px_scene = px_physics->createScene ( scene_desc );
 
 						if ( px_scene == nullptr )
@@ -117,6 +135,7 @@ namespace UnknownEngine
 			if ( px_scene ) px_scene->release();
 			if ( px_physics ) px_physics->release();
 			if ( px_foundation ) px_foundation->release();
+			physx_logger.reset();
 		}
 
 		physx::PxPhysics* PhysXSubsystem::getPxPhysics()

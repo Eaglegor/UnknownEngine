@@ -3,10 +3,11 @@
 #include <string>
 
 #include <MessageSystem/Message.h>
+#include <LogSeverity.h>
 
 namespace UnknownEngine
 {
-	namespace Core
+	namespace Utils
 	{
 
 		/**
@@ -17,21 +18,12 @@ namespace UnknownEngine
 		 * Recommended to be broadcasted to be catched by all logging subsystems.
 		 */
 
-		struct LogMessage : public Message
+		struct LogMessage : public Core::Message
 		{
-			constexpr static const char* getTypeName(){return "Engine.LogMessage";}
+			constexpr static const char* getTypeName(){return "Utils.LogMessage";}
 			
-			enum class Severity : int
-			{
-			    LOG_SEVERITY_NONE = 0,
-			    LOG_SEVERITY_ERROR = 1,
-			    LOG_SEVERITY_WARNING = 2,
-			    LOG_SEVERITY_INFO = 3,
-			    LOG_SEVERITY_DEBUG = 4
-			};
-
 			std::string log_entry;
-			Severity severity;
+			LogSeverity severity;
 		};
 
 	} /* namespace Core */

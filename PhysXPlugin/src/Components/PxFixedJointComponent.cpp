@@ -1,6 +1,7 @@
 #include <Components/PxFixedJointComponent.h>
 #include <Components/PxRigidBodyComponent.h>
 #include <PhysXSubsystem.h>
+#include <LogHelper.h>
 
 using std::isfinite;
 

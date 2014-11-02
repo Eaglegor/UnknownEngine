@@ -6,7 +6,7 @@ namespace UnknownEngine
 {
 	namespace Graphics
 	{
-		TBBBaseOgreComponentFactory::TBBBaseOgreComponentFactory ( UnknownEngine::Graphics::OgreRenderSubsystem* render_subsystem, UnknownEngine::Core::EngineContext* engine_context, UnknownEngine::Core::LogHelper* log_helper ) :
+		TBBBaseOgreComponentFactory::TBBBaseOgreComponentFactory ( OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context, Utils::LogHelper* log_helper ) :
 			ThreadIndependentOgreComponentFactoryBase ( render_subsystem, engine_context, log_helper )
 		{
 

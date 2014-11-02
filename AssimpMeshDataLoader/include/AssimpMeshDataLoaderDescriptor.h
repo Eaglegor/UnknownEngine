@@ -7,10 +7,10 @@ namespace UnknownEngine
 	{
 		struct AssimpMeshDataLoaderDescriptor
 		{
-			Core::LogMessage::Severity log_level;
+			Utils::LogSeverity log_level;
 			
 			AssimpMeshDataLoaderDescriptor():
-			log_level(Core::LogMessage::Severity::LOG_SEVERITY_NONE)
+			log_level(Utils::LogSeverity::NONE)
 			{}
 		};
 	}

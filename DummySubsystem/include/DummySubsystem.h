@@ -18,6 +18,10 @@ namespace UnknownEngine
 	{
 		struct SubsystemDesc;
 		class EngineContext;
+	}
+	
+	namespace Utils
+	{
 		class LogHelper;
 	}
 
@@ -38,7 +42,7 @@ namespace UnknownEngine
 			private:
 				Core::SubsystemDesc desc;
 				Core::EngineContext* engine_context;
-				Core::LogHelper* log_helper;
+				Utils::LogHelper* log_helper;
 		};
 
 	} /* namespace Graphics */

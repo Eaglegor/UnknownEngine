@@ -13,6 +13,7 @@
 #include <Factories/PxMaterialDataProvidersFactory.h>
 #include <Factories/PxRigidBodyComponentsFactory.h>
 #include <Factories/PxJointComponentsFactory.h>
+#include <Parsers/PhysXSubsystemDescriptorGetter.h>
 #include <ResourceManager.h>
 #include <Listeners/BaseMessageListenersFactory.h>
 #include <Listeners/StandardMessageBuffersFactory.h>
@@ -22,7 +23,7 @@ namespace UnknownEngine
 {
 	namespace Physics
 	{
-
+		
 		PhysXSubsystemPlugin::PhysXSubsystemPlugin ()
 		{
 		}
@@ -33,14 +34,17 @@ namespace UnknownEngine
 
 		bool PhysXSubsystemPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) 
 		{
-		  
-			log_helper.reset(new Core::LogHelper(getName(), Core::LogMessage::Severity::LOG_SEVERITY_INFO, plugins_manager->getEngineContext()));
+
+			PhysXSubsystemDescriptorGetter descriptor_getter;
+			this->desc = desc.descriptor.apply_visitor(descriptor_getter);
+			this->raw_desc = desc;
+			
+			log_helper.reset(new Utils::LogHelper(getName(), this->desc.log_level, plugins_manager->getEngineContext()));
 		  
 			LOG_INFO(log_helper, "Logger initialized");
 			
 			LOG_INFO(log_helper, "Installing PhysX plugin");
 
-			this->desc = desc;
 			engine_context = plugins_manager->getEngineContext();
 
 			return true;
@@ -50,7 +54,7 @@ namespace UnknownEngine
 		{
 			LOG_INFO(log_helper, "Initializing PhysX plugin");
 
-			physx_subsystem.reset(new PhysXSubsystem(engine_context, log_helper.get()));
+			physx_subsystem.reset(new PhysXSubsystem(desc, engine_context, log_helper.get()));
 			physx_subsystem->init();
 			
 			LOG_INFO(log_helper, "Creating PxShape data providers factory");
@@ -81,7 +85,7 @@ namespace UnknownEngine
 				Utils::BaseMessageListenersFactory::createBaseMessageListener(
 					getName()  + ".Listener",
 					engine_context,
-					desc.received_messages
+					raw_desc.received_messages
 				) 
 			);
 			

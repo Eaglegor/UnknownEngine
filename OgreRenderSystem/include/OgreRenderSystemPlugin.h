@@ -18,6 +18,10 @@ namespace UnknownEngine
 	namespace Core
 	{
 		class EngineContext;
+	}
+	
+	namespace Utils
+	{
 		class LogHelper;
 	}
 
@@ -56,7 +60,7 @@ namespace UnknownEngine
 				
 				std::unique_ptr<OgreMeshPtrDataProvidersFactory> mesh_ptr_data_providers_factory;
 
-				std::unique_ptr<Core::LogHelper> log_helper;
+				std::unique_ptr<Utils::LogHelper> log_helper;
 
 		};
 

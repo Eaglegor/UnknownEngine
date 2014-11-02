@@ -5,7 +5,7 @@
 	<subsystems>
 		<subsystem name="Logger" module="ConsoleLogger">
 			<received_messages>
-				<message type="Engine.LogMessage">
+				<message type="Utils.LogMessage">
 					<receive_policy type="AnyMessageReceivePolicy"/>
 				</message>
 			</received_messages>
@@ -50,7 +50,7 @@
 				
 				<option name="log_level" value="${global_log_level}"/>
 
-				<option name="separate_rendering_thread" value="true"/>
+				<option name="separate_rendering_thread" value="false"/>
 				
 				<options_section name="RenderWindow">
 
@@ -83,7 +83,7 @@
 		<subsystem name="InputContext" module="InputContextMapper">
 			
 			<options_section>
-				<option name="log_level" value="debug"/>
+				<option name="log_level" value="${global_log_level}"/>
 				<option name="action_slots_config_file" value="InputContextMapperConfig/ActionSlots.xml"/>
 				<option name="input_layout_config_file" value="InputContextMapperConfig/InputLayout.cfg"/>
 			</options_section>
@@ -109,6 +109,11 @@
 			<received_messages>
 				<message type="Engine.MainLoop.UpdateFrameMessage"/>
 			</received_messages>
+			
+			<options_section>
+				<option name="gravity" value="Vector3(x:0, y:0, z:0)"/>
+				<option name="log_level" value="${global_log_level}"/>
+			</options_section>
 		</subsystem>
 		
 	</subsystems>
@@ -208,15 +213,6 @@
 			</options_section>
 		</data_provider>
 		
-		<data_provider name="SimpleBoxShape2" type="Loader.PxShape.PxBoxShapeDataProvider">
-			<options_section>
-				<provided_data name="material" data_provider_name="SimpleMaterial"/>
-				<option name="width" value="0.2"/>
-				<option name="height" value="0.2"/>
-				<option name="depth" value="0.2"/>
-			</options_section>
-		</data_provider>
-		
 		<entity name="TestRenderable">
 			
 			<component name="Rotation" type="Behavior.SimpleRotation"/>
@@ -269,7 +265,7 @@
 		
 			<component name="RigidBodyComponent" type="Physics.RigidBody">
 				<options_section>
-					<provided_data name="shape" data_provider_name="SimpleBoxShape2"/>
+					<provided_data name="shape" data_provider_name="SimpleBoxShape"/>
 					<option name="dynamics_type" value="static"/>
 					<option name="mass" value="0.5"/>
 					

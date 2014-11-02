@@ -8,9 +8,12 @@ namespace UnknownEngine
 {
 	namespace Core
 	{
-
-		class LogHelper;
 		class EngineContext;
+	}
+	
+	namespace Utils
+	{
+		class LogHelper;
 	}
 
 	namespace Loader
@@ -43,9 +46,9 @@ namespace UnknownEngine
 				
 				PostprocessingDesc postprocessing;
 				std::string filename;
-				Core::LogMessage::Severity log_level;
+				Utils::LogSeverity log_level;
 									
-				Descriptor():log_level(Core::LogMessage::Severity::LOG_SEVERITY_NONE){};
+				Descriptor():log_level(Utils::LogSeverity::NONE){};
 			};
 			
 			AssimpMeshDataProvider ( const std::string& name, const Descriptor &desc, Core::EngineContext* engine_context );
@@ -57,7 +60,7 @@ namespace UnknownEngine
 			
 		private:
 			Descriptor desc;
-			std::unique_ptr<Core::LogHelper> log_helper;
+			std::unique_ptr<Utils::LogHelper> log_helper;
 			Core::EngineContext* engine_context;
 		};
 		

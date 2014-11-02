@@ -13,6 +13,7 @@
 #include <EngineContext.h>
 #include <MessageSystem/MessageDispatcher.h>
 #include <MessageSystem/MessageListenerDesc.h>
+#include <ExportedMessages/LogMessage.h>
 
 namespace UnknownEngine
 {
@@ -32,27 +33,27 @@ namespace UnknownEngine
 
 			console_logger.setDefaultSenderName(desc.name);
 			
-			console_logger.log(Core::LogMessage::Severity::LOG_SEVERITY_INFO, "Installing console logger plugin");
+			console_logger.log(Utils::LogSeverity::INFO, "Installing console logger plugin");
 
 			this->desc = desc;
 			engine_context = plugins_manager->getEngineContext();
 
-			console_logger.log(Core::LogMessage::Severity::LOG_SEVERITY_INFO, "Console logger plugin installed");
+			console_logger.log(Utils::LogSeverity::INFO, "Console logger plugin installed");
 			
 			
 			for(const Core::ReceivedMessageDesc &message : desc.received_messages )
 			{
-				console_logger.log(Core::LogMessage::Severity::LOG_SEVERITY_INFO, "Registering listeners");
+				console_logger.log(Utils::LogSeverity::INFO, "Registering listeners");
 				
-				if(message.message_type_name == Core::LogMessage::getTypeName()){
+				if(message.message_type_name == Utils::LogMessage::getTypeName()){
 				  
-					console_logger.log(Core::LogMessage::Severity::LOG_SEVERITY_INFO, "Registering log message listener");
+					console_logger.log(Utils::LogSeverity::INFO, "Registering log message listener");
 					
-					engine_context->getMessageDispatcher()->addListener(Core::LogMessage::getTypeName(), &console_logger);
+					engine_context->getMessageDispatcher()->addListener(Utils::LogMessage::getTypeName(), &console_logger);
 				}
 				else
 				{
-				  console_logger.log(Core::LogMessage::Severity::LOG_SEVERITY_WARNING, "Found unsupported message type: " + message.message_type_name);
+				  console_logger.log(Utils::LogSeverity::WARNING, "Found unsupported message type: " + message.message_type_name);
 				}
 			}
 			
@@ -62,31 +63,31 @@ namespace UnknownEngine
 
 		bool ConsoleLoggerPlugin::init () 
 		{
-			console_logger.log(Core::LogMessage::Severity::LOG_SEVERITY_INFO, "Initializing console logger plugin");
+			console_logger.log(Utils::LogSeverity::INFO, "Initializing console logger plugin");
 
-			console_logger.log(Core::LogMessage::Severity::LOG_SEVERITY_INFO, "Console logger plugin initialized");
+			console_logger.log(Utils::LogSeverity::INFO, "Console logger plugin initialized");
 			
 			return true;
 		}
 
 		bool ConsoleLoggerPlugin::shutdown () 
 		{
-			console_logger.log(Core::LogMessage::Severity::LOG_SEVERITY_INFO, "Shutting down console logger plugin");
+			console_logger.log(Utils::LogSeverity::INFO, "Shutting down console logger plugin");
 			
-			console_logger.log(Core::LogMessage::Severity::LOG_SEVERITY_INFO, "Unregistering log messages listener");
+			console_logger.log(Utils::LogSeverity::INFO, "Unregistering log messages listener");
 			
 			engine_context->getMessageDispatcher()->removeListener(&console_logger);
 			
-			console_logger.log(Core::LogMessage::Severity::LOG_SEVERITY_INFO, "Console logger plugin is shut down");
+			console_logger.log(Utils::LogSeverity::INFO, "Console logger plugin is shut down");
 			
 			return true;
 		}
 
 		bool ConsoleLoggerPlugin::uninstall () 
 		{
-			console_logger.log(Core::LogMessage::Severity::LOG_SEVERITY_INFO, "Uninstalling console logger plugin");
+			console_logger.log(Utils::LogSeverity::INFO, "Uninstalling console logger plugin");
 			
-			console_logger.log(Core::LogMessage::Severity::LOG_SEVERITY_INFO, "Console logger plugin is uninstalled");
+			console_logger.log(Utils::LogSeverity::INFO, "Console logger plugin is uninstalled");
 			
 			return true;
 		}

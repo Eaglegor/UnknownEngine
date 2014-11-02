@@ -24,7 +24,6 @@ namespace UnknownEngine
 	{
 		struct SubsystemDesc;
 		class EngineContext;
-		class LogHelper;
 		class BaseMessageListener;
 		struct UpdateFrameMessage;
 		template<class MessageClass >
@@ -32,6 +31,11 @@ namespace UnknownEngine
 		struct StopEngineActionMessage;
 	}
 
+	namespace Utils
+	{
+		class LogHelper;
+	}
+	
 	namespace Behavior
 	{
 
@@ -56,7 +60,7 @@ namespace UnknownEngine
 			private:
 				Core::SubsystemDesc desc;
 				Core::EngineContext* engine_context;
-				std::unique_ptr<Core::LogHelper> log_helper;
+				std::unique_ptr<Utils::LogHelper> log_helper;
 
 				std::unique_ptr<Core::MessageSender<Core::StopEngineActionMessage> > stop_engine_message_sender;
 				

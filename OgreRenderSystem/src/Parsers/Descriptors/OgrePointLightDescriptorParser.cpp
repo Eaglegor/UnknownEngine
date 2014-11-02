@@ -24,7 +24,7 @@ namespace UnknownEngine {
 				{
 					{
 						"InitialTransform",
-						PropertiesParser::ExternalParserOptionalNestedValue<Core::Transform, InitialTransformSectionParser>
+						PropertiesParser::ExternalParserOptionalNestedValue<Math::Transform, InitialTransformSectionParser>
 						(desc.initial_transform)
 					},
 					{
@@ -32,7 +32,7 @@ namespace UnknownEngine {
 						PropertiesParser::ExternalParserOptionalNestedValue<OgreLightSettings, OgreLightSettingsParser>
 						(desc.light_settings)
 					},
-					{"log_level", PropertiesParser::OptionalValue<Core::LogMessage::Severity>(desc.log_level)},
+					{"log_level", PropertiesParser::OptionalValue<Utils::LogSeverity>(desc.log_level)},
 				}
 			);
 			

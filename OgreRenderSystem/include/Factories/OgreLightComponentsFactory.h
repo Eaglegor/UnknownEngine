@@ -8,15 +8,19 @@ namespace UnknownEngine
 	namespace Core
 	{
 		class EngineContext;
-		class LogHelper;
 	}
 
+	namespace Utils
+	{
+		class LogHelper;
+	}
+	
 	namespace Graphics
 	{
 		class OgreLightComponentsFactory : public BaseOgreComponentFactory
 		{
 		public:
-			OgreLightComponentsFactory(OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context, Core::LogHelper* log_helper);
+			OgreLightComponentsFactory(OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context, Utils::LogHelper* log_helper);
 			virtual const char* getName();
 			
 		};

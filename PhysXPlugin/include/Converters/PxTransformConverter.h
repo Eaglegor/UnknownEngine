@@ -4,6 +4,7 @@ using std::isfinite;
 
 #include <foundation/PxTransform.h>
 #include <Transform/Transform.h>
+#include <Converters/PxVec3Converter.h>
 
 namespace UnknownEngine
 {
@@ -12,13 +13,11 @@ namespace UnknownEngine
 		class PxTransformConverter
 		{
 		public:
-			static physx::PxTransform toPxTransform(const Core::Transform &transform)
+			static physx::PxTransform toPxTransform(const Math::Transform &transform)
 			{
 				physx::PxTransform result;
 				const Math::Vector3 &position = transform.getPosition();
-				result.p.x = position.x();
-				result.p.y = position.y();
-				result.p.z = position.z();
+				result.p = PxVec3Converter::toPxVec3(transform.getPosition());
 				const Math::Quaternion &orientation = transform.getOrientation();
 				result.q.w = orientation.w();
 				result.q.x = orientation.x();
@@ -27,10 +26,10 @@ namespace UnknownEngine
 				return result;
 			}
 			
-			static Core::Transform fromPxTransform(const physx::PxTransform &transform)
+			static Math::Transform fromPxTransform(const physx::PxTransform &transform)
 			{
-				Core::Transform result;
-				result.setPosition( Math::Vector3(transform.p.x, transform.p.y, transform.p.z) );
+				Math::Transform result;
+				result.setPosition( PxVec3Converter::fromPxVec3(transform.p) );
 				result.setOrientation( Math::Quaternion(transform.q.w, transform.q.x, transform.q.y, transform.q.z) );
 				return result;
 			}

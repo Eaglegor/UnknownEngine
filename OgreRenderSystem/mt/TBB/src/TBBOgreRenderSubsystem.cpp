@@ -12,7 +12,7 @@ namespace UnknownEngine
 {
 	namespace Graphics
 	{
-		TBBOgreRenderSubsystem::TBBOgreRenderSubsystem ( const UnknownEngine::Graphics::OgreRenderSubsystemDescriptor& desc, UnknownEngine::Core::LogHelper* log_helper, UnknownEngine::Core::EngineContext* engine_context ) :
+		TBBOgreRenderSubsystem::TBBOgreRenderSubsystem ( const OgreRenderSubsystemDescriptor& desc, Utils::LogHelper* log_helper, Core::EngineContext* engine_context ) :
 			ThreadIndependentOgreRenderSystemBase ( desc, log_helper, engine_context )
 		{
 			
