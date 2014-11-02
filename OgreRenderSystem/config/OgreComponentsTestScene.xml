@@ -261,7 +261,7 @@
 					<provided_data name="mesh_ptr_provider" data_provider_name="OgreAdaptedTeapotMesh"/>
 					
 					<options_section name="Material">
-						<option name="material_name" value="Ambient"/>
+						<option name="material_name" value="Simple"/>
 					</options_section>
 					
 					<options_section name="InitialTransform">

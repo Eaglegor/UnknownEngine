@@ -3,26 +3,80 @@ vertex_program SimpleVertexShader glsl
 	source SimpleVertexShader.glsl
 }
 
+vertex_program SpotLightVertexShader glsl
+{
+	source SpotLightVertexShader.glsl
+}
+
 fragment_program AmbientShader glsl
 {
 	source AmbientShader.glsl
 }
 
-material Ambient
+fragment_program DirectionalLightDiffuse glsl
+{
+	source DirectionalLightDiffuse.glsl
+}
+
+fragment_program SpotLightDiffuse glsl
+{
+	source SpotLightDiffuse.glsl
+}
+
+material Simple
 {
 	technique
 	{
-		pass
+	
+		pass ambient
 		{
-			
 			vertex_program_ref SimpleVertexShader
 			{
 			}
 			
 			fragment_program_ref AmbientShader
 			{
-				param_named color float4 0 0 1 1
+				param_named color float4 0 0 0.1 1
 			}
 		}
+		
+		pass diffuse_directionals
+		{
+		
+			iteration once_per_light directional
+			scene_blend add
+		
+			vertex_program_ref SimpleVertexShader
+			{
+			}
+			
+			fragment_program_ref DirectionalLightDiffuse
+			{
+				param_named diffuse_color float4 1 1 1 1
+				param_named_auto light_color light_diffuse_colour 0
+				param_named_auto light_direction light_position_object_space 0
+			}
+		}
+		
+		pass diffuse_spotlights
+		{
+		
+			iteration once_per_light spot
+			scene_blend add
+		
+			vertex_program_ref SpotLightVertexShader
+			{
+				param_named_auto light_position light_position_object_space 0
+			}
+			
+			fragment_program_ref SpotLightDiffuse
+			{
+				param_named diffuse_color float4 1 1 1 1
+				param_named_auto light_color light_diffuse_colour 0
+				param_named_auto spotlight_central_ray light_direction_object_space 0
+				param_named_auto spotlight_params spotlight_params 0
+			}
+		}
+		
 	}
 }
