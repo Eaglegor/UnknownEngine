@@ -57,7 +57,7 @@ material Simple
 				param_named_auto light_direction light_position_object_space 0
 			}
 		}
-		
+		/*
 		pass diffuse_spotlights
 		{
 		
@@ -77,6 +77,6 @@ material Simple
 				param_named_auto spotlight_params spotlight_params 0
 			}
 		}
-		
+		*/
 	}
 }
