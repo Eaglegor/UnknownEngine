@@ -8,7 +8,7 @@ uniform vec4 spotlight_params;
 
 float spotEffect(vec3 light_direction, vec3 light_central_ray)
 {
-	float current_effect = dot(-light_direction, normalize(light_central_ray));
+	float current_effect = dot(-normalize(light_direction), normalize(light_central_ray));
 	return smoothstep(spotlight_params.y, spotlight_params.x, current_effect);
 }
 
