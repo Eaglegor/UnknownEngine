@@ -137,7 +137,7 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
-				void setTextureCoordinate ( const TextureCoordinateType& position )
+				void setTextureCoordinate ( const TextureCoordinateType& texture_coordinate )
 				{
 					this->texture_coordinate = texture_coordinate;
 					this->has_texture_coordinate = true;
