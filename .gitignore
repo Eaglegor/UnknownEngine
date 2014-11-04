@@ -69,7 +69,7 @@ build/
 *.ilk
 *.meta
 *.obj
-!OgreRenderSystem/config/media/*
+!OgreRenderSystem/config/media/models/*.*
 *.pch
 *.pdb
 *.pgc
