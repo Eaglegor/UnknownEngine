@@ -52,7 +52,7 @@ namespace UnknownEngine {
 					return data_provider;
 				}
 			}
-			throw NoSuitableFactoryFoundException("Can't find factory to create data provider");
+			throw NoSuitableFactoryFoundException("Can't find factory to create data provider '" + desc.name + "'" );
 		}
 		
 		bool ResourceManager::removeDataProvider ( Loader::IDataProvider* data_provider )
