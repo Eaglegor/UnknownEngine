@@ -15,6 +15,12 @@ namespace physx
 namespace UnknownEngine
 {
 
+	namespace Core
+	{
+		class BaseMessageListener;
+		class TransformChangedMessage;
+	}
+
 	namespace Utils
 	{
 		class LogHelper;
@@ -37,17 +43,24 @@ namespace UnknownEngine
 			virtual Core::ComponentType getType();
 			virtual void init ( const Core::Entity* parent_entity );
 			virtual void shutdown();
+			void setMessageListener(std::unique_ptr<Core::BaseMessageListener>&& message_listener);
 			
+			void setTransform(const Math::Transform &transform);
+
 			UNKNOWNENGINE_INLINE
 			physx::PxRigidActor* getPxRigidActor(){ return px_rigid_body; }
 
 			virtual void update();
+
+			void onTransformChanged(const Core::TransformChangedMessage &msg);
 			
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 			
 		private:
 			
+			std::unique_ptr<Core::BaseMessageListener> listener;
 			Core::MessageSender<Core::TransformChangedMessage> transform_message_sender;
+
 			
 			PxRigidBodyComponentDesc desc;
 			PhysXSubsystem* physics_subsystem;
@@ -56,7 +69,6 @@ namespace UnknownEngine
 			bool first_update_passed;
 
 			std::unique_ptr<Utils::LogHelper> log_helper;
-			
 		};
 	}
 }

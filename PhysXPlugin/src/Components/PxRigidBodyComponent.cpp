@@ -7,6 +7,8 @@
 
 #include <LogHelper.h>
 
+#include <MessageBuffers/InstantForwardMessageBuffer.h>
+
 using std::isfinite;
 
 #include <PxRigidDynamic.h>
@@ -107,7 +109,43 @@ namespace UnknownEngine
 			return PX_RIGID_BODY_COMPONENT_TYPE;
 		}
 
+		void PxRigidBodyComponent::onTransformChanged(const Core::TransformChangedMessage &msg)
+		{
+			if (px_rigid_body) setTransform(msg.new_transform);
+		}
 
+		void PxRigidBodyComponent::setMessageListener(std::unique_ptr<Core::BaseMessageListener>&& message_listener)
+		{
+			listener = std::move(message_listener);
+
+			{
+				typedef Core::TransformChangedMessage MessageType;
+				typedef Utils::InstantForwardMessageBuffer<MessageType> MessageBuffer;
+
+
+			}
+
+		}
+
+		void PxRigidBodyComponent::setTransform(const Math::Transform &transform)
+		{
+			physx::PxRigidDynamic* dynamic_rigid = px_rigid_body->isRigidDynamic();
+			if (dynamic_rigid) {
+				switch (desc.dynamics_type)
+				{
+					case RigidBodyDynamicsType::KINEMATIC:
+					{
+						dynamic_rigid->setKinematicTarget(PxTransformConverter::toPxTransform(transform));
+						break;
+					}
+					case RigidBodyDynamicsType::DYNAMIC:
+					{
+						dynamic_rigid->setGlobalPose(PxTransformConverter::toPxTransform(transform));
+						break;
+					}
+				}
+			}
+		}
 
 	}
 }
