@@ -7,7 +7,6 @@ using std::isfinite;
 #include <LogHelper.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 #include <pxtask/PxCudaContextManager.h>
-#include <Listeners/BaseMessageListenersFactory.h>
 #include <Components/PxRigidBodyComponent.h>
 #include <PhysXErrorCallback.h>
 #include <Converters/PxVec3Converter.h>

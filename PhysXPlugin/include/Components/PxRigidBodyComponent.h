@@ -5,6 +5,7 @@
 #include <AlignedNew.h>
 #include <MessageSystem/MessageSender.h>
 #include <ExportedMessages/TransformChangedMessage.h>
+#include <MessageSystem/MessageListenerDesc.h>
 #include <memory>
 
 namespace physx
@@ -43,7 +44,7 @@ namespace UnknownEngine
 			virtual Core::ComponentType getType();
 			virtual void init ( const Core::Entity* parent_entity );
 			virtual void shutdown();
-			void setMessageListener(std::unique_ptr<Core::BaseMessageListener>&& message_listener);
+			void initMessageListener(const Core::ReceivedMessageDescriptorsList& received_messages);
 			
 			void setTransform(const Math::Transform &transform);
 
@@ -67,6 +68,8 @@ namespace UnknownEngine
 			physx::PxRigidActor* px_rigid_body;
 			PxShapeOrientedWrapper* px_shape;
 			bool first_update_passed;
+
+			Core::EngineContext* engine_context;
 
 			std::unique_ptr<Utils::LogHelper> log_helper;
 		};
