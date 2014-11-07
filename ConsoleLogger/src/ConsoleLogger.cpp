@@ -38,7 +38,7 @@ namespace UnknownEngine
 			case LogSeverity::INFO:
 				std::cout << "INFO";
 				break;
-			case LogSeverity::ERROR:
+			case LogSeverity::ERROR2:
 				std::cout << "ERROR";
 				break;
 			case LogSeverity::WARNING:
