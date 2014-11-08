@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <Factories/PxMaterialDataProvidersFactory.h>
 #include <DataProviders/PxMaterialDataProvider.h>
 #include <Parsers/PxMaterialDataProviderDescriptorGetter.h>

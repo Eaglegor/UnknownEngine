@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <ActionConditions/EventStateChangedCondition.h>
 
 namespace UnknownEngine

@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <Components/PxFixedJointComponent.h>
 #include <Components/PxRigidBodyComponent.h>
 #include <PhysXSubsystem.h>

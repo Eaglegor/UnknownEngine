@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <TBBOgreRenderSubsystem.h>
 #include <LogHelper.h>
 #include <Listeners/OgreUpdateFrameListener.h>

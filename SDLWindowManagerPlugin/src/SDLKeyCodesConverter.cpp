@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <SDLKeyCodesConverter.h>
 
 namespace UnknownEngine

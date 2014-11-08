@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <Components/PxShapeOrientedWrapper.h>
 #include <PhysXSubsystem.h>
 #include <Converters/PxTransformConverter.h>

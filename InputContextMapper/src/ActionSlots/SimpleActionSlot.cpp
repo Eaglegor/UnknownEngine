@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <ActionConditions/EventActiveCondition.h>
 #include <ActionConditions/EventStateChangedCondition.h>
 #include <ActionSlots/SimpleActionSlot.h>

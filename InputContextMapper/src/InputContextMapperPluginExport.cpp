@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <InputContextMapperPlugin.h>
 #include <Plugins/PluginExport.h>
 

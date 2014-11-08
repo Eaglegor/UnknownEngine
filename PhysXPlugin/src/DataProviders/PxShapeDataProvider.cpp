@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <DataProviders/PxShapeDataProvider.h>
 #include <PhysXSubsystem.h>
 #include <Components/PxShapeOrientedWrapper.h>

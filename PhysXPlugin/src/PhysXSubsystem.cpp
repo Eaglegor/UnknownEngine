@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <PhysXSubsystem.h>
 
 using std::isfinite;

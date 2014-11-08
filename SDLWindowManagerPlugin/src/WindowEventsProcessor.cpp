@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <WindowEventsProcessor.h>
 #include <SDLWindowManager.h>
 

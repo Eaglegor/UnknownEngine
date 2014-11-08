@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <Factories/PxJointComponentsFactory.h>
 #include <Components/PxFixedJointComponent.h>
 #include <Parsers/PxFixedJointComponentDescriptorGetter.h>

@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <Factories/TBBBaseOgreComponentFactory.h>
 #include <TBBOgreRenderSubsystem.h>
 #include <Components/TBBBaseOgreComponent.h>

@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <StopEngineListener.h>
 #include <MainLoop/MainLoop.h>
 #include <MessageSystem/PackedMessage.h>

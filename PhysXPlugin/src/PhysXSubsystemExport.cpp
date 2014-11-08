@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <PhysXSubsystemPlugin.h>
 #include <Plugins/PluginExport.h>
 

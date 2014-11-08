@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <EventHandlers/KeyboardEventHandler.h>
 #include <InputContextMapper.h>
 #include <mutex>
