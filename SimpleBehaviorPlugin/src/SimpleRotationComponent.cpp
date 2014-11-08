@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <SimpleRotationComponent.h>
 
 #include <ExportedMessages/TransformChangedMessage.h>

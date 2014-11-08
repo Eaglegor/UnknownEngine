@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <MouseLookComponent.h>
 
 #include <EngineContext.h>
@@ -12,8 +13,9 @@ namespace UnknownEngine
 {
 	namespace Behavior 
 	{
-		MouseLookComponent::MouseLookComponent ( const std::string& name, UnknownEngine::Core::EngineContext* engine_context, const Math::Transform &initial_transform ) : 
+		MouseLookComponent::MouseLookComponent ( const std::string& name, UnknownEngine::Core::EngineContext* engine_context, const MouseLookComponentDesc &desc ) : 
 		SimpleBehaviorComponent ( name ),
+		desc(desc),
 		transform_changed_message_sender ( GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(name), engine_context ),
 		engine_context(engine_context),
 		forward_axis(-Math::Z_AXIS),
@@ -24,7 +26,7 @@ namespace UnknownEngine
 		needs_update_quaternion(false),
 		linear_speed(0.001f),
 		angular_speed(0.1f),
-		current_transform(initial_transform)
+		current_transform(desc.initial_transform)
 		{
 		}
 
@@ -43,28 +45,28 @@ namespace UnknownEngine
 				);
 				
 				IO::AddSimpleActionMessage msg;
-				msg.context_name = "MouseLook";
-				msg.action_slot_name = "MoveForward";
+				msg.context_name = desc.input_context_name;
+				msg.action_slot_name = desc.move_forward_action_name;
 				msg.action_callback = std::bind(&MouseLookComponent::moveForward, this);
 				simple_action_message_sender.sendMessage(msg);
 				
-				msg.action_slot_name = "MoveBackward";
+				msg.action_slot_name = desc.move_backward_action_name;
 				msg.action_callback = std::bind(&MouseLookComponent::moveBackward, this);
 				simple_action_message_sender.sendMessage(msg);
 				
-				msg.action_slot_name = "StrafeLeft";
+				msg.action_slot_name = desc.strafe_left_action_name;
 				msg.action_callback = std::bind(&MouseLookComponent::strafeLeft, this);
 				simple_action_message_sender.sendMessage(msg);
 				
-				msg.action_slot_name = "StrafeRight";
+				msg.action_slot_name = desc.strafe_right_action_name;
 				msg.action_callback = std::bind(&MouseLookComponent::strafeRight, this);
 				simple_action_message_sender.sendMessage(msg);
 				
-				msg.action_slot_name = "StrafeUp";
+				msg.action_slot_name = desc.strafe_up_action_name;
 				msg.action_callback = std::bind(&MouseLookComponent::strafeUp, this);
 				simple_action_message_sender.sendMessage(msg);
 				
-				msg.action_slot_name = "StrafeDown";
+				msg.action_slot_name = desc.strafe_down_action_name;
 				msg.action_callback = std::bind(&MouseLookComponent::strafeDown, this);
 				simple_action_message_sender.sendMessage(msg);
 			}
@@ -77,12 +79,12 @@ namespace UnknownEngine
 				);
 				
 				IO::AddRangeActionMessage msg;
-				msg.context_name = "MouseLook";
-				msg.action_slot_name = "Pitch";
+				msg.context_name = desc.input_context_name;
+				msg.action_slot_name = desc.pitch_action_name;
 				msg.action_callback = std::bind(&MouseLookComponent::pitch, this, std::placeholders::_1);
 				range_action_message_sender.sendMessage(msg);
 				
-				msg.action_slot_name = "Yaw";
+				msg.action_slot_name = desc.yaw_action_name;
 				msg.action_callback = std::bind(&MouseLookComponent::yaw, this, std::placeholders::_1);
 				range_action_message_sender.sendMessage(msg);
 			}
