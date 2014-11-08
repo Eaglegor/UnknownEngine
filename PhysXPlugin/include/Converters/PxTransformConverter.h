@@ -16,7 +16,6 @@ namespace UnknownEngine
 			static physx::PxTransform toPxTransform(const Math::Transform &transform)
 			{
 				physx::PxTransform result;
-				const Math::Vector3 &position = transform.getPosition();
 				result.p = PxVec3Converter::toPxVec3(transform.getPosition());
 				const Math::Quaternion &orientation = transform.getOrientation();
 				result.q.w = orientation.w();

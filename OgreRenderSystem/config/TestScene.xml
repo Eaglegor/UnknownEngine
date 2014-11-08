@@ -147,7 +147,14 @@
 	
 		<entity name="MainCamera">
 		
-			<component name="Rotation" type="Behavior.MouseLook"/>
+			<component name="Rotation" type="Behavior.MouseLook">
+				<options_section>
+					<option name="input_context_name" value="MouseLook"/>
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:0, y:10, z:50)"/>
+					</options_section>
+				</options_section>
+			</component>
 			
 			<component type="Graphics.Camera" name="Camera">
 				
@@ -329,17 +336,26 @@
 		
 		<entity name="ActiveCube">
 			
+			<component name="AxisMovement" type="Behavior.MouseLook">
+				<options_section>
+					<option name="input_context_name" value="CubeControl"/>
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:10, y:10, z:0)"/>
+					</options_section>
+				</options_section>
+			</component>
+			
 			<component name="RigidBodyComponent" type="Physics.RigidBody">
 				
-				<!--<received_messages>
+				<received_messages>
 					<message type="Engine.TransformChangedMessage">
 						<receive_policy type="FromSingleSenderMessageReceivePolicy">
 							<options_section>
-								<option name="sender_name" value="MainCamera.Rotation"/>
+								<option name="sender_name" value="ActiveCube.AxisMovement"/>
 							</options_section>
 						</receive_policy>
 					</message>
-					</received_messages>-->
+				</received_messages>
 				
 				<options_section>
 					<provided_data name="shape" data_provider_name="CubeShape"/>

@@ -25,4 +25,20 @@
 	
 	</context>
 	
+	<context name="CubeControl">
+		
+		<action_slots>
+			<action_slot name="Yaw" event="Range"/>
+			<action_slot name="Pitch" event="Range"/>
+
+			<action_slot name="MoveForward" event="Simple" condition="EventActive"/>
+			<action_slot name="MoveBackward" event="Simple" condition="EventActive"/>
+			<action_slot name="StrafeLeft" event="Simple" condition="EventActive"/>
+			<action_slot name="StrafeRight" event="Simple" condition="EventActive"/>
+			<action_slot name="StrafeUp" event="Simple" condition="EventActive"/>
+			<action_slot name="StrafeDown" event="Simple" condition="EventActive"/>
+		</action_slots>
+	
+	</context>
+	
 </contexts>
