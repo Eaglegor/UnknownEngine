@@ -41,4 +41,12 @@
 	
 	</context>
 	
+	<context name="TestCreateJoint">
+		
+		<action_slots>
+			<action_slot name="CreateJoint" event="Simple" condition="EventStarted"/>
+		</action_slots>
+	
+	</context>
+	
 </contexts>
