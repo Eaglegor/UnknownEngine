@@ -87,6 +87,7 @@ namespace UnknownEngine
 			aiVector3D* vertices = first_mesh->mVertices;
 			aiVector3D* normals = first_mesh->mNormals;
 			aiVector3D* tangents = first_mesh->mTangents;
+			aiVector3D* bitangents = first_mesh->mBitangents;
 			
 			aiVector3D* texture_coordinates;
 			if(first_mesh->HasTextureCoords(0)) texture_coordinates = first_mesh->mTextureCoords[0];
@@ -106,6 +107,7 @@ namespace UnknownEngine
 				if(first_mesh->HasTangentsAndBitangents()) 
 				{
 					vertex.setTangent( convertAssimpVector (tangents[i]) );
+					vertex.setBinormal( convertAssimpVector (bitangents[i]) );
 				}
 				
 				if(first_mesh->HasTextureCoords(0)) 

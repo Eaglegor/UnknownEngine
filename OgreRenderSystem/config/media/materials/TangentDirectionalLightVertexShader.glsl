@@ -10,7 +10,7 @@ void main()
 {
 	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 	
-	vec3 binormal = cross(tangent, gl_Normal);
+	vec3 binormal = normalize(cross(tangent, gl_Normal));
 	
 	mat3 tbn = transpose( mat3(tangent, binormal, gl_Normal) );	
 	

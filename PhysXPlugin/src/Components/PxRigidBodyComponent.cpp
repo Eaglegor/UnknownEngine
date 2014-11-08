@@ -7,6 +7,10 @@
 
 #include <LogHelper.h>
 
+#include <Listeners/BaseMessageListenersFactory.h>
+#include <Listeners/StandardMessageBuffersFactory.h>
+#include <MessageBuffers/InstantForwardMessageBuffer.h>
+
 using std::isfinite;
 
 #include <PxRigidDynamic.h>
@@ -26,7 +30,8 @@ namespace UnknownEngine
 			px_rigid_body ( nullptr ),
 			px_shape ( nullptr ),
 			transform_message_sender(GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(name), engine_context ),
-			first_update_passed(false)
+			first_update_passed(false),
+			engine_context(engine_context)
 		{
 			desc.shape_data_provider->reserve();
 		}
@@ -81,6 +86,8 @@ namespace UnknownEngine
 			physics_subsystem->getPxScene()->addActor ( *px_rigid_body );
 			physics_subsystem->addRigidBodyComponent(getName(), this);
 
+			listener->registerAtDispatcher();
+
 		}
 
 		void PxRigidBodyComponent::update()
@@ -97,6 +104,9 @@ namespace UnknownEngine
 		
 		void PxRigidBodyComponent::shutdown()
 		{
+
+			listener->unregisterAtDispatcher();
+
 			physics_subsystem->removeRigidBodyComponent(getName());
 			physics_subsystem->getPxScene()->removeActor ( *px_rigid_body );
 			px_rigid_body->release();
@@ -107,7 +117,47 @@ namespace UnknownEngine
 			return PX_RIGID_BODY_COMPONENT_TYPE;
 		}
 
+		void PxRigidBodyComponent::onTransformChanged(const Core::TransformChangedMessage &msg)
+		{
+			if (px_rigid_body) setTransform(msg.new_transform);
+		}
 
+		void PxRigidBodyComponent::initMessageListener(const Core::ReceivedMessageDescriptorsList& received_messages)
+		{
+			listener.reset(new Core::BaseMessageListener(std::string(getName()) + ".Listener", engine_context));
+			Utils::BaseMessageListenersFactory::initBaseMessageListener(listener, received_messages);
+
+			Utils::StandardMessageBuffersFactory<PxRigidBodyComponent> message_buffers_factory(this);
+
+			{
+				typedef Core::TransformChangedMessage MessageType;
+				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
+
+				BufferType buffer = message_buffers_factory.createBuffer<BufferType>(&PxRigidBodyComponent::onTransformChanged);
+				listener->registerMessageBuffer(buffer);
+			}
+
+		}
+
+		void PxRigidBodyComponent::setTransform(const Math::Transform &transform)
+		{
+			physx::PxRigidDynamic* dynamic_rigid = px_rigid_body->isRigidDynamic();
+			if (dynamic_rigid) {
+				switch (desc.dynamics_type)
+				{
+					case RigidBodyDynamicsType::KINEMATIC:
+					{
+						dynamic_rigid->setKinematicTarget(PxTransformConverter::toPxTransform(transform));
+						break;
+					}
+					case RigidBodyDynamicsType::DYNAMIC:
+					{
+						dynamic_rigid->setGlobalPose(PxTransformConverter::toPxTransform(transform));
+						break;
+					}
+				}
+			}
+		}
 
 	}
 }

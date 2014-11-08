@@ -49,7 +49,7 @@ namespace UnknownEngine
 					boost::trim(lower_case_level);
 					if ( lower_case_level == "info" ) return LogSeverity::INFO;
 					if ( lower_case_level == "warning" ) return LogSeverity::WARNING;
-					if ( lower_case_level == "error" ) return LogSeverity::ERROR;
+					if ( lower_case_level == "error" ) return LogSeverity::ERROR2;
 					if ( lower_case_level == "debug" ) return LogSeverity::DEBUG;
 					return LogSeverity::NONE;
 				}
@@ -62,7 +62,7 @@ namespace UnknownEngine
 // We use define to be able to completely delete some log messages in release versions to increase performance
 #define LOG_INFO(log_helper, e) if(log_helper) log_helper->log(Utils::LogSeverity::INFO, e);
 #define LOG_WARNING(log_helper, e) if(log_helper) log_helper->log(Utils::LogSeverity::WARNING, e);
-#define LOG_ERROR(log_helper, e) if(log_helper) log_helper->log(Utils::LogSeverity::ERROR, e);
+#define LOG_ERROR(log_helper, e) if(log_helper) log_helper->log(Utils::LogSeverity::ERROR2, e);
 #define LOG_DEBUG(log_helper, e) if(log_helper) log_helper->log(Utils::LogSeverity::DEBUG, e);
 
 	}

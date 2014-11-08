@@ -41,7 +41,7 @@ material NormalMap
 			
 			fragment_program_ref AmbientShader
 			{
-				param_named color float4 0 0 0.1 1
+				param_named color float4 0 0 0 1
 			}
 		}
 		
@@ -102,6 +102,168 @@ material NormalMap
 			texture_unit Normal
 			{
 				texture IS-3_NM.dds 2d
+			}
+		}
+		
+	}
+}
+
+
+
+material FloorMaterial
+{
+	technique
+	{
+	
+		pass ambient
+		{
+			vertex_program_ref SimpleVertexShader
+			{
+			}
+			
+			fragment_program_ref AmbientShader
+			{
+				param_named color float4 0 0 0 1
+			}
+		}
+		
+		pass diffuse_directionals
+		{
+		
+			iteration once_per_light directional
+			scene_blend add
+		
+			vertex_program_ref TangentDirectionalLightVertexShader
+			{
+				param_named_auto light_position light_position_object_space 0
+			}
+			
+			fragment_program_ref NMDirectionalLightDiffuse
+			{
+				param_named_auto light_color light_diffuse_colour 0
+				param_named diffuse_map int 0
+				param_named normal_map int 1
+			}
+			
+			texture_unit Diffuse
+			{
+				texture Floor.png 2d
+			}
+			
+			texture_unit Normal
+			{
+				texture Floor_NM.png 2d
+			}
+		}
+		
+		pass diffuse_spotlights
+		{
+		
+			iteration once_per_light spot
+			scene_blend add
+		
+			vertex_program_ref TangentSpotLightVertexShader
+			{
+				param_named_auto light_position light_position_object_space 0
+				param_named_auto light_direction_object_space light_direction_object_space 0
+			}
+			
+			fragment_program_ref NMSpotLightDiffuse
+			{
+				param_named_auto light_color light_diffuse_colour 0
+				param_named_auto spotlight_params spotlight_params 0
+				param_named diffuse_map int 0
+				param_named normal_map int 1
+			}
+			
+			texture_unit Diffuse
+			{
+				texture Floor.png 2d
+			}
+			
+			texture_unit Normal
+			{
+				texture Floor_NM.png 2d
+			}
+		}
+		
+	}
+}
+
+material ActiveCubeMaterial
+{
+	technique
+	{
+	
+		pass ambient
+		{
+			vertex_program_ref SimpleVertexShader
+			{
+			}
+			
+			fragment_program_ref AmbientShader
+			{
+				param_named color float4 0 0 0 1
+			}
+		}
+		
+		pass diffuse_directionals
+		{
+		
+			iteration once_per_light directional
+			scene_blend add
+		
+			vertex_program_ref TangentDirectionalLightVertexShader
+			{
+				param_named_auto light_position light_position_object_space 0
+			}
+			
+			fragment_program_ref NMDirectionalLightDiffuse
+			{
+				param_named_auto light_color light_diffuse_colour 0
+				param_named diffuse_map int 0
+				param_named normal_map int 1
+			}
+			
+			texture_unit Diffuse
+			{
+				texture Cube.png 2d
+			}
+			
+			texture_unit Normal
+			{
+				texture concrete_NM.jpg 2d
+			}
+		}
+		
+		pass diffuse_spotlights
+		{
+		
+			iteration once_per_light spot
+			scene_blend add
+		
+			vertex_program_ref TangentSpotLightVertexShader
+			{
+				param_named_auto light_position light_position_object_space 0
+				param_named_auto light_direction_object_space light_direction_object_space 0
+			}
+			
+			fragment_program_ref NMSpotLightDiffuse
+			{
+				param_named_auto light_color light_diffuse_colour 0
+				param_named_auto spotlight_params spotlight_params 0
+				param_named diffuse_map int 0
+				param_named normal_map int 1
+			}
+			
+			texture_unit Diffuse
+			{
+				texture Cube.png 2d
+			}
+			
+			texture_unit Normal
+			{
+				texture concrete_NM.jpg 2d
 			}
 		}
 		

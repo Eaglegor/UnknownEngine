@@ -61,6 +61,7 @@ namespace UnknownEngine
 		};
 
 		const std::string TANGENT_NAME = "Tangent";
+		const std::string BINORMAL_NAME = "Binormal";
 		const std::string NORMAL_NAME = "Normal";
 		const std::string TEXTURE_COORDINATE_NAME = "Texture coordinate";
 
@@ -106,6 +107,17 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
+				Math::Vector3 getBinormal() const 
+				{
+					if ( this->hasBinormal() )
+					{
+						return binormal;
+					}
+
+					throw NoSuchVertexElementException ( BINORMAL_NAME );
+				}
+				
+				UNKNOWNENGINE_INLINE
 				TextureCoordinateType getTextureCoordinate() const 
 				{
 					if ( this->hasTextureCoordinate() )
@@ -137,6 +149,13 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
+				void setBinormal ( const Math::Vector3& binormal )
+				{
+					this->binormal = binormal;
+					this->has_binormal = true;
+				}
+				
+				UNKNOWNENGINE_INLINE
 				void setTextureCoordinate ( const TextureCoordinateType& texture_coordinate )
 				{
 					this->texture_coordinate = texture_coordinate;
@@ -156,6 +175,12 @@ namespace UnknownEngine
 				}
 
 				UNKNOWNENGINE_INLINE
+				bool hasBinormal() const
+				{
+					return has_binormal;
+				}
+				
+				UNKNOWNENGINE_INLINE
 				bool hasTextureCoordinate() const
 				{
 					return has_texture_coordinate;
@@ -172,6 +197,9 @@ namespace UnknownEngine
 				Math::Vector3 tangent;
 				bool has_tangent;
 
+				Math::Vector3 binormal;
+				bool has_binormal;
+				
 				TextureCoordinateType texture_coordinate;
 				bool has_texture_coordinate;
 		};

@@ -5,6 +5,7 @@
 #include <AlignedNew.h>
 #include <MessageSystem/MessageSender.h>
 #include <ExportedMessages/TransformChangedMessage.h>
+#include <MessageSystem/MessageListenerDesc.h>
 #include <memory>
 
 namespace physx
@@ -14,6 +15,12 @@ namespace physx
 
 namespace UnknownEngine
 {
+
+	namespace Core
+	{
+		class BaseMessageListener;
+		struct TransformChangedMessage;
+	}
 
 	namespace Utils
 	{
@@ -37,17 +44,24 @@ namespace UnknownEngine
 			virtual Core::ComponentType getType();
 			virtual void init ( const Core::Entity* parent_entity );
 			virtual void shutdown();
+			void initMessageListener(const Core::ReceivedMessageDescriptorsList& received_messages);
 			
+			void setTransform(const Math::Transform &transform);
+
 			UNKNOWNENGINE_INLINE
 			physx::PxRigidActor* getPxRigidActor(){ return px_rigid_body; }
 
 			virtual void update();
+
+			void onTransformChanged(const Core::TransformChangedMessage &msg);
 			
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 			
 		private:
 			
+			std::unique_ptr<Core::BaseMessageListener> listener;
 			Core::MessageSender<Core::TransformChangedMessage> transform_message_sender;
+
 			
 			PxRigidBodyComponentDesc desc;
 			PhysXSubsystem* physics_subsystem;
@@ -55,8 +69,9 @@ namespace UnknownEngine
 			PxShapeOrientedWrapper* px_shape;
 			bool first_update_passed;
 
+			Core::EngineContext* engine_context;
+
 			std::unique_ptr<Utils::LogHelper> log_helper;
-			
 		};
 	}
 }
