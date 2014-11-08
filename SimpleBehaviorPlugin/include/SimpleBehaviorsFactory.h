@@ -26,6 +26,7 @@ namespace UnknownEngine
 		private:
 			Core::IComponent* createSimpleRotationComponent(const Core::ComponentDesc& desc);
 			Core::IComponent* createMouseLookComponent(const Core::ComponentDesc& desc);
+			Core::IComponent* createSimpleCreateJointComponent(const Core::ComponentDesc& desc);
 			
 			void destroySimpleBehaviorComponent(Core::IComponent* object);
 			
