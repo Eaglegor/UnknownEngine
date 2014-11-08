@@ -52,7 +52,7 @@ namespace UnknownEngine
 		void PxFixedJointComponent::calculateRelativeTransforms(physx::PxTransform &rel_transform_1, physx::PxTransform &rel_transform_2)
 		{
 			rel_transform_1 = physx::PxTransform::createIdentity();
-			rel_transform_2 = actor1->getGlobalPose() * actor2->getGlobalPose().getInverse();
+			rel_transform_2 = actor2->getGlobalPose().getInverse() * actor1->getGlobalPose();
 		}
 
 		void PxFixedJointComponent::shutdown()

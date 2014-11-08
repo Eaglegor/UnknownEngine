@@ -398,6 +398,16 @@
 					
 				</options_section>
 			</component>
+			
+			<component name="JointComponent" type="Behavior.SimpleCreateJoint">
+				<options_section>
+					<option name="body1_name" value="ActiveCube.RigidBodyComponent"/>
+					<option name="body2_name" value="PassiveCube.RigidBodyComponent"/>
+					<option name="input_context_name" value="TestCreateJoint"/>
+					<option name="jointed_material_name" value="ActiveCubeMaterial"/>
+					<option name="free_material_name" value="NormalMap"/>
+				</options_section>
+			</component>
 						
 		</entity>
 		
@@ -423,6 +433,13 @@
 						<receive_policy type="FromSingleSenderMessageReceivePolicy">
 							<options_section>
 								<option name="sender_name" value="PassiveCube.RigidBodyComponent"/>
+							</options_section>
+						</receive_policy>
+					</message>
+					<message type="Graphics.ChangeMaterialActionMessage">
+						<receive_policy type="FromSingleSenderMessageReceivePolicy">
+							<options_section>
+								<option name="sender_name" value="ActiveCube.JointComponent"/>
 							</options_section>
 						</receive_policy>
 					</message>
