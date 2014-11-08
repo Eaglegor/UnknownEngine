@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <InputContextMapper.h>
 #include <ExportedMessages/InputContext/AddSimpleActionMessage.h>
 #include <ExportedMessages/InputContext/AddRangeActionMessage.h>

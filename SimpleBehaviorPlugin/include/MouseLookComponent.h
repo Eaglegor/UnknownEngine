@@ -1,6 +1,7 @@
 #pragma once
 #include <InlineSpecification.h>
 #include <SimpleBehaviorComponent.h>
+#include "MouseLookComponentDesc.h"
 #include <Transform/Transform.h>
 #include <AlignedNew.h>
 #include <MessageSystem/MessageSender.h>
@@ -22,7 +23,7 @@ namespace UnknownEngine
 		UNKNOWNENGINE_ALIGNED_CLASS(16) MouseLookComponent : public SimpleBehaviorComponent
 		{
 		public:
-			explicit MouseLookComponent(const std::string& name, Core::EngineContext* engine_context, const Math::Transform &initial_transform = Math::Transform() );
+			explicit MouseLookComponent(const std::string& name, Core::EngineContext* engine_context, const MouseLookComponentDesc& desc );
 			virtual ~MouseLookComponent();
 				
 			UNKNOWNENGINE_INLINE
@@ -45,6 +46,8 @@ namespace UnknownEngine
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 			
 		private:
+			
+			MouseLookComponentDesc desc;
 			
 			void updateAxisDirections();
 			void updateQuaternion();

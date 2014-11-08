@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <ActionSlots/RangeActionSlot.h>
 #include <cmath>
 

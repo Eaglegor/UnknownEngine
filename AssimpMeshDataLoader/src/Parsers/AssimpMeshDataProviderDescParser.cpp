@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <Parsers/AssimpMeshDataProviderDescParser.h>
 #include <CommonParsers/LexicalCastForBoolAlpha.h>
 #include <LogHelper.h>

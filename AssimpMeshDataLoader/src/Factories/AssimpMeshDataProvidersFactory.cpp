@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <Factories/AssimpMeshDataProvidersFactory.h>
 #include <DataProviders/AssimpMeshDataProvider.h>
 #include <LogHelper.h>

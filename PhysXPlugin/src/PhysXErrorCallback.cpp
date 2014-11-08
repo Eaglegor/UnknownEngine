@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <PhysXErrorCallback.h>
 
 #include <LogHelper.h>

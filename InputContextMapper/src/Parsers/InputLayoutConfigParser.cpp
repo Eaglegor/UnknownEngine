@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <Parsers/InputLayoutConfigParser.h>
 #include <InputContextMapper.h>
 #include <fstream>

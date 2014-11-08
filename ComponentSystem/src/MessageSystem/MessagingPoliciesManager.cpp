@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <MessageSystem/MessagingPoliciesManager.h>
 
 #include <MessageSystem/Policies/AnyMessageReceivePolicy.h>

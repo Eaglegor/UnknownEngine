@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <DataProviders/PxBoxShapeDataProvider.h>
 #include <DataProviders/PxMaterialDataProvider.h>
 #include <PhysXSubsystem.h>

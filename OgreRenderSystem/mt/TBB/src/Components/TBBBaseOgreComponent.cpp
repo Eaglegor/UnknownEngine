@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <Components/TBBBaseOgreComponent.h>
 #include <TBBOgreRenderSubsystem.h>
 #include <MessageSystem/BaseMessageListener.h>

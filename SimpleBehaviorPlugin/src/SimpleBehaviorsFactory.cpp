@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <SimpleBehaviorsFactory.h>
 #include <ComponentDesc.h>
 #include <MessageSystem/MessageSystemParticipantDictionary.h>
@@ -5,6 +6,7 @@
 #include <EngineContext.h>
 #include <SimpleBehaviorsPerformer.h>
 #include <MouseLookComponent.h>
+#include <MouseLookComponentDescriptorGetter.h>
 
 #include <Transform/Transform.h>
 
@@ -12,6 +14,8 @@ namespace UnknownEngine
 {
 	namespace Behavior
 	{
+		
+		static MouseLookComponentDescriptorGetter mouse_look_descriptor_getter;
 		
 		SimpleBehaviorsFactory::SimpleBehaviorsFactory ( UnknownEngine::Core::EngineContext* engine_context, UnknownEngine::Behavior::SimpleBehaviorsPerformer* behaviors_performer ):
 		engine_context(engine_context),
@@ -38,7 +42,8 @@ namespace UnknownEngine
 		
 		Core::IComponent* SimpleBehaviorsFactory::createMouseLookComponent ( const Core::ComponentDesc& desc )
 		{
-			MouseLookComponent* component = new MouseLookComponent(desc.name, engine_context, Math::Transform( Math::Vector3(0,0,50), Math::Quaternion::Identity() ));
+			MouseLookComponentDesc component_desc = desc.descriptor.apply_visitor(mouse_look_descriptor_getter);
+			MouseLookComponent* component = new MouseLookComponent(desc.name, engine_context, component_desc);
 			behaviors_performer->addSimpleBehaviorComponent(component);
 			return component;
 		}

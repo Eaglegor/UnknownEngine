@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <DummySubsystem.h>
 #include <Plugins/PluginExport.h>
 

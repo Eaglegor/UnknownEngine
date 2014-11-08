@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <Components/PxRigidBodyComponent.h>
 #include <Components/PxShapeOrientedWrapper.h>
 #include <PhysXSubsystem.h>

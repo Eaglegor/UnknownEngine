@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <Components/PxJointComponent.h>
 #include <LogHelper.h>
 

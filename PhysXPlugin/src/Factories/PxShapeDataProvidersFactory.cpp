@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <Factories/PxShapeDataProvidersFactory.h>
 #include <DataProviders/PxBoxShapeDataProvider.h>
 #include <Parsers/PxBoxShapeDataProviderDescriptorGetter.h>

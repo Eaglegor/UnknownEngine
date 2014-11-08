@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <EventHandlers/MouseEventHandler.h>
 #include <InputContextMapper.h>
 #include <mutex>

@@ -1,3 +1,4 @@
+#include <stdafx.h>
 #include <InputContextMapper.h>
 #include <InputContextMapperPlugin.h>
 #include <InputContextMapperDescriptorGetter.h>
