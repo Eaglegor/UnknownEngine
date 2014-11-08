@@ -19,7 +19,7 @@ namespace UnknownEngine
 	namespace Core
 	{
 		class BaseMessageListener;
-		class TransformChangedMessage;
+		struct TransformChangedMessage;
 	}
 
 	namespace Utils
