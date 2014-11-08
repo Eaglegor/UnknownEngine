@@ -18,6 +18,11 @@ namespace UnknownEngine
 		class MessageSender
 		{
 		public:
+			
+			MessageSender(const std::string &sender_name, EngineContext* engine_context, IMessageDeliveryPolicy* message_delivery_policy = nullptr):
+			MessageSender(GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(sender_name), engine_context, message_delivery_policy)
+			{}
+			
 			MessageSender(const MessageSystemParticipantId &sender_info, EngineContext* engine_context, IMessageDeliveryPolicy* message_delivery_policy = nullptr):
 			engine_context(engine_context),
 			message_delivery_policy(message_delivery_policy),
