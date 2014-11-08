@@ -232,7 +232,7 @@ material ActiveCubeMaterial
 			
 			texture_unit Normal
 			{
-				texture Cube_NM.png 2d
+				texture concrete_NM.jpg 2d
 			}
 		}
 		
@@ -263,7 +263,7 @@ material ActiveCubeMaterial
 			
 			texture_unit Normal
 			{
-				texture Cube_NM.png 2d
+				texture concrete_NM.jpg 2d
 			}
 		}
 		
