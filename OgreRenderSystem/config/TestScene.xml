@@ -169,6 +169,7 @@
 					<option name="near_clip_distance" value="0.01"/>
 					
 					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:0, y:10, z:50)"/>
 						<option name="initial_direction" value="Vector3(x:0, y:0, z:-50)"/>
 					</options_section>
 					
@@ -276,7 +277,7 @@
 			<options_section>
 				<option name="static_friction" value="1"/>
 				<option name="dynamic_friction" value="1"/>
-				<option name="restitution" value="0.5"/>
+				<option name="restitution" value="0.1"/>
 			</options_section>
 		</data_provider>
 		
@@ -329,9 +330,20 @@
 		<entity name="ActiveCube">
 			
 			<component name="RigidBodyComponent" type="Physics.RigidBody">
+				
+				<!--<received_messages>
+					<message type="Engine.TransformChangedMessage">
+						<receive_policy type="FromSingleSenderMessageReceivePolicy">
+							<options_section>
+								<option name="sender_name" value="MainCamera.Rotation"/>
+							</options_section>
+						</receive_policy>
+					</message>
+					</received_messages>-->
+				
 				<options_section>
 					<provided_data name="shape" data_provider_name="CubeShape"/>
-					<option name="dynamics_type" value="static"/>
+					<option name="dynamics_type" value="kinematic"/>
 					<option name="mass" value="1"/>
 					
 					<options_section name="InitialTransform">
@@ -379,7 +391,7 @@
 				<options_section>
 					<provided_data name="shape" data_provider_name="CubeShape"/>
 					<option name="dynamics_type" value="dynamic"/>
-					<option name="mass" value="1"/>
+					<option name="mass" value="10"/>
 					
 					<options_section name="InitialTransform">
 						<option name="position" value="Vector3(x:-10, y:10, z:0)"/>
