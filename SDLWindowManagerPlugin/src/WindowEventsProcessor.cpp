@@ -9,11 +9,11 @@ namespace UnknownEngine
 	namespace GUI
 	{
 		WindowEventsProcessor::WindowEventsProcessor ( const std::string& name, SDLWindowManager* window_manager, UnknownEngine::Core::EngineContext* engine_context ):
-		key_pressed_message_sender( GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(name), engine_context ),
-		mouse_button_pressed_message_sender( GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(name), engine_context ),
-		mouse_moved_message_sender( GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(name), engine_context ),
-		mouse_wheel_moved_message_sender( GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(name), engine_context ),
-		window_resized_message_sender( GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(name), engine_context ),
+		key_pressed_message_sender(name, engine_context ),
+		mouse_button_pressed_message_sender(name, engine_context ),
+		mouse_moved_message_sender(name, engine_context ),
+		mouse_wheel_moved_message_sender(name, engine_context ),
+		window_resized_message_sender(name, engine_context ),
 		window_manager(window_manager)
 		{
 		}

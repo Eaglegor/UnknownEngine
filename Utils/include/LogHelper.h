@@ -18,7 +18,7 @@ namespace UnknownEngine
 		{
 			public:
 				LogHelper ( const std::string &name, const LogSeverity& minimal_severity, Core::EngineContext* engine_context )
-					: message_sender ( Core::MessageSystemParticipantId ( name ), engine_context ),
+					: message_sender ( name, engine_context ),
 					  minimal_severity ( minimal_severity )
 				{}
 

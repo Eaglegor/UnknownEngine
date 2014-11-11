@@ -6,9 +6,8 @@
 #include <LogHelper.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 #include <ExportedMessages/RenderSystem/GetWindowHandleMessage.h>
-#include <Listeners/StandardMessageBuffersFactory.h>
-#include <Listeners/BaseMessageListenersFactory.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
+#include <MessageSystem/BaseMessageListener.h>
 #include <SDL_syswm.h>
 
 namespace UnknownEngine
@@ -100,30 +99,21 @@ namespace UnknownEngine
 		{
 			window_events_listener.reset ( new WindowEventsProcessor(name, this, engine_context) );
 			
-			listener = std::move(
-				Utils::BaseMessageListenersFactory::createBaseMessageListener(
-					name  + ".Listener",
-					engine_context,
-					received_messages_desc
-				) 
-			);
-			
-			Utils::StandardMessageBuffersFactory<SDLWindowManager> factory(this);
+			listener.reset(new Core::BaseMessageListener(name, engine_context));
+			listener->initMessageSlots(received_messages_desc);
 			
 			{
 				typedef Core::UpdateFrameMessage MessageType;
 				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
 				
-				BufferType buffer = factory.createBuffer<BufferType>(&SDLWindowManager::onUpdateFrame);
-				listener->registerMessageBuffer(buffer);
+				listener->createMessageBuffer<MessageType, BufferType>(this, &SDLWindowManager::onUpdateFrame);
 			}
 
 			{
 				typedef Graphics::GetWindowHandleMessage MessageType;
 				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
 				
-				BufferType buffer = factory.createBuffer<BufferType>(&SDLWindowManager::getWindowHandle);
-				listener->registerMessageBuffer(buffer);
+				listener->createMessageBuffer<MessageType, BufferType>(this, &SDLWindowManager::getWindowHandle);
 			}
 			
 			listener->registerAtDispatcher();

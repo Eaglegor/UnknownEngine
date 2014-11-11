@@ -84,11 +84,4 @@ namespace UnknownEngine
 			NumericIdentifierType id; ///< Numeric address identifier
 		};
 	}
-	
-	UNKNOWNENGINE_INLINE
-	Core::MessageSystemParticipantId GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(const std::string &name)
-	{
-		return std::move(Core::MessageSystemParticipantId(name, Core::MessageSystemParticipantId::AutoRegistrationPolicy::AUTO_REGISTER));
-	}
-	
 }

@@ -8,9 +8,8 @@
 
 #include <LogHelper.h>
 
-#include <Listeners/BaseMessageListenersFactory.h>
-#include <Listeners/StandardMessageBuffersFactory.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
+#include <MessageSystem/BaseMessageListener.h>
 
 using std::isfinite;
 
@@ -26,11 +25,11 @@ namespace UnknownEngine
 
 		PxRigidBodyComponent::PxRigidBodyComponent ( const std::string& name, const PxRigidBodyComponentDesc &desc, PhysXSubsystem* physics_subsystem, Core::EngineContext* engine_context ) :
 			Core::BaseComponent ( name ),
+			transform_message_sender(name, engine_context ),
 			desc ( desc ),
 			physics_subsystem ( physics_subsystem ),
 			px_rigid_body ( nullptr ),
 			px_shape ( nullptr ),
-			transform_message_sender(GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(name), engine_context ),
 			first_update_passed(false),
 			engine_context(engine_context)
 		{
@@ -125,17 +124,14 @@ namespace UnknownEngine
 
 		void PxRigidBodyComponent::initMessageListener(const Core::ReceivedMessageDescriptorsList& received_messages)
 		{
-			listener.reset(new Core::BaseMessageListener(std::string(getName()) + ".Listener", engine_context));
-			Utils::BaseMessageListenersFactory::initBaseMessageListener(listener, received_messages);
-
-			Utils::StandardMessageBuffersFactory<PxRigidBodyComponent> message_buffers_factory(this);
+			listener.reset(new Core::BaseMessageListener(std::string(getName()), engine_context));
+			listener->initMessageSlots(received_messages);
 
 			{
 				typedef Core::TransformChangedMessage MessageType;
 				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
 
-				BufferType buffer = message_buffers_factory.createBuffer<BufferType>(&PxRigidBodyComponent::onTransformChanged);
-				listener->registerMessageBuffer(buffer);
+				listener->createMessageBuffer<MessageType, BufferType>(this, &PxRigidBodyComponent::onTransformChanged);
 			}
 
 		}

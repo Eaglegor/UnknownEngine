@@ -41,7 +41,7 @@ namespace UnknownEngine
 				
 				virtual ~TBBOgreRenderSubsystem();
 
-				virtual void start();
+				virtual void start(const std::string& name, const Core::ReceivedMessageDescriptorsList& received_messages);
 
 				virtual void stop();
 

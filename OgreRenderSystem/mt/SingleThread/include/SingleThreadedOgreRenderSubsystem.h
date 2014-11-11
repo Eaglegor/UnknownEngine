@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ThreadIndependentOgreRenderSystemBase.h>
+#include <MessageSystem/MessageListenerDesc.h>
 
 namespace Ogre
 {
@@ -38,7 +39,7 @@ namespace UnknownEngine
 				
 				virtual ~SingleThreadedOgreRenderSubsystem();
 				
-				virtual void start();
+				virtual void start(const std::string &name, const Core::ReceivedMessageDescriptorsList& received_messages);
 				
 				virtual void stop();
 		};

@@ -14,7 +14,6 @@
 #include <MessageSystem/BaseMessageListener.h>
 
 #include <LogHelper.h>
-#include <Listeners/StandardMessageBuffersFactory.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <MessageBuffers/OnlyLastMessageBuffer.h>
 #include <ExportedMessages/TransformChangedMessage.h>
@@ -109,8 +108,6 @@ namespace UnknownEngine
 		{
 			if ( !listener ) return;
 
-			Utils::StandardMessageBuffersFactory<OgreCameraComponent> factory ( this );
-
 			if ( can_be_multi_threaded )
 			{
 
@@ -118,16 +115,14 @@ namespace UnknownEngine
 					typedef Core::TransformChangedMessage MessageType;
 					typedef Utils::OnlyLastMessageBuffer<MessageType> BufferType;
 
-					BufferType buffer = factory.createBuffer<BufferType>(&OgreCameraComponent::onTransformChanged);
-					listener->registerMessageBuffer(buffer);
+					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreCameraComponent::onTransformChanged);
 				}
 
 				{
 					typedef CameraLookAtActionMessage MessageType;
 					typedef Utils::OnlyLastMessageBuffer<MessageType> BufferType;
 
-					BufferType buffer = factory.createBuffer<BufferType>(&OgreCameraComponent::doLookAt);
-					listener->registerMessageBuffer(buffer);
+					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreCameraComponent::doLookAt);
 				}
 
 			}
@@ -138,16 +133,14 @@ namespace UnknownEngine
 					typedef Core::TransformChangedMessage MessageType;
 					typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
 
-					BufferType buffer = factory.createBuffer<BufferType>(&OgreCameraComponent::onTransformChanged);
-					listener->registerMessageBuffer(buffer);
+					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreCameraComponent::onTransformChanged);
 				}
 
 				{
 					typedef CameraLookAtActionMessage MessageType;
 					typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
 
-					BufferType buffer = factory.createBuffer<BufferType>(&OgreCameraComponent::doLookAt);
-					listener->registerMessageBuffer(buffer);
+					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreCameraComponent::doLookAt);
 				}
 
 			}

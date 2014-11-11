@@ -3,7 +3,6 @@
 #include <EngineContext.h>
 #include <ComponentDesc.h>
 #include <MessageSystem/BaseMessageListener.h>
-#include <Listeners/BaseMessageListenersFactory.h>
 #include <OgreRenderSubsystem_fwd.h>
 
 
@@ -17,11 +16,8 @@ namespace UnknownEngine
 		{
 			ComponentClass* component = new ComponentClass (desc.name, desc.descriptor.apply_visitor(get_descriptor_visitor), render_subsystem, engine_context);
 			
-			std::unique_ptr<Core::BaseMessageListener> listener = Utils::BaseMessageListenersFactory::createBaseMessageListener(
-				std::string(component->getName())+".Listener",
-				engine_context,
-				desc.received_messages
-			);
+			std::unique_ptr<Core::BaseMessageListener> listener(new Core::BaseMessageListener(std::string(component->getName()), engine_context));
+			listener->initMessageSlots(desc.received_messages);
 			
 			component->setMessageListener(std::move(listener));	
 			

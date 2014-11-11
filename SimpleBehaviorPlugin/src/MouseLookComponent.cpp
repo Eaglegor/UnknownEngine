@@ -16,7 +16,7 @@ namespace UnknownEngine
 		MouseLookComponent::MouseLookComponent ( const std::string& name, UnknownEngine::Core::EngineContext* engine_context, const MouseLookComponentDesc &desc ) : 
 		SimpleBehaviorComponent ( name ),
 		desc(desc),
-		transform_changed_message_sender ( GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(name), engine_context ),
+		transform_changed_message_sender ( name, engine_context ),
 		engine_context(engine_context),
 		forward_axis(-Math::Z_AXIS),
 		right_axis(Math::X_AXIS),
@@ -40,7 +40,7 @@ namespace UnknownEngine
 			{
 				Core::MessageSender<IO::AddSimpleActionMessage> simple_action_message_sender
 				(
-					GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(getName()),
+					getName(),
 					engine_context
 				);
 				
@@ -74,7 +74,7 @@ namespace UnknownEngine
 			{
 				Core::MessageSender<IO::AddRangeActionMessage> range_action_message_sender
 				(
-					GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(getName()),
+					getName(),
 					engine_context
 				);
 				

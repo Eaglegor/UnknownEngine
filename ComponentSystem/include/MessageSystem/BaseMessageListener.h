@@ -41,9 +41,29 @@ namespace UnknownEngine
 
 			COMPONENTSYSTEM_EXPORT
 			void registerSupportedMessageType( const MessageType& message_type_id, IMessageReceivePolicy* receive_policy);
+			
+			void initMessageSlots(const ReceivedMessageDescriptorsList& received_messages_list)
+			{
+				for (const Core::ReceivedMessageDesc & message : received_messages_list)
+				{
+					if (message.receive_policy && getMessagingPoliciesManager().isPrefabReceivePolicyType(message.receive_policy->receive_policy_type_name))
+					{
+						Core::IMessageReceivePolicy* receive_policy = getMessagingPoliciesManager().createPrefabReceiveMessagePolicy(
+							message.receive_policy->receive_policy_type_name,
+							message.receive_policy->receive_policy_options
+							);
+
+						registerSupportedMessageType(message.message_type_name, receive_policy);
+					}
+					else
+					{
+						registerSupportedMessageType(message.message_type_name, nullptr);
+					}
+				}
+			}
 
 			template<typename MessageClass, typename BufferClass, typename... Args>
-			bool createMessageBuffer(const Args&&... buffer_constructor_parameters)
+			bool createMessageBuffer(Args&&... buffer_constructor_parameters)
 			{
 				static_assert(std::is_base_of<Utils::IMessageBuffer, BufferClass>::value, "Message buffer must implement Utils::IMessageBuffer");
 				static_assert(std::is_base_of<Core::Message, MessageClass>::value, "Message class must inherit from Core::Message");
@@ -57,44 +77,13 @@ namespace UnknownEngine
 
 				LOG_DEBUG(log_helper, "Found message slot - creating buffer");
 
-				iter->second.message_buffer.reset(new BufferClass(std::forward<Args...>(buffer_constructor_parameters)));
+				iter->second.message_buffer.reset(new BufferClass(std::forward<Args>(buffer_constructor_parameters)...));
 
 				LOG_DEBUG(log_helper, "Message buffer created");
 
 				return true;
 			}
-
-			template<typename CallbackOwnerClass, typename MessageClass, typename BufferClass, typename... Args>
-			bool createMessageBuffer(CallbackOwnerClass* callback_owner_class, void (CallbackOwnerClass::*callback_method)(const MessageClass&))
-			{
-
-				typedef std::function<void(const MessageClass&)> MessageProcessor;
-				MessageProcessor callback = std::bind(callback_method, callback_owner_class, std::placeholders::_1);
-
-				return createMessageBuffer<MessageClass, BufferClass>(callback);
-			}
-
 			
-			template<typename BufferClass>
-			bool registerMessageBuffer( const BufferClass &buffer)
-			{
-				static_assert(std::is_base_of<Utils::IMessageBuffer, BufferClass>::value, "Message buffer must implement Utils::IMessageBuffer" );
-
-				LOG_DEBUG(log_helper, "Searching for supported message type...");
-
-				auto iter = received_messages.find ( buffer.getMessageType() );
-				if ( iter == received_messages.end() ) return false;
-
-				LOG_DEBUG(log_helper, "Message buffer found, ...");
-
-				iter->second.message_buffer.reset(new BufferClass( buffer ) );
-
-				LOG_DEBUG(log_helper, "Buffer registered...");
-
-				return true;
-			}
-			
-
 			COMPONENTSYSTEM_EXPORT
 			MessagingPoliciesManager& getMessagingPoliciesManager();
 			

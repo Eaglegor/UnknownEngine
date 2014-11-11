@@ -6,7 +6,6 @@
 #include <Converters/OgreColourValueConverter.h>
 #include <Converters/OgreQuaternionConverter.h>
 #include <ExportedMessages/TransformChangedMessage.h>
-#include <Listeners/StandardMessageBuffersFactory.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <MessageBuffers/OnlyLastMessageBuffer.h>
 #include <MessageSystem/BaseMessageListener.h>
@@ -77,17 +76,14 @@ namespace UnknownEngine
 		{
 			if(!listener) return;
 			
-			Utils::StandardMessageBuffersFactory<BaseOgreLightComponent> factory(this);
-			
 			if(can_be_multi_threaded)
 			{
 
 				{
 					typedef Core::TransformChangedMessage MessageType;
 					typedef Utils::OnlyLastMessageBuffer<MessageType> BufferType;
-
-					BufferType buffer = factory.createBuffer<BufferType>(&BaseOgreLightComponent::onTransformChanged);
-					listener->registerMessageBuffer(buffer);
+					
+					listener->createMessageBuffer<MessageType, BufferType>(this, &BaseOgreLightComponent::onTransformChanged);
 				}
 
 			}
@@ -98,8 +94,7 @@ namespace UnknownEngine
 					typedef Core::TransformChangedMessage MessageType;
 					typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
 
-					BufferType buffer = factory.createBuffer<BufferType>(&BaseOgreLightComponent::onTransformChanged);
-					listener->registerMessageBuffer(buffer);
+					listener->createMessageBuffer<MessageType, BufferType>(this, &BaseOgreLightComponent::onTransformChanged);
 				}
 
 				

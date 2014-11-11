@@ -29,7 +29,7 @@ namespace UnknownEngine
 		{
 		}
 
-		void ThreadIndependentOgreRenderSystemBase::initOgre()
+		void ThreadIndependentOgreRenderSystemBase::initOgre(const std::string &subsystem_name)
 		{
 			
 			LOG_INFO(log_helper, "Initializing OGRE");
@@ -60,9 +60,7 @@ namespace UnknownEngine
 			{
 				Ogre::String string_handle;
 
-				Core::MessageSender<Graphics::GetWindowHandleMessage> sender(
-					Core::MessageSystemParticipantId("OgreRenderSubsystem", Core::MessageSystemParticipantId::AutoRegistrationPolicy::AUTO_REGISTER),
-																	engine_context);
+				Core::MessageSender<Graphics::GetWindowHandleMessage> sender(subsystem_name, engine_context);
 				
 				Graphics::GetWindowHandleMessage msg;
 				msg.requested_window_name = desc.render_window_descriptor.window_name;

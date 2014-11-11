@@ -3,6 +3,7 @@
 #include <MessageSystem/Policies/IMessageDeliveryPolicy.h>
 #include <MessageSystem/MessageDispatcher.h>
 #include <MessageSystem/MessageDictionary.h>
+#include <MessageSystem/IMessageSystemParticipant.h>
 #include <MessageSystem/MessageSystemParticipantId.h>
 #include <EngineContext.h>
 #include <MessageSystem/PackedMessage.h>
@@ -15,30 +16,25 @@ namespace UnknownEngine
 		struct MessageSystemParticipantId;
 		
 		template<typename MessageClass>
-		class MessageSender
+		class MessageSender : public IMessageSystemParticipant
 		{
 		public:
 			
 			MessageSender(const std::string &sender_name, EngineContext* engine_context, IMessageDeliveryPolicy* message_delivery_policy = nullptr):
-			MessageSender(GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(sender_name), engine_context, message_delivery_policy)
-			{}
-			
-			MessageSender(const MessageSystemParticipantId &sender_info, EngineContext* engine_context, IMessageDeliveryPolicy* message_delivery_policy = nullptr):
+			IMessageSystemParticipant(sender_name),
 			engine_context(engine_context),
 			message_delivery_policy(message_delivery_policy),
-			sender_info(sender_info),
 			message_type( MESSAGE_TYPE_ID(MessageClass::getTypeName()) )
 			{}
 			
 			void sendMessage(const MessageClass& message)
 			{
-				engine_context->getMessageDispatcher()->deliverMessage( PackedMessage(message, message_type, sender_info), message_delivery_policy);
+				engine_context->getMessageDispatcher()->deliverMessage( PackedMessage(message, message_type, getMessageSystemParticipantId()), message_delivery_policy);
 			}
 			
 		private:
 			EngineContext* engine_context;
 			IMessageDeliveryPolicy* message_delivery_policy;
-			MessageSystemParticipantId sender_info;
 			MessageType message_type;
 		};
 		

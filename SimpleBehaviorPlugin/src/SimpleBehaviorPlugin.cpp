@@ -15,8 +15,6 @@
 
 #include <MessageSystem/BaseMessageListener.h>
 #include <MessageSystem/MessageSender.h>
-#include <Listeners/BaseMessageListenersFactory.h>
-#include <Listeners/StandardMessageBuffersFactory.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 
 namespace UnknownEngine
@@ -57,30 +55,22 @@ namespace UnknownEngine
 
 
 			stop_engine_message_sender.reset ( new Core::MessageSender<Core::StopEngineActionMessage>(
-				GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(std::string(getName())),
+				std::string(getName()),
 				engine_context
 			) );
 			
-			listener = std::move(
-				Utils::BaseMessageListenersFactory::createBaseMessageListener(
-					"SimpleBehaviorPlugin.Listeners.UpdateFrameListener",
-					engine_context,
-					desc.received_messages
-				) 
-			);
-			
-			Utils::StandardMessageBuffersFactory<SimpleBehaviorPlugin> factory(this);
+			listener.reset(new Core::BaseMessageListener(std::string(getName()), engine_context));
+			listener->initMessageSlots(desc.received_messages);
 			
 			{
 				typedef Core::UpdateFrameMessage MessageType;
 				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
 
-				BufferType buffer = factory.createBuffer<BufferType>(&SimpleBehaviorPlugin::onUpdateFrame);
-				listener->registerMessageBuffer(buffer);
+				listener->createMessageBuffer<MessageType, BufferType>(this, &SimpleBehaviorPlugin::onUpdateFrame);
 			}
 			
 			Core::MessageSender<IO::AddSimpleActionMessage> add_action_sender(
-				GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(std::string(getName())),
+				std::string(getName()),
 				engine_context
 			);
 			IO::AddSimpleActionMessage msg;

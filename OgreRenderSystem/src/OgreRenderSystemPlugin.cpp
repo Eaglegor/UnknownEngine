@@ -105,7 +105,7 @@ namespace UnknownEngine
 		{
 			LOG_INFO ( log_helper, "Initializing OGRE render subsystem" );
 
-			render_system->start();
+			render_system->start(desc.name, desc.received_messages);
 
 			LOG_INFO ( log_helper, "OGRE render system initialized" );
 
