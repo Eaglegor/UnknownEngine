@@ -21,7 +21,7 @@ namespace UnknownEngine
 			initOgre(name);
 
 			listener.reset ( new Core::BaseMessageListener(name, engine_context) );
-			listener->initMessageSlots(received_messages);
+			listener->registerSupportedMessageTypes(received_messages);
 
 			{
 				typedef Core::UpdateFrameMessage MessageType;
