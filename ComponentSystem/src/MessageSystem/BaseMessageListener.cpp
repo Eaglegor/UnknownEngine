@@ -36,6 +36,26 @@ namespace UnknownEngine
 			registerSupportedMessageType ( MESSAGE_TYPE_ID ( message_type_name ), receive_policy );
 		}
 
+		void BaseMessageListener::registerSupportedMessageTypes ( const ReceivedMessageDescriptorsList& received_messages_list )
+		{
+			for ( const Core::ReceivedMessageDesc & message : received_messages_list )
+			{
+				if ( message.receive_policy && getMessagingPoliciesManager().isPrefabReceivePolicyType ( message.receive_policy->receive_policy_type_name ) )
+				{
+					Core::IMessageReceivePolicy* receive_policy = getMessagingPoliciesManager().createPrefabReceiveMessagePolicy (
+					            message.receive_policy->receive_policy_type_name,
+					            message.receive_policy->receive_policy_options
+					        );
+
+					registerSupportedMessageType ( message.message_type_name, receive_policy );
+				}
+				else
+				{
+					registerSupportedMessageType ( message.message_type_name, nullptr );
+				}
+			}
+		}
+		
 		MessagingPoliciesManager& BaseMessageListener::getMessagingPoliciesManager()
 		{
 			return messaging_policies_manager;

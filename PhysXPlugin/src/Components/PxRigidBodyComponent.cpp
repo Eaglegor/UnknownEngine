@@ -125,7 +125,7 @@ namespace UnknownEngine
 		void PxRigidBodyComponent::initMessageListener(const Core::ReceivedMessageDescriptorsList& received_messages)
 		{
 			listener.reset(new Core::BaseMessageListener(std::string(getName()), engine_context));
-			listener->initMessageSlots(received_messages);
+			listener->registerSupportedMessageTypes(received_messages);
 
 			{
 				typedef Core::TransformChangedMessage MessageType;

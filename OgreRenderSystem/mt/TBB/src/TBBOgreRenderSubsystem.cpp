@@ -27,7 +27,7 @@ namespace UnknownEngine
 		{
 			
 			listener.reset ( new Core::BaseMessageListener(name, engine_context) );
-			listener->initMessageSlots(received_messages);
+			listener->registerSupportedMessageTypes(received_messages);
 			
 			if ( !desc.separate_rendering_thread )
 			{

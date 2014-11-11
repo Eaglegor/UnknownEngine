@@ -81,7 +81,7 @@ namespace UnknownEngine
 			engine_context->getComponentsManager()->addComponentFactory(px_joint_components_factory.get());
 
 			listener.reset(new Core::BaseMessageListener(getName(), engine_context));
-			listener->initMessageSlots(raw_desc.received_messages);
+			listener->registerSupportedMessageTypes(raw_desc.received_messages);
 			
 			{
 				typedef Core::UpdateFrameMessage MessageType;

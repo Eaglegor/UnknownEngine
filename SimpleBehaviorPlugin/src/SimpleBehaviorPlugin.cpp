@@ -60,7 +60,7 @@ namespace UnknownEngine
 			) );
 			
 			listener.reset(new Core::BaseMessageListener(std::string(getName()), engine_context));
-			listener->initMessageSlots(desc.received_messages);
+			listener->registerSupportedMessageTypes(desc.received_messages);
 			
 			{
 				typedef Core::UpdateFrameMessage MessageType;

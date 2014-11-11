@@ -27,7 +27,7 @@ namespace UnknownEngine
 		log_helper(log_helper)
 		{
 			listener.reset(new Core::BaseMessageListener(creation_options.name, creation_options.engine_context));
-			listener->initMessageSlots(creation_options.received_messages);
+			listener->registerSupportedMessageTypes(creation_options.received_messages);
 
 			LOG_INFO(log_helper, "Registering update frame message buffer");
 			{
