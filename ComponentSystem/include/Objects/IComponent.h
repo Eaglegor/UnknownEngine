@@ -79,18 +79,6 @@ namespace UnknownEngine
 				virtual void init ( const Entity* parent_entity ) = 0;
 
 				/**
-				 *  @brief Is called when the parent entity is started
-				 *
-				 *  At this moment it's known that all components of the entity are created.
-				 * 
-				 *  @deprecated I think, there is no need for such a method because we don't exactly want
-				 *  to have all components start their life simultaneously. We may want to add/delete components during
-				 *  the entity's lifetime.
-				 *
-				 */
-				virtual void start(){};
-
-				/**
 				 *  @brief Is called when the parent entity is about to be destroyed
 				 *
 				 * Stop any logic there. Prepare to destruction;
