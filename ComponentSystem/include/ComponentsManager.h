@@ -9,6 +9,7 @@
 #include <string>
 #include <list>
 #include <vector>
+#include <memory>
 
 #include <ComponentSystem_export.h>
 #include <Singleton.h>
@@ -22,6 +23,11 @@
 
 namespace UnknownEngine
 {
+	namespace Utils
+	{
+		class NameGenerator;
+	}
+
 	namespace Core
 	{
 
@@ -109,7 +115,10 @@ namespace UnknownEngine
 				COMPONENTSYSTEM_EXPORT
 				virtual void clearEntities ( );
 
-
+				
+				COMPONENTSYSTEM_EXPORT
+				virtual Utils::NameGenerator* getNameGenerator();
+				
 				/**
 				 * @brief Creates the component
 				 * @param desc - Component descriptor
@@ -129,6 +138,7 @@ namespace UnknownEngine
 				ComponentFactoriesMap component_factories; ///< Map of registered component factories
 				InternalDictionaryType internal_dictionary; ///< Internal dictionary implementation to assign identifiers to names
 				std::vector<Entity*> entities;
+				std::unique_ptr<Utils::NameGenerator> name_generator;
 
 		};
 

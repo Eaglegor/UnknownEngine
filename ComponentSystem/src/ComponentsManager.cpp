@@ -14,9 +14,10 @@
 #include <algorithm>
 #include <Objects/Entity.h>
 
-//#define ENABLE_CORE_SUBSYSTEM_INFO_LOG
+#define ENABLE_CORE_SUBSYSTEM_INFO_LOG
 #define ENABLE_CORE_SUBSYSTEM_ERROR_LOG
 #include <CoreLogging.h>
+#include <NameGenerators/GuidNameGenerator.h>
 
 namespace UnknownEngine
 {
@@ -27,7 +28,8 @@ namespace UnknownEngine
 		ComponentsManager* Singleton<ComponentsManager>::instance = nullptr;
 
 		ComponentsManager::ComponentsManager() :
-			internal_dictionary ( "ComponentsManager.Dictionary", NUMERIC_IDENTIFIER_INITIAL_VALUE, INVALID_NUMERIC_IDENTIFIER )
+			internal_dictionary ( "ComponentsManager.Dictionary", NUMERIC_IDENTIFIER_INITIAL_VALUE, INVALID_NUMERIC_IDENTIFIER ),
+			name_generator(new Utils::GuidNameGenerator())
 		{
 		}
 
@@ -115,7 +117,11 @@ namespace UnknownEngine
 			}
 		}
 
-
+		Utils::NameGenerator* ComponentsManager::getNameGenerator()
+		{
+			return name_generator.get();
+		}
+		
 	} /* namespace Core */
 } /* namespace UnknownEngine */
 
