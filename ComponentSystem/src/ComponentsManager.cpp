@@ -70,7 +70,7 @@ namespace UnknownEngine
 					CORE_SUBSYSTEM_INFO ( "Found suitable factory : " + std::string(factory.second->getName()) );
 					IComponent* component = factory.second->createObject ( desc );
 					CORE_SUBSYSTEM_INFO ( "Attaching component '" + desc.name + "' to the entity '" + parent_entity->getName() + "'" );
-					parent_entity->addComponent ( desc.name, component );
+					parent_entity->addComponent ( component );
 					CORE_SUBSYSTEM_INFO ( "Component '" + desc.name + "' created" );
 					return component;
 				}

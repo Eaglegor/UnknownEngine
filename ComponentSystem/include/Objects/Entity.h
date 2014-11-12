@@ -59,23 +59,7 @@ namespace UnknownEngine
 
 				COMPONENTSYSTEM_EXPORT
 				virtual ~Entity ();
-
-				/**
-				 * @brief Adds a component to the entity
-				 * @param name - Local name of the component
-				 * @param component - Component to add
-				 */
-				COMPONENTSYSTEM_EXPORT
-				void addComponent ( const std::string &name, IComponent *component );
-
-				/**
-				 * @brief Removes the component from the entity
-				 * @param name - Local name of component to remove
-				 *
-				 */
-				COMPONENTSYSTEM_EXPORT
-				void removeComponent ( const std::string &name );
-
+				
 				/**
 				 * @brief Returns the entity name
 				 * @return Entity name
@@ -84,27 +68,21 @@ namespace UnknownEngine
 				const std::string& getName();
 
 				/**
-				 * @brief Starts the entity's life
-				 *
-				 * This method must be called to notify entity that all it's components are created and can be started.
-				 * The main purpose: minimize processing inside unfinished entities. The components if they depend on some other
-				 * components must not start until the start method is called
+				 * @brief Adds a component to the entity
+				 * @param component - Component to add
+				 */
+				COMPONENTSYSTEM_EXPORT
+				void addComponent ( IComponent *component );
+
+				/**
+				 * @brief Removes the component from the entity
+				 * @param name - Local name of component to remove
 				 *
 				 */
 				COMPONENTSYSTEM_EXPORT
-				void start();
-
-				/**
-				  * @brief Returns the stored components map
-				  */
-				UNKNOWNENGINE_INLINE
-				const std::unordered_map<std::string, IComponent*>& getComponents()
-				{
-					return components;
-				}
-
+				void removeComponent ( IComponent *component );
+				
 			private:
-
 				typedef std::unordered_map<std::string, IComponent*> InternalMapType;
 
 				InternalMapType components; ///< Components map

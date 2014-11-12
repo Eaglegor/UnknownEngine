@@ -33,33 +33,25 @@ namespace UnknownEngine
 			}
 		}
 
-		void Entity::addComponent ( const std::string &name, IComponent *component )
+		void Entity::addComponent ( IComponent *component )
 		{
-			if ( components.find ( name ) != components.end() ) throw DuplicateComponentNameException ( "Duplicate component name: " + name );
+			if ( components.find ( component->getName() ) != components.end() ) throw DuplicateComponentNameException ( "Component already added: " + std::string(component->getName()) );
 
-			CORE_SUBSYSTEM_INFO ( "Initializing component '" + std::string(component->getName()) + "'" );
+			CORE_SUBSYSTEM_INFO ( "Initializing component '" + component->getName() + "'" );
 			component->init ( this );
-			components[name] = component;
+			components[component->getName()] = component;
 		}
 
-		void Entity::removeComponent ( const std::string &name )
+		void Entity::removeComponent ( IComponent *component )
 		{
-			if ( components.find ( name ) != components.end() ) throw ComponentNotFoundException ( "Can't find the component with the name " + name );
-			components_manager->removeComponent ( components[name] );
+			if ( components.find ( std::string(component->getName()) ) != components.end() ) throw ComponentNotFoundException ( "Entity doesn't contain component " + std::string(component->getName()) );
+			components_manager->removeComponent ( components[component->getName()] );
 			components.erase ( name );
 		}
 
 		const std::string &Entity::getName()
 		{
 			return name;
-		}
-
-		void Entity::start()
-		{
-			for ( auto & iter : components )
-			{
-				iter.second->start();
-			}
 		}
 
 	} /* namespace Core */
