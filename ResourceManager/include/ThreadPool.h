@@ -12,7 +12,7 @@ namespace UnknownEngine
 {
     namespace Core
     {
-        class ThreadPool : public Singleton<ThreadPool>
+        class ThreadPool : public Singleton<ThreadPool, size_t>
         {
         public:
             ThreadPool(size_t workers_count);

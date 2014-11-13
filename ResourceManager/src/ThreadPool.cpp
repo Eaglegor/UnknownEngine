@@ -9,7 +9,7 @@ namespace UnknownEngine
 	{
 
 		template<>
-		ThreadPool* Singleton<ThreadPool>::instance = nullptr;
+		ThreadPool* Singleton<ThreadPool, size_t>::instance = nullptr;
 
 		ThreadPool::ThreadPool ( size_t workers_count ) :
 			is_shutdown ( false ),

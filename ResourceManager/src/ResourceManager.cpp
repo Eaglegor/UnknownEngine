@@ -17,13 +17,13 @@ namespace UnknownEngine {
 
 		ResourceManager::ResourceManager() :
 			internal_dictionary("ResourceManager.Dictionary", NUMERIC_IDENTIFIER_INITIAL_VALUE, INVALID_NUMERIC_IDENTIFIER),
-			thread_pool(new ThreadPool(2))
+			thread_pool(ThreadPool::createInstance(2))
 		{
 		}
 
 		ResourceManager::~ResourceManager()
 		{
-			delete thread_pool;
+			ThreadPool::destroyInstance();
 		}
 		
 		void ResourceManager::addDataProviderFactory(Loader::IDataProviderFactory * factory)

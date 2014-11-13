@@ -41,6 +41,9 @@ namespace UnknownEngine
 	namespace Core
 	{
 
+		template<>
+		PluginsManager* Singleton<PluginsManager, EngineContext*>::instance = nullptr;
+
 		typedef Plugin* (*PluginStartPoint) ( UnknownEngine::Core::PluginsManager*, const SubsystemDesc &desc);
 		typedef void (*PluginShutdownPoint) ( void );
 
