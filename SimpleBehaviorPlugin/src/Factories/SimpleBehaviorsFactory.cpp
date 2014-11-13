@@ -1,14 +1,15 @@
 #include <stdafx.h>
-#include <SimpleBehaviorsFactory.h>
+#include <Factories/SimpleBehaviorsFactory.h>
 #include <ComponentDesc.h>
 #include <MessageSystem/MessageSystemParticipantDictionary.h>
-#include <SimpleRotationComponent.h>
+#include <Components/SimpleRotationComponent.h>
 #include <EngineContext.h>
 #include <SimpleBehaviorsPerformer.h>
-#include <MouseLookComponent.h>
-#include <MouseLookComponentDescriptorGetter.h>
-#include <SimpleCreateJointComponent.h>
-#include <SimpleCreateJointComponentDescriptorGetter.h>
+#include <Components/MouseLookComponent.h>
+#include <Parsers/MouseLookComponentDescriptorGetter.h>
+#include <Components/SimpleCreateJointComponent.h>
+#include <Parsers/SimpleCreateJointComponentDescriptorGetter.h>
+#include <Parsers/SimpleRotationComponentDescriptorGetter.h>
 
 #include <Transform/Transform.h>
 
@@ -17,6 +18,7 @@ namespace UnknownEngine
 	namespace Behavior
 	{
 		
+		static SimpleRotationComponentDescriptorGetter rotation_descriptor_getter;
 		static MouseLookComponentDescriptorGetter mouse_look_descriptor_getter;
 		static SimpleCreateJointComponentDescriptorGetter simple_create_joint_descriptor_getter;
 		
@@ -43,7 +45,8 @@ namespace UnknownEngine
 
 		Core::IComponent* SimpleBehaviorsFactory::createSimpleRotationComponent ( const Core::ComponentDesc& desc )
 		{
-			SimpleRotationComponent* component = new SimpleRotationComponent(desc.name, engine_context);
+			SimpleRotationComponentDesc component_desc = desc.descriptor.apply_visitor(rotation_descriptor_getter);
+			SimpleRotationComponent* component = new SimpleRotationComponent(desc.name, component_desc, engine_context);
 			behaviors_performer->addSimpleBehaviorComponent(component);
 			return component;
 		}

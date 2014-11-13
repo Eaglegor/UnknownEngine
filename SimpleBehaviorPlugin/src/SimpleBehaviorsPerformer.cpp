@@ -1,6 +1,6 @@
 #include <stdafx.h>
 #include <SimpleBehaviorsPerformer.h>
-#include <SimpleBehaviorComponent.h>
+#include <Components/SimpleBehaviorComponent.h>
 
 namespace UnknownEngine
 {

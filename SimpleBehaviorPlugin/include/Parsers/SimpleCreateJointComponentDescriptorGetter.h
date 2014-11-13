@@ -1,7 +1,7 @@
 #pragma once
 
 #include <boost/variant.hpp>
-#include <SimpleCreateJointComponentDesc.h>
+#include <Descriptors/SimpleCreateJointComponentDesc.h>
 #include <DescriptorContainer.h>
 #include <Exception.h>
 #include <Properties/Properties.h>

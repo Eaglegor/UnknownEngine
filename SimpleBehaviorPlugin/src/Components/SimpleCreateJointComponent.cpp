@@ -1,5 +1,5 @@
 #include <stdafx.h>
-#include <SimpleCreateJointComponent.h>
+#include <Components/SimpleCreateJointComponent.h>
 #include <EngineContext.h>
 #include <Objects/Entity.h>
 #include <ComponentsManager.h>

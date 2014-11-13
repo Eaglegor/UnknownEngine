@@ -1,5 +1,5 @@
 #include <stdafx.h>
-#include <MouseLookComponent.h>
+#include <Components/MouseLookComponent.h>
 
 #include <EngineContext.h>
 #include <MessageSystem/MessageDispatcher.h>

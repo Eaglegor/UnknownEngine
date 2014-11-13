@@ -10,6 +10,7 @@
 #include <InlineSpecification.h>
 #include <Plugins/Plugin.h>
 #include <SubsystemDesc.h>
+#include <Descriptors/SimpleBehaviorsPluginDesc.h>
 
 namespace UnknownEngine
 {
@@ -67,6 +68,8 @@ namespace UnknownEngine
 				std::unique_ptr<SimpleBehaviorsPerformer> behaviors_performer;
 				std::unique_ptr<Core::BaseMessageListener> listener;
 				std::unique_ptr<SimpleBehaviorsFactory> simple_behaviors_factory;
+				
+				SimpleBehaviorsPluginDesc plugin_desc;
 		};
 
 	} /* namespace Graphics */
