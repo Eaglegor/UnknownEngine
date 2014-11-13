@@ -45,19 +45,13 @@ namespace UnknownEngine
 				static void destroyInstance()
 				{
 					delete instance;
+					instance = nullptr;
 				}
 
 			protected:
 				Singleton(){}
 
-				virtual ~Singleton()
-				{
-					if (instance)
-					{
-						delete instance;
-						instance = nullptr;
-					}
-				}
+				virtual ~Singleton(){}
 
 				explicit Singleton ( const Singleton& rhs );
 
