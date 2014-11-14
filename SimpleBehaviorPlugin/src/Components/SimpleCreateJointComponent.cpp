@@ -1,11 +1,12 @@
 #include <stdafx.h>
-#include <SimpleCreateJointComponent.h>
+#include <Components/SimpleCreateJointComponent.h>
 #include <EngineContext.h>
 #include <Objects/Entity.h>
 #include <ComponentsManager.h>
 #include <ComponentDesc.h>
 #include <MessageSystem/MessageSender.h>
 #include <ExportedMessages/InputContext/AddSimpleActionMessage.h>
+#include <NameGenerators/NameGenerator.h>
 
 namespace UnknownEngine
 {
@@ -64,9 +65,12 @@ namespace UnknownEngine
 		{
 			if(!joint_entity)
 			{
-				joint_entity = engine_context->getComponentsManager()->createEntity(std::string(getName()) + ".JointEntity" );
+				Core::ComponentsManager* components_manager = engine_context->getComponentsManager();
+				Utils::NameGenerator* name_generator = components_manager->getNameGenerator();
+				
+				joint_entity = components_manager->createEntity( name_generator->generateName() );
 				Core::ComponentDesc cdesc;
-				cdesc.name = joint_entity->getName() + ".Joint";
+				cdesc.name = name_generator->generateName();
 				cdesc.type = "Physics.Joint.Fixed";
 				Core::Properties props;
 				props.set<std::string>("actor1_name", desc.body1_name);

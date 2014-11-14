@@ -7,6 +7,7 @@
 #include <ExportedMessages/UpdateFrameMessage.h>
 #include <ExportedMessages/LogMessage.h>
 #include <Descriptors/OgreRenderSubsystemDescriptor.h>
+#include <MessageSystem/MessageListenerDesc.h>
 
 
 namespace boost
@@ -58,7 +59,7 @@ namespace UnknownEngine
 				
 				void loadResourcesFile(const std::string &filename);
 
-				virtual void start() = 0;
+				virtual void start(const std::string &name, const Core::ReceivedMessageDescriptorsList& received_messages) = 0;
 				virtual void stop() = 0;
 				
 				UNKNOWNENGINE_INLINE
@@ -73,7 +74,7 @@ namespace UnknownEngine
 
 				
 				
-				void initOgre();
+				void initOgre(const std::string &subsystem_name);
 				void shutdownOgre();
 				
 				std::unordered_map<std::string, Ogre::RenderWindow*> render_windows;

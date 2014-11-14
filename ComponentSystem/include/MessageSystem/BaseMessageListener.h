@@ -41,28 +41,31 @@ namespace UnknownEngine
 
 			COMPONENTSYSTEM_EXPORT
 			void registerSupportedMessageType( const MessageType& message_type_id, IMessageReceivePolicy* receive_policy);
+			
+			COMPONENTSYSTEM_EXPORT
+			void registerSupportedMessageTypes(const ReceivedMessageDescriptorsList& received_messages_list);
 
-			template<typename BufferClass>
-			bool registerMessageBuffer( const BufferClass &buffer)
+			template<typename MessageClass, typename BufferClass, typename... Args>
+			bool createMessageBuffer(Args&&... buffer_constructor_parameters)
 			{
-				static_assert(std::is_base_of<Utils::IMessageBuffer, BufferClass>::value, "Message buffer must implement Utils::IMessageBuffer" );
+				static_assert(std::is_base_of<Utils::IMessageBuffer, BufferClass>::value, "Message buffer must implement Utils::IMessageBuffer");
+				static_assert(std::is_base_of<Core::Message, MessageClass>::value, "Message class must inherit from Core::Message");
+				
+				auto iter = received_messages.find(MESSAGE_TYPE_ID(MessageClass::getTypeName()));
+				if (iter == received_messages.end()) {
+					LOG_DEBUG(log_helper, "Message slot not found at listener: " + getName() + " Message type: " + std::string(MessageClass::getTypeName()) +
+						". Listener is not listening to this message type.");
+					return false;
+				}
 
-				LOG_DEBUG(log_helper, "Searching for supported message type...");
+				LOG_DEBUG(log_helper, "Found message slot - creating buffer");
 
-				auto iter = received_messages.find ( buffer.getMessageType() );
-				if ( iter == received_messages.end() ) return false;
+				iter->second.message_buffer.reset(new BufferClass(std::forward<Args>(buffer_constructor_parameters)...));
 
-				LOG_DEBUG(log_helper, "Message buffer found, ...");
-
-				iter->second.setMessageBuffer( buffer );
-
-				LOG_DEBUG(log_helper, "Buffer registered...");
+				LOG_DEBUG(log_helper, "Message buffer created");
 
 				return true;
 			}
-
-			COMPONENTSYSTEM_EXPORT
-			MessagingPoliciesManager& getMessagingPoliciesManager();
 			
 			COMPONENTSYSTEM_EXPORT
 			virtual void processMessage ( const PackedMessage& msg );
@@ -77,7 +80,9 @@ namespace UnknownEngine
 			void unregisterAtDispatcher();
 			
 		private:
-
+			COMPONENTSYSTEM_EXPORT
+			MessagingPoliciesManager& getMessagingPoliciesManager();
+			
 			typedef std::recursive_mutex LockPrimitive;
 			
 			struct ReceivedMessage
@@ -91,12 +96,6 @@ namespace UnknownEngine
 				
 				ReceivedMessage(const ReceivedMessage &msg):
 				receive_policy(msg.receive_policy){};
-
-				template<typename T>
-				void setMessageBuffer(const T& new_message_buffer)
-				{
-					message_buffer.reset(new T(new_message_buffer));
-				}
 
 			};
 

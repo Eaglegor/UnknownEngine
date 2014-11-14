@@ -120,7 +120,6 @@ namespace UnknownEngine
 				}
 			}
 			
-			entity->start();
 			scene_loader->getConstantsHolder()->popScope();
 		}
 

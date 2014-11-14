@@ -1,6 +1,6 @@
 #pragma once
-#include <SimpleBehaviorComponent.h>
-#include <SimpleCreateJointComponentDesc.h>
+#include <Components/SimpleBehaviorComponent.h>
+#include <Descriptors/SimpleCreateJointComponentDesc.h>
 #include <MessageSystem/MessageSender.h>
 #include <ExportedMessages/RenderSystem/ChangeMaterialActionMessage.h>
 

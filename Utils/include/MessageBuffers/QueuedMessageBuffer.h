@@ -15,6 +15,10 @@ namespace UnknownEngine
 		class QueuedMessageBuffer : public MessageBuffer<MessageClass>
 		{
 		public:
+			template <typename MessageProcessorOwnerClass>
+			QueuedMessageBuffer(MessageProcessorOwnerClass *message_processor, void (MessageProcessorOwnerClass::*message_process_callback)(const MessageClass&)):
+			MessageBuffer<MessageClass>( std::bind(message_process_callback, message_processor, std::placeholders::_1) ){}
+			
 			QueuedMessageBuffer(std::function<void(const MessageClass&)> process_message_callback):
 			MessageBuffer<MessageClass>(process_message_callback){}
 			

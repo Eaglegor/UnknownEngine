@@ -96,5 +96,13 @@ namespace UnknownEngine {
 				ThreadPool* thread_pool;
 		};
 
+#ifdef _MSC_VER
+#ifndef ResourceManager_EXPORTS
+		extern template class RESOURCEMANAGER_EXPORT Singleton<ResourceManager>;
+#else
+		template class RESOURCEMANAGER_EXPORT Singleton<ResourceManager>;
+#endif
+#endif
+
 	} // namespace Core
 } // namespace UnknownEngine

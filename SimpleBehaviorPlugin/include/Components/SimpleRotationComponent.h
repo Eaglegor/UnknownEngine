@@ -1,10 +1,11 @@
 #pragma once
 #include <InlineSpecification.h>
-#include <SimpleBehaviorComponent.h>
+#include <Components/SimpleBehaviorComponent.h>
 #include <Quaternion.h>
 #include <AlignedNew.h>
 #include <MessageSystem/MessageSender.h>
 #include <ExportedMessages/TransformChangedMessage.h>
+#include <Descriptors/SimpleRotationComponentDesc.h>
 
 namespace UnknownEngine
 {
@@ -22,7 +23,7 @@ namespace UnknownEngine
 		UNKNOWNENGINE_ALIGNED_CLASS(16) SimpleRotationComponent : public SimpleBehaviorComponent
 		{
 		public:
-			explicit SimpleRotationComponent ( const std::string& name, Core::EngineContext* engine_context );
+			explicit SimpleRotationComponent ( const std::string& name, const SimpleRotationComponentDesc& desc, Core::EngineContext* engine_context );
 			virtual ~SimpleRotationComponent();
 				
 			UNKNOWNENGINE_INLINE
@@ -36,7 +37,7 @@ namespace UnknownEngine
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 			
 		private:
-			
+			SimpleRotationComponentDesc desc;
 			Core::MessageSender<Core::TransformChangedMessage> transform_changed_message_sender;
 			
 			Core::EngineContext* engine_context;

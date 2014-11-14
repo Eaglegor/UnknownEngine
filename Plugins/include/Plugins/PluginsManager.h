@@ -10,6 +10,7 @@
 #include <Plugins_export.h>
 #include <list>
 #include <Plugins/PluginError.h>
+#include <Singleton.h>
 
 namespace UnknownEngine
 {
@@ -24,7 +25,7 @@ namespace UnknownEngine
 		/**
 		 * @brief Core subsystem responsible for loading/unloading plugins
 		 */
-		class PluginsManager
+		class PluginsManager : public Singleton<PluginsManager, EngineContext*>
 		{
 			public:
 				/**
@@ -69,6 +70,14 @@ namespace UnknownEngine
 				std::list<Plugin*> plugins; ///< List of loaded plugins
 				std::list<void*> libraries_handlers; ///< List of loaded libraries handlers
 		};
+
+#ifdef _MSC_VER
+#ifndef Plugins_EXPORTS
+		extern template class PLUGINS_EXPORT Singleton<PluginsManager, EngineContext*>;
+#else
+		template class PLUGINS_EXPORT Singleton<PluginsManager, EngineContext*>;
+#endif
+#endif
 
 	} /* namespace Core */
 } /* namespace UnknownEngine */

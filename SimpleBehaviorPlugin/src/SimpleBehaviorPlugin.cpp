@@ -10,14 +10,14 @@
 #include <ExportedMessages/UpdateFrameMessage.h>
 #include <ExportedMessages/StopEngineActionMessage.h>
 #include <ExportedMessages/InputContext/AddSimpleActionMessage.h>
-#include <SimpleBehaviorsFactory.h>
+#include <Factories/SimpleBehaviorsFactory.h>
 #include <SimpleBehaviorsPerformer.h>
 
 #include <MessageSystem/BaseMessageListener.h>
 #include <MessageSystem/MessageSender.h>
-#include <Listeners/BaseMessageListenersFactory.h>
-#include <Listeners/StandardMessageBuffersFactory.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
+
+#include <Parsers/SimpleBehaviorsPluginDescriptorGetter.h>
 
 namespace UnknownEngine
 {
@@ -32,10 +32,15 @@ namespace UnknownEngine
 		{
 		}
 
-		bool SimpleBehaviorPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) 
+		bool SimpleBehaviorPlugin::install(Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc)
 		{
-		  
-			log_helper.reset ( new Utils::LogHelper(getName(), Utils::LogSeverity::INFO, plugins_manager->getEngineContext()) );
+			SimpleBehaviorsPluginDescriptorGetter descriptor_getter;
+			plugin_desc = desc.descriptor.apply_visitor(descriptor_getter);
+
+			if (plugin_desc.log_level > Utils::LogSeverity::NONE)
+			{
+				log_helper.reset(new Utils::LogHelper(getName(), plugin_desc.log_level, plugins_manager->getEngineContext()));
+			}
 		  
 			LOG_INFO(log_helper, "Logger initialized");
 			
@@ -57,30 +62,22 @@ namespace UnknownEngine
 
 
 			stop_engine_message_sender.reset ( new Core::MessageSender<Core::StopEngineActionMessage>(
-				GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(std::string(getName())),
+				std::string(getName()),
 				engine_context
 			) );
 			
-			listener = std::move(
-				Utils::BaseMessageListenersFactory::createBaseMessageListener(
-					"SimpleBehaviorPlugin.Listeners.UpdateFrameListener",
-					engine_context,
-					desc.received_messages
-				) 
-			);
-			
-			Utils::StandardMessageBuffersFactory<SimpleBehaviorPlugin> factory(this);
+			listener.reset(new Core::BaseMessageListener(std::string(getName()), engine_context));
+			listener->registerSupportedMessageTypes(desc.received_messages);
 			
 			{
 				typedef Core::UpdateFrameMessage MessageType;
 				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
 
-				BufferType buffer = factory.createBuffer<BufferType>(&SimpleBehaviorPlugin::onUpdateFrame);
-				listener->registerMessageBuffer(buffer);
+				listener->createMessageBuffer<MessageType, BufferType>(this, &SimpleBehaviorPlugin::onUpdateFrame);
 			}
 			
 			Core::MessageSender<IO::AddSimpleActionMessage> add_action_sender(
-				GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(std::string(getName())),
+				std::string(getName()),
 				engine_context
 			);
 			IO::AddSimpleActionMessage msg;
@@ -89,10 +86,10 @@ namespace UnknownEngine
 			msg.action_callback = std::bind(&SimpleBehaviorPlugin::stopEngine, this);
 			add_action_sender.sendMessage(msg);
 			
-			listener->registerAtDispatcher();
-			
 			if(!simple_behaviors_factory) simple_behaviors_factory.reset( new SimpleBehaviorsFactory(engine_context, behaviors_performer.get()) );
 			engine_context->getComponentsManager()->addComponentFactory(simple_behaviors_factory.get());
+
+			listener->registerAtDispatcher();
 			
 			return true;
 		}
@@ -100,10 +97,10 @@ namespace UnknownEngine
 		bool SimpleBehaviorPlugin::shutdown () 
 		{
 			LOG_INFO(log_helper, "Shutting down simple behavior plugin");
-		  
-			engine_context->getComponentsManager()->removeComponentFactory(simple_behaviors_factory.get());
-			
+
 			listener->unregisterAtDispatcher();
+			
+			engine_context->getComponentsManager()->removeComponentFactory(simple_behaviors_factory.get());
 			
 			return true;
 		}

@@ -3,7 +3,6 @@
 #include <LogHelper.h>
 #include <Listeners/OgreUpdateFrameListener.h>
 #include <MessageSystem/BaseMessageListener.h>
-#include <Listeners/StandardMessageBuffersFactory.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <MessageBuffers/OnlyLastMessageBuffer.h>
 #include <ExportedMessages/RenderSystem/WindowResizedMessage.h>
@@ -24,35 +23,28 @@ namespace UnknownEngine
 			
 		}
 		
-		void TBBOgreRenderSubsystem::start()
+		void TBBOgreRenderSubsystem::start(const std::string& name, const Core::ReceivedMessageDescriptorsList& received_messages)
 		{
 			
-			listener.reset ( new Core::BaseMessageListener(std::string("Graphics.Ogre.Listeners.UpdateFrameListener"), engine_context) );
-
-			listener->registerSupportedMessageType(Core::UpdateFrameMessage::getTypeName(), nullptr);
-			listener->registerSupportedMessageType(Graphics::WindowResizedMessage::getTypeName(), nullptr);
-			
-			Utils::StandardMessageBuffersFactory<TBBOgreRenderSubsystem> factory(this);
-			
+			listener.reset ( new Core::BaseMessageListener(name, engine_context) );
+			listener->registerSupportedMessageTypes(received_messages);
 			
 			if ( !desc.separate_rendering_thread )
 			{
-				initOgre();
+				initOgre(name);
 				
 				{
 					typedef Core::UpdateFrameMessage MessageType;
 					typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
 					
-					BufferType buffer = factory.createBuffer<BufferType, MessageType>(&TBBOgreRenderSubsystem::onFrameUpdated);
-					listener->registerMessageBuffer(buffer);
+					listener->createMessageBuffer<MessageType, BufferType>(static_cast<ThreadIndependentOgreRenderSystemBase*>(this), &ThreadIndependentOgreRenderSystemBase::onFrameUpdated);
 				}
 				
 				{
 					typedef Graphics::WindowResizedMessage MessageType;
 					typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
 					
-					BufferType buffer = factory.createBuffer<BufferType, MessageType>(&TBBOgreRenderSubsystem::onWindowResized);
-					listener->registerMessageBuffer(buffer);
+					listener->createMessageBuffer<MessageType, BufferType>(static_cast<ThreadIndependentOgreRenderSystemBase*>(this), &ThreadIndependentOgreRenderSystemBase::onWindowResized);
 				}
 				
 			}
@@ -63,14 +55,13 @@ namespace UnknownEngine
 					typedef Graphics::WindowResizedMessage MessageType;
 					typedef Utils::OnlyLastMessageBuffer<MessageType> BufferType;
 					
-					BufferType buffer = factory.createBuffer<BufferType, MessageType>(&TBBOgreRenderSubsystem::onWindowResized);
-					listener->registerMessageBuffer(buffer);
+					listener->createMessageBuffer<MessageType, BufferType>(static_cast<ThreadIndependentOgreRenderSystemBase*>(this), &ThreadIndependentOgreRenderSystemBase::onWindowResized);
 				}
 				
 				frame_listener.reset ( new OgreRenderFrameListener() );
-				rendering_thread.reset ( new boost::thread ( [this]()
+				rendering_thread.reset ( new boost::thread ( [this, name]()
 				{
-					initOgre();
+					initOgre(name);
 					addSynchronizeCallback("FlushMessageBuffers", [this](){listener->flushAllMessageBuffers();});
 					root->addFrameListener ( frame_listener.get() );
 					this->root->startRendering();

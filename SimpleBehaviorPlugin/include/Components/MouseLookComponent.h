@@ -1,7 +1,7 @@
 #pragma once
 #include <InlineSpecification.h>
-#include <SimpleBehaviorComponent.h>
-#include "MouseLookComponentDesc.h"
+#include <Components/SimpleBehaviorComponent.h>
+#include <Descriptors/MouseLookComponentDesc.h>
 #include <Transform/Transform.h>
 #include <AlignedNew.h>
 #include <MessageSystem/MessageSender.h>

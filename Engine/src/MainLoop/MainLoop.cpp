@@ -41,7 +41,7 @@ namespace UnknownEngine
 			UpdateFrameMessage msg;
 			
 			MessageSender<UpdateFrameMessage> update_frame_message_sender(
-				GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID("Engine"),
+				"Engine",
 				engine_context
 			);
 			

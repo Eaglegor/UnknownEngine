@@ -12,6 +12,10 @@ namespace UnknownEngine
 		class InstantForwardMessageBuffer : public MessageBuffer<MessageClass>
 		{
 		public:
+			template <typename MessageProcessorOwnerClass>
+			InstantForwardMessageBuffer(MessageProcessorOwnerClass *message_processor, void (MessageProcessorOwnerClass::*message_process_callback)(const MessageClass&)):
+			MessageBuffer<MessageClass>( std::bind(message_process_callback, message_processor, std::placeholders::_1) ){}
+			
 			InstantForwardMessageBuffer(std::function<void(const MessageClass&)> process_message_callback):
 			MessageBuffer<MessageClass>(process_message_callback){}
 			

@@ -83,22 +83,22 @@ namespace UnknownEngine
 			this->context.resource_manager->cleanup();
 			
 			CORE_SUBSYSTEM_INFO ( "Destroying plugins manager" );
-			delete this->plugins_manager;
+			PluginsManager::destroyInstance();
 
 			CORE_SUBSYSTEM_INFO ( "Destroying components manager" );
-			delete this->context.components_manager;
+			ComponentsManager::destroyInstance();
 
 			CORE_SUBSYSTEM_INFO ( "Destroying message system participant dictionary" );
-			delete this->context.message_system_participant_dictionary;
+			MessageSystemParticipantDictionary::destroyInstance();
 
 			CORE_SUBSYSTEM_INFO ( "Destroying resource manager" );
-			delete this->context.resource_manager;
+			ResourceManager::destroyInstance();
 
 			CORE_SUBSYSTEM_INFO ( "Destroying message dispatcher" );
-			delete this->context.message_dispatcher;
+			MessageDispatcher::destroyInstance();
 
 			CORE_SUBSYSTEM_INFO ( "Destroying message dictionary" );
-			delete this->context.message_dictionary;
+			MessageDictionary::destroyInstance();
 
 			CORE_SUBSYSTEM_INFO ( "Engine shutdown complete" );
 
@@ -120,22 +120,22 @@ namespace UnknownEngine
 			if ( state == STOPPED ) throw InvalidEngineStateException ( "Stopped engine initialization is not allowed. Call shutdown() prior." );
 
 			CORE_SUBSYSTEM_INFO ( "Creating message dictionary" );
-			context.message_dictionary = new MessageDictionary();
+			context.message_dictionary = MessageDictionary::createInstance();
 
 			CORE_SUBSYSTEM_INFO ( "Creating message dispatcher" );
-			context.message_dispatcher = new MessageDispatcher();
+			context.message_dispatcher = MessageDispatcher::createInstance();
 
 			CORE_SUBSYSTEM_INFO ( "Creating components manager" );
-			context.components_manager = new ComponentsManager();
+			context.components_manager = ComponentsManager::createInstance();
 
 			CORE_SUBSYSTEM_INFO ( "Creating resource manager" );
-			context.resource_manager = new ResourceManager();
+			context.resource_manager = ResourceManager::createInstance();
 
 			CORE_SUBSYSTEM_INFO ( "Creating message participant dictionary" );
-			context.message_system_participant_dictionary = new MessageSystemParticipantDictionary();
+			context.message_system_participant_dictionary = MessageSystemParticipantDictionary::createInstance();
 
 			CORE_SUBSYSTEM_INFO ( "Creating plugins manager" );
-			plugins_manager = new PluginsManager ( &context );
+			plugins_manager = PluginsManager::createInstance ( &context );
 
 			CORE_SUBSYSTEM_INFO ( "Creating engine message system participant id" );
 			message_system_participant_id.name = "Engine";

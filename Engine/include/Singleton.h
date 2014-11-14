@@ -8,6 +8,8 @@
 #pragma once
 
 #include <assert.h>
+#include <Exception.h>
+#include <memory>
 
 namespace UnknownEngine
 {
@@ -15,13 +17,19 @@ namespace UnknownEngine
 	{
 
 		/// Base for singleton classes
-		template<typename T>
+		template<typename T, typename... CtorArgs>
 		class Singleton
 		{
 			public:
-				virtual ~Singleton()
+
+				UNKNOWNENGINE_SIMPLE_EXCEPTION(SingletonAlreadyCreated);
+				UNKNOWNENGINE_SIMPLE_EXCEPTION(SingletonNotCreated);
+
+				static T* createInstance(CtorArgs&&... args)
 				{
-					instance = nullptr;
+					if (instance) throw SingletonAlreadyCreated("Singleton already created");
+					instance = new T(std::forward<CtorArgs>(args)...);
+					return instance;
 				}
 
 				/**
@@ -30,33 +38,24 @@ namespace UnknownEngine
 				 */
 				static T* getSingleton()
 				{
-					assert ( instance != nullptr );
+					if (!instance) throw SingletonNotCreated("Singleton was not created");
 					return instance;
 				}
 
-				/**
-				 * @brief sets singleton instance to a specified value. Old instance isn't deleted.
-				 * @param new_instance - a new instance to set to a singleton
-				 */
-				static void initSingletonInstance ( T* new_instance )
+				static void destroyInstance()
 				{
-					if ( instance == nullptr )
-					{
-						instance = new_instance;
-					}
+					delete instance;
+					instance = nullptr;
 				}
 
 			protected:
-				Singleton()
-				{
-					assert ( instance == nullptr );
-					instance = static_cast<T*> ( this );
-				}
+				Singleton(){}
+
+				virtual ~Singleton(){}
 
 				explicit Singleton ( const Singleton& rhs );
 
-				static T* instance; ///< Object instance
-
+				static T* instance;
 		};
 
 	} /* namespace Core */

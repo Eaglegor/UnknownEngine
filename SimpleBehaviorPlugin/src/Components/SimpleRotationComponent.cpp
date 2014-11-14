@@ -1,5 +1,5 @@
 #include <stdafx.h>
-#include <SimpleRotationComponent.h>
+#include <Components/SimpleRotationComponent.h>
 
 #include <ExportedMessages/TransformChangedMessage.h>
 #include <EngineContext.h>
@@ -9,9 +9,10 @@ namespace UnknownEngine
 {
 	namespace Behavior 
 	{
-		SimpleRotationComponent::SimpleRotationComponent ( const std::string& name, UnknownEngine::Core::EngineContext* engine_context ) : 
+		SimpleRotationComponent::SimpleRotationComponent ( const std::string& name, const SimpleRotationComponentDesc& desc, Core::EngineContext* engine_context ) : 
 		SimpleBehaviorComponent ( name ),
-		transform_changed_message_sender ( GET_OR_CREATE_MESSAGE_SYSTEM_PARTICIPANT_ID(name), engine_context ),
+		desc(desc),
+		transform_changed_message_sender (name, engine_context ),
 		engine_context(engine_context)
 		{
 			current_angle = 0;
@@ -32,6 +33,7 @@ namespace UnknownEngine
 			current_angle += 1.0 * dt;
 		
 			Core::TransformChangedMessage message;
+			message.new_transform.setPosition(desc.initial_transform.getPosition());
 			message.new_transform.setOrientation( Math::Quaternion(Math::AngleAxis(current_angle, Math::Vector3(0,1,0))) );
 			
 			transform_changed_message_sender.sendMessage(message);

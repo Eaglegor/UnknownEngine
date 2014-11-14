@@ -5,8 +5,6 @@
 #include <Parsers/ActionSlotsConfigParser.h>
 #include <Parsers/InputLayoutConfigParser.h>
 #include <MessageSystem/BaseMessageListener.h>
-#include <Listeners/BaseMessageListenersFactory.h>
-#include <Listeners/StandardMessageBuffersFactory.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 #include <MessageBuffers/QueuedMessageBuffer.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
@@ -28,16 +26,15 @@ namespace UnknownEngine
 		mouse_event_handler(this),
 		log_helper(log_helper)
 		{
-			listener = std::move(Utils::BaseMessageListenersFactory::createBaseMessageListener(creation_options.name, creation_options.engine_context, creation_options.received_messages));
+			listener.reset(new Core::BaseMessageListener(creation_options.name, creation_options.engine_context));
+			listener->registerSupportedMessageTypes(creation_options.received_messages);
 
 			LOG_INFO(log_helper, "Registering update frame message buffer");
-			Utils::StandardMessageBuffersFactory<InputContextMapper> factory(this);
 			{
 				typedef Core::UpdateFrameMessage MessageType;
 				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
 
-				BufferType buffer = factory.createBuffer<BufferType>(&InputContextMapper::update);
-				listener->registerMessageBuffer(buffer);
+				listener->createMessageBuffer<MessageType, BufferType>(this, &InputContextMapper::update);
 			}
 			
 			LOG_INFO(log_helper, "Registering add simple action message buffer");
@@ -45,17 +42,15 @@ namespace UnknownEngine
 				typedef AddSimpleActionMessage MessageType;
 				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
 				
-				BufferType buffer = factory.createBuffer<BufferType>(&InputContextMapper::addSimpleAction);
-				listener->registerMessageBuffer(buffer);
+				listener->createMessageBuffer<MessageType, BufferType>(this, &InputContextMapper::addSimpleAction);
 			}
 
 			LOG_INFO(log_helper, "Registering add range action message buffer");
 			{
 				typedef AddRangeActionMessage MessageType;
 				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
-				
-				BufferType buffer = factory.createBuffer<BufferType>(&InputContextMapper::addRangeAction);
-				listener->registerMessageBuffer(buffer);
+
+				listener->createMessageBuffer<MessageType, BufferType>(this, &InputContextMapper::addRangeAction);
 			}
 			
 			LOG_INFO(log_helper, "Registering on key pressed message buffer");
@@ -63,8 +58,7 @@ namespace UnknownEngine
 				typedef IO::KeyStateChangedMessage MessageType;
 				typedef Utils::QueuedMessageBuffer<MessageType> BufferType;
 
-				BufferType buffer = factory.createBuffer<BufferType>(&InputContextMapper::onKeyPressed);
-				listener->registerMessageBuffer(buffer);
+				listener->createMessageBuffer<MessageType, BufferType>(this, &InputContextMapper::onKeyPressed);
 			}
 
 			LOG_INFO(log_helper, "Registering on mouse button click message buffer");
@@ -72,8 +66,7 @@ namespace UnknownEngine
 				typedef IO::MouseButtonStateChangedMessage MessageType;
 				typedef Utils::QueuedMessageBuffer<MessageType> BufferType;
 				
-				BufferType buffer = factory.createBuffer<BufferType>(&InputContextMapper::onMouseButtonClick);
-				listener->registerMessageBuffer(buffer);
+				listener->createMessageBuffer<MessageType, BufferType>(this, &InputContextMapper::onMouseButtonClick);
 			}
 			
 			LOG_INFO(log_helper, "Registering on mouse moved message buffer");
@@ -81,8 +74,7 @@ namespace UnknownEngine
 				typedef IO::MouseMovedMessage MessageType;
 				typedef Utils::QueuedMessageBuffer<MessageType> BufferType;
 				
-				BufferType buffer = factory.createBuffer<BufferType>(&InputContextMapper::onMouseMoved);
-				listener->registerMessageBuffer(buffer);
+				listener->createMessageBuffer<MessageType, BufferType>(this, &InputContextMapper::onMouseMoved);
 			}
 			
 			LOG_INFO(log_helper, "Registering on mouse wheel moved message buffer");
@@ -90,8 +82,7 @@ namespace UnknownEngine
 				typedef IO::MouseWheelMovedMessage MessageType;
 				typedef Utils::QueuedMessageBuffer<MessageType> BufferType;
 				
-				BufferType buffer = factory.createBuffer<BufferType>(&InputContextMapper::onMouseWheelMoved);
-				listener->registerMessageBuffer(buffer);
+				listener->createMessageBuffer<MessageType, BufferType>(this, &InputContextMapper::onMouseWheelMoved);
 			}
 			
 			if(!desc.action_slots_config_file.empty())

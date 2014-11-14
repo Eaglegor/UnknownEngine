@@ -4,6 +4,7 @@
 #include <Properties/Properties.h>
 #include <PhysXSubsystemPlugin.h>
 #include <MessageSystem/MessageDictionary.h>
+#include <MessageSystem/BaseMessageListener.h>
 #include <ComponentsManager.h>
 #include <EngineContext.h>
 #include <LogHelper.h>
@@ -15,8 +16,6 @@
 #include <Factories/PxJointComponentsFactory.h>
 #include <Parsers/PhysXSubsystemDescriptorGetter.h>
 #include <ResourceManager.h>
-#include <Listeners/BaseMessageListenersFactory.h>
-#include <Listeners/StandardMessageBuffersFactory.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 
 namespace UnknownEngine
@@ -39,7 +38,10 @@ namespace UnknownEngine
 			this->desc = desc.descriptor.apply_visitor(descriptor_getter);
 			this->raw_desc = desc;
 			
-			log_helper.reset(new Utils::LogHelper(getName(), this->desc.log_level, plugins_manager->getEngineContext()));
+			if (this->desc.log_level > Utils::LogSeverity::NONE)
+			{
+				log_helper.reset(new Utils::LogHelper(getName(), this->desc.log_level, plugins_manager->getEngineContext()));
+			}
 		  
 			LOG_INFO(log_helper, "Logger initialized");
 			
@@ -81,22 +83,14 @@ namespace UnknownEngine
 			LOG_INFO(log_helper, "Registering PxJoint components factory");
 			engine_context->getComponentsManager()->addComponentFactory(px_joint_components_factory.get());
 
-			listener = std::move(
-				Utils::BaseMessageListenersFactory::createBaseMessageListener(
-					getName()  + ".Listener",
-					engine_context,
-					raw_desc.received_messages
-				) 
-			);
-			
-			Utils::StandardMessageBuffersFactory<PhysXSubsystem> message_buffers_factory(physx_subsystem.get());
+			listener.reset(new Core::BaseMessageListener(getName(), engine_context));
+			listener->registerSupportedMessageTypes(raw_desc.received_messages);
 			
 			{
 				typedef Core::UpdateFrameMessage MessageType;
 				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
 				
-				BufferType buffer = message_buffers_factory.createBuffer<BufferType>(&PhysXSubsystem::onUpdateFrame);
-				listener->registerMessageBuffer(buffer);
+				listener->createMessageBuffer<MessageType, BufferType>(physx_subsystem.get(), &PhysXSubsystem::onUpdateFrame);
 			}
 			
 			listener->registerAtDispatcher();

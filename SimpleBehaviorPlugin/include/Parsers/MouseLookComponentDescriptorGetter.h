@@ -1,7 +1,7 @@
 #pragma once
 
 #include <boost/variant.hpp>
-#include <MouseLookComponentDesc.h>
+#include <Descriptors/MouseLookComponentDesc.h>
 #include <DescriptorContainer.h>
 #include <Exception.h>
 #include <Properties/Properties.h>

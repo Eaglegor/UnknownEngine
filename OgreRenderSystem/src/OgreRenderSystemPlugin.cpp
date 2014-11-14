@@ -58,7 +58,10 @@ namespace UnknownEngine
 			OgreGetDescriptorVisitor<OgreRenderSubsystemDescriptor, OgreRenderSubsystemDescriptorParser> descriptor_getter;
 			OgreRenderSubsystemDescriptor render_system_desc = desc.descriptor.apply_visitor ( descriptor_getter );
 
-			log_helper.reset ( new Utils::LogHelper ( getName(), render_system_desc.log_level, engine_context ) );
+			if (render_system_desc.log_level > Utils::LogSeverity::NONE)
+			{
+				log_helper.reset(new Utils::LogHelper(getName(), render_system_desc.log_level, engine_context));
+			}
 
 			LOG_INFO ( log_helper, "Logger started" );
 
@@ -105,7 +108,7 @@ namespace UnknownEngine
 		{
 			LOG_INFO ( log_helper, "Initializing OGRE render subsystem" );
 
-			render_system->start();
+			render_system->start(desc.name, desc.received_messages);
 
 			LOG_INFO ( log_helper, "OGRE render system initialized" );
 

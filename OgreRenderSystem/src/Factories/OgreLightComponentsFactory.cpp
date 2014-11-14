@@ -11,8 +11,6 @@
 #include <Components/Lights/OgreSpotLightComponent.h>
 #include <Parsers/Descriptors/OgreSpotLightDescriptorParser.h>
 
-#include <Listeners/BaseMessageListenersFactory.h>
-
 #include <Factories/DefaultComponentCreatorFunc.h>
 
 #include <Factories/OgreGetDescriptorVisitor.h>
