@@ -13,7 +13,6 @@
 #include <WindowEventsProcessor.h>
 #include <SDLWindowManager.h>
 #include <SDLWindowDesc.h>
-#include <SDLWindowManagerDescriptor.h>
 #include <SDLWindowManagerDescriptorGetter.h>
 #include <MessageSystem/MessageDictionary.h>
 #include <EngineContext.h>
@@ -39,11 +38,16 @@ namespace UnknownEngine
 		{
 		}
 
-		bool SDLWindowManagerPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) 
+		bool SDLWindowManagerPlugin::install(Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc)
 		{
-		  
-			log_helper.reset( new Utils::LogHelper(getName(), Utils::LogSeverity::INFO, plugins_manager->getEngineContext()) );
-		  
+			SDLWindowManagerDescriptorGetter descriptor_getter;
+			wm_desc = desc.descriptor.apply_visitor(descriptor_getter);
+
+			if (wm_desc.log_level > Utils::LogSeverity::NONE)
+			{
+				log_helper.reset(new Utils::LogHelper(getName(), wm_desc.log_level, plugins_manager->getEngineContext()));
+			}
+
 			LOG_INFO(log_helper, "Logger initialized");
 			
 			LOG_INFO(log_helper, "Installing SDL plugin");
@@ -68,9 +72,6 @@ namespace UnknownEngine
 			window_manager.reset ( new SDLWindowManager(std::string(getName()), engine_context, log_helper.get()) );
 			window_manager->init(desc.received_messages);
 
-			SDLWindowManagerDescriptorGetter descriptor_getter;
-			
-			SDLWindowManagerDescriptor wm_desc = desc.descriptor.apply_visitor(descriptor_getter);
 			window_manager->createWindow( wm_desc.window_desc );
 
 			return true;

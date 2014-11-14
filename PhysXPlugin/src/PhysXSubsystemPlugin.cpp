@@ -38,7 +38,10 @@ namespace UnknownEngine
 			this->desc = desc.descriptor.apply_visitor(descriptor_getter);
 			this->raw_desc = desc;
 			
-			log_helper.reset(new Utils::LogHelper(getName(), this->desc.log_level, plugins_manager->getEngineContext()));
+			if (this->desc.log_level > Utils::LogSeverity::NONE)
+			{
+				log_helper.reset(new Utils::LogHelper(getName(), this->desc.log_level, plugins_manager->getEngineContext()));
+			}
 		  
 			LOG_INFO(log_helper, "Logger initialized");
 			

@@ -10,6 +10,7 @@
 #include <InlineSpecification.h>
 #include <Plugins/Plugin.h>
 #include <SubsystemDesc.h>
+#include <SDLWindowManagerDescriptor.h>
 
 namespace UnknownEngine
 {
@@ -52,7 +53,7 @@ namespace UnknownEngine
 				virtual bool uninstall() override;
 
 			private:
-
+				SDLWindowManagerDescriptor wm_desc;
 				std::unique_ptr<SDLWindowManager> window_manager;
 				Core::SubsystemDesc desc;
 				Core::EngineContext* engine_context;

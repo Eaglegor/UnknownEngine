@@ -37,7 +37,10 @@ namespace UnknownEngine
 			AssimpMeshDataLoaderDescriptorGetter descriptor_getter;
 			AssimpMeshDataLoaderDescriptor descriptor = desc.descriptor.apply_visitor(descriptor_getter);
 			
-			log_helper.reset( new Utils::LogHelper(getName(), descriptor.log_level, plugins_manager->getEngineContext()) );
+			if (descriptor.log_level > Utils::LogSeverity::NONE)
+			{ 
+				log_helper.reset( new Utils::LogHelper(getName(), descriptor.log_level, plugins_manager->getEngineContext()) );
+			}
 		  
 			LOG_INFO(log_helper, "Logger initialized");
 			

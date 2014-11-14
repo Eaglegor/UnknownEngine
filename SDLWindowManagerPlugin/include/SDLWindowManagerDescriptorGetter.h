@@ -39,7 +39,8 @@ namespace UnknownEngine
 								{"window_name", PropertiesParser::RequiredValue <std::string> ( desc.window_desc.window_name ) },
 								{"window_title", PropertiesParser::OptionalValue <std::string> ( desc.window_desc.window_title ) },
 								{"resizable", PropertiesParser::OptionalValue <bool> ( desc.window_desc.resizable ) },
-								{"fullscreen", PropertiesParser::OptionalValue <bool> ( desc.window_desc.full_screen ) }
+								{"fullscreen", PropertiesParser::OptionalValue <bool> ( desc.window_desc.full_screen ) },
+								{"log_level", PropertiesParser::OptionalValue<Utils::LogSeverity>(desc.log_level)}
 							} )
 						}
 					}

@@ -32,12 +32,15 @@ namespace UnknownEngine
 		{
 		}
 
-		bool SimpleBehaviorPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) 
+		bool SimpleBehaviorPlugin::install(Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc)
 		{
 			SimpleBehaviorsPluginDescriptorGetter descriptor_getter;
 			plugin_desc = desc.descriptor.apply_visitor(descriptor_getter);
-			
-			log_helper.reset ( new Utils::LogHelper(getName(), plugin_desc.log_level, plugins_manager->getEngineContext()) );
+
+			if (plugin_desc.log_level > Utils::LogSeverity::NONE)
+			{
+				log_helper.reset(new Utils::LogHelper(getName(), plugin_desc.log_level, plugins_manager->getEngineContext()));
+			}
 		  
 			LOG_INFO(log_helper, "Logger initialized");
 			
