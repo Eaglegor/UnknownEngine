@@ -1,6 +1,5 @@
 #pragma once
 
-#include <OgreRenderSubsystem_fwd.h>
 #include <Components/BaseOgreComponent.h>
 #include <ComponentType.h>
 #include <AlignedNew.h>
@@ -28,6 +27,7 @@ namespace UnknownEngine
 
 		class OgreCameraComponentListener;
 		struct CameraLookAtActionMessage;
+		class OgreRenderSubsystem;
 
 		const Core::ComponentType OGRE_CAMERA_COMPONENT_TYPE = "Graphics.Camera";
 

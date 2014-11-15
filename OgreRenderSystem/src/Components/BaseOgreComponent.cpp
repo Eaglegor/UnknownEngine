@@ -1,14 +1,16 @@
 #include <stdafx.h>
-#include <Components/TBBBaseOgreComponent.h>
-#include <TBBOgreRenderSubsystem.h>
+
+#include <Components/BaseOgreComponent.h>
+#include <OgreRenderSubsystem.h>
+#include <LogHelper.h>
 #include <MessageSystem/BaseMessageListener.h>
 
-namespace UnknownEngine
-{
+namespace UnknownEngine {
 	namespace Graphics
 	{
-		TBBBaseOgreComponent::TBBBaseOgreComponent ( const std::string& name, UnknownEngine::Graphics::OgreRenderSubsystem* render_subsystem, UnknownEngine::Core::EngineContext* engine_context ) :
-			ThreadIndependentOgreComponentBase ( name, render_subsystem, engine_context ),
+		BaseOgreComponent::BaseOgreComponent ( const std::string& name, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context ) :
+			Core::BaseComponent(name),
+			render_subsystem ( render_subsystem ),
 			shutdown_initialized(false)
 		{
 			render_subsystem->addSynchronizeCallback ( this->getName(), [this]()
@@ -20,12 +22,11 @@ namespace UnknownEngine
 				} );
 		}
 		
-		TBBBaseOgreComponent::~TBBBaseOgreComponent() 
-		{
+		BaseOgreComponent::~BaseOgreComponent() {
 			render_subsystem->removeSynchronizeCallback ( this->getName() );
 		}
 		
-		void TBBBaseOgreComponent::init ( const UnknownEngine::Core::Entity* parent_entity )
+		void BaseOgreComponent::init ( const UnknownEngine::Core::Entity* parent_entity )
 		{
 			if ( render_subsystem->hasSeparateRenderThreadEnabled() )
 			{
@@ -42,7 +43,7 @@ namespace UnknownEngine
 			}
 		}
 		
-		void TBBBaseOgreComponent::shutdown()
+		void BaseOgreComponent::shutdown()
 		{
 			if ( render_subsystem->hasSeparateRenderThreadEnabled() )
 			{
@@ -59,7 +60,10 @@ namespace UnknownEngine
 			}
 		}
 		
-		
-		
+		void BaseOgreComponent::setMessageListener ( std::unique_ptr< Core::BaseMessageListener > listener )
+		{
+			this->listener = std::move(listener);
+		}
+
 	}
 }

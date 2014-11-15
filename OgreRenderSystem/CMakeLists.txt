@@ -30,34 +30,17 @@ if(OGRE_FOUND)
   endif(WIN32)
 
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/config/plugins.cfg DESTINATION ${EXECUTABLE_DEPLOY_DIR})
-  
+ 
   find_package(TBB)
-  if(TBB_FOUND)
   
-	message(WARNING "${TARGET_NAME}: Intel Threading Building Blocks found - turning on multithreading")
-  
-	list(APPEND INCLUDED_HEADERS ${TBB_INCLUDE_DIRS})
-	list(APPEND LINKED_LIBS ${TBB_LIBRARIES})
-	link_directories(${TBB_LIBRARY_DIRS})
-
-    find_package(Boost 1.55.0 REQUIRED COMPONENTS system thread chrono)
-    list(APPEND LINKED_LIBS ${Boost_LIBRARIES})
-    link_directories(${Boost_LIBRARY_DIRS})
-	
-	list(APPEND INCLUDED_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/mt/TBB/include)
-	file(GLOB_RECURSE ADDITIONAL_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/mt/TBB/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/mt/TBB/*.h")
-	list(APPEND SOURCES ${ADDITIONAL_SOURCES})
-	
-  else()
-
-	message(WARNING "${TARGET_NAME}: No multithreading library found - using single threaded version")
-  
-	list(APPEND INCLUDED_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/mt/SingleThread/include)
-	file(GLOB_RECURSE ADDITIONAL_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/mt/SingleThread/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/mt/SingleThread/*.h")
-	list(APPEND SOURCES ${ADDITIONAL_SOURCES})
-	
-  endif()
-  
+	if(TBB_FOUND AND DISABLE_TBB)
+		message(STATUS "Intel Thread Building Blocks found")
+		add_definitions(-DOGRE_RS_WITH_TBB)
+		list(APPEND INCLUDED_HEADERS ${TBB_INCLUDE_DIRS})
+		list(APPEND LINKED_LIBS ${TBB_LIBRARIES})
+		link_directories(${TBB_LIBRARY_DIRS})
+	endif()
+ 
   include(${MODULE_TEMPLATE_CMAKELISTS_FILE})
   
 endif(OGRE_FOUND)
