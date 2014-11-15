@@ -1,6 +1,5 @@
 #pragma once
 
-#include <OgreRenderSubsystem_fwd.h>
 #include <Components/BaseOgreComponent.h>
 #include <MessageSystem/MessageListenerDesc.h>
 #include <Descriptors/Components/Lights/OgreLightSettings.h>
@@ -23,6 +22,7 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
+		class OgreRenderSubsystem;
 		class BaseOgreLightComponentListener;
 	
 		class BaseOgreLightComponent : public BaseOgreComponent

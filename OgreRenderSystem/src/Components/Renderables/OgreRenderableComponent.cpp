@@ -74,7 +74,7 @@ namespace UnknownEngine
 			scene_node->attachObject ( entity );
 			
 			LOG_INFO (log_helper, "Registering listener");
-			if(listener) listener->registerAtDispatcher();
+			if(listener && !listener->isRegisteredAtDispatcher()) listener->registerAtDispatcher();
 		}
 
 		void OgreRenderableComponent::internalShutdown()
@@ -127,7 +127,9 @@ namespace UnknownEngine
 
 					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreRenderableComponent::doChangeMaterial);
 				}
-				
+			
+				listener->registerAtDispatcher();
+			
 			}
 			else
 			{

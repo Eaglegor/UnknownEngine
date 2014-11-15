@@ -82,7 +82,7 @@ namespace UnknownEngine
 
 			this->scene_node->attachObject ( this->camera );
 			
-			if(listener) listener->registerAtDispatcher();
+			if(listener && !listener->isRegisteredAtDispatcher()) listener->registerAtDispatcher();
 		}
 
 		void OgreCameraComponent::internalShutdown()
@@ -110,7 +110,6 @@ namespace UnknownEngine
 
 			if ( can_be_multi_threaded )
 			{
-
 				{
 					typedef Core::TransformChangedMessage MessageType;
 					typedef Utils::OnlyLastMessageBuffer<MessageType> BufferType;
@@ -125,10 +124,12 @@ namespace UnknownEngine
 					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreCameraComponent::doLookAt);
 				}
 
+				listener->registerAtDispatcher();
+				
 			}
 			else
 			{
-
+				
 				{
 					typedef Core::TransformChangedMessage MessageType;
 					typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;

@@ -45,13 +45,14 @@ namespace UnknownEngine
 		class OgreRenderCallback;
 
 		class OgreUpdateFrameListener;
+		class OgreRenderFrameListener;
 
-		class ThreadIndependentOgreRenderSystemBase
+		class OgreRenderSubsystem
 		{
 			public:
 
-				explicit ThreadIndependentOgreRenderSystemBase ( const OgreRenderSubsystemDescriptor& desc, Utils::LogHelper* log_helper, Core::EngineContext* engine_context );
-				virtual ~ThreadIndependentOgreRenderSystemBase();
+				explicit OgreRenderSubsystem ( const OgreRenderSubsystemDescriptor& desc, Utils::LogHelper* log_helper, Core::EngineContext* engine_context );
+				virtual ~OgreRenderSubsystem();
 				
 				virtual void onFrameUpdated ( const Core::UpdateFrameMessage& msg );
 				virtual void onWindowResized( const Graphics::WindowResizedMessage& msg );
@@ -59,8 +60,8 @@ namespace UnknownEngine
 				
 				void loadResourcesFile(const std::string &filename);
 
-				virtual void start(const std::string &name, const Core::ReceivedMessageDescriptorsList& received_messages) = 0;
-				virtual void stop() = 0;
+				virtual void start(const std::string &name, const Core::ReceivedMessageDescriptorsList& received_messages);
+				virtual void stop();
 				
 				UNKNOWNENGINE_INLINE
 				Ogre::SceneManager* getSceneManager()
@@ -70,10 +71,25 @@ namespace UnknownEngine
 				
 				Ogre::RenderWindow* getRenderWindow(const std::string &name);
 				
-			protected:
+				void update();
+				
+				void addSynchronizeCallback ( const std::string &name, const std::function<void() > &callback );
+				
+				void removeSynchronizeCallback ( const std::string& name );
+				
+				void addInitCallback ( const std::function<void() > &callback );
+				
+				void addShutdownCallback ( const std::function<void() > &callback );
+				
+				void addRemoveCallback ( const std::function< void() >& callback );
 
+				UNKNOWNENGINE_INLINE
+				bool hasSeparateRenderThreadEnabled()
+				{
+					return desc.separate_rendering_thread;
+				}
 				
-				
+			private:
 				void initOgre(const std::string &subsystem_name);
 				void shutdownOgre();
 				
@@ -89,6 +105,9 @@ namespace UnknownEngine
 				std::unique_ptr<Core::BaseMessageListener> listener;
 				
 				OgreRenderSubsystemDescriptor desc;
+				
+				std::unique_ptr<boost::thread> rendering_thread;
+				std::unique_ptr<OgreRenderFrameListener> frame_listener;
 		};
 
 	} // namespace Graphics

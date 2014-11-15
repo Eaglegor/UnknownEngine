@@ -2,7 +2,7 @@
 
 #include <Ogre.h>
 #include <OgreFrameListener.h>
-#include <ThreadIndependentOgreRenderSystemBase.h>
+#include <OgreRenderSubsystem.h>
 #include <LogHelper.h>
 #include <EngineContext.h>
 
@@ -17,19 +17,24 @@
 #include <ExportedMessages/RenderSystem/WindowResizedMessage.h>
 #include <MessageSystem/BaseMessageListener.h>
 
+#include <MessageBuffers/InstantForwardMessageBuffer.h>
+#include <MessageBuffers/OnlyLastMessageBuffer.h>
+
+#include <OgreRenderFrameListener.h>
+
 namespace UnknownEngine
 {
 	namespace Graphics
 	{
 	
-		ThreadIndependentOgreRenderSystemBase::ThreadIndependentOgreRenderSystemBase ( const OgreRenderSubsystemDescriptor& desc, Utils::LogHelper* log_helper, Core::EngineContext* engine_context ):
+		OgreRenderSubsystem::OgreRenderSubsystem ( const OgreRenderSubsystemDescriptor& desc, Utils::LogHelper* log_helper, Core::EngineContext* engine_context ):
 		log_helper ( log_helper ),
 		engine_context(engine_context),
 		desc(desc)
 		{
 		}
 
-		void ThreadIndependentOgreRenderSystemBase::initOgre(const std::string &subsystem_name)
+		void OgreRenderSubsystem::initOgre(const std::string &subsystem_name)
 		{
 			
 			LOG_INFO(log_helper, "Initializing OGRE");
@@ -92,7 +97,7 @@ namespace UnknownEngine
 			if(desc.ogre_resources_filename) loadResourcesFile(desc.ogre_resources_filename.get());
 		}
 
-		void ThreadIndependentOgreRenderSystemBase::shutdownOgre()
+		void OgreRenderSubsystem::shutdownOgre()
 		{
 			LOG_INFO(log_helper, "Shutting down OGRE");
 			root->shutdown();
@@ -105,22 +110,23 @@ namespace UnknownEngine
 			delete ogre_log_manager;
 		}
 		
-		void ThreadIndependentOgreRenderSystemBase::onFrameUpdated ( const UnknownEngine::Core::UpdateFrameMessage& msg )
+		void OgreRenderSubsystem::onFrameUpdated ( const UnknownEngine::Core::UpdateFrameMessage& msg )
 		{
 			//LOG_DEBUG(log_helper, "Rendering frame");
 			if ( msg.stage == Core::UpdateFrameMessage::PROCESSING )
 			{
 				Ogre::WindowEventUtilities::messagePump();
+				if(frame_listener) frame_listener->update();
 				root->renderOneFrame();
 			}
 
 		}
 
-		ThreadIndependentOgreRenderSystemBase::~ThreadIndependentOgreRenderSystemBase()
+		OgreRenderSubsystem::~OgreRenderSubsystem()
 		{
 		}
 
-		void ThreadIndependentOgreRenderSystemBase::loadResourcesFile ( const std::string& filename )
+		void OgreRenderSubsystem::loadResourcesFile ( const std::string& filename )
 		{
 			Ogre::ConfigFile cf;
 			cf.load(filename);
@@ -147,7 +153,7 @@ namespace UnknownEngine
 			
 		}
 		
-		void ThreadIndependentOgreRenderSystemBase::onWindowResized ( const WindowResizedMessage& msg )
+		void OgreRenderSubsystem::onWindowResized ( const WindowResizedMessage& msg )
 		{
 			Ogre::RenderWindow *window = getRenderWindow(msg.window_name);
 			if(window != nullptr)
@@ -156,13 +162,110 @@ namespace UnknownEngine
 			}
 		}
 		
-		Ogre::RenderWindow* ThreadIndependentOgreRenderSystemBase::getRenderWindow ( const std::string& name )
+		Ogre::RenderWindow* OgreRenderSubsystem::getRenderWindow ( const std::string& name )
 		{
 			auto iter = render_windows.find(name);
 			if(iter == render_windows.end() ) return nullptr;
 			else return iter->second;
 		}
 
+		void OgreRenderSubsystem::start(const std::string& name, const Core::ReceivedMessageDescriptorsList& received_messages)
+		{
+			
+			listener.reset ( new Core::BaseMessageListener(name, engine_context) );
+			listener->registerSupportedMessageTypes(received_messages);
+			
+			frame_listener.reset ( new OgreRenderFrameListener() );
+			
+			if ( !desc.separate_rendering_thread )
+			{
+				initOgre(name);
+				
+				{
+					typedef Core::UpdateFrameMessage MessageType;
+					typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
+					
+					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreRenderSubsystem::onFrameUpdated);
+				}
+				
+				{
+					typedef Graphics::WindowResizedMessage MessageType;
+					typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
+					
+					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreRenderSubsystem::onWindowResized);
+				}
+				
+			}
+			else
+			{
+				
+				{
+					typedef Graphics::WindowResizedMessage MessageType;
+					typedef Utils::OnlyLastMessageBuffer<MessageType> BufferType;
+					
+					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreRenderSubsystem::onWindowResized);
+				}
+				
+				rendering_thread.reset ( new boost::thread ( [this, name]()
+				{
+					initOgre(name);
+					addSynchronizeCallback("FlushMessageBuffers", [this](){listener->flushAllMessageBuffers();});
+					root->addFrameListener ( frame_listener.get() );
+					this->root->startRendering();
+					root->removeFrameListener ( frame_listener.get() );
+					removeSynchronizeCallback("FlushMessageBuffers");
+					shutdownOgre();
+					frame_listener->setFinished();
+				} ) );
+			}
+			
+			if(listener) listener->registerAtDispatcher();
+		}
+		
+		void OgreRenderSubsystem::stop()
+		{
+			if(listener) listener->unregisterAtDispatcher();
+
+			if ( desc.separate_rendering_thread )
+			{
+				frame_listener->stopRendering();
+				LOG_INFO( log_helper, "Waiting for OGRE shutdown");
+				frame_listener->waitUntilFinished();
+				LOG_INFO( log_helper, "Ogre shut down");
+			}
+			else
+			{
+				shutdownOgre();
+			}
+			
+			frame_listener.reset();
+			
+		}
+		
+		void OgreRenderSubsystem::addSynchronizeCallback ( const std::string& name, const std::function< void() >& callback )
+		{
+			if(frame_listener) frame_listener->addSynchronizeCallback ( name, callback );
+		}
+		
+		void OgreRenderSubsystem::removeSynchronizeCallback ( const std::string& name )
+		{
+			if(frame_listener) frame_listener->removeSynchronizeCallback ( name );
+		}
+		
+		void OgreRenderSubsystem::addInitCallback ( const std::function< void() >& callback )
+		{
+			if(frame_listener) frame_listener->addInitCallback ( callback );
+		}
+		
+		void OgreRenderSubsystem::addShutdownCallback ( const std::function< void() >& callback )
+		{
+			if(frame_listener) frame_listener->addShutdownCallback ( callback );
+		}
+		
+		void OgreRenderSubsystem::addRemoveCallback ( const std::function< void() >& callback )
+		{
+			if(frame_listener) frame_listener->addRemoveCallback ( callback );
+		}
 	
 	} // namespace Graphics
 } // namespace UnknownEngine

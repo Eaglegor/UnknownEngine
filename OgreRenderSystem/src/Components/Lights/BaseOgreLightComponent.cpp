@@ -53,7 +53,7 @@ namespace UnknownEngine
 			
 			ogre_scene_node->attachObject(ogre_light);
 			
-			if(listener) listener->registerAtDispatcher();
+			if(listener && !listener->isRegisteredAtDispatcher()) listener->registerAtDispatcher();
 		}
 		
 		void BaseOgreLightComponent::internalShutdown()
@@ -86,6 +86,8 @@ namespace UnknownEngine
 					listener->createMessageBuffer<MessageType, BufferType>(this, &BaseOgreLightComponent::onTransformChanged);
 				}
 
+				listener->registerAtDispatcher();
+				
 			}
 			else
 			{

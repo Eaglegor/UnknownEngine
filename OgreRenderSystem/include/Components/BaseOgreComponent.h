@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Objects/BaseComponent.h>
-#include <OgreRenderSubsystem_fwd.h>
 
 #include <MessageSystem/MessagingPoliciesManager.h>
 
@@ -22,17 +21,25 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		class ThreadIndependentOgreComponentBase : public Core::BaseComponent
+		class OgreRenderSubsystem;
+		
+		class BaseOgreComponent : public Core::BaseComponent
 		{
 			public:
 				// Construction
-				ThreadIndependentOgreComponentBase ( const std::string &name, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context );
+				BaseOgreComponent ( const std::string &name, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context );
 
 				void setMessageListener(std::unique_ptr<Core::BaseMessageListener> listener);
 				
-				virtual ~ThreadIndependentOgreComponentBase();
+				virtual ~BaseOgreComponent();
 
+				virtual void init ( const Core::Entity* parent_entity ) override;
+
+				virtual void shutdown ( ) override;
+				
 			protected:
+				volatile bool shutdown_initialized;
+				
 				virtual void internalInit ( const Core::Entity* parent_entity ) = 0;
 				virtual void internalShutdown( ) = 0;
 

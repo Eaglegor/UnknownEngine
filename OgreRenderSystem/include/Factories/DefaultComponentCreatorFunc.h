@@ -3,7 +3,6 @@
 #include <EngineContext.h>
 #include <ComponentDesc.h>
 #include <MessageSystem/BaseMessageListener.h>
-#include <OgreRenderSubsystem_fwd.h>
 
 
 namespace UnknownEngine

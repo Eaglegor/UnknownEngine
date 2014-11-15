@@ -124,7 +124,14 @@
 
 		<entity name="MainCamera">
 		
-			<component name="Rotation" type="Behavior.MouseLook"/>
+			<component name="Rotation" type="Behavior.MouseLook">
+				<options_section>
+					<option name="input_context_name" value="MouseLook"/>
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:0, y:10, z:50)"/>
+					</options_section>
+				</options_section>
+			</component>
 			
 			<component type="Graphics.Camera" name="Camera">
 				

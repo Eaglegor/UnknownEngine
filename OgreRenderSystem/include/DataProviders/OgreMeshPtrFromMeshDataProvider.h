@@ -1,6 +1,5 @@
 #pragma once
 
-#include <OgreRenderSubsystem_fwd.h>
 #include <DataProviders/OgreMeshPtrProvider.h>
 #include <DataProvider/DataProviderType.h>
 #include <Descriptors/DataProviders/OgreMeshPtrFromMeshDataProviderDescriptor.h>
@@ -20,6 +19,8 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
+		class OgreRenderSubsystem;
+		
 		const Loader::DataProviderType OGRE_MESH_PTR_FROM_MESH_DATA_PROVIDER_TYPE = "Loader.OgreMeshPtr.OgreMeshPtrFromMeshDataProvider";
 		
 		class OgreMeshPtrFromMeshDataProvider : public OgreMeshPtrProvider

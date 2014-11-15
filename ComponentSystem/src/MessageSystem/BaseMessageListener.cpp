@@ -14,16 +14,17 @@ namespace UnknownEngine
 		BaseMessageListener::BaseMessageListener ( const std::string& object_name, EngineContext* engine_context ) : 
 		IMessageListener ( object_name ),
 		messaging_policies_manager(engine_context),
-		engine_context(engine_context)
+		engine_context(engine_context),
+		registered(false)
 		{
-			//log_helper.reset( new LogHelper(object_name, LogMessage::Severity::LOG_SEVERITY_DEBUG, engine_context ) );
+			//log_helper.reset( new Utils::LogHelper(object_name, Utils::LogSeverity::DEBUG, engine_context ) );
 		}
 		
 		BaseMessageListener::~BaseMessageListener()
 		{
 		}
 
-		void BaseMessageListener::registerSupportedMessageType ( const UnknownEngine::Core::MessageType& message_type_id, UnknownEngine::Core::IMessageReceivePolicy* receive_policy )
+		void BaseMessageListener::registerSupportedMessageType ( const MessageType& message_type_id, IMessageReceivePolicy* receive_policy )
 		{
 			LOG_DEBUG(log_helper, "Creating placeholder for message buffer");
 			received_messages.emplace ( message_type_id, ReceivedMessage(receive_policy) );
@@ -31,7 +32,7 @@ namespace UnknownEngine
 			LOG_DEBUG(log_helper, "Message type registered");
 		}
 
-		void BaseMessageListener::registerSupportedMessageType ( const std::string& message_type_name, UnknownEngine::Core::IMessageReceivePolicy* receive_policy )
+		void BaseMessageListener::registerSupportedMessageType ( const std::string& message_type_name, IMessageReceivePolicy* receive_policy )
 		{
 			registerSupportedMessageType ( MESSAGE_TYPE_ID ( message_type_name ), receive_policy );
 		}
@@ -65,7 +66,7 @@ namespace UnknownEngine
 		{
 			Utils::IMessageBuffer *buffer = findMessageBuffer(msg);
 
-			LOG_DEBUG(log_helper, "Pushing message to buffer");
+			LOG_DEBUG(log_helper, "Pushing message to buffer: " + MESSAGE_TYPE_NAME(msg.getMessageTypeId()));
 			if ( buffer != nullptr ) buffer->push ( msg );
 			
 			LOG_DEBUG(log_helper, "Message processed");
@@ -89,12 +90,19 @@ namespace UnknownEngine
 				LOG_DEBUG(log_helper, "Registering at message dispatcher");
 				if(iter.second.message_buffer) engine_context->getMessageDispatcher()->addListener(iter.first, this, iter.second.receive_policy);
 			}
+			registered = true;
 		}
 
 		void BaseMessageListener::unregisterAtDispatcher ( )
 		{
 			LOG_DEBUG(log_helper, "Unregistering at message dispatcher");
 			engine_context->getMessageDispatcher()->removeListener(this);
+			registered = false;
+		}
+		
+		bool BaseMessageListener::isRegisteredAtDispatcher()
+		{
+			return registered;
 		}
 		
 		Utils::IMessageBuffer* BaseMessageListener::findMessageBuffer ( const PackedMessage& msg )

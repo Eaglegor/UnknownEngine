@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Factories/BaseOgreComponentFactory.h>
-#include <OgreRenderSubsystem_fwd.h>
 
 namespace UnknownEngine
 {
@@ -19,6 +18,8 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
+		class OgreRenderSubsystem;
+		
 		class OgreRenderableComponentsFactory: public BaseOgreComponentFactory
 		{
 			public:

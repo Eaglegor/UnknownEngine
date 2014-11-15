@@ -79,6 +79,9 @@ namespace UnknownEngine
 			COMPONENTSYSTEM_EXPORT
 			void unregisterAtDispatcher();
 			
+			COMPONENTSYSTEM_EXPORT
+			bool isRegisteredAtDispatcher();
+			
 		private:
 			COMPONENTSYSTEM_EXPORT
 			MessagingPoliciesManager& getMessagingPoliciesManager();
@@ -108,6 +111,8 @@ namespace UnknownEngine
 			std::unique_ptr<Utils::LogHelper> log_helper;
 			
 			LockPrimitive lock_primitive;
+			
+			bool registered;
 		};
 
 	}

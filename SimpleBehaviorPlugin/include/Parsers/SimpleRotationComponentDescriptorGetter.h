@@ -20,7 +20,7 @@ namespace UnknownEngine
 			
 			SimpleRotationComponentDesc operator()(const Core::DescriptorContainer& descriptor) const
 			{
-				if(descriptor.isEmpty()) throw NoDescriptorProvided("No descriptor provided to create component");
+				if(descriptor.isEmpty()) return SimpleRotationComponentDesc();
 				return descriptor.get<SimpleRotationComponentDesc>();
 			}
 			
