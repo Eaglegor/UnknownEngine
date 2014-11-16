@@ -13,6 +13,7 @@
 #include <MessageSystem/MessageDispatcher.h>
 #include <MessageSystem/IMessageListener.h>
 #include <MessageSystem/PackedMessage.h>
+#include <MessageSystem/IMessageSender.h>
 
 //#define ENABLE_CORE_SUBSYSTEM_DEBUG_LOG
 #include <CoreLogging.h>
@@ -33,144 +34,120 @@ namespace UnknownEngine
 		{
 		}
 
-		void MessageDispatcher::addListener ( const MessageType &message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy )
+		void MessageDispatcher::addListener ( const MessageType &message_type, IMessageListener* listener, IMessageReceivePolicy* receive_policy )
 		{
-
-			if ( message_type_id == INVALID_NUMERIC_IDENTIFIER ) return;
-
-			RegisteredListener new_listener ( listener, receive_policy );
-
-			MessageListenersList* existing_list = getRegisteredListeners ( message_type_id );
-			if ( existing_list == nullptr )
+			std::lock_guard<LockPrimitive> guard(lock);
+			
+			auto iter = listeners.find(message_type);
+			if(iter == listeners.end())
 			{
-				MessageListenersList new_list;
-				new_list.push_back ( new_listener );
-				listeners.insert ( std::make_pair ( message_type_id, new_list ) );
+				iter = listeners.emplace(message_type, MessageListenersMap()).first;
 			}
-			else
-			{
-				existing_list->push_back ( new_listener );
-			}
-		}
-
-		void MessageDispatcher::addListener ( const std::string &message_type_name, IMessageListener* listener, IMessageReceivePolicy* receive_policy )
-		{
-			MessageType message_type_id = MessageDictionary::getSingleton ()->getMessageTypeId ( message_type_name );
-			addListener ( message_type_id, listener, receive_policy );
-		}
-
-		void MessageDispatcher::removeListener ( const MessageType &message_type_id, IMessageListener* listener )
-		{
-			if ( listener == nullptr ) return;
-			MessageListenersList* registered_listeners = getRegisteredListeners ( message_type_id );
-			if ( registered_listeners != nullptr )
-			{
-				MessageListenersList::iterator iter = registered_listeners->begin ();
-				while ( iter != registered_listeners->end () )
-				{
-					if ( *iter->listener == *listener ) iter = registered_listeners->erase ( iter );
-					else ++iter;
-				}
-			}
-		}
-
-		void MessageDispatcher::removeListener ( const std::string &message_type_name, IMessageListener* listener )
-		{
-			MessageType message_type_id = MessageDictionary::getSingleton ()->getMessageTypeId ( message_type_name );
-			removeListener ( message_type_id, listener );
+			MessageListenersMap &listeners_map = iter->second;
+			
+			RegisteredListener rlistener;
+			rlistener.listener = listener;
+			rlistener.receive_policy = receive_policy;
+			listeners_map.insert(std::make_pair(listener->getMessageSystemParticipantId(), rlistener));
+			onNewListener(message_type, listener, receive_policy);
 		}
 
 		void MessageDispatcher::removeListener ( IMessageListener* listener )
 		{
-			MessageListenersMap::iterator iter = listeners.begin ();
-			while ( iter != listeners.end () )
+			std::lock_guard<LockPrimitive> guard(lock);
+			onRemoveListener(listener);
+			
+			for(auto &message_type_iter : listeners)
 			{
-				removeListener ( iter->first, listener );
-				++iter;
+				message_type_iter.second.erase(listener->getMessageSystemParticipantId());
 			}
 		}
 
-		void MessageDispatcher::setListenerReceivePolicy ( const MessageType &message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy )
+		void MessageDispatcher::addSender ( const MessageType &message_type, IMessageSender* sender, IMessageDeliveryPolicy* delivery_policy )
 		{
-			if ( listener == nullptr ) return;
-			MessageListenersList* registered_listeners = getRegisteredListeners ( message_type_id );
-			if ( registered_listeners != nullptr )
+			std::lock_guard<LockPrimitive> guard(lock);
+			
+			auto iter = senders.find(message_type);
+			if(iter == senders.end())
 			{
-				MessageListenersList::iterator iter = registered_listeners->begin ();
-				while ( iter != registered_listeners->end () )
-				{
-					if ( *iter->listener == *listener ) iter->receive_policy = receive_policy;
-					++iter;
-				}
+				iter = senders.emplace(message_type, MessageSendersMap()).first;
+			}
+			MessageSendersMap &senders_map = iter->second;
+
+			RegisteredSender rsender;
+			rsender.sender = sender;
+			rsender.delivery_policy = delivery_policy;
+			senders_map.insert(std::make_pair(sender->getMessageSystemParticipantId(), rsender));
+			onNewSender(message_type, sender, delivery_policy);
+		}
+
+		void MessageDispatcher::removeSender ( IMessageSender* sender )
+		{
+			std::lock_guard<LockPrimitive> guard(lock);
+			onRemoveSender(sender);
+			
+			for(auto &message_type_iter : senders)
+			{
+				message_type_iter.second.erase(sender->getMessageSystemParticipantId());
 			}
 		}
 
-		void MessageDispatcher::setListenerReceivePolicy ( const std::string &message_type_name, IMessageListener* listener, IMessageReceivePolicy* receive_policy )
+		void MessageDispatcher::onNewListener (const MessageType &message_type, IMessageListener* listener, IMessageReceivePolicy* receive_policy )
 		{
-			MessageType message_type_id = MessageDictionary::getSingleton ()->getMessageTypeId ( message_type_name );
-			setListenerReceivePolicy ( message_type_id, listener, receive_policy );
-		}
+			auto message_type_iter = senders.find(message_type);
+			if(message_type_iter == senders.end()) return;
 
-		void MessageDispatcher::deliverMessage ( const PackedMessage &msg, IMessageDeliveryPolicy* delivery_policy ) const
-		{
-			const MessageListenersList* list = getRegisteredListeners ( msg.getMessageTypeId () );
-			if ( list != nullptr )
+			for(auto &iter : message_type_iter->second)
 			{
-				for ( RegisteredListener registered_listener : *list )
+				if(iter.second.delivery_policy == nullptr || iter.second.delivery_policy->allowDeliveryToListener(listener))
 				{
-					if ( delivery_policy == nullptr || delivery_policy->allowDeliveryToListener ( registered_listener.listener ) )
+					if(receive_policy == nullptr || receive_policy->allowReceiveFromSender(iter.second.sender))
 					{
-						if ( registered_listener.receive_policy == nullptr || registered_listener.receive_policy->acceptMessage ( msg ) )
-						{
-							registered_listener.listener->processMessage ( msg );
-							if ( delivery_policy != nullptr )
-							{
-								delivery_policy->notifySuccessfullyDelivered();
-							}
-						}
+						iter.second.sender->attachListener(listener, receive_policy);
 					}
 				}
 			}
-			else
+		}
+
+		void MessageDispatcher::onNewSender (const MessageType &message_type, IMessageSender* sender, IMessageDeliveryPolicy* delivery_policy  )
+		{
+			auto message_type_iter = listeners.find(message_type);
+			if(message_type_iter == listeners.end()) return;
+			
+			for(auto &iter : message_type_iter->second)
 			{
-				CORE_SUBSYSTEM_DEBUG( ("Cant find suitable listener for message type: " + MESSAGE_TYPE_NAME(msg.getMessageTypeId()) + "(" + std::to_string(msg.getMessageTypeId())) + ")" );
+				if(delivery_policy == nullptr || delivery_policy->allowDeliveryToListener(iter.second.listener))
+				{
+					if(iter.second.receive_policy == nullptr || iter.second.receive_policy->allowReceiveFromSender(sender))
+					{
+						sender->attachListener(iter.second.listener, iter.second.receive_policy);
+					}
+				}
 			}
-			if ( delivery_policy != nullptr )
+		}
+		
+		void MessageDispatcher::onRemoveListener ( IMessageListener* listener )
+		{
+			for(auto &message_type_iter : senders)
 			{
-				delivery_policy->notifyDeliveryFinished();
-			}
-		}
-
-		const MessageDispatcher::MessageListenersList* MessageDispatcher::getRegisteredListeners ( const MessageType &message_type_id ) const
-		{
-			MessageListenersMap::const_iterator existing_list = listeners.find ( message_type_id );
-			if ( existing_list == listeners.end () ) return nullptr;
-			return &existing_list->second;
-		}
-
-		MessageDispatcher::MessageListenersList* MessageDispatcher::getRegisteredListeners ( const MessageType &message_type_id )
-		{
-			MessageListenersMap::iterator existing_list = listeners.find ( message_type_id );
-			if ( existing_list == listeners.end () ) return nullptr;
-			return &existing_list->second;
-		}
-
-		void MessageDispatcher::addSniffer ( IMessageListener* listener, IMessageReceivePolicy* receive_policy )
-		{
-			RegisteredListener new_listener ( listener, receive_policy );
-			sniffers.push_back ( new_listener );
-		}
-
-		void MessageDispatcher::removeSniffer ( IMessageListener* listener )
-		{
-			MessageListenersList::iterator iter = sniffers.begin ();
-			while ( iter != sniffers.end () )
-			{
-				if ( *iter->listener == *listener ) iter = sniffers.erase ( iter );
-				else ++iter;
+				for(auto &iter : message_type_iter.second)
+				{
+					iter.second.sender->detachListener(listener);
+				}
 			}
 		}
 
+		void MessageDispatcher::onRemoveSender ( IMessageSender* sender )
+		{
+			for(auto &message_type_iter : listeners)
+			{
+				for(auto &iter : message_type_iter.second)
+				{
+					sender->detachListener(iter.second.listener);
+				}
+			}
+		}
+		
 	} /* namespace Core */
 } /* namespace UnknownEngine */
 

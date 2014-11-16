@@ -18,12 +18,17 @@ namespace UnknownEngine
 	namespace Core
 	{
 
+		class IMessageSender;
+
 		/**
 		 * @brief \ref IMessageReceivePolicy "Receive policy" allowing only messages from specific sender to be processed
 		 */
 		class FromSingleSenderMessageReceivePolicy: public IMessageReceivePolicy
 		{
 			public:
+				
+				virtual bool allowReceiveFromSender ( IMessageSender* message_sender ) override;
+				
 				/**
 				 * @brief Returns true if message sender is equal to expected
 				 * @param msg - Message to analyze
@@ -44,7 +49,7 @@ namespace UnknownEngine
 
 				static const MessagePolicyType getType()
 				{
-					return "FromSingleSenderMessageReceivePolicy";
+					return "FromSingleSender";
 				}
 
 			private:

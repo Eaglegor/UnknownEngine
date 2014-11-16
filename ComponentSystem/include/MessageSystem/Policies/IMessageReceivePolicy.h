@@ -14,6 +14,8 @@ namespace UnknownEngine
 	namespace Core
 	{
 
+		class IMessageSender;
+
 		class PackedMessage;
 
 		/**
@@ -37,6 +39,8 @@ namespace UnknownEngine
 		{
 			public:
 
+				virtual bool allowReceiveFromSender( IMessageSender* message_sender ) = 0;
+				
 				/**
 				 * @brief Determines if the message must be processed by a listener
 				 * @param msg - Message to analyze

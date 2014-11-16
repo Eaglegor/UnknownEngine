@@ -31,7 +31,7 @@ namespace UnknownEngine
 
 				static const MessagePolicyType getType()
 				{
-					return "BroadcastMessageDeliverPolicy";
+					return "Broadcast";
 				}
 
 				virtual ~BroadcastMessageDeliverPolicy () {}

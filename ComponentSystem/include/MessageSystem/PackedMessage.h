@@ -62,9 +62,8 @@ namespace UnknownEngine
 				 * @param sender_info - information about message sender
 				 */
 				template<typename T>
-				PackedMessage ( const T& message, const MessageSystemParticipantId &sender_info ):
+				PackedMessage ( const T& message):
 				message_type_id ( MESSAGE_TYPE_ID(T::getTypeName()) ), 
-				sender_info ( sender_info ),
 				message_container(message)
 				{
 				}
@@ -76,9 +75,8 @@ namespace UnknownEngine
 				 * @param sender_info - information about message sender
 				 */
 				template<typename T>
-				PackedMessage ( const T& message, MessageType message_type, const MessageSystemParticipantId &sender_info ):
+				PackedMessage ( const T& message, MessageType message_type ):
 				message_type_id ( message_type ), 
-				sender_info ( sender_info ),
 				message_container(message)
 				{
 				}
@@ -101,18 +99,6 @@ namespace UnknownEngine
 				}
 
 				/**
-				 *
-				 * @brief Returns information about message sender
-				 * @return Information about message sender
-				 *
-				 */
-				UNKNOWNENGINE_INLINE
-				MessageSystemParticipantId getSenderInfo () const
-				{
-					return sender_info;
-				}
-
-				/**
 				 * @brief Returns concrete message packed to this container
 				 * @return Concrete message class specified by a template
 				 * @throw boost::bad_any_cast if requested message type is not matching with stored
@@ -126,7 +112,6 @@ namespace UnknownEngine
 				
 			private:
 				MessageType message_type_id; ///< Numeric message type identifier
-				MessageSystemParticipantId sender_info; ///< Information about sender
 				boost::any message_container;
 
 		};

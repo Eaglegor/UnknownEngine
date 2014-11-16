@@ -13,6 +13,11 @@ namespace UnknownEngine
 {
 	namespace Core
 	{
+		bool AnyMessageReceivePolicy::allowReceiveFromSender ( IMessageSender* message_sender )
+		{
+			return true;
+		}
+		
 		bool AnyMessageReceivePolicy::acceptMessage ( const PackedMessage& msg )
 		{
 			return true;
