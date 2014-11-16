@@ -64,9 +64,15 @@ namespace UnknownEngine
 			Math::Scalar current_x_angle;
 			Math::Scalar current_y_angle;
 			
+			
+			bool moving_x_pos;
+			bool moving_x_neg;
+			bool moving_y_pos;
+			bool moving_y_neg;
+			bool moving_z_pos;
+			bool moving_z_neg;
+			
 			bool needs_update_quaternion;
-			Math::Scalar linear_speed;
-			Math::Scalar angular_speed;
 		};
 	}
 }
