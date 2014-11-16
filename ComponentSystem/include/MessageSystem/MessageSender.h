@@ -71,13 +71,13 @@ namespace UnknownEngine
 					RegisteredListener registered_listener;
 					registered_listener.listener = listener;
 					registered_listener.receive_policy = receive_policy;
-					listeners.insert(std::make_pair(listener->getMessageSystemParticipantId().id, registered_listener));
+					listeners.insert(std::make_pair(listener->getMessageSystemParticipantId(), registered_listener));
 				}
 			}
 			
 			virtual void detachListener ( IMessageListener* listener )
 			{
-				auto iter = listeners.find(listener->getMessageSystemParticipantId().id);
+				auto iter = listeners.find(listener->getMessageSystemParticipantId());
 				if(iter != listeners.end())
 				{
 					listeners.erase(iter);
@@ -101,7 +101,7 @@ namespace UnknownEngine
 			}
 
 			bool is_registered;
-			std::unordered_map<int, RegisteredListener> listeners;
+			std::unordered_map<MessageSystemParticipantId, RegisteredListener> listeners;
 		};
 		
 	}
