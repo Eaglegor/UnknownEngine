@@ -18,15 +18,19 @@ namespace UnknownEngine
 		desc(desc),
 		transform_changed_message_sender ( name, engine_context ),
 		engine_context(engine_context),
+		current_transform(desc.initial_transform),
 		forward_axis(-Math::Z_AXIS),
 		right_axis(Math::X_AXIS),
 		up_axis(Math::Y_AXIS),
 		current_x_angle(0),
 		current_y_angle(0),
-		needs_update_quaternion(false),
-		linear_speed(0.001f),
-		angular_speed(0.1f),
-		current_transform(desc.initial_transform)
+		moving_x_pos(false),
+		moving_x_neg(false),
+		moving_y_pos(false),
+		moving_y_neg(false),
+		moving_z_pos(false),
+		moving_z_neg(false),
+		needs_update_quaternion(false)
 		{
 		}
 
@@ -93,6 +97,23 @@ namespace UnknownEngine
 
 		void MouseLookComponent::act( Math::Scalar dt )
 		{
+			
+			Math::Vector3 position_change(0,0,0);
+			if(moving_x_neg) position_change -= right_axis * dt * desc.linear_speed;
+			if(moving_x_pos) position_change += right_axis * dt * desc.linear_speed;
+			if(moving_y_neg) position_change -= up_axis * dt * desc.linear_speed;
+			if(moving_y_pos) position_change += up_axis * dt * desc.linear_speed;
+			if(moving_z_neg) position_change -= forward_axis * dt*desc.linear_speed;
+			if(moving_z_pos) position_change += forward_axis * dt*desc.linear_speed;
+			current_transform.setPosition(current_transform.getPosition() + position_change);
+			
+			moving_x_neg = false;
+			moving_x_pos = false;
+			moving_y_neg = false;
+			moving_y_pos = false;
+			moving_z_neg = false;
+			moving_z_pos = false;
+			
 			if(needs_update_quaternion)
 			{
 				updateQuaternion();
@@ -112,44 +133,44 @@ namespace UnknownEngine
 	
 		void MouseLookComponent::moveBackward()
 		{
-			current_transform.setPosition(current_transform.getPosition() - forward_axis*linear_speed);
+			moving_z_neg = true;
 		}
 	
 		void MouseLookComponent::moveForward()
 		{
-			current_transform.setPosition(current_transform.getPosition() + forward_axis*linear_speed);
+			moving_z_pos = true;
 		}
 
 		void MouseLookComponent::pitch ( Math::Scalar amount )
 		{
-			current_x_angle -= amount*angular_speed;
+			current_x_angle -= amount*desc.angular_speed;
 			needs_update_quaternion = true;
 		}
 
 		void MouseLookComponent::yaw ( Math::Scalar amount )
 		{
-			current_y_angle -= amount*angular_speed;
+			current_y_angle -= amount*desc.angular_speed;
 			needs_update_quaternion = true;
 		}
 
 		void MouseLookComponent::strafeDown()
 		{
-			current_transform.setPosition(current_transform.getPosition() - up_axis*linear_speed);
+			moving_y_neg = true;
 		}
 
 		void MouseLookComponent::strafeLeft()
 		{
-			current_transform.setPosition(current_transform.getPosition() - right_axis*linear_speed);
+			moving_x_neg = true;
 		}
 
 		void MouseLookComponent::strafeRight()
 		{
-			current_transform.setPosition(current_transform.getPosition() + right_axis*linear_speed);
+			moving_x_pos = true;
 		}
 
 		void MouseLookComponent::strafeUp()
 		{
-			current_transform.setPosition(current_transform.getPosition() + up_axis*linear_speed);
+			moving_y_pos = true;
 		}
 	
 		void MouseLookComponent::updateAxisDirections()

@@ -43,7 +43,7 @@ namespace UnknownEngine
 
 				static const MessagePolicyType getType()
 				{
-					return "SingleReceiverMessageDeliverPolicy";
+					return "SingleReceiver";
 				}
 
 			private:

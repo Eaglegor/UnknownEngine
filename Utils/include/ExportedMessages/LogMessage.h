@@ -22,6 +22,7 @@ namespace UnknownEngine
 		{
 			constexpr static const char* getTypeName(){return "Utils.LogMessage";}
 			
+			std::string sender_info;
 			std::string log_entry;
 			LogSeverity severity;
 		};

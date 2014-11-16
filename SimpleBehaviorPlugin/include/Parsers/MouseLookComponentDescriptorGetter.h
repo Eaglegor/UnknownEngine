@@ -50,7 +50,9 @@ namespace UnknownEngine
 						{"strafe_up_action_name", PropertiesParser::OptionalValue<std::string>(desc.strafe_up_action_name)},
 						{"strafe_down_action_name", PropertiesParser::OptionalValue<std::string>(desc.strafe_down_action_name)},
 						{"yaw_action_name", PropertiesParser::OptionalValue<std::string>(desc.yaw_action_name)},
-						{"pitch_action_name", PropertiesParser::OptionalValue<std::string>(desc.pitch_action_name)}
+						{"pitch_action_name", PropertiesParser::OptionalValue<std::string>(desc.pitch_action_name)},
+						{"linear_speed", PropertiesParser::OptionalValue<Math::Scalar>(desc.linear_speed)},
+						{"angular_speed", PropertiesParser::OptionalValue<Math::Scalar>(desc.angular_speed)}
 					}
 				);
 				

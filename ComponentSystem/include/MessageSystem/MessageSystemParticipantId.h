@@ -84,4 +84,20 @@ namespace UnknownEngine
 			NumericIdentifierType id; ///< Numeric address identifier
 		};
 	}
+	
+}
+
+namespace std
+{
+	template<>
+	struct hash<UnknownEngine::Core::MessageSystemParticipantId>
+	{
+		typedef UnknownEngine::Core::MessageSystemParticipantId argument_type;
+		typedef std::size_t result_type;
+		
+		result_type operator()(argument_type const& s) const
+		{
+			return std::hash<UnknownEngine::Core::NumericIdentifierType>()(s.id);
+		}
+	};
 }

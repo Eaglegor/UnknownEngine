@@ -12,6 +12,9 @@ namespace UnknownEngine
 			Math::Transform initial_transform;
 			std::string input_context_name;
 			
+			Math::Scalar linear_speed;
+			Math::Scalar angular_speed;
+			
 			std::string move_forward_action_name;
 			std::string move_backward_action_name;
 			std::string strafe_left_action_name;
@@ -23,6 +26,8 @@ namespace UnknownEngine
 			std::string pitch_action_name;
 			
 			MouseLookComponentDesc():
+			linear_speed(5),
+			angular_speed(0.04f),
 			move_forward_action_name("MoveForward"),
 			move_backward_action_name("MoveBackward"),
 			strafe_left_action_name("StrafeLeft"),

@@ -13,12 +13,16 @@
 #include <Singleton.h>
 #include <NumericIdentifierType.h>
 #include <MessageSystem/MessageType.h>
+#include "MessageSystemParticipantId.h"
 #include <Dictionary.h>
+#include <mutex>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
+
+		class IMessageSender;
 
 		class IMessageDeliveryPolicy;
 		class IMessageReceivePolicy;
@@ -74,112 +78,48 @@ namespace UnknownEngine
 				COMPONENTSYSTEM_EXPORT
 				virtual ~MessageDispatcher ();
 
-				/**
-				 * @brief Registers a new listener
-				 * @param message_type_id - %Message type which the listener will wait for
-				 * @param listener - %Listener object
-				 * @param receive_policy - %Receive policy to filter out received messages
-				 */
 				COMPONENTSYSTEM_EXPORT
-				void addListener ( const MessageType &message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy = nullptr );
+				void addListener ( const MessageType &message_type, IMessageListener* listener, IMessageReceivePolicy* receive_policy = nullptr );
 
-				/**
-				 * @brief Registers a new listener
-				 * @param message_type_name - %String message type representation to wait for
-				 * @param listener - %Listener object
-				 * @param receive_policy - %Receive policy to filter out received messages
-				 */
-				COMPONENTSYSTEM_EXPORT
-				void addListener ( const std::string &message_type_name, IMessageListener* listener, IMessageReceivePolicy* receive_policy = nullptr );
-
-				/**
-				 * @brief Removes listener for a specific message type
-				 * @param message_type_id - %Message type id to unsubscribe listener from
-				 * @param listener - %Message listener to unsubscribe
-				 */
-				COMPONENTSYSTEM_EXPORT
-				void removeListener ( const MessageType &message_type_id, IMessageListener* listener );
-
-				/**
-				 * @brief Removes listener for a specific message type
-				 * @param message_type_name - %Message type name to unsubscribe listener from
-				 * @param listener - %Message listener to unsubscribe
-				 */
-				COMPONENTSYSTEM_EXPORT
-				void removeListener ( const std::string &message_type_name, IMessageListener* listener );
-
-				/**
-				 * @brief Removes listener for all message types
-				 * @param listener - Listener object to unsubscribe
-				 */
 				COMPONENTSYSTEM_EXPORT
 				void removeListener ( IMessageListener* listener );
 
-				/**
-				 * @brief Registers a listener for **all** message types
-				 * @param listener - %Message listener object
-				 * @param receive_policy - %Message receive policy to filter out messages
-				 */
 				COMPONENTSYSTEM_EXPORT
-				void addSniffer ( IMessageListener* listener, IMessageReceivePolicy* receive_policy );
+				void addSender ( const MessageType &message_type, IMessageSender* sender, IMessageDeliveryPolicy* delivery_policy = nullptr );
 
-				/**
-				 * @brief Removes sniffer listener
-				 * @param listener - %Listener object to remove
-				 */
 				COMPONENTSYSTEM_EXPORT
-				void removeSniffer ( IMessageListener* listener );
-
-				/**
-				 * @brief Changes message listener receive policy
-				 * @param message_type_id - %Message type id
-				 * @param listener - %Listener object
-				 * @param receive_policy - %Message receive policy
-				 */
-				COMPONENTSYSTEM_EXPORT
-				void setListenerReceivePolicy ( const MessageType &message_type_id, IMessageListener* listener, IMessageReceivePolicy* receive_policy );
-
-				/**
-				 * @brief Changes message listener receive policy
-				 * @param message_type_name - %Message type name
-				 * @param listener - %Listener object
-				 * @param receive_policy - %Message receive policy
-				 */
-				COMPONENTSYSTEM_EXPORT
-				void setListenerReceivePolicy ( const std::string &message_type_name, IMessageListener* listener, IMessageReceivePolicy* receive_policy );
-
-				/**
-				 * @brief Delivers message to all registered listeners
-				 * @param msg - %Packed message to deliver
-				 * @param delivery_policy - %Delivery policy
-				 */
-				COMPONENTSYSTEM_EXPORT
-				void deliverMessage ( const PackedMessage &msg, IMessageDeliveryPolicy* delivery_policy = nullptr ) const;
+				void removeSender ( IMessageSender* sender );
 
 			private:
 
-				/// Stored pair <IMessageListener, IMessageReceivePolicy>
 				struct RegisteredListener
 				{
-					RegisteredListener ( IMessageListener* listener, IMessageReceivePolicy* receive_policy )
-						: listener ( listener ), receive_policy ( receive_policy ) {}
-
-					IMessageListener* listener; ///< %Message listener
-					IMessageReceivePolicy* receive_policy; ///< %Message receive policy
+					IMessageListener* listener;
+					IMessageReceivePolicy* receive_policy;
 				};
 
-				typedef std::list< RegisteredListener > MessageListenersList;
-				typedef std::unordered_map< MessageType, MessageListenersList > MessageListenersMap;
-
-				/// Returns registered listeners for specific message type
-				const MessageListenersList* getRegisteredListeners ( const MessageType &message_type_id ) const;
-
-				/// Returns registered listeners for specific message type
-				MessageListenersList* getRegisteredListeners ( const MessageType &message_type_id );
-
-				MessageListenersMap listeners; ///< Map of <message type id, listeners list>
-				MessageListenersList sniffers; ///< List of sniffers
-
+				struct RegisteredSender
+				{
+					IMessageSender* sender;
+					IMessageDeliveryPolicy* delivery_policy;
+				};
+				
+				void onNewListener(const MessageType &message_type, IMessageListener* listener, IMessageReceivePolicy* receive_policy);
+				void onNewSender(const MessageType &message_type, IMessageSender* sender, IMessageDeliveryPolicy* delivery_policy);
+				void onRemoveListener(IMessageListener* listener);
+				void onRemoveSender(IMessageSender* sender);
+				
+				typedef std::unordered_map< MessageSystemParticipantId, RegisteredListener > MessageListenersMap;
+				typedef std::unordered_map< MessageSystemParticipantId, RegisteredSender > MessageSendersMap;
+				
+				typedef std::unordered_map<MessageType, MessageListenersMap> MessageTypeListenersMap;
+				typedef std::unordered_map<MessageType, MessageSendersMap> MessageTypeSendersMap;
+				
+				MessageTypeListenersMap listeners;
+				MessageTypeSendersMap senders;
+				
+				typedef std::mutex LockPrimitive;
+				LockPrimitive lock;
 		};
 
 #ifdef _MSC_VER

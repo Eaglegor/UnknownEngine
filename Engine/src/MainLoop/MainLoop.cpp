@@ -12,6 +12,8 @@
 #include <MessageSystem/MessageDispatcher.h>
 #include <MessageSystem/MessageSystemParticipantId.h>
 #include <MessageSystem/MessageSender.h>
+#include <Profiling/AverageFpsCounter.h>
+#include <Profiling/SimpleFpsPrinter.h>
 
 
 namespace UnknownEngine
@@ -45,8 +47,11 @@ namespace UnknownEngine
 				engine_context
 			);
 			
+			Utils::AverageFpsCounter fps_counter(1000, Utils::SimpleFpsPrinter("MT AVG FPS: "));
+			
 			while ( !stopped )
 			{
+				//fps_counter.nextFrame();
 				msg.stage = UpdateFrameMessage::PROCESSING;
 				msg.dt = dt.count();
 				

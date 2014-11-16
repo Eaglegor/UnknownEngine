@@ -9,6 +9,7 @@
 
 #include <MessageSystem/PackedMessage.h>
 #include <MessageSystem/Policies/FromSingleSenderMessageReceivePolicy.h>
+#include <MessageSystem/IMessageSender.h>
 
 namespace UnknownEngine
 {
@@ -21,9 +22,14 @@ namespace UnknownEngine
 			// TODO Auto-generated constructor stub
 		}
 
+		bool FromSingleSenderMessageReceivePolicy::allowReceiveFromSender ( IMessageSender* message_sender )
+		{
+			return message_sender->getMessageSystemParticipantId() == sender_info;
+		}
+		
 		bool FromSingleSenderMessageReceivePolicy::acceptMessage ( const PackedMessage& msg )
 		{
-			return msg.getSenderInfo() == sender_info;
+			return true;
 		}
 
 		FromSingleSenderMessageReceivePolicy::~FromSingleSenderMessageReceivePolicy ()

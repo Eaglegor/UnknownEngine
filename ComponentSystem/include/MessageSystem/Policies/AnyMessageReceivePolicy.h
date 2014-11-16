@@ -23,6 +23,8 @@ namespace UnknownEngine
 		class AnyMessageReceivePolicy : public IMessageReceivePolicy
 		{
 			public:
+				virtual bool allowReceiveFromSender ( IMessageSender* message_sender ) override;
+				
 				/**
 				 * @brief Always returns true
 				 * @param msg - Message to analyze
@@ -33,10 +35,11 @@ namespace UnknownEngine
 
 				static const MessagePolicyType getType()
 				{
-					return "AnyMessageReceivePolicy";
+					return "Any";
 				}
 
 				virtual ~AnyMessageReceivePolicy () {}
+
 		};
 
 	} /* namespace Core */
