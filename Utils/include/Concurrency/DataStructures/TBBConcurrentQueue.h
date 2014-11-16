@@ -12,7 +12,7 @@ namespace UnknownEngine
 		public:
 			bool try_pop(T& out_value)
 			{
-				internal_queue.try_pop(out_value);
+				return internal_queue.try_pop(out_value);
 			}
 			
 			void push(const T& value)
@@ -21,7 +21,7 @@ namespace UnknownEngine
 			}
 			
 		private:
-			tbb::concurrent_queue internal_queue;
+			tbb::concurrent_queue<T> internal_queue;
 			
 		};
 	}

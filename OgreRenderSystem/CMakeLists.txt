@@ -34,7 +34,7 @@ if(OGRE_FOUND)
  
   find_package(TBB)
   
-	if(TBB_FOUND AND DISABLE_TBB)
+	if(TBB_FOUND AND NOT DISABLE_TBB)
 		message(STATUS "Intel Thread Building Blocks found")
 		add_definitions(-DOGRE_RS_WITH_TBB)
 		list(APPEND INCLUDED_HEADERS ${TBB_INCLUDE_DIRS})
