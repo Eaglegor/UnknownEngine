@@ -1,0 +1,219 @@
+<scene>
+
+	<constant name="global_log_level" value="info"/>
+
+	<subsystems>
+		<subsystem name="Logger" module="ConsoleLogger">
+			<received_messages>
+				<message type="Utils.LogMessage">
+					<receive_policy type="AnyMessageReceivePolicy"/>
+				</message>
+			</received_messages>
+		</subsystem>
+		
+		<subsystem name="WindowManager" module="SDLWindowManagerPlugin">
+			<received_messages>
+				<message type="Engine.MainLoop.UpdateFrameMessage"/>
+				<message type="Graphics.GUI.GetWindowHandleMessage"/>
+			</received_messages>
+			
+			<options_section>
+				<options_section name="RenderWindow">
+					<option name="width" value="800"/>
+					<option name="height" value="600"/>
+					<option name="window_name" value="TestWindow"/>
+					<option name="window_title" value="Test render window"/>
+					<option name="fullscreen" value="false"/>
+					<option name="resizable" value="false"/>
+				</options_section>
+			</options_section>
+			
+		</subsystem>
+		
+		<subsystem name="Graphics" module="OgreRenderSystem">
+		
+			<dependencies>
+				<dependency>UserInput</dependency>
+			</dependencies>
+		
+			<received_messages>
+				<message type="Engine.MainLoop.UpdateFrameMessage">
+					<receive_policy type="FromSingleSenderMessageReceivePolicy">
+						<options_section>
+							<option name="sender_name" value="Engine"/>
+						</options_section>
+					</receive_policy>
+				</message>
+			</received_messages>
+		
+			<options_section>
+				
+				<option name="log_level" value="${global_log_level}"/>
+
+				<option name="separate_rendering_thread" value="true"/>
+				
+				<options_section name="RenderWindow">
+
+					<option name="window_name" value="TestWindow"/>
+					<option name="window_title" value="ParserTestWindowTitle"/>
+					<option name="window_type" value="external"/>
+					
+					<option name="width" value="1024"/>
+					<option name="height" value="768"/>
+					
+					<options_section name="window_flags">
+						<option name="fullscreen" value="false"/>
+					</options_section>
+					
+				</options_section>
+				
+				<options_section name="ConfigFiles">
+					<option name="ogre_plugins_filename" value="plugins.cfg"/>
+					<option name="ogre_log_filename" value="Ogre.log"/>
+					<option name="ogre_config_filename" value="ogre.cfg"/>
+					<option name="ogre_resources_filename" value="resources.cfg"/>
+				</options_section>
+				
+			</options_section>
+			
+		</subsystem>
+		
+		<subsystem name="MeshDataLoader" module="AssimpMeshDataLoader"/>
+		
+		<subsystem name="InputContext" module="InputContextMapper">
+			
+			<options_section>
+				<option name="log_level" value="${global_log_level}"/>
+				<option name="action_slots_config_file" value="InputContextMapperConfig/ActionSlots.xml"/>
+				<option name="input_layout_config_file" value="InputContextMapperConfig/InputLayout.cfg"/>
+			</options_section>
+			
+			<received_messages>
+				<message type="Engine.MainLoop.UpdateFrameMessage"/>
+				<message type="IO.KeyStateChanged"/>
+				<message type="IO.MouseMoved"/>
+				<message type="IO.MouseWheelMoved"/>
+				<message type="IO.MouseButtonStateChanged"/>
+				<message type="IO.InputContext.AddSimpleActionMessage"/>
+				<message type="IO.InputContext.AddRangeActionMessage"/>
+			</received_messages>
+		</subsystem>
+		
+		<subsystem name="SimpleBehavior" module="SimpleBehaviorPlugin">
+			<received_messages>
+				<message type="Engine.MainLoop.UpdateFrameMessage"/>
+			</received_messages>
+		</subsystem>
+		
+		<subsystem name="Physics" module="PhysXPlugin">
+			<received_messages>
+				<message type="Engine.MainLoop.UpdateFrameMessage"/>
+			</received_messages>
+			
+			<options_section>
+				<option name="gravity" value="Vector3(x:0, y:-9.8, z:0)"/>
+				<option name="log_level" value="${global_log_level}"/>
+				<option name="enable_profiling" value="false"/>
+				<option name="enable_hardware" value="false"/>
+			</options_section>
+		</subsystem>
+		
+	</subsystems>
+
+	<entities>
+
+		<entity name="MainCamera">
+		
+			<component name="Rotation" type="Behavior.MouseLook">
+				<options_section>
+					<option name="input_context_name" value="MouseLook"/>
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:0, y:10, z:50)"/>
+					</options_section>
+				</options_section>
+			</component>
+			
+			<component type="Graphics.Camera" name="Camera">
+				
+				<received_messages>
+					<message type="Engine.TransformChangedMessage">
+						<receive_policy type="FromSingleSenderMessageReceivePolicy">
+							<options_section>
+								<option name="sender_name" value="MainCamera.Rotation"/>
+							</options_section>
+						</receive_policy>
+					</message>
+				</received_messages>
+				
+				<options_section>
+					
+					<option name="render_window_name" value="TestWindow"/>
+					<option name="log_level" value="${global_log_level}"/>
+					<option name="near_clip_distance" value="0.0001"/>
+					
+					<options_section name="InitialTransform">
+						<option name="initial_direction" value="Vector3(x:0, y:0, z:-50)"/>
+					</options_section>
+					
+				</options_section>
+					
+			</component>
+			
+		</entity>
+		
+		<entity name="LightEntity">
+		
+			<component name="LightComponentD" type="Graphics.Light.Directional">
+
+				<received_messages>
+					<message type="Engine.TransformChangedMessage">
+						<receive_policy type="FromSingleSenderMessageReceivePolicy">
+							<options_section>
+								<option name="sender_name" value="TestRenderable.Rotation"/>
+							</options_section>
+						</receive_policy>
+					</message>
+				</received_messages>
+			
+				<options_section>
+					
+					<option name="log_level" value="${global_log_level}"/>
+					
+					<options_section name="LightSettings">
+						<option name="intensity" value="1"/>
+						<option name="diffuse_color" value="Colour(r:0, g:1, b:0)"/>
+						<option name="specular_color" value="Colour(r:0, g:1, b:0)"/>
+					</options_section>
+					
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:10, y:0, z:100)"/>
+						<option name="initial_look_at" value="Vector3(x:-30, y:0, z:-50)"/>
+					</options_section>
+					
+				</options_section>
+			</component>
+			
+			<component name="LightComponentD2" type="Graphics.Light.Directional">
+				<options_section>
+					
+					<option name="log_level" value="${global_log_level}"/>
+					
+					<options_section name="LightSettings">
+						<option name="intensity" value="1"/>
+						<option name="diffuse_color" value="Colour(r:0, g:0, b:1)"/>
+						<option name="specular_color" value="Colour(r:0, g:0, b:1)"/>
+					</options_section>
+					
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:-10, y:0, z:100)"/>
+						<option name="initial_look_at" value="Vector3(x:30, y:0, z:-50)"/>
+					</options_section>
+					
+				</options_section>
+			</component>
+			
+		</entity>
+		
+	</entities>
+	
+</scene>

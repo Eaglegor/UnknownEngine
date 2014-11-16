@@ -8,7 +8,7 @@ namespace UnknownEngine
 		
 		OgreRenderFrameListener::OgreRenderFrameListener() :
 		stopped ( false ),
-		fps_counter(10000, Utils::SimpleFpsPrinter())
+		fps_counter(300, Utils::SimpleFpsPrinter("RT AVG FPS: "))
 		{}
 		
 		bool OgreRenderFrameListener::frameStarted ( const Ogre::FrameEvent& evt )
