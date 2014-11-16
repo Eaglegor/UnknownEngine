@@ -122,7 +122,7 @@ void StressTest::generateObjects ( size_t count )
 			ReceivedMessageDesc mdesc;
 			mdesc.message_type_name = "Engine.TransformChangedMessage";
 			ReceivedMessageDesc::ReceivePolicyDesc pdesc;
-			pdesc.receive_policy_type_name = "FromSingleSenderMessageReceivePolicy";
+			pdesc.receive_policy_type_name = "FromSingleSender";
 			pdesc.receive_policy_options.set<std::string>("sender_name", rotation_component_name);
 			mdesc.receive_policy = pdesc;
 			received_messages.push_back(mdesc);
@@ -143,7 +143,7 @@ void StressTest::generateObjects ( size_t count )
 void StressTest::onUpdate ( const UpdateFrameMessage& msg )
 {
 	++counter;
-	if(counter == 1000)
+	if(counter == 1)
 	{
 		generateObjects(100);
 		counter = 0;

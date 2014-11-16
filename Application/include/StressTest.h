@@ -9,10 +9,10 @@ class StressTest
 {
 public:
 	StressTest():
-	was_init(false),
 	counter(0),
 	x_position(0.0f),
 	z_position(0.0f),
+	was_init(false),
 	objects_count(0)
 	{}
 	
