@@ -19,7 +19,7 @@ namespace UnknownEngine
 		void ConsoleLogger::processMessage ( const Core::PackedMessage &msg )
 		{
 			Utils::LogMessage unpacked_message = msg.get<Utils::LogMessage>();
-			log ( msg.getSenderInfo().name, unpacked_message.severity, unpacked_message.log_entry );
+			log ( unpacked_message.sender_info, unpacked_message.severity, unpacked_message.log_entry );
 		}
 
 		void ConsoleLogger::log ( const LogSeverity& severity, const std::string& msg )

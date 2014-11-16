@@ -13,6 +13,7 @@
 #include <EngineContext.h>
 #include <MessageSystem/MessageDispatcher.h>
 #include <MessageSystem/MessageListenerDesc.h>
+#include <MessageSystem/MessageDictionary.h>
 #include <ExportedMessages/LogMessage.h>
 
 namespace UnknownEngine
@@ -49,7 +50,7 @@ namespace UnknownEngine
 				  
 					console_logger.log(Utils::LogSeverity::INFO, "Registering log message listener");
 					
-					engine_context->getMessageDispatcher()->addListener(Utils::LogMessage::getTypeName(), &console_logger);
+					engine_context->getMessageDispatcher()->addListener(MESSAGE_TYPE_ID(Utils::LogMessage::getTypeName()), &console_logger);
 				}
 				else
 				{

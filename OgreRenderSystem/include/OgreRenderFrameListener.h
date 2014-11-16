@@ -63,6 +63,7 @@ namespace UnknownEngine
 			Utils::WaitingForEventWrapper wait_for_finish;
 			
 			volatile bool stopped;
+			std::mutex atomized_init_and_synchronize_mutex;
 			std::mutex atomized_shutdown_and_remove_mutex;
 
 			/// Callbacks for components initialization which can be only done when rendering is inactive

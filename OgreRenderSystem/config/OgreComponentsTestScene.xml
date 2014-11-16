@@ -6,7 +6,7 @@
 		<subsystem name="Logger" module="ConsoleLogger">
 			<received_messages>
 				<message type="Utils.LogMessage">
-					<receive_policy type="AnyMessageReceivePolicy"/>
+					<receive_policy type="Any"/>
 				</message>
 			</received_messages>
 		</subsystem>
@@ -38,7 +38,7 @@
 		
 			<received_messages>
 				<message type="Engine.MainLoop.UpdateFrameMessage">
-					<receive_policy type="FromSingleSenderMessageReceivePolicy">
+					<receive_policy type="FromSingleSender">
 						<options_section>
 							<option name="sender_name" value="Engine"/>
 						</options_section>
@@ -137,7 +137,7 @@
 				
 				<received_messages>
 					<message type="Engine.TransformChangedMessage">
-						<receive_policy type="FromSingleSenderMessageReceivePolicy">
+						<receive_policy type="FromSingleSender">
 							<options_section>
 								<option name="sender_name" value="MainCamera.Rotation"/>
 							</options_section>
@@ -164,7 +164,7 @@
 
 				<received_messages>
 					<message type="Engine.TransformChangedMessage">
-						<receive_policy type="FromSingleSenderMessageReceivePolicy">
+						<receive_policy type="FromSingleSender">
 							<options_section>
 								<option name="sender_name" value="MainCamera.Rotation"/>
 							</options_section>
@@ -270,7 +270,7 @@
 				
 				<received_messages>
 					<message type="Engine.TransformChangedMessage">
-						<receive_policy type="FromSingleSenderMessageReceivePolicy">
+						<receive_policy type="FromSingleSender">
 							<options_section>
 								<option name="sender_name" value="TestRenderable.RigidBodyComponent"/>
 							</options_section>
@@ -347,7 +347,7 @@
 
 				<received_messages>
 					<message type="Engine.TransformChangedMessage">
-						<receive_policy type="FromSingleSenderMessageReceivePolicy">
+						<receive_policy type="FromSingleSender">
 							<options_section>
 								<option name="sender_name" value="TestRenderable.Rotation"/>
 							</options_section>

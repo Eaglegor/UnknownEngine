@@ -8,7 +8,7 @@ namespace UnknownEngine
 		
 		OgreRenderFrameListener::OgreRenderFrameListener() :
 		stopped ( false ),
-		fps_counter(300, Utils::SimpleFpsPrinter("RT AVG FPS: "))
+		fps_counter(10000, Utils::SimpleFpsPrinter("RT AVG FPS: "))
 		{}
 		
 		bool OgreRenderFrameListener::frameStarted ( const Ogre::FrameEvent& evt )
@@ -20,15 +20,18 @@ namespace UnknownEngine
 		
 		void OgreRenderFrameListener::update()
 		{
-			fps_counter.nextFrame();
+			//fps_counter.nextFrame();
 			std::function<void() > callback;
 
-			while ( init_callbacks.try_pop ( callback ) )
 			{
-				callback();
-			}
+				std::unique_lock<std::mutex> guard ( atomized_init_and_synchronize_mutex );
+				while ( init_callbacks.try_pop ( callback ) )
+				{
+					callback();
+				}
 
-			synchronize_callbacks.for_each([&](std::pair<const std::string, std::function<void () > >& val){ val.second(); } );
+				synchronize_callbacks.for_each([&](std::pair<const std::string, std::function<void () > >& val){ val.second(); } );
+			}
 
 			{
 				std::unique_lock<std::mutex> guard ( atomized_shutdown_and_remove_mutex );
@@ -61,6 +64,7 @@ namespace UnknownEngine
 		
 		void OgreRenderFrameListener::addSynchronizeCallback ( const std::string& name, const std::function< void() >& callback )
 		{
+			std::unique_lock<std::mutex> guard ( atomized_init_and_synchronize_mutex );
 			synchronize_callbacks.insert ( std::make_pair ( name, callback ) );
 		}
 		void OgreRenderFrameListener::removeSynchronizeCallback ( const std::string& name )
@@ -69,6 +73,7 @@ namespace UnknownEngine
 		}
 		void OgreRenderFrameListener::addInitCallback ( const std::function< void() >& callback )
 		{
+			std::unique_lock<std::mutex> guard ( atomized_init_and_synchronize_mutex );
 			init_callbacks.push ( callback );
 		}
 		void OgreRenderFrameListener::addShutdownCallback ( const std::function< void() >& callback )

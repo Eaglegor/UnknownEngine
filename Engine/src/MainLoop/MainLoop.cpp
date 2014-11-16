@@ -47,11 +47,11 @@ namespace UnknownEngine
 				engine_context
 			);
 			
-			Utils::AverageFpsCounter fps_counter(100, Utils::SimpleFpsPrinter("MT AVG FPS: "));
+			Utils::AverageFpsCounter fps_counter(1000, Utils::SimpleFpsPrinter("MT AVG FPS: "));
 			
 			while ( !stopped )
 			{
-				fps_counter.nextFrame();
+				//fps_counter.nextFrame();
 				msg.stage = UpdateFrameMessage::PROCESSING;
 				msg.dt = dt.count();
 				

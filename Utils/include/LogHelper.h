@@ -26,6 +26,7 @@ namespace UnknownEngine
 				{
 					if ( severity > minimal_severity ) return;
 					LogMessage msg;
+					msg.sender_info = message_sender.getName();
 					msg.severity = severity;
 					msg.log_entry = message;
 					message_sender.sendMessage(msg);
