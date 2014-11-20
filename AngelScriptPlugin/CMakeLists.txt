@@ -5,4 +5,11 @@ set(INCLUDED_MODULE_HEADERS AngelScriptPlugin Plugins ComponentSystem Utils Engi
 set(LINKED_LIBS Engine ComponentSystem Plugins )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 
-include(${MODULE_TEMPLATE_CMAKELISTS_FILE})
+find_package(AngelScript)
+if(ANGELSCRIPT_FOUND)
+
+	list( APPEND INCLUDED_HEADERS ${ANGELSCRIPT_INCLUDE_DIRS})
+	list( APPEND LINKED_LIBS ${ANGELSCRIPT_LIBRARIES})
+
+	include(${MODULE_TEMPLATE_CMAKELISTS_FILE})
+endif()
