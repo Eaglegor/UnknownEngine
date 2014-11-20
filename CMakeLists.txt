@@ -55,6 +55,8 @@ UserInput
 SDLWindowManagerPlugin
 
 PhysXPlugin
+
+AngelScriptPlugin
 )
 
 set(
