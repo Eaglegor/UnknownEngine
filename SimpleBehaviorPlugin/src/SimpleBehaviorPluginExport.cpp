@@ -1,10 +1,10 @@
 #include <stdafx.h>
 
-#include <Plugins/PluginExport.h>
 #include <Plugins/PluginsManager.h>
 #include <Properties/Properties.h>
 #include <SimpleBehaviorPlugin.h>
 #include <SubsystemDesc.h>
+#include <SimpleBehaviorPlugin_export.h>
 
 using namespace UnknownEngine::Behavior;
 using namespace UnknownEngine::Core;
@@ -12,7 +12,7 @@ using namespace UnknownEngine::Core;
 static SimpleBehaviorPlugin* instance = nullptr;
 
 extern "C"
-UNKNOWNENGINE_PLUGIN_INTERFACE
+SIMPLEBEHAVIORPLUGIN_EXPORT
 UnknownEngine::Core::Plugin* installPlugin(PluginsManager* manager, const SubsystemDesc& desc)
 {
 	if(!instance) instance = new SimpleBehaviorPlugin();
@@ -20,7 +20,7 @@ UnknownEngine::Core::Plugin* installPlugin(PluginsManager* manager, const Subsys
 }
 
 extern "C"
-UNKNOWNENGINE_PLUGIN_INTERFACE
+SIMPLEBEHAVIORPLUGIN_EXPORT
 void uninstallPlugin(PluginsManager* manager)
 {
 	if(instance) delete instance;

@@ -1,10 +1,10 @@
 #include <stdafx.h>
 
-#include <Plugins/PluginExport.h>
 #include <Plugins/PluginsManager.h>
 #include <Properties/Properties.h>
 #include <AssimpMeshDataLoaderPlugin.h>
 #include <SubsystemDesc.h>
+#include <AssimpMeshDataLoader_export.h>
 
 using namespace UnknownEngine::Loader;
 using namespace UnknownEngine::Core;
@@ -12,7 +12,7 @@ using namespace UnknownEngine::Core;
 static AssimpMeshDataLoaderPlugin* instance = nullptr;
 
 extern "C"
-UNKNOWNENGINE_PLUGIN_INTERFACE
+ASSIMPMESHDATALOADER_EXPORT
 UnknownEngine::Core::Plugin* installPlugin(PluginsManager* manager, const SubsystemDesc& desc)
 {
 	if(!instance) instance = new AssimpMeshDataLoaderPlugin();
@@ -20,7 +20,7 @@ UnknownEngine::Core::Plugin* installPlugin(PluginsManager* manager, const Subsys
 }
 
 extern "C"
-UNKNOWNENGINE_PLUGIN_INTERFACE
+ASSIMPMESHDATALOADER_EXPORT
 void uninstallPlugin(PluginsManager* manager)
 {
 	if(instance) delete instance;

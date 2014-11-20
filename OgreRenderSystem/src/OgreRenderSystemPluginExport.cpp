@@ -1,9 +1,9 @@
 #include <stdafx.h>
 
-#include <Plugins/PluginExport.h>
 #include <Plugins/PluginsManager.h>
 #include <Properties/Properties.h>
 #include <OgreRenderSystemPlugin.h>
+#include <OgreRenderSystem_export.h>
 
 using namespace UnknownEngine::Graphics;
 using namespace UnknownEngine::Core;
@@ -11,7 +11,7 @@ using namespace UnknownEngine::Core;
 static OgreRenderSystemPlugin* instance = nullptr;
 
 extern "C"
-UNKNOWNENGINE_PLUGIN_INTERFACE
+OGRERENDERSYSTEM_EXPORT
 UnknownEngine::Core::Plugin* installPlugin ( PluginsManager* manager, const SubsystemDesc& desc )
 {
 	if ( !instance ) instance = new OgreRenderSystemPlugin();
@@ -19,7 +19,7 @@ UnknownEngine::Core::Plugin* installPlugin ( PluginsManager* manager, const Subs
 }
 
 extern "C"
-UNKNOWNENGINE_PLUGIN_INTERFACE
+OGRERENDERSYSTEM_EXPORT
 void uninstallPlugin ( PluginsManager* manager )
 {
 	if ( instance ) delete instance;

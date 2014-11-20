@@ -1,6 +1,6 @@
 #include <stdafx.h>
 #include <InputContextMapperPlugin.h>
-#include <Plugins/PluginExport.h>
+#include <InputContextMapper_export.h>
 
 using namespace UnknownEngine::IO;
 using namespace UnknownEngine::Core;
@@ -8,7 +8,7 @@ using namespace UnknownEngine::Core;
 static InputContextMapperPlugin* instance = nullptr;
 
 extern "C"
-UNKNOWNENGINE_PLUGIN_INTERFACE
+INPUTCONTEXTMAPPER_EXPORT
 UnknownEngine::Core::Plugin* installPlugin(PluginsManager* manager, const SubsystemDesc& desc)
 {
     if(!instance) instance = new InputContextMapperPlugin();
@@ -16,7 +16,7 @@ UnknownEngine::Core::Plugin* installPlugin(PluginsManager* manager, const Subsys
 }
 
 extern "C"
-UNKNOWNENGINE_PLUGIN_INTERFACE
+INPUTCONTEXTMAPPER_EXPORT
 void uninstallPlugin(PluginsManager* manager)
 {
     if(instance) delete instance;
