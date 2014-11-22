@@ -1,6 +1,6 @@
 set(TARGET_NAME Application)
 
-set(INCLUDED_MODULE_HEADERS ComponentSystem Engine XmlSceneLoader Utils ResourceManager SceneLoader Plugins Application )
+set(INCLUDED_MODULE_HEADERS ComponentSystem Engine XmlSceneLoader Utils ResourceManager SceneLoader Plugins Application Math )
 set(LINKED_LIBS Engine XmlSceneLoader Plugins ResourceManager ComponentSystem )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 

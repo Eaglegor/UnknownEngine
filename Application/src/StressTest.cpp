@@ -142,10 +142,10 @@ void StressTest::generateObjects ( size_t count )
 
 void StressTest::onUpdate ( const UpdateFrameMessage& msg )
 {
-	++counter;
-	if(counter == 1)
+	time_counter.tick();
+	if(time_counter.getElapsedTime() > 5.0f)
 	{
-		generateObjects(100);
-		counter = 0;
+		time_counter.resetElapsedTime();
+		generateObjects(1000);
 	}
 }

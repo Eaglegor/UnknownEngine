@@ -4,12 +4,12 @@
 #include <EngineContext.h>
 #include <MessageSystem/BaseMessageListener.h>
 #include <DataProvider/IDataProvider.h>
+#include <Profiling/TimeCounter.h>
 
 class StressTest
 {
 public:
 	StressTest():
-	counter(0),
 	x_position(0.0f),
 	z_position(0.0f),
 	was_init(false),
@@ -26,10 +26,11 @@ private:
 	std::vector<UnknownEngine::Loader::IDataProvider*> data_providers;
 	
 	UnknownEngine::Core::EngineContext* engine_context;
-	size_t counter;
 	float x_position;
 	float z_position;
 	bool was_init;
 	size_t objects_count;
 	std::unique_ptr<UnknownEngine::Core::BaseMessageListener> listener;
+	
+	UnknownEngine::Utils::TimeCounter time_counter;
 };
