@@ -20,7 +20,6 @@ namespace UnknownEngine
 	{
 
 		AngelScriptPlugin::AngelScriptPlugin ()
-		:log_helper(nullptr)
 		{
 		}
 
@@ -31,11 +30,11 @@ namespace UnknownEngine
 		bool AngelScriptPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) 
 		{
 		  
-			log_helper = new Utils::LogHelper(getName(), Utils::LogSeverity::INFO, plugins_manager->getEngineContext());
+			log_helper.reset(new Utils::LogHelper(getName(), Utils::LogSeverity::INFO, plugins_manager->getEngineContext()));
 		  
 			LOG_INFO(log_helper, "Logger initialized");
 			
-			LOG_INFO(log_helper, "Installing dummy plugin");
+			LOG_INFO(log_helper, "Installing AngelScript plugin");
 
 			this->desc = desc;
 			
@@ -46,23 +45,23 @@ namespace UnknownEngine
 
 		bool AngelScriptPlugin::init () 
 		{
-			LOG_INFO(log_helper, "Initializing dummy plugin")
+			LOG_INFO(log_helper, "Initializing AngelScript plugin")
 
 			return true;
 		}
 
 		bool AngelScriptPlugin::shutdown () 
 		{
-			LOG_INFO(log_helper, "Shutting down dummy plugin");
+			LOG_INFO(log_helper, "Shutting down AngelScript plugin");
 		  
 			return true;
 		}
 
 		bool AngelScriptPlugin::uninstall () 
 		{
-			LOG_INFO(log_helper, "Uninstalling dummy plugin");
+			LOG_INFO(log_helper, "Uninstalling AngelScript plugin");
 		  
-			if(log_helper) delete log_helper;
+			log_helper.reset();
 			return true;
 		}
 

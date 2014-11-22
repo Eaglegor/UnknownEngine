@@ -3,6 +3,7 @@
 #include <InlineSpecification.h>
 #include <Plugins/Plugin.h>
 #include <SubsystemDesc.h>
+#include <memory>
 
 namespace UnknownEngine
 {
@@ -35,7 +36,7 @@ namespace UnknownEngine
 			private:
 				Core::SubsystemDesc desc;
 				Core::EngineContext* engine_context;
-				Utils::LogHelper* log_helper;
+				std::unique_ptr<Utils::LogHelper> log_helper;
 		};
 
 	} /* namespace Graphics */
