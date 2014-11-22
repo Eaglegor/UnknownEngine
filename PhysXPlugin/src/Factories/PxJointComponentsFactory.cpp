@@ -10,7 +10,7 @@ namespace UnknownEngine
 		
 		static PxFixedJointComponentDescriptorGetter px_fixed_joint_descriptor_getter;
 		
-		const char* PxJointComponentsFactory::getName()
+		const char* PxJointComponentsFactory::getName() const
 		{
 			return "Physics.PhysXPlugin.PxJointComponentsFactory";
 		}

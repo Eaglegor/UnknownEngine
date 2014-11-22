@@ -17,7 +17,7 @@ namespace UnknownEngine
 		private:
 			Loader::IDataProvider* createPxBoxShapeDataProvider(const Loader::DataProviderDesc& desc);
 			
-			virtual const char* getName();
+			virtual const char* getName() const override;
 			
 			PhysXSubsystem* physx_subsystem;
 			

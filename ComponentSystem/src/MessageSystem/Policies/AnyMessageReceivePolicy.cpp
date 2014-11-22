@@ -13,7 +13,7 @@ namespace UnknownEngine
 {
 	namespace Core
 	{
-		bool AnyMessageReceivePolicy::allowReceiveFromSender ( IMessageSender* message_sender )
+		bool AnyMessageReceivePolicy::allowReceiveFromSender ( IMessageSender* message_sender ) const
 		{
 			return true;
 		}

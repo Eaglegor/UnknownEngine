@@ -27,12 +27,12 @@ namespace UnknownEngine
 			virtual ~SimpleRotationComponent();
 				
 			UNKNOWNENGINE_INLINE
-			virtual Core::ComponentType getType(){return SIMPLE_ROTATION_COMPONENT_TYPE;}
+			virtual Core::ComponentType getType() const override {return SIMPLE_ROTATION_COMPONENT_TYPE;}
 			
-			virtual void init ( const Core::Entity* parent_entity );
-			virtual void shutdown();
+			virtual void init ( const Core::Entity* parent_entity ) override;
+			virtual void shutdown() override;
 			
-			virtual void act(Math::Scalar dt);
+			virtual void act(Math::Scalar dt) override;
 			
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 			

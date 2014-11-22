@@ -91,9 +91,9 @@ namespace UnknownEngine
 				 * @brief Returns the type of component
 				 * @return Type of component
 				 */
-				virtual ComponentType getType() = 0;
+				virtual ComponentType getType() const = 0;
 
-				virtual const char* getName() = 0;
+				virtual const char* getName() const = 0;
 
 				virtual ~IComponent () {};
 		};

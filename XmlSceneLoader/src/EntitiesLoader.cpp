@@ -151,7 +151,7 @@ namespace UnknownEngine
 
 			scene_loader->getConstantsHolder()->popScope();
 
-			return engine_context->getComponentsManager()->createComponent ( component_desc, parent_entity );
+			return parent_entity->createComponent(component_desc);
 		}
 
 		bool EntitiesLoader::createDataProvider ( const ptree &data_provider_node )

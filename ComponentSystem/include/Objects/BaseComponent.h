@@ -13,7 +13,7 @@ namespace UnknownEngine
 				BaseComponent(const std::string& name):
 				name(name){}
 				
-				virtual const char* getName()
+				virtual const char* getName() const override
 				{
 					return name.c_str();
 				}

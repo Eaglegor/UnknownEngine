@@ -28,7 +28,7 @@ namespace UnknownEngine
 
 		}
 
-		Core::ComponentType SimpleCreateJointComponent::getType()
+		Core::ComponentType SimpleCreateJointComponent::getType() const
 		{
 			return SIMPLE_CREATE_JOINT_COMPONENT_TYPE;
 		}
@@ -76,7 +76,7 @@ namespace UnknownEngine
 				props.set<std::string>("actor1_name", desc.body1_name);
 				props.set<std::string>("actor2_name", desc.body2_name);
 				cdesc.descriptor = props;
-				engine_context->getComponentsManager()->createComponent(cdesc, joint_entity);
+				joint_entity->createComponent(cdesc);
 				
 				Graphics::ChangeMaterialActionMessage msg;
 				msg.new_material_name = desc.jointed_material_name;

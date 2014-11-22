@@ -39,7 +39,7 @@ namespace UnknownEngine
 		{
 			public:
 
-				virtual bool allowReceiveFromSender( IMessageSender* message_sender ) = 0;
+				virtual bool allowReceiveFromSender( IMessageSender* message_sender ) const = 0;
 				
 				/**
 				 * @brief Determines if the message must be processed by a listener

@@ -29,13 +29,13 @@ namespace UnknownEngine
 			virtual ~InputContextMapperPlugin();
 
 
-            virtual bool install(Core::PluginsManager *plugins_manager, Core::SubsystemDesc const &desc);
+            virtual bool install(Core::PluginsManager *plugins_manager, Core::SubsystemDesc const &desc) override;
 
-            virtual bool init();
+            virtual bool init() override;
 
-            virtual bool shutdown();
+            virtual bool shutdown() override;
 
-            virtual bool uninstall();
+            virtual bool uninstall() override;
 
         private:
             Core::SubsystemDesc desc;

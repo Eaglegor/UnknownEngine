@@ -21,8 +21,8 @@ namespace UnknownEngine
 			PxBoxShapeDataProvider(const std::string &name, const PxBoxShapeDataProviderDesc& desc, PhysXSubsystem* physx_subsystem);
 			~PxBoxShapeDataProvider();
 			
-			virtual const Loader::DataProviderType getType();
-			virtual void internalLoad ( Loader::ResourceContainer& out_container );
+			virtual const Loader::DataProviderType getType() const override;
+			virtual void internalLoad ( Loader::ResourceContainer& out_container ) override;
 			
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 

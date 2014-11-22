@@ -28,9 +28,9 @@ namespace UnknownEngine
 			PxFixedJointComponent(const std::string & name, const PxFixedJointComponentDesc & desc, PhysXSubsystem * physics_subsystem, Core::EngineContext * engine_context);
 			virtual ~PxFixedJointComponent();
 			
-			virtual Core::ComponentType getType();
-			virtual void init ( const Core::Entity* parent_entity );
-			virtual void shutdown();
+			virtual Core::ComponentType getType() const override;
+			virtual void init ( const Core::Entity* parent_entity ) override;
+			virtual void shutdown() override;
 			
 		private:
 			virtual void calculateRelativeTransforms(physx::PxTransform &rel_transform_1, physx::PxTransform &rel_transform_2);

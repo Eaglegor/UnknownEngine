@@ -112,7 +112,7 @@ namespace UnknownEngine
 			px_rigid_body->release();
 		}
 
-		Core::ComponentType PxRigidBodyComponent::getType()
+		Core::ComponentType PxRigidBodyComponent::getType() const
 		{
 			return PX_RIGID_BODY_COMPONENT_TYPE;
 		}

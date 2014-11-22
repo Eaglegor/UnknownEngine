@@ -95,6 +95,9 @@ namespace UnknownEngine
 				ENGINE_EXPORT
 				void start() ;
 
+				ENGINE_EXPORT
+				void stop() ;
+				
 				/**
 				 * @brief Shutdowns engine
 				 *

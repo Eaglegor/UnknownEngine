@@ -46,7 +46,7 @@ namespace UnknownEngine
 			render_subsystem->getSceneManager()->destroySceneNode ( this->scene_node );
 		}
 
-		UnknownEngine::Core::ComponentType OgreCameraComponent::getType()
+		UnknownEngine::Core::ComponentType OgreCameraComponent::getType() const
 		{
 			return OGRE_CAMERA_COMPONENT_TYPE;
 		}

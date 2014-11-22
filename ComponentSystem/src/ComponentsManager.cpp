@@ -61,17 +61,15 @@ namespace UnknownEngine
 			return entity;
 		}
 
-		IComponent* ComponentsManager::createComponent ( const ComponentDesc& desc, Entity* parent_entity ) 
+		IComponent* ComponentsManager::createComponent ( const ComponentDesc& desc ) 
 		{
-			CORE_SUBSYSTEM_INFO ( "Creating component '" + desc.name + "' of type '" + desc.type + "' to be attached to the entity '" + parent_entity->getName() + "'" );
+			CORE_SUBSYSTEM_INFO ( "Creating component: '" + desc.name + "' [" + desc.type + "]");
 			for ( auto & factory : component_factories )
 			{
 				if ( factory.second->supportsType ( desc.type ) )
 				{
 					CORE_SUBSYSTEM_INFO ( "Found suitable factory : " + std::string(factory.second->getName()) );
 					IComponent* component = factory.second->createObject ( desc );
-					CORE_SUBSYSTEM_INFO ( "Attaching component '" + desc.name + "' to the entity '" + parent_entity->getName() + "'" );
-					parent_entity->addComponent ( component );
 					CORE_SUBSYSTEM_INFO ( "Component '" + desc.name + "' created" );
 					return component;
 				}
@@ -88,7 +86,6 @@ namespace UnknownEngine
 				if ( factory.second->supportsType ( component->getType() ) )
 				{
 					CORE_SUBSYSTEM_INFO ( "Shutting down component '" + std::string(component->getName()) + "'" );
-					component->shutdown();
 					factory.second->destroyObject ( component );
 					return;
 				}

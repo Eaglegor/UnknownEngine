@@ -28,7 +28,7 @@ namespace UnknownEngine
 
 		const Core::ComponentType OGRE_RENDERABLE_COMPONENT_TYPE = "Graphics.Renderable";
 
-		class OgreRenderableComponent: public BaseOgreComponent
+		UNKNOWNENGINE_ALIGNED_CLASS(16) OgreRenderableComponent: public BaseOgreComponent
 		{
 			public:
 
@@ -37,7 +37,7 @@ namespace UnknownEngine
 				OgreRenderableComponent ( const std::string &name, const OgreRenderableComponentDescriptor &desc, OgreRenderSubsystem* render_subsystem, Core::EngineContext *engine_context );
 				virtual ~OgreRenderableComponent();
 			
-				virtual Core::ComponentType getType() override;
+ 				virtual Core::ComponentType getType() const override;
 
 				virtual void onTransformChanged ( const Core::TransformChangedMessage &message );
 				virtual void doChangeMaterial ( const ChangeMaterialActionMessage &message );
@@ -48,7 +48,7 @@ namespace UnknownEngine
 				virtual void internalInit(const Core::Entity* parent_entity) override;
 				virtual void internalShutdown() override;
 				
-				virtual void initMessageListenerBuffers ( bool can_be_multi_threaded );
+				virtual void initMessageListenerBuffers ( bool can_be_multi_threaded ) override;
 				
 			private:
 				OgreRenderableComponentDescriptor desc;

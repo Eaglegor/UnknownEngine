@@ -14,7 +14,7 @@ namespace UnknownEngine
 		{
 			public:
 				StopEngineListener ( const std::string name, MainLoop* main_loop );
-				virtual void processMessage ( const PackedMessage &msg );
+				virtual void processMessage ( const PackedMessage &msg ) override;
 
 			private:
 				MainLoop* main_loop;

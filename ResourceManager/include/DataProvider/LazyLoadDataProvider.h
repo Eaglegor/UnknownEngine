@@ -17,7 +17,7 @@ namespace UnknownEngine
 			
 			/// Does nothing. All loading is done in getResource()
 			RESOURCEMANAGER_EXPORT
-			virtual void startLoading(){};
+			virtual void startLoading() override{};
 			
 		protected:
 			RESOURCEMANAGER_EXPORT

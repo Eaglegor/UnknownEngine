@@ -21,7 +21,7 @@ namespace UnknownEngine
 		{
 		public:
 			SimpleBehaviorsFactory( UnknownEngine::Core::EngineContext* engine_context, SimpleBehaviorsPerformer* behaviors_performer );
-			virtual const char* getName();	
+			virtual const char* getName() const override;
 
 		private:
 			Core::IComponent* createSimpleRotationComponent(const Core::ComponentDesc& desc);

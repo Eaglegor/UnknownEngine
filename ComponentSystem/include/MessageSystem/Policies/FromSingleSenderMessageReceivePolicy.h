@@ -27,7 +27,7 @@ namespace UnknownEngine
 		{
 			public:
 				
-				virtual bool allowReceiveFromSender ( IMessageSender* message_sender ) override;
+				virtual bool allowReceiveFromSender ( IMessageSender* message_sender ) const override;
 				
 				/**
 				 * @brief Returns true if message sender is equal to expected

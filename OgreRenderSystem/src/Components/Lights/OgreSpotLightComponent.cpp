@@ -28,7 +28,7 @@ namespace UnknownEngine
 		{
 		}
 		
-		UnknownEngine::Core::ComponentType OgreSpotLightComponent::getType()
+		UnknownEngine::Core::ComponentType OgreSpotLightComponent::getType() const
 		{
 			return OGRE_SPOT_LIGHT_COMPONENT_TYPE;
 		}

@@ -119,13 +119,16 @@ namespace UnknownEngine
 				COMPONENTSYSTEM_EXPORT
 				virtual Utils::NameGenerator* getNameGenerator();
 				
+			private:
+				friend class Entity;
+
 				/**
 				 * @brief Creates the component
 				 * @param desc - Component descriptor
 				 * @return Pointer to the newly created component
 				 */
 				COMPONENTSYSTEM_EXPORT
-				virtual IComponent* createComponent ( const ComponentDesc &desc, Entity* parent_entity ) ;
+				virtual IComponent* createComponent ( const ComponentDesc &desc ) ;
 
 				/**
 				 * @brief Removes the component
@@ -133,8 +136,7 @@ namespace UnknownEngine
 				 */
 				COMPONENTSYSTEM_EXPORT
 				virtual void removeComponent ( IComponent* component );
-
-			private:
+				
 				ComponentFactoriesMap component_factories; ///< Map of registered component factories
 				InternalDictionaryType internal_dictionary; ///< Internal dictionary implementation to assign identifiers to names
 				std::vector<Entity*> entities;

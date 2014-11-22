@@ -15,14 +15,14 @@ namespace UnknownEngine
 		{
 		public:
 			
-			virtual ObjectType* createObject ( const DescriptorClass& desc )
+			virtual ObjectType* createObject ( const DescriptorClass& desc ) override
 			{
 				auto iter = component_creators.find ( desc.type );
 				if ( iter == component_creators.end() ) return nullptr;
 				else return iter->second.creator ( desc );
 			}
 			
-			virtual void destroyObject ( ObjectType* object )
+			virtual void destroyObject ( ObjectType* object ) override
 			{
 				auto iter = component_creators.find ( object->getType() );
 				if ( iter == component_creators.end() ) return;
@@ -30,12 +30,12 @@ namespace UnknownEngine
 			}
 
 			UNKNOWNENGINE_INLINE
-			virtual bool supportsType ( const ObjectTypeId& object_type )
+			virtual bool supportsType ( const ObjectTypeId& object_type ) const override
 			{
 				return supported_types.find ( object_type ) != supported_types.end();
 			}
 			
-			virtual const std::unordered_set< ObjectTypeId >& getSupportedTypes()
+			virtual const std::unordered_set< ObjectTypeId > getSupportedTypes() const override
 			{
 				return supported_types;
 			}

@@ -22,7 +22,7 @@ namespace UnknownEngine
 			// TODO Auto-generated constructor stub
 		}
 
-		bool FromSingleSenderMessageReceivePolicy::allowReceiveFromSender ( IMessageSender* message_sender )
+		bool FromSingleSenderMessageReceivePolicy::allowReceiveFromSender ( IMessageSender* message_sender ) const
 		{
 			return message_sender->getMessageSystemParticipantId() == sender_info;
 		}

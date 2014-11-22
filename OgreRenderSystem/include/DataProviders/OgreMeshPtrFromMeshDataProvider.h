@@ -28,7 +28,7 @@ namespace UnknownEngine
 			public:
 				OgreMeshPtrFromMeshDataProvider ( const std::string &name, const OgreMeshPtrFromMeshDataProviderDescriptor &descriptor, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context );
 				
-				virtual const Loader::DataProviderType getType() override;
+				virtual const Loader::DataProviderType getType() const override;
 				
 			protected:
 				virtual void internalLoad ( Loader::ResourceContainer &out_container ) override;

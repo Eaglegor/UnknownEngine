@@ -60,7 +60,7 @@ namespace UnknownEngine
 			px_joint->release();
 		}
 
-		Core::ComponentType PxFixedJointComponent::getType()
+		Core::ComponentType PxFixedJointComponent::getType() const
 		{
 			return PX_FIXED_JOINT_COMPONENT_TYPE;
 		}

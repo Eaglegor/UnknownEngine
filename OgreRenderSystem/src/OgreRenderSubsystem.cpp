@@ -112,14 +112,9 @@ namespace UnknownEngine
 		
 		void OgreRenderSubsystem::onFrameUpdated ( const UnknownEngine::Core::UpdateFrameMessage& msg )
 		{
-			//LOG_DEBUG(log_helper, "Rendering frame");
-			if ( msg.stage == Core::UpdateFrameMessage::PROCESSING )
-			{
-				Ogre::WindowEventUtilities::messagePump();
-				if(frame_listener) frame_listener->update();
-				root->renderOneFrame();
-			}
-
+			Ogre::WindowEventUtilities::messagePump();
+			if(frame_listener) frame_listener->update();
+			root->renderOneFrame();
 		}
 
 		OgreRenderSubsystem::~OgreRenderSubsystem()

@@ -73,7 +73,7 @@ namespace UnknownEngine
 			delete object;
 		}
 		
-		const char* SimpleBehaviorsFactory::getName()
+		const char* SimpleBehaviorsFactory::getName() const
 		{
 			return "SimpleBehaviorPlugin.Factories.SimpleBehaviorFactory";
 		}

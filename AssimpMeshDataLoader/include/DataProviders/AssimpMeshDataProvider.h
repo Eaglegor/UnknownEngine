@@ -53,11 +53,9 @@ namespace UnknownEngine
 			
 			AssimpMeshDataProvider ( const std::string& name, const Descriptor &desc, Core::EngineContext* engine_context );
 			
-			virtual const DataProviderType getType();
-			virtual void internalLoad ( ResourceContainer& out_container );
+			virtual const DataProviderType getType() const override;
+			virtual void internalLoad ( ResourceContainer& out_container ) override;
 
-			
-			
 		private:
 			Descriptor desc;
 			std::unique_ptr<Utils::LogHelper> log_helper;

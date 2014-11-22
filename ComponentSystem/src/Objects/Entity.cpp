@@ -10,6 +10,7 @@
 #include <ComponentsManager.h>
 #include <Objects/Entity.h>
 #include <Objects/IComponent.h>
+#include <ComponentDesc.h>
 
 //#define ENABLE_CORE_SUBSYSTEM_INFO_LOG
 #include <CoreLogging.h>
@@ -33,23 +34,25 @@ namespace UnknownEngine
 			}
 		}
 
-		void Entity::addComponent ( IComponent *component )
+		IComponent* Entity::createComponent ( const ComponentDesc& desc )
 		{
-			if ( components.find ( component->getName() ) != components.end() ) throw DuplicateComponentNameException ( "Component already added: " + std::string(component->getName()) );
-
-			CORE_SUBSYSTEM_INFO ( "Initializing component '" + component->getName() + "'" );
+			if ( components.find ( desc.name ) != components.end() ) throw DuplicateComponentNameException ( "Component already created: " + std::string(desc.name) + " (Entity: " + getName() +")" );
+			CORE_SUBSYSTEM_INFO ( "Initializing component '" + desc.name + "'" );
+			IComponent* component = components_manager->createComponent(desc);
 			component->init ( this );
-			components[component->getName()] = component;
+			components.emplace(desc.name, component);
+			return component;
 		}
 
 		void Entity::removeComponent ( IComponent *component )
 		{
 			if ( components.find ( std::string(component->getName()) ) != components.end() ) throw ComponentNotFoundException ( "Entity doesn't contain component " + std::string(component->getName()) );
-			components_manager->removeComponent ( components[component->getName()] );
 			components.erase ( name );
+			component->shutdown();
+			components_manager->removeComponent ( component );
 		}
 
-		const std::string &Entity::getName()
+		const std::string &Entity::getName() const
 		{
 			return name;
 		}

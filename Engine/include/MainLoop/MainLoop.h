@@ -10,8 +10,6 @@
 #include <vector>
 #include <MessageSystem/IMessageSystemParticipant.h>
 
-#include <chrono>
-
 namespace UnknownEngine
 {
 	namespace Core
@@ -42,20 +40,12 @@ namespace UnknownEngine
 				 */
 				ENGINE_EXPORT
 				void start();
+				
+				ENGINE_EXPORT
 				void stop();
 			private:
-				/**
-				 * @brief Updates delta time value
-				 */
-				void updateTime();
-
 				bool stopped;
 
-				typedef std::chrono::steady_clock ClockType;
-				
-				ClockType::time_point current_time; ///< Current time
-				std::chrono::duration<float> dt; ///< Delta time from last frame
-				
 				EngineContext* engine_context;
 
 		};

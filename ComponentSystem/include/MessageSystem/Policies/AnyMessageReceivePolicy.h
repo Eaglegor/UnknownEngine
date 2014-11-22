@@ -23,7 +23,7 @@ namespace UnknownEngine
 		class AnyMessageReceivePolicy : public IMessageReceivePolicy
 		{
 			public:
-				virtual bool allowReceiveFromSender ( IMessageSender* message_sender ) override;
+				virtual bool allowReceiveFromSender ( IMessageSender* message_sender ) const override;
 				
 				/**
 				 * @brief Always returns true

@@ -36,7 +36,7 @@ namespace UnknownEngine {
 			
 		}
 
-		const char* AssimpMeshDataProvidersFactory::getName()
+		const char* AssimpMeshDataProvidersFactory::getName() const
 		{
 			return "Loader.MeshData.AssimpMeshDataProvidersFactory";
 		}

@@ -98,7 +98,7 @@ void StressTest::generateObjects ( size_t count )
 			
 			desc.descriptor = props;
 		}
-		mgr->createComponent(desc, entity);
+		entity->createComponent(desc);
 		
 		desc.name = name_generator->generateName();
 		desc.type = "Graphics.Renderable";
@@ -128,7 +128,7 @@ void StressTest::generateObjects ( size_t count )
 			received_messages.push_back(mdesc);
 			desc.received_messages = received_messages;
 		}
-		mgr->createComponent(desc, entity);
+		entity->createComponent(desc);
 		
 		x_position += 10;
 		if(x_position > 200) {

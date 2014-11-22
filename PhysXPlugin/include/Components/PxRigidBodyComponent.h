@@ -41,9 +41,9 @@ namespace UnknownEngine
 			PxRigidBodyComponent( const std::string & name, const UnknownEngine::Physics::PxRigidBodyComponentDesc & desc, UnknownEngine::Physics::PhysXSubsystem * physics_subsystem, UnknownEngine::Core::EngineContext * engine_context );
 			virtual ~PxRigidBodyComponent();
 			
-			virtual Core::ComponentType getType();
-			virtual void init ( const Core::Entity* parent_entity );
-			virtual void shutdown();
+			virtual Core::ComponentType getType() const override;
+			virtual void init ( const Core::Entity* parent_entity ) override;
+			virtual void shutdown() override;
 			void initMessageListener(const Core::ReceivedMessageDescriptorsList& received_messages);
 			
 			void setTransform(const Math::Transform &transform);

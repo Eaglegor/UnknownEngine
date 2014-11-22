@@ -21,7 +21,7 @@ namespace UnknownEngine
 		private:
 			Core::IComponent* createPxRigidBodyComponent(const Core::ComponentDesc& desc);
 			
-			virtual const char* getName();
+			virtual const char* getName() const override;
 			
 			PhysXSubsystem* physx_subsystem;
 			Core::EngineContext* engine_context;

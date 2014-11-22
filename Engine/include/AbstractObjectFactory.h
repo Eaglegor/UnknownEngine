@@ -43,20 +43,20 @@ namespace UnknownEngine
 				 *
 				 * @return Factory name
 				 */
-				virtual const char* getName() = 0;
+				virtual const char* getName() const = 0;
 
 				/**
 				 * @brief Returns a set of object type identifiers supported by this factory
 				 * @return Set of identifiers of object types which can be created by this factory
 				 */
-				virtual const std::unordered_set<ObjectTypeId>& getSupportedTypes() = 0;
+				virtual const std::unordered_set<ObjectTypeId> getSupportedTypes() const = 0;
 
 				/**
 				 * @brief Checks if a factory is able to create specific type
 				 * @param object_type - Type to check for
 				 * @return true if the factory supports passed type
 				 */
-				virtual bool supportsType ( const ObjectTypeId &object_type ) = 0;
+				virtual bool supportsType ( const ObjectTypeId &object_type ) const = 0;
 
 				/**
 				 * @brief Creates an object according to passed descriptor
@@ -76,7 +76,7 @@ namespace UnknownEngine
 				  * \deprecated internal use only: **must not be used in user code**.
 				  */
 				UNKNOWNENGINE_INLINE
-				NumericIdentifierType getInternalId()
+				NumericIdentifierType getInternalId() const
 				{
 					return internal_id;
 				}

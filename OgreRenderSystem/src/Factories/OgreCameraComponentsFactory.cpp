@@ -27,7 +27,7 @@ namespace UnknownEngine
 			
 		}
 
-		const char* OgreCameraComponentsFactory::getName()
+		const char* OgreCameraComponentsFactory::getName() const
 		{
 			return "Graphics.OgreRenderSubsystem.CameraComponentsFactory";
 		}

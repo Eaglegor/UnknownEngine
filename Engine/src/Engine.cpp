@@ -12,6 +12,7 @@
 #include <MessageSystem/MessageDispatcher.h>
 #include <MessageSystem/MessageDictionary.h>
 #include <MessageSystem/MessageSystemParticipantDictionary.h>
+#include <MessageSystem/MessageSender.h>
 #include <ResourceManager.h>
 #include <Plugins/PluginsManager.h>
 #include <ComponentsManager.h>
@@ -69,6 +70,13 @@ namespace UnknownEngine
 
 		}
 
+		void Engine::stop()
+		{
+			CORE_SUBSYSTEM_INFO ( "Stopping engine" );
+			MessageSender<StopEngineActionMessage> sender("Engine.Stopper", &context);
+			sender.sendMessage(StopEngineActionMessage());
+		}
+		
 		void Engine::shutdown() 
 		{
 

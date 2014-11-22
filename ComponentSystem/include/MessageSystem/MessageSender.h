@@ -64,7 +64,7 @@ namespace UnknownEngine
 				}
 			}
 
-			virtual void attachListener ( IMessageListener* listener, IMessageReceivePolicy* receive_policy )
+			virtual void attachListener ( IMessageListener* listener, IMessageReceivePolicy* receive_policy ) override
 			{
 				if(message_delivery_policy == nullptr || message_delivery_policy->allowDeliveryToListener(listener))
 				{
@@ -75,7 +75,7 @@ namespace UnknownEngine
 				}
 			}
 			
-			virtual void detachListener ( IMessageListener* listener )
+			virtual void detachListener ( IMessageListener* listener ) override
 			{
 				auto iter = listeners.find(listener->getMessageSystemParticipantId());
 				if(iter != listeners.end())

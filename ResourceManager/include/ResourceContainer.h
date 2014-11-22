@@ -21,7 +21,7 @@ namespace UnknownEngine
 		class ResourceContainer
 		{
 			public:
-				/// Returns the data casted to specified type. Throws excetion on bad cast.
+				/// Returns the data casted to specified type. Throws exception on bad cast.
 				template<typename T>
 				const T& getData() const
 				{

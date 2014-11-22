@@ -18,6 +18,7 @@ namespace UnknownEngine
 
 		class IComponent;
 		class ComponentsManager;
+		struct ComponentDesc;
 
 		/**
 		 * @brief The single simulation object
@@ -65,14 +66,10 @@ namespace UnknownEngine
 				 * @return Entity name
 				 */
 				COMPONENTSYSTEM_EXPORT
-				const std::string& getName();
+				const std::string& getName() const;
 
-				/**
-				 * @brief Adds a component to the entity
-				 * @param component - Component to add
-				 */
 				COMPONENTSYSTEM_EXPORT
-				void addComponent ( IComponent *component );
+				IComponent* createComponent(const ComponentDesc& desc);
 
 				/**
 				 * @brief Removes the component from the entity

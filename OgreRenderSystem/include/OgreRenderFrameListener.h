@@ -38,7 +38,7 @@ namespace UnknownEngine
 			
 			OgreRenderFrameListener();
 			
-			virtual bool frameStarted( const Ogre::FrameEvent& evt );
+			virtual bool frameStarted( const Ogre::FrameEvent& evt ) override;
 
 			void setFinished();
 

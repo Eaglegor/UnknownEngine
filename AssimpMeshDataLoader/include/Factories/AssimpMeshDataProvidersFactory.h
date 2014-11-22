@@ -21,7 +21,7 @@ namespace UnknownEngine
 			
 			AssimpMeshDataProvidersFactory(Utils::LogHelper* log_helper, Core::EngineContext* engine_context);
 
-			virtual const char* getName();
+			virtual const char* getName() const override;
 			
 		private:
 			IDataProvider* createAssimpMeshDataLoader( const DataProviderDesc& desc );

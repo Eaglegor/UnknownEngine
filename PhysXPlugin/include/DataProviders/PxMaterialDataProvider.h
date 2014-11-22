@@ -28,9 +28,9 @@ namespace UnknownEngine
 		public:
 			PxMaterialDataProvider(const std::string& name, const PxMaterialDataProviderDesc& desc, PhysXSubsystem* physx_subsystem);
 			
-			virtual const Loader::DataProviderType getType();
-			virtual void internalLoad ( Loader::ResourceContainer& out_container );
-			virtual void internalUnload ( Loader::ResourceContainer& container );
+			virtual const Loader::DataProviderType getType() const override;
+			virtual void internalLoad ( Loader::ResourceContainer& out_container ) override;
+			virtual void internalUnload ( Loader::ResourceContainer& container ) override;
 			
 			physx::PxMaterial* getPxMaterial();
 			

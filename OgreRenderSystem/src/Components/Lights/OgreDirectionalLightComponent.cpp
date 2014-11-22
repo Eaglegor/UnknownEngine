@@ -28,12 +28,12 @@ namespace UnknownEngine
 		{
 		}
 		
-		UnknownEngine::Core::ComponentType OgreDirectionalLightComponent::getType()
+		Core::ComponentType OgreDirectionalLightComponent::getType() const
 		{
 			return OGRE_DIRECTIONAL_LIGHT_COMPONENT_TYPE;
 		}
 
-		void OgreDirectionalLightComponent::internalInit (const UnknownEngine::Core::Entity* parent_entity)
+		void OgreDirectionalLightComponent::internalInit (const Core::Entity* parent_entity)
 		{
 			BaseOgreLightComponent::internalInit(parent_entity);
 			ogre_light->setType(Ogre::Light::LT_DIRECTIONAL);

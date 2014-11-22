@@ -14,7 +14,7 @@ namespace UnknownEngine
 		{
 			public:
 				OgreUpdateFrameListener ( const std::string &name, OgreRenderSubsystem* render_system );
-				void processMessage ( const Core::PackedMessage &msg );
+				void processMessage ( const Core::PackedMessage &msg ) override;
 
 			private:
 				OgreRenderSubsystem* render_system;

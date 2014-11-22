@@ -31,7 +31,7 @@ namespace UnknownEngine
 
 		const Core::ComponentType OGRE_CAMERA_COMPONENT_TYPE = "Graphics.Camera";
 
-		class OgreCameraComponent : public BaseOgreComponent
+		UNKNOWNENGINE_ALIGNED_CLASS(16) OgreCameraComponent : public BaseOgreComponent
 		{
 			public:
 
@@ -40,7 +40,7 @@ namespace UnknownEngine
 				OgreCameraComponent ( const std::string &name, const OgreCameraComponentDescriptor& desc, OgreRenderSubsystem *render_subsystem, Core::EngineContext* engine_context );
 				virtual ~OgreCameraComponent();
 				
-				virtual UnknownEngine::Core::ComponentType getType() override;				
+				virtual Core::ComponentType getType() const override;				
 
 				void onTransformChanged ( const Core::TransformChangedMessage& msg );
 				void doLookAt ( const CameraLookAtActionMessage& msg );
@@ -48,10 +48,10 @@ namespace UnknownEngine
 				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
 			protected:
-				virtual void internalInit ( const UnknownEngine::Core::Entity *parent_entity ) override;
+				virtual void internalInit ( const Core::Entity *parent_entity ) override;
 				virtual void internalShutdown (  ) override;
 				
-				virtual void initMessageListenerBuffers ( bool can_be_multi_threaded );
+				virtual void initMessageListenerBuffers ( bool can_be_multi_threaded ) override;
 				
 			private:
 				OgreCameraComponentDescriptor desc;

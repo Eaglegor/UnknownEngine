@@ -92,7 +92,7 @@ namespace UnknownEngine
 			render_subsystem->getSceneManager()->destroyEntity ( entity );
 		}
 
-		Core::ComponentType OgreRenderableComponent::getType()
+		Core::ComponentType OgreRenderableComponent::getType() const
 		{
 			return OGRE_RENDERABLE_COMPONENT_TYPE;
 		}

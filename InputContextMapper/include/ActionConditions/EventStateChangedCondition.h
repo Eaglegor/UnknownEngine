@@ -12,8 +12,8 @@ namespace UnknownEngine
 		public:
 			EventStateChangedCondition(bool on_event_start);
 			
-			virtual bool isTrue();
-			virtual void update ( bool event_started );
+			virtual bool isTrue() override;
+			virtual void update ( bool event_started ) override;
 			
 		private:
 			bool is_true;

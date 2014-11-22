@@ -25,7 +25,7 @@ namespace UnknownEngine
 			registerCreator(creatable_component);
 		}
 
-		const char* OgreRenderableComponentsFactory::getName()
+		const char* OgreRenderableComponentsFactory::getName() const
 		{
 			return "Graphics.OgreRenderSubsystem.RenderableComponentsFactory";
 		}

@@ -14,6 +14,9 @@
 #include <MessageSystem/MessageSender.h>
 #include <Profiling/AverageFpsCounter.h>
 #include <Profiling/SimpleFpsPrinter.h>
+#include <Profiling/TimeCounter.h>
+#include <Scalar.h>
+#include <ResourceManager.h>
 
 
 namespace UnknownEngine
@@ -37,8 +40,8 @@ namespace UnknownEngine
 		{
 			stopped = false;
 
-			current_time = ClockType::now();
-			dt = dt.zero();
+			Utils::TimeCounter time_counter;
+			time_counter.tick();
 			
 			UpdateFrameMessage msg;
 			
@@ -47,25 +50,26 @@ namespace UnknownEngine
 				engine_context
 			);
 			
-			Utils::AverageFpsCounter fps_counter(1000, Utils::SimpleFpsPrinter("MT AVG FPS: "));
+			//Utils::AverageFpsCounter fps_counter(1000, Utils::SimpleFpsPrinter("MT AVG FPS: "));
 			
+			const Math::Scalar RESOURCES_CLEANUP_INTERVAL = 60.0f;
+			Math::Scalar resources_cleanup_timer = RESOURCES_CLEANUP_INTERVAL;
+						
 			while ( !stopped )
 			{
+				time_counter.tick();
 				//fps_counter.nextFrame();
-				msg.stage = UpdateFrameMessage::PROCESSING;
-				msg.dt = dt.count();
+				msg.dt = time_counter.getDt();
+				
+				resources_cleanup_timer -= msg.dt;
+				if(resources_cleanup_timer < 0)
+				{
+					engine_context->getResourceManager()->cleanup();
+					resources_cleanup_timer = RESOURCES_CLEANUP_INTERVAL;
+				}
 				
 				update_frame_message_sender.sendMessage( msg );
-
-				updateTime();
 			}
-		}
-
-		void MainLoop::updateTime ()
-		{
-			ClockType::time_point temp_time = ClockType::now();
-			dt = temp_time - current_time;
-			current_time = temp_time;
 		}
 
 		void MainLoop::stop()

@@ -20,7 +20,7 @@ namespace UnknownEngine
 			desc.material->reserve();
 		}
 		
-		const Loader::DataProviderType PxBoxShapeDataProvider::getType()
+		const Loader::DataProviderType PxBoxShapeDataProvider::getType() const
 		{
 			return PX_BOX_SHAPE_DATA_PROVIDER_TYPE;
 		}

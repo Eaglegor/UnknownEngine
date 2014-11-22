@@ -22,7 +22,7 @@ namespace UnknownEngine
 		{
 		public:
 			OgreLightComponentsFactory(OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context, Utils::LogHelper* log_helper);
-			virtual const char* getName();
+			virtual const char* getName() const override;
 			
 		};
 	}

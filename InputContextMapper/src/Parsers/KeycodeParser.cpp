@@ -276,9 +276,9 @@ namespace UnknownEngine
 			mapping.emplace ( "EURO", Key::EURO );
 		}
 
-		Key KeycodeParser::parse ( const std::string& value )
+		Key KeycodeParser::parse ( const std::string& value ) const
 		{
-			auto iter = mapping.find(value);
+			const auto iter = mapping.find(value);
 			if(iter == mapping.end()) throw UnknownStringKeyCode("Unknown keycode found while parsing: " + value);
 			return iter->second;
 		}

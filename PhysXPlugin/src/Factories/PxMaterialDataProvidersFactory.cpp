@@ -10,7 +10,7 @@ namespace UnknownEngine
 		
 		static PxMaterialDataProviderDescriptorGetter px_material_descriptor_getter;
 		
-		const char* PxMaterialDataProvidersFactory::getName()
+		const char* PxMaterialDataProvidersFactory::getName() const
 		{
 			return "Physics.PhysXPlugin.PxMaterialDataProvidersFactory";
 		}

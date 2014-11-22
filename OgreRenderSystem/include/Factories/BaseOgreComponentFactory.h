@@ -26,7 +26,7 @@ namespace UnknownEngine
 				BaseOgreComponentFactory ( OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context, Utils::LogHelper* log_helper );
 				~BaseOgreComponentFactory ();
 
-				virtual void destroyObject ( Core::IComponent* object );
+				virtual void destroyObject ( Core::IComponent* object ) override;
 					
 			protected:
 				OgreRenderSubsystem* render_subsystem;

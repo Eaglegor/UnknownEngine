@@ -74,7 +74,7 @@ namespace UnknownEngine
 			out_container.setData<Ogre::MeshPtr>(mesh_ptr);
 		}
 		
-		const Loader::DataProviderType OgreMeshPtrFromMeshDataProvider::getType()
+		const Loader::DataProviderType OgreMeshPtrFromMeshDataProvider::getType() const
 		{
 			return OGRE_MESH_PTR_FROM_MESH_DATA_PROVIDER_TYPE;
 		}

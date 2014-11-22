@@ -10,7 +10,7 @@ namespace UnknownEngine
 		
 		static PxRigidBodyComponentDescriptorGetter px_rigid_body_descriptor_getter;
 		
-		const char* PxRigidBodyComponentsFactory::getName()
+		const char* PxRigidBodyComponentsFactory::getName() const
 		{
 			return "Physics.PhysXPlugin.PxRigidBodyComponentsFactory";
 		}

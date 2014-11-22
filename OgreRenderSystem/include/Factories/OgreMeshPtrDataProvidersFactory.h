@@ -23,7 +23,7 @@ namespace UnknownEngine
 		{
 		public:
 			OgreMeshPtrDataProvidersFactory(Utils::LogHelper* log_helper, Core::EngineContext* engine_context, OgreRenderSubsystem* render_subsystem);
-			virtual const char* getName();
+			virtual const char* getName() const override;
 			
 		private:
 			Loader::IDataProvider* createOgreMeshPtrFromMeshDataProvider ( const Loader::DataProviderDesc& desc );

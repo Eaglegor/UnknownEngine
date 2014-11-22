@@ -21,10 +21,10 @@ namespace UnknownEngine
 			SimpleCreateJointComponent ( const std::string& name, const SimpleCreateJointComponentDesc &desc, Core::EngineContext* engine_context );
 			virtual ~SimpleCreateJointComponent();
 			
-			virtual Core::ComponentType getType();
-			virtual void init ( const Core::Entity* parent_entity );
-			virtual void shutdown();
-			virtual void act ( Math::Scalar dt );
+			virtual Core::ComponentType getType() const override;
+			virtual void init ( const Core::Entity* parent_entity ) override;
+			virtual void shutdown() override;
+			virtual void act ( Math::Scalar dt ) override;
 
 		private:
 			void switchJoint();

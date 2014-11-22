@@ -19,7 +19,7 @@ namespace UnknownEngine
 		{
 		}
 		
-		const Loader::DataProviderType PxMaterialDataProvider::getType()
+		const Loader::DataProviderType PxMaterialDataProvider::getType() const
 		{
 			return PX_MATERIAL_DATA_PROVIDER_TYPE;
 		}

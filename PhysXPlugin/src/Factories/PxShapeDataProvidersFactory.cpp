@@ -10,7 +10,7 @@ namespace UnknownEngine
 		
 		static PxBoxShapeDataProviderDescriptorGetter px_box_shape_descriptor_getter;
 		
-		const char* PxShapeDataProvidersFactory::getName()
+		const char* PxShapeDataProvidersFactory::getName() const
 		{
 			return "Physics.PhysXPlugin.PxShapeDataProvidersFactory";
 		}

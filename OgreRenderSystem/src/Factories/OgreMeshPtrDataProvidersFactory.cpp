@@ -26,7 +26,7 @@ namespace UnknownEngine {
 			registerCreator(creatable_data_provider);
 		}
 
-		const char* OgreMeshPtrDataProvidersFactory::getName()
+		const char* OgreMeshPtrDataProvidersFactory::getName() const
 		{
 			return "Graphics.OgreRenderSystem.OgreMeshPtrDataProvidersFactory";
 		}

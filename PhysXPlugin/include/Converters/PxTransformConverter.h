@@ -5,6 +5,7 @@ using std::isfinite;
 #include <foundation/PxTransform.h>
 #include <Transform/Transform.h>
 #include <Converters/PxVec3Converter.h>
+#include <Converters/PxQuatConverter.h>
 
 namespace UnknownEngine
 {
@@ -17,11 +18,7 @@ namespace UnknownEngine
 			{
 				physx::PxTransform result;
 				result.p = PxVec3Converter::toPxVec3(transform.getPosition());
-				const Math::Quaternion &orientation = transform.getOrientation();
-				result.q.w = orientation.w();
-				result.q.x = orientation.x();
-				result.q.y = orientation.y();
-				result.q.z = orientation.z();
+				result.q = PxQuatConverter::toPxQuat(transform.getOrientation());
 				return result;
 			}
 			
@@ -29,7 +26,7 @@ namespace UnknownEngine
 			{
 				Math::Transform result;
 				result.setPosition( PxVec3Converter::fromPxVec3(transform.p) );
-				result.setOrientation( Math::Quaternion(transform.q.w, transform.q.x, transform.q.y, transform.q.z) );
+				result.setOrientation( PxQuatConverter::fromPxQuat(transform.q) );
 				return result;
 			}
 		};

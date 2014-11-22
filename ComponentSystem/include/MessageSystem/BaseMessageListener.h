@@ -68,7 +68,7 @@ namespace UnknownEngine
 			}
 			
 			COMPONENTSYSTEM_EXPORT
-			virtual void processMessage ( const PackedMessage& msg );
+			virtual void processMessage ( const PackedMessage& msg ) override;
 
 			COMPONENTSYSTEM_EXPORT
 			virtual void flushAllMessageBuffers();
