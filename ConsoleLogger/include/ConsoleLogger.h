@@ -2,6 +2,7 @@
 
 #include <MessageSystem/IMessageListener.h>
 #include <LogSeverity.h>
+#include <mutex>
 
 namespace UnknownEngine {
 	
@@ -23,6 +24,7 @@ namespace UnknownEngine {
 				void setDefaultSenderName(const std::string &name);
 				
 			private:
+				std::mutex lock;
 				std::string name;
 		};
 

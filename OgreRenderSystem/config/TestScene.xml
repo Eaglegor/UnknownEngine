@@ -118,6 +118,8 @@
 			</options_section>
 		</subsystem>
 		
+		<subsystem name="ScriptEngine" module="AngelScriptPlugin"/>
+		
 	</subsystems>
 
 	<entities>

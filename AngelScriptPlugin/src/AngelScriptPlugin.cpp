@@ -10,6 +10,8 @@
 #include <Plugins/PluginsManager.h>
 #include <Properties/Properties.h>
 #include <AngelScriptPlugin.h>
+#include <Descriptors/AngelScriptSubsystemDesc.h>
+#include <AngelScriptSubsystem.h>
 #include <MessageSystem/MessageDictionary.h>
 #include <EngineContext.h>
 #include <LogHelper.h>
@@ -29,38 +31,33 @@ namespace UnknownEngine
 
 		bool AngelScriptPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) 
 		{
-		  
-			log_helper.reset(new Utils::LogHelper(getName(), Utils::LogSeverity::INFO, plugins_manager->getEngineContext()));
-		  
-			LOG_INFO(log_helper, "Logger initialized");
-			
-			LOG_INFO(log_helper, "Installing AngelScript plugin");
-
 			this->desc = desc;
-			
+
 			engine_context = plugins_manager->getEngineContext();
+			
+			AngelScriptSubsystemDesc asdesc;
+			angel_script_subsystem.reset(new AngelScriptSubsystem(getName(), asdesc, engine_context));
 
 			return true;
 		}
 
 		bool AngelScriptPlugin::init () 
 		{
-			LOG_INFO(log_helper, "Initializing AngelScript plugin")
-
+			angel_script_subsystem->init();
+		
 			return true;
 		}
 
 		bool AngelScriptPlugin::shutdown () 
 		{
-			LOG_INFO(log_helper, "Shutting down AngelScript plugin");
-		  
+			angel_script_subsystem->shutdown();
+			
 			return true;
 		}
 
 		bool AngelScriptPlugin::uninstall () 
 		{
-			LOG_INFO(log_helper, "Uninstalling AngelScript plugin");
-		  
+			angel_script_subsystem.reset();
 			log_helper.reset();
 			return true;
 		}

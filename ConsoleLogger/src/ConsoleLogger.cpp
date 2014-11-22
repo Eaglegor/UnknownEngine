@@ -29,6 +29,7 @@ namespace UnknownEngine
 
 		void ConsoleLogger::log ( const std::string &sender, const LogSeverity &severity, const std::string &msg )
 		{
+			std::lock_guard<std::mutex> guard(lock);
 			std::cout << "[";
 
 			using Utils::LogSeverity;
