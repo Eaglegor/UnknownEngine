@@ -84,6 +84,11 @@ namespace UnknownEngine
 				}
 			}
 			
+			virtual void detachAllListeners()
+			{
+				listeners.clear();
+			};
+			
 		private:
 			EngineContext* engine_context;
 			IMessageDeliveryPolicy* message_delivery_policy;

@@ -55,6 +55,7 @@ namespace UnknownEngine
 		void MessageDispatcher::removeListener ( IMessageListener* listener )
 		{
 			std::lock_guard<LockPrimitive> guard(lock);
+			CORE_SUBSYSTEM_DEBUG("Removing listener" + listener->getName());
 			onRemoveListener(listener);
 			
 			for(auto &message_type_iter : listeners)
@@ -85,6 +86,8 @@ namespace UnknownEngine
 		{
 			std::lock_guard<LockPrimitive> guard(lock);
 			onRemoveSender(sender);
+			
+			CORE_SUBSYSTEM_DEBUG("Removing sender" + sender->getName());
 			
 			for(auto &message_type_iter : senders)
 			{
@@ -139,13 +142,7 @@ namespace UnknownEngine
 
 		void MessageDispatcher::onRemoveSender ( IMessageSender* sender )
 		{
-			for(auto &message_type_iter : listeners)
-			{
-				for(auto &iter : message_type_iter.second)
-				{
-					sender->detachListener(iter.second.listener);
-				}
-			}
+			sender->detachAllListeners();
 		}
 		
 	} /* namespace Core */

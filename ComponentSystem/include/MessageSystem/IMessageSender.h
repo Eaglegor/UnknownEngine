@@ -20,6 +20,7 @@ namespace UnknownEngine
 			
 			virtual void attachListener(IMessageListener* listener, IMessageReceivePolicy* receive_policy) = 0;
 			virtual void detachListener(IMessageListener* listener) = 0;
+			virtual void detachAllListeners() = 0;
 		};
 	}
 }
