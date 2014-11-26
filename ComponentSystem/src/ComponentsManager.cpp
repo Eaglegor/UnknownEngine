@@ -98,6 +98,7 @@ namespace UnknownEngine
 		{
 			if ( entity )
 			{
+				entity->removeAllComponents();
 				CORE_SUBSYSTEM_INFO ( "Destroying entity '" + entity->getName() + "'" );
 				auto iter = std::find ( entities.begin(), entities.end(), entity );
 				if ( iter != entities.end() ) *iter = nullptr;

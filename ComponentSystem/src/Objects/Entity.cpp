@@ -28,10 +28,7 @@ namespace UnknownEngine
 
 		Entity::~Entity ()
 		{
-			for ( auto & iter : components )
-			{
-				components_manager->removeComponent ( iter.second );
-			}
+			
 		}
 
 		IComponent* Entity::createComponent ( const ComponentDesc& desc )
@@ -44,6 +41,16 @@ namespace UnknownEngine
 			return component;
 		}
 
+		void Entity::removeAllComponents()
+		{
+			for(auto &iter : components)
+			{
+				iter.second->shutdown();
+				components_manager->removeComponent(iter.second);
+			}
+			components.clear();
+		}
+	
 		void Entity::removeComponent ( IComponent *component )
 		{
 			if ( components.find ( std::string(component->getName()) ) != components.end() ) throw ComponentNotFoundException ( "Entity doesn't contain component " + std::string(component->getName()) );

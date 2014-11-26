@@ -79,7 +79,12 @@ namespace UnknownEngine
 				COMPONENTSYSTEM_EXPORT
 				void removeComponent ( IComponent *component );
 				
+				COMPONENTSYSTEM_EXPORT
+				void removeAllComponents();
+				
 			private:
+				
+				
 				typedef std::unordered_map<std::string, IComponent*> InternalMapType;
 
 				InternalMapType components; ///< Components map
