@@ -2,6 +2,7 @@
 
 #include <Registrators/ClassReferenceTypeRegistrator.h>
 #include <EngineContext.h>
+#include <Registrators/Core/ASNamespaceName.h>
 
 namespace UnknownEngine
 {
@@ -10,8 +11,8 @@ namespace UnknownEngine
 		class EngineContextRegistrator : public ClassReferenceTypeRegistrator<Core::EngineContext>
 		{
 			public:
-				EngineContextRegistrator(const std::string& registered_name, const std::string& declaration_namespace = "") :
-					ClassReferenceTypeRegistrator< Core::EngineContext > ( registered_name, declaration_namespace )
+				EngineContextRegistrator() :
+					ClassReferenceTypeRegistrator< Core::EngineContext > ( "EngineContext", CORE_AS_NAMESPACE_NAME )
 				{}
 		};
 	}

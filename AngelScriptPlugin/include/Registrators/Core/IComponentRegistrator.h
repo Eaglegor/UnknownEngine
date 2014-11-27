@@ -2,6 +2,7 @@
 
 #include <Registrators/ClassReferenceTypeRegistrator.h>
 #include <Objects/IComponent.h>
+#include <Registrators/Core/ASNamespaceName.h>
 
 namespace UnknownEngine
 {
@@ -10,8 +11,8 @@ namespace UnknownEngine
 		class IComponentRegistrator : public ClassReferenceTypeRegistrator<Core::IComponent>
 		{
 			public:
-				IComponentRegistrator(const std::string& registered_name, const std::string& declaration_namespace = "") :
-					ClassReferenceTypeRegistrator< Core::IComponent > ( registered_name, declaration_namespace )
+				IComponentRegistrator() :
+					ClassReferenceTypeRegistrator< Core::IComponent > ( "IComponent", CORE_AS_NAMESPACE_NAME )
 				{}
 		};
 	}

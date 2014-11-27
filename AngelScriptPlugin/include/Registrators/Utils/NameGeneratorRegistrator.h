@@ -2,6 +2,7 @@
 
 #include <Registrators/ClassReferenceTypeRegistrator.h>
 #include <NameGenerators/NameGenerator.h>
+#include <Registrators/Utils/ASNamespaceName.h>
 
 namespace UnknownEngine
 {
@@ -10,14 +11,14 @@ namespace UnknownEngine
 		class NameGeneratorRegistrator : public ClassReferenceTypeRegistrator<Utils::NameGenerator>
 		{
 		public:
-			NameGeneratorRegistrator(const std::string &registered_name, const std::string& declaration_namespace = "") :
-				ClassReferenceTypeRegistrator<Utils::NameGenerator>(registered_name, declaration_namespace)
+			NameGeneratorRegistrator() :
+				ClassReferenceTypeRegistrator<Utils::NameGenerator>("NameGenerator", UTILS_AS_NAMESPACE_NAME)
 			{}
 
 		protected:
 			bool registerMethods(asIScriptEngine* script_engine) const override
 			{
-				int result = script_engine->RegisterObjectMethod(registered_name.c_str(), "string generateName()", asMETHOD(Utils::NameGenerator, generateName), asCALL_THISCALL);
+				int result = script_engine->RegisterObjectMethod(registered_name.c_str(), "string generateName()", asMETHOD(class_type, generateName), asCALL_THISCALL);
 				if (result < 0) return false;
 
 				return true;

@@ -1,18 +1,18 @@
 #pragma once
 
-#include <ComponentDesc.h>
+#include <DataProvider/DataProviderDesc.h>
 #include <Registrators/ClassValueTypeRegistrator.h>
-#include <Registrators/Core/ASNamespaceName.h>
+#include <Registrators/Loader/ASNamespaceName.h>
 
 namespace UnknownEngine
 {
 	namespace Behavior
 	{
-		class ComponentDescRegistrator : public ClassValueTypeRegistrator<Core::ComponentDesc>
+		class DataProviderDescRegistrator : public ClassValueTypeRegistrator<Loader::DataProviderDesc>
 		{
 			public:
-				ComponentDescRegistrator() :
-					ClassValueTypeRegistrator< UnknownEngine::Core::ComponentDesc > ( "ComponentDesc", CORE_AS_NAMESPACE_NAME )
+				DataProviderDescRegistrator() :
+					ClassValueTypeRegistrator< Loader::DataProviderDesc > ( "DataProviderDesc", LOADER_AS_NAMESPACE_NAME )
 				{}
 
 			protected:

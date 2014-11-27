@@ -1,10 +1,18 @@
 #include <AngelScriptSubsystem.h>
 #include <LogHelper.h>
 #include <AngelScriptMessageCallback.h>
+
 #include <Registrators/Basic/StdStringRegistrator.h>
 #include <Registrators/Core/ComponentDescRegistrator.h>
 #include <Registrators/Core/EngineContextRegistrator.h>
 #include <Registrators/Core/IComponentRegistrator.h>
+#include <Registrators/Core/ComponentsManagerRegistrator.h>
+#include <Registrators/Core/EntityRegistrator.h>
+#include <Registrators/Core/PropertiesRegistrator.h>
+#include <Registrators/Loader/DataProviderDescRegistrator.h>
+#include <Registrators/Loader/IDataProviderRegistrator.h>
+#include <Registrators/Utils/NameGeneratorRegistrator.h>
+
 #include <scriptbuilder.h>
 #include <scriptstdstring.h>
 
@@ -51,10 +59,20 @@ namespace UnknownEngine
 			{// Basic types
 				StdStringRegistrator().registerType(script_engine);
 			}
-			{// Core engine types
-				IComponentRegistrator("IComponent", "Core").registerType(script_engine);
-				ComponentDescRegistrator("ComponentDesc", "Core").registerType(script_engine);
-				EngineContextRegistrator("EngineContext", "Core").registerType(script_engine);
+			{// Utils
+				NameGeneratorRegistrator().registerType(script_engine);
+			}
+			{// Core
+				PropertiesRegistrator().registerType(script_engine);
+				ComponentDescRegistrator().registerType(script_engine);
+				IComponentRegistrator().registerType(script_engine);
+				EntityRegistrator().registerType(script_engine);
+				ComponentsManagerRegistrator().registerType(script_engine);
+				EngineContextRegistrator().registerType(script_engine);
+			}
+			{// Loader
+				DataProviderDescRegistrator().registerType(script_engine);
+				IDataProviderRegistrator().registerType(script_engine);
 			}
 		}
 	}

@@ -34,6 +34,8 @@ namespace UnknownEngine
 			}
 
 		protected:
+			typedef T class_type;
+
 			virtual bool registerConstructor( asIScriptEngine* script_engine ) const
 			{
 				int result = script_engine->RegisterObjectBehaviour(registered_name.c_str(), asBEHAVE_CONSTRUCT, "void f()", asFUNCTION(ClassValueTypeRegistrator<T>::defaultConstructor), asCALL_CDECL_OBJLAST);
