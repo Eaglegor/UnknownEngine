@@ -59,7 +59,7 @@ namespace UnknownEngine
 			components_manager->removeComponent ( component );
 		}
 
-		const std::string &Entity::getName() const
+		std::string Entity::getName() const
 		{
 			return name;
 		}
