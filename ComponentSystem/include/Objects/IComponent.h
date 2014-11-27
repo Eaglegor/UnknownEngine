@@ -96,6 +96,7 @@ namespace UnknownEngine
 				virtual const char* getName() const = 0;
 
 				virtual ~IComponent () {};
+
 		};
 
 	} /* namespace Core */

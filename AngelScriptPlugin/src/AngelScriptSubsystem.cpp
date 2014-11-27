@@ -52,9 +52,9 @@ namespace UnknownEngine
 				StdStringRegistrator().registerType(script_engine);
 			}
 			{// Core engine types
-				IComponentRegistrator("IComponent").registerType(script_engine);
-				ComponentDescRegistrator("ComponentDesc").registerType(script_engine);
-				EngineContextRegistrator("EngineContext").registerType(script_engine);
+				IComponentRegistrator("IComponent", "Core").registerType(script_engine);
+				ComponentDescRegistrator("ComponentDesc", "Core").registerType(script_engine);
+				EngineContextRegistrator("EngineContext", "Core").registerType(script_engine);
 			}
 		}
 	}

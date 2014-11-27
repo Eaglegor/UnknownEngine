@@ -10,8 +10,8 @@ namespace UnknownEngine
 		class EngineContextRegistrator : public ClassReferenceTypeRegistrator<Core::EngineContext>
 		{
 			public:
-				EngineContextRegistrator ( const std::string& registered_name ) :
-					ClassReferenceTypeRegistrator< Core::EngineContext > ( registered_name )
+				EngineContextRegistrator(const std::string& registered_name, const std::string& declaration_namespace = "") :
+					ClassReferenceTypeRegistrator< Core::EngineContext > ( registered_name, declaration_namespace )
 				{}
 		};
 	}

@@ -66,7 +66,7 @@ namespace UnknownEngine
 				 * @return Entity name
 				 */
 				COMPONENTSYSTEM_EXPORT
-				const std::string& getName() const;
+				std::string getName() const;
 
 				COMPONENTSYSTEM_EXPORT
 				IComponent* createComponent(const ComponentDesc& desc);

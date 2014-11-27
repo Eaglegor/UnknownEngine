@@ -2,6 +2,7 @@
 
 #include <Registrators/ITypeRegistrator.h>
 #include <string>
+#include <type_traits>
 
 namespace UnknownEngine
 {

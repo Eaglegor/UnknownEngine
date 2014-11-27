@@ -10,8 +10,8 @@ namespace UnknownEngine
 		class ComponentDescRegistrator : public ClassValueTypeRegistrator<Core::ComponentDesc>
 		{
 			public:
-				ComponentDescRegistrator ( const std::string& registered_name ) :
-					ClassValueTypeRegistrator< UnknownEngine::Core::ComponentDesc > ( registered_name )
+				ComponentDescRegistrator(const std::string& registered_name, const std::string& declaration_namespace = "") :
+					ClassValueTypeRegistrator< UnknownEngine::Core::ComponentDesc > ( registered_name, declaration_namespace )
 				{}
 
 			protected:

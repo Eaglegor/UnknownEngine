@@ -12,8 +12,9 @@ namespace UnknownEngine
 		{
 		public:
 			
-			ClassValueTypeRegistrator(const std::string& registered_name):
-			registered_name(registered_name)
+			ClassValueTypeRegistrator(const std::string& registered_name, const std::string& declaration_namespace = ""):
+			registered_name(registered_name),
+			declaration_namespace(declaration_namespace)
 			{}
 			
 			virtual bool registerType ( asIScriptEngine* script_engine ) const override
@@ -67,6 +68,8 @@ namespace UnknownEngine
 			{
 				static_cast<T*>(memory)->~T();
 			}
+
+			const std::string declaration_namespace;
 			
 		};
 	}

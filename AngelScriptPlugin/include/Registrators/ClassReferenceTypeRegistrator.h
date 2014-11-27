@@ -11,8 +11,9 @@ namespace UnknownEngine
 		class ClassReferenceTypeRegistrator : public ITypeRegistrator
 		{
 		public:
-			ClassReferenceTypeRegistrator(const std::string& registered_name):
-			registered_name(registered_name)
+			ClassReferenceTypeRegistrator(const std::string& registered_name, const std::string& declaration_namespace = ""):
+			registered_name(registered_name),
+			declaration_namespace(declaration_namespace)
 			{}
 			
 			virtual bool registerType ( asIScriptEngine* script_engine ) const override
@@ -34,6 +35,9 @@ namespace UnknownEngine
 			}
 			
 			const std::string registered_name;
+
+		private:
+			const std::string declaration_namespace;
 		};
 	}
 }
