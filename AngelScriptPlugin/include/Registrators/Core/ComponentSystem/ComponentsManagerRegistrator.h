@@ -19,13 +19,13 @@ namespace UnknownEngine
 		protected:
 			bool registerMethods(asIScriptEngine* script_engine) const override
 			{
-				int result = script_engine->RegisterObjectMethod(registered_name.c_str(), "Core::Entity@ createEntity(const string &in)", asMETHOD(class_type, createEntity), asCALL_THISCALL);
+				int result = script_engine->RegisterObjectMethod(getRegisteredName(), "Core::Entity@ createEntity(const std::string &in)", asMETHOD(class_type, createEntity), asCALL_THISCALL);
 				if (result < 0) return false;
 
-				result = script_engine->RegisterObjectMethod(registered_name.c_str(), "void removeEntity(Core::Entity @in)", asMETHOD(class_type, removeEntity), asCALL_THISCALL);
+				result = script_engine->RegisterObjectMethod(getRegisteredName(), "void removeEntity(Core::Entity @)", asMETHOD(class_type, removeEntity), asCALL_THISCALL);
 				if (result < 0) return false;
 
-				result = script_engine->RegisterObjectMethod(registered_name.c_str(), "Utils::NameGenerator@ getNameGenerator()", asMETHOD(class_type, getNameGenerator), asCALL_THISCALL);
+				result = script_engine->RegisterObjectMethod(getRegisteredName(), "Utils::NameGenerator@ getNameGenerator()", asMETHOD(class_type, getNameGenerator), asCALL_THISCALL);
 				if (result < 0) return false;
 
 				return true;

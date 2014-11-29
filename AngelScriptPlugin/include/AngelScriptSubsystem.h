@@ -4,8 +4,7 @@
 #include <memory>
 #include <unordered_map>
 
-#define ANGELSCRIPT_DLL_LIBRARY_IMPORT
-#include <angelscript.h>
+#include <ASIncludes.h>
 
 namespace UnknownEngine
 {

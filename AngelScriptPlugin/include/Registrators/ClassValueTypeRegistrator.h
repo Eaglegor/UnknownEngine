@@ -19,20 +19,20 @@ namespace UnknownEngine
 			
 			virtual bool registerType ( asIScriptEngine* script_engine ) const override
 			{
-#if AS_CAN_USE_CPP11
-				asUINT traits_flag = asGetTypeTraits<T>();
-#else
-				asUINT traits_flag = 0;
-#endif
-				int result = script_engine->RegisterObjectType(registered_name.c_str(), sizeof(T), asOBJ_VALUE | traits_flag);
-				if(result < 0) return false;
-				if(registerConstructor(script_engine) && registerDestructor(script_engine))
-				{
-					return registerProperties(script_engine) && registerMethods(script_engine);
-				}
-				return false;
+				script_engine->SetDefaultNamespace(declaration_namespace.c_str());
+				
+				bool success = registerTypeImpl(script_engine);
+				
+				script_engine->SetDefaultNamespace("");
+				
+				return success;
 			}
 
+			virtual const char* getRegisteredName() const override
+			{
+				return registered_name.c_str();
+			}
+			
 		protected:
 			typedef T class_type;
 
@@ -58,8 +58,6 @@ namespace UnknownEngine
 				 return true;
 			}
 			
-			const std::string registered_name;
-			
 		private:
 			static void defaultConstructor(void *memory)
 			{
@@ -71,6 +69,23 @@ namespace UnknownEngine
 				static_cast<T*>(memory)->~T();
 			}
 
+			bool registerTypeImpl ( asIScriptEngine* script_engine ) const
+			{
+#if AS_CAN_USE_CPP11
+				asUINT traits_flag = asGetTypeTraits<T>();
+#else
+				asUINT traits_flag = 0;
+#endif
+				int result = script_engine->RegisterObjectType(registered_name.c_str(), sizeof(T), asOBJ_VALUE | traits_flag);
+				if(result < 0) return false;
+				if(registerConstructor(script_engine) && registerDestructor(script_engine))
+				{
+					return registerProperties(script_engine) && registerMethods(script_engine);
+				}
+				return false;
+			}
+			
+			const std::string registered_name;
 			const std::string declaration_namespace;
 			
 		};

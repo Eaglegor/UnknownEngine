@@ -18,14 +18,23 @@ namespace UnknownEngine
 			
 			virtual bool registerType ( asIScriptEngine* script_engine ) const override
 			{
-				int result = script_engine->RegisterObjectType(registered_name.c_str(), 0, asOBJ_REF | asOBJ_NOCOUNT);
-				if(result < 0) return false;
-				return registerProperties( script_engine ) && registerMethods( script_engine );
+				script_engine->SetDefaultNamespace(declaration_namespace.c_str());
+				
+				bool success = registerTypeImpl(script_engine);
+				
+				script_engine->SetDefaultNamespace("");
+				
+				return success;
+			}
+
+			virtual const char* getRegisteredName() const
+			{
+				return registered_name.c_str();
 			}
 			
 		protected:
 			typedef T class_type;
-			
+
 			virtual bool registerProperties( asIScriptEngine* script_engine ) const
 			{
 				return true;
@@ -35,10 +44,17 @@ namespace UnknownEngine
 			{
 				return true;
 			}
-			
-			const std::string registered_name;
+
 
 		private:
+			bool registerTypeImpl(asIScriptEngine* script_engine) const
+			{
+				int result = script_engine->RegisterObjectType(registered_name.c_str(), 0, asOBJ_REF | asOBJ_NOCOUNT);
+				if(result < 0) return false;
+				return registerProperties( script_engine ) && registerMethods( script_engine );
+			}
+			
+			const std::string registered_name;
 			const std::string declaration_namespace;
 		};
 	}

@@ -18,13 +18,13 @@ namespace UnknownEngine
 			protected:
 				virtual bool registerMethods(asIScriptEngine* script_engine) const override
 				{
-					int result = script_engine->RegisterObjectMethod(registered_name.c_str(), "IComponent@ createComponent(const ComponentDesc &in)", asMETHOD(class_type, createComponent), asCALL_THISCALL);
+					int result = script_engine->RegisterObjectMethod(getRegisteredName(), "Core::IComponent@ createComponent(const ComponentDesc &in)", asMETHOD(class_type, createComponent), asCALL_THISCALL);
 					if (result < 0) return false;
 
-					result = script_engine->RegisterObjectMethod(registered_name.c_str(), "void removeComponent(IComponent @in)", asMETHOD(class_type, removeComponent), asCALL_THISCALL);
+					result = script_engine->RegisterObjectMethod(getRegisteredName(), "void removeComponent(Core::IComponent@)", asMETHOD(class_type, removeComponent), asCALL_THISCALL);
 					if (result < 0) return false;
 
-					result = script_engine->RegisterObjectMethod(registered_name.c_str(), "void removeAllComponents()", asMETHOD(class_type, removeAllComponents), asCALL_THISCALL);
+					result = script_engine->RegisterObjectMethod(getRegisteredName(), "void removeAllComponents()", asMETHOD(class_type, removeAllComponents), asCALL_THISCALL);
 					if (result < 0) return false;
 
 					return true;

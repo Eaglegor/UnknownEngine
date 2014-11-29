@@ -2,8 +2,7 @@
 
 #include <LogHelper.h>
 
-#define ANGELSCRIPT_DLL_LIBRARY_IMPORT
-#include <angelscript.h>
+#include <ASIncludes.h>
 
 namespace UnknownEngine
 {

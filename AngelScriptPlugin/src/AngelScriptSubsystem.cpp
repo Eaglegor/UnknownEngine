@@ -3,18 +3,19 @@
 #include <AngelScriptMessageCallback.h>
 
 #include <Registrators/Basic/StdStringRegistrator.h>
-#include <Registrators/Core/ComponentDescRegistrator.h>
-#include <Registrators/Core/EngineContextRegistrator.h>
-#include <Registrators/Core/IComponentRegistrator.h>
-#include <Registrators/Core/ComponentsManagerRegistrator.h>
-#include <Registrators/Core/EntityRegistrator.h>
-#include <Registrators/Core/PropertiesRegistrator.h>
-#include <Registrators/Loader/DataProviderDescRegistrator.h>
-#include <Registrators/Loader/IDataProviderRegistrator.h>
+#include <Registrators/Core/ComponentSystem/ComponentDescRegistrator.h>
+#include <Registrators/Core/Engine/EngineContextRegistrator.h>
+#include <Registrators/Core/ComponentSystem/IComponentRegistrator.h>
+#include <Registrators/Core/ComponentSystem/ComponentsManagerRegistrator.h>
+#include <Registrators/Core/ComponentSystem/EntityRegistrator.h>
+#include <Registrators/Core/Engine/PropertiesRegistrator.h>
+#include <Registrators/Core/ResourceManager/DataProviderDescRegistrator.h>
+#include <Registrators/Core/ResourceManager/IDataProviderRegistrator.h>
+#include <Registrators/Core/MessageSystem/ReceivedMessageDescRegistrator.h>
+#include <Registrators/Core/MessageSystem/ReceivePolicyDescRegistrator.h>
 #include <Registrators/Utils/NameGeneratorRegistrator.h>
 
-#include <scriptbuilder.h>
-#include <scriptstdstring.h>
+#include <scriptbuilder/scriptbuilder.h>
 
 #include <iostream>
 
@@ -64,8 +65,12 @@ namespace UnknownEngine
 			}
 			{// Core
 				PropertiesRegistrator().registerType(script_engine);
+
+				ReceivePolicyDescRegistrator().registerType(script_engine);
+				ReceivedMessageDescRegistrator().registerType(script_engine);
 				ComponentDescRegistrator().registerType(script_engine);
 				IComponentRegistrator().registerType(script_engine);
+				
 				EntityRegistrator().registerType(script_engine);
 				ComponentsManagerRegistrator().registerType(script_engine);
 				EngineContextRegistrator().registerType(script_engine);
@@ -73,6 +78,9 @@ namespace UnknownEngine
 			{// Loader
 				DataProviderDescRegistrator().registerType(script_engine);
 				IDataProviderRegistrator().registerType(script_engine);
+			}
+			{// Message types
+				
 			}
 		}
 	}

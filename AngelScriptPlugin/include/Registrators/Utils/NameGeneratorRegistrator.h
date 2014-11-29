@@ -18,7 +18,7 @@ namespace UnknownEngine
 		protected:
 			bool registerMethods(asIScriptEngine* script_engine) const override
 			{
-				int result = script_engine->RegisterObjectMethod(registered_name.c_str(), "string generateName()", asMETHOD(class_type, generateName), asCALL_THISCALL);
+				int result = script_engine->RegisterObjectMethod(getRegisteredName(), "string generateName()", asMETHOD(class_type, generateName), asCALL_THISCALL);
 				if (result < 0) return false;
 
 				return true;

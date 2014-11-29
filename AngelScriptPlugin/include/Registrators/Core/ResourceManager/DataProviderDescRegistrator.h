@@ -18,10 +18,10 @@ namespace UnknownEngine
 			protected:
 				virtual bool registerProperties ( asIScriptEngine* script_engine ) const override
 				{
-					int result = script_engine->RegisterObjectProperty ( registered_name.c_str(), "string name", asOFFSET ( class_type, name ) );
+					int result = script_engine->RegisterObjectProperty ( getRegisteredName(), "std::string name", asOFFSET ( class_type, name ) );
 					if ( result < 0 ) return false;
 
-					result = script_engine->RegisterObjectProperty ( registered_name.c_str(), "string type", asOFFSET ( class_type, type ) );
+					result = script_engine->RegisterObjectProperty ( getRegisteredName(), "std::string type", asOFFSET ( class_type, type ) );
 					if ( result < 0 ) return false;
 					
 					return true;

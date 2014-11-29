@@ -5,6 +5,9 @@ set(INCLUDED_MODULE_HEADERS AngelScriptPlugin Plugins ComponentSystem Utils Engi
 set(LINKED_LIBS Engine ComponentSystem Plugins )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 
+list(APPEND INCLUDED_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/add_on)
+list(APPEND ADDITIONAL_SOURCE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/add_on)
+
 find_package(AngelScript)
 if(ANGELSCRIPT_FOUND)
 
