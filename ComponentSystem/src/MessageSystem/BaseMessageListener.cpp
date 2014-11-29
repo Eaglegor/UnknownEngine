@@ -13,7 +13,6 @@ namespace UnknownEngine
 	{
 		BaseMessageListener::BaseMessageListener ( const std::string& object_name, EngineContext* engine_context ) : 
 		IMessageListener ( object_name ),
-		messaging_policies_manager(engine_context),
 		engine_context(engine_context),
 		registered(false)
 		{

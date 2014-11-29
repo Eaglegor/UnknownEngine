@@ -4,14 +4,38 @@
 
 	<subsystems>
 		<subsystem name="Logger" module="ConsoleLogger">
+			
+			<messaging_rules>
+				<listener>
+					<message type="Utils.LogMessage">
+						<receive_policy type="Any"/>
+					</message>
+				</listener>
+			</messaging_rules>
+			
 			<received_messages>
 				<message type="Utils.LogMessage">
 					<receive_policy type="Any"/>
 				</message>
 			</received_messages>
+			
 		</subsystem>
 		
 		<subsystem name="WindowManager" module="SDLWindowManagerPlugin">
+			
+			<messaging_rules>
+				
+				<listener>
+					<message type="Engine.MainLoop.UpdateFrameMessage"/>
+					<message type="Graphics.GUI.GetWindowHandleMessage"/>
+				</listener>
+				
+				<sender>
+					<message type="Engine.MainLoop.UpdateFrameMessage"/>
+				</sender>
+				
+			</messaging_rules>
+			
 			<received_messages>
 				<message type="Engine.MainLoop.UpdateFrameMessage"/>
 				<message type="Graphics.GUI.GetWindowHandleMessage"/>
@@ -35,6 +59,22 @@
 			<dependencies>
 				<dependency>UserInput</dependency>
 			</dependencies>
+		
+			<messaging_rules>
+				<listener>
+					<message type="Engine.MainLoop.UpdateFrameMessage">
+						<receive_policy type="FromSingleSender">
+							<options_section>
+								<option name="sender_name" value="Engine"/>
+							</options_section>
+						</receive_policy>
+					</message>
+				</listener>
+				
+				<sender>
+					<message type="Graphics.GUI.GetWindowHandleMessage"/>
+				</sender>
+			</messaging_rules>
 		
 			<received_messages>
 				<message type="Engine.MainLoop.UpdateFrameMessage">

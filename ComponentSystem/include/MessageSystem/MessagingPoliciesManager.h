@@ -26,7 +26,7 @@ namespace UnknownEngine
 				typedef std::unique_ptr <IMessageDeliveryPolicy> DeliveryPolicyPtr;
 
 				COMPONENTSYSTEM_EXPORT
-				MessagingPoliciesManager ( EngineContext *engine_context );
+				MessagingPoliciesManager ();
 
 				COMPONENTSYSTEM_EXPORT
 				IMessageReceivePolicy* createPrefabReceiveMessagePolicy ( const MessagePolicyType &type, const Properties& options );

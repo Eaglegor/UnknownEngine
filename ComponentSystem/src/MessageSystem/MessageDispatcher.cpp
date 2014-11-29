@@ -38,6 +38,18 @@ namespace UnknownEngine
 		{
 			std::lock_guard<LockPrimitive> guard(lock);
 			
+			IMessageReceivePolicy* r_policy = nullptr;
+			// Checking if listener is allowed to receive messages of this type
+			{
+				auto rules_entry = listener_rules.find(listener->getMessageSystemParticipantId());
+				if(rules_entry == listener_rules.end()) return;
+				ListenerRules& rule = rules_entry->second;
+				auto iter = rule.messages.find(message_type);
+				if(iter == rule.messages.end()) return;
+				r_policy = iter->second;
+			}
+			
+			
 			auto iter = listeners.find(message_type);
 			if(iter == listeners.end())
 			{
@@ -67,6 +79,17 @@ namespace UnknownEngine
 		void MessageDispatcher::addSender ( const MessageType &message_type, IMessageSender* sender, IMessageDeliveryPolicy* delivery_policy )
 		{
 			std::lock_guard<LockPrimitive> guard(lock);
+			
+			IMessageDeliveryPolicy* d_policy = nullptr;
+			// Checking if sender is allowed to send messages of this type
+			{
+				auto rules_entry = sender_rules.find(sender->getMessageSystemParticipantId());
+				if(rules_entry == sender_rules.end()) return;
+				const SenderRules& rule = rules_entry->second;
+				auto iter = rule.messages.find(message_type);
+				if(iter == rule.messages.end()) return;
+				d_policy = iter->second;
+			}
 			
 			auto iter = senders.find(message_type);
 			if(iter == senders.end())
@@ -145,6 +168,38 @@ namespace UnknownEngine
 			sender->detachAllListeners();
 		}
 		
+		void MessageDispatcher::setListenerRules ( const MessageSystemParticipantId& listener_id, const ListenerRulesDesc& new_listener_rules )
+		{
+			ListenerRules &rules = listener_rules.emplace(listener_id, ListenerRules()).first->second;
+			rules.messages.clear();
+			
+			for(const ListenerRulesDesc::ReceivableMessageDesc& desc : new_listener_rules.receivable_messages)
+			{
+				rules.messages[MESSAGE_TYPE_ID(desc.message_type_name)] = rules.policies_factory.createPrefabReceiveMessagePolicy(desc.receive_policy_type_name, desc.receive_policy_options);
+			}
+		}
+
+		void MessageDispatcher::setSenderRules ( const MessageSystemParticipantId& sender_id, const SenderRulesDesc& new_sender_rules )
+		{
+			SenderRules &rules = sender_rules.emplace(sender_id, SenderRules()).first->second;
+			rules.messages.clear();
+			
+			for(const SenderRulesDesc::SendableMessageDesc& desc : new_sender_rules.sendable_messages)
+			{
+				rules.messages[MESSAGE_TYPE_ID(desc.message_type_name)] = rules.policies_factory.createPrefabDeliveryMessagePolicy(desc.delivery_policy_type_name, desc.delivery_policy_options);
+			}
+		}
+		
+		void MessageDispatcher::clearListenerRules ( const MessageSystemParticipantId& listener_id )
+		{
+			listener_rules.erase(listener_id);
+		}
+
+		void MessageDispatcher::clearSenderRules ( const MessageSystemParticipantId& sender_id )
+		{
+			sender_rules.erase(sender_id);
+		}
+
 	} /* namespace Core */
 } /* namespace UnknownEngine */
 
