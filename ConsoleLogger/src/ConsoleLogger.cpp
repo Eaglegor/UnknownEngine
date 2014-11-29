@@ -11,8 +11,9 @@ namespace UnknownEngine
 
 		using Utils::LogSeverity;
 		
-		ConsoleLogger::ConsoleLogger( ) :
-			Core::IMessageListener ( "Logger.ConsoleLogger.LoggerObject" )
+		ConsoleLogger::ConsoleLogger( const std::string &name ) :
+			Core::IMessageListener ( name ),
+			name(name)
 		{
 		}
 
@@ -54,11 +55,6 @@ namespace UnknownEngine
 
 			std::cout << sender << ": ";
 			std::cout << msg << std::endl;
-		}
-
-		void ConsoleLogger::setDefaultSenderName ( const std::string& name )
-		{
-			this->name = name;
 		}
 
 

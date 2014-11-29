@@ -58,6 +58,9 @@ namespace UnknownEngine
 
 			CORE_SUBSYSTEM_INFO ( "Registering engine stop listener" );
 			StopEngineListener stop_listener ( "Engine.EngineStopListener", &main_loop );
+			
+			initListenerRules(stop_listener.getMessageSystemParticipantId());
+			
 			context.getMessageDispatcher()->addListener ( MESSAGE_TYPE_ID(StopEngineActionMessage::getTypeName()), &stop_listener );
 
 			CORE_SUBSYSTEM_INFO ( "Starting main loop" );
@@ -175,6 +178,16 @@ namespace UnknownEngine
 			return plugins_manager;
 		}
 
+		void Engine::initListenerRules(const MessageSystemParticipantId &message_system_participant)
+		{
+			MessageDispatcher::ListenerRulesDesc listener_rules;
+			MessageDispatcher::ListenerRulesDesc::ReceivableMessageDesc msg;
+			
+			msg.message_type_name = StopEngineActionMessage::getTypeName();
+			
+			listener_rules.receivable_messages.push_back(msg);
+			context.getMessageDispatcher()->setListenerRules(message_system_participant, listener_rules);
+		}
 
 	} /* namespace Core */
 } /* namespace UnknownEngine */

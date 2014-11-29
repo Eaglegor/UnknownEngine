@@ -87,7 +87,7 @@ namespace UnknownEngine
 			for(auto& iter : received_messages)
 			{
 				LOG_DEBUG(log_helper, "Registering at message dispatcher");
-				if(iter.second.message_buffer) engine_context->getMessageDispatcher()->addListener(iter.first, this, iter.second.receive_policy);
+				if(iter.second.message_buffer) engine_context->getMessageDispatcher()->addListener(iter.first, this);
 			}
 			registered = true;
 		}

@@ -31,7 +31,7 @@ namespace UnknownEngine
 			private:
 				Core::SubsystemDesc desc;
 				Core::EngineContext* engine_context;
-				ConsoleLogger console_logger;
+				std::unique_ptr<ConsoleLogger> console_logger;
 
 		};
 

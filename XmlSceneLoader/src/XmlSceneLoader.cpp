@@ -16,6 +16,7 @@
 
 #include <SupportedTags.h>
 #include <EngineContext.h>
+#include <MessageSystem/MessageDispatcher.h>
 
 namespace UnknownEngine
 {
@@ -47,7 +48,7 @@ namespace UnknownEngine
 			{
 				throw InvalidSceneFile ( "Invalid scene file" );
 			}
-
+			
 			parseGlobalConstants ( scene_root.get() );
 
 			boost::optional<ptree&> templates_list = scene_root.get().get_child_optional ( Tags::TEMPLATES_SECTION );

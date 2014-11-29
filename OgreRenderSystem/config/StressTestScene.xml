@@ -6,7 +6,7 @@
 		<subsystem name="Logger" module="ConsoleLogger">
 			<received_messages>
 				<message type="Utils.LogMessage">
-					<receive_policy type="AnyMessageReceivePolicy"/>
+					<receive_policy type="Any"/>
 				</message>
 			</received_messages>
 		</subsystem>

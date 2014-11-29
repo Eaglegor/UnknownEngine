@@ -118,7 +118,12 @@ namespace UnknownEngine
 	UNKNOWNENGINE_INLINE
 	Core::MessageType MESSAGE_TYPE_ID(const std::string& message_type_name)
 	{
-		return Core::MessageDictionary::getSingleton()->getMessageTypeId(message_type_name);
+		Core::MessageType val = Core::MessageDictionary::getSingleton()->getMessageTypeId(message_type_name);
+		if(val == Core::INVALID_NUMERIC_IDENTIFIER)
+		{
+			val = Core::MessageDictionary::getSingleton()->registerNewMessageType(message_type_name);
+		}
+		return val;
 	}
 	
 	UNKNOWNENGINE_INLINE

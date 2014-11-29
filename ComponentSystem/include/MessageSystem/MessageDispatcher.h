@@ -82,6 +82,8 @@ namespace UnknownEngine
 					std::vector<ReceivableMessageDesc> receivable_messages;
 				};
 				
+				typedef ListenerRulesDesc::ReceivableMessageDesc SingleListenerRule;
+				
 				struct SenderRulesDesc
 				{
 					struct SendableMessageDesc
@@ -119,14 +121,20 @@ namespace UnknownEngine
 				void clearSenderRules(const MessageSystemParticipantId &sender_id);
 				
 				COMPONENTSYSTEM_EXPORT
-				void addListener ( const MessageType &message_type, IMessageListener* listener, IMessageReceivePolicy* receive_policy = nullptr);
+				void addListener ( const MessageType &message_type, IMessageListener* listener);
 
+				COMPONENTSYSTEM_EXPORT
+				void addListener ( const MessageType &message_type, IMessageListener* listener, const ListenerRulesDesc::ReceivableMessageDesc &listener_rule);
+				
 				COMPONENTSYSTEM_EXPORT
 				void removeListener ( IMessageListener* listener );
 
 				COMPONENTSYSTEM_EXPORT
-				void addSender ( const MessageType &message_type, IMessageSender* sender, IMessageDeliveryPolicy* delivery_policy = nullptr);
+				void addSender ( const MessageType &message_type, IMessageSender* sender);
 
+				COMPONENTSYSTEM_EXPORT
+				void addSender ( const MessageType &message_type, IMessageSender* sender, const SenderRulesDesc::SendableMessageDesc &sender_rule);
+				
 				COMPONENTSYSTEM_EXPORT
 				void removeSender ( IMessageSender* sender );
 
@@ -160,6 +168,15 @@ namespace UnknownEngine
 				void onNewSender(const MessageType &message_type, IMessageSender* sender, IMessageDeliveryPolicy* delivery_policy);
 				void onRemoveListener(IMessageListener* listener);
 				void onRemoveSender(IMessageSender* sender);
+
+				ListenerRules* getListenerRules(const MessageSystemParticipantId& id);
+				SenderRules* getSenderRules(const MessageSystemParticipantId& id);
+				
+				ListenerRules* createListenerRules(const MessageSystemParticipantId& id);
+				SenderRules* createSenderRules(const MessageSystemParticipantId& id);
+
+				void setSingleListenerRule(const MessageSystemParticipantId& id, const MessageType &message_type, const ListenerRulesDesc::ReceivableMessageDesc& listener_rule);
+				void setSingleSenderRule(const MessageSystemParticipantId& id, const MessageType &message_type, const SenderRulesDesc::SendableMessageDesc& sender_rule);
 				
 				typedef std::unordered_map< MessageSystemParticipantId, ListenerRules > ListenerRulesMap;
 				typedef std::unordered_map< MessageSystemParticipantId, SenderRules > SenderRulesMap;

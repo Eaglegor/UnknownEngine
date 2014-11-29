@@ -16,6 +16,7 @@
 #include <OptionsParser.h>
 #include <ComponentsManager.h>
 #include <MessageSystem/MessageListenerDesc.h>
+#include <MessageSystem/MessageDispatcher.h>
 #include <MessageListenerParser.h>
 #include <ComponentDesc.h>
 #include <EngineContext.h>
@@ -138,6 +139,20 @@ namespace UnknownEngine
 				if ( iter.first == Tags::MESSAGE_LISTENER )
 				{
 					component_desc.received_messages = MessageListenerParser::parseMessageListener ( iter.second, scene_loader->getConstantsHolder() );
+					
+					Core::MessageDispatcher::ListenerRulesDesc listener_rules;
+					for(Core::ReceivedMessageDesc& iter : component_desc.received_messages)
+					{
+						Core::MessageDispatcher::ListenerRulesDesc::ReceivableMessageDesc msg;
+						msg.message_type_name = iter.message_type_name;
+						if(iter.receive_policy)
+						{
+							msg.receive_policy_type_name = iter.receive_policy->receive_policy_type_name;
+							msg.receive_policy_options = iter.receive_policy->receive_policy_options;
+						}
+						listener_rules.receivable_messages.push_back(msg);
+					}
+					engine_context->getMessageDispatcher()->setListenerRules(component_desc.name, listener_rules);
 				}
 				else if ( iter.first == Tags::OPTIONS_SECTION )
 				{

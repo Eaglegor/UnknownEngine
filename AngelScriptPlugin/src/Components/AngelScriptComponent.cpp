@@ -1,4 +1,6 @@
 #include <Components/AngelScriptComponent.h>
+#include <MessageSystem/IMessageListener.h>
+#include <LogHelper.h>
 
 namespace UnknownEngine
 {
@@ -15,6 +17,10 @@ namespace UnknownEngine
 		{
 		}
 		
+		AngelScriptComponent::~AngelScriptComponent()
+		{
+		}
+		
 		Core::ComponentType AngelScriptComponent::getType() const
 		{
 			return TYPE;
@@ -26,16 +32,6 @@ namespace UnknownEngine
 		}
 
 		void AngelScriptComponent::shutdown()
-		{
-			
-		}
-		
-		void AngelScriptComponent::addListener ( Core::IMessageListener* listener )
-		{
-			
-		}
-
-		void AngelScriptComponent::removeListener ( Core::IMessageListener* listener )
 		{
 			
 		}

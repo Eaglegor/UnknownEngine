@@ -50,7 +50,7 @@ namespace UnknownEngine
 			 *
 			 */
 			COMPONENTSYSTEM_EXPORT
-			explicit MessageSystemParticipantId ( const std::string &object_name, AutoRegistrationPolicy auto_registration_policy = AutoRegistrationPolicy::DONT_AUTO_REGISTER );
+			MessageSystemParticipantId ( const std::string &object_name, AutoRegistrationPolicy auto_registration_policy = AutoRegistrationPolicy::AUTO_REGISTER );
 
 			/**
 			 * @brief Default constructor. Doesn't fill anything. Address is empty.

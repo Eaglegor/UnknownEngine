@@ -23,6 +23,7 @@ namespace UnknownEngine
 		{
 		public:
 			AngelScriptComponent ( const std::string& name, const AngelScriptComponentDesc& desc, Core::EngineContext* engine_context, AngelScriptSubsystem* angel_script_subsystem );
+			virtual ~AngelScriptComponent();
 			
 			virtual UnknownEngine::Core::ComponentType getType() const;
 			
