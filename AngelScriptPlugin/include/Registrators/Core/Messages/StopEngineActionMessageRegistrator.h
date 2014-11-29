@@ -5,6 +5,7 @@
 #include <Registrators/Core/ASNamespaceName.h>
 #include <ExportedMessages/StopEngineActionMessage.h>
 #include <Registrators/Core/MessageSystem/MessageSenderRegistrator.h>
+#include <Registrators/Core/MessageSystem/MessageListenerRegistrator.h>
 
 namespace UnknownEngine
 {
@@ -13,13 +14,18 @@ namespace UnknownEngine
 		class StopEngineActionMessageRegistrator : public PODTypeRegistrator<Core::StopEngineActionMessage >
 		{
 			public:
-				PropertiesRegistrator() :
+				StopEngineActionMessageRegistrator() :
 					PODTypeRegistrator< Core::StopEngineActionMessage > ( "StopEngineActionMessage", CORE_AS_NAMESPACE_NAME )
 				{}
 				
 				void registerMessageSender(asIScriptEngine* script_engine)
 				{
 					MessageSenderRegistrator<Core::StopEngineActionMessage>("Core::StopEngineActionMessage").registerType(script_engine);
+				}
+				
+				void registerListener(asIScriptEngine* script_engine)
+				{
+					MessageListenerRegistrator<Core::StopEngineActionMessage>("Core::StopEngineActionMessage").registerType(script_engine);
 				}
 		};
 	}

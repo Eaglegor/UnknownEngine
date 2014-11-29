@@ -13,7 +13,7 @@ namespace UnknownEngine
 		{
 		public:
 			MessageSenderRegistrator(const std::string &message_type_name):
-			registered_type_name("MessageSender" + "<" + message_type_name +">"),
+			registered_type_name("MessageSender<" + message_type_name +">"),
 			message_type_name(message_type_name)
 			{
 			}
@@ -28,7 +28,7 @@ namespace UnknownEngine
 				
 				script_engine->SetDefaultNamespace("Core");
 				
-				bool success = registerTypeImpl();
+				bool success = registerTypeImpl(script_engine);
 				
 				script_engine->SetDefaultNamespace("");
 				
@@ -39,16 +39,22 @@ namespace UnknownEngine
 			
 			bool registerTypeImpl ( asIScriptEngine* script_engine ) const
 			{
-				int result = script_engine->RegisterObjectType(getRegisteredName(), sizeof(Core::MessageSender<T>), asOBJ_VALUE | asOBJ_TEMPLATE | asGetTypeTraits< Core::MessageSender<T> >() );
+#if AS_CAN_USE_CPP11
+				asUINT type_traits_flag = asGetTypeTraits< Core::MessageSender<T> >();
+#else
+				asUINT type_traits_flag = 0;
+#endif
+				
+				int result = script_engine->RegisterObjectType(getRegisteredName(), sizeof(Core::MessageSender<T>), asOBJ_VALUE | asOBJ_TEMPLATE | type_traits_flag );
 				if(result < 0 ) return false;
 				
-				result = script_engine->RegisterObjectBehaviour(getRegisteredName(), asBEHAVE_CONSTRUCT, "void f(const std::string &in, Core::EngineContext@)" , asFUNCTION(MessageSenderRegistrator<T>::constructor));
+				result = script_engine->RegisterObjectBehaviour(getRegisteredName(), asBEHAVE_CONSTRUCT, "void f(const std::string &in, Core::EngineContext@)" , asFUNCTION(MessageSenderRegistrator<T>::constructor), asCALL_CDECL_OBJFIRST);
 				if(result < 0 ) return false;
 				
-				result = script_engine->RegisterObjectBehaviour(getRegisteredName(), asBEHAVE_DESTRUCT, "void f()" , asFUNCTION(MessageSenderRegistrator<T>::destructor));
+				result = script_engine->RegisterObjectBehaviour(getRegisteredName(), asBEHAVE_DESTRUCT, "void f()" , asFUNCTION(MessageSenderRegistrator<T>::destructor), asCALL_CDECL_OBJFIRST);
 				if(result < 0 ) return false;
 				
-				result = script_engine->RegisterObjectMethod(getRegisteredName(), "void sendMessage(const " + message_type_name + "&in)" , asMETHOD(Core::MessageSender<T>, sendMessage), asCALL_THISCALL );
+				result = script_engine->RegisterObjectMethod(getRegisteredName(), std::string("void sendMessage(const " + message_type_name + "&in)").c_str() , asMETHOD(Core::MessageSender<T>, sendMessage), asCALL_THISCALL );
 				if(result < 0 ) return false;
 				
 				return true;
@@ -61,7 +67,8 @@ namespace UnknownEngine
 			
 			static void destructor(void *memory)
 			{
-				static_cast<Core::MessageSender<T>*>(memory)->~Core::MessageSender<T>();
+				using namespace Core;
+				static_cast<MessageSender<T>*>(memory)->~MessageSender<T>();
 			}
 			
 			std::string registered_type_name;

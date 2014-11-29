@@ -13,6 +13,7 @@
 #include <Registrators/Core/ResourceManager/IDataProviderRegistrator.h>
 #include <Registrators/Core/MessageSystem/ReceivedMessageDescRegistrator.h>
 #include <Registrators/Core/MessageSystem/ReceivePolicyDescRegistrator.h>
+#include <Registrators/Core/Messages/StopEngineActionMessageRegistrator.h>
 #include <Registrators/Utils/NameGeneratorRegistrator.h>
 
 #include <scriptbuilder/scriptbuilder.h>
@@ -80,7 +81,7 @@ namespace UnknownEngine
 				IDataProviderRegistrator().registerType(script_engine);
 			}
 			{// Message types
-				
+				StopEngineActionMessageRegistrator().registerType(script_engine);
 			}
 		}
 	}
