@@ -20,11 +20,13 @@
 #include <mutex>
 #include <vector>
 
+#include <MessageSystem/MessageSenderRules.h>
+#include <MessageSystem/MessageListenerRules.h>
+
 namespace UnknownEngine
 {
 	namespace Core
 	{
-
 		class IMessageSender;
 
 		class IMessageDeliveryPolicy;
@@ -69,33 +71,6 @@ namespace UnknownEngine
 		class MessageDispatcher : public Singleton<MessageDispatcher>
 		{
 			public:
-				
-				struct ListenerRulesDesc
-				{
-					struct ReceivableMessageDesc
-					{
-						std::string message_type_name;
-						std::string receive_policy_type_name;
-						Core::Properties receive_policy_options;
-					};
-					
-					std::vector<ReceivableMessageDesc> receivable_messages;
-				};
-				
-				typedef ListenerRulesDesc::ReceivableMessageDesc SingleListenerRule;
-				
-				struct SenderRulesDesc
-				{
-					struct SendableMessageDesc
-					{
-						std::string message_type_name;
-						std::string delivery_policy_type_name;
-						Core::Properties delivery_policy_options;
-					};
-					
-					std::vector<SendableMessageDesc> sendable_messages;
-				};
-				
 				/**
 				 * @brief Default constructor
 				 *
@@ -109,10 +84,16 @@ namespace UnknownEngine
 				virtual ~MessageDispatcher ();
 
 				COMPONENTSYSTEM_EXPORT
-				void setListenerRules(const MessageSystemParticipantId &listener_id, const ListenerRulesDesc &listener_rules);
+				void setListenerRules(const MessageSystemParticipantId &listener_id, const MessageListenerRules &listener_rules);
 				
 				COMPONENTSYSTEM_EXPORT
-				void setSenderRules(const MessageSystemParticipantId &sender_id, const SenderRulesDesc &listener_rules);
+				void setSenderRules(const MessageSystemParticipantId &sender_id, const MessageSenderRules &listener_rules);
+				
+				COMPONENTSYSTEM_EXPORT
+				void setSingleListenerRule(const MessageSystemParticipantId& id, const MessageType &message_type, const MessageListenerRule& listener_rule);
+				
+				COMPONENTSYSTEM_EXPORT
+				void setSingleSenderRule(const MessageSystemParticipantId& id, const MessageType &message_type, const MessageSenderRule& sender_rule);
 				
 				COMPONENTSYSTEM_EXPORT
 				void clearListenerRules(const MessageSystemParticipantId &listener_id);
@@ -124,7 +105,7 @@ namespace UnknownEngine
 				void addListener ( const MessageType &message_type, IMessageListener* listener);
 
 				COMPONENTSYSTEM_EXPORT
-				void addListener ( const MessageType &message_type, IMessageListener* listener, const ListenerRulesDesc::ReceivableMessageDesc &listener_rule);
+				void addListener ( const MessageType &message_type, IMessageListener* listener, const MessageListenerRule &listener_rule);
 				
 				COMPONENTSYSTEM_EXPORT
 				void removeListener ( IMessageListener* listener );
@@ -133,7 +114,7 @@ namespace UnknownEngine
 				void addSender ( const MessageType &message_type, IMessageSender* sender);
 
 				COMPONENTSYSTEM_EXPORT
-				void addSender ( const MessageType &message_type, IMessageSender* sender, const SenderRulesDesc::SendableMessageDesc &sender_rule);
+				void addSender ( const MessageType &message_type, IMessageSender* sender, const MessageSenderRule &sender_rule);
 				
 				COMPONENTSYSTEM_EXPORT
 				void removeSender ( IMessageSender* sender );
@@ -175,9 +156,6 @@ namespace UnknownEngine
 				ListenerRules* createListenerRules(const MessageSystemParticipantId& id);
 				SenderRules* createSenderRules(const MessageSystemParticipantId& id);
 
-				void setSingleListenerRule(const MessageSystemParticipantId& id, const MessageType &message_type, const ListenerRulesDesc::ReceivableMessageDesc& listener_rule);
-				void setSingleSenderRule(const MessageSystemParticipantId& id, const MessageType &message_type, const SenderRulesDesc::SendableMessageDesc& sender_rule);
-				
 				typedef std::unordered_map< MessageSystemParticipantId, ListenerRules > ListenerRulesMap;
 				typedef std::unordered_map< MessageSystemParticipantId, SenderRules > SenderRulesMap;
 				

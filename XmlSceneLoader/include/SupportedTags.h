@@ -17,9 +17,12 @@ namespace UnknownEngine
 			static const std::string CONSTANT = "constant";
 			static const std::string SUBSYSTEMS_SECTION = "subsystems";
 			static const std::string SUBSYSTEM = "subsystem";
-			static const std::string MESSAGE_LISTENER = "received_messages";
+			static const std::string MESSAGING_RULES = "messaging_rules";
+			static const std::string LISTENER_RULES = "listener";
+			static const std::string SENDER_RULES = "sender";
 			static const std::string MESSAGE = "message";
 			static const std::string RECEIVE_POLICY = "receive_policy";
+			static const std::string DELIVERY_POLICY = "delivery_policy";
 			static const std::string OPTIONS_SECTION = "options_section";
 			static const std::string OPTION = "option";
 			static const std::string PROVIDED_DATA = "provided_data";

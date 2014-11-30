@@ -127,7 +127,7 @@ namespace UnknownEngine
 				    STOPPED = 3
 				};
 
-				void initListenerRules(const MessageSystemParticipantId& message_system_participant);
+				void initMessagingRules(const MessageSystemParticipantId& message_system_participant);
 				
 				State state;
 

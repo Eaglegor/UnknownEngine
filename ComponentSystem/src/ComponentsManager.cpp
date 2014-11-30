@@ -13,6 +13,7 @@
 #include <Objects/IComponent.h>
 #include <algorithm>
 #include <Objects/Entity.h>
+#include <MessageSystem/MessageDispatcher.h>
 
 #define ENABLE_CORE_SUBSYSTEM_ERROR_LOG
 #include <CoreLogging.h>
@@ -85,7 +86,9 @@ namespace UnknownEngine
 			{
 				if ( factory.second->supportsType ( component->getType() ) )
 				{
-					CORE_SUBSYSTEM_INFO ( "Shutting down component '" + std::string(component->getName()) + "'" );
+					MessageDispatcher::getSingleton()->clearListenerRules(MessageSystemParticipantId(component->getName()));
+					MessageDispatcher::getSingleton()->clearSenderRules(MessageSystemParticipantId(component->getName()));
+					
 					factory.second->destroyObject ( component );
 					return;
 				}

@@ -20,7 +20,11 @@ namespace UnknownEngine
 				LogHelper ( const std::string &name, const LogSeverity& minimal_severity, Core::EngineContext* engine_context )
 					: message_sender ( name, engine_context ),
 					  minimal_severity ( minimal_severity )
-				{}
+				{
+					Core::MessageSenderRule rule;
+					rule.message_type_name = Utils::LogMessage::getTypeName();
+					engine_context->getMessageDispatcher()->setSingleSenderRule(name, MESSAGE_TYPE_ID(Utils::LogMessage::getTypeName()), rule);
+				}
 
 				void log ( const LogSeverity& severity, const std::string& message )
 				{

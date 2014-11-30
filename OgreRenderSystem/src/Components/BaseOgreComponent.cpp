@@ -10,8 +10,8 @@ namespace UnknownEngine {
 	{
 		BaseOgreComponent::BaseOgreComponent ( const std::string& name, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context ) :
 			Core::BaseComponent(name),
-			render_subsystem ( render_subsystem ),
-			shutdown_initialized(false)
+			shutdown_initialized(false),
+			render_subsystem ( render_subsystem )
 		{
 			render_subsystem->addSynchronizeCallback ( this->getName(), [this]()
 				{

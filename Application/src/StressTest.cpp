@@ -16,16 +16,14 @@ void StressTest::init ( EngineContext* engine_context )
 {
 	this->engine_context = engine_context;
 	
-	UnknownEngine::Core::MessageDispatcher::ListenerRulesDesc rules;
-	UnknownEngine::Core::MessageDispatcher::SingleListenerRule rule;
+	MessageListenerRules rules;
+	MessageListenerRule rule;
 	rule.message_type_name = UpdateFrameMessage::getTypeName();
-	rules.receivable_messages.push_back(rule);
+	rules.push_back(rule);
 	
 	listener.reset(new BaseMessageListener("StressTest", engine_context));
 
 	engine_context->getMessageDispatcher()->setListenerRules(listener->getMessageSystemParticipantId(), rules);
-	
-	listener->registerSupportedMessageType(UpdateFrameMessage::getTypeName(), nullptr);
 	
 	{
 		typedef UpdateFrameMessage MessageType;
@@ -137,12 +135,13 @@ void StressTest::generateObjects ( size_t count )
 		}
 		
 		{
-			UnknownEngine::Core::MessageDispatcher::ListenerRulesDesc rules;
-			UnknownEngine::Core::MessageDispatcher::SingleListenerRule rule;
+			MessageListenerRules rules;
+			MessageListenerRule rule;
 			rule.message_type_name = "Engine.TransformChangedMessage";
 			rule.receive_policy_type_name = "FromSingleSender";
 			rule.receive_policy_options.set<std::string>("sender_name", rotation_component_name);
-			rules.receivable_messages.push_back(rule);
+			rules.push_back(rule);
+			
 			MessageSystemParticipantId id(desc.name);
 			engine_context->getMessageDispatcher()->setListenerRules(id, rules);
 		}
@@ -162,9 +161,9 @@ void StressTest::generateObjects ( size_t count )
 void StressTest::onUpdate ( const UpdateFrameMessage& msg )
 {
 	time_counter.tick();
-	if(time_counter.getElapsedTime() > 5.0f)
+	if(time_counter.getElapsedTime() > 0.2f)
 	{
 		time_counter.resetElapsedTime();
-		generateObjects(1000);
+		generateObjects(10);
 	}
 }

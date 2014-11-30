@@ -18,6 +18,7 @@
 #include <ConstantsHolder.h>
 #include <EngineContext.h>
 #include <MessageSystem/MessageDispatcher.h>
+#include <MessageSystem/MessageListenerRules.h>
 
 #ifdef _MSC_VER
 	#define WIN32_BUILD
@@ -88,23 +89,11 @@ namespace UnknownEngine
 			
 			for ( auto & iter : node )
 			{
-				if ( iter.first == Tags::MESSAGE_LISTENER )
+				if ( iter.first == Tags::MESSAGING_RULES )
 				{
-					desc.received_messages = MessageListenerParser::parseMessageListener ( iter.second, scene_loader->getConstantsHolder() );
-					
-					Core::MessageDispatcher::ListenerRulesDesc listener_rules;
-					for(Core::ReceivedMessageDesc& iter : desc.received_messages)
-					{
-						Core::MessageDispatcher::ListenerRulesDesc::ReceivableMessageDesc msg;
-						msg.message_type_name = iter.message_type_name;
-						if(iter.receive_policy)
-						{
-							msg.receive_policy_type_name = iter.receive_policy->receive_policy_type_name;
-							msg.receive_policy_options = iter.receive_policy->receive_policy_options;
-						}
-						listener_rules.receivable_messages.push_back(msg);
-					}
-					plugins_manager->getEngineContext()->getMessageDispatcher()->setListenerRules(name, listener_rules);
+					MessageListenerParser::MessagingRules rules = MessageListenerParser::parseMessagingRules ( iter.second, scene_loader->getConstantsHolder() );
+					scene_loader->getEngineContext()->getMessageDispatcher()->setListenerRules(desc.name, rules.listener_rules);
+					scene_loader->getEngineContext()->getMessageDispatcher()->setSenderRules(desc.name, rules.sender_rules);
 				}
 				else if ( iter.first == Tags::OPTIONS_SECTION )
 				{

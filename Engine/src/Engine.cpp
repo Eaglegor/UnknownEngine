@@ -57,9 +57,9 @@ namespace UnknownEngine
 			MainLoop main_loop(&context);
 
 			CORE_SUBSYSTEM_INFO ( "Registering engine stop listener" );
-			StopEngineListener stop_listener ( "Engine.EngineStopListener", &main_loop );
+			StopEngineListener stop_listener ( "Engine", &main_loop );
 			
-			initListenerRules(stop_listener.getMessageSystemParticipantId());
+			initMessagingRules(stop_listener.getMessageSystemParticipantId());
 			
 			context.getMessageDispatcher()->addListener ( MESSAGE_TYPE_ID(StopEngineActionMessage::getTypeName()), &stop_listener );
 
@@ -76,7 +76,7 @@ namespace UnknownEngine
 		void Engine::stop()
 		{
 			CORE_SUBSYSTEM_INFO ( "Stopping engine" );
-			MessageSender<StopEngineActionMessage> sender("Engine.Stopper", &context);
+			MessageSender<StopEngineActionMessage> sender("Engine", &context);
 			sender.sendMessage(StopEngineActionMessage());
 		}
 		
@@ -178,15 +178,28 @@ namespace UnknownEngine
 			return plugins_manager;
 		}
 
-		void Engine::initListenerRules(const MessageSystemParticipantId &message_system_participant)
+		void Engine::initMessagingRules(const MessageSystemParticipantId &message_system_participant)
 		{
-			MessageDispatcher::ListenerRulesDesc listener_rules;
-			MessageDispatcher::ListenerRulesDesc::ReceivableMessageDesc msg;
+			{
+				MessageListenerRules listener_rules;
+				MessageListenerRule msg;
+				msg.message_type_name = StopEngineActionMessage::getTypeName();
+				listener_rules.push_back(msg);
+				
+				context.getMessageDispatcher()->setListenerRules(message_system_participant, listener_rules);
+			}
 			
-			msg.message_type_name = StopEngineActionMessage::getTypeName();
-			
-			listener_rules.receivable_messages.push_back(msg);
-			context.getMessageDispatcher()->setListenerRules(message_system_participant, listener_rules);
+			{
+				MessageSenderRules sender_rules;
+				MessageSenderRule msg;
+				msg.message_type_name = UpdateFrameMessage::getTypeName();
+				sender_rules.push_back(msg);
+				
+				msg.message_type_name = StopEngineActionMessage::getTypeName();
+				sender_rules.push_back(msg);
+				
+				context.getMessageDispatcher()->setSenderRules(message_system_participant, sender_rules);
+			}
 		}
 
 	} /* namespace Core */

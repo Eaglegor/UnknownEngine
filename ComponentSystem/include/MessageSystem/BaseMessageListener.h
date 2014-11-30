@@ -37,10 +37,10 @@ namespace UnknownEngine
 			~BaseMessageListener ();
 			
 			COMPONENTSYSTEM_EXPORT
-			void registerSupportedMessageType( const std::string& message_type_name, IMessageReceivePolicy* receive_policy);
+			void registerSupportedMessageType( const std::string& message_type_name);
 
 			COMPONENTSYSTEM_EXPORT
-			void registerSupportedMessageType( const MessageType& message_type_id, IMessageReceivePolicy* receive_policy);
+			void registerSupportedMessageType( const MessageType& message_type_id);
 			
 			COMPONENTSYSTEM_EXPORT
 			void registerSupportedMessageTypes(const ReceivedMessageDescriptorsList& received_messages_list);
@@ -51,16 +51,11 @@ namespace UnknownEngine
 				static_assert(std::is_base_of<Utils::IMessageBuffer, BufferClass>::value, "Message buffer must implement Utils::IMessageBuffer");
 				static_assert(std::is_base_of<Core::Message, MessageClass>::value, "Message class must inherit from Core::Message");
 				
-				auto iter = received_messages.find(MESSAGE_TYPE_ID(MessageClass::getTypeName()));
-				if (iter == received_messages.end()) {
-					LOG_DEBUG(log_helper, "Message slot not found at listener: " + getName() + " Message type: " + std::string(MessageClass::getTypeName()) +
-						". Listener is not listening to this message type.");
-					return false;
-				}
+				ReceivedMessage* iter = createMessageSlot(MESSAGE_TYPE_ID(MessageClass::getTypeName()));
 
 				LOG_DEBUG(log_helper, "Found message slot - creating buffer");
 
-				iter->second.message_buffer.reset(new BufferClass(std::forward<Args>(buffer_constructor_parameters)...));
+				iter->message_buffer.reset(new BufferClass(std::forward<Args>(buffer_constructor_parameters)...));
 
 				LOG_DEBUG(log_helper, "Message buffer created");
 
@@ -91,17 +86,12 @@ namespace UnknownEngine
 			struct ReceivedMessage
 			{
 				std::unique_ptr<Utils::IMessageBuffer> message_buffer;
-				IMessageReceivePolicy* receive_policy;
 				
-				ReceivedMessage(IMessageReceivePolicy* receive_policy):
-				receive_policy(receive_policy)
-				{}
-				
-				ReceivedMessage(const ReceivedMessage &msg):
-				receive_policy(msg.receive_policy){};
-
+				ReceivedMessage(){}
+				ReceivedMessage(const ReceivedMessage& msg){}
 			};
 
+			ReceivedMessage *createMessageSlot(const MessageType &message_type);
 			Utils::IMessageBuffer *findMessageBuffer(const PackedMessage &msg);
 			
 			std::unordered_map<MessageType, ReceivedMessage > received_messages;

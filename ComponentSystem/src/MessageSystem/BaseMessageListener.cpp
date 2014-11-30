@@ -23,36 +23,21 @@ namespace UnknownEngine
 		{
 		}
 
-		void BaseMessageListener::registerSupportedMessageType ( const MessageType& message_type_id, IMessageReceivePolicy* receive_policy )
+		void BaseMessageListener::registerSupportedMessageType ( const MessageType& message_type_id)
 		{
-			LOG_DEBUG(log_helper, "Creating placeholder for message buffer");
-			received_messages.emplace ( message_type_id, ReceivedMessage(receive_policy) );
-			
-			LOG_DEBUG(log_helper, "Message type registered");
+			createMessageSlot(message_type_id);
 		}
 
-		void BaseMessageListener::registerSupportedMessageType ( const std::string& message_type_name, IMessageReceivePolicy* receive_policy )
+		void BaseMessageListener::registerSupportedMessageType ( const std::string& message_type_name)
 		{
-			registerSupportedMessageType ( MESSAGE_TYPE_ID ( message_type_name ), receive_policy );
+			registerSupportedMessageType ( MESSAGE_TYPE_ID ( message_type_name ) );
 		}
 
 		void BaseMessageListener::registerSupportedMessageTypes ( const ReceivedMessageDescriptorsList& received_messages_list )
 		{
 			for ( const Core::ReceivedMessageDesc & message : received_messages_list )
 			{
-				if ( message.receive_policy && getMessagingPoliciesManager().isPrefabReceivePolicyType ( message.receive_policy->receive_policy_type_name ) )
-				{
-					Core::IMessageReceivePolicy* receive_policy = getMessagingPoliciesManager().createPrefabReceiveMessagePolicy (
-					            message.receive_policy->receive_policy_type_name,
-					            message.receive_policy->receive_policy_options
-					        );
-
-					registerSupportedMessageType ( message.message_type_name, receive_policy );
-				}
-				else
-				{
-					registerSupportedMessageType ( message.message_type_name, nullptr );
-				}
+				registerSupportedMessageType ( message.message_type_name);
 			}
 		}
 		
@@ -117,5 +102,12 @@ namespace UnknownEngine
 			return buffer;
 		}
 		
+		BaseMessageListener::ReceivedMessage* BaseMessageListener::createMessageSlot ( const MessageType& message_type )
+		{
+			LOG_DEBUG(log_helper, "Creating placeholder for message buffer");
+			BaseMessageListener::ReceivedMessage* slot = &received_messages.emplace( message_type, ReceivedMessage() ).first->second;
+			LOG_DEBUG(log_helper, "Message type registered");
+			return slot;
+		}
 	}
 }

@@ -2,21 +2,39 @@
 
 	<constant name="global_log_level" value="info"/>
 
-	<subsystems>
+		<subsystems>
 		<subsystem name="Logger" module="ConsoleLogger">
-			<received_messages>
-				<message type="Utils.LogMessage">
-					<receive_policy type="Any"/>
-				</message>
-			</received_messages>
+			
+			<messaging_rules>
+				<listener>
+					<message type="Utils.LogMessage">
+						<receive_policy type="Any"/>
+					</message>
+				</listener>
+			</messaging_rules>
+
 		</subsystem>
 		
 		<subsystem name="WindowManager" module="SDLWindowManagerPlugin">
-			<received_messages>
-				<message type="Engine.MainLoop.UpdateFrameMessage"/>
-				<message type="Graphics.GUI.GetWindowHandleMessage"/>
-			</received_messages>
 			
+			<messaging_rules>
+				
+				<listener>
+					<message type="Engine.MainLoop.UpdateFrameMessage"/>
+					<message type="Graphics.GUI.GetWindowHandleMessage"/>
+				</listener>
+				
+				<sender>
+					<message type="IO.KeyStateChanged"/>
+					<message type="IO.MouseMoved"/>
+					<message type="IO.MouseWheelMoved"/>
+					<message type="IO.MouseButtonStateChanged"/>
+					<message type="Engine.MainLoop.UpdateFrameMessage"/>
+					<message type="Utils.LogMessage"/>
+				</sender>
+				
+			</messaging_rules>
+
 			<options_section>
 				<options_section name="RenderWindow">
 					<option name="width" value="800"/>
@@ -36,15 +54,24 @@
 				<dependency>UserInput</dependency>
 			</dependencies>
 		
-			<received_messages>
-				<message type="Engine.MainLoop.UpdateFrameMessage">
-					<receive_policy type="FromSingleSender">
-						<options_section>
-							<option name="sender_name" value="Engine"/>
-						</options_section>
-					</receive_policy>
-				</message>
-			</received_messages>
+			<messaging_rules>
+				
+				<listener>
+					<message type="Engine.MainLoop.UpdateFrameMessage">
+						<receive_policy type="FromSingleSender">
+							<options_section>
+								<option name="sender_name" value="Engine"/>
+							</options_section>
+						</receive_policy>
+					</message>
+				</listener>
+			
+				<sender>
+					<message type="Graphics.GUI.GetWindowHandleMessage"/>
+					<message type="Utils.LogMessage"/>
+				</sender>
+				
+			</messaging_rules>
 		
 			<options_section>
 				
@@ -88,27 +115,50 @@
 				<option name="input_layout_config_file" value="InputContextMapperConfig/InputLayout.cfg"/>
 			</options_section>
 			
-			<received_messages>
-				<message type="Engine.MainLoop.UpdateFrameMessage"/>
-				<message type="IO.KeyStateChanged"/>
-				<message type="IO.MouseMoved"/>
-				<message type="IO.MouseWheelMoved"/>
-				<message type="IO.MouseButtonStateChanged"/>
-				<message type="IO.InputContext.AddSimpleActionMessage"/>
-				<message type="IO.InputContext.AddRangeActionMessage"/>
-			</received_messages>
+			<messaging_rules>
+				
+				<listener>
+					<message type="Engine.MainLoop.UpdateFrameMessage"/>
+					<message type="IO.KeyStateChanged"/>
+					<message type="IO.MouseMoved"/>
+					<message type="IO.MouseWheelMoved"/>
+					<message type="IO.MouseButtonStateChanged"/>
+					<message type="IO.InputContext.AddSimpleActionMessage"/>
+					<message type="IO.InputContext.AddRangeActionMessage"/>
+				</listener>
+				
+				<sender>
+					<message type="Utils.LogMessage"/>
+				</sender>
+				
+			</messaging_rules>
 		</subsystem>
 		
 		<subsystem name="SimpleBehavior" module="SimpleBehaviorPlugin">
-			<received_messages>
-				<message type="Engine.MainLoop.UpdateFrameMessage"/>
-			</received_messages>
+			
+			<messaging_rules>
+				<listener>
+					<message type="Engine.MainLoop.UpdateFrameMessage"/>
+				</listener>
+				
+				<sender>
+					<message type="Engine.StopEngineActionMessage"/>
+					<message type="IO.InputContext.AddSimpleActionMessage"/>
+					<message type="Utils.LogMessage"/>
+				</sender>
+			</messaging_rules>
+			
 		</subsystem>
 		
 		<subsystem name="Physics" module="PhysXPlugin">
-			<received_messages>
-				<message type="Engine.MainLoop.UpdateFrameMessage"/>
-			</received_messages>
+			<messaging_rules>
+				<listener>
+					<message type="Engine.MainLoop.UpdateFrameMessage"/>
+				</listener>
+				<sender>
+					<message type="Utils.LogMessage"/>
+				</sender>
+			</messaging_rules>
 			
 			<options_section>
 				<option name="gravity" value="Vector3(x:0, y:-9.8, z:0)"/>
@@ -125,6 +175,15 @@
 		<entity name="MainCamera">
 		
 			<component name="Rotation" type="Behavior.MouseLook">
+				
+				<messaging_rules>
+					<sender>
+						<message type="IO.InputContext.AddRangeActionMessage"/>
+						<message type="IO.InputContext.AddSimpleActionMessage"/>
+						<message type="Engine.TransformChangedMessage"/>
+					</sender>
+				</messaging_rules>
+				
 				<options_section>
 					<option name="input_context_name" value="MouseLook"/>
 					<options_section name="InitialTransform">
@@ -136,7 +195,7 @@
 			
 			<component type="Graphics.Camera" name="Camera">
 				
-				<received_messages>
+				<messaging_rules><listener>
 					<message type="Engine.TransformChangedMessage">
 						<receive_policy type="FromSingleSender">
 							<options_section>
@@ -144,7 +203,7 @@
 							</options_section>
 						</receive_policy>
 					</message>
-				</received_messages>
+				</listener></messaging_rules>
 				
 				<options_section>
 					
@@ -166,7 +225,7 @@
 		
 			<component name="LightComponentD" type="Graphics.Light.Directional">
 
-				<received_messages>
+				<messaging_rules><listener>
 					<message type="Engine.TransformChangedMessage">
 						<receive_policy type="FromSingleSender">
 							<options_section>
@@ -174,7 +233,7 @@
 							</options_section>
 						</receive_policy>
 					</message>
-				</received_messages>
+				</listener></messaging_rules>
 			
 				<options_section>
 					
