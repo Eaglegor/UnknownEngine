@@ -168,10 +168,24 @@
 			</options_section>
 		</subsystem>
 		
+		<subsystem name="ScriptEngine" module="AngelScriptPlugin">
+			<options_section>
+				<option name="log_level" value="debug"/>
+			</options_section>
+		</subsystem>
+		
 	</subsystems>
 
 	<entities>
 
+		<entity name="MasterScript">
+			<component name="Script" type="Behavior.AngelScript">
+				<options_section>
+					<option name="script_filename" value="test.as"/>
+				</options_section>
+			</component>
+		</entity>
+	
 		<entity name="Lighting">
 			
 			<component name="LightComponentD" type="Graphics.Light.Directional">

@@ -15,6 +15,7 @@
 #include <Registrators/Core/MessageSystem/ReceivePolicyDescRegistrator.h>
 #include <Registrators/Core/Messages/StopEngineActionMessageRegistrator.h>
 #include <Registrators/Utils/NameGeneratorRegistrator.h>
+#include <Registrators/Utils/StdOutPrintRegistrator.h>
 
 #include <scriptbuilder/scriptbuilder.h>
 
@@ -48,7 +49,7 @@ namespace UnknownEngine
 
 			registerStandardTypes();
 			
-			script_engine->RegisterGlobalProperty("EngineContext @engine_context", engine_context);
+			script_engine->RegisterGlobalProperty("Core::EngineContext @engine_context", engine_context);
 		}
 				
 		void AngelScriptSubsystem::shutdown()
@@ -58,31 +59,57 @@ namespace UnknownEngine
 		
 		void AngelScriptSubsystem::registerStandardTypes()
 		{
-			{// Basic types
-				StdStringRegistrator().registerType(script_engine);
-			}
-			{// Utils
-				NameGeneratorRegistrator().registerType(script_engine);
-			}
-			{// Core
-				PropertiesRegistrator().registerType(script_engine);
+			// Predefining templates
+			//script_engine->SetDefaultNamespace("Core");
+				//script_engine->RegisterObjectType("MessageSender<class T>", sizeof(Core::MessageSender<Core::StopEngineActionMessage>), asOBJ_VALUE | asOBJ_TEMPLATE );
+				//script_engine->RegisterObjectType("MessageListener<class T>", sizeof(AngelScriptMessageListener<Core::StopEngineActionMessage>), asOBJ_VALUE | asOBJ_TEMPLATE );
+			//script_engine->SetDefaultNamespace("");
+			
+			registerObjectType(StdStringRegistrator());
+			registerObjectType(NameGeneratorRegistrator());
+			registerObjectType(IDataProviderRegistrator());
+			registerObjectType(PropertiesRegistrator());
+			registerObjectType(ReceivePolicyDescRegistrator());
+			registerObjectType(ReceivedMessageDescRegistrator());
+			registerObjectType(ComponentDescRegistrator());
+			registerObjectType(IComponentRegistrator());
+			registerObjectType(EntityRegistrator());
+			registerObjectType(ComponentsManagerRegistrator());
+			registerObjectType(EngineContextRegistrator());
+			registerObjectType(DataProviderDescRegistrator());
+			
+			registerObjectType(StdOutPrintRegistrator());
+			
+			//registerMessageType(StopEngineActionMessageRegistrator);
+		}
+		
+		asIScriptEngine* UnknownEngine::Behavior::AngelScriptSubsystem::getScriptEngine()
+		{
+			return script_engine;
+		}
 
-				ReceivePolicyDescRegistrator().registerType(script_engine);
-				ReceivedMessageDescRegistrator().registerType(script_engine);
-				ComponentDescRegistrator().registerType(script_engine);
-				IComponentRegistrator().registerType(script_engine);
-				
-				EntityRegistrator().registerType(script_engine);
-				ComponentsManagerRegistrator().registerType(script_engine);
-				EngineContextRegistrator().registerType(script_engine);
+		void AngelScriptSubsystem::registerObjectType ( const ITypeRegistrator& registrator )
+		{
+			if(!registrator.registerType(script_engine)) LOG_ERROR(log_helper, "Object type " + std::string(registrator.getRegisteredName()) + " was not registered");
+		}
+
+		void AngelScriptSubsystem::registerMessageType ( const IMessageTypeRegistrator& registrator )
+		{
+			if(!registrator.registerType(script_engine)) {
+				LOG_ERROR(log_helper, "Message type " + std::string(registrator.getRegisteredName()) + " was not registered");
 			}
-			{// Loader
-				DataProviderDescRegistrator().registerType(script_engine);
-				IDataProviderRegistrator().registerType(script_engine);
-			}
-			{// Message types
-				StopEngineActionMessageRegistrator().registerType(script_engine);
+			else
+			{
+				if(!registrator.registerSender(script_engine))
+				{
+					LOG_ERROR(log_helper, "Message sender type for message type " + std::string(registrator.getRegisteredName()) + " was not registered");
+				}
+				if(!registrator.registerListener(script_engine))
+				{
+					LOG_ERROR(log_helper, "Message listener type for message type " + std::string(registrator.getRegisteredName()) + " was not registered");
+				}
 			}
 		}
+		
 	}
 }

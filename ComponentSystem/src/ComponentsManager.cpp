@@ -71,7 +71,14 @@ namespace UnknownEngine
 				{
 					CORE_SUBSYSTEM_INFO ( "Found suitable factory : " + std::string(factory.second->getName()) );
 					IComponent* component = factory.second->createObject ( desc );
-					CORE_SUBSYSTEM_INFO ( "Component '" + desc.name + "' created" );
+					if(component)
+					{
+						CORE_SUBSYSTEM_INFO ( "Component '" + desc.name + "' created" );
+					}
+					else
+					{
+						CORE_SUBSYSTEM_ERROR ( "Component '" + desc.name + "' was NOT created" );
+					}
 					return component;
 				}
 			}

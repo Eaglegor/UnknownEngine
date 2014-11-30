@@ -6,26 +6,27 @@
 #include <ExportedMessages/StopEngineActionMessage.h>
 #include <Registrators/Core/MessageSystem/MessageSenderRegistrator.h>
 #include <Registrators/Core/MessageSystem/MessageListenerRegistrator.h>
+#include <Registrators/IMessageTypeRegistrator.h>
 
 namespace UnknownEngine
 {
 	namespace Behavior
 	{
-		class StopEngineActionMessageRegistrator : public PODTypeRegistrator<Core::StopEngineActionMessage >
+		class StopEngineActionMessageRegistrator : public PODTypeRegistrator<Core::StopEngineActionMessage >, public IMessageTypeRegistrator
 		{
 			public:
 				StopEngineActionMessageRegistrator() :
 					PODTypeRegistrator< Core::StopEngineActionMessage > ( "StopEngineActionMessage", CORE_AS_NAMESPACE_NAME )
 				{}
 				
-				void registerMessageSender(asIScriptEngine* script_engine)
+				bool registerSender(asIScriptEngine* script_engine) const override
 				{
-					MessageSenderRegistrator<Core::StopEngineActionMessage>("Core::StopEngineActionMessage").registerType(script_engine);
+					return MessageSenderRegistrator<Core::StopEngineActionMessage>("Core::StopEngineActionMessage").registerType(script_engine);
 				}
 				
-				void registerListener(asIScriptEngine* script_engine)
+				bool registerListener(asIScriptEngine* script_engine) const override
 				{
-					MessageListenerRegistrator<Core::StopEngineActionMessage>("Core::StopEngineActionMessage").registerType(script_engine);
+					return MessageListenerRegistrator<Core::StopEngineActionMessage>("Core::StopEngineActionMessage").registerType(script_engine);
 				}
 		};
 	}

@@ -12,7 +12,9 @@
 #include <AngelScriptPlugin.h>
 #include <Descriptors/AngelScriptSubsystemDesc.h>
 #include <AngelScriptSubsystem.h>
+#include <Factories/AngelScriptComponentFactory.h>
 #include <MessageSystem/MessageDictionary.h>
+#include <ComponentsManager.h>
 #include <EngineContext.h>
 #include <LogHelper.h>
 
@@ -45,11 +47,17 @@ namespace UnknownEngine
 		{
 			angel_script_subsystem->init();
 		
+			angel_script_component_factory.reset(new AngelScriptComponentFactory(angel_script_subsystem.get(), engine_context));
+			engine_context->getComponentsManager()->addComponentFactory(angel_script_component_factory.get());
+			
 			return true;
 		}
 
 		bool AngelScriptPlugin::shutdown () 
 		{
+			engine_context->getComponentsManager()->removeComponentFactory(angel_script_component_factory.get());
+			angel_script_component_factory.reset();
+			
 			angel_script_subsystem->shutdown();
 			
 			return true;

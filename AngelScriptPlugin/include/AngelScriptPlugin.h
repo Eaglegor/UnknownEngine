@@ -22,6 +22,8 @@ namespace UnknownEngine
 	namespace Behavior
 	{
 
+		class AngelScriptComponentFactory;
+
 		class AngelScriptSubsystem;
 
 		class AngelScriptPlugin: public Core::Plugin
@@ -40,6 +42,8 @@ namespace UnknownEngine
 				Core::EngineContext* engine_context;
 				std::unique_ptr<Utils::LogHelper> log_helper;
 				std::unique_ptr<AngelScriptSubsystem> angel_script_subsystem;
+				
+				std::unique_ptr<AngelScriptComponentFactory> angel_script_component_factory;
 		};
 
 	} /* namespace Graphics */

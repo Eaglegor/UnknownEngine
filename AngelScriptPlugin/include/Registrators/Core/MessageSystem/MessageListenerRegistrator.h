@@ -44,7 +44,7 @@ namespace UnknownEngine
 #else
 				asUINT type_traits_flag = 0;
 #endif
-				int result = script_engine->RegisterObjectType(getRegisteredName(), sizeof(AngelScriptMessageListener<T>), asOBJ_VALUE | asOBJ_TEMPLATE | type_traits_flag );
+				int result = script_engine->RegisterObjectType(getRegisteredName(), sizeof(AngelScriptMessageListener<T>), asOBJ_VALUE | type_traits_flag );
 				if(result < 0 ) return false;
 				
 				result = script_engine->RegisterObjectBehaviour(getRegisteredName(), asBEHAVE_CONSTRUCT, "void f(const std::string &in)" , asFUNCTION(MessageListenerRegistrator<T>::constructor), asCALL_CDECL_OBJFIRST);
@@ -53,9 +53,13 @@ namespace UnknownEngine
 				result = script_engine->RegisterObjectBehaviour(getRegisteredName(), asBEHAVE_DESTRUCT, "void f()" , asFUNCTION(MessageListenerRegistrator<T>::destructor), asCALL_CDECL_OBJFIRST);
 				if(result < 0 ) return false;
 				
-				script_engine->RegisterFuncdef( std::string("void MessageCallback<"+message_type_name+">(const "+ message_type_name +" &in)").c_str() );
+				script_engine->SetDefaultNamespace(message_type_name.c_str());
+				script_engine->RegisterFuncdef( std::string("void MessageCallback(const "+ message_type_name +" &in)").c_str() );
+				script_engine->SetDefaultNamespace("Core");
 				
-				result = script_engine->RegisterObjectMethod(getRegisteredName(), std::string("void setMessageProcessingCallback(MessageCallback<" + message_type_name + "> @cb)").c_str() , asMETHOD(AngelScriptMessageListener<T>, setMessageProcessingCallback), asCALL_THISCALL );
+				result = script_engine->RegisterObjectMethod(getRegisteredName(), std::string("void setMessageProcessingCallback("+message_type_name+"::MessageCallback @cb)").c_str() , asMETHOD(AngelScriptMessageListener<T>, setMessageProcessingCallback), asCALL_THISCALL );
+				
+				
 				if(result < 0 ) return false;
 				
 				return true;

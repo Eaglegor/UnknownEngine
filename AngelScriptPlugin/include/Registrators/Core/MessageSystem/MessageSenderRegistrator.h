@@ -45,7 +45,7 @@ namespace UnknownEngine
 				asUINT type_traits_flag = 0;
 #endif
 				
-				int result = script_engine->RegisterObjectType(getRegisteredName(), sizeof(Core::MessageSender<T>), asOBJ_VALUE | asOBJ_TEMPLATE | type_traits_flag );
+				int result = script_engine->RegisterObjectType(getRegisteredName(), sizeof(Core::MessageSender<T>), asOBJ_VALUE | type_traits_flag );
 				if(result < 0 ) return false;
 				
 				result = script_engine->RegisterObjectBehaviour(getRegisteredName(), asBEHAVE_CONSTRUCT, "void f(const std::string &in, Core::EngineContext@)" , asFUNCTION(MessageSenderRegistrator<T>::constructor), asCALL_CDECL_OBJFIRST);

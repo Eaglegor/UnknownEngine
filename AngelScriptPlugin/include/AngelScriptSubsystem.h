@@ -21,6 +21,10 @@ namespace UnknownEngine
 	
 	namespace Behavior
 	{
+
+		class IMessageTypeRegistrator;
+
+		class ITypeRegistrator;
 		class AngelScriptSubsystem
 		{
 		public:
@@ -30,9 +34,13 @@ namespace UnknownEngine
 			void init();
 			void shutdown();
 
+			asIScriptEngine* getScriptEngine();
+			
 		private:
 			
 			void registerStandardTypes();
+			void registerObjectType(const ITypeRegistrator& registrator);
+			void registerMessageType(const IMessageTypeRegistrator& registrator);
 			
 			std::string name;
 			std::unique_ptr<Utils::LogHelper> log_helper;

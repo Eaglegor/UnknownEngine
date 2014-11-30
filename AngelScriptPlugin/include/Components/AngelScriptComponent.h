@@ -35,6 +35,8 @@ namespace UnknownEngine
 			std::unique_ptr<Utils::LogHelper> log_helper;
 			AngelScriptComponentDesc desc;
 			Core::EngineContext* engine_context;
+			asIScriptModule* module;
+			asIScriptContext* context;
 		
 			AngelScriptSubsystem* angel_script_subsystem;
 		};

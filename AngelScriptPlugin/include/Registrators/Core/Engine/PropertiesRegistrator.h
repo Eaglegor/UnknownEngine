@@ -32,7 +32,7 @@ namespace UnknownEngine
 					result = script_engine->RegisterObjectMethod(getRegisteredName(), "void setString(const std::string& in, const std::string& in)", asFUNCTION(PropertiesBehaviorWrapper::setString), asCALL_CDECL_OBJFIRST);
 					if(result < 0) return false;
 					
-					result = script_engine->RegisterObjectMethod(getRegisteredName(), "void setDataProvider(const std::string& in, Loader::IDataProvider@ in)", asFUNCTION(PropertiesBehaviorWrapper::setDataProvider), asCALL_CDECL_OBJFIRST);
+					result = script_engine->RegisterObjectMethod(getRegisteredName(), "void setDataProvider(const std::string& in, Loader::IDataProvider@)", asFUNCTION(PropertiesBehaviorWrapper::setDataProvider), asCALL_CDECL_OBJFIRST);
 					if(result < 0) return false;
 					
 					result = script_engine->RegisterObjectMethod(getRegisteredName(), "void setNestedProperties(const std::string& in, const Core::Properties& in)", asFUNCTION(PropertiesBehaviorWrapper::setNestedProperties), asCALL_CDECL_OBJFIRST);
