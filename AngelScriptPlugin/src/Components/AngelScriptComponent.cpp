@@ -60,7 +60,6 @@ namespace UnknownEngine
 				context->Execute();
 			}
 			context->Release();
-			script_engine->DiscardModule(module->GetName());
 		}
 		
 	}

@@ -32,16 +32,17 @@ namespace UnknownEngine
 				if(script_engine) script_engine->Release();
 			}
 			
-			virtual void setScriptEngine(asIScriptEngine* script_engine)
+			virtual void setMessageProcessingCallback(void *ref, int typeId)
 			{
-				this->script_engine = script_engine;
-				script_engine->AddRef();
-				script_context = script_engine->CreateContext();
-			}
-			
-			virtual void setMessageProcessingCallback(asIScriptFunction *callback_function)
-			{
-				this->callback_function = callback_function;
+				callback_function = extractFunction(ref, typeId);
+				if(!checkCallbackFunction(callback_function)) return;
+				if(!script_context)
+				{
+					script_engine = callback_function->GetEngine();
+					script_engine->AddRef();
+					script_context = script_engine->CreateContext();
+				}
+				//this->callback_function = callback_function;
 				callback_function->AddRef();
 			}
 			
@@ -50,7 +51,6 @@ namespace UnknownEngine
 				if(callback_function == nullptr || script_context == nullptr) return;
 				script_context->Prepare(callback_function);
 				MessageType &message = const_cast<MessageType&>(msg.get<MessageType>());
-				script_context->SetObject(callback_function->GetDelegateObject());
 				script_context->SetArgObject(0, &message);
 				script_context->Execute();
 			}
@@ -68,6 +68,18 @@ namespace UnknownEngine
 			}
 			
 		private:
+			
+			asIScriptFunction* extractFunction(void* ref, int typeId)
+			{
+				asIScriptFunction* func = static_cast<asIScriptFunction*>(ref);
+				return func;
+			}
+			
+			bool checkCallbackFunction(asIScriptFunction* function)
+			{
+				if(function == nullptr) return false;
+				return true;
+			}
 			
 			asIScriptEngine *script_engine;
 			asIScriptContext *script_context;

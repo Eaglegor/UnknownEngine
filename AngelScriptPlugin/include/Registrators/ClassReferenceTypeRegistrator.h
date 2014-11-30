@@ -45,13 +45,17 @@ namespace UnknownEngine
 				return true;
 			}
 
+			virtual bool registerRelatedTypes( asIScriptEngine* script_engine) const
+			{
+				return true;
+			}
 
 		private:
 			bool registerTypeImpl(asIScriptEngine* script_engine) const
 			{
 				int result = script_engine->RegisterObjectType(registered_name.c_str(), 0, asOBJ_REF | asOBJ_NOCOUNT);
 				if(result < 0) return false;
-				return registerProperties( script_engine ) && registerMethods( script_engine );
+				return registerProperties( script_engine ) && registerMethods( script_engine ) && registerRelatedTypes(script_engine);
 			}
 			
 			const std::string registered_name;

@@ -180,6 +180,17 @@
 
 		<entity name="MasterScript">
 			<component name="Script" type="Behavior.AngelScript">
+				
+				<messaging_rules>
+					<listener>
+						<message type="Engine.MainLoop.UpdateFrameMessage"/>
+					</listener>
+					<sender>
+						<message type="Engine.StopEngineActionMessage"/>
+						<message type="Utils.LogMessage"/>
+					</sender>
+				</messaging_rules>
+				
 				<options_section>
 					<option name="script_filename" value="test.as"/>
 				</options_section>
@@ -490,6 +501,7 @@
 				<messaging_rules>
 					<sender>
 						<message type="IO.InputContext.AddSimpleActionMessage"/>
+						<message type="Graphics.ChangeMaterialActionMessage"/>
 					</sender>
 				</messaging_rules>
 				

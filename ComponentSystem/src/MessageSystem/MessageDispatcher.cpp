@@ -17,7 +17,7 @@
 #include <MessageSystem/MessageListenerRules.h>
 #include <MessageSystem/MessageSenderRules.h>
 
-#define ENABLE_CORE_SUBSYSTEM_ERROR_LOG
+#define ENABLE_CORE_SUBSYSTEM_DEBUG_LOG
 #include <CoreLogging.h>
 
 namespace UnknownEngine

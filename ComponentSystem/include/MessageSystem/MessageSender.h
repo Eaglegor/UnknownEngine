@@ -50,7 +50,7 @@ namespace UnknownEngine
 				}
 			}
 			
-			void sendMessage(const MessageClass& message)
+			virtual void sendMessage(const MessageClass& message)
 			{
 				if(!is_registered) registerAtDispatcher();
 				PackedMessage msg(message, message_type);

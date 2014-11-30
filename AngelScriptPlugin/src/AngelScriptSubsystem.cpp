@@ -16,6 +16,8 @@
 #include <Registrators/Core/Messages/StopEngineActionMessageRegistrator.h>
 #include <Registrators/Utils/NameGeneratorRegistrator.h>
 #include <Registrators/Utils/StdOutPrintRegistrator.h>
+#include <Registrators/Core/Messages/UpdateFrameMessageRegistrator.h>
+#include <Registrators/Core/Messages/LogMessageRegistrator.h>
 
 #include <scriptbuilder/scriptbuilder.h>
 
@@ -49,7 +51,7 @@ namespace UnknownEngine
 
 			registerStandardTypes();
 			
-			script_engine->RegisterGlobalProperty("Core::EngineContext @engine_context", engine_context);
+			script_engine->RegisterGlobalProperty("Core::EngineContext @engine_context", &engine_context);
 		}
 				
 		void AngelScriptSubsystem::shutdown()
@@ -57,13 +59,35 @@ namespace UnknownEngine
 			script_engine->Release();
 		}
 		
+		void stubConstructor(asIObjectType* obj, void* memory)
+		{
+			std::cout << "Unimplemented constructor called" << std::endl;
+		}
+		
+		void stubDestructor(void* memory)
+		{
+			std::cout << "Unimplemented destructor called" << std::endl;
+		}
+		
+		void AngelScriptSubsystem::registerDefaultTemplatesPredefinition()
+		{
+			script_engine->SetDefaultNamespace("Core");
+			
+			script_engine->RegisterObjectType("MessageSender<class T>", sizeof(Core::MessageSender<Core::StopEngineActionMessage>), asOBJ_VALUE | asOBJ_TEMPLATE );
+			script_engine->RegisterObjectBehaviour("MessageSender<T>", asBEHAVE_CONSTRUCT, "void f(int &in)", asFUNCTION(stubConstructor), asCALL_CDECL_OBJFIRST);
+			script_engine->RegisterObjectBehaviour("MessageSender<T>", asBEHAVE_DESTRUCT, "void f()", asFUNCTION(stubDestructor), asCALL_CDECL_OBJFIRST);
+			
+			script_engine->RegisterObjectType("MessageListener<class T>", sizeof(AngelScriptMessageListener<Core::StopEngineActionMessage>), asOBJ_VALUE | asOBJ_TEMPLATE );
+			script_engine->RegisterObjectBehaviour("MessageListener<T>", asBEHAVE_CONSTRUCT, "void f(int &in)", asFUNCTION(stubConstructor), asCALL_CDECL_OBJFIRST);
+			script_engine->RegisterObjectBehaviour("MessageListener<T>", asBEHAVE_DESTRUCT, "void f()", asFUNCTION(stubDestructor), asCALL_CDECL_OBJFIRST);
+			
+			script_engine->SetDefaultNamespace("");
+		}
+
+		
 		void AngelScriptSubsystem::registerStandardTypes()
 		{
-			// Predefining templates
-			//script_engine->SetDefaultNamespace("Core");
-				//script_engine->RegisterObjectType("MessageSender<class T>", sizeof(Core::MessageSender<Core::StopEngineActionMessage>), asOBJ_VALUE | asOBJ_TEMPLATE );
-				//script_engine->RegisterObjectType("MessageListener<class T>", sizeof(AngelScriptMessageListener<Core::StopEngineActionMessage>), asOBJ_VALUE | asOBJ_TEMPLATE );
-			//script_engine->SetDefaultNamespace("");
+			registerDefaultTemplatesPredefinition();
 			
 			registerObjectType(StdStringRegistrator());
 			registerObjectType(NameGeneratorRegistrator());
@@ -79,8 +103,10 @@ namespace UnknownEngine
 			registerObjectType(DataProviderDescRegistrator());
 			
 			registerObjectType(StdOutPrintRegistrator());
-			
-			//registerMessageType(StopEngineActionMessageRegistrator);
+
+			registerObjectType(StopEngineActionMessageRegistrator());
+			registerObjectType(UpdateFrameMessageRegistrator());
+			registerObjectType(LogMessageRegistrator());
 		}
 		
 		asIScriptEngine* UnknownEngine::Behavior::AngelScriptSubsystem::getScriptEngine()
@@ -92,24 +118,5 @@ namespace UnknownEngine
 		{
 			if(!registrator.registerType(script_engine)) LOG_ERROR(log_helper, "Object type " + std::string(registrator.getRegisteredName()) + " was not registered");
 		}
-
-		void AngelScriptSubsystem::registerMessageType ( const IMessageTypeRegistrator& registrator )
-		{
-			if(!registrator.registerType(script_engine)) {
-				LOG_ERROR(log_helper, "Message type " + std::string(registrator.getRegisteredName()) + " was not registered");
-			}
-			else
-			{
-				if(!registrator.registerSender(script_engine))
-				{
-					LOG_ERROR(log_helper, "Message sender type for message type " + std::string(registrator.getRegisteredName()) + " was not registered");
-				}
-				if(!registrator.registerListener(script_engine))
-				{
-					LOG_ERROR(log_helper, "Message listener type for message type " + std::string(registrator.getRegisteredName()) + " was not registered");
-				}
-			}
-		}
-		
 	}
 }

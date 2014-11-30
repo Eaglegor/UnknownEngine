@@ -53,12 +53,10 @@ namespace UnknownEngine
 				result = script_engine->RegisterObjectBehaviour(getRegisteredName(), asBEHAVE_DESTRUCT, "void f()" , asFUNCTION(MessageListenerRegistrator<T>::destructor), asCALL_CDECL_OBJFIRST);
 				if(result < 0 ) return false;
 				
-				script_engine->SetDefaultNamespace(message_type_name.c_str());
-				script_engine->RegisterFuncdef( std::string("void MessageCallback(const "+ message_type_name +" &in)").c_str() );
-				script_engine->SetDefaultNamespace("Core");
+				result = script_engine->RegisterObjectMethod(getRegisteredName(), std::string("void setMessageProcessingCallback(const ?&in)").c_str() , asMETHOD(AngelScriptMessageListener<T>, setMessageProcessingCallback), asCALL_THISCALL );
 				
-				result = script_engine->RegisterObjectMethod(getRegisteredName(), std::string("void setMessageProcessingCallback("+message_type_name+"::MessageCallback @cb)").c_str() , asMETHOD(AngelScriptMessageListener<T>, setMessageProcessingCallback), asCALL_THISCALL );
-				
+				result = script_engine->RegisterObjectMethod(getRegisteredName(), std::string("void registerAtDispatcher()").c_str() , asMETHOD(AngelScriptMessageListener<T>, registerAtDispatcher), asCALL_THISCALL );
+				result = script_engine->RegisterObjectMethod(getRegisteredName(), std::string("void unregisterAtDispatcher()").c_str() , asMETHOD(AngelScriptMessageListener<T>, unregisterAtDispatcher), asCALL_THISCALL );
 				
 				if(result < 0 ) return false;
 				

@@ -58,6 +58,11 @@ namespace UnknownEngine
 				 return true;
 			}
 			
+			virtual bool registerRelatedTypes( asIScriptEngine* script_engine) const
+			{
+				return true;
+			}
+			
 		private:
 			static void defaultConstructor(void *memory)
 			{
@@ -80,7 +85,7 @@ namespace UnknownEngine
 				if(result < 0) return false;
 				if(registerConstructor(script_engine) && registerDestructor(script_engine))
 				{
-					return registerProperties(script_engine) && registerMethods(script_engine);
+					return registerProperties(script_engine) && registerMethods(script_engine) && registerRelatedTypes(script_engine);
 				}
 				return false;
 			}

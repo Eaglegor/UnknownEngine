@@ -25,12 +25,19 @@ namespace UnknownEngine
 				script_engine->SetDefaultNamespace(declaration_namespace.c_str());
 				int result = script_engine->RegisterObjectType(registered_name.c_str(), sizeof(T), asOBJ_VALUE | asOBJ_POD);
 				script_engine->SetDefaultNamespace("");
-				return result >= 0;
+				if(result < 0) return false;
+				return registerRelatedTypes(script_engine);
 			}
 			
 			virtual const char* getRegisteredName() const override
 			{
 				return registered_name.c_str();
+			}
+			
+		protected:
+			virtual bool registerRelatedTypes( asIScriptEngine* script_engine) const
+			{
+				return true;
 			}
 			
 		private:
