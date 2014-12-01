@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Registrators/ITypeRegistrator.h>
-#include <MessageSystem/MessageSender.h>
+#include <Components/AngelScriptMessageSender.h>
 #include <string>
 
 namespace UnknownEngine
@@ -14,7 +14,8 @@ namespace UnknownEngine
 		public:
 			MessageSenderRegistrator(const std::string &message_type_name):
 			registered_type_name("MessageSender<" + message_type_name +">"),
-			message_type_name(message_type_name)
+			message_type_name(message_type_name),
+			full_name("Core::"+registered_type_name)
 			{
 			}
 			
@@ -35,23 +36,25 @@ namespace UnknownEngine
 				return success;
 			}
 
+			virtual const char* getRegisteredNameWithNamespace() const
+			{
+				return full_name.c_str();
+			}
+			
 		private:
 			
 			bool registerTypeImpl ( asIScriptEngine* script_engine ) const
 			{
-#if AS_CAN_USE_CPP11
-				asUINT type_traits_flag = asGetTypeTraits< Core::MessageSender<T> >();
-#else
-				asUINT type_traits_flag = 0;
-#endif
-				
-				int result = script_engine->RegisterObjectType(getRegisteredName(), sizeof(Core::MessageSender<T>), asOBJ_VALUE | type_traits_flag );
+				int result = script_engine->RegisterObjectType(getRegisteredName(), 0, asOBJ_REF );
 				if(result < 0 ) return false;
 				
-				result = script_engine->RegisterObjectBehaviour(getRegisteredName(), asBEHAVE_CONSTRUCT, "void f(const std::string &in, Core::EngineContext@)" , asFUNCTION(MessageSenderRegistrator<T>::constructor), asCALL_CDECL_OBJFIRST);
+				result = script_engine->RegisterObjectBehaviour(getRegisteredName(), asBEHAVE_FACTORY, (registered_type_name + "@ f(const std::string &in, Core::EngineContext@)").c_str(), asFUNCTION(AngelScriptMessageSender<T>::factory), asCALL_CDECL);
 				if(result < 0 ) return false;
 				
-				result = script_engine->RegisterObjectBehaviour(getRegisteredName(), asBEHAVE_DESTRUCT, "void f()" , asFUNCTION(MessageSenderRegistrator<T>::destructor), asCALL_CDECL_OBJFIRST);
+				result = script_engine->RegisterObjectBehaviour(getRegisteredName(), asBEHAVE_ADDREF, "void f()" , asMETHOD(AngelScriptMessageSender<T>, Addref), asCALL_THISCALL);
+				if(result < 0 ) return false;
+				
+				result = script_engine->RegisterObjectBehaviour(getRegisteredName(), asBEHAVE_RELEASE, "void f()" , asMETHOD(AngelScriptMessageSender<T>, Release), asCALL_THISCALL);
 				if(result < 0 ) return false;
 				
 				result = script_engine->RegisterObjectMethod(getRegisteredName(), std::string("void sendMessage(const " + message_type_name + "&in)").c_str() , asMETHOD(Core::MessageSender<T>, sendMessage), asCALL_THISCALL );
@@ -60,19 +63,9 @@ namespace UnknownEngine
 				return true;
 			}
 			
-			static void constructor(void *memory, const std::string& name, Core::EngineContext* engine_context)
-			{
-				new(memory) Core::MessageSender<T>(name, engine_context);
-			}
-			
-			static void destructor(void *memory)
-			{
-				using namespace Core;
-				static_cast<MessageSender<T>*>(memory)->~MessageSender<T>();
-			}
-			
-			std::string registered_type_name;
-			std::string message_type_name;
+			const std::string registered_type_name;
+			const std::string message_type_name;
+			const std::string full_name;
 		};
 	}
 }

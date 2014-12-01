@@ -12,6 +12,7 @@ namespace UnknownEngine
 		public:
 			virtual bool registerType(asIScriptEngine* script_engine) const = 0;
 			virtual const char* getRegisteredName() const = 0;
+			virtual const char* getRegisteredNameWithNamespace() const = 0;
 			virtual ~ITypeRegistrator(){};
 		};
 	}

@@ -21,8 +21,10 @@ namespace UnknownEngine
 			script_engine(nullptr),
 			script_context(nullptr),
 			callback_function(nullptr),
-			registered(false)
-			{}
+			registered(false),
+			ref_counter(1)
+			{
+			}
 			
 			virtual ~AngelScriptMessageListener()
 			{
@@ -67,6 +69,25 @@ namespace UnknownEngine
 				registered = false;
 			}
 			
+			static AngelScriptMessageListener<MessageType>* factory(const std::string& name)
+			{
+				return new AngelScriptMessageListener<MessageType>(name);
+			}
+			
+			void Addref()
+			{
+				++ref_counter;
+			}
+			
+			void Release()
+			{
+				if(--ref_counter == 0) 
+				{
+					std::cout << "Deleting object" << std::endl;
+					delete this;
+				}
+			}
+			
 		private:
 			
 			asIScriptFunction* extractFunction(void* ref, int typeId)
@@ -86,6 +107,7 @@ namespace UnknownEngine
 			asIScriptFunction *callback_function;
 			
 			bool registered;
+			size_t ref_counter;
 		};
 	}
 }

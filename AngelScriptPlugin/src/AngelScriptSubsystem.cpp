@@ -69,17 +69,33 @@ namespace UnknownEngine
 			std::cout << "Unimplemented destructor called" << std::endl;
 		}
 		
+		
+		void* stub_factory(void*)
+		{
+			return nullptr;
+		};
+		
+		void stub_addref(void*)
+		{
+		}
+		
+		void stub_release(void*)
+		{
+		}
+		
 		void AngelScriptSubsystem::registerDefaultTemplatesPredefinition()
 		{
 			script_engine->SetDefaultNamespace("Core");
 			
-			script_engine->RegisterObjectType("MessageSender<class T>", sizeof(Core::MessageSender<Core::StopEngineActionMessage>), asOBJ_VALUE | asOBJ_TEMPLATE );
-			script_engine->RegisterObjectBehaviour("MessageSender<T>", asBEHAVE_CONSTRUCT, "void f(int &in)", asFUNCTION(stubConstructor), asCALL_CDECL_OBJFIRST);
-			script_engine->RegisterObjectBehaviour("MessageSender<T>", asBEHAVE_DESTRUCT, "void f()", asFUNCTION(stubDestructor), asCALL_CDECL_OBJFIRST);
+			script_engine->RegisterObjectType("MessageSender<class T>", 0, asOBJ_REF | asOBJ_TEMPLATE );
+			script_engine->RegisterObjectBehaviour("MessageSender<T>", asBEHAVE_FACTORY, "MessageSender<T>@ f(int &in)", asFUNCTION(stub_factory), asCALL_CDECL);
+			script_engine->RegisterObjectBehaviour("MessageSender<T>", asBEHAVE_ADDREF, "void f()", asFUNCTION(stub_addref), asCALL_CDECL_OBJFIRST);
+			script_engine->RegisterObjectBehaviour("MessageSender<T>", asBEHAVE_RELEASE, "void f()", asFUNCTION(stub_release), asCALL_CDECL_OBJFIRST);
 			
-			script_engine->RegisterObjectType("MessageListener<class T>", sizeof(AngelScriptMessageListener<Core::StopEngineActionMessage>), asOBJ_VALUE | asOBJ_TEMPLATE );
-			script_engine->RegisterObjectBehaviour("MessageListener<T>", asBEHAVE_CONSTRUCT, "void f(int &in)", asFUNCTION(stubConstructor), asCALL_CDECL_OBJFIRST);
-			script_engine->RegisterObjectBehaviour("MessageListener<T>", asBEHAVE_DESTRUCT, "void f()", asFUNCTION(stubDestructor), asCALL_CDECL_OBJFIRST);
+			script_engine->RegisterObjectType("MessageListener<class T>", 0, asOBJ_REF | asOBJ_TEMPLATE );
+			script_engine->RegisterObjectBehaviour("MessageListener<T>", asBEHAVE_FACTORY, "MessageListener<T>@ f(int &in)", asFUNCTION(stub_factory), asCALL_CDECL);
+			script_engine->RegisterObjectBehaviour("MessageListener<T>", asBEHAVE_ADDREF, "void f()", asFUNCTION(stub_addref), asCALL_CDECL_OBJFIRST);
+			script_engine->RegisterObjectBehaviour("MessageListener<T>", asBEHAVE_RELEASE, "void f()", asFUNCTION(stub_release), asCALL_CDECL_OBJFIRST);
 			
 			script_engine->SetDefaultNamespace("");
 		}
@@ -116,7 +132,7 @@ namespace UnknownEngine
 
 		void AngelScriptSubsystem::registerObjectType ( const ITypeRegistrator& registrator )
 		{
-			if(!registrator.registerType(script_engine)) LOG_ERROR(log_helper, "Object type " + std::string(registrator.getRegisteredName()) + " was not registered");
+			if(!registrator.registerType(script_engine)) LOG_ERROR(log_helper, "Object type " + std::string(registrator.getRegisteredNameWithNamespace()) + " was not registered");
 		}
 	}
 }

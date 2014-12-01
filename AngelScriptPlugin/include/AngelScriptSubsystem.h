@@ -34,7 +34,6 @@ namespace UnknownEngine
 			asIScriptEngine* getScriptEngine();
 			
 		private:
-			
 			void registerDefaultTemplatesPredefinition();
 			void registerStandardTypes();
 			void registerObjectType(const ITypeRegistrator& registrator);

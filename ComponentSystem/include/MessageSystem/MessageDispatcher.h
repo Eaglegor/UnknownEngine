@@ -71,6 +71,10 @@ namespace UnknownEngine
 		class MessageDispatcher : public Singleton<MessageDispatcher>
 		{
 			public:
+				
+				UNKNOWNENGINE_SIMPLE_EXCEPTION(ListenerNotAddedException);
+				UNKNOWNENGINE_SIMPLE_EXCEPTION(SenderNotAddedException);
+				
 				/**
 				 * @brief Default constructor
 				 *

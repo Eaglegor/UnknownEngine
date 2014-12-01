@@ -40,10 +40,10 @@ namespace UnknownEngine
 			module = script_builder.GetModule();
 			context = script_engine->CreateContext();
 			
-			asIScriptFunction *install_func = module->GetFunctionByDecl("void install(const std::string &in)");
-			if(install_func)
+			asIScriptFunction *init_func = module->GetFunctionByDecl("void init(const std::string &in)");
+			if(init_func)
 			{
-				context->Prepare(install_func);
+				context->Prepare(init_func);
 				std::string obj_name = std::string(getName());
 				context->SetArgObject(0, &obj_name);
 				context->Execute();
@@ -53,10 +53,10 @@ namespace UnknownEngine
 		void AngelScriptComponent::shutdown()
 		{
 			asIScriptEngine* script_engine = angel_script_subsystem->getScriptEngine();
-			asIScriptFunction *uninstall_func = module->GetFunctionByDecl("void uninstall()");
-			if(uninstall_func)
+			asIScriptFunction *shutdown_func = module->GetFunctionByDecl("void shutdown()");
+			if(shutdown_func)
 			{
-				context->Prepare(uninstall_func);
+				context->Prepare(shutdown_func);
 				context->Execute();
 			}
 			context->Release();

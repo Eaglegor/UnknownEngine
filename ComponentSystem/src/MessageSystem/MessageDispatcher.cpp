@@ -73,7 +73,8 @@ namespace UnknownEngine
 			RegisteredListener rlistener;
 			rlistener.listener = listener;
 			rlistener.receive_policy = r_policy;
-			listeners_map.insert ( std::make_pair ( listener->getMessageSystemParticipantId(), rlistener ) );
+			auto result = listeners_map.insert ( std::make_pair ( listener->getMessageSystemParticipantId(), rlistener ) );
+			if(!result.second) throw ListenerNotAddedException("Listener wasn't added to message dispatcher for some reason");
 			onNewListener ( message_type, listener, r_policy );
 		}
 
@@ -125,7 +126,8 @@ namespace UnknownEngine
 			RegisteredSender rsender;
 			rsender.sender = sender;
 			rsender.delivery_policy = d_policy;
-			senders_map.insert ( std::make_pair ( sender->getMessageSystemParticipantId(), rsender ) );
+			auto result = senders_map.insert ( std::make_pair ( sender->getMessageSystemParticipantId(), rsender ) );
+			if(!result.second) throw SenderNotAddedException("Sender wasn't added to message dispatcher for some reason");
 			onNewSender ( message_type, sender, d_policy );
 		}
 

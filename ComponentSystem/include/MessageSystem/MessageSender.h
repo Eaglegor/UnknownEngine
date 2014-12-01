@@ -24,7 +24,6 @@ namespace UnknownEngine
 			struct RegisteredListener
 			{
 				IMessageListener* listener;
-				IMessageReceivePolicy* receive_policy;
 				
 				bool operator==(const RegisteredListener& rhs) const
 				{
@@ -57,22 +56,15 @@ namespace UnknownEngine
 				
 				for(auto &message_listener: listeners)
 				{
-					if(message_listener.second.receive_policy == nullptr || message_listener.second.receive_policy->acceptMessage(msg))
-					{
-						message_listener.second.listener->processMessage(msg);
-					}
+					message_listener.second.listener->processMessage(msg);
 				}
 			}
 
 			virtual void attachListener ( IMessageListener* listener, IMessageReceivePolicy* receive_policy ) override
 			{
-				if(message_delivery_policy == nullptr || message_delivery_policy->allowDeliveryToListener(listener))
-				{
-					RegisteredListener registered_listener;
-					registered_listener.listener = listener;
-					registered_listener.receive_policy = receive_policy;
-					listeners.insert(std::make_pair(listener->getMessageSystemParticipantId(), registered_listener));
-				}
+				RegisteredListener registered_listener;
+				registered_listener.listener = listener;
+				listeners.emplace(listener->getMessageSystemParticipantId(), registered_listener);
 			}
 			
 			virtual void detachListener ( IMessageListener* listener ) override

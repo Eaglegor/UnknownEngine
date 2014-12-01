@@ -13,7 +13,8 @@ namespace UnknownEngine
 		public:
 			StdStringRegistrator():
 			registered_type_name("string"),
-			declaration_namespace(BASIC_AS_NAMESPACE_NAME)
+			declaration_namespace(BASIC_AS_NAMESPACE_NAME),
+			full_name(BASIC_AS_NAMESPACE_NAME+"::"+registered_type_name)
 			{}
 			
 			virtual bool registerType ( asIScriptEngine* script_engine ) const override
@@ -31,9 +32,15 @@ namespace UnknownEngine
 				return registered_type_name.c_str();
 			}
 			
+			virtual const char* getRegisteredNameWithNamespace() const
+			{
+				return full_name.c_str();
+			}
+			
 		private:
 			std::string registered_type_name;
 			std::string declaration_namespace;
+			std::string full_name;
 		};
 	}
 }

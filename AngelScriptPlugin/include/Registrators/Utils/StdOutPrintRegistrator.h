@@ -16,6 +16,11 @@ namespace UnknownEngine
 				return "StdOutPrintUtils";
 			}
 			
+			virtual const char* getRegisteredNameWithNamespace() const
+			{
+				return "std::StdOutPrintUtils";
+			}
+			
 			static void print_to_stdout(const std::string &text)
 			{
 				std::cout << text << std::endl;

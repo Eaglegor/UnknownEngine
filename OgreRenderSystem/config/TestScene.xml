@@ -179,7 +179,7 @@
 	<entities>
 
 		<entity name="MasterScript">
-			<component name="Script" type="Behavior.AngelScript">
+			<component name="MainModule" type="Behavior.AngelScript">
 				
 				<messaging_rules>
 					<listener>
