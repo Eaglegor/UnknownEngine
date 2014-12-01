@@ -1,21 +1,21 @@
 #pragma once
 
-#include <Registrators/ClassValueTypeRegistrator.h>
 #include <Registrators/PODTypeRegistrator.h>
 #include <Registrators/Utils/ASNamespaceName.h>
 #include <Registrators/Core/MessageSystem/MessageSenderRegistrator.h>
 #include <Registrators/Core/MessageSystem/MessageListenerRegistrator.h>
+#include <Registrators/MessageTypeRegistrator.h>
 #include <ExportedMessages/LogMessage.h>
 
 namespace UnknownEngine
 {
 	namespace Behavior
 	{
-		class LogMessageRegistrator: public ClassValueTypeRegistrator<Utils::LogMessage >
+		class LogMessageRegistrator: public MessageTypeRegistrator<Utils::LogMessage >
 		{
 			public:
 				LogMessageRegistrator() :
-					ClassValueTypeRegistrator< Utils::LogMessage > ( "LogMessage", UTILS_AS_NAMESPACE_NAME )
+					MessageTypeRegistrator< Utils::LogMessage > ( "LogMessage", UTILS_AS_NAMESPACE_NAME )
 				{}
 				
 				virtual bool registerProperties ( asIScriptEngine* script_engine ) const override

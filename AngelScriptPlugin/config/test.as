@@ -1,10 +1,3 @@
-//#define UPDATE_FRAME_MESSAGE Core::UpdateFrameMessage
-//#define SCISSORS_CUT_MESSAGE Laparoscopic::Instruments::Scissors::Cut
-//#define LOG_MESSAGE Utils::LogMessage
-
-//#define MessageSender Core::MessageSender
-//#define MessageListener Core::MessageListener
-
 // Funcdefs for callbacks
 funcdef void UpdateFrameCallback(const Core::UpdateFrameMessage&in);
 
@@ -48,7 +41,7 @@ void onUpdateFrame(const Core::UpdateFrameMessage&in msg)
 		Utils::LogMessage mesg;
 		mesg.sender_info = module_name;
 		mesg.severity = Utils::LogSeverity::INFO;
-		mesg.log_entry = "Heartbeat";
+		mesg.log_entry = "Heartbeat " + std::formatInt(Core::UpdateFrameMessage::getType(), "") + " (" + Core::UpdateFrameMessage::getTypeName() + " )";
 		
 		log_message_sender.sendMessage(mesg);
 		counter = 0;

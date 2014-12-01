@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Registrators/ClassValueTypeRegistrator.h>
+#include <Registrators/MessageTypeRegistrator.h>
 #include <Registrators/PODTypeRegistrator.h>
 #include <Registrators/Core/ASNamespaceName.h>
 #include <ExportedMessages/StopEngineActionMessage.h>
@@ -12,11 +12,11 @@ namespace UnknownEngine
 {
 	namespace Behavior
 	{
-		class UpdateFrameMessageRegistrator: public ClassValueTypeRegistrator<Core::UpdateFrameMessage >
+		class UpdateFrameMessageRegistrator: public MessageTypeRegistrator<Core::UpdateFrameMessage >
 		{
 			public:
 				UpdateFrameMessageRegistrator() :
-					ClassValueTypeRegistrator< Core::UpdateFrameMessage > ( "UpdateFrameMessage", CORE_AS_NAMESPACE_NAME )
+					MessageTypeRegistrator< Core::UpdateFrameMessage > ( "UpdateFrameMessage", CORE_AS_NAMESPACE_NAME )
 				{}
 				
 				virtual bool registerRelatedTypes ( asIScriptEngine* script_engine ) const override
