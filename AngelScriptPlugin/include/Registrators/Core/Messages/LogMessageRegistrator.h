@@ -30,6 +30,24 @@ namespace UnknownEngine
 					result = script_engine->RegisterObjectProperty(getRegisteredName(), "int severity", asOFFSET(Utils::LogMessage, severity));
 					if(result < 0) return false;
 					
+					result = script_engine->RegisterEnum("LogSeverity");
+					if(result < 0) return false;
+					
+					result = script_engine->RegisterEnumValue("LogSeverity", "NONE", static_cast<int>(Utils::LogSeverity::NONE));
+					if(result < 0) return false;
+					
+					result = script_engine->RegisterEnumValue("LogSeverity", "INFO", static_cast<int>(Utils::LogSeverity::INFO));
+					if(result < 0) return false;
+					
+					result = script_engine->RegisterEnumValue("LogSeverity", "ERROR", static_cast<int>(Utils::LogSeverity::ERROR2));
+					if(result < 0) return false;
+					
+					result = script_engine->RegisterEnumValue("LogSeverity", "WARNING", static_cast<int>(Utils::LogSeverity::WARNING));
+					if(result < 0) return false;
+					
+					result = script_engine->RegisterEnumValue("LogSeverity", "DEBUG", static_cast<int>(Utils::LogSeverity::DEBUG));
+					if(result < 0) return false;
+					
 					return true;
 				}
 				
