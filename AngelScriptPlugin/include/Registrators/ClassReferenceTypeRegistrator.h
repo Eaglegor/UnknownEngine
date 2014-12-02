@@ -39,8 +39,6 @@ namespace UnknownEngine
 			}
 			
 		protected:
-			typedef T class_type;
-
 			virtual bool registerProperties( asIScriptEngine* script_engine ) const
 			{
 				return true;

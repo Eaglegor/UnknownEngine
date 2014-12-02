@@ -86,7 +86,7 @@ namespace UnknownEngine
 
 				COMPONENTSYSTEM_EXPORT
 				virtual ~MessageDispatcher ();
-
+				
 				COMPONENTSYSTEM_EXPORT
 				void setListenerRules(const MessageSystemParticipantId &listener_id, const MessageListenerRules &listener_rules);
 				

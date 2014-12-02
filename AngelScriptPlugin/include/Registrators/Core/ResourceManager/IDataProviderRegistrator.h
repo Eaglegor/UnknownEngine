@@ -18,12 +18,15 @@ namespace UnknownEngine
 		protected:
 			bool registerMethods(asIScriptEngine* script_engine) const override
 			{
-				int result = script_engine->RegisterObjectMethod(getRegisteredName(), "void reserve()", asMETHOD(class_type, reserve), asCALL_THISCALL);
+				int result = script_engine->RegisterObjectMethod(getRegisteredName(), "void reserve()", asMETHOD(Loader::IDataProvider, reserve), asCALL_THISCALL);
 				if (result < 0) return false;
 
-				result = script_engine->RegisterObjectMethod(getRegisteredName(), "void release()", asMETHOD(class_type, release), asCALL_THISCALL);
+				result = script_engine->RegisterObjectMethod(getRegisteredName(), "void release()", asMETHOD(Loader::IDataProvider, release), asCALL_THISCALL);
 				if (result < 0) return false;
 
+				result = script_engine->RegisterObjectMethod(getRegisteredName(), "void startLoading()", asMETHOD(Loader::IDataProvider, startLoading), asCALL_THISCALL);
+				if (result < 0) return false;
+				
 				return true;
 			}
 

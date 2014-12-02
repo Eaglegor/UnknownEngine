@@ -1,6 +1,6 @@
 <scene>
 
-	<constant name="global_log_level" value="info"/>
+	<constant name="global_log_level" value="none"/>
 
 	<subsystems>
 		<subsystem name="Logger" module="ConsoleLogger">
@@ -180,23 +180,6 @@
 
 		<entity name="MasterScript">
 			<component name="MainModule" type="Behavior.AngelScript">
-				
-				<messaging_rules>
-					<listener>
-						<message type="Engine.MainLoop.UpdateFrameMessage"/>
-					</listener>
-					<sender>
-						<message type="Engine.StopEngineActionMessage"/>
-						<message type="Utils.LogMessage"/>
-					</sender>
-				</messaging_rules>
-				
-				<options_section>
-					<option name="script_filename" value="test.as"/>
-				</options_section>
-			</component>
-			
-			<component name="NotSoMainModule" type="Behavior.AngelScript">
 				
 				<messaging_rules>
 					<listener>

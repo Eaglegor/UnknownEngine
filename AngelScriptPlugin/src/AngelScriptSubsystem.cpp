@@ -11,8 +11,14 @@
 #include <Registrators/Core/Engine/PropertiesRegistrator.h>
 #include <Registrators/Core/ResourceManager/DataProviderDescRegistrator.h>
 #include <Registrators/Core/ResourceManager/IDataProviderRegistrator.h>
+#include <Registrators/Core/ResourceManager/ResourceManagerRegistrator.h>
 #include <Registrators/Core/MessageSystem/ReceivedMessageDescRegistrator.h>
 #include <Registrators/Core/MessageSystem/ReceivePolicyDescRegistrator.h>
+#include <Registrators/Core/MessageSystem/MessageDispatcherRegistrator.h>
+#include <Registrators/Core/MessageSystem/MessageListenerRuleRegistrator.h>
+#include <Registrators/Core/MessageSystem/MessageSenderRulesRegistrator.h>
+#include <Registrators/Core/MessageSystem/MessageListenerRulesRegistrator.h>
+#include <Registrators/Core/MessageSystem/MessageSenderRuleRegistrator.h>
 #include <Registrators/Core/Messages/StopEngineActionMessageRegistrator.h>
 #include <Registrators/Utils/NameGeneratorRegistrator.h>
 #include <Registrators/Utils/StdOutPrintRegistrator.h>
@@ -115,14 +121,23 @@ namespace UnknownEngine
 			registerObjectType(IComponentRegistrator());
 			registerObjectType(EntityRegistrator());
 			registerObjectType(ComponentsManagerRegistrator());
-			registerObjectType(EngineContextRegistrator());
 			registerObjectType(DataProviderDescRegistrator());
+			registerObjectType(ResourceManagerRegistrator());
+
+			registerObjectType(MessageListenerRuleRegistrator());
+			registerObjectType(MessageListenerRulesRegistrator());
+			registerObjectType(MessageSenderRuleRegistrator());
+			registerObjectType(MessageSenderRulesRegistrator());
+			registerObjectType(MessageDispatcherRegistrator());
+			
+			registerObjectType(EngineContextRegistrator());
 			
 			registerObjectType(StdOutPrintRegistrator());
 
 			registerObjectType(StopEngineActionMessageRegistrator());
 			registerObjectType(UpdateFrameMessageRegistrator());
 			registerObjectType(LogMessageRegistrator());
+			
 		}
 		
 		asIScriptEngine* UnknownEngine::Behavior::AngelScriptSubsystem::getScriptEngine()

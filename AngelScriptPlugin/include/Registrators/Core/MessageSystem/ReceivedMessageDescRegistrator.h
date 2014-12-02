@@ -16,13 +16,18 @@ namespace UnknownEngine
 			ClassValueTypeRegistrator< Core::ReceivedMessageDesc >("ReceivedMessageDesc", CORE_AS_NAMESPACE_NAME)
 			{}
 			
+			static void set_receive_policy(Core::ReceivedMessageDesc* this_ptr, const Core::ReceivedMessageDesc::ReceivePolicyDesc& value)
+			{
+				this_ptr->receive_policy = value;
+			}
+			
 			virtual bool registerProperties ( asIScriptEngine* script_engine ) const override
 			{
 				int result;
 				result = script_engine->RegisterObjectProperty(getRegisteredName(), "std::string message_type_name", asOFFSET(Core::ReceivedMessageDesc, message_type_name));
 				if(result < 0) return false;
 				
-				result = script_engine->RegisterObjectMethod(getRegisteredName(), "void set_receive_policy(Core::ReceivedMessageDesc::ReceivePolicyDesc &in)", asFUNCTION(ReceivedMessageDescWrapper::set_receive_policy), asCALL_CDECL_OBJFIRST);
+				result = script_engine->RegisterObjectMethod(getRegisteredName(), "void set_receive_policy(Core::ReceivedMessageDesc::ReceivePolicyDesc &in)", asFUNCTION(ReceivedMessageDescRegistrator::set_receive_policy), asCALL_CDECL_OBJFIRST);
 				if(result < 0) return false;
 				
 				return true;
