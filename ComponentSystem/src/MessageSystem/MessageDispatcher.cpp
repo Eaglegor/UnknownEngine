@@ -16,6 +16,8 @@
 #include <MessageSystem/IMessageSender.h>
 #include <MessageSystem/MessageListenerRules.h>
 #include <MessageSystem/MessageSenderRules.h>
+#include <MessageSystem/MessageReceivePolicyDesc.h>
+#include <MessageSystem/MessageDeliveryPolicyDesc.h>
 
 #define ENABLE_CORE_SUBSYSTEM_ERROR_LOG
 #include <CoreLogging.h>

@@ -9,7 +9,7 @@
 
 #include <ComponentSystem_export.h>
 #include <MessageSystem/Policies/IMessageReceivePolicy.h>
-#include <MessageSystem/Policies/MessagePolicyType.h>
+#include <MessageSystem/MessageReceivePolicyType.h>
 
 namespace UnknownEngine
 {
@@ -33,7 +33,9 @@ namespace UnknownEngine
 				COMPONENTSYSTEM_EXPORT
 				virtual bool acceptMessage ( const PackedMessage &msg ) override;
 
-				static const MessagePolicyType getType()
+				virtual MessageReceivePolicyType getType() const;
+				
+				constexpr static const char* getTypeName()
 				{
 					return "Any";
 				}

@@ -13,36 +13,29 @@
 #include <Singleton.h>
 #include <NumericIdentifierType.h>
 #include <Properties/PropertiesTree.h>
+#include <Dictionary.h>
+#include <MessageSystem/IMessageReceivePolicyFactory.h>
+#include <MessageSystem/IMessageDeliveryPolicyFactory.h>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
 
-		class IMessageReceivePolicyFactory;
-		class IMessageDeliveryPolicyFactory;
+		struct MessageDeliveryPolicyDesc;
+		struct MessageReceivePolicyDesc;
 
-		typedef std::string MessageReceivePolicyType;
-		typedef std::string MessageDeliveryPolicyType;
-
-		struct MessageReceivePolicyDesc
-		{
-			MessageReceivePolicyType type;
-			Properties options;
-		};
-
-		struct MessageDeliveryPolicyDesc
-		{
-			MessageDeliveryPolicyType type;
-			Properties options;
-		};
-
+		class StandardMessageDeliveryPoliciesFactory;
+		class StandardMessageReceivePoliciesFactory;
 
 		class EngineContext;
 
 		class MessagingPoliciesManager : public Singleton<MessagingPoliciesManager>
 		{
 			public:
+				MessagingPoliciesManager();
+				~MessagingPoliciesManager();
+				
 				COMPONENTSYSTEM_EXPORT
 				void addMessageReceivePolicyFactory(IMessageReceivePolicyFactory* factory);
 
@@ -50,16 +43,16 @@ namespace UnknownEngine
 				void addMessageDeliveryPolicyFactory(IMessageDeliveryPolicyFactory* factory);
 
 				COMPONENTSYSTEM_EXPORT
-				void removeMessageReceivePolicyFactory(IMessageReceivePolicy* factory);
+				void removeMessageReceivePolicyFactory(IMessageReceivePolicyFactory* factory);
 
 				COMPONENTSYSTEM_EXPORT
-				void removeMessageDeliveryPolicyFactory(IMessageDeliveryPolicy* factory);
+				void removeMessageDeliveryPolicyFactory(IMessageDeliveryPolicyFactory* factory);
 
 				COMPONENTSYSTEM_EXPORT
 				IMessageReceivePolicy* createMessageReceivePolicy(const MessageReceivePolicyDesc& desc);
 
 				COMPONENTSYSTEM_EXPORT
-				IMessageDeliveryPolicy* createMessageDeliveryPolicy(const MessageDeliveryPolicyDesc &desc);
+				IMessageDeliveryPolicy* createMessageDeliveryPolicy(const MessageDeliveryPolicyDesc& desc);
 
 				COMPONENTSYSTEM_EXPORT
 				void destroyMessageReceivePolicy(IMessageReceivePolicy* policy);
@@ -69,12 +62,19 @@ namespace UnknownEngine
 
 			private:
 				IMessageReceivePolicyFactory* findReceivePolicyFactory(const MessageReceivePolicyType& type);
-				IMessageReceivePolicyFactory* findDeliveryPolicyFactory(const MessageReceivePolicyType& type);
+				IMessageDeliveryPolicyFactory* findDeliveryPolicyFactory( const MessageDeliveryPolicyType& type );
 
-				void registerStandardFactoires();
+				void createStandardFactoires();
+				void destroyStandardFactoires();
 
 				std::unordered_map<NumericIdentifierType, IMessageReceivePolicyFactory*> receive_policy_factories;
 				std::unordered_map<NumericIdentifierType, IMessageDeliveryPolicyFactory*> delivery_policy_factories;
+				
+				StandardMessageReceivePoliciesFactory* standard_receive_policy_factory;
+				StandardMessageDeliveryPoliciesFactory* standard_delivery_policy_factory;
+				
+				typedef Utils::Dictionary<NumericIdentifierType, std::string> InternalDictionaryType;
+				InternalDictionaryType internal_dictionary;
 		};
 
 #ifdef _MSC_VER

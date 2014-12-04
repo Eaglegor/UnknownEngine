@@ -40,11 +40,6 @@ namespace UnknownEngine
 				registerSupportedMessageType ( message.message_type_name);
 			}
 		}
-		
-		MessagingPoliciesManager& BaseMessageListener::getMessagingPoliciesManager()
-		{
-			return messaging_policies_manager;
-		}
 
 		void BaseMessageListener::processMessage ( const PackedMessage& msg )
 		{

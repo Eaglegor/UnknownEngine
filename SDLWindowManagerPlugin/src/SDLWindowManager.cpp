@@ -95,13 +95,11 @@ namespace UnknownEngine
 			
 		}
 
-		void SDLWindowManager::init(const Core::ReceivedMessageDescriptorsList &received_messages_desc)
+		void SDLWindowManager::init()
 		{
 			window_events_listener.reset ( new WindowEventsProcessor(name, this, engine_context) );
 			
 			listener.reset(new Core::BaseMessageListener(name, engine_context));
-			listener->registerSupportedMessageTypes(received_messages_desc);
-			
 			{
 				typedef Core::UpdateFrameMessage MessageType;
 				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;

@@ -29,7 +29,9 @@ namespace UnknownEngine
 				COMPONENTSYSTEM_EXPORT
 				virtual bool allowDeliveryToListener ( const IMessageListener* listener ) const override;
 
-				static const MessagePolicyType getType()
+				virtual MessageDeliveryPolicyType getType() const;
+				
+				constexpr static const char* getTypeName()
 				{
 					return "Broadcast";
 				}

@@ -43,7 +43,7 @@ namespace UnknownEngine
 			SDLWindowManager(const std::string &name, Core::EngineContext* engine_context, Utils::LogHelper* log_helper);
 			virtual ~SDLWindowManager();
 			
-			void init( const Core::ReceivedMessageDescriptorsList& received_messages_desc );
+			void init();
 			void shutdown();
 			void createWindow(const SDLWindowDesc &desc);
 

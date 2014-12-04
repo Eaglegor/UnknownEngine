@@ -78,9 +78,6 @@ namespace UnknownEngine
 			bool isRegisteredAtDispatcher();
 			
 		private:
-			COMPONENTSYSTEM_EXPORT
-			MessagingPoliciesManager& getMessagingPoliciesManager();
-			
 			typedef std::recursive_mutex LockPrimitive;
 			
 			struct ReceivedMessage
@@ -95,7 +92,6 @@ namespace UnknownEngine
 			Utils::IMessageBuffer *findMessageBuffer(const PackedMessage &msg);
 			
 			std::unordered_map<MessageType, ReceivedMessage > received_messages;
-			MessagingPoliciesManager messaging_policies_manager;
 			EngineContext* engine_context;
 			
 			std::unique_ptr<Utils::LogHelper> log_helper;

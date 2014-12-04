@@ -17,6 +17,11 @@ namespace UnknownEngine
 		{
 			return true;
 		}
+
+		MessageReceivePolicyType AnyMessageReceivePolicy::getType() const
+		{
+			return MESSAGE_RECEIVE_POLICY_TYPE_ID(getTypeName());
+		}
 		
 		bool AnyMessageReceivePolicy::acceptMessage ( const PackedMessage& msg )
 		{

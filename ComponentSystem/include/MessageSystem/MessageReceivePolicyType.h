@@ -6,6 +6,6 @@ namespace UnknownEngine
 {
 	namespace Core
 	{
-		typedef std::string MessagePolicyType;
+		typedef std::string MessageReceivePolicyType;
 	}
 }

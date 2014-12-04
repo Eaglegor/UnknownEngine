@@ -70,7 +70,7 @@ namespace UnknownEngine
 			LOG_INFO(log_helper, "Initializing SDL plugin")
 
 			window_manager.reset ( new SDLWindowManager(std::string(getName()), engine_context, log_helper.get()) );
-			window_manager->init(desc.received_messages);
+			window_manager->init();
 
 			window_manager->createWindow( wm_desc.window_desc );
 

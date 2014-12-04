@@ -60,11 +60,11 @@ namespace UnknownEngine
 
 		class ComponentsManager : public Singleton<ComponentsManager>
 		{
-			public:
-
+			private:
 				typedef Utils::Dictionary<NumericIdentifierType, std::string> InternalDictionaryType;
 				typedef std::unordered_map<NumericIdentifierType, IComponentFactory*> ComponentFactoriesMap;
-
+				
+			public:
 				/**
 				 * @brief Default constructor. Called by Engine.
 				 */

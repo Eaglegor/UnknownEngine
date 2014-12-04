@@ -35,11 +35,6 @@ namespace UnknownEngine
 				return supported_types.find ( object_type ) != supported_types.end();
 			}
 			
-			virtual const std::unordered_set< ObjectTypeId > getSupportedTypes() const override
-			{
-				return supported_types;
-			}
-			
 		protected:
 			
 			struct CreatableObjectDesc

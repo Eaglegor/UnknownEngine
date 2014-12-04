@@ -99,6 +99,9 @@ namespace UnknownEngine
 			CORE_SUBSYSTEM_INFO ( "Destroying components manager" );
 			ComponentsManager::destroyInstance();
 
+			CORE_SUBSYSTEM_INFO ( "Destroying messaging policies dictionary" );
+			MessagingPoliciesManager::destroyInstance();
+			
 			CORE_SUBSYSTEM_INFO ( "Destroying message system participant dictionary" );
 			MessageSystemParticipantDictionary::destroyInstance();
 
@@ -145,6 +148,9 @@ namespace UnknownEngine
 			CORE_SUBSYSTEM_INFO ( "Creating message participant dictionary" );
 			context.message_system_participant_dictionary = MessageSystemParticipantDictionary::createInstance();
 
+			CORE_SUBSYSTEM_INFO ( "Creating messaging policies manager" );
+			context.messaging_policies_manager = MessagingPoliciesManager::createInstance();
+			
 			CORE_SUBSYSTEM_INFO ( "Creating plugins manager" );
 			plugins_manager = PluginsManager::createInstance ( &context );
 

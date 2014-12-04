@@ -18,5 +18,10 @@ namespace UnknownEngine
 			return true;
 		}
 
+		MessageDeliveryPolicyType BroadcastMessageDeliverPolicy::getType() const
+		{
+			return MESSAGE_DELIVERY_POLICY_TYPE_ID(getTypeName());
+		}
+		
 	} /* namespace Core */
 } /* namespace UnknownEngine */

@@ -164,11 +164,10 @@ namespace UnknownEngine
 			else return iter->second;
 		}
 
-		void OgreRenderSubsystem::start(const std::string& name, const Core::ReceivedMessageDescriptorsList& received_messages)
+		void OgreRenderSubsystem::start(const std::string& name)
 		{
 			
 			listener.reset ( new Core::BaseMessageListener(name, engine_context) );
-			listener->registerSupportedMessageTypes(received_messages);
 			
 			frame_listener.reset ( new OgreRenderFrameListener() );
 			

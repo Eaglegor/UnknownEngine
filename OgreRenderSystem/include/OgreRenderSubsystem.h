@@ -60,7 +60,7 @@ namespace UnknownEngine
 				
 				void loadResourcesFile(const std::string &filename);
 
-				virtual void start(const std::string &name, const Core::ReceivedMessageDescriptorsList& received_messages);
+				virtual void start(const std::string &name);
 				virtual void stop();
 				
 				UNKNOWNENGINE_INLINE

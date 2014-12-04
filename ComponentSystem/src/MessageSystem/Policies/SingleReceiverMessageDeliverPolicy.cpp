@@ -22,6 +22,11 @@ namespace UnknownEngine
 
 		}
 
+		MessageDeliveryPolicyType SingleReceiverMessageDeliverPolicy::getType() const
+		{
+			return MESSAGE_DELIVERY_POLICY_TYPE_ID(getTypeName());
+		}
+		
 		bool SingleReceiverMessageDeliverPolicy::allowDeliveryToListener ( const IMessageListener* listener ) const
 		{
 			return listener->getMessageSystemParticipantId() == receiver_info;
