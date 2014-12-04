@@ -8,6 +8,8 @@
 #include <ComponentType.h>
 #include <DescriptorContainer.h>
 #include <MessageSystem/MessageListenerDesc.h>
+#include <MessageSystem/MessageListenerRules.h>
+#include <MessageSystem/MessageSenderRules.h>
 
 namespace UnknownEngine
 {
@@ -24,6 +26,8 @@ namespace UnknownEngine
 			ComponentType type; ///< Type identifier of component
 			boost::variant<DescriptorContainer, Properties> descriptor;
 			ReceivedMessageDescriptorsList received_messages; ///< Descriptor of received messages
+			MessageListenerRules listener_rules;
+			MessageSenderRules sender_rules;
 		};
 
 	}

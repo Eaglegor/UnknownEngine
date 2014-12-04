@@ -12,6 +12,7 @@
 #include <Properties/Properties_fwd.h>
 #include <Singleton.h>
 #include <NumericIdentifierType.h>
+#include <Properties/PropertiesTree.h>
 
 namespace UnknownEngine
 {
@@ -22,10 +23,19 @@ namespace UnknownEngine
 		class IMessageDeliveryPolicyFactory;
 
 		typedef std::string MessageReceivePolicyType;
-		typedef std::string MessagDeliveryPolicyType;
+		typedef std::string MessageDeliveryPolicyType;
 
-		class MessageReceivePolicyDesc;
-		class MessageDeliveryPolicyDesc;
+		struct MessageReceivePolicyDesc
+		{
+			MessageReceivePolicyType type;
+			Properties options;
+		};
+
+		struct MessageDeliveryPolicyDesc
+		{
+			MessageDeliveryPolicyType type;
+			Properties options;
+		};
 
 
 		class EngineContext;
@@ -60,6 +70,8 @@ namespace UnknownEngine
 			private:
 				IMessageReceivePolicyFactory* findReceivePolicyFactory(const MessageReceivePolicyType& type);
 				IMessageReceivePolicyFactory* findDeliveryPolicyFactory(const MessageReceivePolicyType& type);
+
+				void registerStandardFactoires();
 
 				std::unordered_map<NumericIdentifierType, IMessageReceivePolicyFactory*> receive_policy_factories;
 				std::unordered_map<NumericIdentifierType, IMessageDeliveryPolicyFactory*> delivery_policy_factories;

@@ -4,6 +4,8 @@
 #include <MessageSystem/MessageListenerDesc.h>
 #include <DescriptorContainer.h>
 #include <boost/variant.hpp>
+#include <MessageSystem/MessageListenerRules.h>
+#include <MessageSystem/MessageSenderRules.h>
 
 namespace UnknownEngine
 {
@@ -16,8 +18,9 @@ namespace UnknownEngine
 		{
 			std::string name; ///< **Unique** name of subsystem
 			std::string module_name; ///< Shared library filename
-			ReceivedMessageDescriptorsList received_messages; ///< List of message subscriptions
 			boost::variant<DescriptorContainer, Properties> descriptor;
+			MessageListenerRules listener_rules;
+			MessageSenderRules sender_rules;
 		};
 
 	}

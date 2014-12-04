@@ -198,9 +198,12 @@ namespace UnknownEngine
 		{
 			ListenerRules *rules = createListenerRules ( listener_id );
 
-			for ( const MessageListenerRule & desc : new_listener_rules )
+			for ( const MessageListenerRule & rule : new_listener_rules )
 			{
-				rules->messages[MESSAGE_TYPE_ID ( desc.message_type_name )] = rules->policies_factory.createPrefabReceiveMessagePolicy ( desc.receive_policy_type_name, desc.receive_policy_options );
+				MessageReceivePolicyDesc desc;
+				desc.type = rule.receive_policy_type_name;
+				desc.options = rule.receive_policy_options;
+				rules->messages[MESSAGE_TYPE_ID(rule.message_type_name)] = MessagingPoliciesManager::getSingleton()->createMessageReceivePolicy(desc);
 			}
 		}
 
@@ -208,19 +211,30 @@ namespace UnknownEngine
 		{
 			SenderRules *rules = createSenderRules ( sender_id );
 
-			for ( const MessageSenderRule & desc : new_sender_rules )
+			for ( const MessageSenderRule & rule : new_sender_rules )
 			{
-				rules->messages[MESSAGE_TYPE_ID ( desc.message_type_name )] = rules->policies_factory.createPrefabDeliveryMessagePolicy ( desc.delivery_policy_type_name, desc.delivery_policy_options );
+				MessageDeliveryPolicyDesc desc;
+				desc.type = rule.delivery_policy_type_name;
+				desc.options = rule.delivery_policy_options;
+				rules->messages[MESSAGE_TYPE_ID(rule.message_type_name)] = MessagingPoliciesManager::getSingleton()->createMessageDeliveryPolicy(desc);
 			}
 		}
 
 		void MessageDispatcher::clearListenerRules ( const MessageSystemParticipantId& listener_id )
 		{
+			for (auto &iter : listener_rules[listener_id].messages)
+			{
+				if (iter.second != nullptr) MessagingPoliciesManager::getSingleton()->destroyMessageReceivePolicy(iter.second);
+			}
 			listener_rules.erase ( listener_id );
 		}
 
 		void MessageDispatcher::clearSenderRules ( const MessageSystemParticipantId& sender_id )
 		{
+			for (auto &iter : sender_rules[sender_id].messages)
+			{
+				if (iter.second != nullptr) MessagingPoliciesManager::getSingleton()->destroyMessageDeliveryPolicy(iter.second);
+			}
 			sender_rules.erase ( sender_id );
 		}
 
@@ -259,7 +273,10 @@ namespace UnknownEngine
 			{
 				rules = createSenderRules ( id );
 			}
-			rules->messages[message_type] = rules->policies_factory.createPrefabDeliveryMessagePolicy ( sender_rule.delivery_policy_type_name, sender_rule.delivery_policy_options );
+			MessageDeliveryPolicyDesc desc;
+			desc.type = sender_rule.delivery_policy_type_name;
+			desc.options = sender_rule.delivery_policy_options;
+			rules->messages[message_type] = MessagingPoliciesManager::getSingleton()->createMessageDeliveryPolicy(desc);
 		}
 
 
@@ -270,7 +287,10 @@ namespace UnknownEngine
 			{
 				rules = createListenerRules ( id );
 			}
-			rules->messages[message_type] = rules->policies_factory.createPrefabReceiveMessagePolicy ( listener_rule.receive_policy_type_name, listener_rule.receive_policy_options );
+			MessageReceivePolicyDesc desc;
+			desc.type = listener_rule.receive_policy_type_name;
+			desc.options = listener_rule.receive_policy_options;
+			rules->messages[message_type] = MessagingPoliciesManager::getSingleton()->createMessageReceivePolicy(desc);
 		}
 
 

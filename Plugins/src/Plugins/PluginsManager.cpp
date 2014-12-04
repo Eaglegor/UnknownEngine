@@ -108,6 +108,11 @@ namespace UnknownEngine
 			  throw UnknownEngine::Core::PluginError (library_name+": Plugin entry point can't be found in library");
 			}
 
+			CORE_SUBSYSTEM_INFO("Registering messaging rules");
+			MessageDispatcher::getSingleton()->setListenerRules(desc.name, desc.listener_rules);
+			MessageDispatcher::getSingleton()->setSenderRules(desc.name, desc.sender_rules);
+			CORE_SUBSYSTEM_INFO("Unregistering messaging rules");
+
 			CORE_SUBSYSTEM_INFO("Creating plugin instance: " + library_name);
 			Plugin* plugin = start_point ( this, desc );
 

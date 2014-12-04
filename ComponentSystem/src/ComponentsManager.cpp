@@ -74,6 +74,11 @@ namespace UnknownEngine
 					if(component)
 					{
 						CORE_SUBSYSTEM_INFO ( "Component '" + desc.name + "' created" );
+
+						CORE_SUBSYSTEM_INFO("Registering messaging rules for component " + desc.name);
+						MessageDispatcher::getSingleton()->setListenerRules(desc.name, desc.listener_rules);
+						MessageDispatcher::getSingleton()->setSenderRules(desc.name, desc.sender_rules);
+						CORE_SUBSYSTEM_INFO("Messaging rules for component " + desc.name + " registered");
 					}
 					else
 					{
@@ -83,7 +88,8 @@ namespace UnknownEngine
 				}
 			}
 			CORE_SUBSYSTEM_ERROR ( "Not found factory for component type: '" + desc.type + "'" );
-			throw NoSuitableFactoryFoundException ( "Can't find factory for component" );
+			return nullptr;
+			//throw NoSuitableFactoryFoundException ( "Can't find factory for component" );
 		}
 
 		void ComponentsManager::removeComponent ( IComponent *component )
@@ -93,9 +99,11 @@ namespace UnknownEngine
 			{
 				if ( factory.second->supportsType ( component->getType() ) )
 				{
+					CORE_SUBSYSTEM_INFO("Unregistering messaging rules for component " + desc.name);
 					MessageDispatcher::getSingleton()->clearListenerRules(MessageSystemParticipantId(component->getName()));
 					MessageDispatcher::getSingleton()->clearSenderRules(MessageSystemParticipantId(component->getName()));
-					
+					CORE_SUBSYSTEM_INFO("Messaging rules for component " + desc.name + " unregistered");
+
 					factory.second->destroyObject ( component );
 					return;
 				}

@@ -127,13 +127,11 @@ namespace UnknownEngine
 
 				struct ListenerRules
 				{
-					MessagingPoliciesManager policies_factory;
 					std::unordered_map<MessageType, IMessageReceivePolicy*> messages;
 				};
 				
 				struct SenderRules
 				{
-					MessagingPoliciesManager policies_factory;
 					std::unordered_map<MessageType, IMessageDeliveryPolicy*> messages;
 				};
 				
