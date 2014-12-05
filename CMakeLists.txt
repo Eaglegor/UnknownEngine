@@ -41,6 +41,7 @@ SceneLoader
 Utils
 ResourceManager
 SimpleBehaviorPlugin
+LogManager
 
 #Subsystems
 DummySubsystem
