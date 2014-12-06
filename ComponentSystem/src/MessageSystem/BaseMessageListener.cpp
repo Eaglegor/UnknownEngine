@@ -13,7 +13,7 @@ namespace UnknownEngine
 		BaseMessageListener::BaseMessageListener ( const std::string& object_name, EngineContext* engine_context ) : 
 		IMessageListener ( object_name ),
 		engine_context(engine_context),
-		logger(CREATE_LOGGER(std::string(object_name.c_str()) + ".Listener", Utils::LogSeverity::NONE)),
+		logger(CREATE_LOGGER(std::string(object_name.c_str()) + ".Listener", Core::LogSeverity::NONE)),
 		registered(false)
 		{
 		}

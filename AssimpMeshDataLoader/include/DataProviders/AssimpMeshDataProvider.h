@@ -42,9 +42,9 @@ namespace UnknownEngine
 				
 				PostprocessingDesc postprocessing;
 				std::string filename;
-				Utils::LogSeverity log_level;
+				Core::LogSeverity log_level;
 									
-				Descriptor():log_level(Utils::LogSeverity::NONE){};
+				Descriptor():log_level(Core::LogSeverity::NONE){};
 			};
 			
 			AssimpMeshDataProvider ( const std::string& name, const Descriptor &desc, Core::EngineContext* engine_context );

@@ -14,12 +14,12 @@ namespace UnknownEngine
 			OgreLightSettings light_settings;
 
 			Math::Transform initial_transform;
-			Utils::LogSeverity log_level;
+			Core::LogSeverity log_level;
 
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
 			OgrePointLightComponentDescriptor() :
-				log_level ( Utils::LogSeverity::NONE )
+				log_level ( Core::LogSeverity::NONE )
 			{}
 		};
 	}

@@ -11,10 +11,10 @@ namespace UnknownEngine
 		{
 		public:
 			LogHelper(const std::string& name);
-			LogHelper(const std::string& name, Utils::LogSeverity log_level);
+			LogHelper(const std::string& name, Core::LogSeverity log_level);
 			~LogHelper();
 			
-			void init(Utils::LogSeverity log_level);
+			void init(Core::LogSeverity log_level);
 			virtual const char* getName() const;
 			
 			ILogger* operator->()

@@ -34,14 +34,14 @@ namespace UnknownEngine
 
 			console_logger.reset(new ConsoleLogger(desc.name));
 			
-			console_logger->log(Utils::LogSeverity::INFO, "Installing console logger plugin");
+			console_logger->log(Core::LogSeverity::INFO, "Installing console logger plugin");
 
 			this->desc = desc;
 			engine_context = plugins_manager->getEngineContext();
 
-			console_logger->log(Utils::LogSeverity::INFO, "Console logger plugin installed");
+			console_logger->log(Core::LogSeverity::INFO, "Console logger plugin installed");
 			
-			console_logger->log(Utils::LogSeverity::INFO, "Registering log message listener");
+			console_logger->log(Core::LogSeverity::INFO, "Registering log message listener");
 			
 			engine_context->getMessageDispatcher()->addListener(MESSAGE_TYPE_ID(Utils::LogMessage::getTypeName()), console_logger.get());
 
@@ -50,31 +50,31 @@ namespace UnknownEngine
 
 		bool ConsoleLoggerPlugin::init () 
 		{
-			console_logger->log(Utils::LogSeverity::INFO, "Initializing console logger plugin");
+			console_logger->log(Core::LogSeverity::INFO, "Initializing console logger plugin");
 
-			console_logger->log(Utils::LogSeverity::INFO, "Console logger plugin initialized");
+			console_logger->log(Core::LogSeverity::INFO, "Console logger plugin initialized");
 			
 			return true;
 		}
 
 		bool ConsoleLoggerPlugin::shutdown () 
 		{
-			console_logger->log(Utils::LogSeverity::INFO, "Shutting down console logger plugin");
+			console_logger->log(Core::LogSeverity::INFO, "Shutting down console logger plugin");
 			
-			console_logger->log(Utils::LogSeverity::INFO, "Unregistering log messages listener");
+			console_logger->log(Core::LogSeverity::INFO, "Unregistering log messages listener");
 			
 			engine_context->getMessageDispatcher()->removeListener(console_logger.get());
 			
-			console_logger->log(Utils::LogSeverity::INFO, "Console logger plugin is shut down");
+			console_logger->log(Core::LogSeverity::INFO, "Console logger plugin is shut down");
 			
 			return true;
 		}
 
 		bool ConsoleLoggerPlugin::uninstall () 
 		{
-			console_logger->log(Utils::LogSeverity::INFO, "Uninstalling console logger plugin");
+			console_logger->log(Core::LogSeverity::INFO, "Uninstalling console logger plugin");
 			
-			console_logger->log(Utils::LogSeverity::INFO, "Console logger plugin is uninstalled");
+			console_logger->log(Core::LogSeverity::INFO, "Console logger plugin is uninstalled");
 			
 			return true;
 		}

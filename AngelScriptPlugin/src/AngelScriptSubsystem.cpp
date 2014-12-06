@@ -9,6 +9,7 @@
 #include <Registrators/Core/ComponentSystem/ComponentsManagerRegistrator.h>
 #include <Registrators/Core/ComponentSystem/EntityRegistrator.h>
 #include <Registrators/Core/Engine/PropertiesRegistrator.h>
+#include <Registrators/Core/Engine/ILoggerRegistrator.h>
 #include <Registrators/Core/ResourceManager/DataProviderDescRegistrator.h>
 #include <Registrators/Core/ResourceManager/IDataProviderRegistrator.h>
 #include <Registrators/Core/ResourceManager/ResourceManagerRegistrator.h>
@@ -22,8 +23,8 @@
 #include <Registrators/Core/Messages/StopEngineActionMessageRegistrator.h>
 #include <Registrators/Utils/NameGeneratorRegistrator.h>
 #include <Registrators/Utils/StdOutPrintRegistrator.h>
+#include <Registrators/Utils/LogSeverityRegistrator.h>
 #include <Registrators/Core/Messages/UpdateFrameMessageRegistrator.h>
-#include <Registrators/Core/Messages/LogMessageRegistrator.h>
 
 #include <scriptbuilder/scriptbuilder.h>
 
@@ -107,8 +108,12 @@ namespace UnknownEngine
 		void AngelScriptSubsystem::registerStandardTypes()
 		{
 			registerDefaultTemplatesPredefinition();
-			
+
 			registerObjectType(StdStringRegistrator());
+			
+			registerObjectType(LogSeverityRegistrator());
+			registerObjectType(ILoggerRegistrator());
+			
 			registerObjectType(NameGeneratorRegistrator());
 			registerObjectType(IDataProviderRegistrator());
 			registerObjectType(PropertiesRegistrator());
@@ -133,7 +138,6 @@ namespace UnknownEngine
 
 			registerObjectType(StopEngineActionMessageRegistrator());
 			registerObjectType(UpdateFrameMessageRegistrator());
-			registerObjectType(LogMessageRegistrator());
 			
 		}
 		

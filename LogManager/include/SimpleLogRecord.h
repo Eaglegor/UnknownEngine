@@ -10,13 +10,13 @@ namespace UnknownEngine
 		class SimpleLogRecord : public ILogRecord
 		{
 		public:
-			SimpleLogRecord(Utils::LogSeverity severity, const std::string& text):
+			SimpleLogRecord(Core::LogSeverity severity, const std::string& text):
 			text(text),
 			severity(severity)
 			{
 			}
 			
-			virtual Utils::LogSeverity getSeverity() const override
+			virtual Core::LogSeverity getSeverity() const override
 			{
 				return severity;
 			}
@@ -28,7 +28,7 @@ namespace UnknownEngine
 			
 		private:
 			std::string text;
-			Utils::LogSeverity severity;
+			Core::LogSeverity severity;
 		};
 	}
 }

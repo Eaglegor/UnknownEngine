@@ -21,7 +21,7 @@ namespace UnknownEngine
 		{
 		}
 
-		void PxJointComponent::initializeLogger(Utils::LogSeverity severity)
+		void PxJointComponent::initializeLogger(Core::LogSeverity severity)
 		{
 			logger.init(severity);
 		}

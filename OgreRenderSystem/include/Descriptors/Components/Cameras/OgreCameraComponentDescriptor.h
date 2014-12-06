@@ -11,7 +11,7 @@ namespace UnknownEngine
 	{
 		UNKNOWNENGINE_ALIGNED_STRUCT ( 16 ) OgreCameraComponentDescriptor
 		{
-			Utils::LogSeverity log_level;
+			Core::LogSeverity log_level;
 			Math::Transform initial_transform;
 
 			boost::optional<Math::Vector3> initial_look_at;
@@ -23,7 +23,7 @@ namespace UnknownEngine
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
 			OgreCameraComponentDescriptor() :
-				log_level ( Utils::LogSeverity::NONE ) {}
+				log_level ( Core::LogSeverity::NONE ) {}
 		};
 	}
 }

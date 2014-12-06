@@ -10,7 +10,7 @@ namespace UnknownEngine
 		{
 		}
 
-		LogHelper::LogHelper ( const std::string& name, Utils::LogSeverity log_level ) :
+		LogHelper::LogHelper ( const std::string& name, Core::LogSeverity log_level ) :
 		name(name),
 		logger(nullptr)
 		{
@@ -22,7 +22,7 @@ namespace UnknownEngine
 			RELEASE_LOGGER(logger);
 		}
 		
-		void LogHelper::init ( Utils::LogSeverity log_level )
+		void LogHelper::init ( Core::LogSeverity log_level )
 		{
 			logger = CREATE_LOGGER(getName(), log_level);
 		}

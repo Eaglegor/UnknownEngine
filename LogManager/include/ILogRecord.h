@@ -8,7 +8,7 @@ namespace UnknownEngine
 		class ILogRecord
 		{
 		public:
-			virtual Utils::LogSeverity getSeverity() const = 0;
+			virtual Core::LogSeverity getSeverity() const = 0;
 			virtual const char* toString() const = 0;
 		};
 	}

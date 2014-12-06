@@ -21,7 +21,7 @@ namespace UnknownEngine
 			void addLoggingSubsystem(ILoggingSubsystem* logging_subsystem);
 			void removeLoggingSubsystem(ILoggingSubsystem* logging_subsystem);
 
-			ILogger* getLogger(const char* name, Utils::LogSeverity log_level);
+			ILogger* getLogger(const char* name, Core::LogSeverity log_level);
 			void releaseLogger(const char* name);
 
 		private:
@@ -33,7 +33,7 @@ namespace UnknownEngine
 				ProxyLogger logger;
 				size_t ref_counter = 1;
 				
-				ProxyLoggerWrapper(const char* name, Utils::LogSeverity log_level):
+				ProxyLoggerWrapper(const char* name, Core::LogSeverity log_level):
 				logger(name, log_level)
 				{}
 			};

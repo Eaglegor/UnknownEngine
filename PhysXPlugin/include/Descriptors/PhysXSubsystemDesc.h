@@ -23,7 +23,7 @@ namespace UnknownEngine
 			bool track_outstanding_allocations;
 			bool enable_profiling;
 			
-			Utils::LogSeverity log_level;
+			Core::LogSeverity log_level;
 			
 			Math::Vector3 gravity;
 			
@@ -34,7 +34,7 @@ namespace UnknownEngine
 			cpu_threads_count(0),
 			track_outstanding_allocations(false),
 			enable_profiling(false),
-			log_level(Utils::LogSeverity::NONE)
+			log_level(Core::LogSeverity::NONE)
 			{}
 		};
 	}

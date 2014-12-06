@@ -31,11 +31,11 @@ namespace UnknownEngine
 			logging_subsystems.erase(std::string(logging_subsystem->getName()));
 		}
 
-		ILogger* LogManager::getLogger ( const char* name, Utils::LogSeverity log_level )
+		ILogger* LogManager::getLogger ( const char* name, Core::LogSeverity log_level )
 		{
 			std::lock_guard<LockPrimitive> guard(lock);
 			
-			if(log_level == Utils::LogSeverity::NONE) return nullptr;
+			if(log_level == Core::LogSeverity::NONE) return nullptr;
 			auto iter = proxy_loggers.find(std::string(name));
 			if(iter != proxy_loggers.end()) 
 			{

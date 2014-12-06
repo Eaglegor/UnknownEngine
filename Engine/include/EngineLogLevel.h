@@ -6,6 +6,6 @@ namespace UnknownEngine
 {
 	namespace Core
 	{
-		static const Utils::LogSeverity ENGINE_LOG_LEVEL = Utils::LogSeverity::WARNING;
+		static const Core::LogSeverity ENGINE_LOG_LEVEL = Core::LogSeverity::WARNING;
 	}
 }

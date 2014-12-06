@@ -10,7 +10,7 @@ namespace UnknownEngine
 		{
 		}
 
-		ILogger* ConsoleLoggingSubsystem::createLogger ( const char* name, Utils::LogSeverity log_level )
+		ILogger* ConsoleLoggingSubsystem::createLogger ( const char* name, Core::LogSeverity log_level )
 		{
 			return new ConsoleLogger(name, log_level, this);
 		}

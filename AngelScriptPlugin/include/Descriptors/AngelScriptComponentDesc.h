@@ -9,7 +9,7 @@ namespace UnknownEngine
 	{
 		struct AngelScriptComponentDesc
 		{
-			Utils::LogSeverity log_level = Utils::LogSeverity::NONE;
+			Core::LogSeverity log_level = Core::LogSeverity::NONE;
 			std::string script_filename;
 		};
 	}

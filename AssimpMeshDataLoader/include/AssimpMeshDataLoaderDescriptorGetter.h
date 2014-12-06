@@ -29,7 +29,7 @@ namespace UnknownEngine
 				(
 					creation_options,
 					{
-						{"log_level", PropertiesParser::OptionalValue<Utils::LogSeverity>(desc.log_level)}
+						{"log_level", PropertiesParser::OptionalValue<Core::LogSeverity>(desc.log_level)}
 					}
 				);
 				

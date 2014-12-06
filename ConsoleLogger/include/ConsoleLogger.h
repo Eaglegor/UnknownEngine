@@ -17,8 +17,8 @@ namespace UnknownEngine {
 		{
 			public:
 				void processMessage(const Core::PackedMessage &msg) override;
-				void log(const std::string &sender, const Utils::LogSeverity &severity, const std::string &msg);
-				void log(const Utils::LogSeverity &severity, const std::string &msg);
+				void log(const std::string &sender, const Core::LogSeverity &severity, const std::string &msg);
+				void log(const Core::LogSeverity &severity, const std::string &msg);
 				ConsoleLogger(const std::string &name);
 				
 			private:

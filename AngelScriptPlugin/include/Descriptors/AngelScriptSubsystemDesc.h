@@ -8,10 +8,10 @@ namespace UnknownEngine
 	{
 		struct AngelScriptSubsystemDesc
 		{
-			Utils::LogSeverity log_level;
+			Core::LogSeverity log_level;
 			
 			AngelScriptSubsystemDesc():
-			log_level(Utils::LogSeverity::DEBUG)
+			log_level(Core::LogSeverity::DEBUG)
 			{}
 		};
 	}

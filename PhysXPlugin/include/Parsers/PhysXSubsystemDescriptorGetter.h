@@ -44,7 +44,7 @@ namespace UnknownEngine
 						{"speed_tolerance_scale", PropertiesParser::OptionalValue<Math::Scalar> ( desc.speed_tolerance_scale ) },
 						{"track_outstanding_allocations", PropertiesParser::OptionalValue<bool> ( desc.track_outstanding_allocations ) },
 						{"enable_profiling", PropertiesParser::OptionalValue<bool> ( desc.enable_profiling ) },
-						{"log_level", PropertiesParser::OptionalValue<Utils::LogSeverity> ( desc.log_level ) },
+						{"log_level", PropertiesParser::OptionalValue<Core::LogSeverity> ( desc.log_level ) },
 						{"gravity", PropertiesParser::RequiredValue<Math::Vector3> ( desc.gravity ) }
 					}
 					);

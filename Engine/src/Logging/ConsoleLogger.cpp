@@ -6,7 +6,7 @@ namespace UnknownEngine
 {
 	namespace Core
 	{
-		ConsoleLogger::ConsoleLogger ( const char* name, Utils::LogSeverity log_level, ConsoleLoggingSubsystem* logging_subsystem ):
+		ConsoleLogger::ConsoleLogger ( const char* name, Core::LogSeverity log_level, ConsoleLoggingSubsystem* logging_subsystem ):
 		name(name),
 		log_level(log_level),
 		logging_subsystem(logging_subsystem)
@@ -20,28 +20,28 @@ namespace UnknownEngine
 
 		void ConsoleLogger::log ( const ILogRecord& log_record )
 		{
-			Utils::LogSeverity severity = log_record.getSeverity();
+			Core::LogSeverity severity = log_record.getSeverity();
 			if(severity > log_level) return;
 			
 			std::string text;
 			switch(severity)
 			{
-				case Utils::LogSeverity::DEBUG:
+				case Core::LogSeverity::DEBUG:
 				{
 					text = "[DEBUG] ";
 					break;
 				}
-				case Utils::LogSeverity::ERROR2:
+				case Core::LogSeverity::ERROR2:
 				{
 					text = "[ERROR] ";
 					break;
 				}
-				case Utils::LogSeverity::INFO:
+				case Core::LogSeverity::INFO:
 				{
 					text = "[INFO] ";
 					break;
 				}
-				case Utils::LogSeverity::WARNING:
+				case Core::LogSeverity::WARNING:
 				{
 					text = "[WARNING] ";
 					break;

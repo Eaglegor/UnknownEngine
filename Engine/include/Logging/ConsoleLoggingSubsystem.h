@@ -13,7 +13,7 @@ namespace UnknownEngine
 		public:
 			ConsoleLoggingSubsystem(const char* name);
 			
-			virtual Core::ILogger* createLogger ( const char* name, Utils::LogSeverity log_level );
+			virtual Core::ILogger* createLogger ( const char* name, Core::LogSeverity log_level );
 			virtual void destroyLogger ( ILogger* logger );
 			virtual const char* getName();
 			

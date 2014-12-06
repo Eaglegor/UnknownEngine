@@ -40,7 +40,7 @@ namespace UnknownEngine
 				parser.parse(
 					props,
 					{
-						{"log_level", PropertiesParser::OptionalValue<Utils::LogSeverity>(desc.log_level)},
+						{"log_level", PropertiesParser::OptionalValue<Core::LogSeverity>(desc.log_level)},
 						{"script_filename", PropertiesParser::RequiredValue<std::string>(desc.script_filename)}
 					}
 				);

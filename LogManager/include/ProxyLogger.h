@@ -14,7 +14,7 @@ namespace UnknownEngine
 		class ProxyLogger : public ILogger
 		{
 		public:
-			ProxyLogger(const char* name, Utils::LogSeverity log_level):
+			ProxyLogger(const char* name, Core::LogSeverity log_level):
 				name(name),
 				log_level(log_level)
 			{}
@@ -36,7 +36,7 @@ namespace UnknownEngine
 			LockPrimitive mutex;
 			std::unordered_map<std::string, ILogger*> loggers;
 			std::string name;
-			Utils::LogSeverity log_level;
+			Core::LogSeverity log_level;
 		};
 	}
 }

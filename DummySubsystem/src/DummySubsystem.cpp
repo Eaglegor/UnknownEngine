@@ -31,7 +31,7 @@ namespace UnknownEngine
 		bool DummySubsystemPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) 
 		{
 		  
-			logger = CREATE_LOGGER(getName(), Utils::LogSeverity::INFO);
+			logger = CREATE_LOGGER(getName(), Core::LogSeverity::INFO);
 		  
 			LOG_INFO(logger, "Logger initialized");
 			

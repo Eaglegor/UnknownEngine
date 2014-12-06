@@ -9,7 +9,7 @@ namespace UnknownEngine
 	namespace Logger
 	{
 
-		using Utils::LogSeverity;
+		using Core::LogSeverity;
 		
 		ConsoleLogger::ConsoleLogger( const std::string &name ) :
 			Core::IMessageListener ( name ),
@@ -33,7 +33,7 @@ namespace UnknownEngine
 			std::lock_guard<std::mutex> guard(lock);
 			std::cout << "[";
 
-			using Utils::LogSeverity;
+			using Core::LogSeverity;
 			
 			switch ( severity )
 			{

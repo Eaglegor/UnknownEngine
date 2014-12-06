@@ -24,7 +24,7 @@ namespace UnknownEngine
 			
 			std::string sender_info;
 			std::string log_entry;
-			LogSeverity severity;
+			Core::LogSeverity severity;
 		};
 
 	} /* namespace Core */

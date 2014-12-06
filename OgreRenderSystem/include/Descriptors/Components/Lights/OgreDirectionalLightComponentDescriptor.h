@@ -14,7 +14,7 @@ namespace UnknownEngine
 			OgreLightSettings light_settings;
 
 			Math::Transform initial_transform;
-			Utils::LogSeverity log_level;
+			Core::LogSeverity log_level;
 
 			boost::optional<Math::Vector3> initial_look_at;
 			boost::optional<Math::Vector3> initial_direction;
@@ -22,7 +22,7 @@ namespace UnknownEngine
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
 			OgreDirectionalLightComponentDescriptor() :
-				log_level ( Utils::LogSeverity::NONE )
+				log_level ( Core::LogSeverity::NONE )
 			{}
 		};
 	}

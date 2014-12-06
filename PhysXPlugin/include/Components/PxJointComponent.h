@@ -32,7 +32,7 @@ namespace UnknownEngine
 
 		protected:
 
-			void initializeLogger(Utils::LogSeverity severity);
+			void initializeLogger(Core::LogSeverity severity);
 
 			PhysXSubsystem* physics_subsystem;
 			physx::PxRigidActor* actor1;

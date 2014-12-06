@@ -51,7 +51,7 @@ namespace UnknownEngine
 			OptionalStringOption log_level = props.get_optional<std::string>(GLOBAL_OPTIONS::LOG_LEVEL);
 			if(log_level) 
 			{
-				desc.log_level = boost::lexical_cast<Utils::LogSeverity>(log_level.get());
+				desc.log_level = boost::lexical_cast<Core::LogSeverity>(log_level.get());
 			}
 			
 			return desc;

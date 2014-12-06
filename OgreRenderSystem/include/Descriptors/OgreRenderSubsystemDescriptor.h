@@ -18,7 +18,7 @@ namespace UnknownEngine
 
 			boost::optional<std::string> ogre_resources_filename;
 			
-			Utils::LogSeverity log_level;
+			Core::LogSeverity log_level;
 
 			bool separate_rendering_thread;
 
@@ -30,7 +30,7 @@ namespace UnknownEngine
 				ogre_plugins_filename ( "plugins.cfg" ),
 				ogre_config_filename ( "ogre.cfg" ),
 				ogre_log_filename ( "Ogre.log" ),
-				log_level(Utils::LogSeverity::NONE),
+				log_level(Core::LogSeverity::NONE),
 				separate_rendering_thread ( true ),
 				show_config_dialog ( false )
 			{}

@@ -8,10 +8,10 @@ namespace UnknownEngine
 	{
 		struct SimpleBehaviorsPluginDesc
 		{
-			Utils::LogSeverity log_level;
+			Core::LogSeverity log_level;
 			
 			SimpleBehaviorsPluginDesc():
-			log_level(Utils::LogSeverity::NONE)
+			log_level(Core::LogSeverity::NONE)
 			{}
 		};
 	}

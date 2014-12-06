@@ -15,6 +15,8 @@ State @first_state;
 State @second_state;
 State @third_state;
 
+Core::ILogger@ logger;
+
 class FirstState : State
 {
 	FirstState(){}
@@ -22,6 +24,11 @@ class FirstState : State
 	void processMessage(const Core::UpdateFrameMessage&in msg)
 	{
 		Core::ResourceManager@ rm = engine_context.getResourceManager();
+	
+		LOG_INFO(logger, "Info message");
+		LOG_WARNING(logger, "Warning message");
+		LOG_ERROR(logger, "Error message");
+		LOG_DEBUG(logger, "Debug message");
 	
 		Loader::DataProviderDesc dp_desc;
 		dp_desc.name = "TeapotMesh";
@@ -176,6 +183,8 @@ void init(const std::string &in name)
 	
 	// Initializing listener
 	@listener = Listener();
+	
+	@logger = CREATE_LOGGER(module_name, Core::LogSeverity::DEBUG);
 }
 
 void shutdown()

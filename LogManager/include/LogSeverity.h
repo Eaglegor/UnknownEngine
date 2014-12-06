@@ -2,7 +2,7 @@
 
 namespace UnknownEngine
 {
-	namespace Utils
+	namespace Core
 	{
 		enum class LogSeverity : int
 		{
