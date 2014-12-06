@@ -1,13 +1,5 @@
 #pragma once
 
-/*
- * AnyMessageReceivePolicy.h
- *
- *  Created on: 19 июня 2014 г.
- *      Author: Eaglegor
- */
-
-#include <ComponentSystem_export.h>
 #include <MessageSystem/Policies/IMessageReceivePolicy.h>
 #include <MessageSystem/MessageReceivePolicyType.h>
 
@@ -30,7 +22,6 @@ namespace UnknownEngine
 				 * @param msg - Message to analyze
 				 * @return true
 				 */
-				COMPONENTSYSTEM_EXPORT
 				virtual bool acceptMessage ( const PackedMessage &msg ) override;
 
 				virtual MessageReceivePolicyType getType() const;

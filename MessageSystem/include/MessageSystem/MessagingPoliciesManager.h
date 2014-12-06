@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ComponentSystem_export.h>
+#include <MessageSystem_export.h>
 #include <vector>
 #include <functional>
 #include <memory>
@@ -36,28 +36,28 @@ namespace UnknownEngine
 				MessagingPoliciesManager();
 				~MessagingPoliciesManager();
 				
-				COMPONENTSYSTEM_EXPORT
+				MESSAGESYSTEM_EXPORT
 				void addMessageReceivePolicyFactory(IMessageReceivePolicyFactory* factory);
 
-				COMPONENTSYSTEM_EXPORT
+				MESSAGESYSTEM_EXPORT
 				void addMessageDeliveryPolicyFactory(IMessageDeliveryPolicyFactory* factory);
 
-				COMPONENTSYSTEM_EXPORT
+				MESSAGESYSTEM_EXPORT
 				void removeMessageReceivePolicyFactory(IMessageReceivePolicyFactory* factory);
 
-				COMPONENTSYSTEM_EXPORT
+				MESSAGESYSTEM_EXPORT
 				void removeMessageDeliveryPolicyFactory(IMessageDeliveryPolicyFactory* factory);
 
-				COMPONENTSYSTEM_EXPORT
+				MESSAGESYSTEM_EXPORT
 				IMessageReceivePolicy* createMessageReceivePolicy(const MessageReceivePolicyDesc& desc);
 
-				COMPONENTSYSTEM_EXPORT
+				MESSAGESYSTEM_EXPORT
 				IMessageDeliveryPolicy* createMessageDeliveryPolicy(const MessageDeliveryPolicyDesc& desc);
 
-				COMPONENTSYSTEM_EXPORT
+				MESSAGESYSTEM_EXPORT
 				void destroyMessageReceivePolicy(IMessageReceivePolicy* policy);
 
-				COMPONENTSYSTEM_EXPORT
+				MESSAGESYSTEM_EXPORT
 				void destroyMessageDeliveryPolicy(IMessageDeliveryPolicy* policy);
 
 			private:
@@ -78,10 +78,10 @@ namespace UnknownEngine
 		};
 
 #ifdef _MSC_VER
-#ifndef ComponentSystem_EXPORTS
-		extern template class COMPONENTSYSTEM_EXPORT Singleton<MessagingPoliciesManager>;
+#ifndef MessageSystem_EXPORTS
+		extern template class MESSAGESYSTEM_EXPORT Singleton<MessagingPoliciesManager>;
 #else
-		template class COMPONENTSYSTEM_EXPORT Singleton<MessagingPoliciesManager>;
+		template class MESSAGESYSTEM_EXPORT Singleton<MessagingPoliciesManager>;
 #endif
 #endif
 

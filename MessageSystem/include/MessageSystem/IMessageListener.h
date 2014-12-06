@@ -6,7 +6,7 @@
  *      Author: gorbachenko
  */
 
-#include <ComponentSystem_export.h>
+#include <MessageSystem_export.h>
 #include <string>
 #include <InlineSpecification.h>
 #include <MessageSystem/IMessageSystemParticipant.h>
@@ -42,17 +42,20 @@ namespace UnknownEngine
 				 *
 				 * @param object_name - **unique** name for message listener
 				 */
-				COMPONENTSYSTEM_EXPORT
-				IMessageListener ( const std::string &object_name );
+				IMessageListener(const std::string &object_name):
+					IMessageSystemParticipant(object_name)
+				{
 
-				COMPONENTSYSTEM_EXPORT
-				virtual ~IMessageListener ();
+				}
+
+				virtual ~IMessageListener(){}
 
 				/**
 				 * @brief Compares a listener to another listener using it's id
 				 * @param rhs - Listener to compare to
 				 * @return true if ids are equal
 				 */
+				UNKNOWNENGINE_INLINE
 				bool operator== ( const IMessageListener &rhs ) const
 				{
 					return getMessageSystemParticipantId() == rhs.getMessageSystemParticipantId();
@@ -62,6 +65,7 @@ namespace UnknownEngine
 				 * @brief Message handler
 				 * @param msg - packed message to process
 				 */
+				MESSAGESYSTEM_EXPORT
 				virtual void processMessage ( const PackedMessage &msg ) = 0;
 
 		};

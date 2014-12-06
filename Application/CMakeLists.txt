@@ -1,7 +1,7 @@
 set(TARGET_NAME Application)
 
-set(INCLUDED_MODULE_HEADERS ComponentSystem Engine XmlSceneLoader Utils ResourceManager SceneLoader Plugins Application Math LogManager )
-set(LINKED_LIBS Engine XmlSceneLoader Plugins ResourceManager ComponentSystem LogManager )
+set(INCLUDED_MODULE_HEADERS Application Utils Engine ComponentSystem MessageSystem LogManager ResourceManager Math XmlSceneLoader SceneLoader Plugins )
+set(LINKED_LIBS Engine LogManager ComponentSystem ResourceManager XmlSceneLoader )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 
 find_package(Boost 1.55.0 REQUIRED COMPONENTS program_options)

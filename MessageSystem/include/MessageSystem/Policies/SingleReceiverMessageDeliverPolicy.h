@@ -7,7 +7,6 @@
  *      Author: Eaglegor
  */
 
-#include <ComponentSystem_export.h>
 #include <MessageSystem/MessageSystemParticipantId.h>
 #include <MessageSystem/Policies/IMessageDeliveryPolicy.h>
 #include <MessageSystem/Policies/MessagePolicyType.h>
@@ -28,17 +27,14 @@ namespace UnknownEngine
 				 * @param listener - Listener to check for
 				 * @return true if a listener's address equals the expected
 				 */
-				COMPONENTSYSTEM_EXPORT
 				virtual bool allowDeliveryToListener ( const IMessageListener* listener ) const override;
 
 				/**
 				 * @brief Constructor
 				 * @param receiver_info - Listener address to compare with
 				 */
-				COMPONENTSYSTEM_EXPORT
 				SingleReceiverMessageDeliverPolicy ( const MessageSystemParticipantId &receiver_info );
 
-				COMPONENTSYSTEM_EXPORT
 				virtual ~SingleReceiverMessageDeliverPolicy ();
 
 				virtual MessageDeliveryPolicyType getType() const;

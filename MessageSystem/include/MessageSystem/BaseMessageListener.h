@@ -12,7 +12,7 @@
 #include <Exception.h>
 #include <Logging.h>
 #include <MessageSystem/Message.h>
-#include <ComponentSystem_export.h>
+#include <MessageSystem_export.h>
 
 namespace UnknownEngine
 {
@@ -31,19 +31,19 @@ namespace UnknownEngine
 		public:
 			UNKNOWNENGINE_SIMPLE_EXCEPTION(NoMessageProcessorFoundException);
 			
-			COMPONENTSYSTEM_EXPORT
+			MESSAGESYSTEM_EXPORT
 			BaseMessageListener ( const std::string& object_name, EngineContext* engine_context );
 			
-			COMPONENTSYSTEM_EXPORT
+			MESSAGESYSTEM_EXPORT
 			~BaseMessageListener ();
 			
-			COMPONENTSYSTEM_EXPORT
+			MESSAGESYSTEM_EXPORT
 			void registerSupportedMessageType( const std::string& message_type_name);
 
-			COMPONENTSYSTEM_EXPORT
+			MESSAGESYSTEM_EXPORT
 			void registerSupportedMessageType( const MessageType& message_type_id);
 			
-			COMPONENTSYSTEM_EXPORT
+			MESSAGESYSTEM_EXPORT
 			void registerSupportedMessageTypes(const ReceivedMessageDescriptorsList& received_messages_list);
 
 			template<typename MessageClass, typename BufferClass, typename... Args>
@@ -63,19 +63,19 @@ namespace UnknownEngine
 				return true;
 			}
 			
-			COMPONENTSYSTEM_EXPORT
+			MESSAGESYSTEM_EXPORT
 			virtual void processMessage ( const PackedMessage& msg ) override;
 
-			COMPONENTSYSTEM_EXPORT
+			MESSAGESYSTEM_EXPORT
 			virtual void flushAllMessageBuffers();
 
-			COMPONENTSYSTEM_EXPORT
+			MESSAGESYSTEM_EXPORT
 			void registerAtDispatcher();
 
-			COMPONENTSYSTEM_EXPORT
+			MESSAGESYSTEM_EXPORT
 			void unregisterAtDispatcher();
 			
-			COMPONENTSYSTEM_EXPORT
+			MESSAGESYSTEM_EXPORT
 			bool isRegisteredAtDispatcher();
 			
 		private:
@@ -89,7 +89,7 @@ namespace UnknownEngine
 				ReceivedMessage(const ReceivedMessage& msg){}
 			};
 
-			COMPONENTSYSTEM_EXPORT
+			MESSAGESYSTEM_EXPORT
 			ReceivedMessage *createMessageSlot(const MessageType &message_type);
 			Utils::IMessageBuffer *findMessageBuffer(const PackedMessage &msg);
 			

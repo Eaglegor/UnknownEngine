@@ -1,8 +1,8 @@
 set(TARGET_NAME AngelScriptPlugin)
 set(LINKAGE SHARED)
 
-set(INCLUDED_MODULE_HEADERS AngelScriptPlugin Plugins ComponentSystem Utils Engine Math ResourceManager LogManager)
-set(LINKED_LIBS Engine ComponentSystem Plugins LogManager)
+set(INCLUDED_MODULE_HEADERS AngelScriptPlugin Plugins ComponentSystem MessageSystem Utils Engine Math ResourceManager LogManager)
+set(LINKED_LIBS Engine ComponentSystem Plugins LogManager MessageSystem)
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 
 list(APPEND INCLUDED_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/add_on)

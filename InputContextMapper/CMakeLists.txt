@@ -1,7 +1,7 @@
 set(TARGET_NAME InputContextMapper)
 set(LINKAGE SHARED)
 
-set(INCLUDED_MODULE_HEADERS InputContextMapper Plugins ComponentSystem Utils Engine UserInput Math LogManager)
+set(INCLUDED_MODULE_HEADERS Engine InputContextMapper Plugins MessageSystem Utils UserInput Math LogManager)
 set(LINKED_LIBS Engine ComponentSystem Plugins LogManager)
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 

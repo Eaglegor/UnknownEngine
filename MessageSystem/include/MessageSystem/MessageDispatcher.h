@@ -6,7 +6,7 @@
  *      Author: gorbachenko
  */
 
-#include <ComponentSystem_export.h>
+#include <MessageSystem_export.h>
 #include <unordered_map>
 #include <list>
 
@@ -76,53 +76,44 @@ namespace UnknownEngine
 				
 				UNKNOWNENGINE_SIMPLE_EXCEPTION(ListenerNotAddedException);
 				UNKNOWNENGINE_SIMPLE_EXCEPTION(SenderNotAddedException);
-				
-				/**
-				 * @brief Default constructor
-				 *
-				 * Is called by Engine
-				 *
-				 */
-				COMPONENTSYSTEM_EXPORT
-				MessageDispatcher ();
 
-				COMPONENTSYSTEM_EXPORT
+				MessageDispatcher ();
 				virtual ~MessageDispatcher ();
 				
-				COMPONENTSYSTEM_EXPORT
+				MESSAGESYSTEM_EXPORT
 				void setListenerRules(const MessageSystemParticipantId &listener_id, const MessageListenerRules &listener_rules);
 				
-				COMPONENTSYSTEM_EXPORT
+				MESSAGESYSTEM_EXPORT
 				void setSenderRules(const MessageSystemParticipantId &sender_id, const MessageSenderRules &listener_rules);
 				
-				COMPONENTSYSTEM_EXPORT
+				MESSAGESYSTEM_EXPORT
 				void setSingleListenerRule(const MessageSystemParticipantId& id, const MessageType &message_type, const MessageListenerRule& listener_rule);
 				
-				COMPONENTSYSTEM_EXPORT
+				MESSAGESYSTEM_EXPORT
 				void setSingleSenderRule(const MessageSystemParticipantId& id, const MessageType &message_type, const MessageSenderRule& sender_rule);
 				
-				COMPONENTSYSTEM_EXPORT
+				MESSAGESYSTEM_EXPORT
 				void clearListenerRules(const MessageSystemParticipantId &listener_id);
 				
-				COMPONENTSYSTEM_EXPORT
+				MESSAGESYSTEM_EXPORT
 				void clearSenderRules(const MessageSystemParticipantId &sender_id);
 				
-				COMPONENTSYSTEM_EXPORT
+				MESSAGESYSTEM_EXPORT
 				void addListener ( const MessageType &message_type, IMessageListener* listener);
 
-				COMPONENTSYSTEM_EXPORT
+				MESSAGESYSTEM_EXPORT
 				void addListener ( const MessageType &message_type, IMessageListener* listener, const MessageListenerRule &listener_rule);
 				
-				COMPONENTSYSTEM_EXPORT
+				MESSAGESYSTEM_EXPORT
 				void removeListener ( IMessageListener* listener );
 
-				COMPONENTSYSTEM_EXPORT
+				MESSAGESYSTEM_EXPORT
 				void addSender ( const MessageType &message_type, IMessageSender* sender);
 
-				COMPONENTSYSTEM_EXPORT
+				MESSAGESYSTEM_EXPORT
 				void addSender ( const MessageType &message_type, IMessageSender* sender, const MessageSenderRule &sender_rule);
 				
-				COMPONENTSYSTEM_EXPORT
+				MESSAGESYSTEM_EXPORT
 				void removeSender ( IMessageSender* sender );
 
 			private:
@@ -182,10 +173,10 @@ namespace UnknownEngine
 		};
 
 #ifdef _MSC_VER
-#ifndef ComponentSystem_EXPORTS
-		extern template class COMPONENTSYSTEM_EXPORT Singleton<MessageDispatcher>;
+#ifndef MessageSystem_EXPORTS
+		extern template class MESSAGESYSTEM_EXPORT Singleton<MessageDispatcher>;
 #else
-		template class COMPONENTSYSTEM_EXPORT Singleton<MessageDispatcher>;
+		template class MESSAGESYSTEM_EXPORT Singleton<MessageDispatcher>;
 #endif
 #endif
 

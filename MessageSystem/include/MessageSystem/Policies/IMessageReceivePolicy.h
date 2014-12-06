@@ -7,7 +7,7 @@
  *      Author: Eaglegor
  */
 
-#include <ComponentSystem_export.h>
+#include <MessageSystem_export.h>
 #include <MessageSystem/MessageReceivePolicyType.h>
 #include <InlineSpecification.h>
 
@@ -23,13 +23,16 @@ namespace UnknownEngine
 		class IMessageReceivePolicy
 		{
 			public:
-
+				MESSAGESYSTEM_EXPORT
 				virtual bool allowReceiveFromSender( IMessageSender* message_sender ) const = 0;
 
+				MESSAGESYSTEM_EXPORT
 				virtual MessageReceivePolicyType getType() const = 0;
 				
+				MESSAGESYSTEM_EXPORT
 				virtual bool acceptMessage ( const PackedMessage &msg ) = 0;
 
+				MESSAGESYSTEM_EXPORT
 				virtual ~IMessageReceivePolicy()
 				{
 				}

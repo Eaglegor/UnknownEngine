@@ -1,7 +1,7 @@
 set(TARGET_NAME XmlSceneLoader)
 set(LINKAGE SHARED)
 
-set(INCLUDED_MODULE_HEADERS XmlSceneLoader SceneLoader Plugins ResourceManager ComponentSystem Engine Utils LogManager )
+set(INCLUDED_MODULE_HEADERS XmlSceneLoader SceneLoader Plugins ResourceManager ComponentSystem MessageSystem Engine Utils LogManager )
 set(LINKED_LIBS Plugins ComponentSystem ResourceManager LogManager )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 

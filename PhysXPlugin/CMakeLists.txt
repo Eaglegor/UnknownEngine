@@ -1,8 +1,8 @@
 set(TARGET_NAME PhysXPlugin)
 set(LINKAGE SHARED)
 
-set(INCLUDED_MODULE_HEADERS PhysXPlugin Plugins Math ComponentSystem Utils Engine ResourceManager LogManager)
-set(LINKED_LIBS Engine ComponentSystem Plugins ResourceManager LogManager )
+set(INCLUDED_MODULE_HEADERS PhysXPlugin Plugins Math ComponentSystem Utils Engine ResourceManager MessageSystem LogManager)
+set(LINKED_LIBS Engine ComponentSystem Plugins ResourceManager LogManager MessageSystem )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 
 find_package(Eigen REQUIRED)

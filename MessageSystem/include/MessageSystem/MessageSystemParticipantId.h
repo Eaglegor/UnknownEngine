@@ -1,9 +1,10 @@
 #pragma once
 
-#include <ComponentSystem_export.h>
+#include <MessageSystem_export.h>
 #include <string>
 #include <NumericIdentifierType.h>
 #include <InlineSpecification.h>
+#include <MessageSystem/MessageSystemParticipantDictionary.h>
 
 namespace UnknownEngine
 {
@@ -49,14 +50,24 @@ namespace UnknownEngine
 			 * @throw Utils::Dictionary::EntryNotFoundInDictionary - Is thrown when trying to get id for unregistered name
 			 *
 			 */
-			COMPONENTSYSTEM_EXPORT
-			MessageSystemParticipantId ( const std::string &object_name, AutoRegistrationPolicy auto_registration_policy = AutoRegistrationPolicy::AUTO_REGISTER );
+			MessageSystemParticipantId(const std::string &object_name, AutoRegistrationPolicy auto_registration_policy = AutoRegistrationPolicy::AUTO_REGISTER) :
+				name(object_name),
+				id(MessageSystemParticipantDictionary::getSingleton()->getMessageParticipantNameId(object_name))
+			{
+				if (id == INVALID_NUMERIC_IDENTIFIER && auto_registration_policy == AutoRegistrationPolicy::AUTO_REGISTER)
+				{
+					id = MessageSystemParticipantDictionary::getSingleton()->registerNewMessageParticipant(object_name);
+				}
+			}
 
 			/**
 			 * @brief Default constructor. Doesn't fill anything. Address is empty.
 			 */
-			COMPONENTSYSTEM_EXPORT
-			MessageSystemParticipantId();
+			MessageSystemParticipantId() :
+				name(""),
+				id(INVALID_NUMERIC_IDENTIFIER)
+			{
+			}
 
 			/**
 			 * @brief Constructor. Fills the address with the name/id passed as arguments. **Doesn't check anything**
@@ -67,14 +78,19 @@ namespace UnknownEngine
 			 *
 			 *
 			 */
-			COMPONENTSYSTEM_EXPORT
-			MessageSystemParticipantId ( const std::string &object_name, const NumericIdentifierType &id );
+			MessageSystemParticipantId(const std::string &object_name, const NumericIdentifierType &id) :
+				name(object_name),
+				id(id)
+			{
+
+			}
 
 			/**
 			 * @brief Compares to another address
 			 * @param rhs - address to compare
 			 * @return true if internal ids are equal
 			 */
+			UNKNOWNENGINE_INLINE
 			bool operator== ( const MessageSystemParticipantId& rhs ) const
 			{
 				return id == rhs.id;

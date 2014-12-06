@@ -6,7 +6,7 @@
  *      Author: gorbachenko
  */
 
-#include <ComponentSystem_export.h>
+#include <MessageSystem_export.h>
 #include <unordered_map>
 #include <Singleton.h>
 #include <NumericIdentifierType.h>
@@ -45,16 +45,7 @@ namespace UnknownEngine
 
 				typedef Utils::Dictionary<MessageType, std::string> InternalDictionaryType;
 
-				/**
-				 * @brief Default constructor.
-				 *
-				 * Is called by Engine
-				 *
-				 */
-				COMPONENTSYSTEM_EXPORT
 				MessageDictionary ();
-
-				COMPONENTSYSTEM_EXPORT
 				virtual ~MessageDictionary ();
 
 				/**
@@ -63,7 +54,7 @@ namespace UnknownEngine
 				 * @throw Utils::Dictionary::ValueAlreadyExists - Is thrown when trying to insert already known type
 				 * @return Assigned numeric identifier
 				 */
-				COMPONENTSYSTEM_EXPORT
+				MESSAGESYSTEM_EXPORT
 				MessageType registerNewMessageType ( const std::string &message_type_name );
 
 				/**
@@ -71,7 +62,7 @@ namespace UnknownEngine
 				 * @param type_id - Numeric identifier of message type
 				 * @return true if registered
 				 */
-				COMPONENTSYSTEM_EXPORT
+				MESSAGESYSTEM_EXPORT
 				bool messageTypeIsRegistered ( const MessageType &type_id ) const;
 
 				/**
@@ -79,7 +70,7 @@ namespace UnknownEngine
 				 * @param type_name - Name of message type
 				 * @return true if registered
 				 */
-				COMPONENTSYSTEM_EXPORT
+				MESSAGESYSTEM_EXPORT
 				bool messageTypeIsRegistered ( const std::string &type_name ) const;
 
 				/**
@@ -88,7 +79,7 @@ namespace UnknownEngine
 				 * @return A message type name
 				 * @throw Utils::Dictionary::EntryNotFoundInDictionary - Is thrown if there is no such message type identifier registered
 				 */
-				COMPONENTSYSTEM_EXPORT
+				MESSAGESYSTEM_EXPORT
 				std::string getMessageTypeName ( const MessageType &type_id ) const ;
 
 				/**
@@ -97,7 +88,7 @@ namespace UnknownEngine
 				 * @return A message type id
 				 * @throw Utils::Dictionary::EntryNotFoundInDictionary - Is thrown if there is no such message type identifier registered
 				 */
-				COMPONENTSYSTEM_EXPORT
+				MESSAGESYSTEM_EXPORT
 				MessageType getMessageTypeId ( const std::string &type_name ) const ;
 
 			private:
@@ -106,10 +97,10 @@ namespace UnknownEngine
 		};
 
 #ifdef _MSC_VER
-#ifndef ComponentSystem_EXPORTS
-		extern template class COMPONENTSYSTEM_EXPORT Singleton<MessageDictionary>;
+#ifndef MessageSystem_EXPORTS
+		extern template class MESSAGESYSTEM_EXPORT Singleton<MessageDictionary>;
 #else
-		template class COMPONENTSYSTEM_EXPORT Singleton<MessageDictionary>;
+		template class MESSAGESYSTEM_EXPORT Singleton<MessageDictionary>;
 #endif
 #endif
 

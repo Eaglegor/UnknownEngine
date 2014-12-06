@@ -6,7 +6,7 @@
  *      Author: gorbachenko
  */
 
-#include <ComponentSystem_export.h>
+#include <MessageSystem_export.h>
 #include <string>
 #include <boost/any.hpp>
 

@@ -31,6 +31,7 @@ set(
 CROSS_PLATFORM_TARGETS
 
 #Core
+MessageSystem
 ComponentSystem
 Plugins
 Engine

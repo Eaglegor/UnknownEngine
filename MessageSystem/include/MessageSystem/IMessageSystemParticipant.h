@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ComponentSystem_export.h>
+#include <MessageSystem_export.h>
 #include <InlineSpecification.h>
 #include <MessageSystem/MessageSystemParticipantId.h>
 
@@ -32,11 +32,11 @@ namespace UnknownEngine
 				 * @brief Constructor
 				 * @param message_system_participant_id - **unique** object name
 				 */
-				COMPONENTSYSTEM_EXPORT
-				explicit IMessageSystemParticipant ( const std::string &object_name );
+				explicit IMessageSystemParticipant(const std::string &object_name) :
+				message_system_participant_id(object_name, MessageSystemParticipantId::AutoRegistrationPolicy::AUTO_REGISTER)
+				{}
 
-				COMPONENTSYSTEM_EXPORT
-				virtual ~IMessageSystemParticipant();
+				virtual ~IMessageSystemParticipant(){}
 
 				/**
 				  * @brief Returns message system participant's identifier
