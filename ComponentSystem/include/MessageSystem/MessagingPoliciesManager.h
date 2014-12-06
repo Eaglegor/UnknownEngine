@@ -10,66 +10,80 @@
 #include <MessageSystem/Policies/IMessageReceivePolicy.h>
 #include <MessageSystem/Policies/IMessageDeliveryPolicy.h>
 #include <Properties/Properties_fwd.h>
+#include <Singleton.h>
+#include <NumericIdentifierType.h>
+#include <Properties/PropertiesTree.h>
+#include <Dictionary.h>
+#include <MessageSystem/IMessageReceivePolicyFactory.h>
+#include <MessageSystem/IMessageDeliveryPolicyFactory.h>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
 
+		struct MessageDeliveryPolicyDesc;
+		struct MessageReceivePolicyDesc;
+
+		class StandardMessageDeliveryPoliciesFactory;
+		class StandardMessageReceivePoliciesFactory;
+
 		class EngineContext;
 
-		class MessagingPoliciesManager
+		class MessagingPoliciesManager : public Singleton<MessagingPoliciesManager>
 		{
 			public:
-				UNKNOWNENGINE_SIMPLE_EXCEPTION ( UnknownPrefabPolicy );
-				typedef std::unique_ptr <IMessageReceivePolicy> ReceivePolicyPtr;
-				typedef std::unique_ptr <IMessageDeliveryPolicy> DeliveryPolicyPtr;
+				MessagingPoliciesManager();
+				~MessagingPoliciesManager();
+				
+				COMPONENTSYSTEM_EXPORT
+				void addMessageReceivePolicyFactory(IMessageReceivePolicyFactory* factory);
 
 				COMPONENTSYSTEM_EXPORT
-				MessagingPoliciesManager ();
+				void addMessageDeliveryPolicyFactory(IMessageDeliveryPolicyFactory* factory);
 
 				COMPONENTSYSTEM_EXPORT
-				IMessageReceivePolicy* createPrefabReceiveMessagePolicy ( const MessagePolicyType &type, const Properties& options );
-				COMPONENTSYSTEM_EXPORT
-				IMessageDeliveryPolicy* createPrefabDeliveryMessagePolicy ( const MessagePolicyType &type, const Properties& options );
+				void removeMessageReceivePolicyFactory(IMessageReceivePolicyFactory* factory);
 
 				COMPONENTSYSTEM_EXPORT
-				void addMessageReceivePolicy ( ReceivePolicyPtr new_policy );
-				COMPONENTSYSTEM_EXPORT
-				void addMessageDeliveryPolicy ( DeliveryPolicyPtr new_policy );
+				void removeMessageDeliveryPolicyFactory(IMessageDeliveryPolicyFactory* factory);
 
 				COMPONENTSYSTEM_EXPORT
-				bool isPrefabReceivePolicyType ( const MessagePolicyType& type );
+				IMessageReceivePolicy* createMessageReceivePolicy(const MessageReceivePolicyDesc& desc);
+
 				COMPONENTSYSTEM_EXPORT
-				bool isPrefabDeliveryPolicyType ( const MessagePolicyType& type );
+				IMessageDeliveryPolicy* createMessageDeliveryPolicy(const MessageDeliveryPolicyDesc& desc);
+
+				COMPONENTSYSTEM_EXPORT
+				void destroyMessageReceivePolicy(IMessageReceivePolicy* policy);
+
+				COMPONENTSYSTEM_EXPORT
+				void destroyMessageDeliveryPolicy(IMessageDeliveryPolicy* policy);
 
 			private:
-				std::vector<ReceivePolicyPtr> receive_policies;
-				std::vector<DeliveryPolicyPtr> delivery_policies;
+				IMessageReceivePolicyFactory* findReceivePolicyFactory(const MessageReceivePolicyType& type);
+				IMessageDeliveryPolicyFactory* findDeliveryPolicyFactory( const MessageDeliveryPolicyType& type );
 
-				typedef ReceivePolicyPtr ( MessagingPoliciesManager::*ReceivePolicyCreator ) ( const Properties& );
-				typedef DeliveryPolicyPtr ( MessagingPoliciesManager::*DeliveryPolicyCreator ) ( const Properties& );
+				void createStandardFactoires();
+				void destroyStandardFactoires();
 
-				ReceivePolicyPtr createAnyMessageReceivePolicy ( const Properties& options );
-				ReceivePolicyPtr createFromSingleSenderMessageReceivePolicy ( const Properties& options );
-
-				DeliveryPolicyPtr createBroadcastMessageDeliveryPolicy ( const Properties& options );
-				DeliveryPolicyPtr createSingleReceieverMessageReceivePolicy ( const Properties& options );
-
-				template <typename PolicyType>
-				void registerReceivePolicyCreator ( ReceivePolicyCreator creator );
-
-				template <typename PolicyType>
-				void registerDeliveryPolicyCreator ( DeliveryPolicyCreator creator );
-
-				std::unordered_map<MessagePolicyType, ReceivePolicyCreator> receive_policy_creator_methods;
-				std::unordered_map<MessagePolicyType, DeliveryPolicyCreator> delivery_policy_creator_methods;
-
-				EngineContext* engine_context;
+				std::unordered_map<NumericIdentifierType, IMessageReceivePolicyFactory*> receive_policy_factories;
+				std::unordered_map<NumericIdentifierType, IMessageDeliveryPolicyFactory*> delivery_policy_factories;
 				
-				const MessagePolicyType EMPTY_POLICY_TYPE;
-
+				StandardMessageReceivePoliciesFactory* standard_receive_policy_factory;
+				StandardMessageDeliveryPoliciesFactory* standard_delivery_policy_factory;
+				
+				typedef Utils::Dictionary<NumericIdentifierType, std::string> InternalDictionaryType;
+				InternalDictionaryType internal_dictionary;
 		};
+
+#ifdef _MSC_VER
+#ifndef ComponentSystem_EXPORTS
+		extern template class COMPONENTSYSTEM_EXPORT Singleton<MessagingPoliciesManager>;
+#else
+		template class COMPONENTSYSTEM_EXPORT Singleton<MessagingPoliciesManager>;
+#endif
+#endif
 
 	} // namespace Core
 } // namespace UnknownEngine

@@ -21,6 +21,8 @@ namespace UnknownEngine {
 
 	namespace Core {
 
+		class ILogger;
+
 		class ThreadPool;
 		
 		/**
@@ -94,6 +96,8 @@ namespace UnknownEngine {
 				
 				/// Thread pool for data providers
 				ThreadPool* thread_pool;
+				
+				ILogger* logger;
 		};
 
 #ifdef _MSC_VER

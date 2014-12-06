@@ -12,7 +12,7 @@
 #include <DummySubsystem.h>
 #include <MessageSystem/MessageDictionary.h>
 #include <EngineContext.h>
-#include <LogHelper.h>
+#include <Logging.h>
 
 namespace UnknownEngine
 {
@@ -20,7 +20,7 @@ namespace UnknownEngine
 	{
 
 		DummySubsystemPlugin::DummySubsystemPlugin ()
-		:log_helper(nullptr)
+		:logger(nullptr)
 		{
 		}
 
@@ -31,11 +31,11 @@ namespace UnknownEngine
 		bool DummySubsystemPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) 
 		{
 		  
-			log_helper = new Utils::LogHelper(getName(), Utils::LogSeverity::INFO, plugins_manager->getEngineContext());
+			logger = CREATE_LOGGER(getName(), Utils::LogSeverity::INFO);
 		  
-			LOG_INFO(log_helper, "Logger initialized");
+			LOG_INFO(logger, "Logger initialized");
 			
-			LOG_INFO(log_helper, "Installing dummy plugin");
+			LOG_INFO(logger, "Installing dummy plugin");
 
 			// Saving context for later use
 			// Right now we don't know if all needed subsystems are already installed
@@ -44,7 +44,7 @@ namespace UnknownEngine
 			engine_context = plugins_manager->getEngineContext();
 
 			// Exporting interface messages of out subsystem
-			LOG_INFO(log_helper, "Registering dummy message type stub")
+			LOG_INFO(logger, "Registering dummy message type stub");
 			engine_context->getMessageDictionary()->registerNewMessageType("DummySubsystem.Test.TestMessageType");
 
 			return true;
@@ -52,23 +52,23 @@ namespace UnknownEngine
 
 		bool DummySubsystemPlugin::init () 
 		{
-			LOG_INFO(log_helper, "Initializing dummy plugin")
+			LOG_INFO(logger, "Initializing dummy plugin");
 
 			return true;
 		}
 
 		bool DummySubsystemPlugin::shutdown () 
 		{
-			LOG_INFO(log_helper, "Shutting down dummy plugin");
+			LOG_INFO(logger, "Shutting down dummy plugin");
 		  
 			return true;
 		}
 
 		bool DummySubsystemPlugin::uninstall () 
 		{
-			LOG_INFO(log_helper, "Uninstalling dummy plugin");
+			LOG_INFO(logger, "Uninstalling dummy plugin");
 		  
-			if(log_helper) delete log_helper;
+			RELEASE_LOGGER(logger);
 			return true;
 		}
 

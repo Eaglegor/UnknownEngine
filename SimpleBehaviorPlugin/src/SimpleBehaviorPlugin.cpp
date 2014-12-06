@@ -6,7 +6,7 @@
 #include <MessageSystem/MessageDictionary.h>
 #include <ComponentsManager.h>
 #include <EngineContext.h>
-#include <LogHelper.h>
+#include <Logging.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 #include <ExportedMessages/StopEngineActionMessage.h>
 #include <ExportedMessages/InputContext/AddSimpleActionMessage.h>
@@ -37,14 +37,11 @@ namespace UnknownEngine
 			SimpleBehaviorsPluginDescriptorGetter descriptor_getter;
 			plugin_desc = desc.descriptor.apply_visitor(descriptor_getter);
 
-			if (plugin_desc.log_level > Utils::LogSeverity::NONE)
-			{
-				log_helper.reset(new Utils::LogHelper(getName(), plugin_desc.log_level, plugins_manager->getEngineContext()));
-			}
-		  
-			LOG_INFO(log_helper, "Logger initialized");
+			logger = CREATE_LOGGER(getName(), plugin_desc.log_level);
+	  
+			LOG_INFO(logger, "Logger initialized");
 			
-			LOG_INFO(log_helper, "Installing simple behavior plugin");
+			LOG_INFO(logger, "Installing simple behavior plugin");
 
 			this->desc = desc;
 			engine_context = plugins_manager->getEngineContext();
@@ -54,9 +51,9 @@ namespace UnknownEngine
 
 		bool SimpleBehaviorPlugin::init () 
 		{
-			LOG_INFO(log_helper, "Initializing simple behavior plugin")
+			LOG_INFO(logger, "Initializing simple behavior plugin");
 
-			LOG_INFO ( log_helper, "Registering update frame listener..." );
+			LOG_INFO ( logger, "Registering update frame listener..." );
 
 			behaviors_performer.reset (new SimpleBehaviorsPerformer());
 
@@ -67,7 +64,6 @@ namespace UnknownEngine
 			) );
 			
 			listener.reset(new Core::BaseMessageListener(std::string(getName()), engine_context));
-			listener->registerSupportedMessageTypes(desc.received_messages);
 			
 			{
 				typedef Core::UpdateFrameMessage MessageType;
@@ -96,7 +92,7 @@ namespace UnknownEngine
 
 		bool SimpleBehaviorPlugin::shutdown () 
 		{
-			LOG_INFO(log_helper, "Shutting down simple behavior plugin");
+			LOG_INFO(logger, "Shutting down simple behavior plugin");
 
 			listener->unregisterAtDispatcher();
 			
@@ -107,8 +103,10 @@ namespace UnknownEngine
 
 		bool SimpleBehaviorPlugin::uninstall () 
 		{
-			LOG_INFO(log_helper, "Uninstalling simple behavior plugin");
+			LOG_INFO(logger, "Uninstalling simple behavior plugin");
 
+			RELEASE_LOGGER(logger);
+			
 			return true;
 		}
 

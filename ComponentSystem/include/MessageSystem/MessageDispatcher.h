@@ -27,6 +27,8 @@ namespace UnknownEngine
 {
 	namespace Core
 	{
+
+		class ILogger;
 		class IMessageSender;
 
 		class IMessageDeliveryPolicy;
@@ -127,13 +129,11 @@ namespace UnknownEngine
 
 				struct ListenerRules
 				{
-					MessagingPoliciesManager policies_factory;
 					std::unordered_map<MessageType, IMessageReceivePolicy*> messages;
 				};
 				
 				struct SenderRules
 				{
-					MessagingPoliciesManager policies_factory;
 					std::unordered_map<MessageType, IMessageDeliveryPolicy*> messages;
 				};
 				
@@ -177,6 +177,8 @@ namespace UnknownEngine
 				
 				typedef std::mutex LockPrimitive;
 				LockPrimitive lock;
+				
+				ILogger* logger;
 		};
 
 #ifdef _MSC_VER

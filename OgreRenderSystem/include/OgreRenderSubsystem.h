@@ -30,13 +30,9 @@ namespace UnknownEngine
 	{
 		class EngineContext;
 		class BaseMessageListener;
+		class ILogger;
 	}
 
-	namespace Utils
-	{
-		class LogHelper;
-	}
-	
 	namespace Graphics
 	{
 
@@ -51,7 +47,7 @@ namespace UnknownEngine
 		{
 			public:
 
-				explicit OgreRenderSubsystem ( const OgreRenderSubsystemDescriptor& desc, Utils::LogHelper* log_helper, Core::EngineContext* engine_context );
+				explicit OgreRenderSubsystem ( const OgreRenderSubsystemDescriptor& desc, Core::ILogger* logger, Core::EngineContext* engine_context );
 				virtual ~OgreRenderSubsystem();
 				
 				virtual void onFrameUpdated ( const Core::UpdateFrameMessage& msg );
@@ -60,7 +56,7 @@ namespace UnknownEngine
 				
 				void loadResourcesFile(const std::string &filename);
 
-				virtual void start(const std::string &name, const Core::ReceivedMessageDescriptorsList& received_messages);
+				virtual void start(const std::string &name);
 				virtual void stop();
 				
 				UNKNOWNENGINE_INLINE
@@ -97,7 +93,7 @@ namespace UnknownEngine
 				
 				Ogre::Root* root;
 				Ogre::SceneManager* scene_manager;
-				Utils::LogHelper* log_helper;
+				Core::ILogger* logger;
 				Ogre::LogManager* ogre_log_manager;
 				
 				Core::EngineContext* engine_context;

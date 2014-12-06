@@ -139,8 +139,8 @@ namespace UnknownEngine
 				if ( iter.first == Tags::MESSAGING_RULES )
 				{
 					MessageListenerParser::MessagingRules rules = MessageListenerParser::parseMessagingRules ( iter.second, scene_loader->getConstantsHolder() );
-					engine_context->getMessageDispatcher()->setListenerRules(component_desc.name, rules.listener_rules);
-					engine_context->getMessageDispatcher()->setSenderRules(component_desc.name, rules.sender_rules);
+					component_desc.listener_rules = rules.listener_rules;
+					component_desc.sender_rules = rules.sender_rules;
 				}
 				else if ( iter.first == Tags::OPTIONS_SECTION )
 				{

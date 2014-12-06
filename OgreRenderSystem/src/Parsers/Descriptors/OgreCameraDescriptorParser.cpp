@@ -5,7 +5,7 @@
 #include <CommonParsers/Vector3Parser.h>
 #include <CommonParsers/QuaternionParser.h>
 #include <CommonParsers/PropertiesParser.h>
-#include <LogHelper.h>
+#include <Logging.h>
 
 namespace UnknownEngine
 {

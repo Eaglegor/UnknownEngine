@@ -2,7 +2,7 @@
 
 #include <Components/BaseOgreComponent.h>
 #include <OgreRenderSubsystem.h>
-#include <LogHelper.h>
+#include <Logging.h>
 #include <MessageSystem/BaseMessageListener.h>
 
 namespace UnknownEngine {

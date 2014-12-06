@@ -16,8 +16,8 @@ namespace UnknownEngine
 
 		static OgreGetDescriptorVisitor<OgreCameraComponentDescriptor, OgreCameraDescriptorParser> camera_descriptor_getter;
 		
-		OgreCameraComponentsFactory::OgreCameraComponentsFactory ( OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context, Utils::LogHelper* log_helper ):
-		BaseOgreComponentFactory(render_subsystem, engine_context, log_helper)
+		OgreCameraComponentsFactory::OgreCameraComponentsFactory ( OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context, Core::ILogger* logger ):
+		BaseOgreComponentFactory(render_subsystem, engine_context, logger)
 		{
 			
 			CreatableObjectDesc creatable_component;

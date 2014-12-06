@@ -14,13 +14,9 @@ namespace UnknownEngine
 		struct SubsystemDesc;
 		class EngineContext;
 		class BaseMessageListener;
+		class ILogger;
 	}
 
-	namespace Utils
-	{
-		class LogHelper;
-	}
-	
 	namespace Physics
 	{
 
@@ -45,7 +41,7 @@ namespace UnknownEngine
 				PhysXSubsystemDesc desc;
 				Core::SubsystemDesc raw_desc;
 				Core::EngineContext* engine_context;
-				std::unique_ptr<Utils::LogHelper> log_helper;
+				Core::ILogger* logger;
 				std::unique_ptr<PhysXSubsystem> physx_subsystem;
 
 				std::unique_ptr<PxShapeDataProvidersFactory> px_shape_data_providers_factory;

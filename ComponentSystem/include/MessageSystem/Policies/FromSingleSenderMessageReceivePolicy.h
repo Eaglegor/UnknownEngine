@@ -47,7 +47,9 @@ namespace UnknownEngine
 				COMPONENTSYSTEM_EXPORT
 				virtual ~FromSingleSenderMessageReceivePolicy ();
 
-				static const MessagePolicyType getType()
+				virtual MessageReceivePolicyType getType() const;
+				
+				constexpr static const char* getTypeName()
 				{
 					return "FromSingleSender";
 				}

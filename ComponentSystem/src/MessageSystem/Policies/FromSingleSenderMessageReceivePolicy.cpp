@@ -32,6 +32,11 @@ namespace UnknownEngine
 			return true;
 		}
 
+		MessageReceivePolicyType FromSingleSenderMessageReceivePolicy::getType() const
+		{
+			return MESSAGE_RECEIVE_POLICY_TYPE_ID(getTypeName());
+		}
+		
 		FromSingleSenderMessageReceivePolicy::~FromSingleSenderMessageReceivePolicy ()
 		{
 			// TODO Auto-generated destructor stub

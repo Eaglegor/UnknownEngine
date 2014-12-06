@@ -16,6 +16,8 @@ namespace UnknownEngine
 	namespace Core
 	{
 
+		class ILogger;
+
 		class IComponent;
 		class ComponentsManager;
 		struct ComponentDesc;
@@ -90,7 +92,7 @@ namespace UnknownEngine
 				InternalMapType components; ///< Components map
 				std::string name; ///< Entity name
 				ComponentsManager* components_manager;
-
+				ILogger* logger;
 		};
 
 	} /* namespace Core */

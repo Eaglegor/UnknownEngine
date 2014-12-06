@@ -24,8 +24,8 @@ namespace UnknownEngine
 		static OgreGetDescriptorVisitor<OgreDirectionalLightComponentDescriptor, OgreDirectionalLightDescriptorParser> directional_light_descriptor_getter;
 		static OgreGetDescriptorVisitor<OgreSpotLightComponentDescriptor, OgreSpotLightDescriptorParser> spot_light_descriptor_getter;
 		
-		OgreLightComponentsFactory::OgreLightComponentsFactory ( OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context, Utils::LogHelper* log_helper ) :
-		BaseOgreComponentFactory ( render_subsystem, engine_context, log_helper )
+		OgreLightComponentsFactory::OgreLightComponentsFactory ( OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context, Core::ILogger* logger ) :
+		BaseOgreComponentFactory ( render_subsystem, engine_context, logger )
 		{
 			CreatableObjectDesc creatable_component;
 			

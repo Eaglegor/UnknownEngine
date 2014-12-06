@@ -2,7 +2,7 @@
 
 #include <Parsers/Descriptors/OgreMeshPtrFromMeshDataProviderDescriptorParser.h>
 #include <Properties/PropertiesTree.h>
-#include <LogHelper.h>
+#include <Logging.h>
 #include <CommonParsers/PropertiesParser.h>
 
 namespace UnknownEngine {

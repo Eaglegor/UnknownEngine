@@ -8,25 +8,21 @@ namespace UnknownEngine
 	namespace Core
 	{
 		class EngineContext;
+		class ILogger;
 	}
-	
-	namespace Utils
-	{
-		class LogHelper;
-	}
-	
+
 	namespace Physics
 	{
 		class PhysXErrorCallback : public physx::PxErrorCallback
 		{
 		public:
 			
-			PhysXErrorCallback(Utils::LogHelper* log_helper);
+			PhysXErrorCallback(Core::ILogger* logger);
 			
 			virtual void reportError ( physx::PxErrorCode::Enum code, const char* message, const char* file, int line );
 			
 		private:
-			Utils::LogHelper* log_helper;
+			Core::ILogger* logger;
 		};
 	}
 }

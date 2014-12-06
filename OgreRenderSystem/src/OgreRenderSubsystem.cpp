@@ -3,7 +3,7 @@
 #include <Ogre.h>
 #include <OgreFrameListener.h>
 #include <OgreRenderSubsystem.h>
-#include <LogHelper.h>
+#include <Logging.h>
 #include <EngineContext.h>
 
 #include <MessageSystem/MessageSystemParticipantDictionary.h>
@@ -27,8 +27,8 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 	
-		OgreRenderSubsystem::OgreRenderSubsystem ( const OgreRenderSubsystemDescriptor& desc, Utils::LogHelper* log_helper, Core::EngineContext* engine_context ):
-		log_helper ( log_helper ),
+		OgreRenderSubsystem::OgreRenderSubsystem ( const OgreRenderSubsystemDescriptor& desc, Core::ILogger* logger, Core::EngineContext* engine_context ):
+		logger ( logger ),
 		engine_context(engine_context),
 		desc(desc)
 		{
@@ -37,7 +37,7 @@ namespace UnknownEngine
 		void OgreRenderSubsystem::initOgre(const std::string &subsystem_name)
 		{
 			
-			LOG_INFO(log_helper, "Initializing OGRE");
+			LOG_INFO(logger, "Initializing OGRE");
 			
 			ogre_log_manager = new Ogre::LogManager();
 			ogre_log_manager->createLog(desc.ogre_log_filename, true, false, false);
@@ -99,13 +99,13 @@ namespace UnknownEngine
 
 		void OgreRenderSubsystem::shutdownOgre()
 		{
-			LOG_INFO(log_helper, "Shutting down OGRE");
+			LOG_INFO(logger, "Shutting down OGRE");
 			root->shutdown();
 			
-			LOG_INFO(log_helper, "Deleting OGRE root");
+			LOG_INFO(logger, "Deleting OGRE root");
 			delete root;
 
-			LOG_INFO(log_helper, "Deleting OGRE Log Manager");
+			LOG_INFO(logger, "Deleting OGRE Log Manager");
 			ogre_log_manager->destroyLog("DefaultLog");
 			delete ogre_log_manager;
 		}
@@ -164,11 +164,10 @@ namespace UnknownEngine
 			else return iter->second;
 		}
 
-		void OgreRenderSubsystem::start(const std::string& name, const Core::ReceivedMessageDescriptorsList& received_messages)
+		void OgreRenderSubsystem::start(const std::string& name)
 		{
 			
 			listener.reset ( new Core::BaseMessageListener(name, engine_context) );
-			listener->registerSupportedMessageTypes(received_messages);
 			
 			frame_listener.reset ( new OgreRenderFrameListener() );
 			
@@ -224,9 +223,9 @@ namespace UnknownEngine
 			if ( desc.separate_rendering_thread )
 			{
 				frame_listener->stopRendering();
-				LOG_INFO( log_helper, "Waiting for OGRE shutdown");
+				LOG_INFO( logger, "Waiting for OGRE shutdown");
 				frame_listener->waitUntilFinished();
-				LOG_INFO( log_helper, "Ogre shut down");
+				LOG_INFO( logger, "Ogre shut down");
 			}
 			else
 			{

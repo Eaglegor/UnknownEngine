@@ -1,5 +1,5 @@
 #include <AngelScriptSubsystem.h>
-#include <LogHelper.h>
+#include <Logging.h>
 #include <AngelScriptMessageCallback.h>
 
 #include <Registrators/Basic/StdStringRegistrator.h>
@@ -37,17 +37,14 @@ namespace UnknownEngine
 		engine_context(engine_context),
 		desc(desc)
 		{
-			if(desc.log_level > Utils::LogSeverity::NONE)
-			{
-				log_helper.reset(new Utils::LogHelper(name, desc.log_level, engine_context));
-				
-				angel_script_error_logger = log_helper.get();
-			}
+			logger = CREATE_LOGGER(name, desc.log_level);
+			angel_script_error_logger = logger;
 		}
 
 		AngelScriptSubsystem::~AngelScriptSubsystem()
 		{
 			angel_script_error_logger = nullptr;
+			RELEASE_LOGGER(logger);
 		}
 
 		void AngelScriptSubsystem::init()
@@ -147,7 +144,7 @@ namespace UnknownEngine
 
 		void AngelScriptSubsystem::registerObjectType ( const ITypeRegistrator& registrator )
 		{
-			if(!registrator.registerType(script_engine)) LOG_ERROR(log_helper, "Object type " + std::string(registrator.getRegisteredNameWithNamespace()) + " was not registered");
+			if(!registrator.registerType(script_engine)) LOG_ERROR(logger, "Object type " + std::string(registrator.getRegisteredNameWithNamespace()) + " was not registered");
 		}
 	}
 }

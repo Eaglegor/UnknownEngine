@@ -31,6 +31,8 @@ namespace UnknownEngine
 	namespace Core
 	{
 
+		class ILogger;
+
 		class IComponent;
 		struct ComponentDesc;
 		struct SubsystemDesc;
@@ -60,11 +62,11 @@ namespace UnknownEngine
 
 		class ComponentsManager : public Singleton<ComponentsManager>
 		{
-			public:
-
+			private:
 				typedef Utils::Dictionary<NumericIdentifierType, std::string> InternalDictionaryType;
 				typedef std::unordered_map<NumericIdentifierType, IComponentFactory*> ComponentFactoriesMap;
-
+				
+			public:
 				/**
 				 * @brief Default constructor. Called by Engine.
 				 */
@@ -141,7 +143,7 @@ namespace UnknownEngine
 				InternalDictionaryType internal_dictionary; ///< Internal dictionary implementation to assign identifiers to names
 				std::vector<Entity*> entities;
 				std::unique_ptr<Utils::NameGenerator> name_generator;
-
+				ILogger* logger;
 		};
 
 #ifdef _MSC_VER

@@ -2,7 +2,7 @@
 #include <boost/variant/static_visitor.hpp>
 #include <AssimpMeshDataLoaderDescriptor.h>
 #include <DescriptorContainer.h>
-#include <LogHelper.h>
+#include <Logging.h>
 #include <CommonParsers/PropertiesParser.h>
 
 namespace UnknownEngine

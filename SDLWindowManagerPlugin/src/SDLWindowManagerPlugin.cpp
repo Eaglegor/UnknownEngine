@@ -16,7 +16,7 @@
 #include <SDLWindowManagerDescriptorGetter.h>
 #include <MessageSystem/MessageDictionary.h>
 #include <EngineContext.h>
-#include <LogHelper.h>
+#include <Logging.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <ExportedMessages/RenderSystem/GetWindowHandleMessage.h>
@@ -30,7 +30,7 @@ namespace UnknownEngine
 	{
 
 		SDLWindowManagerPlugin::SDLWindowManagerPlugin ()
-		:log_helper(nullptr)
+		:logger(nullptr)
 		{
 		}
 
@@ -43,14 +43,11 @@ namespace UnknownEngine
 			SDLWindowManagerDescriptorGetter descriptor_getter;
 			wm_desc = desc.descriptor.apply_visitor(descriptor_getter);
 
-			if (wm_desc.log_level > Utils::LogSeverity::NONE)
-			{
-				log_helper.reset(new Utils::LogHelper(getName(), wm_desc.log_level, plugins_manager->getEngineContext()));
-			}
+			logger = CREATE_LOGGER(getName(), wm_desc.log_level);
 
-			LOG_INFO(log_helper, "Logger initialized");
+			LOG_INFO(logger, "Logger initialized");
 			
-			LOG_INFO(log_helper, "Installing SDL plugin");
+			LOG_INFO(logger, "Installing SDL plugin");
 
 			this->desc = desc;
 			engine_context = plugins_manager->getEngineContext();
@@ -67,10 +64,10 @@ namespace UnknownEngine
 
 		bool SDLWindowManagerPlugin::init () 
 		{
-			LOG_INFO(log_helper, "Initializing SDL plugin")
+			LOG_INFO(logger, "Initializing SDL plugin");
 
-			window_manager.reset ( new SDLWindowManager(std::string(getName()), engine_context, log_helper.get()) );
-			window_manager->init(desc.received_messages);
+			window_manager.reset ( new SDLWindowManager(std::string(getName()), engine_context, logger) );
+			window_manager->init();
 
 			window_manager->createWindow( wm_desc.window_desc );
 
@@ -79,7 +76,7 @@ namespace UnknownEngine
 
 		bool SDLWindowManagerPlugin::shutdown () 
 		{
-			LOG_INFO(log_helper, "Shutting down SDL plugin");
+			LOG_INFO(logger, "Shutting down SDL plugin");
 		  
 			window_manager->shutdown();
 			window_manager.reset();
@@ -89,9 +86,9 @@ namespace UnknownEngine
 
 		bool SDLWindowManagerPlugin::uninstall () 
 		{
-			LOG_INFO(log_helper, "Uninstalling SDL plugin");
+			LOG_INFO(logger, "Uninstalling SDL plugin");
 		  
-			log_helper.reset();
+			RELEASE_LOGGER(logger);
 			return true;
 		}
 		

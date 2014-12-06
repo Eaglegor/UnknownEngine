@@ -5,7 +5,7 @@
 
 #include <DataProviders/AssimpMeshDataProvider.h>
 #include <Mesh/MeshData.h>
-#include <LogHelper.h>
+#include <Logging.h>
 
 namespace UnknownEngine
 {
@@ -27,13 +27,14 @@ namespace UnknownEngine
 			desc ( desc ),
 			engine_context(engine_context)
 		{
-			if(desc.log_level > Utils::LogSeverity::NONE)
-			{
-				log_helper.reset(new Utils::LogHelper(name, desc.log_level, engine_context));
-				LOG_INFO(log_helper, "Logger initialized");
-			}
+			logger = CREATE_LOGGER(name.c_str(), desc.log_level);
 		}
 
+		AssimpMeshDataProvider::~AssimpMeshDataProvider()
+		{
+			RELEASE_LOGGER(logger);
+		}
+		
 		const DataProviderType AssimpMeshDataProvider::getType() const
 		{
 			return ASSIMP_MESH_DATA_PROVIDER_TYPE_NAME;
@@ -42,7 +43,7 @@ namespace UnknownEngine
 		void AssimpMeshDataProvider::internalLoad ( ResourceContainer& out_container )
 		{
 			
-			LOG_INFO(log_helper, "Started loading file " + desc.filename);
+			LOG_INFO(logger, "Started loading file " + desc.filename);
 			
 			Assimp::Importer importer;
 			
@@ -50,38 +51,38 @@ namespace UnknownEngine
 			
 			if(desc.postprocessing.flip_texture_coordinates) 
 			{
-				LOG_INFO(log_helper, "Turning on postprocessor: Flip texture coordinates");
+				LOG_INFO(logger, "Turning on postprocessor: Flip texture coordinates");
 				flags |= aiProcess_FlipUVs;
 			}
 			
 			if(desc.postprocessing.triangulate) 
 			{
-				LOG_INFO(log_helper, "Turning on postprocessor: Triangulate");
+				LOG_INFO(logger, "Turning on postprocessor: Triangulate");
 				flags |= aiProcess_Triangulate;
 			}
 			
 			if(desc.postprocessing.generate_normals) 
 			{
-				LOG_INFO(log_helper, "Turning on postprocessor: Generate normals");
+				LOG_INFO(logger, "Turning on postprocessor: Generate normals");
 				flags |= aiProcess_GenSmoothNormals;
 			}
 			
 			if(desc.postprocessing.generate_tangents) 
 			{
-				LOG_INFO(log_helper, "Turning on postprocessor: Generate tangents");
+				LOG_INFO(logger, "Turning on postprocessor: Generate tangents");
 				flags |= aiProcess_CalcTangentSpace;
 			}
 			
-			LOG_INFO(log_helper, "Reading file");
+			LOG_INFO(logger, "Reading file");
 			
 			const aiScene* scene = importer.ReadFile(desc.filename, flags);
 			if(scene == nullptr || !scene->HasMeshes()) 
 			{
-				LOG_ERROR(log_helper, "Error while loading file " + desc.filename);
+				LOG_ERROR(logger, "Error while loading file " + desc.filename);
 				throw AssimpMeshDataLoadError("Error while loading mesh data");
 			}
 			
-			LOG_INFO(log_helper, "Converting to shared mesh data format");
+			LOG_INFO(logger, "Converting to shared mesh data format");
 			
 			aiMesh* first_mesh = scene->mMeshes[0];
 			
@@ -129,7 +130,7 @@ namespace UnknownEngine
 			
 			out_container.setData<Utils::MeshData>(std::move(mesh_data));
 			
-			LOG_INFO(log_helper, "Loading finished");
+			LOG_INFO(logger, "Loading finished");
 		}
 		
 	}

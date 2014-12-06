@@ -12,13 +12,9 @@ namespace UnknownEngine
 	namespace Core
 	{
 		class EngineContext;
+		class ILogger;
 	}
-	
-	namespace Utils
-	{
-		class LogHelper;
-	}
-	
+
 	namespace Behavior
 	{
 		class ITypeRegistrator;
@@ -40,7 +36,7 @@ namespace UnknownEngine
 			void registerMessageType(const ITypeRegistrator& registrator);
 			
 			std::string name;
-			std::unique_ptr<Utils::LogHelper> log_helper;
+			Core::ILogger* logger;
 			
 			Core::EngineContext* engine_context;
 			AngelScriptSubsystemDesc desc;

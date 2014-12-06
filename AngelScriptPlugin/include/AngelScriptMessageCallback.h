@@ -1,6 +1,6 @@
 #pragma once
 
-#include <LogHelper.h>
+#include <Logging.h>
 
 #include <ASIncludes.h>
 
@@ -8,7 +8,7 @@ namespace UnknownEngine
 {
 	namespace Behavior
 	{
-		Utils::LogHelper* angel_script_error_logger = nullptr;
+		Core::ILogger* angel_script_error_logger = nullptr;
 		
 		void angelScriptMessageCallback(const asSMessageInfo *msg, void *param)
 		{

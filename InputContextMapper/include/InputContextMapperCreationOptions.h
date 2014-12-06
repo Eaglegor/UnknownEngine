@@ -7,13 +7,9 @@ namespace UnknownEngine
     namespace Core
     {
         class EngineContext;
+		class ILogger;
     }
 
-    namespace Utils
-    {
-		class LogHelper;
-    }
-    
     namespace IO
     {
         struct InputContextMapperCreationOptions
@@ -21,7 +17,7 @@ namespace UnknownEngine
             std::string name;
             Core::ReceivedMessageDescriptorsList received_messages;
             Core::EngineContext* engine_context;
-            Utils::LogHelper* log_helper;
+            Core::ILogger* logger;
         };
     }
 }

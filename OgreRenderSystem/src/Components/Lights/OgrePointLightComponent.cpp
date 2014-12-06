@@ -5,7 +5,7 @@
 #include <Converters/OgreQuaternionConverter.h>
 #include <OgreLight.h>
 #include <OgreSceneNode.h>
-#include <LogHelper.h>
+#include <Logging.h>
 
 namespace UnknownEngine
 {
@@ -16,16 +16,14 @@ namespace UnknownEngine
 		BaseOgreLightComponent ( name, render_subsystem, engine_context, desc.light_settings ), 
 		desc(desc)
 		{
-			if(desc.log_level > Utils::LogSeverity::NONE)
-			{
-				log_helper.reset(new Utils::LogHelper ( getName(), desc.log_level, engine_context ));
-			}
-			
-			LOG_INFO ( log_helper, "Logger initialized" );			
+			logger = CREATE_LOGGER(getName(), desc.log_level);
+
+			LOG_INFO ( logger, "Logger initialized" );			
 		}
 		
 		OgrePointLightComponent::~OgrePointLightComponent()
 		{
+			RELEASE_LOGGER(logger);
 		}
 		
 		UnknownEngine::Core::ComponentType OgrePointLightComponent::getType() const

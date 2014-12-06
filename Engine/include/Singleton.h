@@ -21,13 +21,9 @@ namespace UnknownEngine
 		class Singleton
 		{
 			public:
-
-				UNKNOWNENGINE_SIMPLE_EXCEPTION(SingletonAlreadyCreated);
-				UNKNOWNENGINE_SIMPLE_EXCEPTION(SingletonNotCreated);
-
 				static T* createInstance(CtorArgs&&... args)
 				{
-					if (instance) throw SingletonAlreadyCreated("Singleton already created");
+					if (instance) return instance;
 					instance = new T(std::forward<CtorArgs>(args)...);
 					return instance;
 				}
@@ -38,7 +34,6 @@ namespace UnknownEngine
 				 */
 				static T* getSingleton()
 				{
-					if (!instance) throw SingletonNotCreated("Singleton was not created");
 					return instance;
 				}
 

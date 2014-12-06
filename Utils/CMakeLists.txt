@@ -1,8 +1,8 @@
 set(TARGET_NAME Utils)
 set(LINKAGE INCLUDES_ONLY)
 
-set(INCLUDED_MODULE_HEADERS Math ComponentSystem Engine )
-set(LINKED_LIBS  )
+set(INCLUDED_MODULE_HEADERS Math ComponentSystem Engine LogManager )
+set(LINKED_LIBS LogManager )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 
 include(${MODULE_TEMPLATE_CMAKELISTS_FILE})

@@ -2,7 +2,7 @@
 #include <Components/PxFixedJointComponent.h>
 #include <Components/PxRigidBodyComponent.h>
 #include <PhysXSubsystem.h>
-#include <LogHelper.h>
+#include <Logging.h>
 
 using std::isfinite;
 
@@ -31,7 +31,7 @@ namespace UnknownEngine
 			actor1 = physics_subsystem->getRigidBodyComponent(desc.actor1_name)->getPxRigidActor();
 			actor2 = physics_subsystem->getRigidBodyComponent(desc.actor2_name)->getPxRigidActor();
 			if (actor1 == nullptr || actor2 == nullptr){
-				LOG_ERROR(log_helper, "Can't get both actors to create joint");
+				LOG_ERROR(logger, "Can't get both actors to create joint");
 				throw BothActorsNotFound("Can't get both actors to create joint");
 			}
 			physx::PxTransform relative_transform_1, relative_transform_2;

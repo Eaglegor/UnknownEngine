@@ -11,11 +11,7 @@ namespace UnknownEngine
 
 		class EngineContext;
 		class BaseMessageListener;
-	}
-	
-	namespace Utils
-	{
-		class LogHelper;
+		class ILogger;
 	}
 
 	namespace Graphics
@@ -49,7 +45,7 @@ namespace UnknownEngine
 				
 				OgreRenderSubsystem* render_subsystem;
 				Core::EngineContext* engine_context;
-				std::unique_ptr<Utils::LogHelper> log_helper;
+				Core::ILogger* logger;
 				
 		};
 

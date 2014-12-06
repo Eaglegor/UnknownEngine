@@ -24,13 +24,9 @@ namespace UnknownEngine
 		class EngineContext;
 		class BaseMessageListener;
 		struct UpdateFrameMessage;
+		class ILogger;
 	}
 
-	namespace Utils
-	{
-		class LogHelper;
-	}
-	
 	namespace Physics
 	{
 
@@ -43,7 +39,7 @@ namespace UnknownEngine
 		public:
 			UNKNOWNENGINE_SIMPLE_EXCEPTION(PhysXInitFailed);
 
-			PhysXSubsystem(const PhysXSubsystemDesc &desc, Core::EngineContext* engine_context, Utils::LogHelper* log_helper);
+			PhysXSubsystem(const PhysXSubsystemDesc &desc, Core::EngineContext* engine_context, Core::ILogger* logger);
 			
 			physx::PxPhysics* getPxPhysics();
 			physx::PxScene* getPxScene();
@@ -66,7 +62,7 @@ namespace UnknownEngine
 			bool is_initialized;
 
 			Core::EngineContext* engine_context;
-			Utils::LogHelper* log_helper;
+			Core::ILogger* logger;
 
 			physx::PxFoundation* px_foundation;
 			physx::PxPhysics* px_physics;

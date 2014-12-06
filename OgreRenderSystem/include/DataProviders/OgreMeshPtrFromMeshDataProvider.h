@@ -9,11 +9,7 @@ namespace UnknownEngine
 	namespace Core
 	{
 		class EngineContext;
-	}
-	
-	namespace Utils
-	{
-		class LogHelper;
+		class ILogger;
 	}
 
 	namespace Graphics
@@ -27,6 +23,7 @@ namespace UnknownEngine
 		{
 			public:
 				OgreMeshPtrFromMeshDataProvider ( const std::string &name, const OgreMeshPtrFromMeshDataProviderDescriptor &descriptor, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context );
+				virtual ~OgreMeshPtrFromMeshDataProvider();
 				
 				virtual const Loader::DataProviderType getType() const override;
 				
@@ -34,7 +31,7 @@ namespace UnknownEngine
 				virtual void internalLoad ( Loader::ResourceContainer &out_container ) override;
 				Loader::IDataProvider* mesh_data_provider;
 				OgreRenderSubsystem* render_subsystem;
-				std::unique_ptr<Utils::LogHelper> log_helper;
+				Core::ILogger* logger;
 				bool loaded;
 				Loader::ResourceContainer cont;
 		};

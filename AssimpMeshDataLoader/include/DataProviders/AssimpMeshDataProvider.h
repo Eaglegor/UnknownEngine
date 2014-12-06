@@ -9,11 +9,7 @@ namespace UnknownEngine
 	namespace Core
 	{
 		class EngineContext;
-	}
-	
-	namespace Utils
-	{
-		class LogHelper;
+		class ILogger;
 	}
 
 	namespace Loader
@@ -52,13 +48,14 @@ namespace UnknownEngine
 			};
 			
 			AssimpMeshDataProvider ( const std::string& name, const Descriptor &desc, Core::EngineContext* engine_context );
+			~AssimpMeshDataProvider();
 			
 			virtual const DataProviderType getType() const override;
 			virtual void internalLoad ( ResourceContainer& out_container ) override;
 
 		private:
 			Descriptor desc;
-			std::unique_ptr<Utils::LogHelper> log_helper;
+			Core::ILogger* logger;
 			Core::EngineContext* engine_context;
 		};
 		

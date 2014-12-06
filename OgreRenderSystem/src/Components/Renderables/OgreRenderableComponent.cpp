@@ -10,7 +10,7 @@
 #include <MessageSystem/BaseMessageListener.h>
 #include <Converters/OgreVector3Converter.h>
 #include <Converters/OgreQuaternionConverter.h>
-#include <LogHelper.h>
+#include <Logging.h>
 #include <MessageBuffers/OnlyLastMessageBuffer.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <ExportedMessages/TransformChangedMessage.h>
@@ -25,24 +25,22 @@ namespace UnknownEngine
 			: BaseOgreComponent ( name, render_subsystem, engine_context ),
 			  desc ( desc )
 		{
-			if ( desc.log_level > Utils::LogSeverity::NONE )
-			{
-				log_helper.reset ( new Utils::LogHelper ( getName(), desc.log_level, engine_context ) );
-			}
+			logger = CREATE_LOGGER(getName(), desc.log_level);
 
 			if ( desc.mesh_data_provider != nullptr ) desc.mesh_data_provider->reserve();
 
-			LOG_INFO ( log_helper, "Logger initialized" );
+			LOG_INFO ( logger, "Logger initialized" );
 		}
 
 		OgreRenderableComponent::~OgreRenderableComponent()
 		{
 			if ( desc.mesh_data_provider != nullptr ) desc.mesh_data_provider->release();
+			RELEASE_LOGGER(logger);
 		}
 
 		void OgreRenderableComponent::internalInit ( const UnknownEngine::Core::Entity* parent_entity )
 		{
-			LOG_INFO ( log_helper, "Creating OGRE entity" );
+			LOG_INFO ( logger, "Creating OGRE entity" );
 			if ( desc.mesh_data_provider != nullptr )
 			{
 				Ogre::MeshPtr mesh_data = desc.mesh_data_provider->getResource().getData<Ogre::MeshPtr>();
@@ -52,43 +50,43 @@ namespace UnknownEngine
 			{
 				if ( desc.throw_exception_on_missing_mesh_data )
 				{
-					LOG_ERROR ( log_helper, "No mesh data provider found!" );
+					LOG_ERROR ( logger, "No mesh data provider found!" );
 					throw NoMeshDataProvidedException ( "No mesh data provided to construct renderable component" );
 				}
 				else
 				{
-					LOG_ERROR ( log_helper, "No mesh data provider found. Using substitute mesh (Ogre::PT_SPHERE) instead" );
+					LOG_ERROR ( logger, "No mesh data provider found. Using substitute mesh (Ogre::PT_SPHERE) instead" );
 					entity = render_subsystem->getSceneManager()->createEntity ( Ogre::String(getName()) + ".OgreEntity", Ogre::SceneManager::PT_SPHERE );
 				}
 			}
 
 			entity->setMaterialName ( desc.material_desc.name );
 
-			LOG_INFO ( log_helper, "Creating OGRE scene node" )
+			LOG_INFO ( logger, "Creating OGRE scene node" );
 			scene_node = render_subsystem->getSceneManager()->getRootSceneNode()->createChildSceneNode ( Ogre::String(getName()) + ".SceneNode" );
 
 			scene_node->setPosition ( OgreVector3Converter::toOgreVector ( desc.initial_transform.getPosition() ) );
 			scene_node->setOrientation ( OgreQuaternionConverter::toOgreQuaternion ( desc.initial_transform.getOrientation() ) );
 
-			LOG_INFO ( log_helper, "Starting" );
+			LOG_INFO ( logger, "Starting" );
 			scene_node->attachObject ( entity );
 			
-			LOG_INFO (log_helper, "Registering listener");
+			LOG_INFO (logger, "Registering listener");
 			if(listener && !listener->isRegisteredAtDispatcher()) listener->registerAtDispatcher();
 		}
 
 		void OgreRenderableComponent::internalShutdown()
 		{
-			LOG_INFO (log_helper, "Unregistering listener");
+			LOG_INFO (logger, "Unregistering listener");
 			if(listener) listener->unregisterAtDispatcher();
 			
-			LOG_INFO ( log_helper, "Shutting down" );
+			LOG_INFO ( logger, "Shutting down" );
 			scene_node->detachObject ( entity );
 
-			LOG_INFO ( log_helper, "Destroying scene node" );
+			LOG_INFO ( logger, "Destroying scene node" );
 			render_subsystem->getSceneManager()->destroySceneNode ( scene_node );
 
-			LOG_INFO ( log_helper, "Destroying entity" );
+			LOG_INFO ( logger, "Destroying entity" );
 			render_subsystem->getSceneManager()->destroyEntity ( entity );
 		}
 

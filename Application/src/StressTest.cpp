@@ -7,6 +7,7 @@
 #include <ComponentDesc.h>
 #include <DataProvider/DataProviderDesc.h>
 #include <ResourceManager.h>
+#include <MessageSystem/MessageDispatcher.h>
 
 using namespace UnknownEngine::Core;
 using namespace UnknownEngine::Utils;

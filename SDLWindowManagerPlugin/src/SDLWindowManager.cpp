@@ -3,7 +3,7 @@
 #include <SDLWindowDesc.h>
 #include <WindowEventsProcessor.h>
 #include <SDL.h>
-#include <LogHelper.h>
+#include <Logging.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 #include <ExportedMessages/RenderSystem/GetWindowHandleMessage.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
@@ -15,9 +15,9 @@ namespace UnknownEngine
 	namespace GUI
 	{
 
-		SDLWindowManager::SDLWindowManager ( const std::string& name, Core::EngineContext* engine_context, Utils::LogHelper* log_helper ):
+		SDLWindowManager::SDLWindowManager ( const std::string& name, Core::EngineContext* engine_context, Core::ILogger* logger ):
 		engine_context(engine_context),
-		log_helper(log_helper),
+		logger(logger),
 		name(name)
 		{
 			initSDL();
@@ -50,11 +50,11 @@ namespace UnknownEngine
 			
 			if(result < 0) 
 			{
-				LOG_ERROR(log_helper, "SDL initialization failed");
+				LOG_ERROR(logger, "SDL initialization failed");
 			}
 			else
 			{
-				LOG_INFO(log_helper, "SDL initialized successfully");
+				LOG_INFO(logger, "SDL initialized successfully");
 			}
 			
 		}
@@ -62,10 +62,10 @@ namespace UnknownEngine
 		void SDLWindowManager::shutdownSDL()
 		{
 			
-			LOG_INFO(log_helper, "Shutting down SDL");
+			LOG_INFO(logger, "Shutting down SDL");
 			SDL_Quit();
 			
-			LOG_INFO(log_helper, "SDL shut down successfully");
+			LOG_INFO(logger, "SDL shut down successfully");
 		}
 		
 		void SDLWindowManager::getWindowHandle ( const Graphics::GetWindowHandleMessage& msg )
@@ -89,19 +89,17 @@ namespace UnknownEngine
 				}
 				else
 				{
-					LOG_ERROR(log_helper, "Failed to retrieve window handle");
+					LOG_ERROR(logger, "Failed to retrieve window handle");
 				}
 			}
 			
 		}
 
-		void SDLWindowManager::init(const Core::ReceivedMessageDescriptorsList &received_messages_desc)
+		void SDLWindowManager::init()
 		{
 			window_events_listener.reset ( new WindowEventsProcessor(name, this, engine_context) );
 			
 			listener.reset(new Core::BaseMessageListener(name, engine_context));
-			listener->registerSupportedMessageTypes(received_messages_desc);
-			
 			{
 				typedef Core::UpdateFrameMessage MessageType;
 				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;

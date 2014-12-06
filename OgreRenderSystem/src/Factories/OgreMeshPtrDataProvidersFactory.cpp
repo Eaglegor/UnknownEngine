@@ -12,8 +12,8 @@ namespace UnknownEngine {
 		
 		static OgreGetDescriptorVisitor<OgreMeshPtrFromMeshDataProviderDescriptor, OgreMeshPtrFromMeshDataProviderDescriptorParser> descriptor_getter;
 		
-		OgreMeshPtrDataProvidersFactory::OgreMeshPtrDataProvidersFactory( Utils::LogHelper* log_helper, Core::EngineContext* engine_context, OgreRenderSubsystem* render_subsystem )
-		:log_helper(log_helper),
+		OgreMeshPtrDataProvidersFactory::OgreMeshPtrDataProvidersFactory( Core::ILogger* logger, Core::EngineContext* engine_context, OgreRenderSubsystem* render_subsystem )
+		:logger(logger),
 		 engine_context(engine_context),
 		 render_subsystem(render_subsystem)
 		{

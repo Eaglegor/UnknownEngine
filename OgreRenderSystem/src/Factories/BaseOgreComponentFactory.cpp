@@ -8,10 +8,10 @@ namespace UnknownEngine
 {
 	namespace Graphics
 	{
-		BaseOgreComponentFactory::BaseOgreComponentFactory ( OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context, Utils::LogHelper* log_helper ):
+		BaseOgreComponentFactory::BaseOgreComponentFactory ( OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context, Core::ILogger* logger ):
 		render_subsystem(render_subsystem),
 		engine_context(engine_context),
-		log_helper(log_helper)
+		logger(logger)
 		{
 
 		}

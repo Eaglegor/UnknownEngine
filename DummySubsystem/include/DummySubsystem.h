@@ -18,11 +18,7 @@ namespace UnknownEngine
 	{
 		struct SubsystemDesc;
 		class EngineContext;
-	}
-	
-	namespace Utils
-	{
-		class LogHelper;
+		class ILogger;
 	}
 
 	namespace Dummy
@@ -42,7 +38,7 @@ namespace UnknownEngine
 			private:
 				Core::SubsystemDesc desc;
 				Core::EngineContext* engine_context;
-				Utils::LogHelper* log_helper;
+				Core::ILogger* logger;
 		};
 
 	} /* namespace Graphics */

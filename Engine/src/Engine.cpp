@@ -24,10 +24,12 @@
 #include <ISceneLoader.h>
 
 #include <StopEngineListener.h>
+#include <Logging/ConsoleLoggingSubsystem.h>
 
-#define ENABLE_CORE_SUBSYSTEM_INFO_LOG
-#include <CoreLogging.h>
 #include <ExportedMessages/TransformChangedMessage.h>
+#include <LogManager.h>
+#include <Logging.h>
+#include <EngineLogLevel.h>
 
 namespace UnknownEngine
 {
@@ -35,9 +37,10 @@ namespace UnknownEngine
 	{
 
 		Engine::Engine() :
-			state ( CREATED )
+			state ( CREATED ),
+			console_logging_subsystem(new ConsoleLoggingSubsystem("ConsoleLoggingSubsystem"))
 		{
-			CORE_SUBSYSTEM_INFO ( "Engine created" );
+			LOG_INFO (logger, "Engine created" );
 		}
 
 		Engine::~Engine()
@@ -47,7 +50,7 @@ namespace UnknownEngine
 		void Engine::start() 
 		{
 
-			CORE_SUBSYSTEM_INFO ( "Starting engine" );
+			LOG_INFO(logger, "Starting engine" );
 
 			if ( state == CREATED ) throw InvalidEngineStateException ( "Engine wasn't initialized. Please call Engine::init() prior to Engine::start()" );
 			if ( state == STARTED ) throw InvalidEngineStateException ( "Can't start the engine twice" );
@@ -56,17 +59,17 @@ namespace UnknownEngine
 
 			MainLoop main_loop(&context);
 
-			CORE_SUBSYSTEM_INFO ( "Registering engine stop listener" );
+			LOG_INFO(logger, "Registering engine stop listener" );
 			StopEngineListener stop_listener ( "Engine", &main_loop );
 			
 			initMessagingRules(stop_listener.getMessageSystemParticipantId());
 			
 			context.getMessageDispatcher()->addListener ( MESSAGE_TYPE_ID(StopEngineActionMessage::getTypeName()), &stop_listener );
 
-			CORE_SUBSYSTEM_INFO ( "Starting main loop" );
+			LOG_INFO(logger, "Starting main loop" );
 			main_loop.start();
 
-			CORE_SUBSYSTEM_INFO ( "Unregistering engine stop listener" );
+			LOG_INFO(logger, "Unregistering engine stop listener" );
 			context.getMessageDispatcher()->removeListener ( &stop_listener );
 
 			state = STOPPED;
@@ -75,7 +78,7 @@ namespace UnknownEngine
 
 		void Engine::stop()
 		{
-			CORE_SUBSYSTEM_INFO ( "Stopping engine" );
+			LOG_INFO(logger, "Stopping engine" );
 			MessageSender<StopEngineActionMessage> sender("Engine", &context);
 			sender.sendMessage(StopEngineActionMessage());
 		}
@@ -83,35 +86,42 @@ namespace UnknownEngine
 		void Engine::shutdown() 
 		{
 
-			CORE_SUBSYSTEM_INFO ( "Shutting down engine" );
+			LOG_INFO(logger, "Shutting down engine" );
 
 			if ( state == STARTED ) throw InvalidEngineStateException ( "Shutting down running engine is not allowed" );
 			if ( state == CREATED ) throw InvalidEngineStateException ( "Shutting down uninitialized engine is not allowed" );
 
-			CORE_SUBSYSTEM_INFO ( "Destroying remaining entities" );
+			LOG_INFO(logger, "Destroying remaining entities" );
 			this->context.components_manager->clearEntities();
 
 			this->context.resource_manager->cleanup();
 			
-			CORE_SUBSYSTEM_INFO ( "Destroying plugins manager" );
+			LOG_INFO(logger, "Destroying plugins manager" );
 			PluginsManager::destroyInstance();
 
-			CORE_SUBSYSTEM_INFO ( "Destroying components manager" );
+			LOG_INFO(logger, "Destroying components manager" );
 			ComponentsManager::destroyInstance();
 
-			CORE_SUBSYSTEM_INFO ( "Destroying message system participant dictionary" );
+			LOG_INFO(logger, "Destroying messaging policies dictionary" );
+			MessagingPoliciesManager::destroyInstance();
+			
+			LOG_INFO(logger, "Destroying message system participant dictionary" );
 			MessageSystemParticipantDictionary::destroyInstance();
 
-			CORE_SUBSYSTEM_INFO ( "Destroying resource manager" );
+			LOG_INFO(logger, "Destroying resource manager" );
 			ResourceManager::destroyInstance();
 
-			CORE_SUBSYSTEM_INFO ( "Destroying message dispatcher" );
+			LOG_INFO(logger, "Destroying message dispatcher" );
 			MessageDispatcher::destroyInstance();
 
-			CORE_SUBSYSTEM_INFO ( "Destroying message dictionary" );
+			LOG_INFO(logger, "Destroying message dictionary" );
 			MessageDictionary::destroyInstance();
 
-			CORE_SUBSYSTEM_INFO ( "Engine shutdown complete" );
+			LOG_INFO(logger, "Engine shutdown complete" );
+
+			RELEASE_LOGGER(logger);
+			context.log_manager->removeLoggingSubsystem(console_logging_subsystem.get());
+			LogManager::destroyInstance();
 
 			state = CREATED;
 		}
@@ -123,36 +133,38 @@ namespace UnknownEngine
 
 		void Engine::init() 
 		{
-
-			CORE_SUBSYSTEM_INFO ( "Initializing engine" );
+			context.log_manager = LogManager::createInstance();
+			context.log_manager->addLoggingSubsystem(console_logging_subsystem.get());
+			logger = CREATE_LOGGER("Engine", ENGINE_LOG_LEVEL);
+			
+			LOG_INFO(logger, "Initializing engine" );
 
 			if ( state == INIT ) throw InvalidEngineStateException ( "Double engine initialization is not allowed" );
 			if ( state == STARTED ) throw InvalidEngineStateException ( "Running engine initialization is not allowed" );
 			if ( state == STOPPED ) throw InvalidEngineStateException ( "Stopped engine initialization is not allowed. Call shutdown() prior." );
 
-			CORE_SUBSYSTEM_INFO ( "Creating message dictionary" );
+			LOG_INFO(logger, "Creating message dictionary" );
 			context.message_dictionary = MessageDictionary::createInstance();
 
-			CORE_SUBSYSTEM_INFO ( "Creating message dispatcher" );
+			LOG_INFO(logger, "Creating message dispatcher" );
 			context.message_dispatcher = MessageDispatcher::createInstance();
 
-			CORE_SUBSYSTEM_INFO ( "Creating components manager" );
+			LOG_INFO(logger, "Creating components manager" );
 			context.components_manager = ComponentsManager::createInstance();
 
-			CORE_SUBSYSTEM_INFO ( "Creating resource manager" );
+			LOG_INFO(logger, "Creating resource manager" );
 			context.resource_manager = ResourceManager::createInstance();
 
-			CORE_SUBSYSTEM_INFO ( "Creating message participant dictionary" );
+			LOG_INFO(logger, "Creating message participant dictionary" );
 			context.message_system_participant_dictionary = MessageSystemParticipantDictionary::createInstance();
 
-			CORE_SUBSYSTEM_INFO ( "Creating plugins manager" );
+			LOG_INFO(logger, "Creating messaging policies manager" );
+			context.messaging_policies_manager = MessagingPoliciesManager::createInstance();
+			
+			LOG_INFO(logger, "Creating plugins manager" );
 			plugins_manager = PluginsManager::createInstance ( &context );
 
-			CORE_SUBSYSTEM_INFO ( "Creating engine message system participant id" );
-			message_system_participant_id.name = "Engine";
-			message_system_participant_id.id = context.message_system_participant_dictionary->registerNewMessageParticipant ( "Engine" );
-
-			CORE_SUBSYSTEM_INFO ( "Registering internal message types" );
+			LOG_INFO(logger, "Registering internal message types" );
 			registerInternalMessageTypes();
 
 			state = INIT;
@@ -160,16 +172,16 @@ namespace UnknownEngine
 
 		void Engine::registerInternalMessageTypes()
 		{
-			CORE_SUBSYSTEM_INFO ( "Registering message type: " + std::string ( Utils::LogMessage::getTypeName() ) );
+			LOG_INFO(logger, "Registering message type: " + std::string ( Utils::LogMessage::getTypeName() ) );
 			context.message_dictionary->registerNewMessageType ( Utils::LogMessage::getTypeName() );
 
-			CORE_SUBSYSTEM_INFO ( "Registering message type: " + std::string ( UpdateFrameMessage::getTypeName() ) );
+			LOG_INFO(logger, "Registering message type: " + std::string ( UpdateFrameMessage::getTypeName() ) );
 			context.message_dictionary->registerNewMessageType ( UpdateFrameMessage::getTypeName() );
 
-			CORE_SUBSYSTEM_INFO ( "Registering message type: " + std::string ( TransformChangedMessage::getTypeName() ) );
+			LOG_INFO(logger, "Registering message type: " + std::string ( TransformChangedMessage::getTypeName() ) );
 			context.message_dictionary->registerNewMessageType ( TransformChangedMessage::getTypeName() );
 			
-			CORE_SUBSYSTEM_INFO ( "Registering message type: " + std::string ( StopEngineActionMessage::getTypeName() ) );
+			LOG_INFO(logger, "Registering message type: " + std::string ( StopEngineActionMessage::getTypeName() ) );
 			context.message_dictionary->registerNewMessageType ( StopEngineActionMessage::getTypeName() );
 		}
 

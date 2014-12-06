@@ -46,12 +46,6 @@ namespace UnknownEngine
 				virtual const char* getName() const = 0;
 
 				/**
-				 * @brief Returns a set of object type identifiers supported by this factory
-				 * @return Set of identifiers of object types which can be created by this factory
-				 */
-				virtual const std::unordered_set<ObjectTypeId> getSupportedTypes() const = 0;
-
-				/**
 				 * @brief Checks if a factory is able to create specific type
 				 * @param object_type - Type to check for
 				 * @return true if the factory supports passed type

@@ -16,9 +16,12 @@
 #include <MessageSystem/IMessageSender.h>
 #include <MessageSystem/MessageListenerRules.h>
 #include <MessageSystem/MessageSenderRules.h>
+#include <MessageSystem/MessageReceivePolicyDesc.h>
+#include <MessageSystem/MessageDeliveryPolicyDesc.h>
 
 #define ENABLE_CORE_SUBSYSTEM_ERROR_LOG
-#include <CoreLogging.h>
+#include <Logging.h>
+#include <EngineLogLevel.h>
 
 namespace UnknownEngine
 {
@@ -28,12 +31,14 @@ namespace UnknownEngine
 		template<>
 		MessageDispatcher* Singleton<MessageDispatcher>::instance = nullptr;
 
-		MessageDispatcher::MessageDispatcher ()
+		MessageDispatcher::MessageDispatcher ():
+		logger(CREATE_LOGGER("Core.Engine", ENGINE_LOG_LEVEL))
 		{
 		}
 
 		MessageDispatcher::~MessageDispatcher ()
 		{
+			RELEASE_LOGGER(logger);
 		}
 
 		void MessageDispatcher::addListener ( const MessageType& message_type, IMessageListener* listener, const MessageListenerRule& listener_rule )
@@ -51,13 +56,13 @@ namespace UnknownEngine
 				ListenerRules* rules = getListenerRules ( listener->getMessageSystemParticipantId() );
 				if ( !rules )
 				{
-					CORE_SUBSYSTEM_DEBUG ( "!!! Not registering listener " + listener->getName() + " because there it wasn't explicitly allowed to receive messages" );
+					LOG_DEBUG( logger, "!!! Not registering listener " + listener->getName() + " because there it wasn't explicitly allowed to receive messages" );
 					return;
 				}
 				auto iter = rules->messages.find ( message_type );
 				if ( iter == rules->messages.end() )
 				{
-					CORE_SUBSYSTEM_DEBUG ( "!!! Not registering listener " + listener->getName() + " because there is no permissive rule for message type " + MESSAGE_TYPE_NAME ( message_type ) );
+					LOG_DEBUG( logger, "!!! Not registering listener " + listener->getName() + " because there is no permissive rule for message type " + MESSAGE_TYPE_NAME ( message_type ) );
 					return;
 				}
 				r_policy = iter->second;
@@ -81,7 +86,7 @@ namespace UnknownEngine
 		void MessageDispatcher::removeListener ( IMessageListener* listener )
 		{
 			std::lock_guard<LockPrimitive> guard ( lock );
-			CORE_SUBSYSTEM_DEBUG ( "Removing listener" + listener->getName() );
+			LOG_DEBUG( logger, "Removing listener" + listener->getName() );
 			onRemoveListener ( listener );
 
 			for ( auto & message_type_iter : listeners )
@@ -104,13 +109,13 @@ namespace UnknownEngine
 			{
 				SenderRules* rules = getSenderRules(sender->getMessageSystemParticipantId());
 				if(!rules) {
-					CORE_SUBSYSTEM_DEBUG ( "!!! Not registering sender " + sender->getName() + " because there it wasn't explicitly allowed to send messages" );
+					LOG_DEBUG( logger, "!!! Not registering sender " + sender->getName() + " because there it wasn't explicitly allowed to send messages" );
 					return;
 				}
 				auto iter = rules->messages.find(message_type);
 				if(iter == rules->messages.end()) 
 				{
-					CORE_SUBSYSTEM_DEBUG ( "!!! Not registering sender " + sender->getName() + " because there it wasn't explicitly allowed to send messages of type " + MESSAGE_TYPE_NAME(message_type) );
+					LOG_DEBUG( logger, "!!! Not registering sender " + sender->getName() + " because there it wasn't explicitly allowed to send messages of type " + MESSAGE_TYPE_NAME(message_type) );
 					return;
 				}
 				d_policy = iter->second;
@@ -136,7 +141,7 @@ namespace UnknownEngine
 			std::lock_guard<LockPrimitive> guard ( lock );
 			onRemoveSender ( sender );
 
-			CORE_SUBSYSTEM_DEBUG ( "Removing sender" + sender->getName() );
+			LOG_DEBUG( logger, "Removing sender" + sender->getName() );
 
 			for ( auto & message_type_iter : senders )
 			{
@@ -198,9 +203,12 @@ namespace UnknownEngine
 		{
 			ListenerRules *rules = createListenerRules ( listener_id );
 
-			for ( const MessageListenerRule & desc : new_listener_rules )
+			for ( const MessageListenerRule & rule : new_listener_rules )
 			{
-				rules->messages[MESSAGE_TYPE_ID ( desc.message_type_name )] = rules->policies_factory.createPrefabReceiveMessagePolicy ( desc.receive_policy_type_name, desc.receive_policy_options );
+				MessageReceivePolicyDesc desc;
+				desc.type = rule.receive_policy_type_name;
+				desc.options = rule.receive_policy_options;
+				rules->messages[MESSAGE_TYPE_ID(rule.message_type_name)] = MessagingPoliciesManager::getSingleton()->createMessageReceivePolicy(desc);
 			}
 		}
 
@@ -208,19 +216,30 @@ namespace UnknownEngine
 		{
 			SenderRules *rules = createSenderRules ( sender_id );
 
-			for ( const MessageSenderRule & desc : new_sender_rules )
+			for ( const MessageSenderRule & rule : new_sender_rules )
 			{
-				rules->messages[MESSAGE_TYPE_ID ( desc.message_type_name )] = rules->policies_factory.createPrefabDeliveryMessagePolicy ( desc.delivery_policy_type_name, desc.delivery_policy_options );
+				MessageDeliveryPolicyDesc desc;
+				desc.type = rule.delivery_policy_type_name;
+				desc.options = rule.delivery_policy_options;
+				rules->messages[MESSAGE_TYPE_ID(rule.message_type_name)] = MessagingPoliciesManager::getSingleton()->createMessageDeliveryPolicy(desc);
 			}
 		}
 
 		void MessageDispatcher::clearListenerRules ( const MessageSystemParticipantId& listener_id )
 		{
+			for (auto &iter : listener_rules[listener_id].messages)
+			{
+				if (iter.second != nullptr) MessagingPoliciesManager::getSingleton()->destroyMessageReceivePolicy(iter.second);
+			}
 			listener_rules.erase ( listener_id );
 		}
 
 		void MessageDispatcher::clearSenderRules ( const MessageSystemParticipantId& sender_id )
 		{
+			for (auto &iter : sender_rules[sender_id].messages)
+			{
+				if (iter.second != nullptr) MessagingPoliciesManager::getSingleton()->destroyMessageDeliveryPolicy(iter.second);
+			}
 			sender_rules.erase ( sender_id );
 		}
 
@@ -259,7 +278,10 @@ namespace UnknownEngine
 			{
 				rules = createSenderRules ( id );
 			}
-			rules->messages[message_type] = rules->policies_factory.createPrefabDeliveryMessagePolicy ( sender_rule.delivery_policy_type_name, sender_rule.delivery_policy_options );
+			MessageDeliveryPolicyDesc desc;
+			desc.type = sender_rule.delivery_policy_type_name;
+			desc.options = sender_rule.delivery_policy_options;
+			rules->messages[message_type] = MessagingPoliciesManager::getSingleton()->createMessageDeliveryPolicy(desc);
 		}
 
 
@@ -270,7 +292,10 @@ namespace UnknownEngine
 			{
 				rules = createListenerRules ( id );
 			}
-			rules->messages[message_type] = rules->policies_factory.createPrefabReceiveMessagePolicy ( listener_rule.receive_policy_type_name, listener_rule.receive_policy_options );
+			MessageReceivePolicyDesc desc;
+			desc.type = listener_rule.receive_policy_type_name;
+			desc.options = listener_rule.receive_policy_options;
+			rules->messages[message_type] = MessagingPoliciesManager::getSingleton()->createMessageReceivePolicy(desc);
 		}
 
 

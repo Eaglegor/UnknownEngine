@@ -13,7 +13,7 @@
 #include <MessageSystem/MessageDispatcher.h>
 #include <MessageSystem/BaseMessageListener.h>
 
-#include <LogHelper.h>
+#include <Logging.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <MessageBuffers/OnlyLastMessageBuffer.h>
 #include <ExportedMessages/TransformChangedMessage.h>
@@ -29,21 +29,20 @@ namespace UnknownEngine
 			: BaseOgreComponent ( name, render_subsystem, engine_context ),
 			  desc ( desc )
 		{
-			if ( desc.log_level > Utils::LogSeverity::NONE )
-			{
-				log_helper.reset ( new Utils::LogHelper ( getName(), desc.log_level, engine_context ) );
-			}
+			logger = CREATE_LOGGER(getName(), desc.log_level);
 
-			LOG_INFO ( log_helper, "Logger initialized" );
+			LOG_INFO ( logger, "Logger initialized" );
 		}
 
 		OgreCameraComponent::~OgreCameraComponent()
 		{
-			LOG_INFO ( log_helper, "Destroying OGRE camera" );
+			LOG_INFO ( logger, "Destroying OGRE camera" );
 			render_subsystem->getSceneManager()->destroyCamera ( this->camera );
 
-			LOG_INFO ( log_helper, "Destroying OGRE scene node" );
+			LOG_INFO ( logger, "Destroying OGRE scene node" );
 			render_subsystem->getSceneManager()->destroySceneNode ( this->scene_node );
+			
+			RELEASE_LOGGER(logger);
 		}
 
 		UnknownEngine::Core::ComponentType OgreCameraComponent::getType() const
@@ -54,10 +53,10 @@ namespace UnknownEngine
 
 		void OgreCameraComponent::internalInit ( const UnknownEngine::Core::Entity *parent_entity )
 		{
-			LOG_INFO ( log_helper, "Creating OGRE camera" );
+			LOG_INFO ( logger, "Creating OGRE camera" );
 			this->camera = render_subsystem->getSceneManager()->createCamera ( Ogre::String ( getName() ) + ".Camera" );
 
-			LOG_INFO ( log_helper, "Creating OGRE scene node" );
+			LOG_INFO ( logger, "Creating OGRE scene node" );
 			this->scene_node = render_subsystem->getSceneManager()->getRootSceneNode()->createChildSceneNode ( Ogre::String ( getName() ) + ".SceneNode" );
 
 			Ogre::RenderWindow* render_window = render_subsystem->getRenderWindow(desc.render_window_name);
@@ -69,7 +68,7 @@ namespace UnknownEngine
 
 			if ( desc.initial_look_at.is_initialized() )
 			{
-				LOG_DEBUG ( log_helper, "Setting look at: " +
+				LOG_DEBUG ( logger, "Setting look at: " +
 				            boost::lexical_cast<std::string> ( desc.initial_look_at->x() ) + ", " +
 				            boost::lexical_cast<std::string> ( desc.initial_look_at->y() ) + ", " +
 				            boost::lexical_cast<std::string> ( desc.initial_look_at->z() ) );
@@ -89,7 +88,7 @@ namespace UnknownEngine
 		{
 			if(listener) listener->unregisterAtDispatcher();
 			
-			LOG_INFO ( log_helper, "Shutting down" );
+			LOG_INFO ( logger, "Shutting down" );
 			this->scene_node->detachObject ( this->camera );
 		}
 

@@ -16,11 +16,7 @@ namespace UnknownEngine
 		class EngineContext;
 		class BaseMessageListener;
 		struct UpdateFrameMessage;
-	}
-	
-	namespace Utils
-	{
-		class LogHelper;		
+		class ILogger;		
 	}
 
 	namespace Graphics
@@ -40,10 +36,10 @@ namespace UnknownEngine
 			
 			UNKNOWNENGINE_SIMPLE_EXCEPTION(WindowNotFound);
 			
-			SDLWindowManager(const std::string &name, Core::EngineContext* engine_context, Utils::LogHelper* log_helper);
+			SDLWindowManager(const std::string &name, Core::EngineContext* engine_context, Core::ILogger* logger);
 			virtual ~SDLWindowManager();
 			
-			void init( const Core::ReceivedMessageDescriptorsList& received_messages_desc );
+			void init();
 			void shutdown();
 			void createWindow(const SDLWindowDesc &desc);
 
@@ -62,7 +58,7 @@ namespace UnknownEngine
 			Core::EngineContext* engine_context;
 			std::unique_ptr< Core::BaseMessageListener > listener;
 			std::unordered_map<std::string, SDL_Window*> sdl_windows;
-			Utils::LogHelper* log_helper;
+			Core::ILogger* logger;
 			std::string name;
 		};
 		

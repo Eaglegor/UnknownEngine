@@ -10,7 +10,8 @@
 #include <MessageSystem/MessageListenerDesc.h>
 #include <MessageBuffers/MessageBuffer.h>
 #include <Exception.h>
-#include <LogHelper.h>
+#include <Logging.h>
+#include <MessageSystem/Message.h>
 #include <ComponentSystem_export.h>
 
 namespace UnknownEngine
@@ -53,11 +54,11 @@ namespace UnknownEngine
 				
 				ReceivedMessage* iter = createMessageSlot(MESSAGE_TYPE_ID(MessageClass::getTypeName()));
 
-				LOG_DEBUG(log_helper, "Found message slot - creating buffer");
+				LOG_DEBUG(logger, "Found message slot - creating buffer");
 
 				iter->message_buffer.reset(new BufferClass(std::forward<Args>(buffer_constructor_parameters)...));
 
-				LOG_DEBUG(log_helper, "Message buffer created");
+				LOG_DEBUG(logger, "Message buffer created");
 
 				return true;
 			}
@@ -78,9 +79,6 @@ namespace UnknownEngine
 			bool isRegisteredAtDispatcher();
 			
 		private:
-			COMPONENTSYSTEM_EXPORT
-			MessagingPoliciesManager& getMessagingPoliciesManager();
-			
 			typedef std::recursive_mutex LockPrimitive;
 			
 			struct ReceivedMessage
@@ -95,10 +93,9 @@ namespace UnknownEngine
 			Utils::IMessageBuffer *findMessageBuffer(const PackedMessage &msg);
 			
 			std::unordered_map<MessageType, ReceivedMessage > received_messages;
-			MessagingPoliciesManager messaging_policies_manager;
 			EngineContext* engine_context;
 			
-			std::unique_ptr<Utils::LogHelper> log_helper;
+			ILogger* logger;
 			
 			LockPrimitive lock_primitive;
 			

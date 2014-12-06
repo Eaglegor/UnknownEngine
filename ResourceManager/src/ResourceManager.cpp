@@ -7,7 +7,8 @@
 #include <ThreadPool.h>
 
 #define ENABLE_CORE_SUBSYSTEM_INFO_LOG
-#include <CoreLogging.h>
+#include <Logging.h>
+#include <EngineLogLevel.h>
 
 namespace UnknownEngine {
 	namespace Core {
@@ -17,13 +18,15 @@ namespace UnknownEngine {
 
 		ResourceManager::ResourceManager() :
 			internal_dictionary("ResourceManager.Dictionary", NUMERIC_IDENTIFIER_INITIAL_VALUE, INVALID_NUMERIC_IDENTIFIER),
-			thread_pool(ThreadPool::createInstance(2))
+			thread_pool(ThreadPool::createInstance(2)),
+			logger(CREATE_LOGGER("Core.ResourceManager", ENGINE_LOG_LEVEL))
 		{
 		}
 
 		ResourceManager::~ResourceManager()
 		{
 			ThreadPool::destroyInstance();
+			RELEASE_LOGGER(logger);
 		}
 		
 		void ResourceManager::addDataProviderFactory(Loader::IDataProviderFactory * factory)
@@ -64,7 +67,7 @@ namespace UnknownEngine {
 			{
 				if(factory.second->supportsType(data_provider->getType()))
 				{	
-					CORE_SUBSYSTEM_INFO ( "Destroying data provider  '" + data_provider->getName() + "'" );
+					LOG_INFO(logger, "Destroying data provider  '" + data_provider->getName() + "'" );
 					auto iter = std::find ( data_providers.begin(), data_providers.end(), data_provider );
 					if ( iter != data_providers.end() ) *iter = nullptr;
 					factory.second->destroyObject(data_provider);

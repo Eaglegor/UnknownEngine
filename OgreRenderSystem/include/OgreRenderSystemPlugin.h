@@ -17,11 +17,7 @@ namespace UnknownEngine
 	namespace Core
 	{
 		class EngineContext;
-	}
-	
-	namespace Utils
-	{
-		class LogHelper;
+		class ILogger;
 	}
 
 	namespace Graphics
@@ -60,7 +56,7 @@ namespace UnknownEngine
 				
 				std::unique_ptr<OgreMeshPtrDataProvidersFactory> mesh_ptr_data_providers_factory;
 
-				std::unique_ptr<Utils::LogHelper> log_helper;
+				Core::ILogger* logger;
 
 		};
 

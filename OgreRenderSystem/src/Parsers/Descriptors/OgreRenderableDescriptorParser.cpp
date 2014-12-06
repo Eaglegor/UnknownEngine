@@ -6,7 +6,7 @@
 #include <CommonParsers/QuaternionParser.h>
 #include <DataProvider/IDataProvider.h>
 #include <DataProviders/OgreMeshPtrProvider.h>
-#include <LogHelper.h>
+#include <Logging.h>
 #include <CommonParsers/LexicalCastForBoolAlpha.h>
 #include <CommonParsers/PropertiesParser.h>
 

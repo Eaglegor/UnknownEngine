@@ -7,9 +7,9 @@
 
 namespace UnknownEngine
 {
-	namespace Utils
+	namespace Core
 	{
-		class LogHelper;
+		class ILogger;
 	}
 
 	namespace IO
@@ -20,7 +20,7 @@ namespace UnknownEngine
 		class InputLayoutConfigParser
 		{
 		public:
-			InputLayoutConfigParser(InputContextMapper* context_mapper, Utils::LogHelper* log_helper);
+			InputLayoutConfigParser(InputContextMapper* context_mapper, Core::ILogger* logger);
 			
 			void processConfig(const std::string &filename);
 			void processConfig(std::istream& input_stream);
@@ -45,7 +45,7 @@ namespace UnknownEngine
 			
 			KeycodeParser keycode_parser;
 			InputContextMapper* context_mapper;
-			Utils::LogHelper* log_helper;
+			Core::ILogger* logger;
 		};
 	}
 }

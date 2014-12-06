@@ -18,6 +18,8 @@ namespace UnknownEngine
 	namespace Core
 	{
 
+		class ILogger;
+
 		class Plugin;
 		struct SubsystemDesc;
 		class EngineContext;
@@ -69,6 +71,7 @@ namespace UnknownEngine
 				EngineContext* engine_context; ///< %Engine context
 				std::list<Plugin*> plugins; ///< List of loaded plugins
 				std::list<void*> libraries_handlers; ///< List of loaded libraries handlers
+				ILogger* logger;
 		};
 
 #ifdef _MSC_VER

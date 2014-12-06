@@ -15,9 +15,9 @@
 #include <Objects/Entity.h>
 #include <MessageSystem/MessageDispatcher.h>
 
-#define ENABLE_CORE_SUBSYSTEM_ERROR_LOG
-#include <CoreLogging.h>
+#include <Logging.h>
 #include <NameGenerators/GuidNameGenerator.h>
+#include <EngineLogLevel.h>
 
 namespace UnknownEngine
 {
@@ -29,12 +29,14 @@ namespace UnknownEngine
 
 		ComponentsManager::ComponentsManager() :
 			internal_dictionary ( "ComponentsManager.Dictionary", NUMERIC_IDENTIFIER_INITIAL_VALUE, INVALID_NUMERIC_IDENTIFIER ),
-			name_generator(new Utils::GuidNameGenerator())
+			name_generator(new Utils::GuidNameGenerator()),
+			logger(CREATE_LOGGER("Core.ComponentsManager", ENGINE_LOG_LEVEL))
 		{
 		}
 
 		ComponentsManager::~ComponentsManager()
 		{
+			RELEASE_LOGGER(logger);
 		}
 
 		void ComponentsManager::addComponentFactory ( IComponentFactory* factory )
@@ -56,7 +58,7 @@ namespace UnknownEngine
 
 		Entity *ComponentsManager::createEntity ( const std::string &name )
 		{
-			CORE_SUBSYSTEM_INFO ( "Creating entity: " + name );
+			LOG_INFO(logger, "Creating entity: " + name );
 			Entity* entity = new Entity ( name, this );
 			entities.push_back ( entity );
 			return entity;
@@ -64,43 +66,51 @@ namespace UnknownEngine
 
 		IComponent* ComponentsManager::createComponent ( const ComponentDesc& desc ) 
 		{
-			CORE_SUBSYSTEM_INFO ( "Creating component: '" + desc.name + "' [" + desc.type + "]");
+			LOG_INFO(logger, "Creating component: '" + desc.name + "' [" + desc.type + "]");
 			for ( auto & factory : component_factories )
 			{
 				if ( factory.second->supportsType ( desc.type ) )
 				{
-					CORE_SUBSYSTEM_INFO ( "Found suitable factory : " + std::string(factory.second->getName()) );
+					LOG_INFO(logger, "Found suitable factory : " + std::string(factory.second->getName()) );
 					IComponent* component = factory.second->createObject ( desc );
 					if(component)
 					{
-						CORE_SUBSYSTEM_INFO ( "Component '" + desc.name + "' created" );
+						LOG_INFO(logger, "Component '" + desc.name + "' created" );
+
+						LOG_INFO(logger, "Registering messaging rules for component " + desc.name);
+						MessageDispatcher::getSingleton()->setListenerRules(desc.name, desc.listener_rules);
+						MessageDispatcher::getSingleton()->setSenderRules(desc.name, desc.sender_rules);
+						LOG_INFO(logger, "Messaging rules for component " + desc.name + " registered");
 					}
 					else
 					{
-						CORE_SUBSYSTEM_ERROR ( "Component '" + desc.name + "' was NOT created" );
+						LOG_ERROR (logger, "Component '" + desc.name + "' was NOT created" );
 					}
 					return component;
 				}
 			}
-			CORE_SUBSYSTEM_ERROR ( "Not found factory for component type: '" + desc.type + "'" );
-			throw NoSuitableFactoryFoundException ( "Can't find factory for component" );
+			LOG_ERROR (logger, "Not found factory for component type: '" + desc.type + "'" );
+			return nullptr;
+			//throw NoSuitableFactoryFoundException ( "Can't find factory for component" );
 		}
 
 		void ComponentsManager::removeComponent ( IComponent *component )
 		{
-			CORE_SUBSYSTEM_INFO ( "Destroying component '" + std::string(component->getName()) + "'" );
+			LOG_INFO(logger, "Destroying component '" + std::string(component->getName()) + "'" );
 			for ( auto & factory : component_factories )
 			{
 				if ( factory.second->supportsType ( component->getType() ) )
 				{
+					LOG_INFO(logger, "Unregistering messaging rules for component " + std::string(component->getName()));
 					MessageDispatcher::getSingleton()->clearListenerRules(MessageSystemParticipantId(component->getName()));
 					MessageDispatcher::getSingleton()->clearSenderRules(MessageSystemParticipantId(component->getName()));
-					
+					LOG_INFO(logger, "Messaging rules for component " + std::string(component->getName()) + " unregistered");
+
 					factory.second->destroyObject ( component );
 					return;
 				}
 			}
-			CORE_SUBSYSTEM_ERROR ( "No suitable factory found to destroy component '" + std::string(component->getName()) + "'" );
+			LOG_ERROR (logger, "No suitable factory found to destroy component '" + std::string(component->getName()) + "'" );
 			throw NoSuitableFactoryFoundException ( "Can't find factory able to destroy component" );
 		}
 
@@ -109,7 +119,7 @@ namespace UnknownEngine
 			if ( entity )
 			{
 				entity->removeAllComponents();
-				CORE_SUBSYSTEM_INFO ( "Destroying entity '" + entity->getName() + "'" );
+				LOG_INFO(logger, "Destroying entity '" + entity->getName() + "'" );
 				auto iter = std::find ( entities.begin(), entities.end(), entity );
 				if ( iter != entities.end() ) *iter = nullptr;
 				delete entity;

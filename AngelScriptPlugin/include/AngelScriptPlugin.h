@@ -12,11 +12,7 @@ namespace UnknownEngine
 	{
 		struct SubsystemDesc;
 		class EngineContext;
-	}
-	
-	namespace Utils
-	{
-		class LogHelper;
+		class ILogger;
 	}
 
 	namespace Behavior
@@ -40,7 +36,6 @@ namespace UnknownEngine
 			private:
 				Core::SubsystemDesc desc;
 				Core::EngineContext* engine_context;
-				std::unique_ptr<Utils::LogHelper> log_helper;
 				std::unique_ptr<AngelScriptSubsystem> angel_script_subsystem;
 				
 				std::unique_ptr<AngelScriptComponentFactory> angel_script_component_factory;

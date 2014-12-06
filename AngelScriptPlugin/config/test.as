@@ -21,9 +21,6 @@ class FirstState : State
 	
 	void processMessage(const Core::UpdateFrameMessage&in msg)
 	{
-		print("Creating new object");
-		
-		
 		Core::ResourceManager@ rm = engine_context.getResourceManager();
 	
 		Loader::DataProviderDesc dp_desc;
@@ -115,9 +112,7 @@ class FirstState : State
 		}
 		
 		entity.createComponent(desc);
-		
-		print("New object created");
-		
+
 		@current_state = second_state;
 	}
 }
