@@ -1,9 +1,12 @@
 #pragma once
 
+#include <LogManager_export.h>
+
 namespace UnknownEngine
 {
 	namespace Core
 	{
+		LOGMANAGER_EXPORT
 		enum class LogSeverity : int
 		{
 		    NONE = 0,

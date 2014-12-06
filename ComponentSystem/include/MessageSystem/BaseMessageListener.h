@@ -89,6 +89,7 @@ namespace UnknownEngine
 				ReceivedMessage(const ReceivedMessage& msg){}
 			};
 
+			COMPONENTSYSTEM_EXPORT
 			ReceivedMessage *createMessageSlot(const MessageType &message_type);
 			Utils::IMessageBuffer *findMessageBuffer(const PackedMessage &msg);
 			
