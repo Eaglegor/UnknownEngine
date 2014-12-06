@@ -10,7 +10,6 @@ namespace UnknownEngine
 	namespace Loader
 	{
 
-		/// Data provider implementation loading resources in the separate thread
 		class SeparateLoaderThreadDataProvider : public ReferencesCountingDataProvider
 		{
 			public:
@@ -20,7 +19,6 @@ namespace UnknownEngine
 				RESOURCEMANAGER_EXPORT
 				virtual ~SeparateLoaderThreadDataProvider();
 
-				/// Starts the loading thread
 				RESOURCEMANAGER_EXPORT
 				void startLoading() override;
 
@@ -29,8 +27,6 @@ namespace UnknownEngine
 				virtual const ResourceContainer& internalGetResource() override;
 
 			private:
-				
-				/// Worker method starter
 				void separateLoaderThreadFunc();
 
 		};

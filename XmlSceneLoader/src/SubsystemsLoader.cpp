@@ -1,10 +1,3 @@
-/*
- * SubsystemsParser.cpp
- *
- *  Created on: 22 июня 2014 г.
- *      Author: Eaglegor
- */
-
 #include <stdafx.h>
 
 #include <SubsystemsLoader.h>

@@ -1,10 +1,4 @@
 #pragma once
-/*
- * MessageDispatcher.h
- *
- *  Created on: 18 июня 2014 г.
- *      Author: gorbachenko
- */
 
 #include <MessageSystem_export.h>
 #include <unordered_map>
@@ -35,40 +29,6 @@ namespace UnknownEngine
 		class IMessageReceivePolicy;
 		class IMessageListener;
 		class PackedMessage;
-
-		/**
-
-		###Concept
-		Message dispatcher is responsible for delivering messages sent from subsystems/components.
-		It works with generalized \ref PackedMessage "packed messages". Listeners that will receive a
-		message are determined by a combination of policies (\ref IMessageReceivePolicy "receive policy"
-		for listeners and \ref IDeliveryPolicy "delivery policy" for senders).
-
-		###Usage
-		If some subsystem/component wants to receive messages it registers a \ref IMessageListener "message listener"
-		at the message dispatcher calling addListener() method. It can pass a \ref IMessageReceivePolicy "message receive policy"
-		to specify which messages it wants to receive (e.g. from specific sender or under specific circumstances).
-		If no policy is specified all messages of specified type are passed to a listener. Receive policy is saved
-		for each pair (Message type, Message listener), so if single listener is able to catch different message types,
-		it's receive policy may be different for each message type.
-
-		When an event occurs at some component/subsystem or this component/subsystem wants to send
-		a command to some \ref IMessageSystemParticipant "message system participant"
-		it creates a \ref PackedMessage "packed message" and calls deliverMessage() method. It can specify
-		listeners to which this message will be delivered providing \ref IMessageDeliveryPolicy "message delivery policy".
-		If no policy is specified, the message will be delivered to all listeners who has subscribed to messages of such type.
-
-		Some user code may want to register message listeners as sniffers.
-		Sniffers catch all messages from all senders without considering delivery policy and message type.
-		It may be useful for some debug purposes. You can still pass a receive policy to filter out unwanted message types.
-
-		###Notes
-		It isn't guaranteed that the message will be delivered instantly. It will be rather delivered "as soon as possible".
-		This is due to the possible multithreading. You may want to pass messages between different threads,
-		so instead simple callbacks we may want to create a message queue implementation in MessageDispatcher
-		and deliver messages in a loop when they come to us.
-
-		 */
 
 		class MessageDispatcher : public Singleton<MessageDispatcher>
 		{

@@ -1,12 +1,4 @@
-/*
- * ISceneLoader.h
- *
- *  Created on: 22 июня 2014 г.
- *      Author: Eaglegor
- */
-
-#ifndef ISCENELOADER_H_
-#define ISCENELOADER_H_
+#pragma once
 
 #include <InlineSpecification.h>
 
@@ -54,5 +46,3 @@ namespace UnknownEngine
 
 	} /* namespace Core */
 } /* namespace UnknownEngine */
-
-#endif /* ISCENELOADER_H_ */

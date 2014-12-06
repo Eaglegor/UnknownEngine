@@ -1,12 +1,5 @@
 #pragma once
 
-/*
- * IMessageReceivePolicy.h
- *
- *  Created on: 19 июня 2014 г.
- *      Author: Eaglegor
- */
-
 #include <MessageSystem_export.h>
 #include <MessageSystem/MessageReceivePolicyType.h>
 #include <InlineSpecification.h>

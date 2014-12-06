@@ -1,10 +1,3 @@
-/*
- * Singleton.h
- *
- *  Created on: 22 июня 2014 г.
- *      Author: Eaglegor
- */
-
 #pragma once
 
 #include <assert.h>
@@ -16,7 +9,6 @@ namespace UnknownEngine
 	namespace Core
 	{
 
-		/// Base for singleton classes
 		template<typename T, typename... CtorArgs>
 		class Singleton
 		{
@@ -28,10 +20,6 @@ namespace UnknownEngine
 					return instance;
 				}
 
-				/**
-				 * @brief get singleton instance
-				 * @return pointer to the instance
-				 */
 				static T* getSingleton()
 				{
 					return instance;

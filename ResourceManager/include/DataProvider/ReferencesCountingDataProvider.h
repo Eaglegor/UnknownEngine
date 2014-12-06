@@ -13,7 +13,6 @@ namespace UnknownEngine
 	namespace Loader
 	{
 
-		/// Implementation of data provider with references counter
 		class ReferencesCountingDataProvider : public IDataProvider
 		{
 			public:
@@ -22,19 +21,15 @@ namespace UnknownEngine
 
 				virtual ~ReferencesCountingDataProvider();
 				
-				/// Returns the loaded data
 				RESOURCEMANAGER_EXPORT
 				virtual const ResourceContainer& getResource() override;
 
-				/// Increases references counter
 				RESOURCEMANAGER_EXPORT
 				virtual void reserve() override;
 				
-				/// Decreases references counter
 				RESOURCEMANAGER_EXPORT
 				virtual void release() override;
 
-				/// Returns true if there are no references to this provider
 				RESOURCEMANAGER_EXPORT
 				virtual bool mayBeDestructed() const override;
 
@@ -45,10 +40,8 @@ namespace UnknownEngine
 				bool isLoadStarted();
 				bool isLoadFinished();
 				
-				/// Actual resource getter
 				virtual const ResourceContainer& internalGetResource() = 0;	
 
-				/// Waits until loading is finished
 				void waitUntilLoadFinished();
 				
 				virtual void internalLoad ( ResourceContainer &out_container ) = 0;
@@ -57,10 +50,8 @@ namespace UnknownEngine
 				ResourceContainer resource_container;
 				
 			private:
-				/// Increases the references counter
 				void increaseReferencesCounter();
 
-				/// Decreases the references counter
 				void decreaseReferencesCounter();
 				
 				volatile bool load_started;
@@ -70,7 +61,7 @@ namespace UnknownEngine
 				std::mutex loading_finished_mutex;
 				std::condition_variable wait_for_finish_var;
 				
-				volatile std::atomic<size_t> references_counter; ///< References counter
+				volatile std::atomic<size_t> references_counter;
 
 		};
 

@@ -1,10 +1,3 @@
-/*
- * PluginsManager.cpp
- *
- *  Created on: 17 июня 2014 г.
- *      Author: Eaglegor
- */
-
 #include <stdafx.h>
 
 #include <Plugins/Plugin.h>

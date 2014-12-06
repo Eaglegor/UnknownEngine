@@ -15,7 +15,6 @@ namespace UnknownEngine
 			RESOURCEMANAGER_EXPORT
 			virtual ~LazyLoadDataProvider();
 			
-			/// Does nothing. All loading is done in getResource()
 			RESOURCEMANAGER_EXPORT
 			virtual void startLoading() override{};
 			

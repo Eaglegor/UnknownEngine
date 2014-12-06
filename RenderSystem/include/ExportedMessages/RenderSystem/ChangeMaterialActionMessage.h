@@ -6,11 +6,6 @@ namespace UnknownEngine
 {
 	namespace Graphics
 	{
-
-		/**
-		 * @brief Command to change entity's material
-		 *
-		 */
 		struct ChangeMaterialActionMessage : public Core::Message
 		{
 			constexpr static const char* getTypeName(){return "Graphics.ChangeMaterialActionMessage";}

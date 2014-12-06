@@ -22,7 +22,6 @@ namespace UnknownEngine
 		class BaseOgreComponent : public Core::BaseComponent
 		{
 			public:
-				// Construction
 				BaseOgreComponent ( const std::string &name, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context );
 
 				void setMessageListener(std::unique_ptr<Core::BaseMessageListener> listener);

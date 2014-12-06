@@ -14,14 +14,6 @@ namespace UnknownEngine
 {
 	namespace IO
 	{
-
-		/**
-		* @brief Mouse button pressed message
-		*
-		* Indicates that the mouse button is pressed or released
-		*
-		*/
-
 		struct MouseButtonStateChangedMessage : public Core::Message
 		{
 			constexpr static const char* getTypeName(){return "IO.MouseButtonStateChanged";}

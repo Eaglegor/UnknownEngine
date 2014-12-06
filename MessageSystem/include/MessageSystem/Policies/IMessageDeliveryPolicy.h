@@ -1,12 +1,5 @@
 #pragma once
 
-/*
- * IMessageDeliveryPolicy.h
- *
- *  Created on: 18 июня 2014 г.
- *      Author: Eaglegor
- */
-
 #include <MessageSystem_export.h>
 #include <MessageSystem/MessageDeliveryPolicyType.h>
 #include <InlineSpecification.h>
@@ -21,12 +14,6 @@ namespace UnknownEngine
 		class IMessageDeliveryPolicy
 		{
 			public:
-
-				/**
-				 * @brief Determines if the message must be passed to the specified listener
-				 * @param listener - Listener to check for
-				 * @return true if message must be passed to the listener
-				 */
 				MESSAGESYSTEM_EXPORT
 				virtual bool allowDeliveryToListener ( const IMessageListener* listener ) const = 0;
 

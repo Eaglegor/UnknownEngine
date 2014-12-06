@@ -1,10 +1,3 @@
-/*
- * DirectX10RenderSystemPlugin.cpp
- *
- *  Created on: 17 июня 2014 г.
- *      Author: Eaglegor
- */
-
 #include <stdafx.h>
 
 #include <Plugins/PluginsManager.h>
@@ -37,13 +30,9 @@ namespace UnknownEngine
 			
 			LOG_INFO(logger, "Installing dummy plugin");
 
-			// Saving context for later use
-			// Right now we don't know if all needed subsystems are already installed
-			// That's why we do all init stuff in init() method
 			this->desc = desc;
 			engine_context = plugins_manager->getEngineContext();
 
-			// Exporting interface messages of out subsystem
 			LOG_INFO(logger, "Registering dummy message type stub");
 			engine_context->getMessageDictionary()->registerNewMessageType("DummySubsystem.Test.TestMessageType");
 

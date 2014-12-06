@@ -8,14 +8,6 @@ namespace UnknownEngine
 {
 	namespace IO
 	{
-
-		/**
-		 * @brief Key pressed message
-		 *
-		 * Indicates that the key is pressed
-		 * 
-		 */
-
 		struct KeyStateChangedMessage : public Core::Message
 		{
 			constexpr static const char* getTypeName(){return "IO.KeyStateChanged";}

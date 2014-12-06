@@ -1,10 +1,3 @@
-/*
- * ComponentsManager.cpp
- *
- *  Created on: 18 июня 2014 г.
- *      Author: gorbachenko
- */
-
 #include <stdafx.h>
 
 #include <ComponentsManager.h>
@@ -139,6 +132,6 @@ namespace UnknownEngine
 			return name_generator.get();
 		}
 		
-	} /* namespace Core */
-} /* namespace UnknownEngine */
+	}
+}
 

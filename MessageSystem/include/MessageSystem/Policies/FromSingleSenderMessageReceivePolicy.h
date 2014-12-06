@@ -1,12 +1,5 @@
 #pragma once
 
-/*
- * FromSingleSenderMessageReceivePolicy.h
- *
- *  Created on: 19 июня 2014 г.
- *      Author: Eaglegor
- */
-
 #include <string>
 #include <MessageSystem/Policies/IMessageReceivePolicy.h>
 #include <MessageSystem/Policies/MessagePolicyType.h>
@@ -19,26 +12,14 @@ namespace UnknownEngine
 
 		class IMessageSender;
 
-		/**
-		 * @brief \ref IMessageReceivePolicy "Receive policy" allowing only messages from specific sender to be processed
-		 */
 		class FromSingleSenderMessageReceivePolicy: public IMessageReceivePolicy
 		{
 			public:
-				/**
-				* @brief Constructor
-				* @param sender_info - Message sender info to compare with
-				*/
 				FromSingleSenderMessageReceivePolicy(const MessageSystemParticipantId &sender_info);
 				virtual ~FromSingleSenderMessageReceivePolicy();
 
 				virtual bool allowReceiveFromSender ( IMessageSender* message_sender ) const override;
-				
-				/**
-				 * @brief Returns true if message sender is equal to expected
-				 * @param msg - Message to analyze
-				 * @return true if message sender is equal to expected
-				 */
+
 				virtual bool acceptMessage ( const PackedMessage &msg ) override;
 
 				virtual MessageReceivePolicyType getType() const;
@@ -49,7 +30,7 @@ namespace UnknownEngine
 				}
 
 			private:
-				MessageSystemParticipantId sender_info; ///< Message sender info to compare with
+				MessageSystemParticipantId sender_info;
 		};
 
 	} /* namespace Core */

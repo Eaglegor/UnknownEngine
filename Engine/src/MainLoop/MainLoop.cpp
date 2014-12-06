@@ -1,10 +1,3 @@
-/*
- * MainLoop.cpp
- *
- *  Created on: 17 июня 2014 г.
- *      Author: gorbachenko
- */
-
 #include <stdafx.h>
 
 #include <MainLoop/MainLoop.h>

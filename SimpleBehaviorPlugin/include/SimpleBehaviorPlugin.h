@@ -1,12 +1,5 @@
 #pragma once
 
-/*
- * DirectX10RenderSystemPlugin.h
- *
- *  Created on: 17 июня 2014 г.
- *      Author: Eaglegor
- */
-
 #include <InlineSpecification.h>
 #include <Plugins/Plugin.h>
 #include <SubsystemDesc.h>

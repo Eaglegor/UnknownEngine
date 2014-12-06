@@ -1,10 +1,3 @@
-/*
- * SingleReceiverMessageDeliverPolicy.cpp
- *
- *  Created on: 18 июня 2014 г.
- *      Author: Eaglegor
- */
-
 #include <stdafx.h>
 
 #include <MessageSystem/IMessageListener.h>

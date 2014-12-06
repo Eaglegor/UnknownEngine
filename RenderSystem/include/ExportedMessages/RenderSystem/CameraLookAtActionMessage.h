@@ -7,11 +7,6 @@ namespace UnknownEngine
 {
 	namespace Graphics
 	{
-
-		/**
-		 * @brief Command for camera to look at some position
-		 *
-		 */
 		struct CameraLookAtActionMessage : public Core::Message
 		{
 			constexpr static const char* getTypeName(){return "Graphics.CameraLookAtActionMessage";}

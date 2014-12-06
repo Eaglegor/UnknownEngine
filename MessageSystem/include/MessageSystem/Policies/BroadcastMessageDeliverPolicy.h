@@ -8,17 +8,9 @@ namespace UnknownEngine
 	namespace Core
 	{
 
-		/**
-		 * @brief \ref IMessageDeliveryPolicy "Delivery policy" allowing message delivery to all listeners
-		 */
 		class BroadcastMessageDeliverPolicy : public IMessageDeliveryPolicy
 		{
 			public:
-				/**
-				 * @brief Always returns true
-				 * @param listener - Listener to check for
-				 * @return true
-				 */
 				virtual bool allowDeliveryToListener ( const IMessageListener* listener ) const override;
 
 				virtual MessageDeliveryPolicyType getType() const;

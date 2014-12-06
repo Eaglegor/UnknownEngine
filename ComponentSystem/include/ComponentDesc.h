@@ -17,15 +17,12 @@ namespace UnknownEngine
 	{
 		class Entity;
 
-		/**
-		 * @brief Descriptor of component to be passed to the component factory.
-		 */
 		struct ComponentDesc
 		{
-			std::string name; ///< Local name of component in the entity
-			ComponentType type; ///< Type identifier of component
+			std::string name;
+			ComponentType type;
 			boost::variant<DescriptorContainer, Properties> descriptor;
-			ReceivedMessageDescriptorsList received_messages; ///< Descriptor of received messages
+			ReceivedMessageDescriptorsList received_messages;
 			MessageListenerRules listener_rules;
 			MessageSenderRules sender_rules;
 		};

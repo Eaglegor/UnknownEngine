@@ -11,11 +11,10 @@ namespace UnknownEngine
 {
 	namespace Loader
 	{
-		/// Descriptor of data provider to be created by the factory
 		struct DataProviderDesc
 		{
-			std::string name; ///< Data provider name
-			DataProviderType type; ///< Data provider type
+			std::string name;
+			DataProviderType type;
 			boost::variant<Core::DescriptorContainer, Core::Properties> descriptor;
 		};
 

@@ -1,10 +1,3 @@
-/*
- * FromSingleSenderMessageReceivePolicy.cpp
- *
- *  Created on: 19 июня 2014 г.
- *      Author: Eaglegor
- */
-
 #include <stdafx.h>
 
 #include <MessageSystem/PackedMessage.h>
