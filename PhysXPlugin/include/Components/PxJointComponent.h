@@ -3,6 +3,7 @@
 #include <memory>
 #include <Objects/BaseComponent.h>
 #include <LogSeverity.h>
+#include <LogHelper.h>
 
 namespace physx
 {
@@ -18,11 +19,6 @@ namespace UnknownEngine
 		class EngineContext;
 	}
 
-	namespace Utils
-	{
-		class LogHelper;
-	}
-	
 	namespace Physics
 	{
 
@@ -43,8 +39,7 @@ namespace UnknownEngine
 			physx::PxRigidActor* actor2;
 			Core::EngineContext* engine_context;
 			
-			std::unique_ptr<Utils::LogHelper> log_helper;
-
+			Core::LogHelper logger;
 		};
 	}
 }

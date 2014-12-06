@@ -27,6 +27,8 @@ namespace UnknownEngine
 {
 	namespace Core
 	{
+
+		class ILogger;
 		class IMessageSender;
 
 		class IMessageDeliveryPolicy;
@@ -175,6 +177,8 @@ namespace UnknownEngine
 				
 				typedef std::mutex LockPrimitive;
 				LockPrimitive lock;
+				
+				ILogger* logger;
 		};
 
 #ifdef _MSC_VER

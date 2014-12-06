@@ -7,7 +7,7 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/foreach.hpp>
-#include <LogHelper.h>
+#include <Logging.h>
 
 namespace UnknownEngine 
 {
@@ -16,15 +16,15 @@ namespace UnknownEngine
 		
 		using namespace boost::property_tree;
 		
-		ActionSlotsConfigParser::ActionSlotsConfigParser ( InputContextMapper* context_mapper, Utils::LogHelper* log_helper ):
+		ActionSlotsConfigParser::ActionSlotsConfigParser ( InputContextMapper* context_mapper, Core::ILogger* logger ):
 		context_mapper(context_mapper),
-		log_helper(log_helper)
+		logger(logger)
 		{
 		}
 		
 		void ActionSlotsConfigParser::processConfig ( const std::string& filename)
 		{
-			LOG_INFO(log_helper, "Processing action slots config file: " + filename);
+			LOG_INFO(logger, "Processing action slots config file: " + filename);
 			std::ifstream file(filename, std::ifstream::in);
 			processConfig(file);
 		}
@@ -33,12 +33,12 @@ namespace UnknownEngine
 		{
 			ptree props;
 			
-			LOG_INFO(log_helper, "Parsing xml");
+			LOG_INFO(logger, "Parsing xml");
 			read_xml(input_stream, props);
 			
 			boost::optional<ptree&> root = props.get_child_optional("contexts");
 			if(!root) {
-				LOG_ERROR(log_helper, "Invalid file format - <contexts> root tag not found");
+				LOG_ERROR(logger, "Invalid file format - <contexts> root tag not found");
 				throw InvalidActionSlotsConfigFileFormat("No 'contexts' tag found");
 			}
 			
@@ -55,14 +55,14 @@ namespace UnknownEngine
 		void ActionSlotsConfigParser::processContext ( const ptree& node )
 		{
 			std::string name = node.get<std::string>("<xmlattr>.name");
-			LOG_INFO(log_helper, "Processing input context: " + name);
+			LOG_INFO(logger, "Processing input context: " + name);
 			
 			InputContext* context = context_mapper->createContext(name);
 			
 			boost::optional<const ptree&> root = node.get_child_optional("action_slots");
 			if(!root)
 			{
-				LOG_ERROR(log_helper, "Invalid file format: <action_slots> list not found inside the <context> node");
+				LOG_ERROR(logger, "Invalid file format: <action_slots> list not found inside the <context> node");
 				throw InvalidActionSlotsConfigFileFormat("No 'action_slots' tag found inside context node");
 			}
 			
@@ -80,11 +80,11 @@ namespace UnknownEngine
 			std::string name = node.get<std::string>("<xmlattr>.name");
 			std::string event_type = node.get<std::string>("<xmlattr>.event");
 			
-			LOG_INFO(log_helper, "Processing action slot: " + name);
+			LOG_INFO(logger, "Processing action slot: " + name);
 			
 			if(event_type == "Simple")
 			{
-				LOG_DEBUG(log_helper, "Action slot is a simple action slot");
+				LOG_DEBUG(logger, "Action slot is a simple action slot");
 				std::string event_condition = node.get<std::string>("<xmlattr>.condition");
 				SimpleActionSlot::ConditionType condition_type;
 				if(event_condition == "EventStarted") condition_type = SimpleActionSlot::ConditionType::EVENT_STARTED;
@@ -94,7 +94,7 @@ namespace UnknownEngine
 			}
 			else if(event_type == "Range")
 			{
-				LOG_DEBUG(log_helper, "Action slot is a range action slot");
+				LOG_DEBUG(logger, "Action slot is a range action slot");
 				input_context->createRangeActionSlot(name);
 			}
 		}

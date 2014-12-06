@@ -7,13 +7,9 @@ namespace UnknownEngine
 	namespace Core
 	{
 		class EngineContext;
+		class ILogger;
 	}
 
-	namespace Utils
-	{
-		class LogHelper;
-	}
-	
 	namespace Graphics
 	{
 		
@@ -23,14 +19,14 @@ namespace UnknownEngine
 		{
 			public:
 
-				BaseOgreComponentFactory ( OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context, Utils::LogHelper* log_helper );
+				BaseOgreComponentFactory ( OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context, Core::ILogger* logger );
 				~BaseOgreComponentFactory ();
 
 				virtual void destroyObject ( Core::IComponent* object ) override;
 					
 			protected:
 				OgreRenderSubsystem* render_subsystem;
-				Utils::LogHelper* log_helper;
+				Core::ILogger* logger;
 				Core::EngineContext* engine_context;
 		};
 	}

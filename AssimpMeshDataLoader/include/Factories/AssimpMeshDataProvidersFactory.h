@@ -6,27 +6,23 @@ namespace UnknownEngine
 	namespace Core
 	{
 		class EngineContext;
+		class ILogger;
 	}
 
-	namespace Utils
-	{
-		class LogHelper;
-	}
-	
 	namespace Loader
 	{
 		class AssimpMeshDataProvidersFactory : public BaseDataProviderFactory
 		{
 		public:
 			
-			AssimpMeshDataProvidersFactory(Utils::LogHelper* log_helper, Core::EngineContext* engine_context);
+			AssimpMeshDataProvidersFactory(Core::ILogger* logger, Core::EngineContext* engine_context);
 
 			virtual const char* getName() const override;
 			
 		private:
 			IDataProvider* createAssimpMeshDataLoader( const DataProviderDesc& desc );
 			
-			Utils::LogHelper* log_helper;
+			Core::ILogger* logger;
 			Core::EngineContext* engine_context;
 		};
 		

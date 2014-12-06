@@ -20,11 +20,7 @@ namespace UnknownEngine
 	{
 		class BaseMessageListener;
 		struct TransformChangedMessage;
-	}
-
-	namespace Utils
-	{
-		class LogHelper;
+		class ILogger;
 	}
 
 	namespace Physics
@@ -71,7 +67,7 @@ namespace UnknownEngine
 
 			Core::EngineContext* engine_context;
 
-			std::unique_ptr<Utils::LogHelper> log_helper;
+			Core::ILogger* logger;
 		};
 	}
 }

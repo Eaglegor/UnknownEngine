@@ -19,11 +19,7 @@ namespace UnknownEngine
         class EngineContext;
         class BaseMessageListener;
 		struct UpdateFrameMessage;
-    }
-    
-    namespace Utils
-    {
-		class LogHelper;
+		class ILogger;
     }
 
     namespace IO
@@ -43,7 +39,7 @@ namespace UnknownEngine
 			UNKNOWNENGINE_SIMPLE_EXCEPTION(InputContextNotFoundException);
 			UNKNOWNENGINE_SIMPLE_EXCEPTION(ActionSlotNotFoundException);
 			
-            InputContextMapper(const InputContextMapperDescriptor& desc, const InputContextMapperCreationOptions& creation_options, Utils::LogHelper *log_helper);
+            InputContextMapper(const InputContextMapperDescriptor& desc, const InputContextMapperCreationOptions& creation_options, Core::ILogger *logger);
 			virtual ~InputContextMapper();
 
 			InputContext* createContext(const std::string &name);
@@ -71,7 +67,7 @@ namespace UnknownEngine
 			
 			std::unordered_map<std::string, InputContext> contexts;
 			
-			Utils::LogHelper* log_helper;
+			Core::ILogger* logger;
 			
         };
     }

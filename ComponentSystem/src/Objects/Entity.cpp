@@ -12,8 +12,8 @@
 #include <Objects/IComponent.h>
 #include <ComponentDesc.h>
 
-//#define ENABLE_CORE_SUBSYSTEM_INFO_LOG
-#include <CoreLogging.h>
+#include <Logging.h>
+#include <EngineLogLevel.h>
 
 namespace UnknownEngine
 {
@@ -22,19 +22,20 @@ namespace UnknownEngine
 
 		Entity::Entity ( const std::string &name, ComponentsManager* components_manager ) :
 			name ( name ),
-			components_manager ( components_manager )
+			components_manager ( components_manager ),
+			logger(CREATE_LOGGER(std::string("(Entity) ") + name.c_str(), ENGINE_LOG_LEVEL))
 		{
 		}
 
 		Entity::~Entity ()
 		{
-			
+			RELEASE_LOGGER(logger);
 		}
 
 		IComponent* Entity::createComponent ( const ComponentDesc& desc )
 		{
 			if ( components.find ( desc.name ) != components.end() ) throw DuplicateComponentNameException ( "Component already created: " + std::string(desc.name) + " (Entity: " + getName() +")" );
-			CORE_SUBSYSTEM_INFO ( "Initializing component '" + desc.name + "'" );
+			LOG_INFO(logger, "Creating component '" + desc.name + "'" );
 			IComponent* component = components_manager->createComponent(desc);
 			component->init ( this );
 			components.emplace(desc.name, component);

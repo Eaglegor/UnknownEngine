@@ -3,18 +3,6 @@
 	<constant name="global_log_level" value="none"/>
 
 	<subsystems>
-		<subsystem name="Logger" module="ConsoleLogger">
-			
-			<messaging_rules>
-				<listener>
-					<message type="Utils.LogMessage">
-						<receive_policy type="Any"/>
-					</message>
-				</listener>
-			</messaging_rules>
-
-		</subsystem>
-		
 		<subsystem name="WindowManager" module="SDLWindowManagerPlugin">
 			
 			<messaging_rules>

@@ -5,7 +5,7 @@ using std::isfinite;
 
 #include <PxPhysicsAPI.h>
 #include <PxScene.h>
-#include <LogHelper.h>
+#include <Logging.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 #include <pxtask/PxCudaContextManager.h>
 #include <Components/PxRigidBodyComponent.h>
@@ -20,10 +20,10 @@ namespace UnknownEngine
 {
 	namespace Physics
 	{
-		PhysXSubsystem::PhysXSubsystem ( const PhysXSubsystemDesc& desc, Core::EngineContext* engine_context, Utils::LogHelper* log_helper ) :
+		PhysXSubsystem::PhysXSubsystem ( const PhysXSubsystemDesc& desc, Core::EngineContext* engine_context, Core::ILogger* logger ) :
 			is_initialized ( false ),
 			engine_context ( engine_context ),
-			log_helper ( log_helper ),
+			logger ( logger ),
 			px_foundation ( nullptr ),
 			px_physics ( nullptr ),
 			px_scene ( nullptr ),
@@ -38,23 +38,23 @@ namespace UnknownEngine
 		void PhysXSubsystem::init()
 		{
 			
-			physx_logger.reset(new PhysXErrorCallback(log_helper));
+			physx_logger.reset(new PhysXErrorCallback(logger));
 			
 			px_foundation = PxCreateFoundation ( PX_PHYSICS_VERSION, gDefaultAllocatorCallback, *physx_logger );
 			if ( px_foundation == nullptr )
 			{
-				LOG_ERROR ( log_helper, "Failed to create PxFoundation object. PhysX not initialized" );
+				LOG_ERROR ( logger, "Failed to create PxFoundation object. PhysX not initialized" );
 			}
 			else
 			{
-				LOG_INFO ( log_helper, "PxFoundation initialized" );
+				LOG_INFO ( logger, "PxFoundation initialized" );
 				
 				if(desc.enable_profiling)
 				{
 					px_profile_zone_manager = &physx::PxProfileZoneManager::createProfileZoneManager ( px_foundation );
 					if ( px_profile_zone_manager == nullptr )
 					{
-						LOG_ERROR ( log_helper, "Failed to create PxProfileZoneManager. Profiling not enabled" );
+						LOG_ERROR ( logger, "Failed to create PxProfileZoneManager. Profiling not enabled" );
 					}
 				}
 				
@@ -66,11 +66,11 @@ namespace UnknownEngine
 				px_physics = PxCreatePhysics ( PX_PHYSICS_VERSION, *px_foundation, tolerance_scale, desc.track_outstanding_allocations, px_profile_zone_manager );
 				if ( px_physics == nullptr )
 				{
-					LOG_ERROR ( log_helper, "Failed to initialize PxPhysics class. PhysX not initialized" );
+					LOG_ERROR ( logger, "Failed to initialize PxPhysics class. PhysX not initialized" );
 				}
 				else
 				{
-					LOG_INFO ( log_helper, "PxPhysics initialized" );
+					LOG_INFO ( logger, "PxPhysics initialized" );
 					physx::PxSceneDesc scene_desc ( px_physics->getTolerancesScale() );
 					scene_desc.gravity = PxVec3Converter::toPxVec3(desc.gravity);
 
@@ -78,11 +78,11 @@ namespace UnknownEngine
 
 					if ( px_cpu_dispatcher == nullptr )
 					{
-						LOG_ERROR ( log_helper, "Failed to create CPU dispatcher. PhysX not initialized" );
+						LOG_ERROR ( logger, "Failed to create CPU dispatcher. PhysX not initialized" );
 					}
 					else
 					{
-						LOG_INFO ( log_helper, "CPU dispatcher initialized" );
+						LOG_INFO ( logger, "CPU dispatcher initialized" );
 						scene_desc.cpuDispatcher = px_cpu_dispatcher;
 						scene_desc.filterShader = default_simulation_filter_shader;
 
@@ -93,18 +93,18 @@ namespace UnknownEngine
 
 							if ( px_cuda_context_manager == nullptr )
 							{
-								LOG_ERROR ( log_helper, "Failed to create cuda context manager. GPU support is off" );
+								LOG_ERROR ( logger, "Failed to create cuda context manager. GPU support is off" );
 							}
 							else
 							{
 								px_gpu_dispatcher = px_cuda_context_manager->getGpuDispatcher();
 								if (!px_gpu_dispatcher)
 								{
-									LOG_ERROR(log_helper, "Failed to get GPU dispatcher. GPU support is off");
+									LOG_ERROR(logger, "Failed to get GPU dispatcher. GPU support is off");
 								}
 								else
 								{
-									LOG_INFO(log_helper, "GPU dispatcher initialized");
+									LOG_INFO(logger, "GPU dispatcher initialized");
 									scene_desc.gpuDispatcher = px_gpu_dispatcher;
 								}
 							}
@@ -114,11 +114,11 @@ namespace UnknownEngine
 
 						if ( px_scene == nullptr )
 						{
-							LOG_ERROR ( log_helper, "Failed to create PxScene. PhysX not initialized" );
+							LOG_ERROR ( logger, "Failed to create PxScene. PhysX not initialized" );
 						}
 						else
 						{
-							LOG_INFO ( log_helper, "Scene created" );
+							LOG_INFO ( logger, "Scene created" );
 							is_initialized = true;
 						}
 
@@ -177,7 +177,7 @@ namespace UnknownEngine
 		{
 			auto iter = rigid_body_components.find(name);
 			if (iter == rigid_body_components.end()) {
-				LOG_ERROR(log_helper, "Find request for rigid body component '" + name + "' but it doesn't exist");
+				LOG_ERROR(logger, "Find request for rigid body component '" + name + "' but it doesn't exist");
 				return nullptr;
 			}
 			return iter->second;

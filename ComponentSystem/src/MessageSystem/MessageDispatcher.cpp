@@ -20,7 +20,8 @@
 #include <MessageSystem/MessageDeliveryPolicyDesc.h>
 
 #define ENABLE_CORE_SUBSYSTEM_ERROR_LOG
-#include <CoreLogging.h>
+#include <Logging.h>
+#include <EngineLogLevel.h>
 
 namespace UnknownEngine
 {
@@ -30,12 +31,14 @@ namespace UnknownEngine
 		template<>
 		MessageDispatcher* Singleton<MessageDispatcher>::instance = nullptr;
 
-		MessageDispatcher::MessageDispatcher ()
+		MessageDispatcher::MessageDispatcher ():
+		logger(CREATE_LOGGER("Core.Engine", ENGINE_LOG_LEVEL))
 		{
 		}
 
 		MessageDispatcher::~MessageDispatcher ()
 		{
+			RELEASE_LOGGER(logger);
 		}
 
 		void MessageDispatcher::addListener ( const MessageType& message_type, IMessageListener* listener, const MessageListenerRule& listener_rule )
@@ -53,13 +56,13 @@ namespace UnknownEngine
 				ListenerRules* rules = getListenerRules ( listener->getMessageSystemParticipantId() );
 				if ( !rules )
 				{
-					CORE_SUBSYSTEM_DEBUG ( "!!! Not registering listener " + listener->getName() + " because there it wasn't explicitly allowed to receive messages" );
+					LOG_DEBUG( logger, "!!! Not registering listener " + listener->getName() + " because there it wasn't explicitly allowed to receive messages" );
 					return;
 				}
 				auto iter = rules->messages.find ( message_type );
 				if ( iter == rules->messages.end() )
 				{
-					CORE_SUBSYSTEM_DEBUG ( "!!! Not registering listener " + listener->getName() + " because there is no permissive rule for message type " + MESSAGE_TYPE_NAME ( message_type ) );
+					LOG_DEBUG( logger, "!!! Not registering listener " + listener->getName() + " because there is no permissive rule for message type " + MESSAGE_TYPE_NAME ( message_type ) );
 					return;
 				}
 				r_policy = iter->second;
@@ -83,7 +86,7 @@ namespace UnknownEngine
 		void MessageDispatcher::removeListener ( IMessageListener* listener )
 		{
 			std::lock_guard<LockPrimitive> guard ( lock );
-			CORE_SUBSYSTEM_DEBUG ( "Removing listener" + listener->getName() );
+			LOG_DEBUG( logger, "Removing listener" + listener->getName() );
 			onRemoveListener ( listener );
 
 			for ( auto & message_type_iter : listeners )
@@ -106,13 +109,13 @@ namespace UnknownEngine
 			{
 				SenderRules* rules = getSenderRules(sender->getMessageSystemParticipantId());
 				if(!rules) {
-					CORE_SUBSYSTEM_DEBUG ( "!!! Not registering sender " + sender->getName() + " because there it wasn't explicitly allowed to send messages" );
+					LOG_DEBUG( logger, "!!! Not registering sender " + sender->getName() + " because there it wasn't explicitly allowed to send messages" );
 					return;
 				}
 				auto iter = rules->messages.find(message_type);
 				if(iter == rules->messages.end()) 
 				{
-					CORE_SUBSYSTEM_DEBUG ( "!!! Not registering sender " + sender->getName() + " because there it wasn't explicitly allowed to send messages of type " + MESSAGE_TYPE_NAME(message_type) );
+					LOG_DEBUG( logger, "!!! Not registering sender " + sender->getName() + " because there it wasn't explicitly allowed to send messages of type " + MESSAGE_TYPE_NAME(message_type) );
 					return;
 				}
 				d_policy = iter->second;
@@ -138,7 +141,7 @@ namespace UnknownEngine
 			std::lock_guard<LockPrimitive> guard ( lock );
 			onRemoveSender ( sender );
 
-			CORE_SUBSYSTEM_DEBUG ( "Removing sender" + sender->getName() );
+			LOG_DEBUG( logger, "Removing sender" + sender->getName() );
 
 			for ( auto & message_type_iter : senders )
 			{

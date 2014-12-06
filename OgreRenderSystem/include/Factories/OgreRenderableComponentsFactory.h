@@ -8,13 +8,9 @@ namespace UnknownEngine
 	namespace Core
 	{
 		class EngineContext;
+		class ILogger;
 	}
 
-	namespace Utils
-	{
-		class LogHelper;
-	}
-	
 	namespace Graphics
 	{
 
@@ -23,7 +19,7 @@ namespace UnknownEngine
 		class OgreRenderableComponentsFactory: public BaseOgreComponentFactory
 		{
 			public:
-				OgreRenderableComponentsFactory ( OgreRenderSubsystem* render_system, Core::EngineContext *engine_context, Utils::LogHelper* log_helper = nullptr );
+				OgreRenderableComponentsFactory ( OgreRenderSubsystem* render_system, Core::EngineContext *engine_context, Core::ILogger* logger = nullptr );
 
 				virtual const char* getName() const override;
 		};

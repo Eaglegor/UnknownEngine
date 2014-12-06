@@ -9,7 +9,7 @@
 #include <CommonParsers/LexicalCastForBoolAlpha.h>
 #include <CommonParsers/Vector3Parser.h>
 #include <Descriptors/PhysXSubsystemDesc.h>
-#include <LogHelper.h>
+#include <Logging.h>
 
 namespace UnknownEngine
 {

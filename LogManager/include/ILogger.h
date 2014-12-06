@@ -1,4 +1,6 @@
 #pragma once
+#include <LogSeverity.h>
+#include <ILogRecord.h>
 
 namespace UnknownEngine
 {
@@ -7,7 +9,7 @@ namespace UnknownEngine
 		class ILogger
 		{
 		public:
-			virtual ILogger& operator<<(const char* text) = 0;
+			virtual void log(const ILogRecord& log_record) = 0;
 			virtual const char* getName() const = 0;
 			virtual ~ILogger(){}
 		};

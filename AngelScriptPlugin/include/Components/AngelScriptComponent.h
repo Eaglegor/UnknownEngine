@@ -9,9 +9,9 @@
 namespace UnknownEngine
 {
 	
-	namespace Utils
+	namespace Core
 	{
-		class LogHelper;
+		class ILogger;
 	}
 	
 	namespace Behavior
@@ -32,7 +32,7 @@ namespace UnknownEngine
 			
 			static const Core::ComponentType TYPE;
 		private:
-			std::unique_ptr<Utils::LogHelper> log_helper;
+			Core::ILogger* logger;
 			AngelScriptComponentDesc desc;
 			Core::EngineContext* engine_context;
 			asIScriptModule* module;

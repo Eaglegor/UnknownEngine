@@ -8,7 +8,7 @@
 #include <OgreRoot.h>
 #include <OgreSceneManager.h>
 #include <boost/lexical_cast.hpp>
-#include <LogHelper.h>
+#include <Logging.h>
 
 namespace UnknownEngine
 {
@@ -19,15 +19,18 @@ namespace UnknownEngine
 			: OgreMeshPtrProvider ( name ),
 			  mesh_data_provider ( descriptor.mesh_data_provider ),
 			  render_subsystem(render_subsystem),
-			  log_helper(nullptr)
+			  logger(nullptr)
 		{
 			mesh_data_provider->reserve();
-			if(descriptor.log_level > Utils::LogSeverity::NONE)
-			{
-				log_helper.reset( new Utils::LogHelper(getName(), descriptor.log_level, engine_context) );
-			}
+			
+			logger = CREATE_LOGGER(getName(), descriptor.log_level);
 		}
 
+		OgreMeshPtrFromMeshDataProvider::~OgreMeshPtrFromMeshDataProvider()
+		{
+			RELEASE_LOGGER(logger);
+		}
+		
 		void OgreMeshPtrFromMeshDataProvider::internalLoad ( Loader::ResourceContainer& out_container )
 		{
 			Ogre::ManualObject* manual_object = render_subsystem->getSceneManager()->createManualObject(getName()+".TempObject");

@@ -16,7 +16,7 @@
 #include <MessageSystem/MessageDictionary.h>
 #include <ComponentsManager.h>
 #include <EngineContext.h>
-#include <LogHelper.h>
+#include <Logging.h>
 
 namespace UnknownEngine
 {
@@ -66,7 +66,6 @@ namespace UnknownEngine
 		bool AngelScriptPlugin::uninstall () 
 		{
 			angel_script_subsystem.reset();
-			log_helper.reset();
 			return true;
 		}
 

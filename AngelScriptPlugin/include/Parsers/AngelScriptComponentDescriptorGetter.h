@@ -5,7 +5,7 @@
 #include <Exception.h>
 #include <Properties/Properties_fwd.h>
 #include <CommonParsers/PropertiesParser.h>
-#include <LogHelper.h>
+#include <Logging.h>
 
 namespace UnknownEngine
 {

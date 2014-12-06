@@ -6,7 +6,7 @@
 #include <Converters/PxTransformConverter.h>
 #include <DataProviders/PxShapeDataProvider.h>
 
-#include <LogHelper.h>
+#include <Logging.h>
 
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <MessageSystem/BaseMessageListener.h>

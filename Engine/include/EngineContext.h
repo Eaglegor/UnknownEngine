@@ -8,6 +8,8 @@ namespace UnknownEngine
 
 	namespace Core
 	{
+
+		class LogManager;
 		class ComponentsManager;
 		class MessageDictionary;
 		class MessageDispatcher;
@@ -62,6 +64,12 @@ namespace UnknownEngine
 					return messaging_policies_manager;
 				}
 				
+				UNKNOWNENGINE_INLINE
+				LogManager* getLogManager()
+				{
+					return log_manager;
+				}
+				
 			private:
 				friend class Engine;
 
@@ -72,6 +80,7 @@ namespace UnknownEngine
 				/// Message system participant dictionary (address book)
 				MessageSystemParticipantDictionary* message_system_participant_dictionary;
 				MessagingPoliciesManager* messaging_policies_manager;
+				LogManager* log_manager;
 		};
 
 	} // namespace Core

@@ -1,10 +1,10 @@
 #pragma once
 
 #include <Engine_export.h>
-#include <Engine.h>
 #include <MessageSystem/IMessageSystemParticipant.h>
 #include <Exception.h>
 #include <EngineContext.h>
+#include <memory>
 
 namespace UnknownEngine
 {
@@ -16,6 +16,10 @@ namespace UnknownEngine
 
 	namespace Core
 	{
+
+		class ConsoleLoggingSubsystem;
+
+		class ILogger;
 
 		class PluginsManager;
 
@@ -135,6 +139,8 @@ namespace UnknownEngine
 				MessageSystemParticipantId message_system_participant_id;
 				PluginsManager* plugins_manager; ///< Plugins manager instance. Isn't a part of context
 				EngineContext context; ///< Engine context
+				std::unique_ptr<ConsoleLoggingSubsystem> console_logging_subsystem;
+				ILogger* logger = nullptr;
 		};
 
 	} /* namespace Core */

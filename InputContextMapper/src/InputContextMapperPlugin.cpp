@@ -4,7 +4,8 @@
 #include <InputContextMapperDescriptorGetter.h>
 #include <ExportedMessages/InputContext/AddSimpleActionMessage.h>
 #include <ExportedMessages/InputContext/AddRangeActionMessage.h>
-#include <LogHelper.h>
+#include <Logging.h>
+#include <MessageSystem/MessageDictionary.h>
 
 namespace UnknownEngine
 {
@@ -30,24 +31,21 @@ namespace UnknownEngine
             InputContextMapperDescriptorGetter descriptor_getter;
             InputContextMapperDescriptor mapper_descriptor = desc.descriptor.apply_visitor(descriptor_getter);
 
-			if (mapper_descriptor.log_level > Utils::LogSeverity::NONE)
-			{
-				log_helper.reset(new Utils::LogHelper(std::string(getName()), mapper_descriptor.log_level, engine_context));
-			}
+			logger = CREATE_LOGGER(getName(), mapper_descriptor.log_level);
 
             InputContextMapperCreationOptions creation_options;
-            creation_options.log_helper = log_helper.get();
+            creation_options.logger = logger;
             creation_options.engine_context = engine_context;
             creation_options.name = std::string(getName());
 
-            context_mapper.reset( new InputContextMapper(mapper_descriptor, creation_options, log_helper.get()) );
+            context_mapper.reset( new InputContextMapper(mapper_descriptor, creation_options, logger) );
 
             return true;
         }
 
         bool InputContextMapperPlugin::shutdown() {
             context_mapper.reset();
-            log_helper.reset();
+            RELEASE_LOGGER(logger);
             return true;
         }
 

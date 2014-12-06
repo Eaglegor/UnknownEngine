@@ -10,7 +10,7 @@
 #include <boost/algorithm/string/classification.hpp>
 #include <boost/lexical_cast.hpp>
 #include <vector>
-#include <LogHelper.h>
+#include <Logging.h>
 
 namespace UnknownEngine 
 {
@@ -19,15 +19,15 @@ namespace UnknownEngine
 		
 		using namespace boost::property_tree;
 		
-		InputLayoutConfigParser::InputLayoutConfigParser ( InputContextMapper* context_mapper, Utils::LogHelper* log_helper ):
+		InputLayoutConfigParser::InputLayoutConfigParser ( InputContextMapper* context_mapper, Core::ILogger* logger ):
 		context_mapper(context_mapper),
-		log_helper(log_helper)
+		logger(logger)
 		{
 		}
 
 		void InputLayoutConfigParser::processConfig ( const std::string& filename )
 		{
-			LOG_INFO(log_helper, "Processing input layout config file: " + filename);
+			LOG_INFO(logger, "Processing input layout config file: " + filename);
 			std::fstream file(filename);
 			processConfig(file);
 		}
@@ -36,7 +36,7 @@ namespace UnknownEngine
 		{
 			ptree props;
 			
-			LOG_INFO(log_helper, "Parsing file");
+			LOG_INFO(logger, "Parsing file");
 			read_ini(input_stream, props);
 			
 			BOOST_FOREACH(const ptree::value_type& v, props)
@@ -48,7 +48,7 @@ namespace UnknownEngine
 		
 		void InputLayoutConfigParser::processSection ( const std::string& name, const ptree& node )
 		{
-			LOG_INFO(log_helper, "Processing input context layout: " + name);
+			LOG_INFO(logger, "Processing input context layout: " + name);
 			
 			std::vector<std::string> multiple_subscriptions;
 			
@@ -68,26 +68,26 @@ namespace UnknownEngine
 		
 		void InputLayoutConfigParser::processSubscription ( const std::string& section_name, const std::string& name, const std::string& subscription_desc )
 		{
-			LOG_INFO(log_helper, "Processing input subscription: " + section_name + "." + name);
+			LOG_INFO(logger, "Processing input subscription: " + section_name + "." + name);
 			
 			SubscriptionType subscription_type = determineSubscriptionType(subscription_desc);
 			switch(subscription_type)
 			{
 				case SubscriptionType::KEYBOARD:
 				{
-					LOG_DEBUG(log_helper, "Keyboard subscription detected");
+					LOG_DEBUG(logger, "Keyboard subscription detected");
 					processKeyboardSubscription(section_name, name, subscription_desc);
 					break;
 				}
 				case SubscriptionType::MOUSE_AXIS:
 				{
-					LOG_DEBUG(log_helper, "Mouse axis subscription detected");
+					LOG_DEBUG(logger, "Mouse axis subscription detected");
 					processMouseAxisSubscription(section_name, name, subscription_desc);
 					break;
 				}
 				case SubscriptionType::MOUSE_BUTTON:
 				{
-					LOG_DEBUG(log_helper, "Mouse button subscription detected");
+					LOG_DEBUG(logger, "Mouse button subscription detected");
 					processMouseButtonSubscription(section_name, name, subscription_desc);
 					break;
 				}
@@ -133,19 +133,19 @@ namespace UnknownEngine
 			{
 				case 0:
 				{
-					LOG_DEBUG(log_helper, "Subscription details parsed: mouse axis X");
+					LOG_DEBUG(logger, "Subscription details parsed: mouse axis X");
 					context_mapper->getMouseEventHandler()->addActionSlotSubscription(section_name, name, MouseAxis::X);
 					break;
 				}
 				case 1:
 				{
-					LOG_DEBUG(log_helper, "Subscription details parsed: mouse axis Y");
+					LOG_DEBUG(logger, "Subscription details parsed: mouse axis Y");
 					context_mapper->getMouseEventHandler()->addActionSlotSubscription(section_name, name, MouseAxis::Y);
 					break;
 				}
 				case 2:
 				{
-					LOG_DEBUG(log_helper, "Subscription details parsed: mouse axis Z");
+					LOG_DEBUG(logger, "Subscription details parsed: mouse axis Z");
 					context_mapper->getMouseEventHandler()->addActionSlotSubscription(section_name, name, MouseAxis::Z);
 					break;
 				}
@@ -173,7 +173,7 @@ namespace UnknownEngine
 				}
 			}
 
-			LOG_DEBUG(log_helper, "Subscription details parsed: mouse button " + std::to_string(mouse_button_id));
+			LOG_DEBUG(logger, "Subscription details parsed: mouse button " + std::to_string(mouse_button_id));
 			context_mapper->getMouseEventHandler()->addActionSlotSubscription(section_name, name, mouse_button_id);
 			
 		}
@@ -181,7 +181,7 @@ namespace UnknownEngine
 		void InputLayoutConfigParser::processKeyboardSubscription ( const std::string& section_name, const std::string& name, const std::string& subscription_desc )
 		{
 			Key key = keycode_parser.parse( boost::algorithm::to_upper_copy(subscription_desc));
-			LOG_DEBUG(log_helper, "Subscription details parsed: key " + subscription_desc);
+			LOG_DEBUG(logger, "Subscription details parsed: key " + subscription_desc);
 			context_mapper->getKeyboardEventHandler()->addActionSlotSubscription(section_name, name, key);
 		}
 		

@@ -1,6 +1,6 @@
 #include <Components/AngelScriptComponent.h>
 #include <MessageSystem/IMessageListener.h>
-#include <LogHelper.h>
+#include <Logging.h>
 #include <ASIncludes.h>
 #include <scriptbuilder/scriptbuilder.h>
 

@@ -18,13 +18,9 @@ namespace UnknownEngine
 	{
 		struct SubsystemDesc;
 		class EngineContext;
+		class ILogger;
 	}
 
-	namespace Utils
-	{
-		class LogHelper;
-	}
-	
 	namespace Loader
 	{
 
@@ -44,7 +40,7 @@ namespace UnknownEngine
 			private:
 				Core::SubsystemDesc desc;
 				Core::EngineContext* engine_context;
-				std::unique_ptr<Utils::LogHelper> log_helper;
+				Core::ILogger* logger;
 				std::unique_ptr<AssimpMeshDataProvidersFactory> data_provider_factory;
 		};
 
