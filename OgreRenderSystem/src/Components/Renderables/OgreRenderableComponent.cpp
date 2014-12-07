@@ -6,7 +6,6 @@
 #include <DataProviders/OgreMeshPtrProvider.h>
 #include <EngineContext.h>
 #include <MessageSystem/MessageDispatcher.h>
-#include <MessageSystem/MessageListenerDesc.h>
 #include <MessageSystem/BaseMessageListener.h>
 #include <Converters/OgreVector3Converter.h>
 #include <Converters/OgreQuaternionConverter.h>

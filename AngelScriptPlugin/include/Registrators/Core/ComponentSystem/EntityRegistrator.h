@@ -12,7 +12,7 @@ namespace UnknownEngine
 		{
 			public:
 				EntityRegistrator() :
-					ClassReferenceTypeRegistrator< Core::IEntity > ( "Entity", CORE_AS_NAMESPACE_NAME )
+					ClassReferenceTypeRegistrator< Core::IEntity > ( "IEntity", CORE_AS_NAMESPACE_NAME )
 				{}
 
 			protected:

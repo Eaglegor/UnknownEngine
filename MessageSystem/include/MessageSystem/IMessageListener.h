@@ -3,7 +3,6 @@
 #include <MessageSystem_export.h>
 #include <string>
 #include <InlineSpecification.h>
-#include <MessageSystem/IMessageSystemParticipant.h>
 #include <Exception.h>
 
 namespace UnknownEngine
@@ -13,29 +12,17 @@ namespace UnknownEngine
 
 		class PackedMessage;
 
-		class IMessageListener : public IMessageSystemParticipant
+		class IMessageListener
 		{
 			public:
-
-				UNKNOWNENGINE_SIMPLE_EXCEPTION ( MessageTypeNotSupportedByListener );
-
-				IMessageListener(const std::string &object_name):
-					IMessageSystemParticipant(object_name)
-				{
-
-				}
-
+				MESSAGESYSTEM_EXPORT
 				virtual ~IMessageListener(){}
-
-				UNKNOWNENGINE_INLINE
-				bool operator== ( const IMessageListener &rhs ) const
-				{
-					return getMessageSystemParticipantId() == rhs.getMessageSystemParticipantId();
-				}
+				
+				MESSAGESYSTEM_EXPORT
+				virtual const char* getName() const = 0;
 
 				MESSAGESYSTEM_EXPORT
 				virtual void processMessage ( const PackedMessage &msg ) = 0;
-
 		};
 
 	} /* namespace Core */

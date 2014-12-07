@@ -1,6 +1,7 @@
-#include <MessageSystem/StandardMessageDeliveryPoliciesFactory.h>
-#include <MessageSystem/Policies/BroadcastMessageDeliverPolicy.h>
-#include <MessageSystem/Policies/SingleReceiverMessageDeliverPolicy.h>
+#include <MessageSystem/Policies/Sender/StandardMessageDeliveryPoliciesFactory.h>
+#include <MessageSystem/Policies/Sender/BroadcastMessageDeliverPolicy.h>
+#include <MessageSystem/Policies/Sender/SingleReceiverMessageDeliverPolicy.h>
+#include <MessageSystem/Policies/Sender/MessageDeliveryPolicyDesc.h>
 
 namespace UnknownEngine
 {
@@ -30,8 +31,7 @@ namespace UnknownEngine
 
 		IMessageDeliveryPolicy* StandardMessageDeliveryPoliciesFactory::createSingleReceiverReceivePolicy ( const MessageDeliveryPolicyDesc& desc )
 		{
-			MessageSystemParticipantId receiver_id ( desc.options.get<std::string> ( "receiver_name" ) );
-			return new SingleReceiverMessageDeliverPolicy ( receiver_id );
+			return new SingleReceiverMessageDeliverPolicy ( desc.options.get<std::string> ( "receiver_name" ) );
 		}
 
 	}

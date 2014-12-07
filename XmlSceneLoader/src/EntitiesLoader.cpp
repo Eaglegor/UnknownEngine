@@ -8,7 +8,6 @@
 #include <Properties/Properties.h>
 #include <OptionsParser.h>
 #include <ComponentSystem/ComponentsManager.h>
-#include <MessageSystem/MessageListenerDesc.h>
 #include <MessageSystem/MessageDispatcher.h>
 #include <MessageListenerParser.h>
 #include <ComponentSystem/ComponentDesc.h>

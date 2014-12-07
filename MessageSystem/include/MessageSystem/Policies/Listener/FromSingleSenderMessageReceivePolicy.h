@@ -1,9 +1,7 @@
 #pragma once
 
 #include <string>
-#include <MessageSystem/Policies/IMessageReceivePolicy.h>
-#include <MessageSystem/Policies/MessagePolicyType.h>
-#include <MessageSystem/MessageSystemParticipantId.h>
+#include <MessageSystem/Policies/Listener/IMessageReceivePolicy.h>
 
 namespace UnknownEngine
 {
@@ -15,7 +13,7 @@ namespace UnknownEngine
 		class FromSingleSenderMessageReceivePolicy: public IMessageReceivePolicy
 		{
 			public:
-				FromSingleSenderMessageReceivePolicy(const MessageSystemParticipantId &sender_info);
+				FromSingleSenderMessageReceivePolicy(const std::string &sender_name);
 				virtual ~FromSingleSenderMessageReceivePolicy();
 
 				virtual bool allowReceiveFromSender ( IMessageSender* message_sender ) const override;
@@ -30,7 +28,7 @@ namespace UnknownEngine
 				}
 
 			private:
-				MessageSystemParticipantId sender_info;
+				const std::string sender_info;
 		};
 
 	} /* namespace Core */

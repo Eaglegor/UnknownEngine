@@ -1,6 +1,6 @@
 #pragma once
 
-#include <MessageSystem/MessageListenerDesc.h>
+#include <string>
 
 namespace UnknownEngine
 {
@@ -15,7 +15,6 @@ namespace UnknownEngine
         struct InputContextMapperCreationOptions
         {
             std::string name;
-            Core::ReceivedMessageDescriptorsList received_messages;
             Core::EngineContext* engine_context;
             Core::ILogger* logger;
         };

@@ -1,7 +1,7 @@
 #include <stdafx.h>
 
 #include <MessageSystem/PackedMessage.h>
-#include <MessageSystem/Policies/FromSingleSenderMessageReceivePolicy.h>
+#include <MessageSystem/Policies/Listener/FromSingleSenderMessageReceivePolicy.h>
 #include <MessageSystem/IMessageSender.h>
 
 namespace UnknownEngine
@@ -9,7 +9,7 @@ namespace UnknownEngine
 	namespace Core
 	{
 
-		FromSingleSenderMessageReceivePolicy::FromSingleSenderMessageReceivePolicy ( const MessageSystemParticipantId &sender_info )
+		FromSingleSenderMessageReceivePolicy::FromSingleSenderMessageReceivePolicy ( const std::string &sender_info )
 			: sender_info ( sender_info )
 		{
 			// TODO Auto-generated constructor stub
@@ -17,7 +17,7 @@ namespace UnknownEngine
 
 		bool FromSingleSenderMessageReceivePolicy::allowReceiveFromSender ( IMessageSender* message_sender ) const
 		{
-			return message_sender->getMessageSystemParticipantId() == sender_info;
+			return sender_info == message_sender->getName();
 		}
 		
 		bool FromSingleSenderMessageReceivePolicy::acceptMessage ( const PackedMessage& msg )

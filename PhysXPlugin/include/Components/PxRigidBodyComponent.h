@@ -5,7 +5,6 @@
 #include <AlignedNew.h>
 #include <MessageSystem/MessageSender.h>
 #include <ExportedMessages/TransformChangedMessage.h>
-#include <MessageSystem/MessageListenerDesc.h>
 #include <memory>
 
 namespace physx
@@ -40,7 +39,6 @@ namespace UnknownEngine
 			virtual Core::ComponentType getType() const override;
 			virtual void init ( const Core::IEntity* parent_entity ) override;
 			virtual void shutdown() override;
-			void initMessageListener(const Core::ReceivedMessageDescriptorsList& received_messages);
 			
 			void setTransform(const Math::Transform &transform);
 

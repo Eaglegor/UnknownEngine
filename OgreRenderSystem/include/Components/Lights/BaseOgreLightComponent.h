@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Components/BaseOgreComponent.h>
-#include <MessageSystem/MessageListenerDesc.h>
 #include <Descriptors/Components/Lights/OgreLightSettings.h>
 
 namespace Ogre

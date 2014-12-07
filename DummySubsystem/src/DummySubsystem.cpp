@@ -33,9 +33,6 @@ namespace UnknownEngine
 			this->desc = desc;
 			engine_context = plugins_manager->getEngineContext();
 
-			LOG_INFO(logger, "Registering dummy message type stub");
-			engine_context->getMessageDictionary()->registerNewMessageType("DummySubsystem.Test.TestMessageType");
-
 			return true;
 		}
 

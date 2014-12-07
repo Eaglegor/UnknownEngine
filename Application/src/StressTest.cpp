@@ -1,7 +1,6 @@
 #include <StressTest.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <NameGenerators/NameGenerator.h>
-#include <MessageSystem/Policies/FromSingleSenderMessageReceivePolicy.h>
 #include <ComponentSystem/ComponentsManager.h>
 #include <ComponentSystem/Entity.h>
 #include <ComponentSystem/ComponentDesc.h>
@@ -24,7 +23,7 @@ void StressTest::init ( EngineContext* engine_context )
 	
 	listener.reset(new BaseMessageListener("StressTest", engine_context));
 
-	engine_context->getMessageDispatcher()->setListenerRules(listener->getMessageSystemParticipantId(), rules);
+	engine_context->getMessageDispatcher()->setListenerRules(listener->getName(), rules);
 	
 	{
 		typedef UpdateFrameMessage MessageType;
@@ -123,17 +122,6 @@ void StressTest::generateObjects ( size_t count )
 			
 			desc.descriptor = props;
 		}
-		{
-			ReceivedMessageDescriptorsList received_messages;
-			ReceivedMessageDesc mdesc;
-			mdesc.message_type_name = "Engine.TransformChangedMessage";
-			ReceivedMessageDesc::ReceivePolicyDesc pdesc;
-			pdesc.receive_policy_type_name = "FromSingleSender";
-			pdesc.receive_policy_options.set<std::string>("sender_name", rotation_component_name);
-			mdesc.receive_policy = pdesc;
-			received_messages.push_back(mdesc);
-			desc.received_messages = received_messages;
-		}
 		
 		{
 			MessageListenerRules rules;
@@ -143,8 +131,7 @@ void StressTest::generateObjects ( size_t count )
 			rule.receive_policy_options.set<std::string>("sender_name", rotation_component_name);
 			rules.push_back(rule);
 			
-			MessageSystemParticipantId id(desc.name);
-			engine_context->getMessageDispatcher()->setListenerRules(id, rules);
+			engine_context->getMessageDispatcher()->setListenerRules(desc.name.c_str(), rules);
 		}
 		
 		entity->createComponent(desc);

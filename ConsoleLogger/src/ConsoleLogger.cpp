@@ -12,7 +12,6 @@ namespace UnknownEngine
 		using Core::LogSeverity;
 		
 		ConsoleLogger::ConsoleLogger( const std::string &name ) :
-			Core::IMessageListener ( name ),
 			name(name)
 		{
 		}
@@ -40,7 +39,7 @@ namespace UnknownEngine
 			case LogSeverity::INFO:
 				std::cout << "INFO";
 				break;
-			case LogSeverity::ERROR2:
+			case LogSeverity::ERROR:
 				std::cout << "ERROR";
 				break;
 			case LogSeverity::WARNING:
@@ -57,6 +56,10 @@ namespace UnknownEngine
 			std::cout << msg << std::endl;
 		}
 
+		const char* ConsoleLogger::getName() const
+		{
+			return name.c_str();
+		}
 
 	} // namespace Logger
 } // namespace UnknownEngine

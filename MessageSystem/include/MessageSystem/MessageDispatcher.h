@@ -8,14 +8,13 @@
 #include <NumericIdentifierType.h>
 #include <Properties/Properties.h>
 #include <MessageSystem/MessageType.h>
-#include "MessageSystemParticipantId.h"
-#include "MessagingPoliciesManager.h"
+#include <MessageSystem/Policies/MessagingPoliciesManager.h>
 #include <Dictionary.h>
 #include <mutex>
 #include <vector>
 
-#include <MessageSystem/MessageSenderRules.h>
-#include <MessageSystem/MessageListenerRules.h>
+#include <MessageSystem/Policies/Sender/MessageSenderRules.h>
+#include <MessageSystem/Policies/Listener/MessageListenerRules.h>
 
 namespace UnknownEngine
 {
@@ -41,28 +40,19 @@ namespace UnknownEngine
 				virtual ~MessageDispatcher ();
 				
 				MESSAGESYSTEM_EXPORT
-				void setListenerRules(const MessageSystemParticipantId &listener_id, const MessageListenerRules &listener_rules);
+				void setListenerRules(const char* listener_name, const MessageListenerRules &listener_rules);
 				
 				MESSAGESYSTEM_EXPORT
-				void setSenderRules(const MessageSystemParticipantId &sender_id, const MessageSenderRules &listener_rules);
+				void setSenderRules(const char* sender_name, const MessageSenderRules &listener_rules);
 				
 				MESSAGESYSTEM_EXPORT
-				void setSingleListenerRule(const MessageSystemParticipantId& id, const MessageType &message_type, const MessageListenerRule& listener_rule);
+				void clearListenerRules(const char* listener_name);
 				
 				MESSAGESYSTEM_EXPORT
-				void setSingleSenderRule(const MessageSystemParticipantId& id, const MessageType &message_type, const MessageSenderRule& sender_rule);
-				
-				MESSAGESYSTEM_EXPORT
-				void clearListenerRules(const MessageSystemParticipantId &listener_id);
-				
-				MESSAGESYSTEM_EXPORT
-				void clearSenderRules(const MessageSystemParticipantId &sender_id);
+				void clearSenderRules(const char* sender_name);
 				
 				MESSAGESYSTEM_EXPORT
 				void addListener ( const MessageType &message_type, IMessageListener* listener);
-
-				MESSAGESYSTEM_EXPORT
-				void addListener ( const MessageType &message_type, IMessageListener* listener, const MessageListenerRule &listener_rule);
 				
 				MESSAGESYSTEM_EXPORT
 				void removeListener ( IMessageListener* listener );
@@ -70,9 +60,6 @@ namespace UnknownEngine
 				MESSAGESYSTEM_EXPORT
 				void addSender ( const MessageType &message_type, IMessageSender* sender);
 
-				MESSAGESYSTEM_EXPORT
-				void addSender ( const MessageType &message_type, IMessageSender* sender, const MessageSenderRule &sender_rule);
-				
 				MESSAGESYSTEM_EXPORT
 				void removeSender ( IMessageSender* sender );
 
@@ -105,17 +92,17 @@ namespace UnknownEngine
 				void onRemoveListener(IMessageListener* listener);
 				void onRemoveSender(IMessageSender* sender);
 
-				ListenerRules* getListenerRules(const MessageSystemParticipantId& id);
-				SenderRules* getSenderRules(const MessageSystemParticipantId& id);
+				ListenerRules* getListenerRules(const std::string &listener_name);
+				SenderRules* getSenderRules(const std::string &sender_name);
 				
-				ListenerRules* createListenerRules(const MessageSystemParticipantId& id);
-				SenderRules* createSenderRules(const MessageSystemParticipantId& id);
+				ListenerRules* createListenerRules(const std::string &listener_name);
+				SenderRules* createSenderRules(const std::string &sender_name);
 
-				typedef std::unordered_map< MessageSystemParticipantId, ListenerRules > ListenerRulesMap;
-				typedef std::unordered_map< MessageSystemParticipantId, SenderRules > SenderRulesMap;
+				typedef std::unordered_map< std::string, ListenerRules > ListenerRulesMap;
+				typedef std::unordered_map< std::string, SenderRules > SenderRulesMap;
 				
-				typedef std::unordered_map< MessageSystemParticipantId, RegisteredListener > MessageListenersMap;
-				typedef std::unordered_map< MessageSystemParticipantId, RegisteredSender > MessageSendersMap;
+				typedef std::unordered_map< std::string, RegisteredListener > MessageListenersMap;
+				typedef std::unordered_map< std::string, RegisteredSender > MessageSendersMap;
 				
 				typedef std::unordered_map<MessageType, MessageListenersMap> MessageTypeListenersMap;
 				typedef std::unordered_map<MessageType, MessageSendersMap> MessageTypeSendersMap;

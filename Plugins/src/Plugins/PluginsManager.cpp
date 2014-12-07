@@ -106,8 +106,8 @@ namespace UnknownEngine
 			}
 
 			LOG_INFO(logger, "Registering messaging rules");
-			MessageDispatcher::getSingleton()->setListenerRules(desc.name, desc.listener_rules);
-			MessageDispatcher::getSingleton()->setSenderRules(desc.name, desc.sender_rules);
+			MessageDispatcher::getSingleton()->setListenerRules(desc.name.c_str(), desc.listener_rules);
+			MessageDispatcher::getSingleton()->setSenderRules(desc.name.c_str(), desc.sender_rules);
 			LOG_INFO(logger, "Unregistering messaging rules");
 
 			LOG_INFO(logger, "Creating plugin instance: " + library_name);

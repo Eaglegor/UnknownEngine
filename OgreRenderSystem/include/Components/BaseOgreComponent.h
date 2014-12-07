@@ -2,8 +2,6 @@
 
 #include <ComponentSystem/BaseComponent.h>
 
-#include <MessageSystem/MessagingPoliciesManager.h>
-
 namespace UnknownEngine
 {
 	namespace Core

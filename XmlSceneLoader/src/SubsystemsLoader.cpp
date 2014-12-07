@@ -11,7 +11,7 @@
 #include <ConstantsHolder.h>
 #include <EngineContext.h>
 #include <MessageSystem/MessageDispatcher.h>
-#include <MessageSystem/MessageListenerRules.h>
+#include <MessageSystem/Policies/Listener/MessageListenerRules.h>
 
 #ifdef _MSC_VER
 	#define WIN32_BUILD

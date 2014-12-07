@@ -64,12 +64,6 @@ namespace UnknownEngine
 
 			LOG_INFO ( logger, "Installing OGRE render subsystem" );
 
-			LOG_INFO ( logger, "Registering new message type name: " + std::string ( ChangeMaterialActionMessage::getTypeName() ) );
-
-			Core::MessageType message_type = engine_context->getMessageDictionary()->registerNewMessageType ( ChangeMaterialActionMessage::getTypeName() );
-
-			LOG_DEBUG ( logger, std::string ( ChangeMaterialActionMessage::getTypeName() ) + ": assigned id: " + boost::lexical_cast<std::string> ( message_type ) );
-
 			LOG_INFO ( logger, "Creating OGRE rendering subsystem" );
 
 			render_system.reset ( new OgreRenderSubsystem ( render_system_desc, logger, engine_context ) );

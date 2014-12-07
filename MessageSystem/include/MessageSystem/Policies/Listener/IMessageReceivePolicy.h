@@ -1,7 +1,7 @@
 #pragma once
 
 #include <MessageSystem_export.h>
-#include <MessageSystem/MessageReceivePolicyType.h>
+#include <MessageSystem/Policies/Listener/MessageReceivePolicyType.h>
 #include <InlineSpecification.h>
 
 namespace UnknownEngine

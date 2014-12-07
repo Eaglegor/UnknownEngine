@@ -5,7 +5,6 @@
 
 #include <InlineSpecification.h>
 #include <MessageSystem/MessageType.h>
-#include <MessageSystem/MessageSystemParticipantId.h>
 #include <MessageSystem/MessageDictionary.h>
 
 namespace UnknownEngine
@@ -22,6 +21,7 @@ namespace UnknownEngine
 				{
 				}
 
+				// This comstructor is used to speedup message type lookup with caching
 				template<typename T>
 				PackedMessage ( const T& message, MessageType message_type ):
 				message_type_id ( message_type ), 

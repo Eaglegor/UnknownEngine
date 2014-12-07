@@ -8,7 +8,6 @@
 #include <boost/lexical_cast.hpp>
 #include <Converters/OgreVector3Converter.h>
 #include <Converters/OgreQuaternionConverter.h>
-#include <MessageSystem/MessageListenerDesc.h>
 #include <EngineContext.h>
 #include <MessageSystem/MessageDispatcher.h>
 #include <MessageSystem/BaseMessageListener.h>

@@ -86,6 +86,15 @@ namespace UnknownEngine
 			physics_subsystem->getPxScene()->addActor ( *px_rigid_body );
 			physics_subsystem->addRigidBodyComponent(getName(), this);
 
+			listener.reset(new Core::BaseMessageListener(std::string(getName()), engine_context));
+
+			{
+				typedef Core::TransformChangedMessage MessageType;
+				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
+
+				listener->createMessageBuffer<MessageType, BufferType>(this, &PxRigidBodyComponent::onTransformChanged);
+			}
+			
 			listener->registerAtDispatcher();
 
 		}
@@ -106,7 +115,8 @@ namespace UnknownEngine
 		{
 
 			listener->unregisterAtDispatcher();
-
+			listener.reset();
+			
 			physics_subsystem->removeRigidBodyComponent(getName());
 			physics_subsystem->getPxScene()->removeActor ( *px_rigid_body );
 			px_rigid_body->release();
@@ -120,20 +130,6 @@ namespace UnknownEngine
 		void PxRigidBodyComponent::onTransformChanged(const Core::TransformChangedMessage &msg)
 		{
 			if (px_rigid_body) setTransform(msg.new_transform);
-		}
-
-		void PxRigidBodyComponent::initMessageListener(const Core::ReceivedMessageDescriptorsList& received_messages)
-		{
-			listener.reset(new Core::BaseMessageListener(std::string(getName()), engine_context));
-			listener->registerSupportedMessageTypes(received_messages);
-
-			{
-				typedef Core::TransformChangedMessage MessageType;
-				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
-
-				listener->createMessageBuffer<MessageType, BufferType>(this, &PxRigidBodyComponent::onTransformChanged);
-			}
-
 		}
 
 		void PxRigidBodyComponent::setTransform(const Math::Transform &transform)

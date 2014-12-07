@@ -1,15 +1,18 @@
 #include <stdafx.h>
-#include <MessageSystem/MessagingPoliciesManager.h>
+#include <MessageSystem/Policies/MessagingPoliciesManager.h>
 
-#include <MessageSystem/Policies/AnyMessageReceivePolicy.h>
-#include <MessageSystem/Policies/BroadcastMessageDeliverPolicy.h>
-#include <MessageSystem/Policies/FromSingleSenderMessageReceivePolicy.h>
-#include <MessageSystem/Policies/SingleReceiverMessageDeliverPolicy.h>
-#include <MessageSystem/IMessageReceivePolicyFactory.h>
-#include <MessageSystem/IMessageDeliveryPolicyFactory.h>
-#include <MessageSystem/StandardMessageDeliveryPoliciesFactory.h>
-#include <MessageSystem/StandardMessageReceivePoliciesFactory.h>
-#include <Properties/Properties.h>
+#include <MessageSystem/Policies/Listener/IMessageReceivePolicyFactory.h>
+#include <MessageSystem/Policies/Listener/StandardMessageReceivePoliciesFactory.h>
+
+#include <MessageSystem/Policies/Sender/IMessageDeliveryPolicyFactory.h>
+#include <MessageSystem/Policies/Sender/StandardMessageDeliveryPoliciesFactory.h>
+
+#include <MessageSystem/Policies/Listener/MessageReceivePolicyDesc.h>
+#include <MessageSystem/Policies/Sender/MessageDeliveryPolicyDesc.h>
+
+#include <EngineLogLevel.h>
+
+#include <Logging.h>
 
 namespace UnknownEngine
 {
@@ -20,7 +23,7 @@ namespace UnknownEngine
 		MessagingPoliciesManager* Singleton<MessagingPoliciesManager>::instance = nullptr;
 		
 		MessagingPoliciesManager::MessagingPoliciesManager():
-		internal_dictionary("MessagingPoliciesManager.Dictionary", NUMERIC_IDENTIFIER_INITIAL_VALUE, INVALID_NUMERIC_IDENTIFIER)
+		logger("Core.MessagingPoliciesManager", ENGINE_LOG_LEVEL)
 		{
 			createStandardFactoires();
 		}
@@ -33,20 +36,24 @@ namespace UnknownEngine
 		
 		void MessagingPoliciesManager::addMessageDeliveryPolicyFactory ( IMessageDeliveryPolicyFactory* factory )
 		{
-			if ( factory->getInternalId() != INVALID_NUMERIC_IDENTIFIER ) return;
-
-			NumericIdentifierType new_id = internal_dictionary.registerNewValue ( factory->getName() );
-			factory->setInternalId ( new_id );
-			delivery_policy_factories.insert ( std::make_pair ( new_id, factory ) );
+			auto iter = delivery_policy_factories.find(factory->getName());
+			if(iter != delivery_policy_factories.end())
+			{
+				LOG_ERROR(logger, "Failed to register message delivery policy factory " + factory->getName() + ". Factory with the same name already registered");
+				return;
+			}
+			delivery_policy_factories.emplace(factory->getName(), factory);
 		}
 
 		void MessagingPoliciesManager::addMessageReceivePolicyFactory ( IMessageReceivePolicyFactory* factory )
 		{
-			if ( factory->getInternalId() != INVALID_NUMERIC_IDENTIFIER ) return;
-
-			NumericIdentifierType new_id = internal_dictionary.registerNewValue ( factory->getName() );
-			factory->setInternalId ( new_id );
-			receive_policy_factories.insert ( std::make_pair ( new_id, factory ) );
+			auto iter = receive_policy_factories.find(factory->getName());
+			if(iter != receive_policy_factories.end())
+			{
+				LOG_ERROR(logger, "Failed to register message receive policy factory " + factory->getName() + ". Factory with the same name already registered");
+				return;
+			}
+			receive_policy_factories.emplace(factory->getName(), factory);
 		}
 
 		IMessageDeliveryPolicy* MessagingPoliciesManager::createMessageDeliveryPolicy ( const MessageDeliveryPolicyDesc& desc )
@@ -121,18 +128,24 @@ namespace UnknownEngine
 		
 		void MessagingPoliciesManager::removeMessageDeliveryPolicyFactory ( IMessageDeliveryPolicyFactory* factory )
 		{
-			if ( factory->getInternalId() == INVALID_NUMERIC_IDENTIFIER ) return;
-			delivery_policy_factories.erase ( factory->getInternalId() );
-			internal_dictionary.deleteEntryByKey ( factory->getInternalId() );
-			factory->setInternalId ( INVALID_NUMERIC_IDENTIFIER );
+			auto iter = delivery_policy_factories.find(factory->getName());
+			if(iter == delivery_policy_factories.end())
+			{
+				LOG_ERROR(logger, "Can't unregister message delivery policy factory " + factory->getName() + ". Factory isn't registered");
+				return;
+			}
+			delivery_policy_factories.erase(iter);
 		}
 
 		void MessagingPoliciesManager::removeMessageReceivePolicyFactory ( IMessageReceivePolicyFactory* factory )
 		{
-			if ( factory->getInternalId() == INVALID_NUMERIC_IDENTIFIER ) return;
-			receive_policy_factories.erase ( factory->getInternalId() );
-			internal_dictionary.deleteEntryByKey ( factory->getInternalId() );
-			factory->setInternalId ( INVALID_NUMERIC_IDENTIFIER );
+			auto iter = receive_policy_factories.find(factory->getName());
+			if(iter == receive_policy_factories.end())
+			{
+				LOG_ERROR(logger, "Can't unregister message receive policy factory " + factory->getName() + ". Factory isn't registered");
+				return;
+			}
+			receive_policy_factories.erase(iter);
 		}
 		
 	} // namespace Core

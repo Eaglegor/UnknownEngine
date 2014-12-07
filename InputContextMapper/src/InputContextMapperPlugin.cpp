@@ -20,9 +20,6 @@ namespace UnknownEngine
             this->desc = desc;
             this->engine_context = plugins_manager->getEngineContext();
 			
-			this->engine_context->getMessageDictionary()->registerNewMessageType(AddSimpleActionMessage::getTypeName());
-			this->engine_context->getMessageDictionary()->registerNewMessageType(AddRangeActionMessage::getTypeName());
-			
             return true;
         }
 

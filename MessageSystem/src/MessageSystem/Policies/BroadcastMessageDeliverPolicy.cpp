@@ -1,6 +1,6 @@
 #include <stdafx.h>
 
-#include <MessageSystem/Policies/BroadcastMessageDeliverPolicy.h>
+#include <MessageSystem/Policies/Sender/BroadcastMessageDeliverPolicy.h>
 
 namespace UnknownEngine
 {

@@ -1,12 +1,12 @@
 #pragma once
 
-#include <MessageSystem/BaseMessageDeliveryPolicy.h>
+#include <MessageSystem/Policies/Sender/BaseMessageDeliveryPolicyFactory.h>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
-		class StandardMessageDeliveryPoliciesFactory : public BaseMessageDeliveryPolicy
+		class StandardMessageDeliveryPoliciesFactory : public BaseMessageDeliveryPolicyFactory
 		{
 		public:
 			StandardMessageDeliveryPoliciesFactory();

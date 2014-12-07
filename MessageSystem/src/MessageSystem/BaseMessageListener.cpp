@@ -11,34 +11,16 @@ namespace UnknownEngine
 	namespace Core
 	{
 		BaseMessageListener::BaseMessageListener ( const std::string& object_name, EngineContext* engine_context ) : 
-		IMessageListener ( object_name ),
 		engine_context(engine_context),
 		logger(CREATE_LOGGER(std::string(object_name.c_str()) + ".Listener", Core::LogSeverity::NONE)),
-		registered(false)
+		registered(false),
+		name(object_name)
 		{
 		}
 		
 		BaseMessageListener::~BaseMessageListener()
 		{
 			RELEASE_LOGGER(logger);
-		}
-
-		void BaseMessageListener::registerSupportedMessageType ( const MessageType& message_type_id)
-		{
-			createMessageSlot(message_type_id);
-		}
-
-		void BaseMessageListener::registerSupportedMessageType ( const std::string& message_type_name)
-		{
-			registerSupportedMessageType ( MESSAGE_TYPE_ID ( message_type_name ) );
-		}
-
-		void BaseMessageListener::registerSupportedMessageTypes ( const ReceivedMessageDescriptorsList& received_messages_list )
-		{
-			for ( const Core::ReceivedMessageDesc & message : received_messages_list )
-			{
-				registerSupportedMessageType ( message.message_type_name);
-			}
 		}
 
 		void BaseMessageListener::processMessage ( const PackedMessage& msg )
@@ -104,5 +86,11 @@ namespace UnknownEngine
 			LOG_DEBUG(logger, "Message type registered");
 			return slot;
 		}
+		
+		const char* BaseMessageListener::getName() const
+		{
+			return name.c_str();
+		}
+
 	}
 }

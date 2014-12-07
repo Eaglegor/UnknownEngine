@@ -1,12 +1,12 @@
 #pragma once
 
-#include <MessageSystem/BaseMessageReceivePolicy.h>
+#include <MessageSystem/Policies/Listener/BaseMessageReceivePolicyFactory.h>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
-		class StandardMessageReceivePoliciesFactory : public BaseMessageReceivePolicy
+		class StandardMessageReceivePoliciesFactory : public BaseMessageReceivePolicyFactory
 		{
 		public:
 			StandardMessageReceivePoliciesFactory();

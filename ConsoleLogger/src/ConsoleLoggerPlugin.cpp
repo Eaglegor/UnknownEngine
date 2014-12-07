@@ -12,7 +12,6 @@
 #include <ConsoleLoggerPlugin.h>
 #include <EngineContext.h>
 #include <MessageSystem/MessageDispatcher.h>
-#include <MessageSystem/MessageListenerDesc.h>
 #include <MessageSystem/MessageDictionary.h>
 #include <ExportedMessages/LogMessage.h>
 

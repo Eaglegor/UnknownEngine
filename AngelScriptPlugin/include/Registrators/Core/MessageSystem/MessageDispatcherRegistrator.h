@@ -16,12 +16,12 @@ namespace UnknownEngine
 			
 			static void setListenerRules(Core::MessageDispatcher* this_ptr, const std::string& name, const Core::MessageListenerRules& rules)
 			{
-				this_ptr->setListenerRules(name, rules);
+				this_ptr->setListenerRules(name.c_str(), rules);
 			}
 			
 			static void setSenderRules(Core::MessageDispatcher* this_ptr, const std::string& name, const Core::MessageSenderRules& rules)
 			{
-				this_ptr->setSenderRules(name, rules);
+				this_ptr->setSenderRules(name.c_str(), rules);
 			}
 			
 			virtual bool registerMethods ( asIScriptEngine* script_engine ) const

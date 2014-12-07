@@ -3,15 +3,29 @@
 #include <MainLoop/MainLoop.h>
 #include <MessageSystem/PackedMessage.h>
 
-UnknownEngine::Core::StopEngineListener::StopEngineListener ( const std::string name, MainLoop* main_loop )
-	: IMessageListener ( name ),
-	  main_loop ( main_loop )
-{}
-
-void UnknownEngine::Core::StopEngineListener::processMessage ( const PackedMessage &msg )
+namespace UnknownEngine
 {
-	if ( msg.getMessageTypeId() == MessageDictionary::getSingleton()->getMessageTypeId ( StopEngineActionMessage::getTypeName() ) )
+	namespace Core
 	{
-		main_loop->stop();
+		StopEngineListener::StopEngineListener ( const std::string name, MainLoop* main_loop ):
+		name(name),
+		main_loop(main_loop)
+		{}
+
+		void StopEngineListener::processMessage ( const PackedMessage &msg )
+		{
+			if ( msg.getMessageTypeId() == MessageDictionary::getSingleton()->getMessageTypeId ( StopEngineActionMessage::getTypeName() ) )
+			{
+				main_loop->stop();
+			}
+		}
+		
+		const char* StopEngineListener::getName() const
+		{
+			return name.c_str();
+		}
+
 	}
 }
+
+

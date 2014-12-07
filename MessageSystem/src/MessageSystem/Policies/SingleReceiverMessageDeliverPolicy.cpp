@@ -1,15 +1,15 @@
 #include <stdafx.h>
 
 #include <MessageSystem/IMessageListener.h>
-#include <MessageSystem/Policies/SingleReceiverMessageDeliverPolicy.h>
+#include <MessageSystem/Policies/Sender/SingleReceiverMessageDeliverPolicy.h>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
 
-		SingleReceiverMessageDeliverPolicy::SingleReceiverMessageDeliverPolicy ( const MessageSystemParticipantId &receiver_info )
-			: receiver_info ( receiver_info )
+		SingleReceiverMessageDeliverPolicy::SingleReceiverMessageDeliverPolicy ( const std::string &receiver_name )
+			: receiver_name ( receiver_name )
 		{
 			// TODO Auto-generated constructor stub
 
@@ -22,7 +22,7 @@ namespace UnknownEngine
 		
 		bool SingleReceiverMessageDeliverPolicy::allowDeliveryToListener ( const IMessageListener* listener ) const
 		{
-			return listener->getMessageSystemParticipantId() == receiver_info;
+			return receiver_name == listener->getName();
 		}
 
 		SingleReceiverMessageDeliverPolicy::~SingleReceiverMessageDeliverPolicy ()

@@ -1,11 +1,10 @@
 #pragma once
 
 #include <vector>
-#include <MessageSystem/MessageListenerDesc.h>
 #include <DescriptorContainer.h>
 #include <boost/variant.hpp>
-#include <MessageSystem/MessageListenerRules.h>
-#include <MessageSystem/MessageSenderRules.h>
+#include <MessageSystem/Policies/Listener/MessageListenerRules.h>
+#include <MessageSystem/Policies/Sender/MessageSenderRules.h>
 
 namespace UnknownEngine
 {

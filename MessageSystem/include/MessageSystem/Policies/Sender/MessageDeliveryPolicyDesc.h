@@ -1,6 +1,6 @@
 #pragma once
 
-#include <MessageSystem/MessageDeliveryPolicyType.h>
+#include <MessageSystem/Policies/Sender/MessageDeliveryPolicyType.h>
 #include <Properties/Properties.h>
 
 namespace UnknownEngine

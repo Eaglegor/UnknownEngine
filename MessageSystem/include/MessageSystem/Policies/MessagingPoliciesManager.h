@@ -1,21 +1,13 @@
 #pragma once
 
 #include <MessageSystem_export.h>
-#include <vector>
-#include <functional>
-#include <memory>
 #include <unordered_map>
-#include <Exception.h>
-#include <MessageSystem/Policies/MessagePolicyType.h>
-#include <MessageSystem/Policies/IMessageReceivePolicy.h>
-#include <MessageSystem/Policies/IMessageDeliveryPolicy.h>
-#include <Properties/Properties_fwd.h>
+#include <MessageSystem/Policies/Listener/IMessageReceivePolicy.h>
+#include <MessageSystem/Policies/Sender/IMessageDeliveryPolicy.h>
 #include <Singleton.h>
-#include <NumericIdentifierType.h>
-#include <Properties/PropertiesTree.h>
-#include <Dictionary.h>
-#include <MessageSystem/IMessageReceivePolicyFactory.h>
-#include <MessageSystem/IMessageDeliveryPolicyFactory.h>
+#include <MessageSystem/Policies/Listener/IMessageReceivePolicyFactory.h>
+#include <MessageSystem/Policies/Sender/IMessageDeliveryPolicyFactory.h>
+#include <LogHelper.h>
 
 namespace UnknownEngine
 {
@@ -67,14 +59,13 @@ namespace UnknownEngine
 				void createStandardFactoires();
 				void destroyStandardFactoires();
 
-				std::unordered_map<NumericIdentifierType, IMessageReceivePolicyFactory*> receive_policy_factories;
-				std::unordered_map<NumericIdentifierType, IMessageDeliveryPolicyFactory*> delivery_policy_factories;
+				std::unordered_map<std::string, IMessageReceivePolicyFactory*> receive_policy_factories;
+				std::unordered_map<std::string, IMessageDeliveryPolicyFactory*> delivery_policy_factories;
 				
 				StandardMessageReceivePoliciesFactory* standard_receive_policy_factory;
 				StandardMessageDeliveryPoliciesFactory* standard_delivery_policy_factory;
 				
-				typedef Utils::Dictionary<NumericIdentifierType, std::string> InternalDictionaryType;
-				InternalDictionaryType internal_dictionary;
+				LogHelper logger;
 		};
 
 #ifdef _MSC_VER

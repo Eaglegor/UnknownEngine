@@ -6,8 +6,7 @@
 
 #include <MessageSystem/IMessageListener.h>
 #include <MessageSystem/MessageType.h>
-#include <MessageSystem/MessagingPoliciesManager.h>
-#include <MessageSystem/MessageListenerDesc.h>
+#include <MessageSystem/Policies/MessagingPoliciesManager.h>
 #include <MessageBuffers/MessageBuffer.h>
 #include <Exception.h>
 #include <Logging.h>
@@ -36,15 +35,6 @@ namespace UnknownEngine
 			
 			MESSAGESYSTEM_EXPORT
 			~BaseMessageListener ();
-			
-			MESSAGESYSTEM_EXPORT
-			void registerSupportedMessageType( const std::string& message_type_name);
-
-			MESSAGESYSTEM_EXPORT
-			void registerSupportedMessageType( const MessageType& message_type_id);
-			
-			MESSAGESYSTEM_EXPORT
-			void registerSupportedMessageTypes(const ReceivedMessageDescriptorsList& received_messages_list);
 
 			template<typename MessageClass, typename BufferClass, typename... Args>
 			bool createMessageBuffer(Args&&... buffer_constructor_parameters)
@@ -78,6 +68,9 @@ namespace UnknownEngine
 			MESSAGESYSTEM_EXPORT
 			bool isRegisteredAtDispatcher();
 			
+			MESSAGESYSTEM_EXPORT
+			virtual const char* getName() const;
+			
 		private:
 			typedef std::recursive_mutex LockPrimitive;
 			
@@ -101,6 +94,8 @@ namespace UnknownEngine
 			LockPrimitive lock_primitive;
 			
 			bool registered;
+			
+			const std::string name;
 		};
 
 	}

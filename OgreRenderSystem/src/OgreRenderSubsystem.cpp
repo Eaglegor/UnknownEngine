@@ -6,7 +6,6 @@
 #include <Logging.h>
 #include <EngineContext.h>
 
-#include <MessageSystem/MessageSystemParticipantDictionary.h>
 #include <MessageSystem/MessageDispatcher.h>
 #include <MessageSystem/MessageSender.h>
 

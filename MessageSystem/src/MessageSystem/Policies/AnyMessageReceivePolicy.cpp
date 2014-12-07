@@ -1,6 +1,6 @@
 #include <stdafx.h>
 
-#include <MessageSystem/Policies/AnyMessageReceivePolicy.h>
+#include <MessageSystem/Policies/Listener/AnyMessageReceivePolicy.h>
 
 namespace UnknownEngine
 {

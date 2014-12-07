@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Engine_export.h>
-#include <MessageSystem/IMessageSystemParticipant.h>
 #include <Exception.h>
 #include <EngineContext.h>
 #include <memory>
@@ -62,12 +61,10 @@ namespace UnknownEngine
 				    STOPPED = 3
 				};
 
-				void initMessagingRules(const MessageSystemParticipantId& message_system_participant);
+				void initMessagingRules(const std::string &name);
 				
 				State state;
 
-				void registerInternalMessageTypes();
-				MessageSystemParticipantId message_system_participant_id;
 				PluginsManager* plugins_manager;
 				EngineContext context;
 				std::unique_ptr<ConsoleLoggingSubsystem> console_logging_subsystem;

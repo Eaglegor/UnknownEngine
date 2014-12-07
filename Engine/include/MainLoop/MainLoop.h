@@ -2,7 +2,6 @@
 
 #include <Engine_export.h>
 #include <vector>
-#include <MessageSystem/IMessageSystemParticipant.h>
 
 namespace UnknownEngine
 {
@@ -11,7 +10,7 @@ namespace UnknownEngine
 
 		class EngineContext;
 
-		class MainLoop : public IMessageSystemParticipant
+		class MainLoop
 		{
 			public:
 				ENGINE_EXPORT
