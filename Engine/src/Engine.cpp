@@ -84,13 +84,14 @@ namespace UnknownEngine
 			if ( state == CREATED ) throw InvalidEngineStateException ( "Shutting down uninitialized engine is not allowed" );
 
 			LOG_INFO(logger, "Destroying remaining entities" );
+			
 			this->context.components_manager->clearEntities();
 
 			this->context.resource_manager->cleanup();
 			
 			LOG_INFO(logger, "Destroying plugins manager" );
 			PluginsManager::destroyInstance();
-
+			
 			LOG_INFO(logger, "Destroying components manager" );
 			ComponentsManager::destroyInstance();
 

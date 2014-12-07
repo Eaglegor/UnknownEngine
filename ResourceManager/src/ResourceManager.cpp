@@ -23,7 +23,7 @@ namespace UnknownEngine {
 
 		ResourceManager::~ResourceManager()
 		{
-			internalCleanup(true);
+			//internalCleanup(true);
 			ThreadPool::destroyInstance();
 		}
 		
@@ -114,7 +114,7 @@ namespace UnknownEngine {
 			
 			for(auto &iter : data_providers)
 			{
-				if(!force_destruction && !iter.second->mayBeDestructed())
+				if(/*!force_destruction &&*/ !iter.second->mayBeDestructed())
 				{
 					LOG_DEBUG(logger, "Data provider " + iter.second->getName() + " is still in use and can't be destroyed" );
 					continue;
@@ -124,19 +124,25 @@ namespace UnknownEngine {
 				{
 					LOG_WARNING(logger, "Destroying the in-use data provider " + iter.second->getName() + " because of forced cleanup" );
 				}
-				
+
+				bool success = false;
 				for( auto &factory : data_provider_factories )
 				{
 					if(factory.second->supportsType(iter.second->getType()))
 					{	
 						LOG_INFO(logger, "Destroying data provider  '" + iter.second->getName() + "'" );
 						removed_data_providers.push_back(iter.second->getName());
+						std::string name = iter.second->getName();
 						factory.second->destroyObject(iter.second);
-						LOG_INFO(logger, "Data provider  '" + iter.second->getName() + "' destroyed");
-						continue;
+						LOG_INFO(logger, "Data provider " + name + " destroyed");
+						success = true;
+						break;
 					}
 				}
-				LOG_ERROR(logger, "No suitable data provider factory found to destroy data provider " + iter.second->getName());
+				if(!success)
+				{
+					LOG_ERROR(logger, "No suitable data provider factory found to destroy data provider " + iter.second->getName());
+				}
 			}
 			
 			for(const std::string& name : removed_data_providers)

@@ -1,20 +1,8 @@
 <scene>
 
-	<constant name="global_log_level" value="info"/>
+	<constant name="global_log_level" value="warning"/>
 
 	<subsystems>
-		<subsystem name="Logger" module="ConsoleLogger">
-			
-			<messaging_rules>
-				<listener>
-					<message type="Utils.LogMessage">
-						<receive_policy type="Any"/>
-					</message>
-				</listener>
-			</messaging_rules>
-
-		</subsystem>
-		
 		<subsystem name="WindowManager" module="SDLWindowManagerPlugin">
 			
 			<messaging_rules>
@@ -270,7 +258,7 @@
 		<data_provider name="TeapotMesh" type="Loader.MeshData.AssimpMeshDataLoader">
 			<options_section>
 				<option name="filename" value="media/models/teapot.obj"/>
-				<option name="log_level" value="debug"/>
+				<option name="log_level" value="${global_log_level}"/>
 				
 				<options_section name="Postprocessing">
 					<option name="generate_normals" value="true"/>
@@ -289,7 +277,7 @@
 		<data_provider name="CapsuleMesh" type="Loader.MeshData.AssimpMeshDataLoader">
 			<options_section>
 				<option name="filename" value="media/models/capsule.obj"/>
-				<option name="log_level" value="debug"/>
+				<option name="log_level" value="${global_log_level}"/>
 				
 				<options_section name="Postprocessing">
 					<option name="generate_tangents" value="true"/>

@@ -16,7 +16,9 @@ namespace UnknownEngine
 		{
 
 			public:
-				BasePlugin(const char* name);
+				BasePlugin(const char* name):
+				name(name)
+				{}
 
 				UNKNOWNENGINE_INLINE
 				virtual const char* getName() const override

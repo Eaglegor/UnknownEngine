@@ -101,6 +101,13 @@ void StressTest::generateObjects ( size_t count )
 			props.set<Properties>("InitialTransform", transform);
 			
 			desc.descriptor = props;
+			
+			MessageSenderRules rules;
+			MessageSenderRule rule;
+			rule.message_type_name = "Engine.TransformChangedMessage";
+			rules.push_back(rule);
+			desc.sender_rules = rules;
+			
 		}
 		entity->createComponent(desc);
 		
@@ -130,7 +137,7 @@ void StressTest::generateObjects ( size_t count )
 			rule.receive_policy_options.set<std::string>("sender_name", rotation_component_name);
 			rules.push_back(rule);
 			
-			engine_context->getMessageDispatcher()->setListenerRules(desc.name.c_str(), rules);
+			desc.listener_rules = rules;
 		}
 		
 		entity->createComponent(desc);

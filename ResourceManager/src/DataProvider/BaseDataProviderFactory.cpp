@@ -19,7 +19,7 @@ namespace UnknownEngine
 			else iter->second.deleter ( object );
 		}
 		
-		bool BaseDataProviderFactory::supportsType ( const DataProviderDesc& object_type ) const
+		bool BaseDataProviderFactory::supportsType ( const DataProviderType& object_type ) const
 		{
 			return supported_types.find ( object_type ) != supported_types.end();
 		}

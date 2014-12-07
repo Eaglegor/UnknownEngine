@@ -1,6 +1,6 @@
 <scene>
 
-	<constant name="global_log_level" value="none"/>
+	<constant name="global_log_level" value="warning"/>
 
 	<subsystems>
 		<subsystem name="WindowManager" module="SDLWindowManagerPlugin">

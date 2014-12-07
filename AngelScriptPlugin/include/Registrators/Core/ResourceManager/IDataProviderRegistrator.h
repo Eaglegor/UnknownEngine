@@ -2,7 +2,7 @@
 
 #include <Registrators/ClassReferenceTypeRegistrator.h>
 #include <ResourceManager/DataProviders/IDataProvider.h>
-#include <Registrators/Loader/ASNamespaceName.h>
+#include <Registrators/Core/ASNamespaceName.h>
 
 namespace UnknownEngine
 {
@@ -12,7 +12,7 @@ namespace UnknownEngine
 		{
 		public:
 			IDataProviderRegistrator() :
-				ClassReferenceTypeRegistrator<Core::IDataProvider>("IDataProvider", LOADER_AS_NAMESPACE_NAME)
+				ClassReferenceTypeRegistrator<Core::IDataProvider>("IDataProvider", CORE_AS_NAMESPACE_NAME)
 			{}
 
 		protected:
