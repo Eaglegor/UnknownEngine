@@ -361,6 +361,7 @@
 				<options_section>
 					
 					<option name="log_level" value="${global_log_level}"/>
+					
 					<option name="throw_exception_on_missing_mesh_data" value="true"/>
 					
 					<provided_data name="mesh_ptr_provider" data_provider_name="OgreAdaptedCapsuleMesh"/>

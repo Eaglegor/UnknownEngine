@@ -9,11 +9,8 @@ namespace UnknownEngine
 
 		class LogManager;
 		class ComponentsManager;
-		class MessageDictionary;
 		class MessageDispatcher;
 		class ResourceManager;
-		class MessageSystemParticipantDictionary;
-		class MessagingPoliciesManager;
 
 		class EngineContext
 		{
