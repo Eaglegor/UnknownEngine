@@ -2,15 +2,14 @@
 
 #include <ResourceManager_export.h>
 #include <atomic>
-#include <thread>
 #include <mutex>
 #include <condition_variable>
-#include <DataProvider/IDataProvider.h>
-#include <ResourceContainer.h>
+#include <ResourceManager/DataProviders/IDataProvider.h>
+#include <ResourceManager/ResourceContainer.h>
 
 namespace UnknownEngine
 {
-	namespace Loader
+	namespace Core
 	{
 
 		class ReferencesCountingDataProvider : public IDataProvider
@@ -33,6 +32,9 @@ namespace UnknownEngine
 				RESOURCEMANAGER_EXPORT
 				virtual bool mayBeDestructed() const override;
 
+				RESOURCEMANAGER_EXPORT
+				virtual const char* getName() const override;
+				
 			protected:
 				void onLoadStarted();
 				void onLoadFinished();		
@@ -63,6 +65,8 @@ namespace UnknownEngine
 				
 				volatile std::atomic<size_t> references_counter;
 
+				std::string name;
+				
 		};
 
 	} // namespace Loader

@@ -2,7 +2,7 @@
 #include <Factories/AssimpMeshDataProvidersFactory.h>
 #include <DataProviders/AssimpMeshDataProvider.h>
 #include <Logging.h>
-#include <DataProvider/DataProviderDesc.h>
+#include <ResourceManager/DataProviders/DataProviderDesc.h>
 #include <Parsers/AssimpMeshDataProviderDescParser.h>
 #include <DataProviders/AssimpMeshDataProviderDescriptorGetter.h>
 
@@ -12,7 +12,7 @@ namespace UnknownEngine {
 		
 		static AssimpMeshDataProviderDescriptorGetter descriptor_getter;
 		
-		AssimpMeshDataProvidersFactory::AssimpMeshDataProvidersFactory ( Core::ILogger* logger, UnknownEngine::Core::EngineContext* engine_context ):
+		AssimpMeshDataProvidersFactory::AssimpMeshDataProvidersFactory ( Core::ILogger* logger, Core::EngineContext* engine_context ):
 		logger(logger),
 		engine_context(engine_context)
 		{
@@ -22,9 +22,9 @@ namespace UnknownEngine {
 			registerCreator(creatable_data_provider);
 		}
 		
-		IDataProvider* AssimpMeshDataProvidersFactory::createAssimpMeshDataLoader ( const DataProviderDesc& desc )
+		Core::IDataProvider* AssimpMeshDataProvidersFactory::createAssimpMeshDataLoader ( const Core::DataProviderDesc& desc )
 		{
-			IDataProvider* result;
+			Core::IDataProvider* result;
 
 			LOG_INFO(logger, "Creating Assimp mesh data provider");
 		

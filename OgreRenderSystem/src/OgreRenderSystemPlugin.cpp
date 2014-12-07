@@ -29,7 +29,7 @@
 
 #include <ComponentSystem/Entity.h>
 #include <ComponentSystem/IComponent.h>
-#include <ResourceManager.h>
+#include <ResourceManager/ResourceManager.h>
 
 namespace UnknownEngine
 {

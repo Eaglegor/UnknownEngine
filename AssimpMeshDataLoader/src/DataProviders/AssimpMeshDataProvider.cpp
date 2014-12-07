@@ -35,12 +35,12 @@ namespace UnknownEngine
 			RELEASE_LOGGER(logger);
 		}
 		
-		const DataProviderType AssimpMeshDataProvider::getType() const
+		const Core::DataProviderType AssimpMeshDataProvider::getType() const
 		{
 			return ASSIMP_MESH_DATA_PROVIDER_TYPE_NAME;
 		}
 
-		void AssimpMeshDataProvider::internalLoad ( ResourceContainer& out_container )
+		void AssimpMeshDataProvider::internalLoad ( Core::ResourceContainer& out_container )
 		{
 			
 			LOG_INFO(logger, "Started loading file " + desc.filename);

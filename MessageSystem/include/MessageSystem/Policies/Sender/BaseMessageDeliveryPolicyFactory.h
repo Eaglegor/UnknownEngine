@@ -35,7 +35,7 @@ namespace UnknownEngine
 			
 		private:
 			std::unordered_set<MessageDeliveryPolicyType> supported_types;
-			std::unordered_map<MessageDeliveryPolicyType, CreatableObjectDesc> component_creators;
+			std::unordered_map<MessageDeliveryPolicyType, CreatableObjectDesc> creators;
 		};
 	}
 }

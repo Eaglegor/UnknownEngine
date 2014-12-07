@@ -1,6 +1,6 @@
 #pragma once
 
-#include <DataProvider/LazyLoadDataProvider.h>
+#include <ResourceManager/DataProviders/LazyLoadDataProvider.h>
 #include <Descriptors/DataProviders/PxMaterialDataProviderDesc.h>
 
 namespace physx
@@ -21,16 +21,16 @@ namespace UnknownEngine
 		
 		class PhysXSubsystem;
 		
-		const Loader::DataProviderType PX_MATERIAL_DATA_PROVIDER_TYPE = Loader::DataProviderType("Loader.PxMaterial.PxMaterialDataProvider");
+		const Core::DataProviderType PX_MATERIAL_DATA_PROVIDER_TYPE = Core::DataProviderType("Loader.PxMaterial.PxMaterialDataProvider");
 		
-		class PxMaterialDataProvider : public Loader::LazyLoadDataProvider
+		class PxMaterialDataProvider : public Core::LazyLoadDataProvider
 		{
 		public:
 			PxMaterialDataProvider(const std::string& name, const PxMaterialDataProviderDesc& desc, PhysXSubsystem* physx_subsystem);
 			
-			virtual const Loader::DataProviderType getType() const override;
-			virtual void internalLoad ( Loader::ResourceContainer& out_container ) override;
-			virtual void internalUnload ( Loader::ResourceContainer& container ) override;
+			virtual const Core::DataProviderType getType() const override;
+			virtual void internalLoad ( Core::ResourceContainer& out_container ) override;
+			virtual void internalUnload ( Core::ResourceContainer& container ) override;
 			
 			physx::PxMaterial* getPxMaterial();
 			

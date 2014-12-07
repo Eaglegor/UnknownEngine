@@ -15,9 +15,9 @@
 
 
 #include <ComponentSystem/Entity.h>
-#include <DataProvider/DataProviderDesc.h>
-#include <DataProvider/IDataProvider.h>
-#include <ResourceManager.h>
+#include <ResourceManager/DataProviders/DataProviderDesc.h>
+#include <ResourceManager/DataProviders/IDataProvider.h>
+#include <ResourceManager/ResourceManager.h>
 
 #include <iostream>
 
@@ -153,7 +153,7 @@ namespace UnknownEngine
 		{
 			scene_loader->getConstantsHolder()->pushScope();
 			
-			Loader::DataProviderDesc desc;
+			Core::DataProviderDesc desc;
 			desc.name = data_provider_node.get_child(XMLATTR).get<std::string>( Attributes::DATA_PROVIDER::NAME );
 			desc.type = data_provider_node.get_child(XMLATTR).get<std::string>( Attributes::DATA_PROVIDER::TYPE );
 			
@@ -169,7 +169,7 @@ namespace UnknownEngine
 				}
 			}
 
-			IDataProvider* data_provider = engine_context->getResourceManager()->createDataProvider(desc);
+			Core::IDataProvider* data_provider = engine_context->getResourceManager()->createDataProvider(desc);
 			data_providers[desc.name] = data_provider;
 			data_provider->startLoading();
 			

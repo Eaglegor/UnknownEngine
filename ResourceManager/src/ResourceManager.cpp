@@ -1,12 +1,11 @@
 #include <stdafx.h>
 
-#include <ResourceManager.h>
-#include <DataProvider/IDataProviderFactory.h>
-#include <DataProvider/DataProviderDesc.h>
-#include <DataProvider/IDataProvider.h>
-#include <ThreadPool.h>
+#include <ResourceManager/ResourceManager.h>
+#include <ResourceManager/DataProviders/IDataProviderFactory.h>
+#include <ResourceManager/DataProviders/DataProviderDesc.h>
+#include <ResourceManager/DataProviders/IDataProvider.h>
+#include <ResourceManager/ThreadPool.h>
 
-#define ENABLE_CORE_SUBSYSTEM_INFO_LOG
 #include <Logging.h>
 #include <EngineLogLevel.h>
 
@@ -16,75 +15,133 @@ namespace UnknownEngine {
 		template<>
 		ResourceManager* Singleton<ResourceManager>::instance = nullptr;
 
-		ResourceManager::ResourceManager() :
-			internal_dictionary("ResourceManager.Dictionary", NUMERIC_IDENTIFIER_INITIAL_VALUE, INVALID_NUMERIC_IDENTIFIER),
-			thread_pool(ThreadPool::createInstance(2)),
-			logger(CREATE_LOGGER("Core.ResourceManager", ENGINE_LOG_LEVEL))
+		ResourceManager::ResourceManager():
+		thread_pool(ThreadPool::createInstance(2)),
+		logger("Core.ResourceManager", ENGINE_LOG_LEVEL)
 		{
 		}
 
 		ResourceManager::~ResourceManager()
 		{
+			internalCleanup(true);
 			ThreadPool::destroyInstance();
-			RELEASE_LOGGER(logger);
 		}
 		
-		void ResourceManager::addDataProviderFactory(Loader::IDataProviderFactory * factory)
+		void ResourceManager::addDataProviderFactory(IDataProviderFactory * factory)
 		{
-			if(factory->getInternalId() != Core::INVALID_NUMERIC_IDENTIFIER) return;
-			NumericIdentifierType new_id = internal_dictionary.registerNewValue(factory->getName());
-			factory->setInternalId(new_id);
-			data_provider_factories[new_id] = factory;
+			std::lock_guard<LockPrimitive> guard(mutex);
+			auto iter = data_provider_factories.find(factory->getName());
+			if(iter != data_provider_factories.end())
+			{
+				LOG_ERROR(logger, "Failed to register data provider factory " + factory->getName() +". Factory with the same name already registered" );
+				return;
+			}
+			data_provider_factories.emplace(factory->getName(), factory);
 		}
 
-		void ResourceManager::removeDataProviderFactory(Loader::IDataProviderFactory * factory)
+		void ResourceManager::removeDataProviderFactory(IDataProviderFactory * factory)
 		{
-			if(factory->getInternalId() == Core::INVALID_NUMERIC_IDENTIFIER) return;
-			data_provider_factories.erase(factory->getInternalId());
-			factory->setInternalId(Core::INVALID_NUMERIC_IDENTIFIER);
-		}
+			std::lock_guard<LockPrimitive> guard(mutex);
+			auto iter = data_provider_factories.find(factory->getName());
+			if(iter == data_provider_factories.end())
+			{
+				LOG_ERROR(logger, "Failed to unregister data provider factory " + factory->getName() + ". Factory not registered");
+			}
+			data_provider_factories.erase(iter);
+		}	
 
-		Loader::IDataProvider *ResourceManager::createDataProvider(const Loader::DataProviderDesc &desc) 
+		IDataProvider *ResourceManager::createDataProvider(const DataProviderDesc &desc) 
 		{
+			std::lock_guard<LockPrimitive> guard(mutex);
 			for( auto &factory : data_provider_factories )
 			{
 				if(factory.second->supportsType(desc.type))
 				{	
-					Loader::IDataProvider* data_provider = factory.second->createObject(desc);
-					data_providers.push_back(data_provider);
+					IDataProvider* data_provider = factory.second->createObject(desc);
+					if(!data_provider)
+					{
+						LOG_ERROR(logger, "Failed to create data provider " + desc.name);
+						return nullptr;
+					}
+					data_providers.emplace(desc.name, data_provider);
 					return data_provider;
 				}
 			}
-			throw NoSuitableFactoryFoundException("Can't find factory to create data provider '" + desc.name + "'" );
+			LOG_ERROR(logger, "No suitable data provider factory found to create data provider " + desc.name);
+			return nullptr;
 		}
 		
-		bool ResourceManager::removeDataProvider ( Loader::IDataProvider* data_provider )
+		void ResourceManager::removeDataProvider ( IDataProvider* data_provider )
 		{
-			if(data_provider == nullptr) return true;
-			if(!data_provider->mayBeDestructed()) return false;
+			std::lock_guard<LockPrimitive> guard(mutex);
+			if(data_provider == nullptr) 
+			{
+				LOG_ERROR(logger, "Nullptr passed as data provider to be destroyed. Nothing is to be done.");
+				return;
+			}
+			
+			if(!data_provider->mayBeDestructed()) 
+			{
+				LOG_DEBUG(logger, "Data provider " + data_provider->getName() + " is still in use and can't be destroyed" );
+				return;
+			}
 			
 			for( auto &factory : data_provider_factories )
 			{
 				if(factory.second->supportsType(data_provider->getType()))
 				{	
 					LOG_INFO(logger, "Destroying data provider  '" + data_provider->getName() + "'" );
-					auto iter = std::find ( data_providers.begin(), data_providers.end(), data_provider );
-					if ( iter != data_providers.end() ) *iter = nullptr;
+					data_providers.erase(data_provider->getName());
 					factory.second->destroyObject(data_provider);
-					
-					return true;
+					LOG_INFO(logger, "Data provider  '" + data_provider->getName() + "' destroyed");
+					return;
 				}
 			}
+			LOG_ERROR(logger, "No suitable data provider factory found to destroy data provider " + data_provider->getName());
 			
-			return false;
 		}
 
-		
 		void ResourceManager::cleanup()
 		{
-			for(size_t i = 0; i < data_providers.size(); ++i)
+			internalCleanup(false);
+		}
+		
+		void ResourceManager::internalCleanup(bool force_destruction)
+		{
+			std::vector<std::string> removed_data_providers;
+			
+			std::lock_guard<LockPrimitive> guard(mutex);
+			
+			for(auto &iter : data_providers)
 			{
-				removeDataProvider(data_providers[i]);
+				if(!force_destruction && !iter.second->mayBeDestructed())
+				{
+					LOG_DEBUG(logger, "Data provider " + iter.second->getName() + " is still in use and can't be destroyed" );
+					continue;
+				}
+				
+				if(!iter.second->mayBeDestructed())
+				{
+					LOG_WARNING(logger, "Destroying the in-use data provider " + iter.second->getName() + " because of forced cleanup" );
+				}
+				
+				for( auto &factory : data_provider_factories )
+				{
+					if(factory.second->supportsType(iter.second->getType()))
+					{	
+						LOG_INFO(logger, "Destroying data provider  '" + iter.second->getName() + "'" );
+						removed_data_providers.push_back(iter.second->getName());
+						factory.second->destroyObject(iter.second);
+						LOG_INFO(logger, "Data provider  '" + iter.second->getName() + "' destroyed");
+						continue;
+					}
+				}
+				LOG_ERROR(logger, "No suitable data provider factory found to destroy data provider " + iter.second->getName());
+			}
+			
+			for(const std::string& name : removed_data_providers)
+			{
+				data_providers.erase(name);
 			}
 		}
 

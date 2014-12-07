@@ -4,7 +4,7 @@
 
 #include <DataProviders/OgreMeshPtrFromMeshDataProvider.h>
 #include <Parsers/Descriptors/OgreMeshPtrFromMeshDataProviderDescriptorParser.h>
-#include <DataProvider/DataProviderDesc.h>
+#include <ResourceManager/DataProviders/DataProviderDesc.h>
 #include <Factories/OgreGetDescriptorVisitor.h>
 
 namespace UnknownEngine {
@@ -31,7 +31,7 @@ namespace UnknownEngine {
 			return "Graphics.OgreRenderSystem.OgreMeshPtrDataProvidersFactory";
 		}
 
-		Loader::IDataProvider* OgreMeshPtrDataProvidersFactory::createOgreMeshPtrFromMeshDataProvider ( const Loader::DataProviderDesc& desc )
+		Core::IDataProvider* OgreMeshPtrDataProvidersFactory::createOgreMeshPtrFromMeshDataProvider ( const Core::DataProviderDesc& desc )
 		{
 			return new OgreMeshPtrFromMeshDataProvider(desc.name, desc.descriptor.apply_visitor(descriptor_getter), render_subsystem, engine_context);
 		}

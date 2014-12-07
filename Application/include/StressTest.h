@@ -3,7 +3,7 @@
 #include <ExportedMessages/UpdateFrameMessage.h>
 #include <EngineContext.h>
 #include <MessageSystem/BaseMessageListener.h>
-#include <DataProvider/IDataProvider.h>
+#include <ResourceManager/DataProviders/IDataProvider.h>
 #include <Profiling/TimeCounter.h>
 
 class StressTest
@@ -23,7 +23,7 @@ public:
 	void generateObjects(size_t count);
 	
 private:
-	std::vector<UnknownEngine::Loader::IDataProvider*> data_providers;
+	std::vector<UnknownEngine::Core::IDataProvider*> data_providers;
 	
 	UnknownEngine::Core::EngineContext* engine_context;
 	float x_position;

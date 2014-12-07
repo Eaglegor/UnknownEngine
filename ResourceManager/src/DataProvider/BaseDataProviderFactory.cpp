@@ -1,30 +1,30 @@
-#include <ComponentSystem/BaseComponentFactory.h>
-#include <ComponentSystem/ComponentDesc.h>
+#include <ResourceManager/DataProviders/BaseDataProviderFactory.h>
+#include <ResourceManager/DataProviders/DataProviderDesc.h>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
-		IComponent* BaseComponentFactory::createObject ( const ComponentDesc& desc )
+		IDataProvider* BaseDataProviderFactory::createObject ( const DataProviderDesc& desc )
 		{
 			auto iter = creators.find ( desc.type );
 			if ( iter == creators.end() ) return nullptr;
 			else return iter->second.creator ( desc );
 		}
 		
-		void BaseComponentFactory::destroyObject ( IComponent* object )
+		void BaseDataProviderFactory::destroyObject ( IDataProvider* object )
 		{
 			auto iter = creators.find ( object->getType() );
 			if ( iter == creators.end() ) return;
 			else iter->second.deleter ( object );
 		}
 		
-		bool BaseComponentFactory::supportsType ( const ComponentType& object_type ) const
+		bool BaseDataProviderFactory::supportsType ( const DataProviderDesc& object_type ) const
 		{
 			return supported_types.find ( object_type ) != supported_types.end();
 		}
 		
-		void BaseComponentFactory::registerCreator ( const BaseComponentFactory::CreatableObjectDesc& creatable_object_desc )
+		void BaseDataProviderFactory::registerCreator ( const CreatableObjectDesc& creatable_object_desc )
 		{
 			supported_types.insert ( creatable_object_desc.type );
 			creators[creatable_object_desc.type] = creatable_object_desc;

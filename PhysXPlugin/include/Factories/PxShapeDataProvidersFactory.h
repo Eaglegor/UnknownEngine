@@ -1,5 +1,5 @@
 #pragma once
-#include <DataProvider/BaseDataProviderFactory.h>
+#include <ResourceManager/DataProviders/BaseDataProviderFactory.h>
 
 namespace UnknownEngine
 {
@@ -9,13 +9,13 @@ namespace UnknownEngine
 		class PxBoxShapeDataProvider;
 		class PhysXSubsystem;
 		
-		class PxShapeDataProvidersFactory : public Loader::BaseDataProviderFactory
+		class PxShapeDataProvidersFactory : public Core::BaseDataProviderFactory
 		{
 		public:
 			PxShapeDataProvidersFactory(PhysXSubsystem *physx_subsystem);
 			
 		private:
-			Loader::IDataProvider* createPxBoxShapeDataProvider(const Loader::DataProviderDesc& desc);
+			Core::IDataProvider* createPxBoxShapeDataProvider(const Core::DataProviderDesc& desc);
 			
 			virtual const char* getName() const override;
 			

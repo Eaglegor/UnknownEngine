@@ -1,10 +1,10 @@
 #include <stdafx.h>
 
-#include <DataProvider/LazyLoadDataProvider.h>
+#include <ResourceManager/DataProviders/LazyLoadDataProvider.h>
 
 namespace UnknownEngine
 {
-	namespace Loader
+	namespace Core
 	{
 		
 		LazyLoadDataProvider::LazyLoadDataProvider ( const std::string& name ) : ReferencesCountingDataProvider ( name )

@@ -2,6 +2,7 @@
 #include <Factories/PxMaterialDataProvidersFactory.h>
 #include <DataProviders/PxMaterialDataProvider.h>
 #include <Parsers/PxMaterialDataProviderDescriptorGetter.h>
+#include <ResourceManager/DataProviders/DataProviderDesc.h>
 
 namespace UnknownEngine
 {
@@ -24,7 +25,7 @@ namespace UnknownEngine
 			registerCreator(creatable_data_provider);
 		}
 
-		Loader::IDataProvider* PxMaterialDataProvidersFactory::createPxMaterialDataProvider ( const Loader::DataProviderDesc& desc )
+		Core::IDataProvider* PxMaterialDataProvidersFactory::createPxMaterialDataProvider ( const Core::DataProviderDesc& desc )
 		{
 			PxMaterialDataProvider* result;
 			result = new PxMaterialDataProvider(desc.name, desc.descriptor.apply_visitor(px_material_descriptor_getter), physx_subsystem);

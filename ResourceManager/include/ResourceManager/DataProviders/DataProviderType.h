@@ -1,8 +1,10 @@
 #pragma once
 
+#include <string>
+
 namespace UnknownEngine
 {
-  namespace Loader
+  namespace Core
   {
     typedef std::string DataProviderType;
   }

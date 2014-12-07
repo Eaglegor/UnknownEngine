@@ -35,7 +35,7 @@ namespace UnknownEngine
 			
 		private:
 			std::unordered_set<ComponentType> supported_types;
-			std::unordered_map<ComponentType, CreatableObjectDesc> component_creators;
+			std::unordered_map<ComponentType, CreatableObjectDesc> creators;
 		};
 	}
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <DataProvider/BaseDataProviderFactory.h>
+#include <ResourceManager/DataProviders/BaseDataProviderFactory.h>
 
 namespace UnknownEngine
 {
@@ -15,14 +15,14 @@ namespace UnknownEngine
 		
 		class OgreRenderSubsystem;
 
-		class OgreMeshPtrDataProvidersFactory : public Loader::BaseDataProviderFactory
+		class OgreMeshPtrDataProvidersFactory : public Core::BaseDataProviderFactory
 		{
 		public:
 			OgreMeshPtrDataProvidersFactory(Core::ILogger* logger, Core::EngineContext* engine_context, OgreRenderSubsystem* render_subsystem);
 			virtual const char* getName() const override;
 			
 		private:
-			Loader::IDataProvider* createOgreMeshPtrFromMeshDataProvider ( const Loader::DataProviderDesc& desc );
+			Core::IDataProvider* createOgreMeshPtrFromMeshDataProvider ( const Core::DataProviderDesc& desc );
 			
 			Core::ILogger* logger;
 			

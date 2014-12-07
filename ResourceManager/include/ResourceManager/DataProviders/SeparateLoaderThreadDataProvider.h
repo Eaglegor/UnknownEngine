@@ -3,11 +3,11 @@
 #include <ResourceManager_export.h>
 #include <memory>
 
-#include <DataProvider/ReferencesCountingDataProvider.h>
+#include <ResourceManager/DataProviders/ReferencesCountingDataProvider.h>
 
 namespace UnknownEngine
 {
-	namespace Loader
+	namespace Core
 	{
 
 		class SeparateLoaderThreadDataProvider : public ReferencesCountingDataProvider

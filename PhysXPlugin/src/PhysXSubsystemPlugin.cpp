@@ -15,7 +15,7 @@
 #include <Factories/PxRigidBodyComponentsFactory.h>
 #include <Factories/PxJointComponentsFactory.h>
 #include <Parsers/PhysXSubsystemDescriptorGetter.h>
-#include <ResourceManager.h>
+#include <ResourceManager/ResourceManager.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 
 namespace UnknownEngine

@@ -1,10 +1,10 @@
 #include <stdafx.h>
 
-#include <DataProvider/SeparateLoaderThreadDataProvider.h>
-#include <ThreadPool.h>
+#include <ResourceManager/DataProviders/SeparateLoaderThreadDataProvider.h>
+#include <ResourceManager/ThreadPool.h>
 
 namespace UnknownEngine {
-	namespace Loader {
+	namespace Core {
 
 		SeparateLoaderThreadDataProvider::SeparateLoaderThreadDataProvider(const std::string &name) :
 			ReferencesCountingDataProvider(name)

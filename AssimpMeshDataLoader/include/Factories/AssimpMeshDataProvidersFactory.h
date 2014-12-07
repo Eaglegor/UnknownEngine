@@ -1,5 +1,5 @@
 #pragma once
-#include <DataProvider/BaseDataProviderFactory.h>
+#include <ResourceManager/DataProviders/BaseDataProviderFactory.h>
 
 namespace UnknownEngine
 {
@@ -11,7 +11,7 @@ namespace UnknownEngine
 
 	namespace Loader
 	{
-		class AssimpMeshDataProvidersFactory : public BaseDataProviderFactory
+		class AssimpMeshDataProvidersFactory : public Core::BaseDataProviderFactory
 		{
 		public:
 			
@@ -20,7 +20,7 @@ namespace UnknownEngine
 			virtual const char* getName() const override;
 			
 		private:
-			IDataProvider* createAssimpMeshDataLoader( const DataProviderDesc& desc );
+			Core::IDataProvider* createAssimpMeshDataLoader( const Core::DataProviderDesc& desc );
 			
 			Core::ILogger* logger;
 			Core::EngineContext* engine_context;

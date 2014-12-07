@@ -8,7 +8,7 @@
 #include <Profiling/SimpleFpsPrinter.h>
 #include <Profiling/TimeCounter.h>
 #include <Scalar.h>
-#include <ResourceManager.h>
+#include <ResourceManager/ResourceManager.h>
 
 
 namespace UnknownEngine

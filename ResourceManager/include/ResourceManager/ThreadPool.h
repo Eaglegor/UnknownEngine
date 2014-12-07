@@ -27,7 +27,7 @@ namespace UnknownEngine
             class Worker
             {
             public:
-                explicit Worker();
+                Worker();
                 bool pushTask(Task &task);
                 void join();
 

@@ -22,9 +22,6 @@ namespace UnknownEngine
 				virtual ~MessageDictionary ();
 
 				MESSAGESYSTEM_EXPORT
-				MessageType registerNewMessageType ( const char* message_type_name );
-
-				MESSAGESYSTEM_EXPORT
 				bool messageTypeIsRegistered ( const MessageType &type_id ) const;
 
 				MESSAGESYSTEM_EXPORT
@@ -39,6 +36,9 @@ namespace UnknownEngine
 			private:
 				typedef Utils::Dictionary<MessageType, std::string> InternalDictionaryType;
 				InternalDictionaryType internal_dictionary;
+				
+				typedef std::mutex LockPrimitive;
+				mutable LockPrimitive mutex;
 		};
 
 #ifdef _MSC_VER

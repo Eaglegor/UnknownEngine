@@ -1,12 +1,12 @@
 #pragma once
-#include <DataProvider/ReferencesCountingDataProvider.h>
+#include <ResourceManager/DataProviders/ReferencesCountingDataProvider.h>
 #include <ResourceManager_export.h>
 
 namespace UnknownEngine
 {
-	namespace Loader
+	namespace Core
 	{
-		class LazyLoadDataProvider : public Loader::ReferencesCountingDataProvider
+		class LazyLoadDataProvider : public ReferencesCountingDataProvider
 		{
 		public:
 			RESOURCEMANAGER_EXPORT

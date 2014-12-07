@@ -22,12 +22,12 @@ namespace UnknownEngine
 			// TODO Auto-generated destructor stub
 		}
 
-		const Core::Properties OptionsParser::parseOptions ( const boost::property_tree::ptree& options_node, const UnknownEngine::Loader::ConstantsHolder* constants, std::unordered_map< std::string, IDataProvider* > *data_providers_map )
+		const Core::Properties OptionsParser::parseOptions ( const boost::property_tree::ptree& options_node, const UnknownEngine::Loader::ConstantsHolder* constants, std::unordered_map< std::string, Core::IDataProvider* >* data_providers_map )
 		{
 			return parseOptionsSection ( options_node, constants, data_providers_map );
 		}
 
-		const Core::Properties OptionsParser::parseOptionsSection ( const ptree &options_node, const ConstantsHolder *constants, std::unordered_map<std::string, IDataProvider*> *data_providers_map )
+		const Core::Properties OptionsParser::parseOptionsSection ( const ptree &options_node, const ConstantsHolder *constants, std::unordered_map<std::string, Core::IDataProvider*> *data_providers_map )
 		{
 			Core::Properties result;
 			for ( const ptree::value_type & iter : options_node )
@@ -49,7 +49,7 @@ namespace UnknownEngine
 					if(data_providers_map == nullptr) throw NoDataProviderFound("Data provider not found while parsing option: '" + option_name + "'");
 					const auto &iter = data_providers_map->find(data_provider_name);
 					if(iter==data_providers_map->end()) throw NoDataProviderFound("Data provider not found while parsing option: '" + option_name + "'");
-					result.set<Loader::IDataProvider*> ( option_name, iter->second );
+					result.set<Core::IDataProvider*> ( option_name, iter->second );
 				}
 			}
 			return result;

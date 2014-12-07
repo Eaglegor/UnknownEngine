@@ -1,5 +1,5 @@
 #pragma once
-#include <DataProvider/SeparateLoaderThreadDataProvider.h>
+#include <ResourceManager/DataProviders/SeparateLoaderThreadDataProvider.h>
 #include <Exception.h>
 #include <ExportedMessages/LogMessage.h>
 #include <memory>
@@ -15,9 +15,9 @@ namespace UnknownEngine
 	namespace Loader
 	{
 
-		static const DataProviderType ASSIMP_MESH_DATA_PROVIDER_TYPE_NAME = "Loader.MeshData.AssimpMeshDataLoader";
+		static const Core::DataProviderType ASSIMP_MESH_DATA_PROVIDER_TYPE_NAME = "Loader.MeshData.AssimpMeshDataLoader";
 		
-		class AssimpMeshDataProvider : public SeparateLoaderThreadDataProvider
+		class AssimpMeshDataProvider : public Core::SeparateLoaderThreadDataProvider
 		{
 		public:
 			UNKNOWNENGINE_SIMPLE_EXCEPTION(AssimpMeshDataLoadError);
@@ -50,8 +50,8 @@ namespace UnknownEngine
 			AssimpMeshDataProvider ( const std::string& name, const Descriptor &desc, Core::EngineContext* engine_context );
 			~AssimpMeshDataProvider();
 			
-			virtual const DataProviderType getType() const override;
-			virtual void internalLoad ( ResourceContainer& out_container ) override;
+			virtual const Core::DataProviderType getType() const override;
+			virtual void internalLoad ( Core::ResourceContainer& out_container ) override;
 
 		private:
 			Descriptor desc;

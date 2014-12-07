@@ -20,7 +20,7 @@ namespace UnknownEngine {
 			(
 				props,
 				{
-					{"mesh_data_provider", PropertiesParser::OptionalRawValue<Loader::IDataProvider*>(desc.mesh_data_provider)},
+					{"mesh_data_provider", PropertiesParser::OptionalRawValue<Core::IDataProvider*>(desc.mesh_data_provider)},
 					{"log_level", PropertiesParser::OptionalValue<Core::LogSeverity>(desc.log_level)},
 				}
 			);

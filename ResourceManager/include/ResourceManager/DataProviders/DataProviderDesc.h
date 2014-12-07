@@ -1,15 +1,14 @@
 #pragma once
 
 #include <string>
-#include <DataProvider/DataProviderType.h>
+#include <ResourceManager/DataProviders/DataProviderType.h>
 #include <Properties/Properties.h>
 #include <DescriptorContainer.h>
-#include <Properties/Properties_fwd.h>
 #include <boost/variant.hpp>
 
 namespace UnknownEngine
 {
-	namespace Loader
+	namespace Core
 	{
 		struct DataProviderDesc
 		{

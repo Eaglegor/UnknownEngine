@@ -5,7 +5,7 @@
 
 namespace UnknownEngine
 {
-	namespace Loader
+	namespace Core
 	{
 		class ResourceContainer
 		{

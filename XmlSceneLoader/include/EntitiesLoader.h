@@ -10,16 +10,15 @@ namespace UnknownEngine
 
 	namespace Core
 	{
-
 		class EngineContext;
 		class IComponent;
 		class IEntity;
+		class IDataProvider;
 	}
 
 	namespace Loader
 	{
 
-		class IDataProvider;
 		class XmlSceneLoader;
 
 		class EntitiesLoader
@@ -44,7 +43,7 @@ namespace UnknownEngine
 				Core::IComponent* loadComponent ( Core::IEntity* parent_entity, const std::string &name, const boost::property_tree::ptree &component_node );
 				bool createDataProvider ( const boost::property_tree::ptree &data_provider_node );
 
-				std::unordered_map<std::string, Loader::IDataProvider*> data_providers;
+				std::unordered_map<std::string, Core::IDataProvider*> data_providers;
 				
 				Core::EngineContext* engine_context;
 				XmlSceneLoader* scene_loader;

@@ -1,14 +1,12 @@
 #pragma once
 
-#include <string>
-#include <DataProvider/DataProviderType.h>
-#include <InlineSpecification.h>
-#include <Properties/Properties_fwd.h>
+#include <ResourceManager_export.h>
+#include <ResourceManager/DataProviders/DataProviderType.h>
 
 namespace UnknownEngine
 {
 
-	namespace Loader
+	namespace Core
 	{
 
         class ResourceContainer;
@@ -16,34 +14,30 @@ namespace UnknownEngine
 		class IDataProvider
 		{
 			public:
+				RESOURCEMANAGER_EXPORT
 				virtual ~IDataProvider()
-				{
-				}
+				{}
 
-				explicit IDataProvider(const std::string &name):
-					name(name){}
-
+				RESOURCEMANAGER_EXPORT
                 virtual void startLoading() = 0;
 
+				RESOURCEMANAGER_EXPORT
                 virtual const ResourceContainer& getResource() = 0;
 
+				RESOURCEMANAGER_EXPORT
                 virtual void reserve() = 0;
 
+				RESOURCEMANAGER_EXPORT
                 virtual void release() = 0;
 
+				RESOURCEMANAGER_EXPORT
                 virtual bool mayBeDestructed() const = 0;
 
+				RESOURCEMANAGER_EXPORT
 				virtual const DataProviderType getType() const = 0;
 
-				UNKNOWNENGINE_INLINE
-				std::string getName() const
-				{
-					return name;
-				}
-
-			private:
-				std::string name;
-
+				RESOURCEMANAGER_EXPORT
+				virtual const char* getName() const = 0;
 		};
 
 	} /* namespace Core */

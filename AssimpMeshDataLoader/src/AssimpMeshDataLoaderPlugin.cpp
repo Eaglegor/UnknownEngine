@@ -7,7 +7,7 @@
 #include <AssimpMeshDataLoaderDescriptorGetter.h>
 #include <EngineContext.h>
 #include <Logging.h>
-#include <ResourceManager.h>
+#include <ResourceManager/ResourceManager.h>
 
 namespace UnknownEngine
 {

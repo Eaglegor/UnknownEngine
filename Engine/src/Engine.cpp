@@ -5,7 +5,7 @@
 #include <MessageSystem/MessageDispatcher.h>
 #include <MessageSystem/MessageDictionary.h>
 #include <MessageSystem/MessageSender.h>
-#include <ResourceManager.h>
+#include <ResourceManager/ResourceManager.h>
 #include <Plugins/PluginsManager.h>
 #include <ComponentSystem/ComponentsManager.h>
 

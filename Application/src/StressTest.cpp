@@ -4,13 +4,12 @@
 #include <ComponentSystem/ComponentsManager.h>
 #include <ComponentSystem/Entity.h>
 #include <ComponentSystem/ComponentDesc.h>
-#include <DataProvider/DataProviderDesc.h>
-#include <ResourceManager.h>
+#include <ResourceManager/DataProviders/DataProviderDesc.h>
+#include <ResourceManager/ResourceManager.h>
 #include <MessageSystem/MessageDispatcher.h>
 
 using namespace UnknownEngine::Core;
 using namespace UnknownEngine::Utils;
-using namespace UnknownEngine::Loader;
 
 void StressTest::init ( EngineContext* engine_context )
 {

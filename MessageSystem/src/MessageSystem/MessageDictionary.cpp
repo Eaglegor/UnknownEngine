@@ -16,21 +16,17 @@ namespace UnknownEngine
 			// TODO Auto-generated constructor stub
 		}
 
-		MessageType MessageDictionary::registerNewMessageType ( const char* message_type_name )
-		{
-			if ( messageTypeIsRegistered ( message_type_name ) ) return getMessageTypeId ( message_type_name );
-			return internal_dictionary.registerNewValue ( message_type_name );
-		}
-
 		const char* MessageDictionary::getMessageTypeName ( const MessageType &type_id ) const 
 		{
+			std::lock_guard<LockPrimitive> guard(mutex);
 			return internal_dictionary.getValueByKey ( type_id ).c_str();
 		}
 
 		MessageType MessageDictionary::getMessageTypeId ( const char* type_name ) 
 		{
+			std::lock_guard<LockPrimitive> guard(mutex);
 			NumericIdentifierType type = internal_dictionary.getKeyByValue ( type_name );
-			if(type == INVALID_NUMERIC_IDENTIFIER) type = registerNewMessageType(type_name);
+			if(type == INVALID_NUMERIC_IDENTIFIER) type = internal_dictionary.registerNewValue ( type_name );
 			return type;
 		}
 
@@ -41,11 +37,13 @@ namespace UnknownEngine
 
 		bool MessageDictionary::messageTypeIsRegistered ( const MessageType &type_id ) const
 		{
+			std::lock_guard<LockPrimitive> guard(mutex);
 			return internal_dictionary.keyIsRegistered ( type_id );
 		}
 
 		bool MessageDictionary::messageTypeIsRegistered ( const char* type_name ) const
 		{
+			std::lock_guard<LockPrimitive> guard(mutex);
 			return internal_dictionary.valueIsRegistered ( type_name );
 		}
 

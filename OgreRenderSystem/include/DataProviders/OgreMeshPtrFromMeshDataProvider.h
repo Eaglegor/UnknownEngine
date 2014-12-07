@@ -1,7 +1,7 @@
 #pragma once
 
 #include <DataProviders/OgreMeshPtrProvider.h>
-#include <DataProvider/DataProviderType.h>
+#include <ResourceManager/DataProviders/DataProviderType.h>
 #include <Descriptors/DataProviders/OgreMeshPtrFromMeshDataProviderDescriptor.h>
 
 namespace UnknownEngine
@@ -17,7 +17,7 @@ namespace UnknownEngine
 
 		class OgreRenderSubsystem;
 		
-		const Loader::DataProviderType OGRE_MESH_PTR_FROM_MESH_DATA_PROVIDER_TYPE = "Loader.OgreMeshPtr.OgreMeshPtrFromMeshDataProvider";
+		const Core::DataProviderType OGRE_MESH_PTR_FROM_MESH_DATA_PROVIDER_TYPE = "Loader.OgreMeshPtr.OgreMeshPtrFromMeshDataProvider";
 		
 		class OgreMeshPtrFromMeshDataProvider : public OgreMeshPtrProvider
 		{
@@ -25,15 +25,15 @@ namespace UnknownEngine
 				OgreMeshPtrFromMeshDataProvider ( const std::string &name, const OgreMeshPtrFromMeshDataProviderDescriptor &descriptor, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context );
 				virtual ~OgreMeshPtrFromMeshDataProvider();
 				
-				virtual const Loader::DataProviderType getType() const override;
+				virtual const Core::DataProviderType getType() const override;
 				
 			protected:
-				virtual void internalLoad ( Loader::ResourceContainer &out_container ) override;
-				Loader::IDataProvider* mesh_data_provider;
+				virtual void internalLoad ( Core::ResourceContainer &out_container ) override;
+				Core::IDataProvider* mesh_data_provider;
 				OgreRenderSubsystem* render_subsystem;
 				Core::ILogger* logger;
 				bool loaded;
-				Loader::ResourceContainer cont;
+				Core::ResourceContainer cont;
 		};
 
 	} // namespace Graphics

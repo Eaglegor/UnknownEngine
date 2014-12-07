@@ -31,9 +31,9 @@ namespace UnknownEngine
 			RELEASE_LOGGER(logger);
 		}
 		
-		void OgreMeshPtrFromMeshDataProvider::internalLoad ( Loader::ResourceContainer& out_container )
+		void OgreMeshPtrFromMeshDataProvider::internalLoad ( Core::ResourceContainer& out_container )
 		{
-			Ogre::ManualObject* manual_object = render_subsystem->getSceneManager()->createManualObject(getName()+".TempObject");
+			Ogre::ManualObject* manual_object = render_subsystem->getSceneManager()->createManualObject(std::string(getName())+".TempObject");
 			
 			const Utils::MeshData& mesh_data = mesh_data_provider->getResource().getData<Utils::MeshData>();
 			
@@ -70,14 +70,14 @@ namespace UnknownEngine
 			
 			manual_object->end();
 			
-			Ogre::MeshPtr mesh_ptr = manual_object->convertToMesh(getName() + ".OgreMeshPtr");
+			Ogre::MeshPtr mesh_ptr = manual_object->convertToMesh(std::string(getName()) + ".OgreMeshPtr");
 			
 			mesh_data_provider->release();
 			
 			out_container.setData<Ogre::MeshPtr>(mesh_ptr);
 		}
 		
-		const Loader::DataProviderType OgreMeshPtrFromMeshDataProvider::getType() const
+		const Core::DataProviderType OgreMeshPtrFromMeshDataProvider::getType() const
 		{
 			return OGRE_MESH_PTR_FROM_MESH_DATA_PROVIDER_TYPE;
 		}
