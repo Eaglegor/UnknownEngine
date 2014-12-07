@@ -10,7 +10,7 @@ namespace UnknownEngine
 		{
 		public:
 			explicit SimpleBehaviorComponent ( const std::string& name ):
-			Core::BaseComponent(name)
+			Core::BaseComponent(name.c_str())
 			{}
 			
 			virtual void act(Math::Scalar dt) = 0;

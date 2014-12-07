@@ -24,7 +24,8 @@ namespace UnknownEngine
 	namespace Behavior
 	{
 
-		SimpleBehaviorPlugin::SimpleBehaviorPlugin ()
+		SimpleBehaviorPlugin::SimpleBehaviorPlugin ( const char* name ):
+		Core::BasePlugin(name)
 		{
 		}
 

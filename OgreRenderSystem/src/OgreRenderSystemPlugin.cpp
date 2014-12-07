@@ -36,11 +36,12 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		OgreRenderSystemPlugin::OgreRenderSystemPlugin () :
-			engine_context ( nullptr ),
-			renderable_components_factory ( nullptr ),
-			camera_components_factory ( nullptr ),
-			logger ( nullptr )
+		OgreRenderSystemPlugin::OgreRenderSystemPlugin (const char* name) :
+		Core::BasePlugin(name),
+		engine_context ( nullptr ),
+		renderable_components_factory ( nullptr ),
+		camera_components_factory ( nullptr ),
+		logger ( nullptr )
 		{
 		}
 

@@ -16,7 +16,7 @@ namespace UnknownEngine
 		{
 			public:
 				RESOURCEMANAGER_EXPORT
-				ReferencesCountingDataProvider ( const std::string &name );
+				ReferencesCountingDataProvider ( const char* name );
 
 				virtual ~ReferencesCountingDataProvider();
 				

@@ -2,8 +2,8 @@
 
 #include <Plugins_export.h>
 #include <list>
-#include <Plugins/PluginError.h>
 #include <Singleton.h>
+#include <LogHelper.h>
 
 namespace UnknownEngine
 {
@@ -13,7 +13,7 @@ namespace UnknownEngine
 
 		class ILogger;
 
-		class Plugin;
+		class IPlugin;
 		struct SubsystemDesc;
 		class EngineContext;
 
@@ -27,7 +27,7 @@ namespace UnknownEngine
 				virtual ~PluginsManager ();
 
 				PLUGINS_EXPORT
-				void loadSubsystem ( const SubsystemDesc &desc );
+				bool loadSubsystem ( const SubsystemDesc &desc );
 
 				PLUGINS_EXPORT
 				void initSubsystems();
@@ -36,12 +36,12 @@ namespace UnknownEngine
 				EngineContext* getEngineContext() const;
 
 			private:
-				void loadModule(const std::string &library_name, const SubsystemDesc &desc) ;
+				bool loadModule(const char* library_name, const SubsystemDesc &desc) ;
 
 				EngineContext* engine_context;
-				std::list<Plugin*> plugins;
+				std::list<IPlugin*> plugins;
 				std::list<void*> libraries_handlers;
-				ILogger* logger;
+				LogHelper logger;
 		};
 
 #ifdef _MSC_VER

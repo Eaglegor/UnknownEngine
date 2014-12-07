@@ -1,8 +1,8 @@
 #pragma once
 
 #include <InlineSpecification.h>
-#include <Plugins/Plugin.h>
-#include <SubsystemDesc.h>
+#include <Plugins/BasePlugin.h>
+#include <Plugins/SubsystemDesc.h>
 #include "Descriptors/PhysXSubsystemDesc.h"
 #include <memory>
 
@@ -26,10 +26,10 @@ namespace UnknownEngine
 		class PxRigidBodyComponentsFactory;
 		class PxJointComponentsFactory;
 
-		class PhysXSubsystemPlugin: public Core::Plugin
+		class PhysXSubsystemPlugin: public Core::BasePlugin
 		{
 			public:
-				PhysXSubsystemPlugin();
+				PhysXSubsystemPlugin(const char* name);
 				virtual ~PhysXSubsystemPlugin();
 
 				virtual bool install(Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc)  override;

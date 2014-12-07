@@ -7,7 +7,7 @@ namespace UnknownEngine
 	namespace Core
 	{
 
-		ReferencesCountingDataProvider::ReferencesCountingDataProvider ( const std::string &name ):
+		ReferencesCountingDataProvider::ReferencesCountingDataProvider ( const char* name ):
 		load_started ( false ),
 		load_finished ( false ),
 		references_counter ( 1 ),

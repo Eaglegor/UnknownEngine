@@ -7,7 +7,7 @@ namespace UnknownEngine {
 	namespace Core {
 
 		SeparateLoaderThreadDataProvider::SeparateLoaderThreadDataProvider(const std::string &name) :
-			ReferencesCountingDataProvider(name)
+			ReferencesCountingDataProvider(name.c_str())
 		{
 		}
 

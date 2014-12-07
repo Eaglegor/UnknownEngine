@@ -23,7 +23,8 @@ namespace UnknownEngine
 	namespace Physics
 	{
 		
-		PhysXSubsystemPlugin::PhysXSubsystemPlugin ()
+		PhysXSubsystemPlugin::PhysXSubsystemPlugin ( const char* name ):
+		Core::BasePlugin(name)
 		{
 		}
 

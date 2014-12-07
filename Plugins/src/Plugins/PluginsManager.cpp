@@ -1,9 +1,9 @@
 #include <stdafx.h>
 
-#include <Plugins/Plugin.h>
+#include <Plugins/IPlugin.h>
 #include <Plugins/PluginsManager.h>
 #include <MessageSystem/MessageDispatcher.h>
-#include <SubsystemDesc.h>
+#include <Plugins/SubsystemDesc.h>
 #include <Engine.h>
 #include <EngineLogLevel.h>
 
@@ -38,12 +38,12 @@ namespace UnknownEngine
 		template<>
 		PluginsManager* Singleton<PluginsManager, EngineContext*>::instance = nullptr;
 
-		typedef Plugin* (*PluginStartPoint) ( UnknownEngine::Core::PluginsManager*, const SubsystemDesc &desc);
+		typedef IPlugin* (*PluginStartPoint) ( UnknownEngine::Core::PluginsManager*, const SubsystemDesc &desc);
 		typedef void (*PluginShutdownPoint) ( void );
 
 		PluginsManager::PluginsManager (EngineContext* engine_context):
 			engine_context(engine_context),
-			logger(CREATE_LOGGER("Core.PluginsManager", ENGINE_LOG_LEVEL))
+			logger("Core.PluginsManager", ENGINE_LOG_LEVEL)
         {
         }
 
@@ -73,27 +73,24 @@ namespace UnknownEngine
 				UNLOAD_LIBRARY( *iter );
 				*iter = nullptr;
 			}
-			
-			RELEASE_LOGGER(logger);
 		}
 
-		void PluginsManager::loadSubsystem(const SubsystemDesc &desc)
+		bool PluginsManager::loadSubsystem(const SubsystemDesc &desc)
 		{
 			LOG_INFO(logger, "Loading subsystem: " + desc.name + " (" + desc.module_name + ")");
-			loadModule(desc.module_name, desc);
+			return loadModule(desc.module_name.c_str(), desc);
 		}
 
-		void PluginsManager::loadModule (const std::string &library_name, const SubsystemDesc &desc ) 
+		bool PluginsManager::loadModule (const char* library_name, const SubsystemDesc &desc ) 
 		{
-		  
 			LOG_INFO(logger, "Loading shared library " + library_name);
 		  
-			void* library = LOAD_LIBRARY( library_name.c_str () );
+			void* library = LOAD_LIBRARY( library_name );
 
 			if ( library == nullptr ) 
 			{
 			  LOG_ERROR(logger, "Error while loading shared library: " + std::string( GET_LAST_LOAD_ERROR() ));
-			  throw UnknownEngine::Core::PluginError ("Library " + library_name + " can't be loaded\n" );
+			  return false;
 			}
 			
 			LOG_INFO(logger, "Searching for plugin start point");
@@ -102,7 +99,7 @@ namespace UnknownEngine
 			if ( start_point == nullptr ) 
 			{
 			  LOG_ERROR(logger, "Error while searching entry point: " + std::string(GET_LAST_LOAD_ERROR()));
-			  throw UnknownEngine::Core::PluginError (library_name+": Plugin entry point can't be found in library");
+			  return false;
 			}
 
 			LOG_INFO(logger, "Registering messaging rules");
@@ -111,29 +108,30 @@ namespace UnknownEngine
 			LOG_INFO(logger, "Unregistering messaging rules");
 
 			LOG_INFO(logger, "Creating plugin instance: " + library_name);
-			Plugin* plugin = start_point ( this, desc );
+			IPlugin* plugin = start_point ( this, desc );
 
 			LOG_INFO(logger, "Installing plugin: " + library_name);
 			
-			plugin->setName(desc.name);
 			plugin->install(this, desc);
 
 			LOG_INFO(logger, "Installation complete: " + library_name);
 			plugins.push_back(plugin);
 			libraries_handlers.push_back(library);
+			
+			return true;
 		}
 
 		void PluginsManager::initSubsystems ()
 		{
 			LOG_INFO(logger, "Initializing plugins");
-			for(Plugin* plugin: plugins){
+			for(IPlugin* plugin: plugins){
 				LOG_INFO(logger,  "Initializing plugin: " + plugin->getName());
 				plugin->init();
 				LOG_INFO(logger,  "Plugin initialized: " + plugin->getName());
 			}
 		}
 
-		EngineContext *PluginsManager::getEngineContext() const
+		EngineContext* PluginsManager::getEngineContext() const
 		{
 			return engine_context;
 		}

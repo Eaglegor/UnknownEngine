@@ -23,7 +23,8 @@ namespace UnknownEngine
 	namespace Behavior
 	{
 
-		AngelScriptPlugin::AngelScriptPlugin ()
+		AngelScriptPlugin::AngelScriptPlugin (const char* name):
+		Core::BasePlugin(name)
 		{
 		}
 

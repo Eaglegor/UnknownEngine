@@ -9,9 +9,9 @@ static DummySubsystemPlugin* instance = nullptr;
 
 extern "C"
 DUMMYSUBSYSTEM_EXPORT
-UnknownEngine::Core::Plugin* installPlugin(PluginsManager* manager, const SubsystemDesc& desc)
+IPlugin* installPlugin(PluginsManager* manager, const SubsystemDesc& desc)
 {
-	if(!instance) instance = new DummySubsystemPlugin();
+	if(!instance) instance = new DummySubsystemPlugin(desc.name.c_str());
 	return instance;
 }
 

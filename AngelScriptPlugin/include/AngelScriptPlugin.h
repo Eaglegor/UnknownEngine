@@ -1,8 +1,8 @@
 #pragma once
 
 #include <InlineSpecification.h>
-#include <Plugins/Plugin.h>
-#include <SubsystemDesc.h>
+#include <Plugins/BasePlugin.h>
+#include <Plugins/SubsystemDesc.h>
 #include <memory>
 
 namespace UnknownEngine
@@ -22,10 +22,10 @@ namespace UnknownEngine
 
 		class AngelScriptSubsystem;
 
-		class AngelScriptPlugin: public Core::Plugin
+		class AngelScriptPlugin: public Core::BasePlugin
 		{
 			public:
-				AngelScriptPlugin();
+				AngelScriptPlugin(const char* name);
 				virtual ~AngelScriptPlugin();
 
 				virtual bool install(Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc)  override;

@@ -3,10 +3,6 @@
 
 #include <Engine.h>
 #include <XmlSceneLoader.h>
-#include <ConstantsHolder.h>
-#include <EngineContext.h>
-#include <Plugins/PluginsManager.h>
-#include <SubsystemDesc.h>
 #include <boost/program_options.hpp>
 
 using namespace UnknownEngine::Core;

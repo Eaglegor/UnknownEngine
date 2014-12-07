@@ -7,7 +7,7 @@ namespace UnknownEngine
 	namespace Core
 	{
 		
-		LazyLoadDataProvider::LazyLoadDataProvider ( const std::string& name ) : ReferencesCountingDataProvider ( name )
+		LazyLoadDataProvider::LazyLoadDataProvider ( const std::string& name ) : ReferencesCountingDataProvider ( name.c_str() )
 		{
 		}
 		

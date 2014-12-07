@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Plugins/Plugin.h>
+#include <Plugins/BasePlugin.h>
 #include <Plugins/PluginsManager.h>
-#include <SubsystemDesc.h>
+#include <Plugins/SubsystemDesc.h>
 #include <memory>
 
 namespace UnknownEngine
@@ -18,10 +18,10 @@ namespace UnknownEngine
     {
         class InputContextMapper;
 
-        class InputContextMapperPlugin : public Core::Plugin
+        class InputContextMapperPlugin : public Core::BasePlugin
         {
         public:
-			InputContextMapperPlugin();
+			InputContextMapperPlugin(const char* name);
 			virtual ~InputContextMapperPlugin();
 
 

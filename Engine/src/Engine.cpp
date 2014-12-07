@@ -12,7 +12,7 @@
 #include <ExportedMessages/LogMessage.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 
-#include <SubsystemDesc.h>
+#include <Plugins/SubsystemDesc.h>
 #include <ISceneLoader.h>
 
 #include <StopEngineListener.h>

@@ -1,5 +1,6 @@
 #include <stdafx.h>
 #include <AngelScriptPlugin.h>
+#include <Plugins/SubsystemDesc.h>
 #include <AngelScriptPlugin_export.h>
 
 using namespace UnknownEngine::Behavior;
@@ -9,9 +10,9 @@ static AngelScriptPlugin* instance = nullptr;
 
 extern "C"
 ANGELSCRIPTPLUGIN_EXPORT
-UnknownEngine::Core::Plugin* installPlugin(PluginsManager* manager, const SubsystemDesc& desc)
+UnknownEngine::Core::IPlugin* installPlugin(PluginsManager* manager, const SubsystemDesc& desc)
 {
-	if(!instance) instance = new AngelScriptPlugin();
+	if(!instance) instance = new AngelScriptPlugin(desc.name.c_str());
 	return instance;
 }
 

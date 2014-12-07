@@ -1,7 +1,8 @@
 #pragma once
 
-#include <Plugins/PluginError.h>
+#include <Plugins/IPlugin.h>
 #include <InlineSpecification.h>
+#include <string>
 
 namespace UnknownEngine
 {
@@ -11,18 +12,18 @@ namespace UnknownEngine
 		class PluginsManager;
 		struct SubsystemDesc;
 
-		class Plugin
+		class BasePlugin : public IPlugin
 		{
 
 			public:
-				virtual ~Plugin (){}
+				BasePlugin(const char* name);
 
 				UNKNOWNENGINE_INLINE
-				std::string getName() const{ return name; }
-
-				UNKNOWNENGINE_INLINE
-				void setName(const std::string& name) {this->name = name;}
-
+				virtual const char* getName() const override
+				{
+					return name.c_str();
+				}
+				
 				virtual bool install (PluginsManager* plugins_manager, const SubsystemDesc &desc )  = 0;
 
 				virtual bool init ()  = 0;
@@ -32,7 +33,7 @@ namespace UnknownEngine
 				virtual bool uninstall ()  = 0;
 
 			private:
-				std::string name;
+				const std::string name;
 
 		};
 

@@ -6,7 +6,7 @@
 #include <SupportedTags.h>
 #include <TemplatesManager.h>
 #include <MessageListenerParser.h>
-#include <SubsystemDesc.h>
+#include <Plugins/SubsystemDesc.h>
 #include <OptionsParser.h>
 #include <ConstantsHolder.h>
 #include <EngineContext.h>

@@ -22,8 +22,9 @@ namespace UnknownEngine
 	namespace GUI
 	{
 
-		SDLWindowManagerPlugin::SDLWindowManagerPlugin ()
-		:logger(nullptr)
+		SDLWindowManagerPlugin::SDLWindowManagerPlugin ( const char* name ):
+		Core::BasePlugin(name),
+		logger(nullptr)
 		{
 		}
 

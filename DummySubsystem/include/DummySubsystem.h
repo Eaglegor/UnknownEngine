@@ -1,8 +1,9 @@
 #pragma once
 
 #include <InlineSpecification.h>
-#include <Plugins/Plugin.h>
-#include <SubsystemDesc.h>
+#include <Plugins/BasePlugin.h>
+#include <Plugins/SubsystemDesc.h>
+#include <LogHelper.h>
 
 namespace UnknownEngine
 {
@@ -11,16 +12,15 @@ namespace UnknownEngine
 	{
 		struct SubsystemDesc;
 		class EngineContext;
-		class ILogger;
 	}
 
 	namespace Dummy
 	{
 
-		class DummySubsystemPlugin: public Core::Plugin
+		class DummySubsystemPlugin: public Core::BasePlugin
 		{
 			public:
-				DummySubsystemPlugin();
+				DummySubsystemPlugin(const char* name);
 				virtual ~DummySubsystemPlugin();
 
 				virtual bool install(Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc)  override;
@@ -31,7 +31,7 @@ namespace UnknownEngine
 			private:
 				Core::SubsystemDesc desc;
 				Core::EngineContext* engine_context;
-				Core::ILogger* logger;
+				Core::LogHelper logger;
 		};
 
 	} /* namespace Graphics */

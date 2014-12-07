@@ -12,7 +12,10 @@ namespace UnknownEngine
     namespace IO
     {
 
-		InputContextMapperPlugin::InputContextMapperPlugin(){}
+		InputContextMapperPlugin::InputContextMapperPlugin(const char* name):
+		Core::BasePlugin(name)
+		{}
+		
 		InputContextMapperPlugin::~InputContextMapperPlugin(){}
 
 

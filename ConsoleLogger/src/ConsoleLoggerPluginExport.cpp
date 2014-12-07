@@ -3,7 +3,7 @@
 #include <Plugins/PluginsManager.h>
 #include <Properties/Properties.h>
 #include <ConsoleLoggerPlugin.h>
-#include <SubsystemDesc.h>
+#include <Plugins/SubsystemDesc.h>
 #include <ConsoleLogger_export.h>
 
 using namespace UnknownEngine::Logger;
@@ -13,9 +13,9 @@ static ConsoleLoggerPlugin* instance = nullptr;
 
 extern "C"
 CONSOLELOGGER_EXPORT
-UnknownEngine::Core::Plugin* installPlugin(PluginsManager* manager, const SubsystemDesc& desc)
+IPlugin* installPlugin(PluginsManager* manager, const SubsystemDesc& desc)
 {
-	if(!instance) instance = new ConsoleLoggerPlugin();
+	if(!instance) instance = new ConsoleLoggerPlugin(desc.name.c_str());
 	return instance;
 }
 

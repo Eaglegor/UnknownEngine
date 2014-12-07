@@ -10,7 +10,7 @@ namespace UnknownEngine
 		{
 			public:
 				
-				BaseComponent(const std::string& name):
+				BaseComponent(const char* name):
 				name(name){}
 				
 				virtual const char* getName() const override

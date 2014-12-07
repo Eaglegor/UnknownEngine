@@ -1,10 +1,7 @@
 #include <stdafx.h>
 
-#include <Plugins/PluginsManager.h>
-#include <Properties/Properties.h>
 #include <DummySubsystem.h>
-#include <MessageSystem/MessageDictionary.h>
-#include <EngineContext.h>
+#include <Plugins/PluginsManager.h>
 #include <Logging.h>
 
 namespace UnknownEngine
@@ -12,8 +9,9 @@ namespace UnknownEngine
 	namespace Dummy
 	{
 
-		DummySubsystemPlugin::DummySubsystemPlugin ()
-		:logger(nullptr)
+		DummySubsystemPlugin::DummySubsystemPlugin (const char* name):
+		Core::BasePlugin(name),
+		logger(name, Core::LogSeverity::NONE)
 		{
 		}
 
@@ -23,9 +21,6 @@ namespace UnknownEngine
 
 		bool DummySubsystemPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) 
 		{
-		  
-			logger = CREATE_LOGGER(getName(), Core::LogSeverity::INFO);
-		  
 			LOG_INFO(logger, "Logger initialized");
 			
 			LOG_INFO(logger, "Installing dummy plugin");
@@ -54,7 +49,6 @@ namespace UnknownEngine
 		{
 			LOG_INFO(logger, "Uninstalling dummy plugin");
 		  
-			RELEASE_LOGGER(logger);
 			return true;
 		}
 

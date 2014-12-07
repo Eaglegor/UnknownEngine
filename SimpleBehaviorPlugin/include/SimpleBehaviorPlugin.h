@@ -1,8 +1,8 @@
 #pragma once
 
 #include <InlineSpecification.h>
-#include <Plugins/Plugin.h>
-#include <SubsystemDesc.h>
+#include <Plugins/BasePlugin.h>
+#include <Plugins/SubsystemDesc.h>
 #include <Descriptors/SimpleBehaviorsPluginDesc.h>
 
 namespace UnknownEngine
@@ -38,10 +38,10 @@ namespace UnknownEngine
 
 		class SimpleBehaviorsFactory;
 
-		class SimpleBehaviorPlugin: public Core::Plugin
+		class SimpleBehaviorPlugin: public Core::BasePlugin
 		{
 			public:
-				SimpleBehaviorPlugin();
+				SimpleBehaviorPlugin(const char* name);
 				virtual ~SimpleBehaviorPlugin();
 
 				virtual bool install(Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc)  override;

@@ -3,7 +3,7 @@
 #include <Plugins/PluginsManager.h>
 #include <Properties/Properties.h>
 #include <SimpleBehaviorPlugin.h>
-#include <SubsystemDesc.h>
+#include <Plugins/SubsystemDesc.h>
 #include <SimpleBehaviorPlugin_export.h>
 
 using namespace UnknownEngine::Behavior;
@@ -13,9 +13,9 @@ static SimpleBehaviorPlugin* instance = nullptr;
 
 extern "C"
 SIMPLEBEHAVIORPLUGIN_EXPORT
-UnknownEngine::Core::Plugin* installPlugin(PluginsManager* manager, const SubsystemDesc& desc)
+IPlugin* installPlugin(PluginsManager* manager, const SubsystemDesc& desc)
 {
-	if(!instance) instance = new SimpleBehaviorPlugin();
+	if(!instance) instance = new SimpleBehaviorPlugin(desc.name.c_str());
 	return instance;
 }
 

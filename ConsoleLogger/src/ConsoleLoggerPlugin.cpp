@@ -20,7 +20,8 @@ namespace UnknownEngine
 	namespace Logger
 	{
 
-		ConsoleLoggerPlugin::ConsoleLoggerPlugin ()
+		ConsoleLoggerPlugin::ConsoleLoggerPlugin (const char* name):
+		Core::BasePlugin(name)
 		{
 		}
 

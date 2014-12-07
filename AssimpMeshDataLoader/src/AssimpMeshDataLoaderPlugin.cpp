@@ -14,8 +14,9 @@ namespace UnknownEngine
 	namespace Loader
 	{
 
-		AssimpMeshDataLoaderPlugin::AssimpMeshDataLoaderPlugin ()
-		:logger(nullptr),
+		AssimpMeshDataLoaderPlugin::AssimpMeshDataLoaderPlugin ( const char* name ):
+		Core::BasePlugin(name),
+		logger(nullptr),
 		data_provider_factory(nullptr)
 		{
 		}

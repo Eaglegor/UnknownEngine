@@ -1,6 +1,7 @@
 #include <stdafx.h>
 #include <PhysXSubsystemPlugin.h>
 #include <PhysXPlugin_export.h>
+#include <Plugins/SubsystemDesc.h>
 
 using namespace UnknownEngine::Physics;
 using namespace UnknownEngine::Core;
@@ -9,9 +10,9 @@ static PhysXSubsystemPlugin* instance = nullptr;
 
 extern "C"
 PHYSXPLUGIN_EXPORT
-UnknownEngine::Core::Plugin* installPlugin(PluginsManager* manager, const SubsystemDesc& desc)
+IPlugin* installPlugin(PluginsManager* manager, const SubsystemDesc& desc)
 {
-	if(!instance) instance = new PhysXSubsystemPlugin();
+	if(!instance) instance = new PhysXSubsystemPlugin(desc.name.c_str());
 	return instance;
 }
 
