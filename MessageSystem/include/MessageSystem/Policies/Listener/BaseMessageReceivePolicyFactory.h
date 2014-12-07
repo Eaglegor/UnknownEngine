@@ -4,6 +4,7 @@
 #include <memory>
 #include <unordered_map>
 #include <unordered_set>
+#include <functional>
 #include <MessageSystem/Policies/Listener/IMessageReceivePolicy.h>
 
 namespace UnknownEngine

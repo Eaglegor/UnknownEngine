@@ -4,6 +4,7 @@
 #include <memory>
 #include <unordered_map>
 #include <unordered_set>
+#include <functional>
 #include <ComponentSystem/IComponent.h>
 
 namespace UnknownEngine
@@ -13,10 +14,13 @@ namespace UnknownEngine
 		class BaseComponentFactory : public IComponentFactory
 		{
 		public:
+			COMPONENTSYSTEM_EXPORT
 			virtual IComponent* createObject ( const ComponentDesc& desc ) override;
 			
+			COMPONENTSYSTEM_EXPORT
 			virtual void destroyObject ( IComponent* object ) override;
 
+			COMPONENTSYSTEM_EXPORT
 			virtual bool supportsType ( const ComponentType& object_type ) const override;
 			
 		protected:

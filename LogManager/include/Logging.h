@@ -27,7 +27,7 @@
 #endif
 
 #define LOG_INFO(logger, message) if(logger) logger->log( Core::SimpleLogRecord(Core::LogSeverity::INFO, std::string() + message INFO_LINE_NUMBER ) )
-#define LOG_ERROR(logger, message) if(logger) logger->log( Core::SimpleLogRecord(Core::LogSeverity::ERROR, std::string() + message ERROR_LINE_NUMBER ) )
+#define LOG_ERROR(logger, message) if(logger) logger->log( Core::SimpleLogRecord(Core::LogSeverity::ERROR_, std::string() + message ERROR_LINE_NUMBER ) )
 #define LOG_WARNING(logger, message) if(logger) logger->log( Core::SimpleLogRecord(Core::LogSeverity::WARNING, std::string() + message WARNING_LINE_NUMBER ) )
 #define LOG_DEBUG(logger, message) if(logger) logger->log( Core::SimpleLogRecord(Core::LogSeverity::DEBUG, std::string() + message DEBUG_LINE_NUMBER ) )
 
@@ -59,7 +59,7 @@ namespace boost
 		if(converted_value=="info") return UnknownEngine::Core::LogSeverity::INFO;
 		if(converted_value=="debug") return UnknownEngine::Core::LogSeverity::DEBUG;
 		if(converted_value=="warning") return UnknownEngine::Core::LogSeverity::WARNING;
-		if(converted_value=="error") return UnknownEngine::Core::LogSeverity::ERROR;
+		if(converted_value=="error") return UnknownEngine::Core::LogSeverity::ERROR_;
 		return UnknownEngine::Core::LogSeverity::NONE;
 	}
 }

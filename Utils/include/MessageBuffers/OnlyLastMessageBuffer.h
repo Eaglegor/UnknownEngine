@@ -1,7 +1,7 @@
 #pragma once
 
-#include <boost/optional.hpp>
-#include <boost/thread.hpp>
+#include <mutex>
+#include <memory>
 #include <MessageBuffers/MessageBuffer.h>
 
 namespace UnknownEngine
@@ -24,24 +24,24 @@ namespace UnknownEngine
 
 			virtual void flush()
 			{
-				boost::lock_guard<boost::mutex> guard(message_guard_mutex);
+				std::lock_guard<std::mutex> guard(message_guard_mutex);
 				if(accumulated_message)
 				{
-					this->process_message_callback(accumulated_message.get());
-					accumulated_message = boost::none;
+					this->process_message_callback(*accumulated_message);
+					accumulated_message.reset();
 				}
 			}
 
 		protected:
 			virtual void pushConcreteMessage(const MessageClass& message)
 			{
-				boost::lock_guard<boost::mutex> guard(message_guard_mutex);
-				accumulated_message = message;
+				std::lock_guard<std::mutex> guard(message_guard_mutex);
+				accumulated_message.reset(new MessageClass(message));
 			}
 			
 		private:
-			boost::mutex message_guard_mutex;
-			boost::optional<MessageClass> accumulated_message;
+			std::mutex message_guard_mutex;
+			std::shared_ptr<MessageClass> accumulated_message;
 		};
 	}
 }

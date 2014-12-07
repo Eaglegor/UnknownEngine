@@ -4,6 +4,7 @@
 #include <memory>
 #include <unordered_map>
 #include <unordered_set>
+#include <functional>
 #include <MessageSystem/Policies/Sender/IMessageDeliveryPolicy.h>
 
 namespace UnknownEngine

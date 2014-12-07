@@ -3,12 +3,13 @@
 #include <Scalar.h>
 #include <boost/optional.hpp>
 #include <OgreColourValue.h>
+#include <AlignedNew.h>
 
 namespace UnknownEngine
 {
 	namespace Graphics
 	{
-		struct OgreLightSettings
+		UNKNOWNENGINE_ALIGNED_STRUCT(16) OgreLightSettings
 		{
 			struct Attenuation
 			{
@@ -25,6 +26,8 @@ namespace UnknownEngine
 			Ogre::ColourValue specular_color;
 			Math::Scalar intensity;
 
+			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
+
 			OgreLightSettings() :
 				diffuse_color ( 1, 1, 1 ),
 				specular_color ( 1, 1, 1 ),
@@ -34,3 +37,6 @@ namespace UnknownEngine
 		};
 	}
 }
+
+#include <AlignedAnyHolder.h>
+ALIGNED_BOOST_ANY_HOLDER(UnknownEngine::Graphics::OgreLightSettings);

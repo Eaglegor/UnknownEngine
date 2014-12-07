@@ -13,6 +13,7 @@
 
 #include <Listeners/OgreUpdateFrameListener.h>
 #include <ExportedMessages/RenderSystem/GetWindowHandleMessage.h>
+
 #include <ExportedMessages/RenderSystem/WindowResizedMessage.h>
 #include <MessageSystem/BaseMessageListener.h>
 
@@ -70,7 +71,7 @@ namespace UnknownEngine
 				msg.requested_window_name = desc.render_window_descriptor.window_name;
 				msg.result_callback = [&](const NativeWindowHandleType& handle)
 				{
-					string_handle = Ogre::StringConverter::toString((int)(handle));
+					string_handle = std::to_string((int)(handle));
 				};
 				
 				sender.sendMessage(msg);

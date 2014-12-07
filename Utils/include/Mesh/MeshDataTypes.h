@@ -15,7 +15,7 @@ namespace UnknownEngine
 
 		typedef unsigned long IndexType;
 
-		class TextureCoordinateType: private Math::Vector3
+		UNKNOWNENGINE_ALIGNED_CLASS(16) TextureCoordinateType: private Math::Vector3
 		{
 			public:
 				TextureCoordinateType(const Scalar& u, const Scalar &v, const Scalar &w):Math::Vector3(u,v,w)
@@ -58,6 +58,8 @@ namespace UnknownEngine
 				{
 					setZ ( w );
 				}
+
+				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 		};
 
 		const std::string TANGENT_NAME = "Tangent";

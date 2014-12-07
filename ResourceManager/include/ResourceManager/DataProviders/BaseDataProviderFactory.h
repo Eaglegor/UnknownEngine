@@ -3,6 +3,7 @@
 #include <memory>
 #include <unordered_map>
 #include <unordered_set>
+#include <functional>
 #include <ResourceManager/DataProviders/IDataProviderFactory.h>
 #include <ResourceManager/DataProviders/IDataProvider.h>
 
@@ -15,10 +16,13 @@ namespace UnknownEngine
 		class BaseDataProviderFactory : public IDataProviderFactory
 		{
 		public:
+			RESOURCEMANAGER_EXPORT
 			virtual IDataProvider* createObject ( const DataProviderDesc& desc ) override;
 			
+			RESOURCEMANAGER_EXPORT
 			virtual void destroyObject ( IDataProvider* object ) override;
 
+			RESOURCEMANAGER_EXPORT
 			virtual bool supportsType ( const DataProviderType& object_type ) const override;
 			
 		protected:
