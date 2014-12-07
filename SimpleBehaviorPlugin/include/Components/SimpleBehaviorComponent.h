@@ -1,5 +1,5 @@
 #pragma once
-#include <Objects/BaseComponent.h>
+#include <ComponentSystem/BaseComponent.h>
 #include <Scalar.h>
 
 namespace UnknownEngine

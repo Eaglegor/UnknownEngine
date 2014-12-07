@@ -8,7 +8,7 @@
 #include <MessageSystem/MessageSender.h>
 #include <ResourceManager.h>
 #include <Plugins/PluginsManager.h>
-#include <ComponentsManager.h>
+#include <ComponentSystem/ComponentsManager.h>
 
 #include <ExportedMessages/LogMessage.h>
 #include <ExportedMessages/UpdateFrameMessage.h>

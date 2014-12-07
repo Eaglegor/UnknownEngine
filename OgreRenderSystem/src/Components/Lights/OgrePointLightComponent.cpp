@@ -31,7 +31,7 @@ namespace UnknownEngine
 			return OGRE_POINT_LIGHT_COMPONENT_TYPE;
 		}
 
-		void OgrePointLightComponent::internalInit (const UnknownEngine::Core::Entity* parent_entity)
+		void OgrePointLightComponent::internalInit (const UnknownEngine::Core::IEntity* parent_entity)
 		{
 			BaseOgreLightComponent::internalInit(parent_entity);
 			ogre_light->setType(Ogre::Light::LT_POINT);

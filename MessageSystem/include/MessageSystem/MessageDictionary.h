@@ -30,6 +30,7 @@ namespace UnknownEngine
 				bool messageTypeIsRegistered ( const MessageType &type_id ) const;
 
 				MESSAGESYSTEM_EXPORT
+				bool messageTypeIsRegistered ( const std::string &type_id ) const;
 
 				MESSAGESYSTEM_EXPORT
 				std::string getMessageTypeName ( const MessageType &type_id ) const ;

@@ -1,19 +1,11 @@
 #pragma once
 
 #include <string>
-#include <list>
-#include <vector>
 #include <memory>
 
 #include <ComponentSystem_export.h>
 #include <Singleton.h>
-#include <ComponentType.h>
-#include <Exception.h>
-#include <NumericIdentifierType.h>
-#include <Dictionary.h>
-#include <NoSuitableFactoryFoundException.h>
-
-#include <IComponentFactory_fwd.h>
+#include <ComponentSystem/IComponentFactory_fwd.h>
 
 namespace UnknownEngine
 {
@@ -30,14 +22,10 @@ namespace UnknownEngine
 		class IComponent;
 		struct ComponentDesc;
 		struct SubsystemDesc;
-		class Entity;
+		class IEntity;
 
 		class ComponentsManager : public Singleton<ComponentsManager>
 		{
-			private:
-				typedef Utils::Dictionary<NumericIdentifierType, std::string> InternalDictionaryType;
-				typedef std::unordered_map<NumericIdentifierType, IComponentFactory*> ComponentFactoriesMap;
-				
 			public:
 
 				COMPONENTSYSTEM_EXPORT
@@ -53,10 +41,10 @@ namespace UnknownEngine
 				virtual void removeComponentFactory ( IComponentFactory* factory );
 
 				COMPONENTSYSTEM_EXPORT
-				virtual Entity* createEntity ( const std::string &name );
+				virtual IEntity* createEntity ( const std::string &name );
 
 				COMPONENTSYSTEM_EXPORT
-				virtual void removeEntity ( Entity* entity );
+				virtual void removeEntity ( IEntity* entity );
 
 				COMPONENTSYSTEM_EXPORT
 				virtual void clearEntities ( );
@@ -73,9 +61,9 @@ namespace UnknownEngine
 				COMPONENTSYSTEM_EXPORT
 				virtual void removeComponent ( IComponent* component );
 				
-				ComponentFactoriesMap component_factories;
-				InternalDictionaryType internal_dictionary;
-				std::vector<Entity*> entities;
+				std::unordered_map<std::string, IComponentFactory*> component_factories;
+				std::unordered_map<std::string, IEntity*> entities;
+				
 				std::unique_ptr<Utils::NameGenerator> name_generator;
 				ILogger* logger;
 		};
@@ -88,5 +76,5 @@ namespace UnknownEngine
 #endif
 #endif
 
-	}
-}
+	} /* namespace Core */
+} /* namespace UnknownEngine */

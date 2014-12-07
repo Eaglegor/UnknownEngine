@@ -1,9 +1,9 @@
 #include <stdafx.h>
 #include <Components/SimpleCreateJointComponent.h>
 #include <EngineContext.h>
-#include <Objects/Entity.h>
-#include <ComponentsManager.h>
-#include <ComponentDesc.h>
+#include <ComponentSystem/Entity.h>
+#include <ComponentSystem/ComponentsManager.h>
+#include <ComponentSystem/ComponentDesc.h>
 #include <MessageSystem/MessageSender.h>
 #include <ExportedMessages/InputContext/AddSimpleActionMessage.h>
 #include <NameGenerators/NameGenerator.h>
@@ -33,7 +33,7 @@ namespace UnknownEngine
 			return SIMPLE_CREATE_JOINT_COMPONENT_TYPE;
 		}
 
-		void SimpleCreateJointComponent::init ( const Core::Entity* parent_entity )
+		void SimpleCreateJointComponent::init ( const Core::IEntity* parent_entity )
 		{	
 				Core::MessageSender<IO::AddSimpleActionMessage> simple_action_message_sender(getName(), engine_context);
 				

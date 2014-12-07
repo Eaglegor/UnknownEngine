@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Objects/BaseComponent.h>
+#include <ComponentSystem/BaseComponent.h>
 #include <Descriptors/AngelScriptComponentDesc.h>
 #include <AngelScriptSubsystem.h>
 #include <memory>
@@ -27,7 +27,7 @@ namespace UnknownEngine
 			
 			virtual UnknownEngine::Core::ComponentType getType() const;
 			
-			virtual void init ( const Core::Entity* parent_entity );
+			virtual void init ( const Core::IEntity* parent_entity );
 			virtual void shutdown();
 			
 			static const Core::ComponentType TYPE;

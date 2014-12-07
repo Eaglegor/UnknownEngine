@@ -51,7 +51,7 @@ namespace UnknownEngine
 		}
 
 
-		void OgreCameraComponent::internalInit ( const UnknownEngine::Core::Entity *parent_entity )
+		void OgreCameraComponent::internalInit ( const UnknownEngine::Core::IEntity *parent_entity )
 		{
 			LOG_INFO ( logger, "Creating OGRE camera" );
 			this->camera = render_subsystem->getSceneManager()->createCamera ( Ogre::String ( getName() ) + ".Camera" );

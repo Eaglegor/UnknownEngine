@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Objects/BaseComponent.h>
+#include <ComponentSystem/BaseComponent.h>
 #include <Descriptors/Components/PxRigidBodyComponentDesc.h>
 #include <AlignedNew.h>
 #include <MessageSystem/MessageSender.h>
@@ -38,7 +38,7 @@ namespace UnknownEngine
 			virtual ~PxRigidBodyComponent();
 			
 			virtual Core::ComponentType getType() const override;
-			virtual void init ( const Core::Entity* parent_entity ) override;
+			virtual void init ( const Core::IEntity* parent_entity ) override;
 			virtual void shutdown() override;
 			void initMessageListener(const Core::ReceivedMessageDescriptorsList& received_messages);
 			

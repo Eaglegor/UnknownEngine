@@ -39,7 +39,7 @@ namespace UnknownEngine
 
 		}
 
-		void MouseLookComponent::init ( const Core::Entity* parent_entity )
+		void MouseLookComponent::init ( const Core::IEntity* parent_entity )
 		{
 			{
 				Core::MessageSender<IO::AddSimpleActionMessage> simple_action_message_sender

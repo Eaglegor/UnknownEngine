@@ -1,45 +1,33 @@
 #pragma once
 
 #include <ComponentSystem_export.h>
-#include <InlineSpecification.h>
 #include <unordered_map>
-#include <Exception.h>
+#include <ComponentSystem/IEntity.h>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
-
 		class ILogger;
 
 		class IComponent;
 		class ComponentsManager;
 		struct ComponentDesc;
 
-		UNKNOWNENGINE_SIMPLE_EXCEPTION ( DuplicateComponentNameException );
-		UNKNOWNENGINE_SIMPLE_EXCEPTION ( ComponentNotFoundException );
-
-		class Entity
+		class Entity : public IEntity
 		{
 			public:
 
-				COMPONENTSYSTEM_EXPORT
 				Entity ( const std::string &name, ComponentsManager* components_manager );
-
-				COMPONENTSYSTEM_EXPORT
-				virtual ~Entity ();
-
-				COMPONENTSYSTEM_EXPORT
-				std::string getName() const;
-
-				COMPONENTSYSTEM_EXPORT
-				IComponent* createComponent(const ComponentDesc& desc);
-
-				COMPONENTSYSTEM_EXPORT
-				void removeComponent ( IComponent *component );
+				virtual ~Entity();
 				
-				COMPONENTSYSTEM_EXPORT
-				void removeAllComponents();
+				virtual const char* getName() const override;
+
+				virtual IComponent* createComponent(const ComponentDesc& desc) override;
+
+				virtual void removeComponent ( IComponent *component ) override;
+				
+				virtual void removeAllComponents() override;
 				
 			private:
 	

@@ -20,7 +20,7 @@ namespace UnknownEngine
 		{
 		}
 
-		void BaseOgreComponentFactory::destroyObject ( UnknownEngine::Core::IComponent* object )
+		void BaseOgreComponentFactory::destroyObject ( Core::IComponent* object )
 		{
 			render_subsystem->addRemoveCallback (
 				[this, object]()

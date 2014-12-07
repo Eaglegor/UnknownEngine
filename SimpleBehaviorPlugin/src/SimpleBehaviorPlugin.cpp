@@ -4,7 +4,7 @@
 #include <Properties/Properties.h>
 #include <SimpleBehaviorPlugin.h>
 #include <MessageSystem/MessageDictionary.h>
-#include <ComponentsManager.h>
+#include <ComponentSystem/ComponentsManager.h>
 #include <EngineContext.h>
 #include <Logging.h>
 #include <ExportedMessages/UpdateFrameMessage.h>

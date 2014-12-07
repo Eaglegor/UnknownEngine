@@ -15,14 +15,9 @@ namespace UnknownEngine
 		class AbstractObjectFactory
 		{
 			public:
-				AbstractObjectFactory() : internal_id ( INVALID_NUMERIC_IDENTIFIER ) {}
+				AbstractObjectFactory() {}
 
 				virtual ~AbstractObjectFactory(){}
-
-				bool operator== ( const AbstractObjectFactory<ObjectType, ObjectTypeId, DescriptorClass> &rhs ) const
-				{
-					return internal_id == rhs.internal_id;
-				}
 
 				virtual const char* getName() const = 0;
 
@@ -31,22 +26,9 @@ namespace UnknownEngine
 				virtual ObjectType* createObject ( const DescriptorClass& desc ) = 0;
 
 				virtual void destroyObject ( ObjectType* object ) = 0;
-
-				UNKNOWNENGINE_INLINE
-				NumericIdentifierType getInternalId() const
-				{
-					return internal_id;
-				}
-
-				UNKNOWNENGINE_INLINE
-				void setInternalId ( const NumericIdentifierType &internal_id )
-				{
-					this->internal_id = internal_id;
-				}
-
-			private:
-				NumericIdentifierType internal_id;
-
+				
+				virtual void setInternalId(int a){};
+				virtual int getInternalId(){return 0;};
 		};
 
 	} // namespace Core

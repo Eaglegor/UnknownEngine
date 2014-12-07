@@ -5,7 +5,7 @@
 #include <PhysXSubsystemPlugin.h>
 #include <MessageSystem/MessageDictionary.h>
 #include <MessageSystem/BaseMessageListener.h>
-#include <ComponentsManager.h>
+#include <ComponentSystem/ComponentsManager.h>
 #include <EngineContext.h>
 #include <Logging.h>
 #include <ExportedMessages/UpdateFrameMessage.h>

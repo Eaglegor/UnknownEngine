@@ -3,9 +3,8 @@
 #include <vector>
 #include <boost/variant.hpp>
 
-
 #include <Properties/Properties.h>
-#include <ComponentType.h>
+#include <ComponentSystem/ComponentType.h>
 #include <DescriptorContainer.h>
 #include <MessageSystem/MessageListenerDesc.h>
 #include <MessageSystem/MessageListenerRules.h>
@@ -15,7 +14,7 @@ namespace UnknownEngine
 {
 	namespace Core
 	{
-		class Entity;
+		class IEntity;
 
 		struct ComponentDesc
 		{

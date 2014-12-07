@@ -26,7 +26,7 @@ namespace UnknownEngine
 		{
 		}
 
-		void PxFixedJointComponent::init(const Core::Entity* parent_entity)
+		void PxFixedJointComponent::init(const Core::IEntity* parent_entity)
 		{
 			actor1 = physics_subsystem->getRigidBodyComponent(desc.actor1_name)->getPxRigidActor();
 			actor2 = physics_subsystem->getRigidBodyComponent(desc.actor2_name)->getPxRigidActor();

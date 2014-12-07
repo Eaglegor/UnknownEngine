@@ -22,7 +22,7 @@ namespace UnknownEngine
 			virtual ~SimpleCreateJointComponent();
 			
 			virtual Core::ComponentType getType() const override;
-			virtual void init ( const Core::Entity* parent_entity ) override;
+			virtual void init ( const Core::IEntity* parent_entity ) override;
 			virtual void shutdown() override;
 			virtual void act ( Math::Scalar dt ) override;
 
@@ -34,7 +34,7 @@ namespace UnknownEngine
 			SimpleCreateJointComponentDesc desc;
 			
 			Core::EngineContext* engine_context;
-			Core::Entity* joint_entity;
+			Core::IEntity* joint_entity;
 			
 			Core::MessageSender<Graphics::ChangeMaterialActionMessage> change_material_message_sender;
 		};

@@ -13,7 +13,7 @@ namespace UnknownEngine
 
 		class EngineContext;
 		class IComponent;
-		class Entity;
+		class IEntity;
 	}
 
 	namespace Loader
@@ -41,7 +41,7 @@ namespace UnknownEngine
 			private:
 
 				void loadEntity ( const std::string &name, const boost::property_tree::ptree &entity_node );
-				Core::IComponent* loadComponent ( Core::Entity* parent_entity, const std::string &name, const boost::property_tree::ptree &component_node );
+				Core::IComponent* loadComponent ( Core::IEntity* parent_entity, const std::string &name, const boost::property_tree::ptree &component_node );
 				bool createDataProvider ( const boost::property_tree::ptree &data_provider_node );
 
 				std::unordered_map<std::string, Loader::IDataProvider*> data_providers;

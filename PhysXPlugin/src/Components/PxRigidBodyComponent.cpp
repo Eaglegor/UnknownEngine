@@ -41,7 +41,7 @@ namespace UnknownEngine
 			desc.shape_data_provider->release();
 		}
 
-		void PxRigidBodyComponent::init(const Core::Entity* parent_entity)
+		void PxRigidBodyComponent::init(const Core::IEntity* parent_entity)
 		{
 			switch (desc.dynamics_type)
 			{

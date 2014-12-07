@@ -1,6 +1,7 @@
 #include <Factories/AngelScriptComponentFactory.h>
 #include <Components/AngelScriptComponent.h>
 #include <Parsers/AngelScriptComponentDescriptorGetter.h>
+#include <ComponentSystem/ComponentDesc.h>
 
 namespace UnknownEngine
 {

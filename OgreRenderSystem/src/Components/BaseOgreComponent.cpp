@@ -26,7 +26,7 @@ namespace UnknownEngine {
 			render_subsystem->removeSynchronizeCallback ( this->getName() );
 		}
 		
-		void BaseOgreComponent::init ( const UnknownEngine::Core::Entity* parent_entity )
+		void BaseOgreComponent::init ( const UnknownEngine::Core::IEntity* parent_entity )
 		{
 			if ( render_subsystem->hasSeparateRenderThreadEnabled() )
 			{

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <EngineContext.h>
-#include <ComponentDesc.h>
+#include <ComponentSystem/ComponentDesc.h>
 #include <MessageSystem/BaseMessageListener.h>
 
 

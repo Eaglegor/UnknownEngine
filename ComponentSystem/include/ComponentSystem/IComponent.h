@@ -1,21 +1,20 @@
 #pragma once
 
 #include <ComponentSystem_export.h>
-#include <ComponentType.h>
-#include <InlineSpecification.h>
+#include <ComponentSystem/ComponentType.h>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
 
-		class Entity;
+		class IEntity;
 
 		class IComponent
 		{
 			public:
 
-				virtual void init ( const Entity* parent_entity ) = 0;
+				virtual void init ( const IEntity* parent_entity ) = 0;
 
 				virtual void shutdown() = 0;
 

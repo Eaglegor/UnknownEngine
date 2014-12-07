@@ -2,9 +2,9 @@
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <NameGenerators/NameGenerator.h>
 #include <MessageSystem/Policies/FromSingleSenderMessageReceivePolicy.h>
-#include <ComponentsManager.h>
-#include <Objects/Entity.h>
-#include <ComponentDesc.h>
+#include <ComponentSystem/ComponentsManager.h>
+#include <ComponentSystem/Entity.h>
+#include <ComponentSystem/ComponentDesc.h>
 #include <DataProvider/DataProviderDesc.h>
 #include <ResourceManager.h>
 #include <MessageSystem/MessageDispatcher.h>
@@ -87,7 +87,7 @@ void StressTest::generateObjects ( size_t count )
 	{
 		ComponentsManager* mgr = engine_context->getComponentsManager();
 		NameGenerator* name_generator = mgr->getNameGenerator();
-		Entity* entity = mgr->createEntity(name_generator->generateName());
+		IEntity* entity = mgr->createEntity(name_generator->generateName());
 		
 		std::string rotation_component_name;
 		

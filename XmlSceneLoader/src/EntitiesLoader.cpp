@@ -7,18 +7,18 @@
 #include <TemplatesManager.h>
 #include <Properties/Properties.h>
 #include <OptionsParser.h>
-#include <ComponentsManager.h>
+#include <ComponentSystem/ComponentsManager.h>
 #include <MessageSystem/MessageListenerDesc.h>
 #include <MessageSystem/MessageDispatcher.h>
 #include <MessageListenerParser.h>
-#include <ComponentDesc.h>
+#include <ComponentSystem/ComponentDesc.h>
 #include <EngineContext.h>
 
 
-#include <Objects/Entity.h>
-#include <../ResourceManager/include/DataProvider/DataProviderDesc.h>
-#include <../ResourceManager/include/DataProvider/IDataProvider.h>
-#include <../ResourceManager/include/ResourceManager.h>
+#include <ComponentSystem/Entity.h>
+#include <DataProvider/DataProviderDesc.h>
+#include <DataProvider/IDataProvider.h>
+#include <ResourceManager.h>
 
 #include <iostream>
 
@@ -81,7 +81,7 @@ namespace UnknownEngine
 		{
 			scene_loader->getConstantsHolder()->pushScope();
 
-			Core::Entity* entity = engine_context->getComponentsManager()->createEntity ( name );
+			Core::IEntity* entity = engine_context->getComponentsManager()->createEntity ( name );
 			for ( const ptree::value_type & iter : entity_node )
 			{
 				if ( iter.first == Tags::COMPONENT )
@@ -117,12 +117,12 @@ namespace UnknownEngine
 			scene_loader->getConstantsHolder()->popScope();
 		}
 
-		Core::IComponent* EntitiesLoader::loadComponent ( Core::Entity* parent_entity, const std::string &name, const ptree &component_node )
+		Core::IComponent* EntitiesLoader::loadComponent ( Core::IEntity* parent_entity, const std::string &name, const ptree &component_node )
 		{
 			scene_loader->getConstantsHolder()->pushScope();
 
 			Core::ComponentDesc component_desc;
-			component_desc.name = parent_entity->getName() + "." + name;
+			component_desc.name = std::string(parent_entity->getName()) + "." + name;
 
 			const std::string component_type = component_node.get_child ( XMLATTR ).get<std::string> ( Attributes::COMPONENT::TYPE );
 			component_desc.type = Core::ComponentType ( component_type );

@@ -28,7 +28,7 @@ namespace UnknownEngine
 			return TYPE;
 		}
 		
-		void AngelScriptComponent::init ( const Core::Entity* parent_entity )
+		void AngelScriptComponent::init ( const Core::IEntity* parent_entity )
 		{
 			asIScriptEngine* script_engine = angel_script_subsystem->getScriptEngine();
 			

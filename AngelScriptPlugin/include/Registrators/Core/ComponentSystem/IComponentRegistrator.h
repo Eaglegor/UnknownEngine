@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Registrators/ClassReferenceTypeRegistrator.h>
-#include <Objects/IComponent.h>
+#include <ComponentSystem/IComponent.h>
 #include <Registrators/Core/ASNamespaceName.h>
 
 namespace UnknownEngine

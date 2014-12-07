@@ -2,7 +2,7 @@
 
 #include <boost/lexical_cast.hpp>
 
-#include <ComponentDesc.h>
+#include <ComponentSystem/ComponentDesc.h>
 
 #include <Plugins/PluginsManager.h>
 #include <OgreRenderSystemPlugin.h>
@@ -14,7 +14,7 @@
 #include <EngineContext.h>
 #include <OgreRenderSubsystem.h>
 
-#include <ComponentsManager.h>
+#include <ComponentSystem/ComponentsManager.h>
 
 #include <Factories/OgreGetDescriptorVisitor.h>
 
@@ -27,8 +27,8 @@
 
 #include <Logging.h>
 
-#include <Objects/Entity.h>
-#include <Objects/IComponent.h>
+#include <ComponentSystem/Entity.h>
+#include <ComponentSystem/IComponent.h>
 #include <ResourceManager.h>
 
 namespace UnknownEngine

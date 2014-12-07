@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Objects/IComponent.h>
+#include <ComponentSystem/IComponent.h>
 
 namespace UnknownEngine
 {

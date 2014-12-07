@@ -2,6 +2,7 @@
 #include <Factories/PxRigidBodyComponentsFactory.h>
 #include <Components/PxRigidBodyComponent.h>
 #include <Parsers/PxRigidBodyComponentDescriptorGetter.h>
+#include <ComponentSystem/ComponentDesc.h>
 
 namespace UnknownEngine
 {

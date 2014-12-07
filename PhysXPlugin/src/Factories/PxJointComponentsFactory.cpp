@@ -2,6 +2,7 @@
 #include <Factories/PxJointComponentsFactory.h>
 #include <Components/PxFixedJointComponent.h>
 #include <Parsers/PxFixedJointComponentDescriptorGetter.h>
+#include <ComponentSystem/ComponentDesc.h>
 
 namespace UnknownEngine
 {

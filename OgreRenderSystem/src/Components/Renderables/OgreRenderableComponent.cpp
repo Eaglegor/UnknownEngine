@@ -38,7 +38,7 @@ namespace UnknownEngine
 			RELEASE_LOGGER(logger);
 		}
 
-		void OgreRenderableComponent::internalInit ( const UnknownEngine::Core::Entity* parent_entity )
+		void OgreRenderableComponent::internalInit ( const UnknownEngine::Core::IEntity* parent_entity )
 		{
 			LOG_INFO ( logger, "Creating OGRE entity" );
 			if ( desc.mesh_data_provider != nullptr )
