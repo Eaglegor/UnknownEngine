@@ -66,7 +66,11 @@ namespace UnknownEngine
 			rlistener.listener = listener;
 			rlistener.receive_policy = r_policy;
 			auto result = listeners_map.emplace ( listener->getName(), rlistener) ;
-			if(!result.second) throw ListenerNotAddedException("Listener wasn't added to message dispatcher for some reason");
+			if(!result.second)
+			{
+				LOG_ERROR(logger, "Failed to register message listener " + listener->getName());
+				return;
+			}
 			onNewListener ( message_type, listener, r_policy );
 		}
 

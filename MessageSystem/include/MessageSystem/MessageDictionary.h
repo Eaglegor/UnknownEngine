@@ -7,6 +7,7 @@
 #include <MessageSystem/MessageType.h>
 #include <Dictionary.h>
 #include <InlineSpecification.h>
+#include <mutex>
 
 namespace UnknownEngine
 {
@@ -17,30 +18,27 @@ namespace UnknownEngine
 		class MessageDictionary : public Singleton<MessageDictionary>
 		{
 			public:
-
-				typedef Utils::Dictionary<MessageType, std::string> InternalDictionaryType;
-
 				MessageDictionary ();
 				virtual ~MessageDictionary ();
 
 				MESSAGESYSTEM_EXPORT
-				MessageType registerNewMessageType ( const std::string &message_type_name );
+				MessageType registerNewMessageType ( const char* message_type_name );
 
 				MESSAGESYSTEM_EXPORT
 				bool messageTypeIsRegistered ( const MessageType &type_id ) const;
 
 				MESSAGESYSTEM_EXPORT
-				bool messageTypeIsRegistered ( const std::string &type_id ) const;
+				bool messageTypeIsRegistered ( const char* type_id ) const;
 
 				MESSAGESYSTEM_EXPORT
-				std::string getMessageTypeName ( const MessageType &type_id ) const ;
+				const char* getMessageTypeName ( const MessageType &type_id ) const ;
 
 				MESSAGESYSTEM_EXPORT
-				MessageType getMessageTypeId ( const std::string &type_name ) const ;
-
+				MessageType getMessageTypeId ( const char* type_name );
+				
 			private:
+				typedef Utils::Dictionary<MessageType, std::string> InternalDictionaryType;
 				InternalDictionaryType internal_dictionary;
-
 		};
 
 #ifdef _MSC_VER
@@ -56,18 +54,13 @@ namespace UnknownEngine
 	UNKNOWNENGINE_INLINE
 	Core::MessageType MESSAGE_TYPE_ID(const std::string& message_type_name)
 	{
-		Core::MessageType val = Core::MessageDictionary::getSingleton()->getMessageTypeId(message_type_name);
-		if(val == Core::INVALID_NUMERIC_IDENTIFIER)
-		{
-			val = Core::MessageDictionary::getSingleton()->registerNewMessageType(message_type_name);
-		}
-		return val;
+		return Core::MessageDictionary::getSingleton()->getMessageTypeId(message_type_name.c_str());
 	}
 	
 	UNKNOWNENGINE_INLINE
 	std::string MESSAGE_TYPE_NAME(const Core::MessageType& message_type_id)
 	{
-		return Core::MessageDictionary::getSingleton()->getMessageTypeName(message_type_id);
+		return std::string(Core::MessageDictionary::getSingleton()->getMessageTypeName(message_type_id));
 	}
 	
 } /* namespace UnknownEngine */

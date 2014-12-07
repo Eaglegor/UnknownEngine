@@ -32,10 +32,6 @@ namespace UnknownEngine
 		class MessageDispatcher : public Singleton<MessageDispatcher>
 		{
 			public:
-				
-				UNKNOWNENGINE_SIMPLE_EXCEPTION(ListenerNotAddedException);
-				UNKNOWNENGINE_SIMPLE_EXCEPTION(SenderNotAddedException);
-
 				MessageDispatcher ();
 				virtual ~MessageDispatcher ();
 				
