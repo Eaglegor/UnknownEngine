@@ -18,10 +18,16 @@ namespace UnknownEngine
 		class LogManager : public Singleton<LogManager>
 		{
 		public:
+			LOGMANAGER_EXPORT
 			void addLoggingSubsystem(ILoggingSubsystem* logging_subsystem);
+
+			LOGMANAGER_EXPORT
 			void removeLoggingSubsystem(ILoggingSubsystem* logging_subsystem);
 
+			LOGMANAGER_EXPORT
 			ILogger* getLogger(const char* name, Core::LogSeverity log_level);
+
+			LOGMANAGER_EXPORT
 			void releaseLogger(const char* name);
 
 		private:
@@ -46,7 +52,7 @@ namespace UnknownEngine
 	#ifdef LogManager_EXPORTS
 		template class LOGMANAGER_EXPORT Singleton<LogManager>;
 	#else
-		template extern class LOGMANAGER_EXPORT Singleton<LogManager>;
+		extern template class LOGMANAGER_EXPORT Singleton<LogManager>;
 	#endif
 #endif
 		

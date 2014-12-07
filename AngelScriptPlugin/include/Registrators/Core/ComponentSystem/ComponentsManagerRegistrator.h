@@ -1,8 +1,8 @@
 #pragma once
 
 #include <Registrators/ClassReferenceTypeRegistrator.h>
-#include <ComponentDesc.h>
-#include <ComponentsManager.h>
+#include <ComponentSystem/ComponentDesc.h>
+#include <ComponentSystem/ComponentsManager.h>
 #include <Registrators/Core/ASNamespaceName.h>
 
 namespace UnknownEngine
@@ -19,10 +19,10 @@ namespace UnknownEngine
 		protected:
 			bool registerMethods(asIScriptEngine* script_engine) const override
 			{
-				int result = script_engine->RegisterObjectMethod(getRegisteredName(), "Core::Entity@ createEntity(const std::string &in)", asMETHOD(Core::ComponentsManager, createEntity), asCALL_THISCALL);
+				int result = script_engine->RegisterObjectMethod(getRegisteredName(), "Core::IEntity@ createEntity(const std::string &in)", asMETHOD(Core::ComponentsManager, createEntity), asCALL_THISCALL);
 				if (result < 0) return false;
 
-				result = script_engine->RegisterObjectMethod(getRegisteredName(), "void removeEntity(Core::Entity @)", asMETHOD(Core::ComponentsManager, removeEntity), asCALL_THISCALL);
+				result = script_engine->RegisterObjectMethod(getRegisteredName(), "void removeEntity(Core::IEntity @)", asMETHOD(Core::ComponentsManager, removeEntity), asCALL_THISCALL);
 				if (result < 0) return false;
 
 				result = script_engine->RegisterObjectMethod(getRegisteredName(), "Utils::NameGenerator@ getNameGenerator()", asMETHOD(Core::ComponentsManager, getNameGenerator), asCALL_THISCALL);

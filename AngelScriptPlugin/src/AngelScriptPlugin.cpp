@@ -14,7 +14,7 @@
 #include <AngelScriptSubsystem.h>
 #include <Factories/AngelScriptComponentFactory.h>
 #include <MessageSystem/MessageDictionary.h>
-#include <ComponentsManager.h>
+#include <ComponentSystem/ComponentsManager.h>
 #include <EngineContext.h>
 #include <Logging.h>
 
@@ -23,7 +23,8 @@ namespace UnknownEngine
 	namespace Behavior
 	{
 
-		AngelScriptPlugin::AngelScriptPlugin ()
+		AngelScriptPlugin::AngelScriptPlugin (const char* name):
+		Core::BasePlugin(name)
 		{
 		}
 

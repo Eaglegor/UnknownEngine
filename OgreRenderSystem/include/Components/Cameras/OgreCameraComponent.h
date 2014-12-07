@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Components/BaseOgreComponent.h>
-#include <ComponentType.h>
+#include <ComponentSystem/ComponentType.h>
 #include <AlignedNew.h>
 #include <Descriptors/Components/Cameras/OgreCameraComponentDescriptor.h>
 #include <Exception.h>
@@ -48,7 +48,7 @@ namespace UnknownEngine
 				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
 			protected:
-				virtual void internalInit ( const Core::Entity *parent_entity ) override;
+				virtual void internalInit ( const Core::IEntity *parent_entity ) override;
 				virtual void internalShutdown (  ) override;
 				
 				virtual void initMessageListenerBuffers ( bool can_be_multi_threaded ) override;

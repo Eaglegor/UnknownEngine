@@ -1,22 +1,14 @@
-/*
- * MainLoop.cpp
- *
- *  Created on: 17 июня 2014 г.
- *      Author: gorbachenko
- */
-
 #include <stdafx.h>
 
 #include <MainLoop/MainLoop.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 #include <MessageSystem/MessageDispatcher.h>
-#include <MessageSystem/MessageSystemParticipantId.h>
 #include <MessageSystem/MessageSender.h>
 #include <Profiling/AverageFpsCounter.h>
 #include <Profiling/SimpleFpsPrinter.h>
 #include <Profiling/TimeCounter.h>
 #include <Scalar.h>
-#include <ResourceManager.h>
+#include <ResourceManager/ResourceManager.h>
 
 
 namespace UnknownEngine
@@ -25,7 +17,6 @@ namespace UnknownEngine
 	{
 
 		MainLoop::MainLoop ( UnknownEngine::Core::EngineContext* engine_context ) :
-			IMessageSystemParticipant ( "Engine.MainLoop" ),
 			stopped ( true ),
 			engine_context(engine_context)
 		{

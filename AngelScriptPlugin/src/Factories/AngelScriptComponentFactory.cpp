@@ -1,6 +1,7 @@
 #include <Factories/AngelScriptComponentFactory.h>
 #include <Components/AngelScriptComponent.h>
 #include <Parsers/AngelScriptComponentDescriptorGetter.h>
+#include <ComponentSystem/ComponentDesc.h>
 
 namespace UnknownEngine
 {
@@ -30,7 +31,7 @@ namespace UnknownEngine
 			try
 			{
 				AngelScriptComponentDesc actual_desc = desc.descriptor.apply_visitor(angel_script_descriptor_getter);
-				component = new AngelScriptComponent(desc.name, actual_desc, engine_context, angel_script_subsystem);
+				component = new AngelScriptComponent(desc.name.c_str(), actual_desc, engine_context, angel_script_subsystem);
 			}
 			catch(const AngelScriptComponentDescriptorGetter::NoDescriptorProvided &e)
 			{

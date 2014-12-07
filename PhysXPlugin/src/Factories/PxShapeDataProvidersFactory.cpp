@@ -2,6 +2,7 @@
 #include <Factories/PxShapeDataProvidersFactory.h>
 #include <DataProviders/PxBoxShapeDataProvider.h>
 #include <Parsers/PxBoxShapeDataProviderDescriptorGetter.h>
+#include <ResourceManager/DataProviders/DataProviderDesc.h>
 
 namespace UnknownEngine
 {
@@ -24,7 +25,7 @@ namespace UnknownEngine
 			registerCreator(creatable_data_provider);
 		}
 
-		Loader::IDataProvider* PxShapeDataProvidersFactory::createPxBoxShapeDataProvider ( const Loader::DataProviderDesc& desc )
+		Core::IDataProvider* PxShapeDataProvidersFactory::createPxBoxShapeDataProvider ( const Core::DataProviderDesc& desc )
 		{
 			PxBoxShapeDataProvider* result;
 			result = new PxBoxShapeDataProvider(desc.name, desc.descriptor.apply_visitor(px_box_shape_descriptor_getter), physx_subsystem);

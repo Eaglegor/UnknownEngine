@@ -1,5 +1,7 @@
 #pragma once
 
+#include <LogManager_export.h>
+
 namespace UnknownEngine
 {
 	namespace Core
@@ -7,7 +9,7 @@ namespace UnknownEngine
 		enum class LogSeverity : int
 		{
 		    NONE = 0,
-		    ERROR2 = 1,
+		    ERROR_ = 1, // "_" is to avoid wingdi32 ERROR macro. Damned microsoft.
 		    WARNING = 2,
 		    INFO = 3,
 		    DEBUG = 4

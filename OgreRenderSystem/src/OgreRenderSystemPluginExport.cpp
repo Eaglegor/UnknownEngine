@@ -12,9 +12,9 @@ static OgreRenderSystemPlugin* instance = nullptr;
 
 extern "C"
 OGRERENDERSYSTEM_EXPORT
-UnknownEngine::Core::Plugin* installPlugin ( PluginsManager* manager, const SubsystemDesc& desc )
+IPlugin* installPlugin ( PluginsManager* manager, const SubsystemDesc& desc )
 {
-	if ( !instance ) instance = new OgreRenderSystemPlugin();
+	if ( !instance ) instance = new OgreRenderSystemPlugin(desc.name.c_str());
 	return instance;
 }
 

@@ -1,15 +1,8 @@
 #pragma once
 
-/*
- * DirectX10RenderSystemPlugin.h
- *
- *  Created on: 17 июня 2014 г.
- *      Author: Eaglegor
- */
-
 #include <InlineSpecification.h>
-#include <Plugins/Plugin.h>
-#include <SubsystemDesc.h>
+#include <Plugins/BasePlugin.h>
+#include <Plugins/SubsystemDesc.h>
 
 namespace UnknownEngine
 {
@@ -26,10 +19,10 @@ namespace UnknownEngine
 
 		class AssimpMeshDataProvidersFactory;
 
-		class AssimpMeshDataLoaderPlugin: public Core::Plugin
+		class AssimpMeshDataLoaderPlugin: public Core::BasePlugin
 		{
 			public:
-				AssimpMeshDataLoaderPlugin();
+				AssimpMeshDataLoaderPlugin(const char* name);
 				virtual ~AssimpMeshDataLoaderPlugin();
 
 				virtual bool install(Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc)  override;

@@ -1,5 +1,5 @@
 #pragma once
-#include <DataProvider/BaseDataProviderFactory.h>
+#include <ResourceManager/DataProviders/BaseDataProviderFactory.h>
 
 namespace UnknownEngine
 {
@@ -9,13 +9,13 @@ namespace UnknownEngine
 		class PxMaterialDataProvider;
 		class PhysXSubsystem;
 		
-		class PxMaterialDataProvidersFactory : public Loader::BaseDataProviderFactory
+		class PxMaterialDataProvidersFactory : public Core::BaseDataProviderFactory
 		{
 		public:
 			PxMaterialDataProvidersFactory(PhysXSubsystem *physx_subsystem);
 			
 		private:
-			Loader::IDataProvider* createPxMaterialDataProvider(const Loader::DataProviderDesc& desc);
+			Core::IDataProvider* createPxMaterialDataProvider(const Core::DataProviderDesc& desc);
 			
 			virtual const char* getName() const override;
 			

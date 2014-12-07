@@ -1,6 +1,6 @@
 #pragma once
 
-#include <DataProvider/LazyLoadDataProvider.h>
+#include <ResourceManager/DataProviders/LazyLoadDataProvider.h>
 #include <memory>
 
 namespace UnknownEngine
@@ -11,7 +11,7 @@ namespace UnknownEngine
 		class PhysXSubsystem;
 		class PxShapeOrientedWrapper;
 		
-		class PxShapeDataProvider : public Loader::LazyLoadDataProvider
+		class PxShapeDataProvider : public Core::LazyLoadDataProvider
 		{
 		public:
 			PxShapeDataProvider(const std::string &name, PhysXSubsystem* physx_subsystem);

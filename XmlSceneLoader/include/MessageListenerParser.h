@@ -1,8 +1,7 @@
 #pragma once
 
-#include <MessageSystem/MessageListenerDesc.h>
-#include <MessageSystem/MessageListenerRules.h>
-#include <MessageSystem/MessageSenderRules.h>
+#include <MessageSystem/Policies/Listener/MessageListenerRules.h>
+#include <MessageSystem/Policies/Sender/MessageSenderRules.h>
 #include <boost/property_tree/ptree_fwd.hpp>
 
 namespace UnknownEngine

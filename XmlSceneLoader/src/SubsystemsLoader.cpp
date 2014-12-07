@@ -1,10 +1,3 @@
-/*
- * SubsystemsParser.cpp
- *
- *  Created on: 22 июня 2014 г.
- *      Author: Eaglegor
- */
-
 #include <stdafx.h>
 
 #include <SubsystemsLoader.h>
@@ -13,12 +6,12 @@
 #include <SupportedTags.h>
 #include <TemplatesManager.h>
 #include <MessageListenerParser.h>
-#include <SubsystemDesc.h>
+#include <Plugins/SubsystemDesc.h>
 #include <OptionsParser.h>
 #include <ConstantsHolder.h>
 #include <EngineContext.h>
 #include <MessageSystem/MessageDispatcher.h>
-#include <MessageSystem/MessageListenerRules.h>
+#include <MessageSystem/Policies/Listener/MessageListenerRules.h>
 
 #ifdef _MSC_VER
 	#define WIN32_BUILD

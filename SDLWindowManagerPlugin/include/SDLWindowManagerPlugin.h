@@ -1,15 +1,8 @@
 #pragma once
 
-/*
- * DirectX10RenderSystemPlugin.h
- *
- *  Created on: 17 июня 2014 г.
- *      Author: Eaglegor
- */
-
 #include <InlineSpecification.h>
-#include <Plugins/Plugin.h>
-#include <SubsystemDesc.h>
+#include <Plugins/BasePlugin.h>
+#include <Plugins/SubsystemDesc.h>
 #include <SDLWindowManagerDescriptor.h>
 
 namespace UnknownEngine
@@ -37,10 +30,10 @@ namespace UnknownEngine
 
 		class WindowEventsProcessor;
 
-		class SDLWindowManagerPlugin: public Core::Plugin
+		class SDLWindowManagerPlugin: public Core::BasePlugin
 		{
 			public:
-				SDLWindowManagerPlugin();
+				SDLWindowManagerPlugin(const char* name);
 				virtual ~SDLWindowManagerPlugin();
 
 				virtual bool install(Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc) override;

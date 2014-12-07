@@ -9,15 +9,20 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		OgreUpdateFrameListener::OgreUpdateFrameListener ( const std::string &name, OgreRenderSubsystem *render_system )
-			: IMessageListener ( name ),
-			  render_system ( render_system )
+		OgreUpdateFrameListener::OgreUpdateFrameListener ( const std::string &name, OgreRenderSubsystem *render_system ):
+		name(name),
+		render_system ( render_system )
 		{
 		}
 
 		void OgreUpdateFrameListener::processMessage ( const Core::PackedMessage &msg )
 		{
 			render_system->onFrameUpdated ( msg.get<Core::UpdateFrameMessage>() );
+		}
+		
+		const char* OgreUpdateFrameListener::getName() const
+		{
+			return name.c_str();
 		}
 
 	} // namespace Graphics

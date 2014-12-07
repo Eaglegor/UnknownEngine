@@ -1,17 +1,17 @@
 #include <stdafx.h>
 
-#include <DataProvider/ReferencesCountingDataProvider.h>
+#include <ResourceManager/DataProviders/ReferencesCountingDataProvider.h>
 
 namespace UnknownEngine
 {
-	namespace Loader
+	namespace Core
 	{
 
-		ReferencesCountingDataProvider::ReferencesCountingDataProvider ( const std::string &name ):
-			IDataProvider ( name ),
-			load_started ( false ),
-			load_finished ( false ),
-			references_counter ( 1 )
+		ReferencesCountingDataProvider::ReferencesCountingDataProvider ( const char* name ):
+		load_started ( false ),
+		load_finished ( false ),
+		references_counter ( 1 ),
+		name(name)
 		{
 		}
 
@@ -80,6 +80,11 @@ namespace UnknownEngine
 			return load_started;
 		}
 
+		const char* ReferencesCountingDataProvider::getName() const
+		{
+			return name.c_str();
+		}
+		
 		ReferencesCountingDataProvider::~ReferencesCountingDataProvider()
 		{
 			internalUnload(resource_container);

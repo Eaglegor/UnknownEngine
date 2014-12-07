@@ -1,7 +1,7 @@
 #pragma once
 
 #include <ExportedMessages/LogMessage.h>
-#include <DataProvider/IDataProvider.h>
+#include <ResourceManager/DataProviders/IDataProvider.h>
 
 namespace UnknownEngine
 {
@@ -9,7 +9,7 @@ namespace UnknownEngine
 	{
 		struct OgreMeshPtrFromMeshDataProviderDescriptor
 		{
-			Loader::IDataProvider* mesh_data_provider;
+			Core::IDataProvider* mesh_data_provider;
 
 			Core::LogSeverity log_level;
 

@@ -11,7 +11,7 @@ namespace UnknownEngine
 		
 		const Core::ComponentType AngelScriptComponent::TYPE = "Behavior.AngelScript";
 		
-		AngelScriptComponent::AngelScriptComponent ( const std::string& name, const AngelScriptComponentDesc& desc, Core::EngineContext* engine_context, AngelScriptSubsystem* angel_script_subsystem ):
+		AngelScriptComponent::AngelScriptComponent ( const char* name, const AngelScriptComponentDesc& desc, Core::EngineContext* engine_context, AngelScriptSubsystem* angel_script_subsystem ):
 		BaseComponent(name),
 		desc(desc),
 		engine_context(engine_context),
@@ -28,7 +28,7 @@ namespace UnknownEngine
 			return TYPE;
 		}
 		
-		void AngelScriptComponent::init ( const Core::Entity* parent_entity )
+		void AngelScriptComponent::init ( const Core::IEntity* parent_entity )
 		{
 			asIScriptEngine* script_engine = angel_script_subsystem->getScriptEngine();
 			

@@ -4,8 +4,8 @@
 #include <SupportedTags.h>
 #include <OptionsParser.h>
 #include <ConstantsHolder.h>
-#include <MessageSystem/MessageListenerRules.h>
-#include <MessageSystem/MessageSenderRules.h>
+#include <MessageSystem/Policies/Listener/MessageListenerRules.h>
+#include <MessageSystem/Policies/Sender/MessageSenderRules.h>
 
 namespace UnknownEngine
 {

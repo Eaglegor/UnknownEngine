@@ -9,7 +9,7 @@ namespace UnknownEngine {
 	namespace Graphics
 	{
 		BaseOgreComponent::BaseOgreComponent ( const std::string& name, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context ) :
-			Core::BaseComponent(name),
+			Core::BaseComponent(name.c_str()),
 			shutdown_initialized(false),
 			render_subsystem ( render_subsystem )
 		{
@@ -26,7 +26,7 @@ namespace UnknownEngine {
 			render_subsystem->removeSynchronizeCallback ( this->getName() );
 		}
 		
-		void BaseOgreComponent::init ( const UnknownEngine::Core::Entity* parent_entity )
+		void BaseOgreComponent::init ( const UnknownEngine::Core::IEntity* parent_entity )
 		{
 			if ( render_subsystem->hasSeparateRenderThreadEnabled() )
 			{

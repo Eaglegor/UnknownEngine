@@ -23,7 +23,7 @@ namespace UnknownEngine
 
 		}
 
-		void SimpleRotationComponent::init ( const Core::Entity* parent_entity )
+		void SimpleRotationComponent::init ( const Core::IEntity* parent_entity )
 		{
 			
 		}

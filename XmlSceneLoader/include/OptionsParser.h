@@ -1,10 +1,3 @@
-/*
- * OptionsParser.h
- *
- *  Created on: 22 июня 2014 г.
- *      Author: Eaglegor
- */
-
 #pragma once
 
 #include <boost/property_tree/ptree_fwd.hpp>
@@ -13,11 +6,13 @@
 
 namespace UnknownEngine
 {
+	namespace Core
+	{
+		class IDataProvider;
+	}
 	namespace Loader
 	{
-
 		class ConstantsHolder;
-		class IDataProvider;
 
 		class OptionsParser
 		{
@@ -28,10 +23,10 @@ namespace UnknownEngine
 				OptionsParser();
 				virtual ~OptionsParser();
 
-				static const Core::Properties parseOptions ( const boost::property_tree::ptree& options_node, const UnknownEngine::Loader::ConstantsHolder* constants, std::unordered_map< std::string, UnknownEngine::Loader::IDataProvider* >* data_providers_map = nullptr );
+				static const Core::Properties parseOptions ( const boost::property_tree::ptree& options_node, const UnknownEngine::Loader::ConstantsHolder* constants, std::unordered_map< std::string, Core::IDataProvider* >* data_providers_map = nullptr );
 
 			private:
-				static const Core::Properties parseOptionsSection ( const boost::property_tree::ptree &options_node, const ConstantsHolder* constants, std::unordered_map<std::string, IDataProvider*> *data_providers_map );
+				static const Core::Properties parseOptionsSection ( const boost::property_tree::ptree &options_node, const ConstantsHolder* constants, std::unordered_map<std::string, Core::IDataProvider*> *data_providers_map );
 				static std::string parseSingleOption ( const boost::property_tree::ptree &options_node, const ConstantsHolder* constants );
 		};
 

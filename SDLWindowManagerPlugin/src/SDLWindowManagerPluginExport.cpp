@@ -3,7 +3,7 @@
 #include <Plugins/PluginsManager.h>
 #include <Properties/Properties.h>
 #include <SDLWindowManagerPlugin.h>
-#include <SubsystemDesc.h>
+#include <Plugins/SubsystemDesc.h>
 #include <SDLWindowManagerPlugin_export.h>
 
 using namespace UnknownEngine::GUI;
@@ -13,9 +13,9 @@ static SDLWindowManagerPlugin* instance = nullptr;
 
 extern "C"
 SDLWINDOWMANAGERPLUGIN_EXPORT
-UnknownEngine::Core::Plugin* installPlugin(PluginsManager* manager, const SubsystemDesc& desc)
+IPlugin* installPlugin(PluginsManager* manager, const SubsystemDesc& desc)
 {
-	if(!instance) instance = new SDLWindowManagerPlugin();
+	if(!instance) instance = new SDLWindowManagerPlugin(desc.name.c_str());
 	return instance;
 }
 

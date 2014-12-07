@@ -1,18 +1,10 @@
-/*
- * ComponentsManager.cpp
- *
- *  Created on: 18 июня 2014 г.
- *      Author: gorbachenko
- */
-
 #include <stdafx.h>
 
-#include <ComponentsManager.h>
-#include <IComponentFactory.h>
-#include <ComponentDesc.h>
-#include <Objects/IComponent.h>
-#include <algorithm>
-#include <Objects/Entity.h>
+#include <ComponentSystem/ComponentsManager.h>
+#include <ComponentSystem/IComponentFactory.h>
+#include <ComponentSystem/ComponentDesc.h>
+#include <ComponentSystem/IComponent.h>
+#include <ComponentSystem/Entity.h>
 #include <MessageSystem/MessageDispatcher.h>
 
 #include <Logging.h>
@@ -28,7 +20,6 @@ namespace UnknownEngine
 		ComponentsManager* Singleton<ComponentsManager>::instance = nullptr;
 
 		ComponentsManager::ComponentsManager() :
-			internal_dictionary ( "ComponentsManager.Dictionary", NUMERIC_IDENTIFIER_INITIAL_VALUE, INVALID_NUMERIC_IDENTIFIER ),
 			name_generator(new Utils::GuidNameGenerator()),
 			logger(CREATE_LOGGER("Core.ComponentsManager", ENGINE_LOG_LEVEL))
 		{
@@ -41,26 +32,36 @@ namespace UnknownEngine
 
 		void ComponentsManager::addComponentFactory ( IComponentFactory* factory )
 		{
-			if ( factory->getInternalId() != INVALID_NUMERIC_IDENTIFIER ) return;
-
-			NumericIdentifierType new_id = internal_dictionary.registerNewValue ( factory->getName() );
-			factory->setInternalId ( new_id );
-			component_factories.insert ( std::make_pair ( new_id, factory ) );
+			auto iter = component_factories.find(std::string(factory->getName()));
+			if(iter != component_factories.end()) {
+				LOG_ERROR(logger, std::string("Failed to register component factory ") + factory->getName() + ". Factory with the same name alreadt registered");
+				return;
+			}
+			component_factories.emplace(std::string(factory->getName()), factory);
 		}
 
 		void ComponentsManager::removeComponentFactory ( IComponentFactory* factory )
 		{
-			if ( factory->getInternalId() == INVALID_NUMERIC_IDENTIFIER ) return;
-			component_factories.erase ( factory->getInternalId() );
-			internal_dictionary.deleteEntryByKey ( factory->getInternalId() );
-			factory->setInternalId ( INVALID_NUMERIC_IDENTIFIER );
+			auto iter = component_factories.find(std::string(factory->getName()));
+			if(iter == component_factories.end()) 
+			{
+				LOG_ERROR(logger, std::string("Can't remove component factory ") + factory->getName() + ". Factory not registered");
+				return;
+			}
+			component_factories.erase ( iter );
 		}
 
-		Entity *ComponentsManager::createEntity ( const std::string &name )
+		IEntity *ComponentsManager::createEntity ( const std::string &name )
 		{
+			auto iter = entities.find(name);
+			if(iter != entities.end())
+			{
+				LOG_ERROR(logger, "Failed to create entity " + name + ". Entity with the same name already exists");
+				return nullptr;
+			}
 			LOG_INFO(logger, "Creating entity: " + name );
-			Entity* entity = new Entity ( name, this );
-			entities.push_back ( entity );
+			IEntity* entity = new Entity ( name, this );
+			entities.emplace(name, entity);
 			return entity;
 		}
 
@@ -78,8 +79,8 @@ namespace UnknownEngine
 						LOG_INFO(logger, "Component '" + desc.name + "' created" );
 
 						LOG_INFO(logger, "Registering messaging rules for component " + desc.name);
-						MessageDispatcher::getSingleton()->setListenerRules(desc.name, desc.listener_rules);
-						MessageDispatcher::getSingleton()->setSenderRules(desc.name, desc.sender_rules);
+						MessageDispatcher::getSingleton()->setListenerRules(desc.name.c_str(), desc.listener_rules);
+						MessageDispatcher::getSingleton()->setSenderRules(desc.name.c_str(), desc.sender_rules);
 						LOG_INFO(logger, "Messaging rules for component " + desc.name + " registered");
 					}
 					else
@@ -91,7 +92,6 @@ namespace UnknownEngine
 			}
 			LOG_ERROR (logger, "Not found factory for component type: '" + desc.type + "'" );
 			return nullptr;
-			//throw NoSuitableFactoryFoundException ( "Can't find factory for component" );
 		}
 
 		void ComponentsManager::removeComponent ( IComponent *component )
@@ -102,8 +102,8 @@ namespace UnknownEngine
 				if ( factory.second->supportsType ( component->getType() ) )
 				{
 					LOG_INFO(logger, "Unregistering messaging rules for component " + std::string(component->getName()));
-					MessageDispatcher::getSingleton()->clearListenerRules(MessageSystemParticipantId(component->getName()));
-					MessageDispatcher::getSingleton()->clearSenderRules(MessageSystemParticipantId(component->getName()));
+					MessageDispatcher::getSingleton()->clearListenerRules(component->getName());
+					MessageDispatcher::getSingleton()->clearSenderRules(component->getName());
 					LOG_INFO(logger, "Messaging rules for component " + std::string(component->getName()) + " unregistered");
 
 					factory.second->destroyObject ( component );
@@ -111,27 +111,28 @@ namespace UnknownEngine
 				}
 			}
 			LOG_ERROR (logger, "No suitable factory found to destroy component '" + std::string(component->getName()) + "'" );
-			throw NoSuitableFactoryFoundException ( "Can't find factory able to destroy component" );
 		}
 
-		void ComponentsManager::removeEntity ( Entity* entity )
+		void ComponentsManager::removeEntity ( IEntity* entity )
 		{
 			if ( entity )
 			{
+				LOG_INFO(logger, std::string("Destroying entity '") + entity->getName() + "'" );
 				entity->removeAllComponents();
-				LOG_INFO(logger, "Destroying entity '" + entity->getName() + "'" );
-				auto iter = std::find ( entities.begin(), entities.end(), entity );
-				if ( iter != entities.end() ) *iter = nullptr;
+				entities.erase(entity->getName());
 				delete entity;
 			}
 		}
 
 		void ComponentsManager::clearEntities()
 		{
-			for ( Entity * entity : entities )
+			for(auto &iter : entities)
 			{
-				removeEntity ( entity );
+				LOG_INFO(logger, std::string("Destroying entity '") + iter.second->getName() + "'" );
+				iter.second->removeAllComponents();
+				delete iter.second;
 			}
+			entities.clear();
 		}
 
 		Utils::NameGenerator* ComponentsManager::getNameGenerator()
@@ -139,6 +140,6 @@ namespace UnknownEngine
 			return name_generator.get();
 		}
 		
-	} /* namespace Core */
-} /* namespace UnknownEngine */
+	}
+}
 

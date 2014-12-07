@@ -3,7 +3,6 @@
 #include <vector>
 #include <memory>
 #include <unordered_map>
-#include <MessageSystem/MessageListenerDesc.h>
 #include <Exception.h>
 
 struct SDL_Window;

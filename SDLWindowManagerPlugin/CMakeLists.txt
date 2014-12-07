@@ -1,8 +1,8 @@
 set(TARGET_NAME SDLWindowManagerPlugin)
 set(LINKAGE SHARED)
 
-set(INCLUDED_MODULE_HEADERS SDLWindowManagerPlugin UserInput Plugins ComponentSystem Utils Engine UserInput RenderSystem LogManager)
-set(LINKED_LIBS Engine ComponentSystem Plugins LogManager )
+set(INCLUDED_MODULE_HEADERS SDLWindowManagerPlugin UserInput MessageSystem Plugins Utils Engine UserInput RenderSystem LogManager)
+set(LINKED_LIBS Engine MessageSystem Plugins LogManager )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 
 INCLUDE(FindPkgConfig)

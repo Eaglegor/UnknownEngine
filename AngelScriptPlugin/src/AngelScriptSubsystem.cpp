@@ -13,8 +13,6 @@
 #include <Registrators/Core/ResourceManager/DataProviderDescRegistrator.h>
 #include <Registrators/Core/ResourceManager/IDataProviderRegistrator.h>
 #include <Registrators/Core/ResourceManager/ResourceManagerRegistrator.h>
-#include <Registrators/Core/MessageSystem/ReceivedMessageDescRegistrator.h>
-#include <Registrators/Core/MessageSystem/ReceivePolicyDescRegistrator.h>
 #include <Registrators/Core/MessageSystem/MessageDispatcherRegistrator.h>
 #include <Registrators/Core/MessageSystem/MessageListenerRuleRegistrator.h>
 #include <Registrators/Core/MessageSystem/MessageSenderRulesRegistrator.h>
@@ -117,8 +115,6 @@ namespace UnknownEngine
 			registerObjectType(NameGeneratorRegistrator());
 			registerObjectType(IDataProviderRegistrator());
 			registerObjectType(PropertiesRegistrator());
-			registerObjectType(ReceivePolicyDescRegistrator());
-			registerObjectType(ReceivedMessageDescRegistrator());
 			registerObjectType(ComponentDescRegistrator());
 			registerObjectType(IComponentRegistrator());
 			registerObjectType(EntityRegistrator());

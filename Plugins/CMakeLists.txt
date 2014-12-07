@@ -1,8 +1,8 @@
 set(TARGET_NAME Plugins)
 set(LINKAGE SHARED)
 
-set(INCLUDED_MODULE_HEADERS Plugins ComponentSystem Engine Utils LogManager)
-set(LINKED_LIBS ComponentSystem LogManager)
+set(INCLUDED_MODULE_HEADERS Plugins Engine Utils MessageSystem LogManager)
+set(LINKED_LIBS LogManager MessageSystem)
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS})
 
 if(NOT WIN32)

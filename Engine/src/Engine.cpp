@@ -1,26 +1,18 @@
-/*
- * Engine.cpp
- *
- *  Created on: 22 июня 2014 г.
- *      Author: Eaglegor
- */
-
 #include <stdafx.h>
 
 #include <Engine.h>
 #include <MainLoop/MainLoop.h>
 #include <MessageSystem/MessageDispatcher.h>
 #include <MessageSystem/MessageDictionary.h>
-#include <MessageSystem/MessageSystemParticipantDictionary.h>
 #include <MessageSystem/MessageSender.h>
-#include <ResourceManager.h>
+#include <ResourceManager/ResourceManager.h>
 #include <Plugins/PluginsManager.h>
-#include <ComponentsManager.h>
+#include <ComponentSystem/ComponentsManager.h>
 
 #include <ExportedMessages/LogMessage.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 
-#include <SubsystemDesc.h>
+#include <Plugins/SubsystemDesc.h>
 #include <ISceneLoader.h>
 
 #include <StopEngineListener.h>
@@ -62,7 +54,7 @@ namespace UnknownEngine
 			LOG_INFO(logger, "Registering engine stop listener" );
 			StopEngineListener stop_listener ( "Engine", &main_loop );
 			
-			initMessagingRules(stop_listener.getMessageSystemParticipantId());
+			initMessagingRules("Engine");
 			
 			context.getMessageDispatcher()->addListener ( MESSAGE_TYPE_ID(StopEngineActionMessage::getTypeName()), &stop_listener );
 
@@ -92,21 +84,19 @@ namespace UnknownEngine
 			if ( state == CREATED ) throw InvalidEngineStateException ( "Shutting down uninitialized engine is not allowed" );
 
 			LOG_INFO(logger, "Destroying remaining entities" );
+			
 			this->context.components_manager->clearEntities();
 
 			this->context.resource_manager->cleanup();
 			
 			LOG_INFO(logger, "Destroying plugins manager" );
 			PluginsManager::destroyInstance();
-
+			
 			LOG_INFO(logger, "Destroying components manager" );
 			ComponentsManager::destroyInstance();
 
 			LOG_INFO(logger, "Destroying messaging policies dictionary" );
 			MessagingPoliciesManager::destroyInstance();
-			
-			LOG_INFO(logger, "Destroying message system participant dictionary" );
-			MessageSystemParticipantDictionary::destroyInstance();
 
 			LOG_INFO(logger, "Destroying resource manager" );
 			ResourceManager::destroyInstance();
@@ -144,7 +134,7 @@ namespace UnknownEngine
 			if ( state == STOPPED ) throw InvalidEngineStateException ( "Stopped engine initialization is not allowed. Call shutdown() prior." );
 
 			LOG_INFO(logger, "Creating message dictionary" );
-			context.message_dictionary = MessageDictionary::createInstance();
+			MessageDictionary::createInstance();
 
 			LOG_INFO(logger, "Creating message dispatcher" );
 			context.message_dispatcher = MessageDispatcher::createInstance();
@@ -152,37 +142,16 @@ namespace UnknownEngine
 			LOG_INFO(logger, "Creating components manager" );
 			context.components_manager = ComponentsManager::createInstance();
 
+			LOG_INFO(logger, "Creating messaging policies dictionary" );
+			MessagingPoliciesManager::createInstance();
+			
 			LOG_INFO(logger, "Creating resource manager" );
 			context.resource_manager = ResourceManager::createInstance();
-
-			LOG_INFO(logger, "Creating message participant dictionary" );
-			context.message_system_participant_dictionary = MessageSystemParticipantDictionary::createInstance();
-
-			LOG_INFO(logger, "Creating messaging policies manager" );
-			context.messaging_policies_manager = MessagingPoliciesManager::createInstance();
 			
 			LOG_INFO(logger, "Creating plugins manager" );
 			plugins_manager = PluginsManager::createInstance ( &context );
 
-			LOG_INFO(logger, "Registering internal message types" );
-			registerInternalMessageTypes();
-
 			state = INIT;
-		}
-
-		void Engine::registerInternalMessageTypes()
-		{
-			LOG_INFO(logger, "Registering message type: " + std::string ( Utils::LogMessage::getTypeName() ) );
-			context.message_dictionary->registerNewMessageType ( Utils::LogMessage::getTypeName() );
-
-			LOG_INFO(logger, "Registering message type: " + std::string ( UpdateFrameMessage::getTypeName() ) );
-			context.message_dictionary->registerNewMessageType ( UpdateFrameMessage::getTypeName() );
-
-			LOG_INFO(logger, "Registering message type: " + std::string ( TransformChangedMessage::getTypeName() ) );
-			context.message_dictionary->registerNewMessageType ( TransformChangedMessage::getTypeName() );
-			
-			LOG_INFO(logger, "Registering message type: " + std::string ( StopEngineActionMessage::getTypeName() ) );
-			context.message_dictionary->registerNewMessageType ( StopEngineActionMessage::getTypeName() );
 		}
 
 		PluginsManager* Engine::getPluginsManager()
@@ -190,7 +159,7 @@ namespace UnknownEngine
 			return plugins_manager;
 		}
 
-		void Engine::initMessagingRules(const MessageSystemParticipantId &message_system_participant)
+		void Engine::initMessagingRules(const std::string &message_system_participant)
 		{
 			{
 				MessageListenerRules listener_rules;
@@ -198,7 +167,7 @@ namespace UnknownEngine
 				msg.message_type_name = StopEngineActionMessage::getTypeName();
 				listener_rules.push_back(msg);
 				
-				context.getMessageDispatcher()->setListenerRules(message_system_participant, listener_rules);
+				context.getMessageDispatcher()->setListenerRules(message_system_participant.c_str(), listener_rules);
 			}
 			
 			{
@@ -210,7 +179,7 @@ namespace UnknownEngine
 				msg.message_type_name = StopEngineActionMessage::getTypeName();
 				sender_rules.push_back(msg);
 				
-				context.getMessageDispatcher()->setSenderRules(message_system_participant, sender_rules);
+				context.getMessageDispatcher()->setSenderRules(message_system_participant.c_str(), sender_rules);
 			}
 		}
 

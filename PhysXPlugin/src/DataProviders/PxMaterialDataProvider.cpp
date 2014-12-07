@@ -19,18 +19,18 @@ namespace UnknownEngine
 		{
 		}
 		
-		const Loader::DataProviderType PxMaterialDataProvider::getType() const
+		const Core::DataProviderType PxMaterialDataProvider::getType() const
 		{
 			return PX_MATERIAL_DATA_PROVIDER_TYPE;
 		}
 
-		void PxMaterialDataProvider::internalLoad ( Loader::ResourceContainer& out_container )
+		void PxMaterialDataProvider::internalLoad ( Core::ResourceContainer& out_container )
 		{
 			physx::PxMaterial* material = physx_subsystem->getPxPhysics()->createMaterial(desc.static_friction, desc.dynamic_friction, desc.restitution);
 			out_container.setData<physx::PxMaterial*>(material);
 		}
 		
-		void PxMaterialDataProvider::internalUnload ( Loader::ResourceContainer& container )
+		void PxMaterialDataProvider::internalUnload ( Core::ResourceContainer& container )
 		{
 			
 			physx::PxMaterial* material = container.getData<physx::PxMaterial*>();

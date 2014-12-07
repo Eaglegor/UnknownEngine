@@ -8,7 +8,6 @@
 #include <boost/lexical_cast.hpp>
 #include <Converters/OgreVector3Converter.h>
 #include <Converters/OgreQuaternionConverter.h>
-#include <MessageSystem/MessageListenerDesc.h>
 #include <EngineContext.h>
 #include <MessageSystem/MessageDispatcher.h>
 #include <MessageSystem/BaseMessageListener.h>
@@ -51,7 +50,7 @@ namespace UnknownEngine
 		}
 
 
-		void OgreCameraComponent::internalInit ( const UnknownEngine::Core::Entity *parent_entity )
+		void OgreCameraComponent::internalInit ( const UnknownEngine::Core::IEntity *parent_entity )
 		{
 			LOG_INFO ( logger, "Creating OGRE camera" );
 			this->camera = render_subsystem->getSceneManager()->createCamera ( Ogre::String ( getName() ) + ".Camera" );

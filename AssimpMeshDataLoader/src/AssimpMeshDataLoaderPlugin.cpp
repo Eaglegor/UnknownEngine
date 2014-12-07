@@ -1,10 +1,3 @@
-/*
- * DirectX10RenderSystemPlugin.cpp
- *
- *  Created on: 17 июня 2014 г.
- *      Author: Eaglegor
- */
-
 #include <stdafx.h>
 
 #include <Plugins/PluginsManager.h>
@@ -14,15 +7,16 @@
 #include <AssimpMeshDataLoaderDescriptorGetter.h>
 #include <EngineContext.h>
 #include <Logging.h>
-#include <ResourceManager.h>
+#include <ResourceManager/ResourceManager.h>
 
 namespace UnknownEngine
 {
 	namespace Loader
 	{
 
-		AssimpMeshDataLoaderPlugin::AssimpMeshDataLoaderPlugin ()
-		:logger(nullptr),
+		AssimpMeshDataLoaderPlugin::AssimpMeshDataLoaderPlugin ( const char* name ):
+		Core::BasePlugin(name),
+		logger(nullptr),
 		data_provider_factory(nullptr)
 		{
 		}

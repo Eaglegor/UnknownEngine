@@ -5,7 +5,7 @@
 #include <PhysXSubsystemPlugin.h>
 #include <MessageSystem/MessageDictionary.h>
 #include <MessageSystem/BaseMessageListener.h>
-#include <ComponentsManager.h>
+#include <ComponentSystem/ComponentsManager.h>
 #include <EngineContext.h>
 #include <Logging.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
@@ -15,7 +15,7 @@
 #include <Factories/PxRigidBodyComponentsFactory.h>
 #include <Factories/PxJointComponentsFactory.h>
 #include <Parsers/PhysXSubsystemDescriptorGetter.h>
-#include <ResourceManager.h>
+#include <ResourceManager/ResourceManager.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 
 namespace UnknownEngine
@@ -23,7 +23,8 @@ namespace UnknownEngine
 	namespace Physics
 	{
 		
-		PhysXSubsystemPlugin::PhysXSubsystemPlugin ()
+		PhysXSubsystemPlugin::PhysXSubsystemPlugin ( const char* name ):
+		Core::BasePlugin(name)
 		{
 		}
 

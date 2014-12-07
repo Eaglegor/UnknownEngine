@@ -1,7 +1,7 @@
 #pragma once
 
 #include <EngineContext.h>
-#include <ComponentDesc.h>
+#include <ComponentSystem/ComponentDesc.h>
 #include <MessageSystem/BaseMessageListener.h>
 
 
@@ -16,8 +16,6 @@ namespace UnknownEngine
 			ComponentClass* component = new ComponentClass (desc.name, desc.descriptor.apply_visitor(get_descriptor_visitor), render_subsystem, engine_context);
 			
 			std::unique_ptr<Core::BaseMessageListener> listener(new Core::BaseMessageListener(std::string(component->getName()), engine_context));
-			listener->registerSupportedMessageTypes(desc.received_messages);
-			
 			component->setMessageListener(std::move(listener));	
 			
 			return component;

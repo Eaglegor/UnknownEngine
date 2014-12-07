@@ -1,10 +1,3 @@
-/*
- * ConstantsHolder.h
- *
- *  Created on: 22 июня 2014 г.
- *      Author: Eaglegor
- */
-
 #pragma once
 
 #include <map>

@@ -1,10 +1,3 @@
-/*
- * EntitiesParser.h
- *
- *  Created on: 22 июня 2014 г.
- *      Author: Eaglegor
- */
-
 #pragma once
 
 #include <boost/property_tree/ptree_fwd.hpp>
@@ -17,16 +10,15 @@ namespace UnknownEngine
 
 	namespace Core
 	{
-
 		class EngineContext;
 		class IComponent;
-		class Entity;
+		class IEntity;
+		class IDataProvider;
 	}
 
 	namespace Loader
 	{
 
-		class IDataProvider;
 		class XmlSceneLoader;
 
 		class EntitiesLoader
@@ -48,10 +40,10 @@ namespace UnknownEngine
 			private:
 
 				void loadEntity ( const std::string &name, const boost::property_tree::ptree &entity_node );
-				Core::IComponent* loadComponent ( Core::Entity* parent_entity, const std::string &name, const boost::property_tree::ptree &component_node );
+				Core::IComponent* loadComponent ( Core::IEntity* parent_entity, const std::string &name, const boost::property_tree::ptree &component_node );
 				bool createDataProvider ( const boost::property_tree::ptree &data_provider_node );
 
-				std::unordered_map<std::string, Loader::IDataProvider*> data_providers;
+				std::unordered_map<std::string, Core::IDataProvider*> data_providers;
 				
 				Core::EngineContext* engine_context;
 				XmlSceneLoader* scene_loader;

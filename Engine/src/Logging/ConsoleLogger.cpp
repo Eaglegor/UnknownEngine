@@ -31,7 +31,7 @@ namespace UnknownEngine
 					text = "[DEBUG] ";
 					break;
 				}
-				case Core::LogSeverity::ERROR2:
+				case Core::LogSeverity::ERROR_:
 				{
 					text = "[ERROR] ";
 					break;

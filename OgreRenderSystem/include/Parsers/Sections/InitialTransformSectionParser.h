@@ -1,5 +1,6 @@
 #pragma once
 #include <Components/Lights/OgrePointLightComponent.h>
+#include <Properties/Properties.h>
 
 namespace UnknownEngine
 {

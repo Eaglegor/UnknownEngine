@@ -1,16 +1,9 @@
-/*
- * Entity.cpp
- *
- *  Created on: 18 июня 2014 г.
- *      Author: gorbachenko
- */
-
 #include <stdafx.h>
 
-#include <ComponentsManager.h>
-#include <Objects/Entity.h>
-#include <Objects/IComponent.h>
-#include <ComponentDesc.h>
+#include <ComponentSystem/Entity.h>
+#include <ComponentSystem/IComponent.h>
+#include <ComponentSystem/ComponentsManager.h>
+#include <ComponentSystem/ComponentDesc.h>
 
 #include <Logging.h>
 #include <EngineLogLevel.h>
@@ -23,46 +16,64 @@ namespace UnknownEngine
 		Entity::Entity ( const std::string &name, ComponentsManager* components_manager ) :
 			name ( name ),
 			components_manager ( components_manager ),
-			logger(CREATE_LOGGER(std::string("(Entity) ") + name.c_str(), ENGINE_LOG_LEVEL))
+			logger ( CREATE_LOGGER ( std::string ( "(Entity) " ) + name.c_str(), ENGINE_LOG_LEVEL ) )
 		{
 		}
 
 		Entity::~Entity ()
 		{
-			RELEASE_LOGGER(logger);
+			RELEASE_LOGGER ( logger );
 		}
 
 		IComponent* Entity::createComponent ( const ComponentDesc& desc )
 		{
-			if ( components.find ( desc.name ) != components.end() ) throw DuplicateComponentNameException ( "Component already created: " + std::string(desc.name) + " (Entity: " + getName() +")" );
-			LOG_INFO(logger, "Creating component '" + desc.name + "'" );
-			IComponent* component = components_manager->createComponent(desc);
+			if ( components.find ( desc.name ) != components.end() )
+			{
+				LOG_ERROR ( logger, std::string ( "Component with the name " ) + desc.name + " already exists. New component wasn't created." );
+				return nullptr;
+			}
+			LOG_INFO ( logger, "Creating component '" + desc.name + "'" );
+			IComponent* component = components_manager->createComponent ( desc );
+			if ( component == nullptr )
+			{
+				LOG_ERROR ( logger, std::string ( "Failed to create component " ) + desc.name );
+				return nullptr;
+			}
 			component->init ( this );
-			components.emplace(desc.name, component);
+			components.emplace ( desc.name, component );
 			return component;
 		}
 
 		void Entity::removeAllComponents()
 		{
-			for(auto &iter : components)
+			for ( auto & iter : components )
 			{
 				iter.second->shutdown();
-				components_manager->removeComponent(iter.second);
+				components_manager->removeComponent ( iter.second );
 			}
 			components.clear();
 		}
-	
+
 		void Entity::removeComponent ( IComponent *component )
 		{
-			if ( components.find ( std::string(component->getName()) ) != components.end() ) throw ComponentNotFoundException ( "Entity doesn't contain component " + std::string(component->getName()) );
+			if ( component == nullptr )
+			{
+				LOG_WARNING ( logger, "Trying to delete nullptr component. Nothing is to be done." );
+				return;
+			}
+			if ( components.find ( std::string ( component->getName() ) ) != components.end() )
+			{
+				LOG_ERROR ( logger, std::string ( "Component " ) + component->getName() + " isn't a part of entity " + getName() + " so it wasn't deleted" );
+				return;
+			}
 			components.erase ( name );
 			component->shutdown();
 			components_manager->removeComponent ( component );
 		}
 
-		std::string Entity::getName() const
+		const char* Entity::getName() const
 		{
-			return name;
+			return name.c_str();
 		}
 
 	} /* namespace Core */

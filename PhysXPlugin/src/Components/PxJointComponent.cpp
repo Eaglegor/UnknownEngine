@@ -8,7 +8,7 @@ namespace UnknownEngine
 	{
 
 		PxJointComponent::PxJointComponent(const std::string& name, PhysXSubsystem* physics_subsystem, Core::EngineContext* engine_context) :
-			Core::BaseComponent ( name ),
+			Core::BaseComponent ( name.c_str() ),
 			physics_subsystem ( physics_subsystem ),
 			actor1(nullptr),
 			actor2(nullptr),

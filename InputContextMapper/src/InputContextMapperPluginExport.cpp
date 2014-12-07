@@ -9,9 +9,9 @@ static InputContextMapperPlugin* instance = nullptr;
 
 extern "C"
 INPUTCONTEXTMAPPER_EXPORT
-UnknownEngine::Core::Plugin* installPlugin(PluginsManager* manager, const SubsystemDesc& desc)
+IPlugin* installPlugin(PluginsManager* manager, const SubsystemDesc& desc)
 {
-    if(!instance) instance = new InputContextMapperPlugin();
+    if(!instance) instance = new InputContextMapperPlugin(desc.name.c_str());
     return instance;
 }
 

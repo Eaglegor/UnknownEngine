@@ -4,7 +4,7 @@
 #include <Parsers/Sections/InitialTransformSectionParser.h>
 #include <CommonParsers/Vector3Parser.h>
 #include <CommonParsers/QuaternionParser.h>
-#include <DataProvider/IDataProvider.h>
+#include <ResourceManager/DataProviders/IDataProvider.h>
 #include <DataProviders/OgreMeshPtrProvider.h>
 #include <Logging.h>
 #include <CommonParsers/LexicalCastForBoolAlpha.h>
@@ -67,8 +67,8 @@ namespace UnknownEngine
 					},
 					{"log_level", PropertiesParser::OptionalValue<Core::LogSeverity>(desc.log_level)},
 			 
-					{"mesh_ptr_provider", PropertiesParser::RequiredRawValue<Loader::IDataProvider*>( 
-						[&](Loader::IDataProvider* data_provider){
+					{"mesh_ptr_provider", PropertiesParser::RequiredRawValue<Core::IDataProvider*>( 
+						[&](Core::IDataProvider* data_provider){
 							desc.mesh_data_provider = dynamic_cast<OgreMeshPtrProvider*>(data_provider);
 						} 
 					)},

@@ -13,11 +13,11 @@ namespace UnknownEngine
 		
 		UNKNOWNENGINE_ALIGNED_STRUCT(16) PxBoxShapeDataProviderDesc
 		{
-			PxMaterialDataProvider *material; // Shape material
-			Math::Transform pose_offset; // Pose offset
-			Math::Scalar width; // X
-			Math::Scalar height; // Y
-			Math::Scalar depth; // Z
+			PxMaterialDataProvider *material;
+			Math::Transform pose_offset;
+			Math::Scalar width;
+			Math::Scalar height;
+			Math::Scalar depth;
 			bool is_exclusive;
 			
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;

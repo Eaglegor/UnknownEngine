@@ -6,7 +6,6 @@
 #include <DataProviders/OgreMeshPtrProvider.h>
 #include <EngineContext.h>
 #include <MessageSystem/MessageDispatcher.h>
-#include <MessageSystem/MessageListenerDesc.h>
 #include <MessageSystem/BaseMessageListener.h>
 #include <Converters/OgreVector3Converter.h>
 #include <Converters/OgreQuaternionConverter.h>
@@ -38,7 +37,7 @@ namespace UnknownEngine
 			RELEASE_LOGGER(logger);
 		}
 
-		void OgreRenderableComponent::internalInit ( const UnknownEngine::Core::Entity* parent_entity )
+		void OgreRenderableComponent::internalInit ( const UnknownEngine::Core::IEntity* parent_entity )
 		{
 			LOG_INFO ( logger, "Creating OGRE entity" );
 			if ( desc.mesh_data_provider != nullptr )

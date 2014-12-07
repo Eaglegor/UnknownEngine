@@ -30,7 +30,7 @@ class FirstState : State
 		LOG_ERROR(logger, "Error message");
 		LOG_DEBUG(logger, "Debug message");
 	
-		Loader::DataProviderDesc dp_desc;
+		Core::DataProviderDesc dp_desc;
 		dp_desc.name = "TeapotMesh";
 		dp_desc.type = "Loader.MeshData.AssimpMeshDataLoader";
 		{
@@ -44,7 +44,7 @@ class FirstState : State
 			props.setNestedProperties("Postprocessing", postprocessing);
 			dp_desc.descriptor = props;
 		}
-		Loader::IDataProvider@ dp = rm.createDataProvider(dp_desc);
+		Core::IDataProvider@ dp = rm.createDataProvider(dp_desc);
 		dp.startLoading();
 
 		
@@ -62,7 +62,7 @@ class FirstState : State
 		
 		Core::ComponentsManager@ mgr = engine_context.getComponentsManager();
 		Utils::NameGenerator@ name_generator = mgr.getNameGenerator();
-		Core::Entity@ entity = mgr.createEntity(name_generator.generateName());
+		Core::IEntity@ entity = mgr.createEntity(name_generator.generateName());
 		
 		std::string rotation_component_name;
 		

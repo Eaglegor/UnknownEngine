@@ -1,8 +1,8 @@
 set(TARGET_NAME OgreRenderSystem)
 set(LINKAGE SHARED)
 
-set(INCLUDED_MODULE_HEADERS RenderSystem OgreRenderSystem Plugins Math ComponentSystem Utils Engine ResourceManager LogManager)
-set(LINKED_LIBS Engine ComponentSystem Plugins ResourceManager LogManager )
+set(INCLUDED_MODULE_HEADERS RenderSystem OgreRenderSystem Plugins Math ComponentSystem MessageSystem Utils Engine ResourceManager LogManager)
+set(LINKED_LIBS Engine ComponentSystem Plugins ResourceManager LogManager MessageSystem )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 
 find_package(Eigen REQUIRED)

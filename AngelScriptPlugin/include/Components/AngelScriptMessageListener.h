@@ -2,7 +2,7 @@
 
 #include <MessageSystem/IMessageListener.h>
 #include <MessageSystem/PackedMessage.h>
-#include <MessageSystem/Policies/IMessageReceivePolicy.h>
+#include <MessageSystem/Policies/Listener/IMessageReceivePolicy.h>
 #include <MessageSystem/MessageDispatcher.h>
 #include <ASIncludes.h>
 #include <MessageBuffers/MessageBuffer.h>
@@ -17,12 +17,12 @@ namespace UnknownEngine
 		{
 		public:
 			AngelScriptMessageListener (const std::string& object_name):
-			Core::IMessageListener(object_name),
 			script_engine(nullptr),
 			script_context(nullptr),
 			callback_function(nullptr),
 			registered(false),
-			ref_counter(1)
+			ref_counter(1),
+			name(object_name)
 			{
 			}
 			
@@ -88,6 +88,11 @@ namespace UnknownEngine
 				}
 			}
 			
+			const char* getName() const override
+			{
+				return name.c_str();
+			}
+			
 		private:
 			
 			asIScriptFunction* extractFunction(void* ref, int typeId)
@@ -108,6 +113,7 @@ namespace UnknownEngine
 			
 			bool registered;
 			size_t ref_counter;
+			std::string name;
 		};
 	}
 }

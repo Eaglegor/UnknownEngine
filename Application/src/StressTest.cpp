@@ -1,17 +1,15 @@
 #include <StressTest.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <NameGenerators/NameGenerator.h>
-#include <MessageSystem/Policies/FromSingleSenderMessageReceivePolicy.h>
-#include <ComponentsManager.h>
-#include <Objects/Entity.h>
-#include <ComponentDesc.h>
-#include <DataProvider/DataProviderDesc.h>
-#include <ResourceManager.h>
+#include <ComponentSystem/ComponentsManager.h>
+#include <ComponentSystem/Entity.h>
+#include <ComponentSystem/ComponentDesc.h>
+#include <ResourceManager/DataProviders/DataProviderDesc.h>
+#include <ResourceManager/ResourceManager.h>
 #include <MessageSystem/MessageDispatcher.h>
 
 using namespace UnknownEngine::Core;
 using namespace UnknownEngine::Utils;
-using namespace UnknownEngine::Loader;
 
 void StressTest::init ( EngineContext* engine_context )
 {
@@ -24,7 +22,7 @@ void StressTest::init ( EngineContext* engine_context )
 	
 	listener.reset(new BaseMessageListener("StressTest", engine_context));
 
-	engine_context->getMessageDispatcher()->setListenerRules(listener->getMessageSystemParticipantId(), rules);
+	engine_context->getMessageDispatcher()->setListenerRules(listener->getName(), rules);
 	
 	{
 		typedef UpdateFrameMessage MessageType;
@@ -87,7 +85,7 @@ void StressTest::generateObjects ( size_t count )
 	{
 		ComponentsManager* mgr = engine_context->getComponentsManager();
 		NameGenerator* name_generator = mgr->getNameGenerator();
-		Entity* entity = mgr->createEntity(name_generator->generateName());
+		IEntity* entity = mgr->createEntity(name_generator->generateName());
 		
 		std::string rotation_component_name;
 		
@@ -103,6 +101,13 @@ void StressTest::generateObjects ( size_t count )
 			props.set<Properties>("InitialTransform", transform);
 			
 			desc.descriptor = props;
+			
+			MessageSenderRules rules;
+			MessageSenderRule rule;
+			rule.message_type_name = "Engine.TransformChangedMessage";
+			rules.push_back(rule);
+			desc.sender_rules = rules;
+			
 		}
 		entity->createComponent(desc);
 		
@@ -123,17 +128,6 @@ void StressTest::generateObjects ( size_t count )
 			
 			desc.descriptor = props;
 		}
-		{
-			ReceivedMessageDescriptorsList received_messages;
-			ReceivedMessageDesc mdesc;
-			mdesc.message_type_name = "Engine.TransformChangedMessage";
-			ReceivedMessageDesc::ReceivePolicyDesc pdesc;
-			pdesc.receive_policy_type_name = "FromSingleSender";
-			pdesc.receive_policy_options.set<std::string>("sender_name", rotation_component_name);
-			mdesc.receive_policy = pdesc;
-			received_messages.push_back(mdesc);
-			desc.received_messages = received_messages;
-		}
 		
 		{
 			MessageListenerRules rules;
@@ -143,8 +137,7 @@ void StressTest::generateObjects ( size_t count )
 			rule.receive_policy_options.set<std::string>("sender_name", rotation_component_name);
 			rules.push_back(rule);
 			
-			MessageSystemParticipantId id(desc.name);
-			engine_context->getMessageDispatcher()->setListenerRules(id, rules);
+			desc.listener_rules = rules;
 		}
 		
 		entity->createComponent(desc);

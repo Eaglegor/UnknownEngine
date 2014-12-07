@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Registrators/ClassValueTypeRegistrator.h>
-#include <MessageSystem/MessageListenerRules.h>
+#include <MessageSystem/Policies/Listener/MessageListenerRules.h>
 #include <Registrators/Core/ASNamespaceName.h>
 
 namespace UnknownEngine

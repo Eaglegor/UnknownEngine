@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <Objects/BaseComponent.h>
+#include <ComponentSystem/BaseComponent.h>
 #include <LogSeverity.h>
 #include <LogHelper.h>
 

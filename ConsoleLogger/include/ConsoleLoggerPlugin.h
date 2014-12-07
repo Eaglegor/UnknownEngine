@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Plugins/Plugin.h>
+#include <Plugins/BasePlugin.h>
 #include <InlineSpecification.h>
-#include <SubsystemDesc.h>
+#include <Plugins/SubsystemDesc.h>
 #include <ConsoleLogger.h>
 
 namespace UnknownEngine
@@ -17,10 +17,10 @@ namespace UnknownEngine
 	namespace Logger
 	{
 
-		class ConsoleLoggerPlugin: public Core::Plugin
+		class ConsoleLoggerPlugin: public Core::BasePlugin
 		{
 			public:
-				ConsoleLoggerPlugin();
+				ConsoleLoggerPlugin(const char* name);
 				virtual ~ConsoleLoggerPlugin();
 
 				virtual bool install(Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc)  override;

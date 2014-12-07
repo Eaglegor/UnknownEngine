@@ -1,7 +1,6 @@
 #include <stdafx.h>
 #include <Factories/SimpleBehaviorsFactory.h>
-#include <ComponentDesc.h>
-#include <MessageSystem/MessageSystemParticipantDictionary.h>
+#include <ComponentSystem/ComponentDesc.h>
 #include <Components/SimpleRotationComponent.h>
 #include <EngineContext.h>
 #include <SimpleBehaviorsPerformer.h>

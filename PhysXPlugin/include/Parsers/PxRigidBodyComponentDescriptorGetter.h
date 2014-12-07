@@ -2,7 +2,7 @@
 
 #include <boost/variant.hpp>
 #include <Descriptors/Components/PxRigidBodyComponentDesc.h>
-#include <DataProvider/IDataProvider.h>
+#include <ResourceManager/DataProviders/IDataProvider.h>
 #include <DataProviders/PxShapeDataProvider.h>
 #include <DescriptorContainer.h>
 #include <Properties/Properties_fwd.h>
@@ -40,8 +40,8 @@ namespace UnknownEngine
 					    properties,
 					{
 						{
-							"shape", PropertiesParser::RequiredRawValue<Loader::IDataProvider*>(
-							[&](Loader::IDataProvider * data_provider)
+							"shape", PropertiesParser::RequiredRawValue<Core::IDataProvider*>(
+							[&](Core::IDataProvider * data_provider)
 							{
 								desc.shape_data_provider = dynamic_cast<PxShapeDataProvider*> (data_provider);
 							}

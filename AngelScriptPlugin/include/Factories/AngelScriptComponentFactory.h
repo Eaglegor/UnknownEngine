@@ -1,6 +1,6 @@
 #pragma once
 
-#include <BaseComponentFactory.h>
+#include <ComponentSystem/BaseComponentFactory.h>
 
 namespace UnknownEngine
 {

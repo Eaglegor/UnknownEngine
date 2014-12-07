@@ -1,7 +1,7 @@
 #pragma once
 
 #include <InlineSpecification.h>
-#include <BaseComponentFactory.h>
+#include <ComponentSystem/BaseComponentFactory.h>
 #include <memory>
 
 namespace UnknownEngine

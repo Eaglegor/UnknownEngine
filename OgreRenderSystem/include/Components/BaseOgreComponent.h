@@ -1,8 +1,6 @@
 #pragma once
 
-#include <Objects/BaseComponent.h>
-
-#include <MessageSystem/MessagingPoliciesManager.h>
+#include <ComponentSystem/BaseComponent.h>
 
 namespace UnknownEngine
 {
@@ -22,21 +20,20 @@ namespace UnknownEngine
 		class BaseOgreComponent : public Core::BaseComponent
 		{
 			public:
-				// Construction
 				BaseOgreComponent ( const std::string &name, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context );
 
 				void setMessageListener(std::unique_ptr<Core::BaseMessageListener> listener);
 				
 				virtual ~BaseOgreComponent();
 
-				virtual void init ( const Core::Entity* parent_entity ) override;
+				virtual void init ( const Core::IEntity* parent_entity ) override;
 
 				virtual void shutdown ( ) override;
 				
 			protected:
 				volatile bool shutdown_initialized;
 				
-				virtual void internalInit ( const Core::Entity* parent_entity ) = 0;
+				virtual void internalInit ( const Core::IEntity* parent_entity ) = 0;
 				virtual void internalShutdown( ) = 0;
 
 				virtual void initMessageListenerBuffers(bool can_be_multi_threaded){};

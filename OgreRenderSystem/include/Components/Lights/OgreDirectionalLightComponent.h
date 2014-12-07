@@ -21,7 +21,7 @@ namespace UnknownEngine
 				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 				
 			protected:
-				virtual void internalInit (const Core::Entity* parent_entity) override;
+				virtual void internalInit (const Core::IEntity* parent_entity) override;
 				
 			private:
 				OgreDirectionalLightComponentDescriptor desc;

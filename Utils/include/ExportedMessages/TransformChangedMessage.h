@@ -8,10 +8,6 @@ namespace UnknownEngine
 {
 	namespace Core
 	{
-
-		/**
-		 * @brief Indicates that some simulation object changed its world transform
-		 */
 		UNKNOWNENGINE_ALIGNED_STRUCT(16) TransformChangedMessage : public Message
 		{
 			constexpr static const char* getTypeName(){return "Engine.TransformChangedMessage";}

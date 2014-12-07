@@ -62,8 +62,8 @@ namespace UnknownEngine
 							)
 						},
 						{
-							"material", PropertiesParser::RequiredRawValue<Loader::IDataProvider*> (
-							    [&] ( Loader::IDataProvider * data_provider )
+							"material", PropertiesParser::RequiredRawValue<Core::IDataProvider*> (
+							    [&] ( Core::IDataProvider * data_provider )
 							{
 								desc.material = dynamic_cast<PxMaterialDataProvider*> ( data_provider );
 							}

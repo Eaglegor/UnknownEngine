@@ -1,20 +1,8 @@
 <scene>
 
-	<constant name="global_log_level" value="info"/>
+	<constant name="global_log_level" value="warning"/>
 
-		<subsystems>
-		<subsystem name="Logger" module="ConsoleLogger">
-			
-			<messaging_rules>
-				<listener>
-					<message type="Utils.LogMessage">
-						<receive_policy type="Any"/>
-					</message>
-				</listener>
-			</messaging_rules>
-
-		</subsystem>
-		
+	<subsystems>
 		<subsystem name="WindowManager" module="SDLWindowManagerPlugin">
 			
 			<messaging_rules>

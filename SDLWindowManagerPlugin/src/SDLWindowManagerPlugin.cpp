@@ -1,10 +1,3 @@
-/*
- * DirectX10RenderSystemPlugin.cpp
- *
- *  Created on: 17 июня 2014 г.
- *      Author: Eaglegor
- */
-
 #include <stdafx.h>
 
 #include <Plugins/PluginsManager.h>
@@ -29,8 +22,9 @@ namespace UnknownEngine
 	namespace GUI
 	{
 
-		SDLWindowManagerPlugin::SDLWindowManagerPlugin ()
-		:logger(nullptr)
+		SDLWindowManagerPlugin::SDLWindowManagerPlugin ( const char* name ):
+		Core::BasePlugin(name),
+		logger(nullptr)
 		{
 		}
 
@@ -51,13 +45,6 @@ namespace UnknownEngine
 
 			this->desc = desc;
 			engine_context = plugins_manager->getEngineContext();
-
-			engine_context->getMessageDictionary()->registerNewMessageType( IO::KeyStateChangedMessage::getTypeName() );
-			engine_context->getMessageDictionary()->registerNewMessageType( IO::MouseButtonStateChangedMessage::getTypeName() );
-			engine_context->getMessageDictionary()->registerNewMessageType( IO::MouseMovedMessage::getTypeName() );
-			engine_context->getMessageDictionary()->registerNewMessageType( IO::MouseWheelMovedMessage::getTypeName() );
-			engine_context->getMessageDictionary()->registerNewMessageType( Graphics::GetWindowHandleMessage::getTypeName() );
-			engine_context->getMessageDictionary()->registerNewMessageType( Graphics::WindowResizedMessage::getTypeName() );
 
 			return true;
 		}

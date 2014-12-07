@@ -2,7 +2,7 @@
 
 #include <boost/lexical_cast.hpp>
 
-#include <ComponentDesc.h>
+#include <ComponentSystem/ComponentDesc.h>
 
 #include <Plugins/PluginsManager.h>
 #include <OgreRenderSystemPlugin.h>
@@ -14,7 +14,7 @@
 #include <EngineContext.h>
 #include <OgreRenderSubsystem.h>
 
-#include <ComponentsManager.h>
+#include <ComponentSystem/ComponentsManager.h>
 
 #include <Factories/OgreGetDescriptorVisitor.h>
 
@@ -27,20 +27,21 @@
 
 #include <Logging.h>
 
-#include <Objects/Entity.h>
-#include <Objects/IComponent.h>
-#include <ResourceManager.h>
+#include <ComponentSystem/Entity.h>
+#include <ComponentSystem/IComponent.h>
+#include <ResourceManager/ResourceManager.h>
 
 namespace UnknownEngine
 {
 	namespace Graphics
 	{
 
-		OgreRenderSystemPlugin::OgreRenderSystemPlugin () :
-			engine_context ( nullptr ),
-			renderable_components_factory ( nullptr ),
-			camera_components_factory ( nullptr ),
-			logger ( nullptr )
+		OgreRenderSystemPlugin::OgreRenderSystemPlugin (const char* name) :
+		Core::BasePlugin(name),
+		engine_context ( nullptr ),
+		renderable_components_factory ( nullptr ),
+		camera_components_factory ( nullptr ),
+		logger ( nullptr )
 		{
 		}
 
@@ -63,12 +64,6 @@ namespace UnknownEngine
 			LOG_INFO ( logger, "Logger started" );
 
 			LOG_INFO ( logger, "Installing OGRE render subsystem" );
-
-			LOG_INFO ( logger, "Registering new message type name: " + std::string ( ChangeMaterialActionMessage::getTypeName() ) );
-
-			Core::MessageType message_type = engine_context->getMessageDictionary()->registerNewMessageType ( ChangeMaterialActionMessage::getTypeName() );
-
-			LOG_DEBUG ( logger, std::string ( ChangeMaterialActionMessage::getTypeName() ) + ": assigned id: " + boost::lexical_cast<std::string> ( message_type ) );
 
 			LOG_INFO ( logger, "Creating OGRE rendering subsystem" );
 

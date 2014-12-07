@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Components/BaseOgreComponent.h>
-#include <MessageSystem/MessageListenerDesc.h>
 #include <Descriptors/Components/Lights/OgreLightSettings.h>
 
 namespace Ogre
@@ -34,7 +33,7 @@ namespace UnknownEngine
 				void onTransformChanged(const Core::TransformChangedMessage& msg);
 
 			protected:
-				virtual void internalInit(const Core::Entity* parent_entity) override;
+				virtual void internalInit(const Core::IEntity* parent_entity) override;
 				virtual void internalShutdown() override;
 				
 				virtual void initMessageListenerBuffers ( bool can_be_multi_threaded ) override;

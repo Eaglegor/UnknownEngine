@@ -7,12 +7,6 @@ namespace UnknownEngine
 {
 	namespace IO
 	{
-
-		/**
-		* @brief Mouse moved message
-		*
-		*/
-
 		struct MouseMovedMessage : public Core::Message
 		{
 			constexpr static const char* getTypeName(){return "IO.MouseMoved";}

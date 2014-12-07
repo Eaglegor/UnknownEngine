@@ -17,10 +17,11 @@ namespace UnknownEngine
 				UNKNOWNENGINE_SIMPLE_EXCEPTION ( EntryNotFoundInDictionary );
 				UNKNOWNENGINE_SIMPLE_EXCEPTION ( ValueAlreadyExists );
 
-				Dictionary ( const std::string& name, const KeyType &initial_key_value, const KeyType &invalid_key_value ) :
+				Dictionary ( const std::string& name, const KeyType &initial_key_value, const KeyType &invalid_key_value, const ValueType &invalid_value = ValueType() ) :
 					name ( name ),
 					next_key_value ( initial_key_value ),
-					invalid_key_value ( invalid_key_value )
+					invalid_key_value ( invalid_key_value ),
+					invalid_value(invalid_value)
 				{
 				}
 
@@ -47,7 +48,7 @@ namespace UnknownEngine
 				const ValueType& getValueByKey ( const KeyType &key ) const 
 				{
 					if ( keyIsRegistered ( key ) ) return key_value_mapping.find ( key )->second;
-					throw EntryNotFoundInDictionary ( "Can't find requested key in dictionary " + name );
+					return invalid_value;
 				}
 
 				const KeyType& getKeyByValue ( const ValueType &value ) const
@@ -81,6 +82,7 @@ namespace UnknownEngine
 				std::string name;
 				KeyType next_key_value;
 				const KeyType invalid_key_value;
+				const ValueType invalid_value;
 
 		};
 

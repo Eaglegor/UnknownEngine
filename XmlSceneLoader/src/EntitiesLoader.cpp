@@ -1,10 +1,3 @@
-/*
- * EntitiesParser.cpp
- *
- *  Created on: 22 июня 2014 г.
- *      Author: Eaglegor
- */
-
 #include <stdafx.h>
 
 #include <EntitiesLoader.h>
@@ -14,18 +7,17 @@
 #include <TemplatesManager.h>
 #include <Properties/Properties.h>
 #include <OptionsParser.h>
-#include <ComponentsManager.h>
-#include <MessageSystem/MessageListenerDesc.h>
+#include <ComponentSystem/ComponentsManager.h>
 #include <MessageSystem/MessageDispatcher.h>
 #include <MessageListenerParser.h>
-#include <ComponentDesc.h>
+#include <ComponentSystem/ComponentDesc.h>
 #include <EngineContext.h>
 
 
-#include <Objects/Entity.h>
-#include <../ResourceManager/include/DataProvider/DataProviderDesc.h>
-#include <../ResourceManager/include/DataProvider/IDataProvider.h>
-#include <../ResourceManager/include/ResourceManager.h>
+#include <ComponentSystem/Entity.h>
+#include <ResourceManager/DataProviders/DataProviderDesc.h>
+#include <ResourceManager/DataProviders/IDataProvider.h>
+#include <ResourceManager/ResourceManager.h>
 
 #include <iostream>
 
@@ -88,7 +80,7 @@ namespace UnknownEngine
 		{
 			scene_loader->getConstantsHolder()->pushScope();
 
-			Core::Entity* entity = engine_context->getComponentsManager()->createEntity ( name );
+			Core::IEntity* entity = engine_context->getComponentsManager()->createEntity ( name );
 			for ( const ptree::value_type & iter : entity_node )
 			{
 				if ( iter.first == Tags::COMPONENT )
@@ -124,12 +116,12 @@ namespace UnknownEngine
 			scene_loader->getConstantsHolder()->popScope();
 		}
 
-		Core::IComponent* EntitiesLoader::loadComponent ( Core::Entity* parent_entity, const std::string &name, const ptree &component_node )
+		Core::IComponent* EntitiesLoader::loadComponent ( Core::IEntity* parent_entity, const std::string &name, const ptree &component_node )
 		{
 			scene_loader->getConstantsHolder()->pushScope();
 
 			Core::ComponentDesc component_desc;
-			component_desc.name = parent_entity->getName() + "." + name;
+			component_desc.name = std::string(parent_entity->getName()) + "." + name;
 
 			const std::string component_type = component_node.get_child ( XMLATTR ).get<std::string> ( Attributes::COMPONENT::TYPE );
 			component_desc.type = Core::ComponentType ( component_type );
@@ -161,7 +153,7 @@ namespace UnknownEngine
 		{
 			scene_loader->getConstantsHolder()->pushScope();
 			
-			Loader::DataProviderDesc desc;
+			Core::DataProviderDesc desc;
 			desc.name = data_provider_node.get_child(XMLATTR).get<std::string>( Attributes::DATA_PROVIDER::NAME );
 			desc.type = data_provider_node.get_child(XMLATTR).get<std::string>( Attributes::DATA_PROVIDER::TYPE );
 			
@@ -177,7 +169,7 @@ namespace UnknownEngine
 				}
 			}
 
-			IDataProvider* data_provider = engine_context->getResourceManager()->createDataProvider(desc);
+			Core::IDataProvider* data_provider = engine_context->getResourceManager()->createDataProvider(desc);
 			data_providers[desc.name] = data_provider;
 			data_provider->startLoading();
 			

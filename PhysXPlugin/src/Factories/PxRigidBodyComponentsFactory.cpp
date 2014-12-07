@@ -2,6 +2,7 @@
 #include <Factories/PxRigidBodyComponentsFactory.h>
 #include <Components/PxRigidBodyComponent.h>
 #include <Parsers/PxRigidBodyComponentDescriptorGetter.h>
+#include <ComponentSystem/ComponentDesc.h>
 
 namespace UnknownEngine
 {
@@ -29,7 +30,6 @@ namespace UnknownEngine
 		{
 			PxRigidBodyComponent* result;
 			result = new PxRigidBodyComponent(desc.name, desc.descriptor.apply_visitor(px_rigid_body_descriptor_getter), physx_subsystem, engine_context);
-			result->initMessageListener(desc.received_messages);
 			return result;
 		}
 		

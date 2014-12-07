@@ -12,16 +12,16 @@ namespace UnknownEngine
     namespace IO
     {
 
-		InputContextMapperPlugin::InputContextMapperPlugin(){}
+		InputContextMapperPlugin::InputContextMapperPlugin(const char* name):
+		Core::BasePlugin(name)
+		{}
+		
 		InputContextMapperPlugin::~InputContextMapperPlugin(){}
 
 
         bool InputContextMapperPlugin::install(Core::PluginsManager *plugins_manager, Core::SubsystemDesc const &desc) {
             this->desc = desc;
             this->engine_context = plugins_manager->getEngineContext();
-			
-			this->engine_context->getMessageDictionary()->registerNewMessageType(AddSimpleActionMessage::getTypeName());
-			this->engine_context->getMessageDictionary()->registerNewMessageType(AddRangeActionMessage::getTypeName());
 			
             return true;
         }
