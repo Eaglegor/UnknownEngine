@@ -9,6 +9,7 @@
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <MessageSystem/BaseMessageListener.h>
 #include <SDL_syswm.h>
+#include <thread>
 
 namespace UnknownEngine
 {

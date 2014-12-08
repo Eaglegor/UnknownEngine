@@ -74,7 +74,7 @@ void StressTest::shutdown()
 	if(!was_init) return;
 	for(IDataProvider* dp : data_providers)
 	{
-		dp->release();
+		UnknownEngine::RELEASE_DATA_PROVIDER(dp);
 	}
 	listener->unregisterAtDispatcher();
 }
@@ -155,9 +155,9 @@ void StressTest::generateObjects ( size_t count )
 void StressTest::onUpdate ( const UpdateFrameMessage& msg )
 {
 	time_counter.tick();
-	if(time_counter.getElapsedTime() > 0.2f)
+	if(time_counter.getElapsedTime() > 0.02f)
 	{
 		time_counter.resetElapsedTime();
-		generateObjects(10);
+		generateObjects(1);
 	}
 }

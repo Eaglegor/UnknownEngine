@@ -60,7 +60,7 @@ namespace UnknownEngine
 
 				COMPONENTSYSTEM_EXPORT
 				virtual void removeComponent ( IComponent* component );
-				
+
 				std::unordered_map<std::string, IComponentFactory*> component_factories;
 				std::unordered_map<std::string, IEntity*> entities;
 				

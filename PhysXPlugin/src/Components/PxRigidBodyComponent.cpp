@@ -17,6 +17,7 @@ using std::isfinite;
 #include <PxRigidStatic.h>
 #include <PxPhysics.h>
 #include <PxScene.h>
+#include <ResourceManager/ResourceManager.h>
 
 namespace UnknownEngine
 {
@@ -33,12 +34,12 @@ namespace UnknownEngine
 			first_update_passed(false),
 			engine_context(engine_context)
 		{
-			desc.shape_data_provider->reserve();
+			GET_DATA_PROVIDER(desc.shape_data_provider->getName());
 		}
 
 		PxRigidBodyComponent::~PxRigidBodyComponent()
 		{
-			desc.shape_data_provider->release();
+			RELEASE_DATA_PROVIDER(desc.shape_data_provider);
 		}
 
 		void PxRigidBodyComponent::init(const Core::IEntity* parent_entity)

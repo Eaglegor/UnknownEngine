@@ -23,13 +23,13 @@ namespace UnknownEngine {
 
 		ResourceManager::~ResourceManager()
 		{
-			//internalCleanup(true);
+			waitUntilAllDataProvidersReleased();
 			ThreadPool::destroyInstance();
 		}
 		
 		void ResourceManager::addDataProviderFactory(IDataProviderFactory * factory)
 		{
-			std::lock_guard<LockPrimitive> guard(mutex);
+			std::lock_guard<LockPrimitive> guard(factories_mutex);
 			auto iter = data_provider_factories.find(factory->getName());
 			if(iter != data_provider_factories.end())
 			{
@@ -41,7 +41,7 @@ namespace UnknownEngine {
 
 		void ResourceManager::removeDataProviderFactory(IDataProviderFactory * factory)
 		{
-			std::lock_guard<LockPrimitive> guard(mutex);
+			std::lock_guard<LockPrimitive> guard(factories_mutex);
 			auto iter = data_provider_factories.find(factory->getName());
 			if(iter == data_provider_factories.end())
 			{
@@ -52,7 +52,7 @@ namespace UnknownEngine {
 
 		IDataProvider *ResourceManager::createDataProvider(const DataProviderDesc &desc) 
 		{
-			std::lock_guard<LockPrimitive> guard(mutex);
+			std::lock_guard<LockPrimitive> guard(factories_mutex);
 			for( auto &factory : data_provider_factories )
 			{
 				if(factory.second->supportsType(desc.type))
@@ -63,93 +63,97 @@ namespace UnknownEngine {
 						LOG_ERROR(logger, "Failed to create data provider " + desc.name);
 						return nullptr;
 					}
-					data_providers.emplace(desc.name, data_provider);
+					DataProviderWrapper wrapper;
+					wrapper.factory_name = factory.second->getName();
+					wrapper.data_provider = data_provider;
+					{
+						std::lock_guard<LockPrimitive> guard(data_providers_mutex);
+						data_providers.emplace(desc.name, wrapper);
+					}
 					return data_provider;
 				}
 			}
 			LOG_ERROR(logger, "No suitable data provider factory found to create data provider " + desc.name);
 			return nullptr;
 		}
-		
-		void ResourceManager::removeDataProvider ( IDataProvider* data_provider )
+
+		IDataProvider* ResourceManager::getDataProvider ( const char* name )
 		{
-			std::lock_guard<LockPrimitive> guard(mutex);
+			std::lock_guard<LockPrimitive> guard(data_providers_mutex);
+			
+			auto iter = data_providers.find(name);
+			if(iter == data_providers.end()) return nullptr;
+			
+			++iter->second.ref_counter;
+			return iter->second.data_provider;
+		}
+		
+		void ResourceManager::releaseDataProvider ( IDataProvider* data_provider )
+		{
 			if(data_provider == nullptr) 
 			{
-				LOG_ERROR(logger, "Nullptr passed as data provider to be destroyed. Nothing is to be done.");
+				LOG_WARNING(logger, "Trying to release nullptr data provider. Nothing is to be done.");
+				return;
+			}
+
+			std::unique_lock<LockPrimitive> dp_guard(data_providers_mutex);
+			auto iter = data_providers.find(data_provider->getName());
+			if(iter == data_providers.end()) 
+			{
+				LOG_ERROR(logger, "Trying to release unknown data provider " + data_provider->getName() + ". Check if it was created correctly.");
 				return;
 			}
 			
-			if(!data_provider->mayBeDestructed()) 
+			DataProviderWrapper& wrapper = iter->second;
+			
+			if(--wrapper.ref_counter > 0)
 			{
-				LOG_DEBUG(logger, "Data provider " + data_provider->getName() + " is still in use and can't be destroyed" );
 				return;
 			}
 			
-			for( auto &factory : data_provider_factories )
+			std::string data_provider_name = data_provider->getName();
+			dp_guard.unlock();
+			
+			std::unique_lock<LockPrimitive> factory_guard(factories_mutex);
+			
+			auto factory_iter = data_provider_factories.find(wrapper.factory_name);
+			if(factory_iter == data_provider_factories.end())
 			{
-				if(factory.second->supportsType(data_provider->getType()))
-				{	
-					LOG_INFO(logger, "Destroying data provider  '" + data_provider->getName() + "'" );
-					data_providers.erase(data_provider->getName());
-					factory.second->destroyObject(data_provider);
-					LOG_INFO(logger, "Data provider  '" + data_provider->getName() + "' destroyed");
-					return;
-				}
+				LOG_ERROR(logger, "Factory " + wrapper.factory_name + "needed to destroy data provider " + wrapper.data_provider->getName() + " not found. Was it's plugin already unloaded?");
+				return;
 			}
-			LOG_ERROR(logger, "No suitable data provider factory found to destroy data provider " + data_provider->getName());
+			IDataProviderFactory* factory = factory_iter->second;
 			
+			factory_guard.unlock();
+			
+			factory->destroyObject(wrapper.data_provider);
+			
+			dp_guard.lock();
+			data_providers.erase(data_provider_name);
+			cv.notify_all();
+			dp_guard.unlock();
+
 		}
 
-		void ResourceManager::cleanup()
+		void ResourceManager::waitUntilAllDataProvidersReleased()
 		{
-			internalCleanup(false);
-		}
-		
-		void ResourceManager::internalCleanup(bool force_destruction)
-		{
-			std::vector<std::string> removed_data_providers;
-			
-			std::lock_guard<LockPrimitive> guard(mutex);
-			
-			for(auto &iter : data_providers)
+			std::unique_lock<LockPrimitive> guard(data_providers_mutex);
+			const std::chrono::seconds RELEASE_WARNING_TIMEOUT(10);
+			while(!data_providers.empty())
 			{
-				if(/*!force_destruction &&*/ !iter.second->mayBeDestructed())
+				LOG_INFO(logger, "Waiting until all data providers are released. Remaining unreleased data providers: " + std::to_string(data_providers.size()));
+				std::cv_status status = cv.wait_for(guard, RELEASE_WARNING_TIMEOUT);
+				if(status == std::cv_status::timeout)
 				{
-					LOG_DEBUG(logger, "Data provider " + iter.second->getName() + " is still in use and can't be destroyed" );
-					continue;
-				}
-				
-				if(!iter.second->mayBeDestructed())
-				{
-					LOG_WARNING(logger, "Destroying the in-use data provider " + iter.second->getName() + " because of forced cleanup" );
-				}
-
-				bool success = false;
-				for( auto &factory : data_provider_factories )
-				{
-					if(factory.second->supportsType(iter.second->getType()))
-					{	
-						LOG_INFO(logger, "Destroying data provider  '" + iter.second->getName() + "'" );
-						removed_data_providers.push_back(iter.second->getName());
-						std::string name = iter.second->getName();
-						factory.second->destroyObject(iter.second);
-						LOG_INFO(logger, "Data provider " + name + " destroyed");
-						success = true;
-						break;
+					LOG_WARNING(logger, "Still waiting for release of data providers. Please check if some component or data provider hasn't released it's data.");
+					LOG_WARNING(logger, "Unreleased data providers list:");
+					for(auto &iter : data_providers)
+					{
+						LOG_WARNING(logger, iter.second.data_provider->getName());
 					}
 				}
-				if(!success)
-				{
-					LOG_ERROR(logger, "No suitable data provider factory found to destroy data provider " + iter.second->getName());
-				}
-			}
-			
-			for(const std::string& name : removed_data_providers)
-			{
-				data_providers.erase(name);
 			}
 		}
-
+		
 	} // namespace Core
 } // namespace UnknownEngine

@@ -9,6 +9,7 @@
 #include <OgreSceneManager.h>
 #include <boost/lexical_cast.hpp>
 #include <Logging.h>
+#include <ResourceManager/ResourceManager.h>
 
 namespace UnknownEngine
 {
@@ -21,8 +22,7 @@ namespace UnknownEngine
 			  render_subsystem(render_subsystem),
 			  logger(nullptr)
 		{
-			mesh_data_provider->reserve();
-			
+			GET_DATA_PROVIDER(mesh_data_provider->getName());
 			logger = CREATE_LOGGER(getName(), descriptor.log_level);
 		}
 
@@ -72,7 +72,7 @@ namespace UnknownEngine
 			
 			Ogre::MeshPtr mesh_ptr = manual_object->convertToMesh(std::string(getName()) + ".OgreMeshPtr");
 			
-			mesh_data_provider->release();
+			RELEASE_DATA_PROVIDER(mesh_data_provider);
 			
 			out_container.setData<Ogre::MeshPtr>(mesh_ptr);
 		}

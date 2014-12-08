@@ -197,7 +197,7 @@
 					
 					<option name="render_window_name" value="TestWindow"/>
 					<option name="log_level" value="${global_log_level}"/>
-					<option name="near_clip_distance" value="0.0001"/>
+					<option name="near_clip_distance" value="0.1"/>
 					
 					<options_section name="InitialTransform">
 						<option name="initial_direction" value="Vector3(x:0, y:0, z:-50)"/>

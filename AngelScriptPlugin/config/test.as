@@ -56,8 +56,8 @@ class FirstState : State
 			props.setString("log_level", "none");
 			dp_desc.descriptor = props;
 		}
-		@dp = rm.createDataProvider(dp_desc);
-		dp.startLoading();
+		Core::IDataProvider@ dp2 = rm.createDataProvider(dp_desc);
+		dp2.startLoading();
 		
 		
 		Core::ComponentsManager@ mgr = engine_context.getComponentsManager();
@@ -93,7 +93,7 @@ class FirstState : State
 		desc.type = "Graphics.Renderable";
 		{
 			Core::Properties props;
-			props.setDataProvider("mesh_ptr_provider", dp);
+			props.setDataProvider("mesh_ptr_provider", dp2);
 			props.setString("log_level", "none");
 			
 			Core::Properties material;
@@ -120,6 +120,9 @@ class FirstState : State
 		
 		entity.createComponent(desc);
 
+		RELEASE_DATA_PROVIDER(dp);
+		RELEASE_DATA_PROVIDER(dp2);
+		
 		@current_state = second_state;
 	}
 }
@@ -189,7 +192,7 @@ void init(const std::string &in name)
 
 void shutdown()
 {
-	
+	RELEASE_LOGGER(@logger);
 }
 
 int counter = 0;

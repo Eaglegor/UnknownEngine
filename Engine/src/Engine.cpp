@@ -87,7 +87,7 @@ namespace UnknownEngine
 			
 			this->context.components_manager->clearEntities();
 
-			this->context.resource_manager->cleanup();
+			this->context.resource_manager->waitUntilAllDataProvidersReleased();
 			
 			LOG_INFO(logger, "Destroying plugins manager" );
 			PluginsManager::destroyInstance();

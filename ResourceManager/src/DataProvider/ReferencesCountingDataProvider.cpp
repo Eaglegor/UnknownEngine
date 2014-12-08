@@ -10,34 +10,8 @@ namespace UnknownEngine
 		ReferencesCountingDataProvider::ReferencesCountingDataProvider ( const char* name ):
 		load_started ( false ),
 		load_finished ( false ),
-		references_counter ( 1 ),
 		name(name)
 		{
-		}
-
-		void ReferencesCountingDataProvider::reserve()
-		{
-			this->increaseReferencesCounter();
-		}
-
-		void ReferencesCountingDataProvider::release()
-		{
-			this->decreaseReferencesCounter();
-		}
-
-		bool ReferencesCountingDataProvider::mayBeDestructed() const
-		{
-			return ( references_counter == 0 ) && ( load_finished || !load_started );
-		}
-
-		void ReferencesCountingDataProvider::increaseReferencesCounter()
-		{
-			references_counter.fetch_add ( 1 );
-		}
-
-		void ReferencesCountingDataProvider::decreaseReferencesCounter()
-		{
-			references_counter.fetch_sub ( 1 );
 		}
 
 		const ResourceContainer& ReferencesCountingDataProvider::getResource()
@@ -48,6 +22,7 @@ namespace UnknownEngine
 		void ReferencesCountingDataProvider::waitUntilLoadFinished()
 		{
 			std::unique_lock<std::mutex> lock ( loading_finished_mutex );
+			if(!load_started) return;
 			while ( !load_finished )
 			{
 				wait_for_finish_var.wait ( lock );
@@ -87,6 +62,7 @@ namespace UnknownEngine
 		
 		ReferencesCountingDataProvider::~ReferencesCountingDataProvider()
 		{
+			waitUntilLoadFinished();
 			internalUnload(resource_container);
 		}
 

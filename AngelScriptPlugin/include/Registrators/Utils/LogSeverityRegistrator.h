@@ -34,7 +34,7 @@ namespace UnknownEngine
 				result = script_engine->RegisterEnumValue("LogSeverity", "INFO", static_cast<int>(Core::LogSeverity::INFO));
 				if(result < 0) return false;
 				
-				result = script_engine->RegisterEnumValue("LogSeverity", "ERROR", static_cast<int>(Core::LogSeverity::ERROR));
+				result = script_engine->RegisterEnumValue("LogSeverity", "ERROR", static_cast<int>(Core::LogSeverity::ERROR_));
 				if(result < 0) return false;
 				
 				result = script_engine->RegisterEnumValue("LogSeverity", "WARNING", static_cast<int>(Core::LogSeverity::WARNING));

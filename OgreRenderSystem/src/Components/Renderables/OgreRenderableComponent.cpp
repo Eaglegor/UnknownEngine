@@ -14,6 +14,7 @@
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <ExportedMessages/TransformChangedMessage.h>
 #include <ExportedMessages/RenderSystem/ChangeMaterialActionMessage.h>
+#include <ResourceManager/ResourceManager.h>
 
 namespace UnknownEngine
 {
@@ -26,14 +27,20 @@ namespace UnknownEngine
 		{
 			logger = CREATE_LOGGER(getName(), desc.log_level);
 
-			if ( desc.mesh_data_provider != nullptr ) desc.mesh_data_provider->reserve();
+			if ( desc.mesh_data_provider != nullptr ) 
+			{
+				GET_DATA_PROVIDER(desc.mesh_data_provider->getName());
+			}
 
 			LOG_INFO ( logger, "Logger initialized" );
 		}
 
 		OgreRenderableComponent::~OgreRenderableComponent()
 		{
-			if ( desc.mesh_data_provider != nullptr ) desc.mesh_data_provider->release();
+			if ( desc.mesh_data_provider != nullptr ) 
+			{
+				RELEASE_DATA_PROVIDER(desc.mesh_data_provider);
+			}
 			RELEASE_LOGGER(logger);
 		}
 
