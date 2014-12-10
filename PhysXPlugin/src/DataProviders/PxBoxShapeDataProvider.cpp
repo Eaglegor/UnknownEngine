@@ -8,6 +8,7 @@ using std::isfinite;
 
 #include <geometry/PxBoxGeometry.h>
 #include <PxPhysics.h>
+#include <ResourceManager/ResourceManager.h>
 
 namespace UnknownEngine
 {
@@ -17,7 +18,7 @@ namespace UnknownEngine
 		PxShapeDataProvider(name, physx_subsystem),
 		desc(desc)
 		{
-			desc.material->reserve();
+			GET_DATA_PROVIDER(desc.material->getName());
 		}
 		
 		const Core::DataProviderType PxBoxShapeDataProvider::getType() const
@@ -34,7 +35,7 @@ namespace UnknownEngine
 
 		PxBoxShapeDataProvider::~PxBoxShapeDataProvider()
 		{
-			desc.material->release();
+			RELEASE_DATA_PROVIDER(desc.material);
 		}
 		
 	}

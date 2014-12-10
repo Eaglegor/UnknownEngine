@@ -5,6 +5,8 @@
 #include <EngineContext.h>
 #include <MessageSystem/MessageDispatcher.h>
 
+#include <thread>
+
 namespace UnknownEngine 
 {
 	namespace Behavior 
@@ -37,7 +39,6 @@ namespace UnknownEngine
 			message.new_transform.setOrientation( Math::Quaternion(Math::AngleAxis(current_angle, Math::Vector3(0,1,0))) );
 			
 			transform_changed_message_sender.sendMessage(message);
-			
 		}
 		
 		void SimpleRotationComponent::shutdown()

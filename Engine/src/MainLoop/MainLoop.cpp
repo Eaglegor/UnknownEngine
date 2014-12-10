@@ -42,23 +42,12 @@ namespace UnknownEngine
 			);
 			
 			//Utils::AverageFpsCounter fps_counter(1000, Utils::SimpleFpsPrinter("MT AVG FPS: "));
-			
-			const Math::Scalar RESOURCES_CLEANUP_INTERVAL = 60.0f;
-			Math::Scalar resources_cleanup_timer = RESOURCES_CLEANUP_INTERVAL;
-						
+				
 			while ( !stopped )
 			{
 				time_counter.tick();
-				//fps_counter.nextFrame();
 				msg.dt = time_counter.getDt();
-				
-				resources_cleanup_timer -= msg.dt;
-				if(resources_cleanup_timer < 0)
-				{
-					engine_context->getResourceManager()->cleanup();
-					resources_cleanup_timer = RESOURCES_CLEANUP_INTERVAL;
-				}
-				
+
 				update_frame_message_sender.sendMessage( msg );
 			}
 		}

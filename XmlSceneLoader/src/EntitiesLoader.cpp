@@ -69,9 +69,8 @@ namespace UnknownEngine
 			
 			for(auto& data_provider : data_providers)
 			{
-				data_provider.second->release();
+				RELEASE_DATA_PROVIDER(data_provider.second);
 			}
-			engine_context->getResourceManager()->cleanup();
 			
 			scene_loader->getConstantsHolder()->popScope();
 		}

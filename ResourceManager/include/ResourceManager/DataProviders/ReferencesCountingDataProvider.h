@@ -24,15 +24,6 @@ namespace UnknownEngine
 				virtual const ResourceContainer& getResource() override;
 
 				RESOURCEMANAGER_EXPORT
-				virtual void reserve() override;
-				
-				RESOURCEMANAGER_EXPORT
-				virtual void release() override;
-
-				RESOURCEMANAGER_EXPORT
-				virtual bool mayBeDestructed() const override;
-
-				RESOURCEMANAGER_EXPORT
 				virtual const char* getName() const override;
 				
 			protected:
@@ -52,18 +43,12 @@ namespace UnknownEngine
 				ResourceContainer resource_container;
 				
 			private:
-				void increaseReferencesCounter();
-
-				void decreaseReferencesCounter();
-				
 				volatile bool load_started;
 				volatile bool load_finished;
 				
 				std::mutex loading_started_mutex;
 				std::mutex loading_finished_mutex;
 				std::condition_variable wait_for_finish_var;
-				
-				volatile std::atomic<size_t> references_counter;
 
 				std::string name;
 				

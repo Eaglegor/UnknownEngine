@@ -25,15 +25,6 @@ namespace UnknownEngine
                 virtual const ResourceContainer& getResource() = 0;
 
 				RESOURCEMANAGER_EXPORT
-                virtual void reserve() = 0;
-
-				RESOURCEMANAGER_EXPORT
-                virtual void release() = 0;
-
-				RESOURCEMANAGER_EXPORT
-                virtual bool mayBeDestructed() const = 0;
-
-				RESOURCEMANAGER_EXPORT
 				virtual const DataProviderType getType() const = 0;
 
 				RESOURCEMANAGER_EXPORT
