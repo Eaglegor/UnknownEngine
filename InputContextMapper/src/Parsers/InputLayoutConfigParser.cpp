@@ -91,6 +91,18 @@ namespace UnknownEngine
 					processMouseButtonSubscription(section_name, name, subscription_desc);
 					break;
 				}
+				case SubscriptionType::JOYSTICK_AXIS:
+				{
+					LOG_DEBUG(logger, "Joystick axis subscription detected");
+					processJoystickAxisSubscription(section_name, name, subscription_desc);
+					break;
+				}
+				case SubscriptionType::JOYSTICK_BUTTON:
+				{
+					LOG_DEBUG(logger, "Joystick button subscription detected");
+					processJoystickButtonSubscription(section_name, name, subscription_desc);
+					break;
+				}
 			}
 		}
 		
@@ -105,6 +117,16 @@ namespace UnknownEngine
 			if(result)
 			{
 				return SubscriptionType::MOUSE_BUTTON;
+			}
+			result = boost::algorithm::find_first(subscription_desc, "JoystickButton");
+			if(result)
+			{
+				return SubscriptionType::JOYSTICK_BUTTON;
+			}
+			result = boost::algorithm::find_first(subscription_desc, "JoystickAxis");
+			if(result)
+			{
+				return SubscriptionType::JOYSTICK_AXIS;
 			}
 			return SubscriptionType::KEYBOARD;
 		}
@@ -175,6 +197,56 @@ namespace UnknownEngine
 
 			LOG_DEBUG(logger, "Subscription details parsed: mouse button " + std::to_string(mouse_button_id));
 			context_mapper->getMouseEventHandler()->addActionSlotSubscription(section_name, name, mouse_button_id);
+			
+		}
+		
+		void InputLayoutConfigParser::processJoystickAxisSubscription ( const std::string& section_name, const std::string& name, const std::string& subscription_desc )
+		{
+			std::vector<std::string> split_value;
+			boost::algorithm::split ( split_value, subscription_desc, boost::algorithm::is_any_of ( "(,: )" ), boost::algorithm::token_compress_on );
+
+			size_t joystick_id;
+			size_t joystick_axis_id;
+
+			for ( size_t i = 1; i < split_value.size(); i += 2 )
+			{
+				if ( split_value[i] == "jid" )
+				{
+					joystick_id = boost::lexical_cast<size_t> ( split_value[i + 1] );
+				}
+				if ( split_value[i] == "axis" )
+				{
+					joystick_axis_id = boost::lexical_cast<size_t> ( split_value[i + 1] );
+				}
+			}
+
+			LOG_DEBUG(logger, "Subscription details parsed: joystick axis: " + std::to_string(joystick_axis_id));
+			context_mapper->getJoystickEventHandler()->addAxisActionSlotSubscription(section_name, name, joystick_axis_id);
+			
+		}
+		
+		void InputLayoutConfigParser::processJoystickButtonSubscription ( const std::string& section_name, const std::string& name, const std::string& subscription_desc )
+		{
+			std::vector<std::string> split_value;
+			boost::algorithm::split ( split_value, subscription_desc, boost::algorithm::is_any_of ( "(,: )" ), boost::algorithm::token_compress_on );
+
+			size_t joystick_id;
+			size_t joystick_button_id;
+
+			for ( size_t i = 1; i < split_value.size(); i += 2 )
+			{
+				if ( split_value[i] == "jid" )
+				{
+					joystick_id = boost::lexical_cast<size_t> ( split_value[i + 1] );
+				}
+				if ( split_value[i] == "button" )
+				{
+					joystick_button_id = boost::lexical_cast<size_t> ( split_value[i + 1] );
+				}
+			}
+
+			LOG_DEBUG(logger, "Subscription details parsed: joystick button " + std::to_string(joystick_button_id));
+			context_mapper->getMouseEventHandler()->addActionSlotSubscription(section_name, name, joystick_button_id);
 			
 		}
 		

@@ -31,6 +31,8 @@ namespace UnknownEngine
 			{
 				MOUSE_AXIS,
 				MOUSE_BUTTON,
+				JOYSTICK_AXIS,
+				JOYSTICK_BUTTON,
 				KEYBOARD
 			};
 			
@@ -41,6 +43,8 @@ namespace UnknownEngine
 			
 			void processMouseAxisSubscription(const std::string &section_name, const std::string &name, const std::string& subscription_desc);
 			void processMouseButtonSubscription(const std::string &section_name, const std::string &name, const std::string& subscription_desc);
+			void processJoystickAxisSubscription(const std::string &section_name, const std::string &name, const std::string& subscription_desc);
+			void processJoystickButtonSubscription(const std::string &section_name, const std::string &name, const std::string& subscription_desc);
 			void processKeyboardSubscription(const std::string &section_name, const std::string &name, const std::string& subscription_desc);
 			
 			KeycodeParser keycode_parser;

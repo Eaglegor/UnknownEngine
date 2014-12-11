@@ -24,6 +24,7 @@ namespace UnknownEngine
 		creation_options(creation_options),
 		keyboard_event_handler(this),
 		mouse_event_handler(this),
+		joystick_event_handler(this),
 		logger(logger)
 		{
 			listener.reset(new Core::BaseMessageListener(creation_options.name, creation_options.engine_context));
@@ -199,6 +200,11 @@ namespace UnknownEngine
 		MouseEventHandler* InputContextMapper::getMouseEventHandler()
 		{
 			return &mouse_event_handler;
+		}
+		
+		JoystickEventHandler* InputContextMapper::getJoystickEventHandler()
+		{
+			return &joystick_event_handler;
 		}
 		
 	}
