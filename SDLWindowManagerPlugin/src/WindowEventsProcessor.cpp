@@ -13,6 +13,8 @@ namespace UnknownEngine
 		mouse_button_pressed_message_sender(name, engine_context ),
 		mouse_moved_message_sender(name, engine_context ),
 		mouse_wheel_moved_message_sender(name, engine_context ),
+		joystick_axis_moved_message_sender(name, engine_context),
+		joystick_button_state_changed_message(name, engine_context),
 		window_resized_message_sender(name, engine_context ),
 		window_manager(window_manager)
 		{
@@ -142,6 +144,40 @@ namespace UnknownEngine
 								break;
 							}
 						}
+						break;
+					}
+					case SDL_JOYAXISMOTION:
+					{
+						IO::JoystickAxisMovedMessage msg;
+						msg.axis_id = event.jaxis.axis;
+						msg.joystick_id = event.jaxis.which;
+						msg.new_value = event.jaxis.value;
+						joystick_axis_moved_message_sender.sendMessage(msg);
+						break;
+					}
+					case SDL_JOYBUTTONUP:
+					case SDL_JOYBUTTONDOWN:
+					{
+						IO::JoystickButtonStateChangedMessage msg;
+						msg.joystick_id = event.jbutton.which;
+						msg.button_id = event.jbutton.button;
+						
+						switch(event.jbutton.state)
+						{
+							case SDL_PRESSED:
+							{
+								msg.new_state = IO::JoystickButtonState::PRESSED;
+								break;
+							}
+							case SDL_RELEASED:
+							{
+								msg.new_state = IO::JoystickButtonState::UNPRESSED;
+								break;
+							}
+						}
+						
+						joystick_button_state_changed_message.sendMessage(msg);
+						
 						break;
 					}
 					default:
