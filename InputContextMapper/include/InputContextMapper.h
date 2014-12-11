@@ -10,6 +10,7 @@
 #include <InputContext.h>
 #include <EventHandlers/KeyboardEventHandler.h>
 #include <EventHandlers/MouseEventHandler.h>
+#include "EventHandlers/JoystickEventHandler.h"
 
 namespace UnknownEngine
 {
@@ -57,6 +58,7 @@ namespace UnknownEngine
 
 			KeyboardEventHandler* getKeyboardEventHandler();
 			MouseEventHandler* getMouseEventHandler();
+			JoystickEventHandler* getJoystickEventHandler();
 			
         private:
             std::unique_ptr<Core::BaseMessageListener> listener;
@@ -64,6 +66,7 @@ namespace UnknownEngine
 			
 			KeyboardEventHandler keyboard_event_handler;
 			MouseEventHandler mouse_event_handler;
+			JoystickEventHandler joystick_event_handler;
 			
 			std::unordered_map<std::string, InputContext> contexts;
 			
