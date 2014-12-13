@@ -59,6 +59,8 @@ SDLWindowManagerPlugin
 PhysXPlugin
 
 AngelScriptPlugin
+
+EndoscopicInstrumentAlgorithmsPlugin
 )
 
 set(
