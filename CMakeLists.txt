@@ -60,7 +60,7 @@ PhysXPlugin
 
 AngelScriptPlugin
 
-EndoscopicInstrumentAlgorithmsPlugin
+Endoscopy
 )
 
 set(

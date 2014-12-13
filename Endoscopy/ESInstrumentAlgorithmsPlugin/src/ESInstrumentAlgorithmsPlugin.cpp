@@ -1,6 +1,6 @@
 #include <stdafx.h>
 
-#include <EndoscopicInstrumentAlgorithmsPlugin.h>
+#include <ESInstrumentAlgorithmsPlugin.h>
 #include <Plugins/PluginsManager.h>
 #include <Logging.h>
 
@@ -9,17 +9,17 @@ namespace UnknownEngine
 	namespace Endoscopy
 	{
 
-		EndoscopicInstrumentAlgorithmsPlugin::EndoscopicInstrumentAlgorithmsPlugin(const char* name):
+		ESInstrumentAlgorithmsPlugin::ESInstrumentAlgorithmsPlugin(const char* name):
 		Core::BasePlugin(name),
 		logger(name, Core::LogSeverity::NONE)
 		{
 		}
 
-		EndoscopicInstrumentAlgorithmsPlugin::~EndoscopicInstrumentAlgorithmsPlugin()
+		ESInstrumentAlgorithmsPlugin::~ESInstrumentAlgorithmsPlugin()
 		{
 		}
 
-		bool EndoscopicInstrumentAlgorithmsPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) 
+		bool ESInstrumentAlgorithmsPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) 
 		{
 			LOG_INFO(logger, "Installing endoscopic instrument algorithms plugin");
 
@@ -29,21 +29,21 @@ namespace UnknownEngine
 			return true;
 		}
 
-		bool EndoscopicInstrumentAlgorithmsPlugin::init () 
+		bool ESInstrumentAlgorithmsPlugin::init () 
 		{
 			LOG_INFO(logger, "Initializing endoscopic instrument algorithms plugin");
 
 			return true;
 		}
 
-		bool EndoscopicInstrumentAlgorithmsPlugin::shutdown () 
+		bool ESInstrumentAlgorithmsPlugin::shutdown () 
 		{
 			LOG_INFO(logger, "Shutting down endoscopic instrument algorithms plugin");
 		  
 			return true;
 		}
 
-		bool EndoscopicInstrumentAlgorithmsPlugin::uninstall () 
+		bool ESInstrumentAlgorithmsPlugin::uninstall () 
 		{
 			LOG_INFO(logger, "Uninstalling endoscopic instrument algorithms plugin");
 		  

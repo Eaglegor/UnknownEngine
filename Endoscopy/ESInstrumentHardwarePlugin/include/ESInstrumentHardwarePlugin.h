@@ -17,11 +17,11 @@ namespace UnknownEngine
 	namespace Endoscopy
 	{
 
-		class EndoscopicInstrumentAlgorithmsPlugin: public Core::BasePlugin
+		class ESInstrumentHardwarePlugin: public Core::BasePlugin
 		{
 			public:
-				EndoscopicInstrumentAlgorithmsPlugin(const char* name);
-				virtual ~EndoscopicInstrumentAlgorithmsPlugin();
+				ESInstrumentHardwarePlugin(const char* name);
+				virtual ~ESInstrumentHardwarePlugin();
 
 				virtual bool install(Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc)  override;
 				virtual bool init()  override;
