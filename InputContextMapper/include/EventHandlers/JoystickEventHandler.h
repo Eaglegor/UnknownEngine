@@ -8,6 +8,7 @@
 #include <ActionSlots/RangeActionSlot.h>
 #include <Spinlock.h>
 #include <MouseAxis.h>
+#include <ValueRangeMapper.h>
 
 namespace UnknownEngine
 {
@@ -19,6 +20,9 @@ namespace UnknownEngine
 		{
 		public:
 			JoystickEventHandler(InputContextMapper* context_mapper);
+			
+			void setJoystickAxisValueMapping(int lowest_value, int highest_value, float lowest_new_value, float highest_new_value);
+			void resetJoystickAxisValueMapping();
 			
 			void processEvent(const uint8_t joystick_button, const JoystickButtonState &new_state);
 			void processEvent(const uint8_t joystick_axis, const int32_t new_value);
@@ -37,6 +41,8 @@ namespace UnknownEngine
 			std::unordered_map< uint8_t, std::vector< RangeActionSlot* > > joystick_axis_subscriptions;
 			InputContextMapper* context_mapper;
 			LockPrimitive lock_primitive;
+			
+			std::unique_ptr<Utils::ValueRangeMapper<Math::Scalar> > range_mapper;
 		};
 	}
 }

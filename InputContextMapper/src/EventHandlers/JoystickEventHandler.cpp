@@ -13,6 +13,16 @@ namespace UnknownEngine
 		{
 		}
 		
+		void JoystickEventHandler::setJoystickAxisValueMapping ( int lowest_value, int highest_value, float lowest_new_value, float highest_new_value )
+		{
+			range_mapper.reset(new Utils::ValueRangeMapper<Math::Scalar> (lowest_value, highest_value, lowest_new_value, highest_new_value));
+		}
+
+		void JoystickEventHandler::resetJoystickAxisValueMapping()
+		{
+			range_mapper.reset();
+		}
+		
 		void JoystickEventHandler::clearSubscriptions()
 		{
 			std::lock_guard<LockPrimitive> guard(lock_primitive);
@@ -85,9 +95,10 @@ namespace UnknownEngine
 			std::vector<RangeActionSlot*>* subscriptions = findAxisSubscriptions(joystick_axis);
 			if(subscriptions != nullptr)
 			{
+				Math::Scalar event_value = range_mapper ? range_mapper->getMappedValue(new_value) : new_value;
 				for(RangeActionSlot* action_slot : *subscriptions)
 				{
-					action_slot->onEvent( new_value );
+					action_slot->onEvent( event_value );
 				}
 			}
 		}

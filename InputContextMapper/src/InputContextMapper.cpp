@@ -103,6 +103,8 @@ namespace UnknownEngine
 				parser.processConfig(desc.input_layout_config_file);
 			}
 			
+			joystick_event_handler.setJoystickAxisValueMapping(-32768, 32767, 0, 1);
+			
 			LOG_INFO(logger, "Registering listener");
 			listener->registerAtDispatcher();
 			
