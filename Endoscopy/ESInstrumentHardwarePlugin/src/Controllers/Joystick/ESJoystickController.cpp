@@ -159,7 +159,7 @@ namespace UnknownEngine
 			
 			current_z_axis += sign(current_z_delta) * desc.z_axis_speed * msg.dt;
 			current_d_axis += sign(current_d_delta) * desc.d_axis_speed * msg.dt;
-			current_branches_angle += sign(current_branches_delta) * desc.z_axis_speed * msg.dt;
+			current_branches_angle += sign(current_branches_delta) * desc.branches_speed * msg.dt;
 			
 			{
 				ESHardwareOrientationChangedMessage msg;
