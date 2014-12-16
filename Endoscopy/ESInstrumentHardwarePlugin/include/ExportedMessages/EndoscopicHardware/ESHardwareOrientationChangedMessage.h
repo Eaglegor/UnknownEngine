@@ -1,6 +1,5 @@
 #pragma once
 
-#include <ESHardwareAxis.h>
 #include <ESInstrumentPort.h>
 #include <Scalar.h>
 

@@ -4,6 +4,7 @@
 #include <Plugins/BasePlugin.h>
 #include <Plugins/SubsystemDesc.h>
 #include <LogHelper.h>
+#include <ESHardwareControllersManager.h>
 
 namespace UnknownEngine
 {
@@ -32,6 +33,7 @@ namespace UnknownEngine
 				Core::SubsystemDesc desc;
 				Core::EngineContext* engine_context;
 				Core::LogHelper logger;
+				ESHardwareControllersManager hardware_manager;
 		};
 
 	} /* namespace Graphics */

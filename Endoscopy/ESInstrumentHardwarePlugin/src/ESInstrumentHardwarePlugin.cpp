@@ -11,7 +11,8 @@ namespace UnknownEngine
 
 		ESInstrumentHardwarePlugin::ESInstrumentHardwarePlugin(const char* name):
 		Core::BasePlugin(name),
-		logger(name, Core::LogSeverity::NONE)
+		logger(name, Core::LogSeverity::NONE),
+		hardware_manager(logger)
 		{
 		}
 
@@ -34,6 +35,8 @@ namespace UnknownEngine
 		bool ESInstrumentHardwarePlugin::init () 
 		{
 			LOG_INFO(logger, "Initializing endoscopic instruments hardware plugin");
+			
+			hardware_manager.init();
 
 			return true;
 		}
@@ -42,6 +45,8 @@ namespace UnknownEngine
 		{
 			LOG_INFO(logger, "Shutting down endoscopic instruments hardware plugin");
 		  
+			hardware_manager.shutdown();
+			
 			return true;
 		}
 
