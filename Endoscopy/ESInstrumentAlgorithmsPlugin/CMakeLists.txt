@@ -1,7 +1,7 @@
 set(TARGET_NAME ESInstrumentAlgorithmsPlugin)
 set(LINKAGE SHARED)
 
-set(INCLUDED_MODULE_HEADERS Endoscopy/ESInstrumentHardwarePlugin Endoscopy/ESInstrumentAlgorithmsPlugin Plugins MessageSystem Utils Engine LogManager)
+set(INCLUDED_MODULE_HEADERS Endoscopy/ESInstrumentHardwarePlugin Endoscopy/ESInstrumentAlgorithmsPlugin Math Plugins MessageSystem Utils Engine LogManager)
 set(LINKED_LIBS Engine MessageSystem Plugins LogManager )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 

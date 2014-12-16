@@ -65,7 +65,7 @@ namespace UnknownEngine
 			{
 				Ogre::String string_handle;
 
-				Core::MessageSender<Graphics::GetWindowHandleMessage> sender(subsystem_name, engine_context);
+				Core::MessageSender<Graphics::GetWindowHandleMessage> sender(subsystem_name);
 				
 				Graphics::GetWindowHandleMessage msg;
 				msg.requested_window_name = desc.render_window_descriptor.window_name;

@@ -60,8 +60,7 @@ namespace UnknownEngine
 
 
 			stop_engine_message_sender.reset ( new Core::MessageSender<Core::StopEngineActionMessage>(
-				std::string(getName()),
-				engine_context
+				std::string(getName())
 			) );
 			
 			listener.reset(new Core::BaseMessageListener(std::string(getName()), engine_context));
@@ -73,10 +72,8 @@ namespace UnknownEngine
 				listener->createMessageBuffer<MessageType, BufferType>(this, &SimpleBehaviorPlugin::onUpdateFrame);
 			}
 			
-			Core::MessageSender<IO::AddSimpleActionMessage> add_action_sender(
-				std::string(getName()),
-				engine_context
-			);
+			Core::MessageSender<IO::AddSimpleActionMessage> add_action_sender(getName());
+			
 			IO::AddSimpleActionMessage msg;
 			msg.context_name = "Generic";
 			msg.action_slot_name = "StopEngine";

@@ -71,7 +71,7 @@ namespace UnknownEngine
 		void Engine::stop()
 		{
 			LOG_INFO(logger, "Stopping engine" );
-			MessageSender<StopEngineActionMessage> sender("Engine", &context);
+			MessageSender<StopEngineActionMessage> sender("Engine");
 			sender.sendMessage(StopEngineActionMessage());
 		}
 		
