@@ -29,10 +29,14 @@ namespace UnknownEngine
 				
 				listener->createMessageBuffer<MessageType, BufferType>(this, &ESInstrumentPoseAlgorithm::onHardwarePoseUpdate);
 			}
+			
+			listener->registerAtDispatcher();
 		}
 
 		void ESInstrumentPoseAlgorithm::shutdown()
 		{
+			listener->unregisterAtDispatcher();
+			
 			listener.reset();
 		}
 
