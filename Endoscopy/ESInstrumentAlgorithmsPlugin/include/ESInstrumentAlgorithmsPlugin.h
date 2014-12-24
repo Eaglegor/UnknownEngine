@@ -17,6 +17,8 @@ namespace UnknownEngine
 	namespace Endoscopy
 	{
 
+		class ESInstrumentMotionAlgorithmsFactory;
+		
 		class ESInstrumentAlgorithmsPlugin: public Core::BasePlugin
 		{
 			public:
@@ -32,6 +34,8 @@ namespace UnknownEngine
 				Core::SubsystemDesc desc;
 				Core::EngineContext* engine_context;
 				Core::LogHelper logger;
+				
+				std::unique_ptr<ESInstrumentMotionAlgorithmsFactory> instrument_motion_algorithms_factory;
 		};
 
 	} /* namespace Graphics */

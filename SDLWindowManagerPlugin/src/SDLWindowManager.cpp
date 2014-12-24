@@ -100,7 +100,7 @@ namespace UnknownEngine
 		{
 			window_events_listener.reset ( new WindowEventsProcessor(name, this, engine_context) );
 			
-			listener.reset(new Core::BaseMessageListener(name, engine_context));
+			listener.reset(new Core::BaseMessageListener(name));
 			{
 				typedef Core::UpdateFrameMessage MessageType;
 				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;

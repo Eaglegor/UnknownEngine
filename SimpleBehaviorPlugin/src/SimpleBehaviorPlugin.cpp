@@ -63,7 +63,7 @@ namespace UnknownEngine
 				std::string(getName())
 			) );
 			
-			listener.reset(new Core::BaseMessageListener(std::string(getName()), engine_context));
+			listener.reset(new Core::BaseMessageListener(std::string(getName())));
 			
 			{
 				typedef Core::UpdateFrameMessage MessageType;

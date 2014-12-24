@@ -1,5 +1,6 @@
 #pragma once
 
+#include <MessageSystem/Message.h>
 #include <ESInstrumentPort.h>
 #include <Scalar.h>
 
@@ -7,7 +8,7 @@ namespace UnknownEngine
 {
 	namespace Endoscopy
 	{
-		struct ESHardwareOrientationChangedMessage
+		struct ESHardwareOrientationChangedMessage : public Core::Message
 		{
 			constexpr static const char* getTypeName(){return "Endoscopy.Hardware.OrientationChanged";}
 			

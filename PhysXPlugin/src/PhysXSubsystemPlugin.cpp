@@ -81,7 +81,7 @@ namespace UnknownEngine
 			LOG_INFO(logger, "Registering PxJoint components factory");
 			engine_context->getComponentsManager()->addComponentFactory(px_joint_components_factory.get());
 
-			listener.reset(new Core::BaseMessageListener(getName(), engine_context));
+			listener.reset(new Core::BaseMessageListener(getName()));
 			{
 				typedef Core::UpdateFrameMessage MessageType;
 				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;

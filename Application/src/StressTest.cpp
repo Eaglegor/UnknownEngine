@@ -20,7 +20,7 @@ void StressTest::init ( EngineContext* engine_context )
 	rule.message_type_name = UpdateFrameMessage::getTypeName();
 	rules.push_back(rule);
 	
-	listener.reset(new BaseMessageListener("StressTest", engine_context));
+	listener.reset(new BaseMessageListener("StressTest"));
 
 	engine_context->getMessageDispatcher()->setListenerRules(listener->getName(), rules);
 	

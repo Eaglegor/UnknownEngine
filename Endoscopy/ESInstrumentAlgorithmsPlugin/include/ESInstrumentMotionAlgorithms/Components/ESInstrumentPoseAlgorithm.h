@@ -2,11 +2,20 @@
 
 #include <ComponentSystem/BaseComponent.h>
 #include <ESInstrumentMotionAlgorithms/Descriptors/ESInstrumentPoseAlgorithmDesc.h>
+#include <memory>
 
 namespace UnknownEngine
 {
+	namespace Core
+	{
+		class BaseMessageListener;
+	}
+
 	namespace Endoscopy
 	{
+
+		struct ESHardwareOrientationChangedMessage;
+		
 		class ESInstrumentPoseAlgorithm : public Core::BaseComponent
 		{
 		public:
@@ -19,7 +28,11 @@ namespace UnknownEngine
 			virtual void shutdown();
 			
 		private:
+			
+			void onHardwarePoseUpdate(const ESHardwareOrientationChangedMessage& msg);
+			
 			ESInstrumentPoseAlgorithmDesc desc;
+			std::unique_ptr<Core::BaseMessageListener> listener;
 		};
 	}
 }

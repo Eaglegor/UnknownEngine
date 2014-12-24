@@ -1,4 +1,7 @@
 #include <ESInstrumentMotionAlgorithms/Components/ESInstrumentPoseAlgorithm.h>
+#include <MessageSystem/BaseMessageListener.h>
+#include <ExportedMessages/EndoscopicHardware/ESHardwareOrientationChangedMessage.h>
+#include <MessageBuffers/InstantForwardMessageBuffer.h>
 
 namespace UnknownEngine
 {
@@ -18,11 +21,25 @@ namespace UnknownEngine
 
 		void ESInstrumentPoseAlgorithm::init ( const Core::IEntity* parent_entity )
 		{
+			listener.reset(new Core::BaseMessageListener(getName()));
+			
+			{
+				typedef ESHardwareOrientationChangedMessage MessageType;
+				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
+				
+				listener->createMessageBuffer<MessageType, BufferType>(this, &ESInstrumentPoseAlgorithm::onHardwarePoseUpdate);
+			}
 		}
 
 		void ESInstrumentPoseAlgorithm::shutdown()
 		{
+			listener.reset();
 		}
 
+		void ESInstrumentPoseAlgorithm::onHardwarePoseUpdate ( const ESHardwareOrientationChangedMessage& msg )
+		{
+			
+		}
+		
 	}
 }
