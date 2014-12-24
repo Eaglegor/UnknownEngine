@@ -10,7 +10,8 @@ namespace UnknownEngine
 		
 		ESInstrumentPoseAlgorithm::ESInstrumentPoseAlgorithm ( const char* name, const ESInstrumentPoseAlgorithmDesc& desc ):
 		BaseComponent ( name ),
-		desc(desc)
+		desc(desc),
+		transform_changed_message_sender(name)
 		{
 		}
 
@@ -42,7 +43,8 @@ namespace UnknownEngine
 
 		void ESInstrumentPoseAlgorithm::onHardwarePoseUpdate ( const ESHardwareOrientationChangedMessage& msg )
 		{
-			
+			Core::TransformChangedMessage transform_msg;
+			transform_changed_message_sender.sendMessage(transform_msg);
 		}
 		
 	}

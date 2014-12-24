@@ -2,6 +2,8 @@
 
 #include <ComponentSystem/BaseComponent.h>
 #include <ESInstrumentMotionAlgorithms/Descriptors/ESInstrumentPoseAlgorithmDesc.h>
+#include <MessageSystem/MessageSender.h>
+#include <ExportedMessages/TransformChangedMessage.h>
 #include <memory>
 
 namespace UnknownEngine
@@ -33,6 +35,7 @@ namespace UnknownEngine
 			
 			ESInstrumentPoseAlgorithmDesc desc;
 			std::unique_ptr<Core::BaseMessageListener> listener;
+			Core::MessageSender<Core::TransformChangedMessage> transform_changed_message_sender;
 		};
 	}
 }
