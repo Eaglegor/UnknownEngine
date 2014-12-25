@@ -12,8 +12,22 @@ namespace UnknownEngine
 		ESInstrumentPoseAlgorithm::ESInstrumentPoseAlgorithm ( const char* name, const ESInstrumentPoseAlgorithmDesc& desc ):
 		BaseComponent ( name ),
 		desc(desc),
-		transform_changed_message_sender(name)
+		transform_changed_message_sender(name),
+		x_range_mapper(0, 1, desc.lower_x, desc.higher_x),
+		y_range_mapper(0, 1, desc.lower_y, desc.higher_y),
+		z_range_mapper(0, 1, desc.lower_z, desc.higher_z),
+		d_range_mapper(0, 1, desc.lower_d, desc.higher_d)
 		{
+			this->desc.lower_x = -1;
+			this->desc.higher_x = 1;
+			this->desc.lower_y = -1;
+			this->desc.higher_y = 1;
+			this->desc.lower_z = -1;
+			this->desc.higher_z = 1;
+			this->desc.lower_d = 0;
+			this->desc.higher_d = 20;
+			this->desc.instrument_direction = -Math::Z_AXIS;
+			this->desc.instrument_port_position = Math::Vector3(0, 0, 0);
 		}
 
 		Core::ComponentType ESInstrumentPoseAlgorithm::getType() const
@@ -44,23 +58,6 @@ namespace UnknownEngine
 
 		void ESInstrumentPoseAlgorithm::onHardwarePoseUpdate ( const ESHardwareOrientationChangedMessage& msg )
 		{
-			const Math::Scalar X_LOWER_LIMIT = -1;
-			const Math::Scalar X_HIGHER_LIMIT = 1;
-			const Math::Scalar Y_LOWER_LIMIT = -1;
-			const Math::Scalar Y_HIGHER_LIMIT = 1;
-			const Math::Scalar Z_LOWER_LIMIT = -1;
-			const Math::Scalar Z_HIGHER_LIMIT = 1;
-			const Math::Scalar D_LOWER_LIMIT = 0;
-			const Math::Scalar D_HIGHER_LIMIT = 20;
-
-			const Math::Vector3 INSTRUMENT_PORT_POSITION(0, 0, 0);
-			const Math::Vector3 INSTRUMENT_DIRECTION = -Math::Z_AXIS;
-
-			Utils::ValueRangeMapper<Math::Scalar> x_range_mapper(0, 1, X_LOWER_LIMIT, X_HIGHER_LIMIT);
-			Utils::ValueRangeMapper<Math::Scalar> y_range_mapper(0, 1, Y_LOWER_LIMIT, Y_HIGHER_LIMIT);
-			Utils::ValueRangeMapper<Math::Scalar> z_range_mapper(0, 1, Z_LOWER_LIMIT, Z_HIGHER_LIMIT);
-			Utils::ValueRangeMapper<Math::Scalar> d_range_mapper(0, 1, D_LOWER_LIMIT, D_HIGHER_LIMIT);
-
 			Math::Scalar x = x_range_mapper.getMappedValue(msg.new_x_axis);
 			Math::Scalar y = y_range_mapper.getMappedValue(msg.new_y_axis);
 			Math::Scalar z = z_range_mapper.getMappedValue(msg.new_z_axis);
@@ -72,7 +69,7 @@ namespace UnknownEngine
 
 			Core::TransformChangedMessage transform_msg;
 			transform_msg.new_transform.setOrientation(x_quat * y_quat * z_quat);
-			transform_msg.new_transform.setPosition(INSTRUMENT_PORT_POSITION + transform_msg.new_transform.getOrientation() * INSTRUMENT_DIRECTION * d);
+			transform_msg.new_transform.setPosition(desc.instrument_port_position + transform_msg.new_transform.getOrientation() * desc.instrument_direction * d);
 
 			transform_changed_message_sender.sendMessage(transform_msg);
 		}

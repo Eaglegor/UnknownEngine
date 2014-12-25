@@ -5,6 +5,7 @@
 #include <MessageSystem/MessageSender.h>
 #include <ExportedMessages/TransformChangedMessage.h>
 #include <memory>
+#include <ValueRangeMapper.h>
 
 namespace UnknownEngine
 {
@@ -36,6 +37,11 @@ namespace UnknownEngine
 			ESInstrumentPoseAlgorithmDesc desc;
 			std::unique_ptr<Core::BaseMessageListener> listener;
 			Core::MessageSender<Core::TransformChangedMessage> transform_changed_message_sender;
+
+			Utils::ValueRangeMapper<Math::Scalar> x_range_mapper;
+			Utils::ValueRangeMapper<Math::Scalar> y_range_mapper;
+			Utils::ValueRangeMapper<Math::Scalar> z_range_mapper;
+			Utils::ValueRangeMapper<Math::Scalar> d_range_mapper;
 		};
 	}
 }
