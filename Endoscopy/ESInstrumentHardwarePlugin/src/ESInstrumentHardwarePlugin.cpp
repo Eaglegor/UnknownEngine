@@ -1,8 +1,10 @@
 #include <stdafx.h>
 
 #include <ESInstrumentHardwarePlugin.h>
+#include <Factories/ESHardwareControllerComponentsFactory.h>
 #include <Plugins/PluginsManager.h>
 #include <Logging.h>
+#include <ComponentSystem/ComponentsManager.h>
 
 namespace UnknownEngine
 {
@@ -11,8 +13,8 @@ namespace UnknownEngine
 
 		ESInstrumentHardwarePlugin::ESInstrumentHardwarePlugin(const char* name):
 		Core::BasePlugin(name),
-		logger(name, Core::LogSeverity::NONE),
-		hardware_manager(logger)
+		logger(name, Core::LogSeverity::NONE)//,
+		//hardware_manager(logger)
 		{
 		}
 
@@ -36,8 +38,14 @@ namespace UnknownEngine
 		{
 			LOG_INFO(logger, "Initializing endoscopic instruments hardware plugin");
 			
-			hardware_manager.init();
-
+			//hardware_manager.init();
+			
+			controllers_factory.reset(new ESControllersFactory());
+			controller_components_factory.reset(new ESHardwareControllerComponentsFactory(controllers_factory.get()));
+			
+			LOG_INFO(logger, "Registering endoscopy hardware controller components factory");
+			Core::ComponentsManager::getSingleton()->addComponentFactory(controller_components_factory.get());
+			
 			return true;
 		}
 
@@ -45,8 +53,14 @@ namespace UnknownEngine
 		{
 			LOG_INFO(logger, "Shutting down endoscopic instruments hardware plugin");
 		  
-			hardware_manager.shutdown();
+			//hardware_manager.shutdown();
 			
+			LOG_INFO(logger, "Unregistering endoscopy hardware controller components factory");
+			Core::ComponentsManager::getSingleton()->removeComponentFactory(controller_components_factory.get());
+			
+			controller_components_factory.reset();
+			controllers_factory.reset();
+		
 			return true;
 		}
 

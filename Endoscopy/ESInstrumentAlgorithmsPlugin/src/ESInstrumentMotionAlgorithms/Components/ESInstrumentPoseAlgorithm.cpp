@@ -8,24 +8,26 @@ namespace UnknownEngine
 {
 	namespace Endoscopy
 	{
+
+		static int RANGE_VALUE = 1;
 		
 		ESInstrumentPoseAlgorithm::ESInstrumentPoseAlgorithm ( const char* name, const ESInstrumentPoseAlgorithmDesc& desc ):
 		BaseComponent ( name ),
 		desc(desc),
 		transform_changed_message_sender(name),
-		x_range_mapper(0, 1, desc.lower_x, desc.higher_x),
-		y_range_mapper(0, 1, desc.lower_y, desc.higher_y),
-		z_range_mapper(0, 1, desc.lower_z, desc.higher_z),
-		d_range_mapper(0, 1, desc.lower_d, desc.higher_d)
+		x_range_mapper(-1, 1, -RANGE_VALUE, RANGE_VALUE),
+		y_range_mapper(-1, 1, -RANGE_VALUE, RANGE_VALUE),
+		z_range_mapper(-1, 1, -RANGE_VALUE, RANGE_VALUE),
+		d_range_mapper(-1, 1, -RANGE_VALUE, RANGE_VALUE*10)
 		{
-			this->desc.lower_x = -1;
-			this->desc.higher_x = 1;
-			this->desc.lower_y = -1;
-			this->desc.higher_y = 1;
-			this->desc.lower_z = -1;
-			this->desc.higher_z = 1;
-			this->desc.lower_d = 0;
-			this->desc.higher_d = 20;
+			this->desc.lower_x = -RANGE_VALUE;
+			this->desc.higher_x = RANGE_VALUE;
+			this->desc.lower_y = -RANGE_VALUE;
+			this->desc.higher_y = RANGE_VALUE;
+			this->desc.lower_z = -RANGE_VALUE;
+			this->desc.higher_z = RANGE_VALUE;
+			this->desc.lower_d = -RANGE_VALUE;
+			this->desc.higher_d = RANGE_VALUE*10;
 			this->desc.instrument_direction = -Math::Z_AXIS;
 			this->desc.instrument_port_position = Math::Vector3(0, 0, 0);
 		}
@@ -58,6 +60,7 @@ namespace UnknownEngine
 
 		void ESInstrumentPoseAlgorithm::onHardwarePoseUpdate ( const ESHardwareOrientationChangedMessage& msg )
 		{
+
 			Math::Scalar x = x_range_mapper.getMappedValue(msg.new_x_axis);
 			Math::Scalar y = y_range_mapper.getMappedValue(msg.new_y_axis);
 			Math::Scalar z = z_range_mapper.getMappedValue(msg.new_z_axis);

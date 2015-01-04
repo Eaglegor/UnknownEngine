@@ -6,8 +6,9 @@
 #include <ExportedMessages/UserInput/MouseWheelMovedMessage.h>
 #include <ExportedMessages/RenderSystem/WindowResizedMessage.h>
 #include <ExportedMessages/UserInput/JoystickAxisMovedMessage.h>
-#include <ExportedMessages/UserInput/JoystickButtonStateChanged.h>
+#include <ExportedMessages/UserInput/JoystickButtonStateChangedMessage.h>
 #include <SDLKeyCodesConverter.h>
+#include <SDLJoystickWrapper.h>
 
 
 namespace UnknownEngine
@@ -36,6 +37,7 @@ namespace UnknownEngine
 
 			std::string name;
 			SDLWindowManager *window_manager;
+			SDLJoystickWrapper joystick_wrapper;
 		};
 	}
 }

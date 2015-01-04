@@ -221,7 +221,7 @@ namespace UnknownEngine
 			}
 
 			LOG_DEBUG(logger, "Subscription details parsed: joystick axis: " + std::to_string(joystick_axis_id));
-			context_mapper->getJoystickEventHandler()->addAxisActionSlotSubscription(section_name, name, joystick_axis_id);
+			context_mapper->getJoystickEventHandler()->addAxisActionSlotSubscription(section_name, name, joystick_id, joystick_axis_id);
 			
 		}
 		
@@ -246,7 +246,7 @@ namespace UnknownEngine
 			}
 
 			LOG_DEBUG(logger, "Subscription details parsed: joystick button " + std::to_string(joystick_button_id));
-			context_mapper->getMouseEventHandler()->addActionSlotSubscription(section_name, name, joystick_button_id);
+			context_mapper->getJoystickEventHandler()->addButtonActionSlotSubscription(section_name, name, joystick_id, joystick_button_id);
 			
 		}
 		

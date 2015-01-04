@@ -13,6 +13,7 @@ namespace UnknownEngine
 	{
 
 		struct UpdateFrameMessage;
+		class BaseMessageListener;
 	}
 
 	namespace Endoscopy
@@ -60,6 +61,8 @@ namespace UnknownEngine
 			Math::Scalar current_d_axis;
 			Math::Scalar current_branches_angle;
 
+			std::unique_ptr<Core::BaseMessageListener> listener;
+			
 			typedef std::mutex LockPrimitive;
 			LockPrimitive mutex;
 			

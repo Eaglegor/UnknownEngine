@@ -22,7 +22,9 @@ namespace UnknownEngine
 			
 			T getMappedValue(T raw_value)
 			{
-				return mapped_range * ( raw_value - lowest_raw_value ) * raw_range_inversed;
+				if(raw_value < lowest_raw_value) return lowest_mapped_value;
+				if(raw_value > highest_raw_value) return highest_mapped_value;
+				return lowest_mapped_value + mapped_range * ( raw_value - lowest_raw_value ) * raw_range_inversed;
 			}
 			
 		private:

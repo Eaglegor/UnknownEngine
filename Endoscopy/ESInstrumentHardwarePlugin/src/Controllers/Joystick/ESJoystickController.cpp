@@ -3,6 +3,8 @@
 #include <ExportedMessages/InputContext/AddRangeActionMessage.h>
 #include <ExportedMessages/InputContext/AddSimpleActionMessage.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
+#include <MessageSystem/BaseMessageListener.h>
+#include <MessageBuffers/InstantForwardMessageBuffer.h>
 
 
 namespace UnknownEngine
@@ -70,15 +72,30 @@ namespace UnknownEngine
 				msg.action_callback = std::bind(&ESJoystickController::onBranchedMovedTogether, this);
 				sender.sendMessage(msg);
 				
-				msg.context_name = desc.input_context_name;
+				/*msg.context_name = desc.input_context_name;
 				msg.action_slot_name = desc.branches_moved_apart_action_name;
 				msg.action_callback = std::bind(&ESJoystickController::onBranchedMovedApart, this);
-				sender.sendMessage(msg);
+				sender.sendMessage(msg);*/
 			}
+			
+			listener.reset(new Core::BaseMessageListener(name.c_str()));
+			
+			{
+				typedef Core::UpdateFrameMessage MessageType;
+				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
+				
+				listener->createMessageBuffer<MessageType, BufferType>(this, &ESJoystickController::onUpdateFrame);
+			}
+			
+			listener->registerAtDispatcher();
+			
 		}
 
 		void ESJoystickController::shutdown()
 		{
+			listener->unregisterAtDispatcher();
+			
+			listener.reset();
 		}
 		
 		ESControllerType ESJoystickController::getType()
@@ -146,15 +163,15 @@ namespace UnknownEngine
 			std::lock_guard<LockPrimitive> guard(mutex);
 			
 			Math::Scalar delta = current_x_delta * desc.x_axis_speed * msg.dt;
-			if(delta > Math::ZERO_PRECISION)
+			if(std::fabs(delta) > Math::ZERO_PRECISION)
 			{
 				current_x_axis += delta;
 			}
-
+			
 			delta = current_y_delta * desc.y_axis_speed * msg.dt;
-			if(delta > Math::ZERO_PRECISION)
+			if(std::fabs(delta) > Math::ZERO_PRECISION)
 			{
-				current_y_axis += delta;
+				current_y_axis -= delta;
 			}
 			
 			current_z_axis += sign(current_z_delta) * desc.z_axis_speed * msg.dt;
@@ -164,7 +181,7 @@ namespace UnknownEngine
 			{
 				ESHardwareOrientationChangedMessage msg;
 				msg.instrument_port = instrument_port;
-				msg.new_x_axis = current_z_axis;
+				msg.new_x_axis = current_x_axis;
 				msg.new_y_axis = current_y_axis;
 				msg.new_z_axis = current_z_axis;
 				msg.new_d_axis = current_d_axis;
@@ -177,6 +194,11 @@ namespace UnknownEngine
 				msg.new_angle = current_branches_angle;
 				branches_sender.sendMessage(msg);
 			}
+
+			//current_x_delta = 0;
+			//current_y_delta = 0;
+			current_z_delta = 0;
+			current_d_delta = 0;
 			
 		}
 		

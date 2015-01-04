@@ -2,6 +2,7 @@
 
 #include <Scalar.h>
 #include <Vectors/Vector3.h>
+#include <ESInstrumentPort.h>
 
 namespace UnknownEngine
 {

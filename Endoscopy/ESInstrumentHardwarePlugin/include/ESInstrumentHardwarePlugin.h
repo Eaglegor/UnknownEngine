@@ -18,6 +18,10 @@ namespace UnknownEngine
 	namespace Endoscopy
 	{
 
+		class ESControllersFactory;
+
+		class ESHardwareControllerComponentsFactory;
+
 		class ESInstrumentHardwarePlugin: public Core::BasePlugin
 		{
 			public:
@@ -33,7 +37,9 @@ namespace UnknownEngine
 				Core::SubsystemDesc desc;
 				Core::EngineContext* engine_context;
 				Core::LogHelper logger;
-				ESHardwareControllersManager hardware_manager;
+				//ESHardwareControllersManager hardware_manager;
+				std::unique_ptr<ESControllersFactory> controllers_factory;
+				std::unique_ptr<ESHardwareControllerComponentsFactory> controller_components_factory;
 		};
 
 	} /* namespace Graphics */

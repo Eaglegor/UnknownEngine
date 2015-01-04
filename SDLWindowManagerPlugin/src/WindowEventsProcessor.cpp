@@ -152,6 +152,7 @@ namespace UnknownEngine
 						msg.axis_id = event.jaxis.axis;
 						msg.joystick_id = event.jaxis.which;
 						msg.new_value = event.jaxis.value;
+						
 						joystick_axis_moved_message_sender.sendMessage(msg);
 						break;
 					}
