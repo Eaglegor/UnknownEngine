@@ -66,6 +66,7 @@ namespace UnknownEngine
 			Math::Scalar z = z_range_mapper.getMappedValue(msg.new_z_axis);
 			Math::Scalar d = d_range_mapper.getMappedValue(msg.new_d_axis);
 
+			
 			Math::Quaternion x_quat(Math::AngleAxis(x, Math::X_AXIS));
 			Math::Quaternion y_quat(Math::AngleAxis(y, Math::Y_AXIS));
 			Math::Quaternion z_quat(Math::AngleAxis(z, Math::Z_AXIS));

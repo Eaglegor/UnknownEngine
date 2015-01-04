@@ -71,11 +71,6 @@ namespace UnknownEngine
 				msg.action_slot_name = desc.branches_moved_together_action_name;
 				msg.action_callback = std::bind(&ESJoystickController::onBranchedMovedTogether, this);
 				sender.sendMessage(msg);
-				
-				/*msg.context_name = desc.input_context_name;
-				msg.action_slot_name = desc.branches_moved_apart_action_name;
-				msg.action_callback = std::bind(&ESJoystickController::onBranchedMovedApart, this);
-				sender.sendMessage(msg);*/
 			}
 			
 			listener.reset(new Core::BaseMessageListener(name.c_str()));
@@ -178,6 +173,15 @@ namespace UnknownEngine
 			current_d_axis += sign(current_d_delta) * desc.d_axis_speed * msg.dt;
 			current_branches_angle += sign(current_branches_delta) * desc.branches_speed * msg.dt;
 			
+			if(current_x_axis < desc.x_low_limit) current_x_axis = desc.x_low_limit;
+			if(current_x_axis > desc.x_high_limit) current_x_axis = desc.x_high_limit;
+			
+			if(current_y_axis < desc.y_low_limit) current_y_axis = desc.y_low_limit;
+			if(current_y_axis > desc.y_high_limit) current_y_axis = desc.y_high_limit;
+			
+			if(current_d_axis < desc.d_low_limit) current_d_axis = desc.d_low_limit;
+			if(current_d_axis > desc.d_high_limit) current_d_axis = desc.d_high_limit;
+			
 			{
 				ESHardwareOrientationChangedMessage msg;
 				msg.instrument_port = instrument_port;
@@ -195,8 +199,6 @@ namespace UnknownEngine
 				branches_sender.sendMessage(msg);
 			}
 
-			//current_x_delta = 0;
-			//current_y_delta = 0;
 			current_z_delta = 0;
 			current_d_delta = 0;
 			
