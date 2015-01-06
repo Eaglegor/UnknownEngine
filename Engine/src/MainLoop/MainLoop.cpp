@@ -36,10 +36,7 @@ namespace UnknownEngine
 			
 			UpdateFrameMessage msg;
 			
-			MessageSender<UpdateFrameMessage> update_frame_message_sender(
-				"Engine",
-				engine_context
-			);
+			MessageSender<UpdateFrameMessage> update_frame_message_sender("Engine");
 			
 			//Utils::AverageFpsCounter fps_counter(1000, Utils::SimpleFpsPrinter("MT AVG FPS: "));
 				

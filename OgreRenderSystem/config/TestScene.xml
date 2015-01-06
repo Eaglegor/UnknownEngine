@@ -17,6 +17,8 @@
 					<message type="IO.MouseMoved"/>
 					<message type="IO.MouseWheelMoved"/>
 					<message type="IO.MouseButtonStateChanged"/>
+					<message type="IO.JoystickAxisMoved"/>
+					<message type="IO.JoystickButtonStateChanged"/>
 					<message type="Engine.MainLoop.UpdateFrameMessage"/>
 					<message type="Utils.LogMessage"/>
 				</sender>
@@ -25,6 +27,7 @@
 
 			<options_section>
 				<options_section name="RenderWindow">
+					<option name="log_level" value="${global_log_level}"/>
 					<option name="width" value="800"/>
 					<option name="height" value="600"/>
 					<option name="window_name" value="TestWindow"/>
@@ -111,6 +114,8 @@
 					<message type="IO.MouseMoved"/>
 					<message type="IO.MouseWheelMoved"/>
 					<message type="IO.MouseButtonStateChanged"/>
+					<message type="IO.JoystickAxisMoved"/>
+					<message type="IO.JoystickButtonStateChanged"/>
 					<message type="IO.InputContext.AddSimpleActionMessage"/>
 					<message type="IO.InputContext.AddRangeActionMessage"/>
 				</listener>
@@ -161,11 +166,51 @@
 				<option name="log_level" value="debug"/>
 			</options_section>
 		</subsystem>
+	
+		<subsystem name="Hardware" module="ESInstrumentHardwarePlugin">
+		</subsystem>
+		
+		<subsystem name="Algorithms" module="ESInstrumentAlgorithmsPlugin">
+		</subsystem>
 		
 	</subsystems>
 
 	<entities>
 
+		<entity name="EndoscopicHardwareControllers">
+			<component name="Camera" type="Endoscopy.HardwareController">
+				<messaging_rules>
+					<sender>
+						<message type="Endoscopy.Hardware.OrientationChanged"/>
+						<message type="IO.InputContext.AddSimpleActionMessage"/>
+						<message type="IO.InputContext.AddRangeActionMessage"/>
+					</sender>
+					<listener>
+						<message type="Engine.MainLoop.UpdateFrameMessage"/>
+					</listener>
+				</messaging_rules>
+			</component>
+		</entity>
+		
+		<entity name="CameraInstrument">
+			<component name="PoseAlgorithm" type="Endoscopy.Algorithms.InstrumentPose">
+				<messaging_rules>
+					<listener>
+						<message type="Endoscopy.Hardware.OrientationChanged">
+							<receive_policy type="FromSingleSender">
+								<options_section>
+									<option name="sender_name" value="EndoscopicHardwareControllers.Camera"/>
+								</options_section>
+							</receive_policy>
+						</message>
+					</listener>
+					<sender>
+						<message type="Engine.TransformChangedMessage"/>
+					</sender>
+				</messaging_rules>
+			</component>
+		</entity>
+		
 		<entity name="MasterScript">
 			<component name="MainModule" type="Behavior.AngelScript">
 				
@@ -234,7 +279,8 @@
 					<message type="Engine.TransformChangedMessage">
 						<receive_policy type="FromSingleSender">
 							<options_section>
-								<option name="sender_name" value="MainCamera.Rotation"/>
+								<!--<option name="sender_name" value="MainCamera.Rotation"/>-->
+								<option name="sender_name" value="CameraInstrument.PoseAlgorithm"/>
 							</options_section>
 						</receive_policy>
 					</message>

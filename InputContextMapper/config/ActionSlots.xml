@@ -41,6 +41,18 @@
 	
 	</context>
 	
+	<context name="InstrumentController">
+		<action_slots>
+			<action_slot name="XRotation" event="Range"/>
+			<action_slot name="YRotation" event="Range"/>
+			<action_slot name="ZLeftRotation" event="Simple" condition="EventActive"/>
+			<action_slot name="ZRightRotation" event="Simple" condition="EventActive"/>
+			<action_slot name="DAxisPush" event="Simple" condition="EventActive"/>
+			<action_slot name="DAxisPull" event="Simple" condition="EventActive"/>
+			<action_slot name="BranchesTogether" event="Simple" condition="EventActive"/>
+		</action_slots>
+	</context>
+	
 	<context name="TestCreateJoint">
 		
 		<action_slots>

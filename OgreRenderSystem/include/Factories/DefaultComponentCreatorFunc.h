@@ -15,7 +15,7 @@ namespace UnknownEngine
 		{
 			ComponentClass* component = new ComponentClass (desc.name, desc.descriptor.apply_visitor(get_descriptor_visitor), render_subsystem, engine_context);
 			
-			std::unique_ptr<Core::BaseMessageListener> listener(new Core::BaseMessageListener(std::string(component->getName()), engine_context));
+			std::unique_ptr<Core::BaseMessageListener> listener(new Core::BaseMessageListener(std::string(component->getName())));
 			component->setMessageListener(std::move(listener));	
 			
 			return component;

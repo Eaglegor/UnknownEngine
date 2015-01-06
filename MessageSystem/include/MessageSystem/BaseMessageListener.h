@@ -31,7 +31,7 @@ namespace UnknownEngine
 			UNKNOWNENGINE_SIMPLE_EXCEPTION(NoMessageProcessorFoundException);
 			
 			MESSAGESYSTEM_EXPORT
-			BaseMessageListener ( const std::string& object_name, EngineContext* engine_context );
+			BaseMessageListener ( const std::string& object_name );
 			
 			MESSAGESYSTEM_EXPORT
 			~BaseMessageListener ();
@@ -87,7 +87,6 @@ namespace UnknownEngine
 			Utils::IMessageBuffer *findMessageBuffer(const PackedMessage &msg);
 			
 			std::unordered_map<MessageType, ReceivedMessage > received_messages;
-			EngineContext* engine_context;
 			
 			ILogger* logger;
 			
@@ -96,6 +95,8 @@ namespace UnknownEngine
 			bool registered;
 			
 			const std::string name;
+			
+			Core::MessageDispatcher* message_dispatcher;
 		};
 
 	}

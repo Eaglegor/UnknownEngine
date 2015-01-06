@@ -26,7 +26,7 @@ namespace UnknownEngine
 
 		PxRigidBodyComponent::PxRigidBodyComponent ( const std::string& name, const PxRigidBodyComponentDesc &desc, PhysXSubsystem* physics_subsystem, Core::EngineContext* engine_context ) :
 			Core::BaseComponent ( name.c_str() ),
-			transform_message_sender(name, engine_context ),
+			transform_message_sender(name),
 			desc ( desc ),
 			physics_subsystem ( physics_subsystem ),
 			px_rigid_body ( nullptr ),
@@ -87,7 +87,7 @@ namespace UnknownEngine
 			physics_subsystem->getPxScene()->addActor ( *px_rigid_body );
 			physics_subsystem->addRigidBodyComponent(getName(), this);
 
-			listener.reset(new Core::BaseMessageListener(std::string(getName()), engine_context));
+			listener.reset(new Core::BaseMessageListener(std::string(getName())));
 
 			{
 				typedef Core::TransformChangedMessage MessageType;

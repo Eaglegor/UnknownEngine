@@ -20,10 +20,10 @@ namespace UnknownEngine
 		{
 		public:
 			
-			MessageSender(const std::string &sender_name, EngineContext* engine_context):
-			engine_context(engine_context),
+			MessageSender(const std::string &sender_name):
 			message_type( MESSAGE_TYPE_ID(MessageClass::getTypeName()) ),
 			name(sender_name),
+			message_dispatcher(MessageDispatcher::getSingleton()),
 			is_registered(false)
 			{}
 			
@@ -75,19 +75,19 @@ namespace UnknownEngine
 			};
 			
 		private:
-			EngineContext* engine_context;
 			MessageType message_type;
 			const std::string name;
+			Core::MessageDispatcher* message_dispatcher;
 			
 			void registerAtDispatcher()
 			{
-				engine_context->getMessageDispatcher()->addSender(message_type, this);
+				message_dispatcher->addSender(message_type, this);
 				is_registered = true;
 			}
 			
 			void unregisterAtDispatcher()
 			{
-				engine_context->getMessageDispatcher()->removeSender(this);
+				message_dispatcher->removeSender(this);
 				is_registered = false;
 			}
 

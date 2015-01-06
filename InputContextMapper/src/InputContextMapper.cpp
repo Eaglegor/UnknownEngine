@@ -12,6 +12,8 @@
 #include <ExportedMessages/UserInput/MouseButtonStateChangedMessage.h>
 #include <ExportedMessages/UserInput/MouseMovedMessage.h>
 #include <ExportedMessages/UserInput/MouseWheelMovedMessage.h>
+#include <ExportedMessages/UserInput/JoystickAxisMovedMessage.h>
+#include <ExportedMessages/UserInput/JoystickButtonStateChangedMessage.h>
 #include <ExportedMessages/UpdateFrameMessage.h>
 
 #include <Logging.h>
@@ -27,7 +29,7 @@ namespace UnknownEngine
 		joystick_event_handler(this),
 		logger(logger)
 		{
-			listener.reset(new Core::BaseMessageListener(creation_options.name, creation_options.engine_context));
+			listener.reset(new Core::BaseMessageListener(creation_options.name));
 
 			LOG_INFO(logger, "Registering update frame message buffer");
 			{
@@ -84,6 +86,31 @@ namespace UnknownEngine
 				
 				listener->createMessageBuffer<MessageType, BufferType>(this, &InputContextMapper::onMouseWheelMoved);
 			}
+
+			
+			LOG_INFO(logger, "Registering on mouse wheel moved message buffer");
+			{
+				typedef IO::MouseWheelMovedMessage MessageType;
+				typedef Utils::QueuedMessageBuffer<MessageType> BufferType;
+				
+				listener->createMessageBuffer<MessageType, BufferType>(this, &InputContextMapper::onMouseWheelMoved);
+			}
+			
+			LOG_INFO(logger, "Registering on joystick axis moved message buffer");
+			{
+				typedef IO::JoystickAxisMovedMessage MessageType;
+				typedef Utils::QueuedMessageBuffer<MessageType> BufferType;
+				
+				listener->createMessageBuffer<MessageType, BufferType>(this, &InputContextMapper::onJoystickAxisMoved);
+			}
+			
+			LOG_INFO(logger, "Registering on joystick button click message buffer");
+			{
+				typedef IO::JoystickButtonStateChangedMessage MessageType;
+				typedef Utils::QueuedMessageBuffer<MessageType> BufferType;
+				
+				listener->createMessageBuffer<MessageType, BufferType>(this, &InputContextMapper::onJoystickButtonStateChanged);
+			}
 			
 			if(!desc.action_slots_config_file.empty())
 			{
@@ -102,6 +129,8 @@ namespace UnknownEngine
 				InputLayoutConfigParser parser(this, logger);
 				parser.processConfig(desc.input_layout_config_file);
 			}
+			
+			joystick_event_handler.setJoystickAxisValueMapping(-32768, 32767, -1, 1);
 			
 			LOG_INFO(logger, "Registering listener");
 			listener->registerAtDispatcher();
@@ -188,10 +217,20 @@ namespace UnknownEngine
 
 		void InputContextMapper::onMouseWheelMoved ( const MouseWheelMovedMessage& msg )
 		{
-			std::cout << "Mouse wheel found" << std::endl;
 			mouse_event_handler.processEvent(MouseAxis::Z, msg.delta_y);
 		}
 
+		
+		void InputContextMapper::onJoystickAxisMoved ( const JoystickAxisMovedMessage& msg )
+		{
+			joystick_event_handler.processEvent(msg.joystick_id, msg.axis_id, msg.new_value);
+		}
+
+		void InputContextMapper::onJoystickButtonStateChanged ( const JoystickButtonStateChangedMessage& msg )
+		{
+			joystick_event_handler.processEvent(msg.joystick_id, msg.button_id, msg.new_state);
+		}
+		
 		KeyboardEventHandler* InputContextMapper::getKeyboardEventHandler()
 		{
 			return &keyboard_event_handler;

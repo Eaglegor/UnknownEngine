@@ -9,13 +9,13 @@ namespace UnknownEngine
 	namespace GUI
 	{
 		WindowEventsProcessor::WindowEventsProcessor ( const std::string& name, SDLWindowManager* window_manager, UnknownEngine::Core::EngineContext* engine_context ):
-		key_pressed_message_sender(name, engine_context ),
-		mouse_button_pressed_message_sender(name, engine_context ),
-		mouse_moved_message_sender(name, engine_context ),
-		mouse_wheel_moved_message_sender(name, engine_context ),
-		joystick_axis_moved_message_sender(name, engine_context),
-		joystick_button_state_changed_message(name, engine_context),
-		window_resized_message_sender(name, engine_context ),
+		key_pressed_message_sender(name),
+		mouse_button_pressed_message_sender(name),
+		mouse_moved_message_sender(name),
+		mouse_wheel_moved_message_sender(name),
+		joystick_axis_moved_message_sender(name),
+		joystick_button_state_changed_message(name),
+		window_resized_message_sender(name),
 		window_manager(window_manager)
 		{
 		}
@@ -152,6 +152,7 @@ namespace UnknownEngine
 						msg.axis_id = event.jaxis.axis;
 						msg.joystick_id = event.jaxis.which;
 						msg.new_value = event.jaxis.value;
+						
 						joystick_axis_moved_message_sender.sendMessage(msg);
 						break;
 					}

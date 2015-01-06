@@ -26,6 +26,9 @@ namespace UnknownEngine
     namespace IO
     {
 
+		struct JoystickAxisMovedMessage;
+ 		struct JoystickButtonStateChangedMessage;
+
         struct KeyStateChangedMessage;
 		struct AddSimpleActionMessage;
 		struct AddRangeActionMessage;
@@ -52,6 +55,9 @@ namespace UnknownEngine
 			void onMouseButtonClick(const MouseButtonStateChangedMessage& msg);
 			void onMouseMoved(const MouseMovedMessage &msg);
 			void onMouseWheelMoved(const MouseWheelMovedMessage &msg);
+
+			void onJoystickAxisMoved(const JoystickAxisMovedMessage &msg);
+			void onJoystickButtonStateChanged(const JoystickButtonStateChangedMessage &msg);
 			
 			void addSimpleAction(const AddSimpleActionMessage &msg);
 			void addRangeAction(const AddRangeActionMessage &msg);

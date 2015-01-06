@@ -47,7 +47,7 @@ namespace UnknownEngine
 		void SDLWindowManager::initSDL()
 		{
 			SDL_SetHint(SDL_HINT_RENDER_DRIVER, "software");
-			int result = SDL_Init( SDL_INIT_VIDEO );
+			int result = SDL_Init( SDL_INIT_VIDEO | SDL_INIT_JOYSTICK );
 			
 			if(result < 0) 
 			{
@@ -100,7 +100,7 @@ namespace UnknownEngine
 		{
 			window_events_listener.reset ( new WindowEventsProcessor(name, this, engine_context) );
 			
-			listener.reset(new Core::BaseMessageListener(name, engine_context));
+			listener.reset(new Core::BaseMessageListener(name));
 			{
 				typedef Core::UpdateFrameMessage MessageType;
 				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
@@ -121,6 +121,8 @@ namespace UnknownEngine
 		void SDLWindowManager::shutdown()
 		{
 			listener->unregisterAtDispatcher();
+			
+			window_events_listener.reset();
 		}
 		
 		SDL_Window* SDLWindowManager::getWindow ( const std::string& name )

@@ -14,7 +14,7 @@ namespace UnknownEngine
 		SimpleRotationComponent::SimpleRotationComponent ( const std::string& name, const SimpleRotationComponentDesc& desc, Core::EngineContext* engine_context ) : 
 		SimpleBehaviorComponent ( name ),
 		desc(desc),
-		transform_changed_message_sender (name, engine_context ),
+		transform_changed_message_sender (name),
 		engine_context(engine_context)
 		{
 			current_angle = 0;

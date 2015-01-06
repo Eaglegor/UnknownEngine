@@ -3,18 +3,17 @@
 #include <MessageBuffers/MessageBuffer.h>
 #include <MessageSystem/MessageDictionary.h>
 #include <MessageSystem/MessageDispatcher.h>
-#include <EngineContext.h>
 #include <mutex>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
-		BaseMessageListener::BaseMessageListener ( const std::string& object_name, EngineContext* engine_context ) : 
-		engine_context(engine_context),
+		BaseMessageListener::BaseMessageListener ( const std::string& object_name) : 
 		logger(CREATE_LOGGER(std::string(object_name.c_str()) + ".Listener", Core::LogSeverity::NONE)),
 		registered(false),
-		name(object_name)
+		name(object_name),
+		message_dispatcher(Core::MessageDispatcher::getSingleton())
 		{
 		}
 		
@@ -49,7 +48,7 @@ namespace UnknownEngine
 			for(auto& iter : received_messages)
 			{
 				LOG_DEBUG(logger, "Registering at message dispatcher");
-				if(iter.second.message_buffer) engine_context->getMessageDispatcher()->addListener(iter.first, this);
+				if(iter.second.message_buffer) message_dispatcher->addListener(iter.first, this);
 			}
 			registered = true;
 		}
@@ -57,7 +56,7 @@ namespace UnknownEngine
 		void BaseMessageListener::unregisterAtDispatcher ( )
 		{
 			LOG_DEBUG(logger, "Unregistering at message dispatcher");
-			engine_context->getMessageDispatcher()->removeListener(this);
+			message_dispatcher->removeListener(this);
 			registered = false;
 		}
 		

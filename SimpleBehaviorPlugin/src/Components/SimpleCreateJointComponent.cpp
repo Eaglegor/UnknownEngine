@@ -18,7 +18,7 @@ namespace UnknownEngine
 		desc(desc),
 		engine_context(engine_context),
 		joint_entity(nullptr),
-		change_material_message_sender(name, engine_context)
+		change_material_message_sender(name)
 		{
 			
 		}
@@ -35,7 +35,7 @@ namespace UnknownEngine
 
 		void SimpleCreateJointComponent::init ( const Core::IEntity* parent_entity )
 		{	
-				Core::MessageSender<IO::AddSimpleActionMessage> simple_action_message_sender(getName(), engine_context);
+				Core::MessageSender<IO::AddSimpleActionMessage> simple_action_message_sender(getName());
 				
 				IO::AddSimpleActionMessage msg;
 				msg.context_name = desc.input_context_name;
