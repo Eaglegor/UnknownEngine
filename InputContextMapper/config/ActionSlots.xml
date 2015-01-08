@@ -41,7 +41,7 @@
 	
 	</context>
 	
-	<context name="InstrumentController">
+	<context name="CameraInstrumentController">
 		<action_slots>
 			<action_slot name="XRotation" event="Range"/>
 			<action_slot name="YRotation" event="Range"/>

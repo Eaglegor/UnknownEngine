@@ -14,7 +14,6 @@ namespace UnknownEngine
 		struct ESJoystickControllerDesc
 		{
 			ESInstrumentPort instrument_port;
-			uint8_t joystick_id;
 			
 			Math::Scalar x_axis_speed;
 			Math::Scalar y_axis_speed;
@@ -40,19 +39,18 @@ namespace UnknownEngine
 			
 			ESJoystickControllerDesc():
 			instrument_port(ESInstrumentPort::CAMERA),
-			joystick_id(0),
 			x_axis_speed(DEFAULT_SPEED),
 			y_axis_speed(DEFAULT_SPEED),
 			z_axis_speed(DEFAULT_SPEED),
 			d_axis_speed(DEFAULT_SPEED),
 			branches_speed(DEFAULT_SPEED),
 			x_low_limit(-DEFAULT_LIMIT),
-			y_low_limit(-DEFAULT_LIMIT),
-			d_low_limit(-DEFAULT_LIMIT),
 			x_high_limit(DEFAULT_LIMIT),
+			y_low_limit(-DEFAULT_LIMIT),
 			y_high_limit(DEFAULT_LIMIT),
+			d_low_limit(-DEFAULT_LIMIT),
 			d_high_limit(DEFAULT_LIMIT),
-			input_context_name("InstrumentController"),
+			input_context_name("CameraInstrumentController"),
 			x_axis_action_name("XRotation"),
 			y_axis_action_name("YRotation"),
 			z_axis_left_rotation_action_name("ZLeftRotation"),
