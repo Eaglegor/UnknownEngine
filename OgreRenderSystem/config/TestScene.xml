@@ -96,6 +96,8 @@
 			
 		</subsystem>
 		
+		<!--<subsystem name="HUD" module="CEGuiPlugin"/>-->
+		
 		<subsystem name="MeshDataLoader" module="AssimpMeshDataLoader"/>
 		
 		<subsystem name="InputContext" module="InputContextMapper">

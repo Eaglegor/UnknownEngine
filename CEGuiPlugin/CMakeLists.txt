@@ -1,0 +1,18 @@
+set(TARGET_NAME CEGuiPlugin)
+set(LINKAGE SHARED)
+
+set(INCLUDED_MODULE_HEADERS CEGuiPlugin Plugins MessageSystem Utils Engine LogManager)
+set(LINKED_LIBS Engine MessageSystem Plugins LogManager )
+set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
+
+find_package(CEGUI COMPONENTS OgreRenderer)
+
+list(APPEND INCLUDED_HEADERS ${CEGUI_INCLUDE_DIRS})
+list(APPEND LINKED_LIBS ${CEGUI_LIBRARIES})
+list(APPEND INCLUDED_HEADERS ${CEGUI_OgreRenderer_INCLUDE_DIRS})
+list(APPEND LINKED_LIBS ${CEGUI_OgreRenderer_LIBRARIES})
+
+
+if(CEGUI_FOUND)
+	include(${MODULE_TEMPLATE_CMAKELISTS_FILE})
+endif()

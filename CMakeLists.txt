@@ -61,6 +61,7 @@ PhysXPlugin
 AngelScriptPlugin
 
 Endoscopy
+CEGuiPlugin
 )
 
 set(
