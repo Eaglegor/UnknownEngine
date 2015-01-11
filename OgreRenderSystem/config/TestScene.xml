@@ -60,6 +60,7 @@
 				<sender>
 					<message type="Graphics.GUI.GetWindowHandleMessage"/>
 					<message type="Utils.LogMessage"/>
+					<message type="Utils.SubsystemInitializedMessage"/>
 				</sender>
 				
 			</messaging_rules>
