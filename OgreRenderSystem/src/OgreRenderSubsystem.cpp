@@ -10,6 +10,7 @@
 #include <MessageSystem/MessageSender.h>
 
 #include <ExportedMessages/StopEngineActionMessage.h>
+#include <ExportedMessages/SubsystemInitializedMessage.h>
 
 #include <Listeners/OgreUpdateFrameListener.h>
 #include <ExportedMessages/RenderSystem/GetWindowHandleMessage.h>
@@ -175,6 +176,13 @@ namespace UnknownEngine
 			{
 				initOgre(name);
 				
+							
+				{
+					Core::MessageSender<Utils::SubsystemInitializedMessage> sender(name.c_str());
+					sender.sendMessage(Utils::SubsystemInitializedMessage());
+				}
+			
+				
 				{
 					typedef Core::UpdateFrameMessage MessageType;
 					typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
@@ -203,6 +211,12 @@ namespace UnknownEngine
 				rendering_thread.reset ( new boost::thread ( [this, name]()
 				{
 					initOgre(name);
+					
+					{
+						Core::MessageSender<Utils::SubsystemInitializedMessage> sender(name.c_str());
+						sender.sendMessage(Utils::SubsystemInitializedMessage());
+					}
+					
 					addSynchronizeCallback("FlushMessageBuffers", [this](){listener->flushAllMessageBuffers();});
 					root->addFrameListener ( frame_listener.get() );
 					this->root->startRendering();

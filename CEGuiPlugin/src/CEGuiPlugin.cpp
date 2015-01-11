@@ -4,6 +4,9 @@
 #include <CEGuiSubsystemFactory.h>
 #include <Plugins/PluginsManager.h>
 #include <Logging.h>
+#include <MessageSystem/BaseMessageListener.h>
+#include <MessageBuffers/InstantForwardMessageBuffer.h>
+#include <ExportedMessages/SubsystemInitializedMessage.h>
 
 namespace UnknownEngine
 {
@@ -12,8 +15,9 @@ namespace UnknownEngine
 
 		CEGuiPlugin::CEGuiPlugin(const char* name):
 		Core::BasePlugin(name),
-		logger(name, Core::LogSeverity::NONE),
-		cegui_subsystem(nullptr)
+		logger(name, Core::LogSeverity::INFO),
+		cegui_subsystem(nullptr),
+		was_init(false)
 		{
 		}
 
@@ -33,24 +37,30 @@ namespace UnknownEngine
 			this->desc = desc;
 			engine_context = plugins_manager->getEngineContext();
 
+			listener.reset(new Core::BaseMessageListener(getName()));
+			{
+				typedef Utils::SubsystemInitializedMessage MessageType;
+				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
+				
+				listener->createMessageBuffer<MessageType, BufferType>(this, &CEGuiPlugin::onTargetSubsystemInitialized);
+			}
+			
+			listener->registerAtDispatcher();
+			
 			return true;
 		}
 
 		bool CEGuiPlugin::init () 
 		{
-			LOG_INFO(logger, "Initializing CEGUI plugin");
-
-			LOG_INFO(logger, "Creating CEGUI subsystem");
-			cegui_subsystem = subsystem_factory->createSubsystem(CEGuiRendererType::OGRE);
-			
-			LOG_INFO(logger, "Initializing CEGUI subsystem");
-			cegui_subsystem->init();
-			
 			return true;
 		}
 
 		bool CEGuiPlugin::shutdown () 
 		{
+			listener->unregisterAtDispatcher();
+			
+			if(!was_init) return true;
+						   
 			LOG_INFO(logger, "Shutting down CEGUI plugin");
 		  
 			LOG_INFO(logger, "Shutting down CEGUI subsystem");
@@ -59,6 +69,7 @@ namespace UnknownEngine
 			LOG_INFO(logger, "Destroying CEGUI subsystem");
 			subsystem_factory->destroySubsystem(cegui_subsystem);
 			
+			was_init = false;
 			return true;
 		}
 
@@ -72,5 +83,22 @@ namespace UnknownEngine
 			return true;
 		}
 
+		void CEGuiPlugin::initImpl()
+		{
+			LOG_INFO(logger, "Initializing CEGUI plugin");
+
+			LOG_INFO(logger, "Creating CEGUI subsystem");
+			cegui_subsystem = subsystem_factory->createSubsystem(CEGuiRendererType::OGRE);
+			
+			LOG_INFO(logger, "Initializing CEGUI subsystem");
+			cegui_subsystem->init();
+			was_init = true;
+		}
+
+		void CEGuiPlugin::onTargetSubsystemInitialized ( const Utils::SubsystemInitializedMessage& msg )
+		{
+			initImpl();
+		}
+		
 	} /* namespace Graphics */
 } /* namespace UnknownEngine */

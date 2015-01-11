@@ -60,6 +60,7 @@
 				<sender>
 					<message type="Graphics.GUI.GetWindowHandleMessage"/>
 					<message type="Utils.LogMessage"/>
+					<message type="Utils.SubsystemInitializedMessage"/>
 				</sender>
 				
 			</messaging_rules>
@@ -96,7 +97,19 @@
 			
 		</subsystem>
 		
-		<!--<subsystem name="HUD" module="CEGuiPlugin"/>-->
+		<subsystem name="HUD" module="CEGuiPlugin">
+			<messaging_rules>
+				<listener>
+					<message type="Utils.SubsystemInitializedMessage">
+						<receive_policy type="FromSingleSender">
+							<options_section>
+								<option name="sender_name" value="Graphics"/>
+							</options_section>
+						</receive_policy>
+					</message>
+				</listener>
+			</messaging_rules>
+		</subsystem>
 		
 		<subsystem name="MeshDataLoader" module="AssimpMeshDataLoader"/>
 		
