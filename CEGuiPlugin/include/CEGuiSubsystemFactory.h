@@ -13,7 +13,7 @@ namespace UnknownEngine
 		public:
 			CEGuiSubsystemFactory(const Core::LogHelper &logger);
 			
-			ICEGuiSubsystem* createSubsystem(const CEGuiRendererType &renderer_type);
+			ICEGuiSubsystem* createSubsystem(const char* name, const CEGuiRendererType &renderer_type);
 			void destroySubsystem(ICEGuiSubsystem* cegui_subsystem);
 			
 		private:

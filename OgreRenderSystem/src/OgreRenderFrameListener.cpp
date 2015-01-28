@@ -64,12 +64,14 @@ namespace UnknownEngine
 		
 		void OgreRenderFrameListener::addSynchronizeCallback ( const std::string& name, const std::function< void() >& callback )
 		{
+			++scount;
 			std::unique_lock<std::mutex> guard ( atomized_init_and_synchronize_mutex );
 			synchronize_callbacks.insert ( std::make_pair ( name, callback ) );
 		}
 		void OgreRenderFrameListener::removeSynchronizeCallback ( const std::string& name )
 		{
 			synchronize_callbacks.erase ( name );
+			--scount;
 		}
 		void OgreRenderFrameListener::addInitCallback ( const std::function< void() >& callback )
 		{

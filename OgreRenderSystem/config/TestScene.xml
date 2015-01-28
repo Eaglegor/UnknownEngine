@@ -55,6 +55,7 @@
 							</options_section>
 						</receive_policy>
 					</message>
+					<message type="Graphics.OgreRenderSystem.GetOgreRenderTargetMessage"/>
 				</listener>
 			
 				<sender>
@@ -108,6 +109,9 @@
 						</receive_policy>
 					</message>
 				</listener>
+				<sender>
+					<message type="Graphics.OgreRenderSystem.GetOgreRenderTargetMessage"/>
+				</sender>
 			</messaging_rules>
 		</subsystem>
 		

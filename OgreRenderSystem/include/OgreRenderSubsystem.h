@@ -35,22 +35,20 @@ namespace UnknownEngine
 	{
 
 		struct WindowResizedMessage;
+		struct GetOgreRenderTargetMessage;
 
 		class OgreRenderCallback;
 
 		class OgreUpdateFrameListener;
 		class OgreRenderFrameListener;
-
+		class OgreRenderWindowWrapper;
+		
 		class OgreRenderSubsystem
 		{
 			public:
 
 				explicit OgreRenderSubsystem ( const OgreRenderSubsystemDescriptor& desc, Core::ILogger* logger, Core::EngineContext* engine_context );
 				virtual ~OgreRenderSubsystem();
-				
-				virtual void onFrameUpdated ( const Core::UpdateFrameMessage& msg );
-				virtual void onWindowResized( const Graphics::WindowResizedMessage& msg );
-				
 				
 				void loadResourcesFile(const std::string &filename);
 
@@ -61,6 +59,17 @@ namespace UnknownEngine
 				Ogre::SceneManager* getSceneManager()
 				{
 					return scene_manager;
+				}
+				
+				UNKNOWNENGINE_INLINE
+				Ogre::Root* getOgreRoot()
+				{
+					return root;
+				}
+				
+				const char* getName()
+				{
+					return name.c_str();
 				}
 				
 				Ogre::RenderWindow* getRenderWindow(const std::string &name);
@@ -84,10 +93,17 @@ namespace UnknownEngine
 				}
 				
 			private:
+				friend class OgreUpdateFrameListener;
+				
 				void initOgre(const std::string &subsystem_name);
 				void shutdownOgre();
+				std::string name;
 				
-				std::unordered_map<std::string, Ogre::RenderWindow*> render_windows;
+				virtual void onFrameUpdated ( const Core::UpdateFrameMessage& msg );
+				virtual void onWindowResized( const Graphics::WindowResizedMessage& msg );
+				void onGetOgreRenderTarget(const GetOgreRenderTargetMessage& msg);
+				
+				std::unordered_map<std::string, OgreRenderWindowWrapper*> render_windows;
 				
 				Ogre::Root* root;
 				Ogre::SceneManager* scene_manager;

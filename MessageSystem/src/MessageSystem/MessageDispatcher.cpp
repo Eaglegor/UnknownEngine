@@ -158,7 +158,9 @@ namespace UnknownEngine
 		void MessageDispatcher::onNewSender ( const MessageType &message_type, IMessageSender* sender, IMessageDeliveryPolicy* delivery_policy )
 		{
 			auto message_type_iter = listeners.find ( message_type );
-			if ( message_type_iter == listeners.end() ) return;
+			if ( message_type_iter == listeners.end() ) {
+				return;
+			}
 
 			for ( auto & iter : message_type_iter->second )
 			{

@@ -88,7 +88,7 @@ namespace UnknownEngine
 			LOG_INFO(logger, "Initializing CEGUI plugin");
 
 			LOG_INFO(logger, "Creating CEGUI subsystem");
-			cegui_subsystem = subsystem_factory->createSubsystem(CEGuiRendererType::OGRE);
+			cegui_subsystem = subsystem_factory->createSubsystem(desc.name.c_str(), CEGuiRendererType::OGRE);
 			
 			LOG_INFO(logger, "Initializing CEGUI subsystem");
 			cegui_subsystem->init();

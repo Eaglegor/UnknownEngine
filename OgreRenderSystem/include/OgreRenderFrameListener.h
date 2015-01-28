@@ -58,6 +58,8 @@ namespace UnknownEngine
 
 			void addRemoveCallback ( const std::function<void() > &callback );
 
+			int scount = 0;
+			
 		private:
 			
 			Utils::WaitingForEventWrapper wait_for_finish;

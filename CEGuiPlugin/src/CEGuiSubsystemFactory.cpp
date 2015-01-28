@@ -12,13 +12,13 @@ namespace UnknownEngine
 		{
 		}
 		
-		ICEGuiSubsystem* CEGuiSubsystemFactory::createSubsystem ( const CEGuiRendererType &renderer_type )
+		ICEGuiSubsystem* CEGuiSubsystemFactory::createSubsystem ( const char* name, const CEGuiRendererType &renderer_type )
 		{
 			switch(renderer_type)
 			{
 				case CEGuiRendererType::OGRE:
 				{
-					return new OgreCEGuiSubsystem(logger);
+					return new OgreCEGuiSubsystem(name, logger);
 					break;
 				}
 			}

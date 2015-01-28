@@ -7,7 +7,7 @@ namespace UnknownEngine
 		class ICEGuiSubsystem
 		{
 		public:
-			virtual ~ICEGuiSubsystem() = 0;
+			virtual ~ICEGuiSubsystem(){};
 			virtual void init() = 0;
 			virtual void shutdown() = 0;
 		};

@@ -39,6 +39,7 @@ namespace UnknownEngine
 		{
 			if ( desc.mesh_data_provider != nullptr ) 
 			{
+				LOG_INFO(logger, "Releasing ogre mesh data provider");
 				RELEASE_DATA_PROVIDER(desc.mesh_data_provider);
 			}
 			RELEASE_LOGGER(logger);
