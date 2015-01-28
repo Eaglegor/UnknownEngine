@@ -13,17 +13,9 @@ namespace UnknownEngine {
 			shutdown_initialized(false),
 			render_subsystem ( render_subsystem )
 		{
-			render_subsystem->addSynchronizeCallback ( this->getName(), [this]()
-				{
-					if(!shutdown_initialized && listener) 
-					{
-						listener->flushAllMessageBuffers();
-					}
-				} );
 		}
 		
 		BaseOgreComponent::~BaseOgreComponent() {
-			render_subsystem->removeSynchronizeCallback ( this->getName() );
 		}
 		
 		void BaseOgreComponent::init ( const UnknownEngine::Core::IEntity* parent_entity )
@@ -41,10 +33,20 @@ namespace UnknownEngine {
 				initMessageListenerBuffers(false);
 				this->internalInit ( parent_entity );
 			}
+			
+			render_subsystem->addSynchronizeCallback ( this->getName(), [this]()
+				{
+					if(!shutdown_initialized && listener) 
+					{
+						listener->flushAllMessageBuffers();
+					}
+				} );
 		}
 		
 		void BaseOgreComponent::shutdown()
 		{
+			render_subsystem->removeSynchronizeCallback ( this->getName() );
+			
 			if ( render_subsystem->hasSeparateRenderThreadEnabled() )
 			{
 				shutdown_initialized = true;
