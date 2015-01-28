@@ -22,12 +22,19 @@ namespace UnknownEngine
 
 		void BaseOgreComponentFactory::destroyObject ( Core::IComponent* object )
 		{
-			render_subsystem->addRemoveCallback (
-				[this, object]()
-				{
-					Core::BaseComponentFactory::destroyObject ( object );
-				}
-			);
+			if(render_subsystem->hasSeparateRenderThreadEnabled())
+			{
+				render_subsystem->addRemoveCallback (
+					[this, object]()
+					{
+						Core::BaseComponentFactory::destroyObject ( object );
+					}
+				);
+			}
+			else
+			{
+				Core::BaseComponentFactory::destroyObject(object);
+			}
 		}
 	}
 }
