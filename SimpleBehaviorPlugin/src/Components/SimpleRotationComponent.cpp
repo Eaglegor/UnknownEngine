@@ -4,6 +4,7 @@
 #include <ExportedMessages/TransformChangedMessage.h>
 #include <EngineContext.h>
 #include <MessageSystem/MessageDispatcher.h>
+#include <PositionProducerComponent.h>
 
 #include <thread>
 
@@ -11,6 +12,13 @@ namespace UnknownEngine
 {
 	namespace Behavior 
 	{
+
+		const Core::ComponentType SimpleRotationComponent::component_type("Behavior.SimpleRotationComponent", Utils::PositionProducerComponent::getCType());
+		const Core::ComponentType& SimpleRotationComponent::getCType()
+		{
+			return component_type;
+		}
+
 		SimpleRotationComponent::SimpleRotationComponent ( const std::string& name, const SimpleRotationComponentDesc& desc, Core::EngineContext* engine_context ) : 
 		SimpleBehaviorComponent ( name ),
 		desc(desc),

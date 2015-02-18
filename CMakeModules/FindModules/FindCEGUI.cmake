@@ -40,7 +40,6 @@ macro(PRINT_COMPONENT_INFO COMPONENT)
 endmacro(PRINT_COMPONENT_INFO)
 
 findpkg_begin(CEGUI)
-set(CEGUI_FIND_REQUIRED 1)
  
 # Get path, convert backslashes as ${ENV_${var}}
 getenv_path(CEGUI_HOME)

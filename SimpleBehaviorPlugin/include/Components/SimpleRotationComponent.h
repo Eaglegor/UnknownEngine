@@ -23,6 +23,9 @@ namespace UnknownEngine
 		UNKNOWNENGINE_ALIGNED_CLASS(16) SimpleRotationComponent : public SimpleBehaviorComponent
 		{
 		public:
+			
+			static const Core::ComponentType& getCType();
+
 			explicit SimpleRotationComponent ( const std::string& name, const SimpleRotationComponentDesc& desc, Core::EngineContext* engine_context );
 			virtual ~SimpleRotationComponent();
 				
@@ -37,6 +40,8 @@ namespace UnknownEngine
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 			
 		private:
+			static const Core::ComponentType component_type;
+
 			SimpleRotationComponentDesc desc;
 			Core::MessageSender<Core::TransformChangedMessage> transform_changed_message_sender;
 			

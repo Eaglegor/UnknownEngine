@@ -1,5 +1,5 @@
 #include <OgreRenderWindowWrapper.h>
-#include <OGRE/OgreRoot.h>
+#include <OgreRoot.h>
 #include <ExportedMessages/RenderSystem/GetWindowHandleMessage.h>
 #include <MessageSystem/MessageSender.h>
 

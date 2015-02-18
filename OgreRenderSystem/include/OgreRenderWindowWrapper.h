@@ -1,6 +1,6 @@
 #pragma once
 
-#include <OGRE/OgreRenderWindow.h>
+#include <OgreRenderWindow.h>
 #include <OgreRenderSubsystem.h>
 #include <Descriptors/OgreRenderWindowDescriptor.h>
 #include <InlineSpecification.h>
