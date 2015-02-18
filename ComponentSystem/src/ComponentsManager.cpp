@@ -82,6 +82,11 @@ namespace UnknownEngine
 						MessageDispatcher::getSingleton()->setListenerRules(desc.name.c_str(), desc.listener_rules);
 						MessageDispatcher::getSingleton()->setSenderRules(desc.name.c_str(), desc.sender_rules);
 						LOG_INFO(logger, "Messaging rules for component " + desc.name + " registered");
+						
+						ComponentWrapper wrapper;
+						wrapper.component = component;
+						wrapper.factory_name = factory.second->getName();
+						components.insert( std::make_pair(desc.name, wrapper) );
 					}
 					else
 					{
@@ -94,21 +99,24 @@ namespace UnknownEngine
 			return nullptr;
 		}
 
-		void ComponentsManager::removeComponent ( IComponent *component )
+		void ComponentsManager::removeComponent ( std::unordered_map<std::string, ComponentWrapper>::iterator iter )
 		{
+			IComponent *component = iter->second.component;
 			LOG_INFO(logger, "Destroying component '" + std::string(component->getName()) + "'" );
-			for ( auto & factory : component_factories )
+			
+			auto factory_iter = component_factories.find(iter->second.factory_name);
+			
+			if(factory_iter != component_factories.end())
 			{
-				if ( factory.second->supportsType ( component->getType() ) )
-				{
-					LOG_INFO(logger, "Unregistering messaging rules for component " + std::string(component->getName()));
-					MessageDispatcher::getSingleton()->clearListenerRules(component->getName());
-					MessageDispatcher::getSingleton()->clearSenderRules(component->getName());
-					LOG_INFO(logger, "Messaging rules for component " + std::string(component->getName()) + " unregistered");
+				LOG_INFO(logger, "Unregistering messaging rules for component " + std::string(component->getName()));
+				MessageDispatcher::getSingleton()->clearListenerRules(component->getName());
+				MessageDispatcher::getSingleton()->clearSenderRules(component->getName());
+				LOG_INFO(logger, "Messaging rules for component " + std::string(component->getName()) + " unregistered");
 
-					factory.second->destroyObject ( component );
-					return;
-				}
+				factory_iter->second->destroyObject ( component );
+			
+				components.erase(iter);
+				return;
 			}
 			LOG_ERROR (logger, "No suitable factory found to destroy component '" + std::string(component->getName()) + "'" );
 		}
@@ -138,6 +146,38 @@ namespace UnknownEngine
 		Utils::NameGenerator* ComponentsManager::getNameGenerator()
 		{
 			return name_generator.get();
+		}
+		
+		Core::IComponent* Core::ComponentsManager::findComponent ( const char* name )
+		{
+			auto iter = components.find(name);
+			if(iter == components.end()) return nullptr;
+			return iter->second.component;
+		}
+
+		void Core::ComponentsManager::reserveComponent ( Core::IComponent* component )
+		{
+			auto iter = components.find(component->getName());
+			if(iter == components.end())
+			{
+				LOG_ERROR(logger, "Can't reserve unknown component " + component->getName());
+				return;
+			}
+			++iter->second.ref_counter;
+		}
+
+		void Core::ComponentsManager::releaseComponent ( Core::IComponent* component )
+		{
+			auto iter = components.find(component->getName());
+			if(iter == components.end())
+			{
+				LOG_ERROR(logger, "Can't release unknown component " + component->getName());
+				return;
+			}
+			if(--iter->second.ref_counter == 0)
+			{
+				removeComponent(iter);
+			}
 		}
 		
 	}

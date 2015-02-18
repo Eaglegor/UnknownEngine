@@ -46,7 +46,7 @@ namespace UnknownEngine
 
 namespace std {
 	template<>
-	class hash<UnknownEngine::Core::ComponentType> {
+	struct hash<UnknownEngine::Core::ComponentType> {
 	public:
 		size_t operator()(const UnknownEngine::Core::ComponentType &s) const
 		{

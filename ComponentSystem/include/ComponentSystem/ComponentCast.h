@@ -12,6 +12,8 @@ namespace UnknownEngine
 
 		typedef std::remove_pointer<T>::type RawTargetType;
 		static_assert(std::is_base_of<Core::IComponent, RawTargetType>::value, "Only components may be used with component_cast");
+
+		if(component == nullptr) return nullptr;
 		
 		if(component->getType().is(T::getType()))
 		{

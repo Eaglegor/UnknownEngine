@@ -1,8 +1,8 @@
 set(TARGET_NAME CEGuiPlugin)
 set(LINKAGE SHARED)
 
-set(INCLUDED_MODULE_HEADERS CEGuiPlugin Plugins MessageSystem Utils Engine LogManager OgreRenderSystem)
-set(LINKED_LIBS Engine MessageSystem Plugins LogManager )
+set(INCLUDED_MODULE_HEADERS CEGuiPlugin Plugins MessageSystem Utils Engine LogManager OgreRenderSystem ComponentSystem)
+set(LINKED_LIBS Engine MessageSystem Plugins LogManager ComponentSystem )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 
 find_package(CEGUI COMPONENTS OgreRenderer)
