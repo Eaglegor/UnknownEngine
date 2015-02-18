@@ -72,7 +72,7 @@ namespace UnknownEngine
 				};
 				
 				COMPONENTSYSTEM_EXPORT
-				virtual IComponent* createComponent ( const ComponentDesc &desc ) ;
+				virtual IComponent* createComponent ( IEntity* parent, const ComponentDesc &desc ) ;
 
 				COMPONENTSYSTEM_EXPORT
 				virtual void removeComponent ( std::unordered_map<std::string, ComponentWrapper>::iterator iter );

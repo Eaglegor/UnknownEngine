@@ -119,7 +119,7 @@ void StressTest::generateObjects ( size_t count )
 			props.set<std::string>("log_level", "none");
 			
 			Properties material;
-			material.set<std::string>("material_name", "Simple");
+			material.set<std::string>("material_name", "BaseWhiteNoLighting");
 			props.set<Properties>("Material", material);
 			
 			Properties transform;
@@ -155,9 +155,9 @@ void StressTest::generateObjects ( size_t count )
 void StressTest::onUpdate ( const UpdateFrameMessage& msg )
 {
 	time_counter.tick();
-	if(time_counter.getElapsedTime() > 0.02f)
+	if(time_counter.getElapsedTime() > 20.0f)
 	{
 		time_counter.resetElapsedTime();
-		generateObjects(1);
+		generateObjects(1000);
 	}
 }

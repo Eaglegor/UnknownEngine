@@ -65,7 +65,7 @@ namespace UnknownEngine
 			return entity;
 		}
 
-		IComponent* ComponentsManager::createComponent ( const ComponentDesc& desc ) 
+		IComponent* ComponentsManager::createComponent ( IEntity* parent, const ComponentDesc& desc ) 
 		{
 			LOG_INFO(logger, "Creating component: '" + desc.name + "' [" + desc.type + "]");
 			for ( auto & factory : component_factories )
@@ -83,9 +83,11 @@ namespace UnknownEngine
 						MessageDispatcher::getSingleton()->setSenderRules(desc.name.c_str(), desc.sender_rules);
 						LOG_INFO(logger, "Messaging rules for component " + desc.name + " registered");
 						
+						component->init(parent);
+						
 						ComponentWrapper wrapper;
 						wrapper.component = component;
-						wrapper.factory_name = factory.second->getName();
+						wrapper.factory_name = factory.first;
 						components.insert( std::make_pair(desc.name, wrapper) );
 					}
 					else
@@ -108,11 +110,17 @@ namespace UnknownEngine
 			
 			if(factory_iter != component_factories.end())
 			{
+				LOG_DEBUG (logger, "Found factory: '" + factory_iter->second->getName() );
+				
+				component->shutdown();
+				
 				LOG_INFO(logger, "Unregistering messaging rules for component " + std::string(component->getName()));
 				MessageDispatcher::getSingleton()->clearListenerRules(component->getName());
 				MessageDispatcher::getSingleton()->clearSenderRules(component->getName());
 				LOG_INFO(logger, "Messaging rules for component " + std::string(component->getName()) + " unregistered");
 
+				
+				
 				factory_iter->second->destroyObject ( component );
 			
 				components.erase(iter);

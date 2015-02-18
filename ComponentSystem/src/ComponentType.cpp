@@ -51,7 +51,7 @@ namespace UnknownEngine
 
 		bool ComponentType::operator==(const ComponentType& rhs) const
 		{
-			return getTypeId() == rhs.getTypeId();
+			return name == rhs.name;
 		}
 
 		bool ComponentType::operator!=(const ComponentType& rhs) const
