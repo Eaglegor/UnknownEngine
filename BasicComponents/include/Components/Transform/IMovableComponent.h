@@ -1,12 +1,12 @@
 #pragma once
 
-#include <ComponentSystem/IComponent.h>
+#include <ComponentSystem/BaseComponent.h>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
-		class IMovableComponent
+		class MovableComponent : public BaseComponent
 		{
 			public:
 				constexpr static const char* getTypeName()

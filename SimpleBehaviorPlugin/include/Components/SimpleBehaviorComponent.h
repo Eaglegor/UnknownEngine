@@ -6,7 +6,7 @@ namespace UnknownEngine
 {
 	namespace Behavior
 	{
-		class SimpleBehaviorComponent : public Core::BaseComponent
+		class SimpleBehaviorComponent : public virtual Core::BaseComponent
 		{
 		public:
 			explicit SimpleBehaviorComponent ( const std::string& name ):

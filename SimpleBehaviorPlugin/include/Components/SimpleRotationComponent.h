@@ -20,9 +20,9 @@ namespace UnknownEngine
 	namespace Behavior
 	{
 		
-		static const Core::ComponentType SIMPLE_ROTATION_COMPONENT_TYPE = Core::ComponentType("Behavior.SimpleRotation", Core::ComponentType(Core::ITransformHolderComponent::getTypeName()));
+		static const Core::ComponentType SIMPLE_ROTATION_COMPONENT_TYPE = Core::ComponentType("Behavior.SimpleRotation", Core::ComponentType(Core::TransformHolderComponent::getTypeName()));
 		
-		UNKNOWNENGINE_ALIGNED_CLASS(16) SimpleRotationComponent : public SimpleBehaviorComponent, Core::ITransformHolderComponent
+		UNKNOWNENGINE_ALIGNED_CLASS(16) SimpleRotationComponent : public SimpleBehaviorComponent, public virtual Core::TransformHolderComponent
 		{
 		public:
 			

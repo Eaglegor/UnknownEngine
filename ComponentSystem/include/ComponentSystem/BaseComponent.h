@@ -6,7 +6,7 @@ namespace UnknownEngine
 {
 	namespace Core
 	{
-		class BaseComponent: public Core::IComponent
+		class BaseComponent: public virtual Core::IComponent
 		{
 			public:
 				
