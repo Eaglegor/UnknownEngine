@@ -9,6 +9,7 @@ namespace UnknownEngine
 	{
 
 		class IEntity;
+		class EngineSpecificComponentData;
 
 		class IComponent
 		{
@@ -22,6 +23,9 @@ namespace UnknownEngine
 
 				virtual const char* getName() const = 0;
 
+				virtual void setEngineSpecificData(EngineSpecificComponentData* data);
+				virtual EngineSpecificComponentData* getEngineSpecificData();
+				
 				virtual ~IComponent () {};
 
 		};
