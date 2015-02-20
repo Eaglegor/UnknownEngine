@@ -6,7 +6,7 @@ namespace UnknownEngine
 {
 	namespace Core
 	{
-		class IMovableComponent : public IComponent
+		class IMovableComponent
 		{
 			public:
 				constexpr static const char* getTypeName()

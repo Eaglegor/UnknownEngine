@@ -20,12 +20,12 @@ namespace UnknownEngine
 					return name.c_str();
 				}
 
-				virtual void setEngineSpecificData(EngineSpecificComponentData* data)
+				virtual void setEngineSpecificData(EngineSpecificComponentData* data) override
 				{
 					this->engine_specific_data = data;
 				}
 				
-				virtual EngineSpecificComponentData* getEngineSpecificData()
+				virtual EngineSpecificComponentData* getEngineSpecificData() override
 				{
 					return engine_specific_data;
 				}

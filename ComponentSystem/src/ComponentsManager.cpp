@@ -112,6 +112,9 @@ namespace UnknownEngine
 					{
 						LOG_ERROR (logger, "Component '" + desc.name + "' was NOT created" );
 					}
+
+					components.insert(std::make_pair(std::string(component->getName()), component));
+
 					return component;
 				}
 			}
@@ -150,7 +153,9 @@ namespace UnknownEngine
 			}
 			
 			LOG_DEBUG (logger, "Found factory: '" + factory->getName() );
-				
+
+			components.erase(component->getName());
+
 			component->shutdown();
 
 			LOG_INFO(logger, "Unregistering messaging rules for component " + std::string(component->getName()));
@@ -221,6 +226,17 @@ namespace UnknownEngine
 			
 		}
 		
+		Core::IComponent* Core::ComponentsManager::findComponent(const char* name)
+		{
+			auto iter = components.find(name);
+			if (iter != components.end())
+			{
+				return iter->second;
+			}
+			LOG_DEBUG(logger, "Component not found: " + name);
+			return nullptr;
+		}
+
 	}
 }
 

@@ -6,7 +6,7 @@ namespace UnknownEngine
 {
 	namespace Core
 	{
-		class ITransformHolderComponent : public IComponent
+		class ITransformHolderComponent
 		{
 			public:
 				constexpr static const char* getTypeName()
@@ -18,6 +18,6 @@ namespace UnknownEngine
 				virtual Math::Quaternion getOrientation() = 0;
 				virtual Math::Transform getTransform() = 0;
 			
-		}
+		};
 	}
 }

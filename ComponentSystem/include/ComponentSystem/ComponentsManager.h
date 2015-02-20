@@ -58,6 +58,9 @@ namespace UnknownEngine
 				COMPONENTSYSTEM_EXPORT
 				virtual void releaseComponent(IComponent* component);
 				
+				COMPONENTSYSTEM_EXPORT
+				virtual IComponent* findComponent(const char* name);
+
 			private:
 				friend class Entity;
 				
@@ -69,6 +72,8 @@ namespace UnknownEngine
 
 				std::unordered_map<std::string, IComponentFactory*> component_factories;
 				std::unordered_map<std::string, IEntity*> entities;
+
+				std::unordered_map<std::string, IComponent*> components;
 			
 				std::unique_ptr<Utils::NameGenerator> name_generator;
 				ILogger* logger;
