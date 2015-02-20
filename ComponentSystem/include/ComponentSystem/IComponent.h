@@ -23,8 +23,8 @@ namespace UnknownEngine
 
 				virtual const char* getName() const = 0;
 
-				virtual void setEngineSpecificData(EngineSpecificComponentData* data);
-				virtual EngineSpecificComponentData* getEngineSpecificData();
+				virtual void setEngineSpecificData(EngineSpecificComponentData* data) = 0;
+				virtual EngineSpecificComponentData* getEngineSpecificData() = 0;
 				
 				virtual ~IComponent () {};
 

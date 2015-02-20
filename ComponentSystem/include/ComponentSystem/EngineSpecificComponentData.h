@@ -6,6 +6,8 @@ namespace UnknownEngine
 	{
 		class EngineSpecificComponentData
 		{
+		public:
+			virtual ~EngineSpecificComponentData(){}
 		};
 	}
 }

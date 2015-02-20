@@ -5,6 +5,7 @@
 #include <ComponentSystem/ComponentDesc.h>
 #include <ComponentSystem/IComponent.h>
 #include <ComponentSystem/Entity.h>
+#include <ComponentSystem/EngineSpecificComponentDataImpl.h>
 #include <MessageSystem/MessageDispatcher.h>
 
 #include <Logging.h>
@@ -18,6 +19,23 @@ namespace UnknownEngine
 
 		template<>
 		ComponentsManager* Singleton<ComponentsManager>::instance = nullptr;
+
+		EngineSpecificComponentDataImpl* getComponentEngineSpecificData(IComponent* component)
+		{
+			EngineSpecificComponentData* engine_data = component->getEngineSpecificData();
+			if (engine_data != nullptr) return static_cast<EngineSpecificComponentDataImpl*>(engine_data);
+			else return nullptr;
+		}
+
+		EngineSpecificComponentDataImpl* createComponentEngineSpecificData()
+		{
+			return new EngineSpecificComponentDataImpl();
+		}
+
+		void destroyComponentEngineSpecificData(EngineSpecificComponentData* engine_data)
+		{
+			delete engine_data;
+		}
 
 		ComponentsManager::ComponentsManager() :
 			name_generator(new Utils::GuidNameGenerator()),
@@ -83,12 +101,12 @@ namespace UnknownEngine
 						MessageDispatcher::getSingleton()->setSenderRules(desc.name.c_str(), desc.sender_rules);
 						LOG_INFO(logger, "Messaging rules for component " + desc.name + " registered");
 						
+						EngineSpecificComponentDataImpl* engine_data = createComponentEngineSpecificData();
+						engine_data->factory_name = factory.first;
+						engine_data->ref_counter = 1;
+						component->setEngineSpecificData(engine_data);
+
 						component->init(parent);
-						
-						ComponentWrapper wrapper;
-						wrapper.component = component;
-						wrapper.factory_name = factory.first;
-						components.insert( std::make_pair(desc.name, wrapper) );
 					}
 					else
 					{
@@ -101,32 +119,49 @@ namespace UnknownEngine
 			return nullptr;
 		}
 
-		void ComponentsManager::removeComponent ( std::unordered_map<std::string, ComponentWrapper>::iterator iter )
+		void ComponentsManager::removeComponent ( IComponent* component )
 		{
-			IComponent *component = iter->second.component;
-			LOG_INFO(logger, "Destroying component '" + std::string(component->getName()) + "'" );
-			
-			auto factory_iter = component_factories.find(iter->second.factory_name);
-			
-			if(factory_iter != component_factories.end())
-			{
-				LOG_DEBUG (logger, "Found factory: '" + factory_iter->second->getName() );
-				
-				component->shutdown();
-				
-				LOG_INFO(logger, "Unregistering messaging rules for component " + std::string(component->getName()));
-				MessageDispatcher::getSingleton()->clearListenerRules(component->getName());
-				MessageDispatcher::getSingleton()->clearSenderRules(component->getName());
-				LOG_INFO(logger, "Messaging rules for component " + std::string(component->getName()) + " unregistered");
+			LOG_INFO(logger, "Destroying component '" + std::string(component->getName()) + "'");
 
-				
-				
-				factory_iter->second->destroyObject ( component );
-			
-				components.erase(iter);
-				return;
+			EngineSpecificComponentDataImpl* engine_data = getComponentEngineSpecificData(component);
+
+			IComponentFactory* factory;
+			if (engine_data != nullptr)
+			{
+				LOG_DEBUG(logger, "Found engine specific data - using factory according to it");
+				factory = component_factories.at(engine_data->factory_name);
 			}
-			LOG_ERROR (logger, "No suitable factory found to destroy component '" + std::string(component->getName()) + "'" );
+			else
+			{
+				LOG_WARNING(logger, "Not Found engine specific data - trying to find appropriate factory to destroy component");
+				auto iter = std::find_if(component_factories.begin(), component_factories.end(), [&component](const std::pair<std::string, IComponentFactory*> &entry){
+					if (entry.second->supportsType(component->getType())) return true;
+					else return false;
+				});
+				if (iter != component_factories.end())
+				{
+					factory = iter->second;
+				}
+				else
+				{
+					LOG_ERROR(logger, "No suitable factory found to destroy component '" + std::string(component->getName()) + "'");
+					return;
+				}
+			}
+			
+			LOG_DEBUG (logger, "Found factory: '" + factory->getName() );
+				
+			component->shutdown();
+
+			LOG_INFO(logger, "Unregistering messaging rules for component " + std::string(component->getName()));
+			MessageDispatcher::getSingleton()->clearListenerRules(component->getName());
+			MessageDispatcher::getSingleton()->clearSenderRules(component->getName());
+			LOG_INFO(logger, "Messaging rules for component " + std::string(component->getName()) + " unregistered");
+
+			factory->destroyObject ( component );
+			
+			if (engine_data != nullptr) destroyComponentEngineSpecificData(engine_data);
+
 		}
 
 		void ComponentsManager::removeEntity ( IEntity* entity )
@@ -155,37 +190,35 @@ namespace UnknownEngine
 		{
 			return name_generator.get();
 		}
-		
-		Core::IComponent* Core::ComponentsManager::findComponent ( const char* name )
-		{
-			auto iter = components.find(name);
-			if(iter == components.end()) return nullptr;
-			return iter->second.component;
-		}
 
 		void Core::ComponentsManager::reserveComponent ( Core::IComponent* component )
 		{
-			auto iter = components.find(component->getName());
-			if(iter == components.end())
+			EngineSpecificComponentDataImpl* engine_data = getComponentEngineSpecificData(component);
+			if (engine_data == nullptr)
 			{
-				LOG_ERROR(logger, "Can't reserve unknown component " + component->getName());
+				LOG_ERROR(logger, "No engine specific data found in component " + component->getName() + ". Can't reserve such component, so be careful as it may be destroyed while in use.");
 				return;
 			}
-			++iter->second.ref_counter;
+			++engine_data->ref_counter;
 		}
+
 
 		void Core::ComponentsManager::releaseComponent ( Core::IComponent* component )
 		{
-			auto iter = components.find(component->getName());
-			if(iter == components.end())
+			EngineSpecificComponentDataImpl* engine_data = getComponentEngineSpecificData(component);
+			if (engine_data == nullptr)
 			{
-				LOG_ERROR(logger, "Can't release unknown component " + component->getName());
-				return;
+				LOG_WARNING(logger, "No engine specific data found in component " + component->getName() + ". Reference counting isn't working - so destroying component immediately.");
+				removeComponent(component);
 			}
-			if(--iter->second.ref_counter == 0)
+			else
 			{
-				removeComponent(iter);
+				if (--engine_data->ref_counter == 0)
+				{
+					removeComponent(component);
+				}
 			}
+			
 		}
 		
 	}

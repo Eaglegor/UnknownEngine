@@ -51,10 +51,7 @@ namespace UnknownEngine
 
 				COMPONENTSYSTEM_EXPORT
 				virtual Utils::NameGenerator* getNameGenerator();
-				
-				COMPONENTSYSTEM_EXPORT
-				virtual IComponent* findComponent(const char* name);
-				
+
 				COMPONENTSYSTEM_EXPORT
 				virtual void reserveComponent(IComponent* component);
 				
@@ -63,24 +60,16 @@ namespace UnknownEngine
 				
 			private:
 				friend class Entity;
-
-				struct ComponentWrapper
-				{
-					IComponent* component;
-					std::string factory_name;
-					size_t ref_counter = 1;
-				};
 				
 				COMPONENTSYSTEM_EXPORT
 				virtual IComponent* createComponent ( IEntity* parent, const ComponentDesc &desc ) ;
 
 				COMPONENTSYSTEM_EXPORT
-				virtual void removeComponent ( std::unordered_map<std::string, ComponentWrapper>::iterator iter );
+				virtual void removeComponent ( IComponent* component );
 
 				std::unordered_map<std::string, IComponentFactory*> component_factories;
 				std::unordered_map<std::string, IEntity*> entities;
-				std::unordered_map<std::string, ComponentWrapper> components;
-				
+			
 				std::unique_ptr<Utils::NameGenerator> name_generator;
 				ILogger* logger;
 		};
