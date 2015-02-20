@@ -42,17 +42,31 @@ namespace UnknownEngine
 		{
 			current_angle += 1.0 * dt;
 		
-			Core::TransformChangedMessage message;
-			message.new_transform.setPosition(desc.initial_transform.getPosition());
-			message.new_transform.setOrientation( Math::Quaternion(Math::AngleAxis(current_angle, Math::Vector3(0,1,0))) );
-			
-			transform_changed_message_sender.sendMessage(message);
+			current_transform.setPosition(desc.initial_transform.getPosition());
+			current_transform.setOrientation( Math::Quaternion(Math::AngleAxis(current_angle, Math::Vector3(0,1,0))) );
 		}
 		
 		void SimpleRotationComponent::shutdown()
 		{
 
 		}
+
+		Math::Vector3 SimpleRotationComponent::getPosition()
+		{
+			return current_transform.getPosition();
+		}
+
+		Math::Quaternion SimpleRotationComponent::getOrientation()
+		{
+			return current_transform.getOrientation();
+		}
+
+		Math::Transform SimpleRotationComponent::getTransform()
+		{
+			return current_transform;
+		}
+
+
 	
 	}
 }
