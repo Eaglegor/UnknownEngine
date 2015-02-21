@@ -87,23 +87,22 @@ namespace UnknownEngine
 			if ( state == STARTED ) throw InvalidEngineStateException ( "Shutting down running engine is not allowed" );
 			if ( state == CREATED ) throw InvalidEngineStateException ( "Shutting down uninitialized engine is not allowed" );
 
-			context.getComponentsManager()->removeEntity ( engine_entity );
-			context.getComponentsManager()->removeComponentFactory ( main_loop_factory.get() );
-			main_loop_factory.reset();
-
 			LOG_INFO ( logger, "Destroying remaining entities" );
 
 			this->context.components_manager->clearEntities();
 
 			this->context.resource_manager->waitUntilAllDataProvidersReleased();
-			this->context.components_manager->waitUntilAllComponentsReleased();
 
 			LOG_INFO ( logger, "Destroying plugins manager" );
 			PluginsManager::destroyInstance();
 
+			this->context.components_manager->waitUntilAllComponentsReleased();
+			context.getComponentsManager()->removeComponentFactory ( main_loop_factory.get() );
+			main_loop_factory.reset();
+			
 			LOG_INFO ( logger, "Destroying components manager" );
 			ComponentsManager::destroyInstance();
-
+			
 			LOG_INFO ( logger, "Destroying messaging policies dictionary" );
 			MessagingPoliciesManager::destroyInstance();
 
