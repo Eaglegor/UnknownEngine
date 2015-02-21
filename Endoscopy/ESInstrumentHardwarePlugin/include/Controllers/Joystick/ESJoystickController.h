@@ -7,18 +7,20 @@
 #include <Controllers/Joystick/ESJoystickControllerDesc.h>
 #include <mutex>
 
+#include <ComponentInterfaces/Engine/FrameUpdaterComponent.h>
+#include <ComponentInterfaces/Engine/UpdateFrameListenerComponent.h>
+#include <ComponentSystem/ComponentInterfacePtr.h>
+
 namespace UnknownEngine
 {
 	namespace Core
 	{
-
-		struct UpdateFrameMessage;
 		class BaseMessageListener;
 	}
 
 	namespace Endoscopy
 	{
-		class ESJoystickController : public IESController
+		class ESJoystickController : public IESController, public ComponentInterfaces::UpdateFrameListenerComponent
 		{
 		public:
 			ESJoystickController(const char* name, const ESJoystickControllerDesc &desc);
@@ -40,7 +42,8 @@ namespace UnknownEngine
 			void onDAxisPulled();
 			void onBranchedMovedTogether();
 			void onBranchedMovedApart();
-			void onUpdateFrame(const Core::UpdateFrameMessage &msg);
+			
+			virtual void onUpdateFrame ( Math::Scalar dt ) override;
 			
 			ESJoystickControllerDesc desc;
 
@@ -65,6 +68,8 @@ namespace UnknownEngine
 			
 			typedef std::mutex LockPrimitive;
 			LockPrimitive mutex;
+			
+			Core::ComponentInterfacePtr<ComponentInterfaces::FrameUpdaterComponent> update_frame_provider;
 			
 		};
 	}

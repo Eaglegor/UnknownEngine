@@ -19,7 +19,6 @@ namespace UnknownEngine
 		struct SubsystemDesc;
 		class EngineContext;
 		class BaseMessageListener;
-		struct UpdateFrameMessage;
 		class ILogger;
 	}
 

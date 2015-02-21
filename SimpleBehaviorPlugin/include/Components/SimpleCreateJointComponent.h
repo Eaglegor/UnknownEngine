@@ -15,7 +15,7 @@ namespace UnknownEngine
 	{
 		static const Core::ComponentType SIMPLE_CREATE_JOINT_COMPONENT_TYPE = "Behavior.SimpleCreateJoint";
 		
-		class SimpleCreateJointComponent : public SimpleBehaviorComponent
+		class SimpleCreateJointComponent : public Core::BaseComponent
 		{
 		public:
 			SimpleCreateJointComponent ( const std::string& name, const SimpleCreateJointComponentDesc &desc, Core::EngineContext* engine_context );
@@ -24,8 +24,7 @@ namespace UnknownEngine
 			virtual Core::ComponentType getType() const override;
 			virtual void init ( const Core::IEntity* parent_entity ) override;
 			virtual void shutdown() override;
-			virtual void act ( Math::Scalar dt ) override;
-
+			
 		private:
 			void switchJoint();
 			void createJoint();

@@ -16,10 +16,11 @@ namespace UnknownEngine
 	namespace GUI
 	{
 
-		SDLWindowManager::SDLWindowManager ( const std::string& name, Core::EngineContext* engine_context, Core::ILogger* logger ):
+		SDLWindowManager::SDLWindowManager ( const std::string& name, Core::EngineContext* engine_context, Core::ILogger* logger, Core::IComponent* update_frame_provider ):
 		engine_context(engine_context),
 		logger(logger),
-		name(name)
+		name(name),
+		update_frame_provider(update_frame_provider)
 		{
 			initSDL();
 		}
@@ -29,7 +30,7 @@ namespace UnknownEngine
 			shutdownSDL();
 		}
 		
-		void SDLWindowManager::onUpdateFrame(const Core::UpdateFrameMessage& msg)
+		void SDLWindowManager::onUpdateFrame( Math::Scalar dt )
 		{
 			window_events_listener->processEvents();
 		}
@@ -101,12 +102,12 @@ namespace UnknownEngine
 			window_events_listener.reset ( new WindowEventsProcessor(name, this, engine_context) );
 			
 			listener.reset(new Core::BaseMessageListener(name));
-			{
+			/*{
 				typedef Core::UpdateFrameMessage MessageType;
 				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
 				
 				listener->createMessageBuffer<MessageType, BufferType>(this, &SDLWindowManager::onUpdateFrame);
-			}
+			}*/
 
 			{
 				typedef Graphics::GetWindowHandleMessage MessageType;
@@ -115,11 +116,13 @@ namespace UnknownEngine
 				listener->createMessageBuffer<MessageType, BufferType>(this, &SDLWindowManager::getWindowHandle);
 			}
 			
+			if(update_frame_provider) update_frame_provider->addListener(this);
 			listener->registerAtDispatcher();
 		}
 
 		void SDLWindowManager::shutdown()
 		{
+			if(update_frame_provider) update_frame_provider->removeListener(this);
 			listener->unregisterAtDispatcher();
 			
 			window_events_listener.reset();

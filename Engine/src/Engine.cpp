@@ -96,6 +96,7 @@ namespace UnknownEngine
 			this->context.components_manager->clearEntities();
 
 			this->context.resource_manager->waitUntilAllDataProvidersReleased();
+			this->context.components_manager->waitUntilAllComponentsReleased();
 
 			LOG_INFO ( logger, "Destroying plugins manager" );
 			PluginsManager::destroyInstance();
@@ -204,8 +205,8 @@ namespace UnknownEngine
 			{
 				MessageSenderRules sender_rules;
 				MessageSenderRule msg;
-				msg.message_type_name = UpdateFrameMessage::getTypeName();
-				sender_rules.push_back ( msg );
+				//msg.message_type_name = UpdateFrameMessage::getTypeName();
+				//sender_rules.push_back ( msg );
 
 				msg.message_type_name = StopEngineActionMessage::getTypeName();
 				sender_rules.push_back ( msg );

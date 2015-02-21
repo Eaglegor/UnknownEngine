@@ -54,7 +54,7 @@ namespace UnknownEngine
 		{
 			MouseLookComponentDesc component_desc = desc.descriptor.apply_visitor(mouse_look_descriptor_getter);
 			MouseLookComponent* component = new MouseLookComponent(desc.name, engine_context, component_desc);
-			behaviors_performer->addSimpleBehaviorComponent(component);
+			//behaviors_performer->addSimpleBehaviorComponent(component);
 			return component;
 		}
 		
@@ -62,7 +62,7 @@ namespace UnknownEngine
 		{
 			SimpleCreateJointComponentDesc component_desc = desc.descriptor.apply_visitor(simple_create_joint_descriptor_getter);
 			SimpleCreateJointComponent* component = new SimpleCreateJointComponent(desc.name, component_desc, engine_context);
-			behaviors_performer->addSimpleBehaviorComponent(component);
+			//behaviors_performer->addSimpleBehaviorComponent(component);
 			return component;
 		}
 		

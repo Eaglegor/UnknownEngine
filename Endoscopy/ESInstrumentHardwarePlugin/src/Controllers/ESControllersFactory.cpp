@@ -35,7 +35,9 @@ namespace UnknownEngine
 		
 		IESController* ESControllersFactory::createJoystickController(const char* name)
 		{
-			return new ESJoystickController(name, ESJoystickControllerDesc());
+			ESJoystickControllerDesc desc;
+			desc.update_frame_provider = Core::ComponentsManager::getSingleton()->findComponent("Engine.MainLoop");
+			return new ESJoystickController(name, desc);
 		}
 		
 		void ESControllersFactory::destroyJoystickController ( IESController* controller )

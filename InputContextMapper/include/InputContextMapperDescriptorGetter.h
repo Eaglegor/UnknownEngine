@@ -3,6 +3,7 @@
 #include <CommonParsers/PropertiesParser.h>
 #include <DescriptorContainer.h>
 #include <InputContextMapperDescriptor.h>
+#include <ComponentSystem/ComponentsManager.h>
 
 namespace UnknownEngine
 {
@@ -31,6 +32,9 @@ namespace UnknownEngine
 						{"log_level", PropertiesParser::OptionalValue<Core::LogSeverity> ( desc.log_level ) },
 						{"action_slots_config_file", PropertiesParser::OptionalValue<std::string> ( desc.action_slots_config_file ) },
 						{"input_layout_config_file", PropertiesParser::OptionalValue<std::string> ( desc.input_layout_config_file ) },
+						{"update_frame_provider_name", PropertiesParser::RequiredValue<std::string>([&desc](const std::string& value){
+							desc.update_frame_provider = Core::ComponentsManager::getSingleton()->findComponent(value.c_str());
+						})}
 					}
 					);
 

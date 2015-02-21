@@ -16,7 +16,8 @@ namespace UnknownEngine
 		name(name),
 		desc(desc),
 		axis_sender(name),
-		branches_sender(name)
+		branches_sender(name),
+		update_frame_provider(desc.update_frame_provider)
 		{}
 
 		ESJoystickController::~ESJoystickController()
@@ -75,12 +76,14 @@ namespace UnknownEngine
 			
 			listener.reset(new Core::BaseMessageListener(name.c_str()));
 			
-			{
+			if(update_frame_provider) update_frame_provider->addListener(this);
+			
+			/*{
 				typedef Core::UpdateFrameMessage MessageType;
 				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
 				
 				listener->createMessageBuffer<MessageType, BufferType>(this, &ESJoystickController::onUpdateFrame);
-			}
+			}*/
 			
 			listener->registerAtDispatcher();
 			
@@ -88,6 +91,8 @@ namespace UnknownEngine
 
 		void ESJoystickController::shutdown()
 		{
+			if(update_frame_provider) update_frame_provider->removeListener(this);
+			
 			listener->unregisterAtDispatcher();
 			
 			listener.reset();
@@ -152,26 +157,26 @@ namespace UnknownEngine
 			else if(value < 0) return -1;
 			return 0;
 		}
-		
-		void ESJoystickController::onUpdateFrame(const Core::UpdateFrameMessage &msg)
+
+		void ESJoystickController::onUpdateFrame ( Math::Scalar dt )
 		{
 			std::lock_guard<LockPrimitive> guard(mutex);
 			
-			Math::Scalar delta = current_x_delta * desc.x_axis_speed * msg.dt;
+			Math::Scalar delta = current_x_delta * desc.x_axis_speed * dt;
 			if(std::fabs(delta) > Math::ZERO_PRECISION)
 			{
 				current_x_axis += delta;
 			}
 			
-			delta = current_y_delta * desc.y_axis_speed * msg.dt;
+			delta = current_y_delta * desc.y_axis_speed * dt;
 			if(std::fabs(delta) > Math::ZERO_PRECISION)
 			{
 				current_y_axis -= delta;
 			}
 			
-			current_z_axis += sign(current_z_delta) * desc.z_axis_speed * msg.dt;
-			current_d_axis += sign(current_d_delta) * desc.d_axis_speed * msg.dt;
-			current_branches_angle += sign(current_branches_delta) * desc.branches_speed * msg.dt;
+			current_z_axis += sign(current_z_delta) * desc.z_axis_speed * dt;
+			current_d_axis += sign(current_d_delta) * desc.d_axis_speed * dt;
+			current_branches_angle += sign(current_branches_delta) * desc.branches_speed * dt;
 			
 			if(current_x_axis < desc.x_low_limit) current_x_axis = desc.x_low_limit;
 			if(current_x_axis > desc.x_high_limit) current_x_axis = desc.x_high_limit;
@@ -201,7 +206,6 @@ namespace UnknownEngine
 
 			current_z_delta = 0;
 			current_d_delta = 0;
-			
 		}
 		
 		const char* ESJoystickController::getName()

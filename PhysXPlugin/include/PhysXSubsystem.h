@@ -6,6 +6,10 @@
 #include <unordered_map>
 #include <Descriptors/PhysXSubsystemDesc.h>
 
+#include <ComponentInterfaces/Engine/FrameUpdaterComponent.h>
+#include <ComponentInterfaces/Engine/UpdateFrameListenerComponent.h>
+#include <ComponentSystem/ComponentInterfacePtr.h>
+
 namespace physx
 {
 	class PxFoundation;
@@ -23,7 +27,6 @@ namespace UnknownEngine
 	{
 		class EngineContext;
 		class BaseMessageListener;
-		struct UpdateFrameMessage;
 		class ILogger;
 	}
 
@@ -34,7 +37,7 @@ namespace UnknownEngine
 		
 		class PxRigidBodyComponent;
 		
-		class PhysXSubsystem
+		class PhysXSubsystem : public ComponentInterfaces::UpdateFrameListenerComponent
 		{
 		public:
 			UNKNOWNENGINE_SIMPLE_EXCEPTION(PhysXInitFailed);
@@ -52,7 +55,7 @@ namespace UnknownEngine
 			void init();
 			void shutdown();
 			
-			void onUpdateFrame(const Core::UpdateFrameMessage &msg);
+			virtual void onUpdateFrame(Math::Scalar dt) override;
 			
 			void addRigidBodyComponent(const std::string& name, PxRigidBodyComponent* rigid_body_component);
 			void removeRigidBodyComponent(const std::string& name);
@@ -78,6 +81,8 @@ namespace UnknownEngine
 			PhysXSubsystemDesc desc;
 			
 			std::unique_ptr<PhysXErrorCallback> physx_logger;
+			
+			Core::ComponentInterfacePtr<ComponentInterfaces::FrameUpdaterComponent> update_frame_provider;
 			
 		};
 	}

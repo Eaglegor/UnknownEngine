@@ -6,6 +6,7 @@
 
 #include <CommonParsers/LexicalCastForBoolAlpha.h>
 #include <CommonParsers/PropertiesParser.h>
+#include <ComponentSystem/ComponentsManager.h>
 
 namespace UnknownEngine
 {
@@ -40,7 +41,11 @@ namespace UnknownEngine
 						(desc.render_window_descriptor)
 					},
 					{"separate_rendering_thread", PropertiesParser::OptionalValue<bool>(desc.separate_rendering_thread) },
-					{"show_config_dialog", PropertiesParser::OptionalValue<bool>(desc.show_config_dialog) }
+					{"show_config_dialog", PropertiesParser::OptionalValue<bool>(desc.show_config_dialog) },
+					{"update_frame_provider_name", PropertiesParser::OptionalValue<std::string>([&desc](const std::string& value){
+						desc.update_frame_provider = Core::ComponentsManager::getSingleton()->findComponent(value.c_str());
+					}
+					)}
 					
 				}
 			);

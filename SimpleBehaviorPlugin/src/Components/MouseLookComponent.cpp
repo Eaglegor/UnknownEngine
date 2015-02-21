@@ -14,7 +14,7 @@ namespace UnknownEngine
 	namespace Behavior 
 	{
 		MouseLookComponent::MouseLookComponent ( const std::string& name, UnknownEngine::Core::EngineContext* engine_context, const MouseLookComponentDesc &desc ) : 
-		SimpleBehaviorComponent ( name ),
+		Core::BaseComponent ( name.c_str() ),
 		desc(desc),
 		transform_changed_message_sender (name),
 		engine_context(engine_context),
@@ -30,7 +30,8 @@ namespace UnknownEngine
 		moving_y_neg(false),
 		moving_z_pos(false),
 		moving_z_neg(false),
-		needs_update_quaternion(false)
+		needs_update_quaternion(false),
+		update_frame_provider(desc.update_frame_provider)
 		{
 		}
 
@@ -85,9 +86,11 @@ namespace UnknownEngine
 				range_action_message_sender.sendMessage(msg);
 			}
 			
+			if(update_frame_provider) update_frame_provider->addListener(this);
+			
 		}
 
-		void MouseLookComponent::act( Math::Scalar dt )
+		void MouseLookComponent::onUpdateFrame( Math::Scalar dt )
 		{
 			
 			Math::Vector3 position_change(0,0,0);
@@ -120,7 +123,7 @@ namespace UnknownEngine
 		
 		void MouseLookComponent::shutdown()
 		{
-			
+			if(update_frame_provider) update_frame_provider->removeListener(this);
 		}
 	
 		void MouseLookComponent::moveBackward()

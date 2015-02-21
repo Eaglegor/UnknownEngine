@@ -12,6 +12,10 @@
 #include <EventHandlers/MouseEventHandler.h>
 #include "EventHandlers/JoystickEventHandler.h"
 
+#include <ComponentInterfaces/Engine/FrameUpdaterComponent.h>
+#include <ComponentInterfaces/Engine/UpdateFrameListenerComponent.h>
+#include <ComponentSystem/ComponentInterfacePtr.h>
+
 namespace UnknownEngine
 {
 
@@ -19,7 +23,6 @@ namespace UnknownEngine
     {
         class EngineContext;
         class BaseMessageListener;
-		struct UpdateFrameMessage;
 		class ILogger;
     }
 
@@ -36,7 +39,7 @@ namespace UnknownEngine
 		struct MouseMovedMessage;
 		struct MouseButtonStateChangedMessage;
 		
-        class InputContextMapper
+        class InputContextMapper : public ComponentInterfaces::UpdateFrameListenerComponent
         {
         public:
 			
@@ -49,7 +52,8 @@ namespace UnknownEngine
 			InputContext* createContext(const std::string &name);
 			InputContext* findContext(const std::string& name);
 			
-            void update(const Core::UpdateFrameMessage &msg);
+			virtual void onUpdateFrame ( Math::Scalar dt ) override;
+			
             void onKeyPressed(const KeyStateChangedMessage &msg);
 			
 			void onMouseButtonClick(const MouseButtonStateChangedMessage& msg);
@@ -77,6 +81,8 @@ namespace UnknownEngine
 			std::unordered_map<std::string, InputContext> contexts;
 			
 			Core::ILogger* logger;
+			
+			Core::ComponentInterfacePtr<ComponentInterfaces::FrameUpdaterComponent> update_frame_provider;
 			
         };
     }

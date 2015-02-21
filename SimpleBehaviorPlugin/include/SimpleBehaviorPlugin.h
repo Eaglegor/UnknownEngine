@@ -19,7 +19,7 @@ namespace UnknownEngine
 		struct SubsystemDesc;
 		class EngineContext;
 		class BaseMessageListener;
-		struct UpdateFrameMessage;
+
 		template<class MessageClass >
 		class MessageSender;
 		struct StopEngineActionMessage;
@@ -49,7 +49,6 @@ namespace UnknownEngine
 				virtual bool shutdown()  override;
 				virtual bool uninstall()  override;
 				
-				void onUpdateFrame(const Core::UpdateFrameMessage& msg);
 				void stopEngine();
 
 			private:

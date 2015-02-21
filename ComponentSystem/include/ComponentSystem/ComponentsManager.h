@@ -6,6 +6,7 @@
 #include <ComponentSystem_export.h>
 #include <Singleton.h>
 #include <ComponentSystem/IComponentFactory_fwd.h>
+#include <condition_variable>
 
 namespace UnknownEngine
 {
@@ -60,6 +61,9 @@ namespace UnknownEngine
 				
 				COMPONENTSYSTEM_EXPORT
 				virtual IComponent* findComponent(const char* name);
+				
+				COMPONENTSYSTEM_EXPORT
+				virtual void waitUntilAllComponentsReleased();
 
 			private:
 				friend class Entity;
@@ -77,6 +81,11 @@ namespace UnknownEngine
 			
 				std::unique_ptr<Utils::NameGenerator> name_generator;
 				ILogger* logger;
+				
+				typedef std::mutex LockPrimitive;
+				
+				LockPrimitive lock;
+				std::condition_variable cv;
 		};
 
 #ifdef _MSC_VER

@@ -82,12 +82,12 @@ namespace UnknownEngine
 			engine_context->getComponentsManager()->addComponentFactory(px_joint_components_factory.get());
 
 			listener.reset(new Core::BaseMessageListener(getName()));
-			{
-				typedef Core::UpdateFrameMessage MessageType;
-				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
+			//{
+				//typedef Core::UpdateFrameMessage MessageType;
+				//typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
 				
-				listener->createMessageBuffer<MessageType, BufferType>(physx_subsystem.get(), &PhysXSubsystem::onUpdateFrame);
-			}
+				//listener->createMessageBuffer<MessageType, BufferType>(physx_subsystem.get(), &PhysXSubsystem::onUpdateFrame);
+			//}
 			
 			listener->registerAtDispatcher();
 			

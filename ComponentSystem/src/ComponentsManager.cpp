@@ -156,6 +156,8 @@ namespace UnknownEngine
 
 			components.erase(component->getName());
 
+			cv.notify_all();
+			
 			component->shutdown();
 
 			LOG_INFO(logger, "Unregistering messaging rules for component " + std::string(component->getName()));
@@ -237,6 +239,27 @@ namespace UnknownEngine
 			return nullptr;
 		}
 
+		void ComponentsManager::waitUntilAllComponentsReleased()
+		{
+			std::unique_lock<LockPrimitive> guard(lock);
+			const std::chrono::seconds RELEASE_WARNING_TIMEOUT(10);
+			while(!components.empty())
+			{
+				LOG_INFO(logger, "Waiting until all components are destroyed. Remaining components: " + std::to_string(components.size()));
+				std::cv_status status = cv.wait_for(guard, RELEASE_WARNING_TIMEOUT);
+				if(status == std::cv_status::timeout)
+				{
+					LOG_WARNING(logger, "Still waiting for destruction of components. Please check if some component hasn't released it's dependencies.");
+					LOG_WARNING(logger, "Unreleased components list:");
+					for(auto &iter : components)
+					{
+						EngineSpecificComponentDataImpl* engine_data = getComponentEngineSpecificData(iter.second);
+						LOG_WARNING(logger, iter.second->getName() + (engine_data != nullptr ? " (" + std::to_string(engine_data->ref_counter) + ")" : "" ) );
+					}
+				}
+			}
+		}
+		
 	}
 }
 

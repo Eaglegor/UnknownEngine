@@ -53,7 +53,8 @@ namespace UnknownEngine
 		{
 			LOG_INFO(logger, "Initializing SDL plugin");
 
-			window_manager.reset ( new SDLWindowManager(std::string(getName()), engine_context, logger) );
+			Core::IComponent* update_frame_provider = Core::ComponentsManager::getSingleton()->findComponent("Engine.MainLoop");
+			window_manager.reset ( new SDLWindowManager(std::string(getName()), engine_context, logger, update_frame_provider) );
 			window_manager->init();
 
 			window_manager->createWindow( wm_desc.window_desc );

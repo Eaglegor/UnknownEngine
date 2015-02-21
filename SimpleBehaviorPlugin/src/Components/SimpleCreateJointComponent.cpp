@@ -14,7 +14,7 @@ namespace UnknownEngine
 	{
 
 		SimpleCreateJointComponent::SimpleCreateJointComponent ( const std::string& name, const SimpleCreateJointComponentDesc& desc, Core::EngineContext* engine_context ) : 
-		SimpleBehaviorComponent ( name ),
+		Core::BaseComponent ( name.c_str() ),
 		desc(desc),
 		engine_context(engine_context),
 		joint_entity(nullptr),
@@ -97,11 +97,5 @@ namespace UnknownEngine
 			}
 		}
 
-		
-		void SimpleCreateJointComponent::act ( Math::Scalar dt )
-		{
-		}
-
-		
 	}
 }

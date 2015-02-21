@@ -31,13 +31,13 @@ namespace UnknownEngine
 			px_gpu_dispatcher ( nullptr ),
 			px_cuda_context_manager ( nullptr ),
 			px_profile_zone_manager ( nullptr ),
-			desc(desc)
+			desc(desc),
+			update_frame_provider(desc.update_frame_provider)
 		{
 		}
 
 		void PhysXSubsystem::init()
 		{
-			
 			physx_logger.reset(new PhysXErrorCallback(logger));
 			
 			px_foundation = PxCreateFoundation ( PX_PHYSICS_VERSION, gDefaultAllocatorCallback, *physx_logger );
@@ -126,10 +126,14 @@ namespace UnknownEngine
 				}
 			}
 			
+			if(update_frame_provider) update_frame_provider->addListener(this);
+			
 		}
 
 		void PhysXSubsystem::shutdown()
 		{
+			if(update_frame_provider) update_frame_provider->removeListener(this);
+			
 			if ( px_cuda_context_manager ) px_cuda_context_manager->release();
 			if ( px_profile_zone_manager ) px_profile_zone_manager->release();
 			if ( px_scene ) px_scene->release();
@@ -148,11 +152,11 @@ namespace UnknownEngine
 			return px_scene;
 		}
 
-		void PhysXSubsystem::onUpdateFrame ( const Core::UpdateFrameMessage& msg )
+		void PhysXSubsystem::onUpdateFrame ( Math::Scalar dt )
 		{
-			if(px_scene && msg.dt > 0)
+			if(px_scene && dt > 0)
 			{
-				px_scene->simulate(msg.dt);
+				px_scene->simulate(dt);
 				px_scene->fetchResults(true);
 				
 				for(auto &iter : rigid_body_components)

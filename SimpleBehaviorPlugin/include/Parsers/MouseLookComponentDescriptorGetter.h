@@ -8,6 +8,7 @@
 #include <CommonParsers/PropertiesParser.h>
 #include <CommonParsers/Vector3Parser.h>
 #include <CommonParsers/QuaternionParser.h>
+#include <ComponentSystem/ComponentsManager.h>
 
 namespace UnknownEngine
 {
@@ -52,7 +53,11 @@ namespace UnknownEngine
 						{"yaw_action_name", PropertiesParser::OptionalValue<std::string>(desc.yaw_action_name)},
 						{"pitch_action_name", PropertiesParser::OptionalValue<std::string>(desc.pitch_action_name)},
 						{"linear_speed", PropertiesParser::OptionalValue<Math::Scalar>(desc.linear_speed)},
-						{"angular_speed", PropertiesParser::OptionalValue<Math::Scalar>(desc.angular_speed)}
+						{"angular_speed", PropertiesParser::OptionalValue<Math::Scalar>(desc.angular_speed)},
+						{"update_frame_provider_name", PropertiesParser::RequiredValue<std::string>([&desc](const std::string& value) {
+							desc.update_frame_provider = Core::ComponentsManager::getSingleton()->findComponent(value.c_str());
+						}
+						)}
 					}
 				);
 				

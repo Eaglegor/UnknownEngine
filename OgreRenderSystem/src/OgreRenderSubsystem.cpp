@@ -34,7 +34,8 @@ namespace UnknownEngine
 		OgreRenderSubsystem::OgreRenderSubsystem ( const OgreRenderSubsystemDescriptor& desc, Core::ILogger* logger, Core::EngineContext* engine_context ):
 		logger ( logger ),
 		engine_context(engine_context),
-		desc(desc)
+		desc(desc),
+		update_frame_provider(desc.update_frame_provider)
 		{
 		}
 
@@ -90,7 +91,7 @@ namespace UnknownEngine
 			delete ogre_log_manager;
 		}
 		
-		void OgreRenderSubsystem::onFrameUpdated ( const UnknownEngine::Core::UpdateFrameMessage& msg )
+		void OgreRenderSubsystem::onUpdateFrame ( Math::Scalar dt )
 		{
 			Ogre::WindowEventUtilities::messagePump();
 			if(frame_listener) frame_listener->update();
@@ -155,12 +156,12 @@ namespace UnknownEngine
 			{
 				initOgre(name);
 				
-				{
+				/*{
 					typedef Core::UpdateFrameMessage MessageType;
 					typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
 					
 					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreRenderSubsystem::onFrameUpdated);
-				}
+				}*/
 				
 				{
 					typedef Graphics::WindowResizedMessage MessageType;
@@ -176,6 +177,8 @@ namespace UnknownEngine
 					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreRenderSubsystem::onGetOgreRenderTarget);
 				}
 
+				if(update_frame_provider) update_frame_provider->addListener(this);
+				
 				if(listener) listener->registerAtDispatcher();
 				
 				{
@@ -231,6 +234,8 @@ namespace UnknownEngine
 
 			if ( desc.separate_rendering_thread )
 			{
+				if(update_frame_provider) update_frame_provider->removeListener(this);
+				
 				frame_listener->stopRendering();
 				LOG_INFO( logger, "Waiting for OGRE shutdown");
 				frame_listener->waitUntilFinished();

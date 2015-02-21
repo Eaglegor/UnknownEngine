@@ -8,6 +8,11 @@
 
 namespace UnknownEngine
 {
+	namespace Core
+	{
+		class IComponent;
+	}
+	
 	namespace Physics
 	{
 		UNKNOWNENGINE_ALIGNED_STRUCT(16) PhysXSubsystemDesc
@@ -27,6 +32,8 @@ namespace UnknownEngine
 			
 			Math::Vector3 gravity;
 			
+			Core::IComponent* update_frame_provider;
+			
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 			
 			PhysXSubsystemDesc():
@@ -34,7 +41,8 @@ namespace UnknownEngine
 			cpu_threads_count(0),
 			track_outstanding_allocations(false),
 			enable_profiling(false),
-			log_level(Core::LogSeverity::NONE)
+			log_level(Core::LogSeverity::NONE),
+			update_frame_provider(nullptr)
 			{}
 		};
 	}

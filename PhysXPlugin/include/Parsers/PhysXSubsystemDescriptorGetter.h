@@ -10,6 +10,7 @@
 #include <CommonParsers/Vector3Parser.h>
 #include <Descriptors/PhysXSubsystemDesc.h>
 #include <Logging.h>
+#include <ComponentSystem/ComponentsManager.h>
 
 namespace UnknownEngine
 {
@@ -45,7 +46,11 @@ namespace UnknownEngine
 						{"track_outstanding_allocations", PropertiesParser::OptionalValue<bool> ( desc.track_outstanding_allocations ) },
 						{"enable_profiling", PropertiesParser::OptionalValue<bool> ( desc.enable_profiling ) },
 						{"log_level", PropertiesParser::OptionalValue<Core::LogSeverity> ( desc.log_level ) },
-						{"gravity", PropertiesParser::RequiredValue<Math::Vector3> ( desc.gravity ) }
+						{"gravity", PropertiesParser::RequiredValue<Math::Vector3> ( desc.gravity ) },
+						{"update_frame_provider_name", PropertiesParser::RequiredValue<std::string>([&desc](const std::string& value) {
+							desc.update_frame_provider = Core::ComponentsManager::getSingleton()->findComponent(value.c_str());
+						}
+						)}
 					}
 					);
 

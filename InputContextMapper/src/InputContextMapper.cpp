@@ -27,17 +27,18 @@ namespace UnknownEngine
 		keyboard_event_handler(this),
 		mouse_event_handler(this),
 		joystick_event_handler(this),
-		logger(logger)
+		logger(logger),
+		update_frame_provider(desc.update_frame_provider)
 		{
 			listener.reset(new Core::BaseMessageListener(creation_options.name));
 
-			LOG_INFO(logger, "Registering update frame message buffer");
+			/*LOG_INFO(logger, "Registering update frame message buffer");
 			{
 				typedef Core::UpdateFrameMessage MessageType;
 				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
 
 				listener->createMessageBuffer<MessageType, BufferType>(this, &InputContextMapper::update);
-			}
+			}*/
 			
 			LOG_INFO(logger, "Registering add simple action message buffer");
 			{
@@ -135,13 +136,18 @@ namespace UnknownEngine
 			LOG_INFO(logger, "Registering listener");
 			listener->registerAtDispatcher();
 			
+			if(update_frame_provider) update_frame_provider->addListener(this);
+			
 		}
 
 		InputContextMapper::~InputContextMapper(){
+			
+			if(update_frame_provider) update_frame_provider->removeListener(this);
+			
 			listener->unregisterAtDispatcher();
 		};
 
-		void InputContextMapper::update(const Core::UpdateFrameMessage& msg)
+		void InputContextMapper::onUpdateFrame ( Math::Scalar dt )
 		{
 			listener->flushAllMessageBuffers();
 			for(auto &iter : contexts)
@@ -149,7 +155,7 @@ namespace UnknownEngine
 				iter.second.update();
 			}
 		}
-
+		
 		InputContext* InputContextMapper::createContext(const std::string& name)
 		{
 			LOG_INFO(logger, "Creating input context: " + name);

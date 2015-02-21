@@ -4,6 +4,11 @@
 #include <memory>
 #include <unordered_map>
 #include <Exception.h>
+#include <Scalar.h>
+#include <ComponentInterfaces/Engine/FrameUpdaterComponent.h>
+#include <ComponentInterfaces/Engine/UpdateFrameListenerComponent.h>
+#include <ComponentSystem/ComponentInterfacePtr.h>
+#include <ComponentSystem/IComponent.h>
 
 struct SDL_Window;
 
@@ -14,7 +19,6 @@ namespace UnknownEngine
 
 		class EngineContext;
 		class BaseMessageListener;
-		struct UpdateFrameMessage;
 		class ILogger;		
 	}
 
@@ -29,13 +33,13 @@ namespace UnknownEngine
 		class WindowEventsProcessor;
 		struct SDLWindowDesc;
 		
-		class SDLWindowManager
+		class SDLWindowManager : public ComponentInterfaces::UpdateFrameListenerComponent
 		{
 		public:
 			
 			UNKNOWNENGINE_SIMPLE_EXCEPTION(WindowNotFound);
 			
-			SDLWindowManager(const std::string &name, Core::EngineContext* engine_context, Core::ILogger* logger);
+			SDLWindowManager(const std::string &name, Core::EngineContext* engine_context, Core::ILogger* logger, Core::IComponent* update_frame_provider);
 			virtual ~SDLWindowManager();
 			
 			void init();
@@ -45,10 +49,11 @@ namespace UnknownEngine
 			SDL_Window* getWindow(const std::string &name);
 			std::string getWindowName(size_t window_id);
 			
+			void onUpdateFrame(Math::Scalar dt) override;
+			
 		private:
 			void initSDL();
 			void shutdownSDL();
-			void onUpdateFrame(const Core::UpdateFrameMessage& msg);
 			void getWindowHandle( const Graphics::GetWindowHandleMessage& msg );
 			
 			std::vector<std::string> window_names;
@@ -59,6 +64,8 @@ namespace UnknownEngine
 			std::unordered_map<std::string, SDL_Window*> sdl_windows;
 			Core::ILogger* logger;
 			std::string name;
+			
+			Core::ComponentInterfacePtr<ComponentInterfaces::FrameUpdaterComponent> update_frame_provider;
 		};
 		
 	}

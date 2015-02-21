@@ -17,7 +17,7 @@ namespace UnknownEngine
 
 		void OgreUpdateFrameListener::processMessage ( const Core::PackedMessage &msg )
 		{
-			render_system->onFrameUpdated ( msg.get<Core::UpdateFrameMessage>() );
+			//render_system->onFrameUpdated ( msg.get<Core::UpdateFrameMessage>() );
 		}
 		
 		const char* OgreUpdateFrameListener::getName() const

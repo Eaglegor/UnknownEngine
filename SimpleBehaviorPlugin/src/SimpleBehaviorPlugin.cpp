@@ -65,12 +65,12 @@ namespace UnknownEngine
 			
 			listener.reset(new Core::BaseMessageListener(std::string(getName())));
 			
-			{
+			/*{
 				typedef Core::UpdateFrameMessage MessageType;
 				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
 
 				listener->createMessageBuffer<MessageType, BufferType>(this, &SimpleBehaviorPlugin::onUpdateFrame);
-			}
+			}*/
 			
 			Core::MessageSender<IO::AddSimpleActionMessage> add_action_sender(getName());
 			
@@ -108,10 +108,10 @@ namespace UnknownEngine
 			return true;
 		}
 
-		void SimpleBehaviorPlugin::onUpdateFrame( const Core::UpdateFrameMessage& msg )
+		/*void SimpleBehaviorPlugin::onUpdateFrame( const Core::UpdateFrameMessage& msg )
 		{
 			behaviors_performer->perform(msg.dt);
-		}
+		}*/
 
 		void SimpleBehaviorPlugin::stopEngine ( )
 		{

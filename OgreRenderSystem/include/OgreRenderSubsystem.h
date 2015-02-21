@@ -7,6 +7,9 @@
 #include <ExportedMessages/UpdateFrameMessage.h>
 #include <ExportedMessages/LogMessage.h>
 #include <Descriptors/OgreRenderSubsystemDescriptor.h>
+#include <ComponentInterfaces/Engine/UpdateFrameListenerComponent.h>
+#include <ComponentInterfaces/Engine/FrameUpdaterComponent.h>
+#include <ComponentSystem/ComponentInterfacePtr.h>
 
 namespace boost
 {
@@ -43,7 +46,7 @@ namespace UnknownEngine
 		class OgreRenderFrameListener;
 		class OgreRenderWindowWrapper;
 		
-		class OgreRenderSubsystem
+		class OgreRenderSubsystem : public ComponentInterfaces::UpdateFrameListenerComponent
 		{
 			public:
 
@@ -92,6 +95,8 @@ namespace UnknownEngine
 					return desc.separate_rendering_thread;
 				}
 				
+				virtual void onUpdateFrame ( Math::Scalar dt );
+				
 			private:
 				friend class OgreUpdateFrameListener;
 				
@@ -99,7 +104,7 @@ namespace UnknownEngine
 				void shutdownOgre();
 				std::string name;
 				
-				virtual void onFrameUpdated ( const Core::UpdateFrameMessage& msg );
+				//virtual void onFrameUpdated ( const Core::UpdateFrameMessage& msg );
 				virtual void onWindowResized( const Graphics::WindowResizedMessage& msg );
 				void onGetOgreRenderTarget(const GetOgreRenderTargetMessage& msg);
 				
@@ -118,6 +123,7 @@ namespace UnknownEngine
 				
 				std::unique_ptr<boost::thread> rendering_thread;
 				std::unique_ptr<OgreRenderFrameListener> frame_listener;
+				Core::ComponentInterfacePtr<ComponentInterfaces::FrameUpdaterComponent> update_frame_provider;
 		};
 
 	} // namespace Graphics
