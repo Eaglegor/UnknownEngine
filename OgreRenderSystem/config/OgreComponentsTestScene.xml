@@ -89,6 +89,8 @@
 					<option name="ogre_resources_filename" value="resources.cfg"/>
 				</options_section>
 				
+				<option name="update_frame_provider_name" value="Engine.MainLoop"/>
+				
 			</options_section>
 			
 		</subsystem>
@@ -101,6 +103,7 @@
 				<option name="log_level" value="${global_log_level}"/>
 				<option name="action_slots_config_file" value="InputContextMapperConfig/ActionSlots.xml"/>
 				<option name="input_layout_config_file" value="InputContextMapperConfig/InputLayout.cfg"/>
+				<option name="update_frame_provider_name" value="Engine.MainLoop"/>
 			</options_section>
 			
 			<messaging_rules>
@@ -153,6 +156,7 @@
 				<option name="log_level" value="${global_log_level}"/>
 				<option name="enable_profiling" value="false"/>
 				<option name="enable_hardware" value="false"/>
+				<option name="update_frame_provider_name" value="Engine.MainLoop"/>
 			</options_section>
 		</subsystem>
 		
@@ -178,6 +182,7 @@
 					<options_section name="InitialTransform">
 						<option name="position" value="Vector3(x:0, y:10, z:50)"/>
 					</options_section>
+					<option name="update_frame_provider_name" value="Engine.MainLoop"/>
 				</options_section>
 			</component>
 			
@@ -319,6 +324,9 @@
 						<message type="Utils.LogMessage"/>
 					</sender>
 				</messaging_rules>
+				<options_section>
+					<option name="update_frame_provider_name" value="Engine.MainLoop"/>
+				</options_section>
 			</component>
 			
 			<component name="RigidBodyComponent" type="Physics.RigidBody">
