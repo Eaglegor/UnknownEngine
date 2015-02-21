@@ -79,6 +79,11 @@ namespace UnknownEngine
 			return base_types;
 		}
 
+		bool ComponentType::operator==(const char* type_name) const
+		{
+			return *this == Core::ComponentType(type_name);
+		}
+		
 		bool ComponentType::is(const ComponentType& type) const
 		{
 			if (type.getTypeId() == getTypeId()) return true;

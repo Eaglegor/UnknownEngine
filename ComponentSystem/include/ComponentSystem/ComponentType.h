@@ -37,6 +37,9 @@ namespace UnknownEngine
 			bool operator==(const ComponentType& rhs) const;
 
 			COMPONENTSYSTEM_EXPORT
+			bool operator==(const char* type_name) const;
+			
+			COMPONENTSYSTEM_EXPORT
 			bool operator<(const ComponentType& rhs) const;
 
 			COMPONENTSYSTEM_EXPORT

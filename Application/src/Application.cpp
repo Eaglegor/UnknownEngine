@@ -32,7 +32,8 @@ int main ( int argc, char** argv )
 	Engine engine;
 	engine.init();
 
-	StressTest test;
+	IComponent* main_loop = engine.getContext().getComponentsManager()->findComponent(MAIN_LOOP_COMPONENT_NAME);
+	StressTest test(main_loop);
 
 	if ( vm.count ( "scene" ) )
 	{

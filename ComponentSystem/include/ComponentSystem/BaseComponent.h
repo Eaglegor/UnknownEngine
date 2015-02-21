@@ -6,7 +6,7 @@ namespace UnknownEngine
 {
 	namespace Core
 	{
-		class BaseComponent: public virtual Core::IComponent
+		class BaseComponent: public Core::IComponent
 		{
 			public:
 				
@@ -28,6 +28,11 @@ namespace UnknownEngine
 				virtual EngineSpecificComponentData* getEngineSpecificData() override
 				{
 					return engine_specific_data;
+				}
+				
+				virtual IComponentInterface* getInterface ( const ComponentType& type )
+				{
+					return nullptr;
 				}
 				
 			private:

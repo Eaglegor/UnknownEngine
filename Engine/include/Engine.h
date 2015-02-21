@@ -16,14 +16,21 @@ namespace UnknownEngine
 	namespace Core
 	{
 
+		class MainLoopComponent;
+
+		class MainLoopComponentFactory;
+
 		class ConsoleLoggingSubsystem;
 
 		class ILogger;
 
 		class PluginsManager;
+		class IEntity;
 
 		UNKNOWNENGINE_SIMPLE_EXCEPTION ( InvalidEngineStateException );
 
+		static const char* MAIN_LOOP_COMPONENT_NAME = "Engine.MainLoop";
+		
 		class Engine
 		{
 			public:
@@ -65,6 +72,9 @@ namespace UnknownEngine
 				
 				State state;
 
+				std::unique_ptr<MainLoopComponentFactory> main_loop_factory;
+				IEntity* engine_entity;
+				MainLoopComponent* main_loop;
 				PluginsManager* plugins_manager;
 				EngineContext context;
 				std::unique_ptr<ConsoleLoggingSubsystem> console_logging_subsystem;

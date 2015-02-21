@@ -23,6 +23,7 @@ namespace UnknownEngine
 
 		OgreRenderableComponent::OgreRenderableComponent ( const std::string &name, const OgreRenderableComponentDescriptor &desc, OgreRenderSubsystem *render_subsystem, Core::EngineContext *engine_context )
 			: BaseOgreComponent ( name, render_subsystem, engine_context ),
+			  transform_provider(desc.transform_provider),
 			  desc ( desc )
 		{
 			logger = CREATE_LOGGER(getName(), desc.log_level);
@@ -78,14 +79,14 @@ namespace UnknownEngine
 			LOG_INFO ( logger, "Starting" );
 			scene_node->attachObject ( entity );
 			
-			LOG_INFO (logger, "Registering listener");
-			if(listener && !listener->isRegisteredAtDispatcher()) listener->registerAtDispatcher();
+			//LOG_INFO (logger, "Registering listener");
+			//if(listener && !listener->isRegisteredAtDispatcher()) listener->registerAtDispatcher();
 		}
 
 		void OgreRenderableComponent::internalShutdown()
 		{
-			LOG_INFO (logger, "Unregistering listener");
-			if(listener) listener->unregisterAtDispatcher();
+			//LOG_INFO (logger, "Unregistering listener");
+			//if(listener) listener->unregisterAtDispatcher();
 			
 			LOG_INFO ( logger, "Shutting down" );
 			scene_node->detachObject ( entity );
@@ -102,6 +103,15 @@ namespace UnknownEngine
 			return OGRE_RENDERABLE_COMPONENT_TYPE;
 		}
 
+		void OgreRenderableComponent::update()
+		{
+			if(transform_provider)
+			{
+				this->scene_node->setPosition ( OgreVector3Converter::toOgreVector(transform_provider->getPosition()) );
+				this->scene_node->setOrientation ( OgreQuaternionConverter::toOgreQuaternion(transform_provider->getOrientation()) );
+			}
+		}
+		
 		void OgreRenderableComponent::onTransformChanged ( const Core::TransformChangedMessage &message )
 		{
 			this->scene_node->setPosition ( OgreVector3Converter::toOgreVector ( message.new_transform.getPosition() ) );

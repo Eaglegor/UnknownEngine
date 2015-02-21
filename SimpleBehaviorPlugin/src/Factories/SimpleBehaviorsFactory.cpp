@@ -46,7 +46,7 @@ namespace UnknownEngine
 		{
 			SimpleRotationComponentDesc component_desc = desc.descriptor.apply_visitor(rotation_descriptor_getter);
 			SimpleRotationComponent* component = new SimpleRotationComponent(desc.name, component_desc, engine_context);
-			behaviors_performer->addSimpleBehaviorComponent(component);
+			//behaviors_performer->addSimpleBehaviorComponent(component);
 			return component;
 		}
 		

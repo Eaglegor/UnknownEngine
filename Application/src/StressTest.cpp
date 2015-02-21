@@ -7,31 +7,17 @@
 #include <ResourceManager/DataProviders/DataProviderDesc.h>
 #include <ResourceManager/ResourceManager.h>
 #include <MessageSystem/MessageDispatcher.h>
+#include <Engine.h>
 
 using namespace UnknownEngine::Core;
 using namespace UnknownEngine::Utils;
 
 void StressTest::init ( EngineContext* engine_context )
 {
+	if(update_frame_provider) update_frame_provider->addListener(this);
+	
 	this->engine_context = engine_context;
 	
-	MessageListenerRules rules;
-	MessageListenerRule rule;
-	rule.message_type_name = UpdateFrameMessage::getTypeName();
-	rules.push_back(rule);
-	
-	listener.reset(new BaseMessageListener("StressTest"));
-
-	engine_context->getMessageDispatcher()->setListenerRules(listener->getName(), rules);
-	
-	{
-		typedef UpdateFrameMessage MessageType;
-		typedef InstantForwardMessageBuffer<UpdateFrameMessage> BufferType;
-		
-		listener->createMessageBuffer<MessageType, BufferType>(this, &StressTest::onUpdate);
-	}
-	
-	listener->registerAtDispatcher();
 	was_init = true;
 	
 	ResourceManager* rm = engine_context->getResourceManager();
@@ -54,7 +40,6 @@ void StressTest::init ( EngineContext* engine_context )
 	dp->startLoading();
 	data_providers.push_back(dp);
 	
-	
 	dp_desc.name = "OgreAdaptedTeapotMesh";
 	dp_desc.type = "Loader.OgreMeshPtr.OgreMeshPtrFromMeshDataProvider";
 	{
@@ -76,7 +61,8 @@ void StressTest::shutdown()
 	{
 		UnknownEngine::RELEASE_DATA_PROVIDER(dp);
 	}
-	listener->unregisterAtDispatcher();
+	
+	if(update_frame_provider) update_frame_provider->removeListener(this);
 }
 
 void StressTest::generateObjects ( size_t count )
@@ -99,6 +85,8 @@ void StressTest::generateObjects ( size_t count )
 			Properties transform;
 			transform.set<std::string>("position", "Vector3(x: " + std::to_string(x_position) + ", y:0, z:" + std::to_string(z_position) + ")");
 			props.set<Properties>("InitialTransform", transform);
+			
+			props.set<std::string>("update_frame_provider_name", MAIN_LOOP_COMPONENT_NAME);
 			
 			desc.descriptor = props;
 			
@@ -126,6 +114,8 @@ void StressTest::generateObjects ( size_t count )
 			transform.set<std::string>("position", "Vector3(x: " + std::to_string(x_position) + ", y:0, z:" + std::to_string(z_position) + ")");
 			props.set<Properties>("InitialTransform", transform);
 			
+			props.set<std::string>("transform_provider_name", rotation_component_name);
+			
 			desc.descriptor = props;
 		}
 		
@@ -152,7 +142,7 @@ void StressTest::generateObjects ( size_t count )
 	std::cout << "Objects count: " << objects_count << std::endl;
 }
 
-void StressTest::onUpdate ( const UpdateFrameMessage& msg )
+void StressTest::onUpdateFrame ( UnknownEngine::Math::Scalar dt )
 {
 	time_counter.tick();
 	if(time_counter.getElapsedTime() > 20.0f)
@@ -161,3 +151,4 @@ void StressTest::onUpdate ( const UpdateFrameMessage& msg )
 		generateObjects(1000);
 	}
 }
+

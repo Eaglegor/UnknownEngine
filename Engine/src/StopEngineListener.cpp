@@ -1,13 +1,13 @@
 #include <stdafx.h>
 #include <StopEngineListener.h>
-#include <MainLoop/MainLoop.h>
+#include <MainLoop/MainLoopComponent.h>
 #include <MessageSystem/PackedMessage.h>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
-		StopEngineListener::StopEngineListener ( const std::string name, MainLoop* main_loop ):
+		StopEngineListener::StopEngineListener ( const std::string name, MainLoopComponent* main_loop ):
 		name(name),
 		main_loop(main_loop)
 		{}

@@ -36,9 +36,13 @@ namespace UnknownEngine {
 			
 			render_subsystem->addSynchronizeCallback ( this->getName(), [this]()
 				{
-					if(!shutdown_initialized && listener) 
+					if(!shutdown_initialized) 
 					{
-						listener->flushAllMessageBuffers();
+						if(listener)
+						{
+							listener->flushAllMessageBuffers();
+						}
+						this->update();
 					}
 				} );
 		}

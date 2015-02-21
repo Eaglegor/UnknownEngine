@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Components/BaseOgreComponent.h>
+#include <ComponentSystem/ComponentInterfacePtr.h>
 #include <Exception.h>
 #include <Descriptors/Components/Renderables/OgreRenderableComponentDescriptor.h>
 
@@ -38,6 +39,8 @@ namespace UnknownEngine
 				virtual ~OgreRenderableComponent();
 			
  				virtual Core::ComponentType getType() const override;
+				
+				virtual void update() override;
 
 				virtual void onTransformChanged ( const Core::TransformChangedMessage &message );
 				virtual void doChangeMaterial ( const ChangeMaterialActionMessage &message );
@@ -51,6 +54,7 @@ namespace UnknownEngine
 				virtual void initMessageListenerBuffers ( bool can_be_multi_threaded ) override;
 				
 			private:
+				Core::ComponentInterfacePtr<ComponentInterfaces::TransformHolderComponent> transform_provider;
 				OgreRenderableComponentDescriptor desc;
 				
 				Ogre::Entity* entity;

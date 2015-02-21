@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ComponentSystem/BaseComponent.h>
+#include <mutex>
 
 namespace UnknownEngine
 {
@@ -26,6 +27,8 @@ namespace UnknownEngine
 				
 				virtual ~BaseOgreComponent();
 
+				virtual void update(){};
+				
 				virtual void init ( const Core::IEntity* parent_entity ) override;
 
 				virtual void shutdown ( ) override;
@@ -39,6 +42,10 @@ namespace UnknownEngine
 				virtual void initMessageListenerBuffers(bool can_be_multi_threaded){};
 			
 				std::unique_ptr<Core::BaseMessageListener> listener;
+				
+				typedef std::mutex LockPrimitive;
+				
+				LockPrimitive mutex;
 				
 				OgreRenderSubsystem* render_subsystem;
 				Core::EngineContext* engine_context;

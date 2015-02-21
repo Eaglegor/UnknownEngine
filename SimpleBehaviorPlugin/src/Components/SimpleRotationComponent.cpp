@@ -13,17 +13,11 @@ namespace UnknownEngine
 	namespace Behavior 
 	{
 
-		const Core::ComponentType SimpleRotationComponent::component_type("Behavior.SimpleRotationComponent", Utils::PositionProducerComponent::getCType());
-		const Core::ComponentType& SimpleRotationComponent::getCType()
-		{
-			return component_type;
-		}
-
 		SimpleRotationComponent::SimpleRotationComponent ( const std::string& name, const SimpleRotationComponentDesc& desc, Core::EngineContext* engine_context ) : 
-		SimpleBehaviorComponent ( name ),
+		Core::BaseComponent ( name.c_str() ),
 		desc(desc),
-		transform_changed_message_sender (name),
-		engine_context(engine_context)
+		engine_context(engine_context),
+		update_frame_provider(desc.update_frame_provider)
 		{
 			current_angle = 0;
 		}
@@ -35,10 +29,10 @@ namespace UnknownEngine
 
 		void SimpleRotationComponent::init ( const Core::IEntity* parent_entity )
 		{
-			
+			if(update_frame_provider) update_frame_provider->addListener(this);
 		}
 
-		void SimpleRotationComponent::act( UnknownEngine::Math::Scalar dt )
+		void SimpleRotationComponent::onUpdateFrame( Math::Scalar dt )
 		{
 			current_angle += 1.0 * dt;
 		
@@ -48,9 +42,16 @@ namespace UnknownEngine
 		
 		void SimpleRotationComponent::shutdown()
 		{
-
+			if(update_frame_provider) update_frame_provider->removeListener(this);
 		}
 
+		Core::IComponentInterface* SimpleRotationComponent::getInterface ( const Core::ComponentType& type )
+		{
+			if(type == ComponentInterfaces::TransformHolderComponent::getTypeName()) return static_cast<ComponentInterfaces::TransformHolderComponent*>(this);
+			if(type == ComponentInterfaces::UpdateFrameListenerComponent::getTypeName()) return static_cast<ComponentInterfaces::UpdateFrameListenerComponent*>(this);
+			return nullptr;
+		}
+		
 		Math::Vector3 SimpleRotationComponent::getPosition()
 		{
 			return current_transform.getPosition();

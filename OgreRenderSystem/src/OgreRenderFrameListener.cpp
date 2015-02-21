@@ -70,6 +70,7 @@ namespace UnknownEngine
 		}
 		void OgreRenderFrameListener::removeSynchronizeCallback ( const std::string& name )
 		{
+			std::unique_lock<std::mutex> guard ( atomized_init_and_synchronize_mutex );
 			synchronize_callbacks.erase ( name );
 			--scount;
 		}

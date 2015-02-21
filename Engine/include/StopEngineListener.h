@@ -8,18 +8,18 @@ namespace UnknownEngine
 {
 	namespace Core
 	{
-		class MainLoop;
+		class MainLoopComponent;
 
 		class StopEngineListener : public IMessageListener
 		{
 			public:
-				StopEngineListener ( const std::string name, MainLoop* main_loop );
+				StopEngineListener ( const std::string name, MainLoopComponent* main_loop );
 				virtual void processMessage ( const PackedMessage &msg ) override;
 				virtual const char* getName() const;
 
 			private:
 				std::string name;
-				MainLoop* main_loop;
+				MainLoopComponent* main_loop;
 		};
 	}
 }
