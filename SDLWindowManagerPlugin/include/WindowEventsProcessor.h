@@ -13,6 +13,11 @@
 
 namespace UnknownEngine
 {
+	namespace ComponentInterfaces
+	{
+		class WindowEventsListenerComponent;
+	}
+	
 	namespace GUI
 	{
 		class SDLWindowManager;
@@ -20,10 +25,13 @@ namespace UnknownEngine
 		class WindowEventsProcessor
 		{
 		public:
-			WindowEventsProcessor(const std::string &name, SDLWindowManager *window_manager, Core::EngineContext* engine_context);
+			WindowEventsProcessor(const std::string &name, SDLWindowManager *window_manager);
 			
 			void processEvents();
 						
+			virtual void addWindowEventsListener ( ComponentInterfaces::WindowEventsListenerComponent* listener );
+			virtual void removeWindowEventsListener ( ComponentInterfaces::WindowEventsListenerComponent* listener );
+			
 		private:
 			Core::MessageSender<IO::KeyStateChangedMessage> key_pressed_message_sender;
 			Core::MessageSender<IO::MouseButtonStateChangedMessage> mouse_button_pressed_message_sender;
@@ -38,6 +46,8 @@ namespace UnknownEngine
 			std::string name;
 			SDLWindowManager *window_manager;
 			SDLJoystickWrapper joystick_wrapper;
+			
+			std::unordered_set<ComponentInterfaces::WindowEventsListenerComponent*> window_events_listeners;
 		};
 	}
 }

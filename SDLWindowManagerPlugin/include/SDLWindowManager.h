@@ -5,67 +5,36 @@
 #include <unordered_map>
 #include <Exception.h>
 #include <Scalar.h>
-#include <ComponentInterfaces/Engine/FrameUpdaterComponent.h>
-#include <ComponentInterfaces/Engine/UpdateFrameListenerComponent.h>
-#include <ComponentSystem/ComponentInterfacePtr.h>
-#include <ComponentSystem/IComponent.h>
+#include <ComponentSystem/BaseComponent.h>
+#include <LogHelper.h>
+#include <SDLWindowManagerDescriptor.h>
 
 struct SDL_Window;
 
 namespace UnknownEngine
 {
-	namespace Core
-	{
-
-		class EngineContext;
-		class BaseMessageListener;
-		class ILogger;		
-	}
-
-	namespace Graphics
-	{
-		struct GetWindowHandleMessage;
-	}
-	
 	namespace GUI
 	{
-
-		class WindowEventsProcessor;
-		struct SDLWindowDesc;
-		
-		class SDLWindowManager : public ComponentInterfaces::UpdateFrameListenerComponent
+		class SDLWindowManager : public Core::BaseComponent
 		{
 		public:
 			
 			UNKNOWNENGINE_SIMPLE_EXCEPTION(WindowNotFound);
 			
-			SDLWindowManager(const std::string &name, Core::EngineContext* engine_context, Core::ILogger* logger, Core::IComponent* update_frame_provider);
+			SDLWindowManager(const std::string &name, const SDLWindowManagerDescriptor &desc);
 			virtual ~SDLWindowManager();
 			
-			void init();
-			void shutdown();
-			void createWindow(const SDLWindowDesc &desc);
+			constexpr static const char* getTypeName(){return "SDL.WindowManager";}
+			virtual Core::ComponentType getType() const {return Core::ComponentType(getTypeName());}
+			
+			void init(const Core::IEntity* parent_entity) override;
+			void shutdown() override;
 
-			SDL_Window* getWindow(const std::string &name);
-			std::string getWindowName(size_t window_id);
-			
-			void onUpdateFrame(Math::Scalar dt) override;
-			
 		private:
-			void initSDL();
-			void shutdownSDL();
-			void getWindowHandle( const Graphics::GetWindowHandleMessage& msg );
+			SDLWindowManagerDescriptor desc;
 			
-			std::vector<std::string> window_names;
-			
-			std::unique_ptr< WindowEventsProcessor > window_events_listener;
-			Core::EngineContext* engine_context;
-			std::unique_ptr< Core::BaseMessageListener > listener;
-			std::unordered_map<std::string, SDL_Window*> sdl_windows;
-			Core::ILogger* logger;
+			Core::LogHelper logger;
 			std::string name;
-			
-			Core::ComponentInterfacePtr<ComponentInterfaces::FrameUpdaterComponent> update_frame_provider;
 		};
 		
 	}

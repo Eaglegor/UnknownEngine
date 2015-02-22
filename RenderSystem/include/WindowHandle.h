@@ -15,5 +15,7 @@ namespace UnknownEngine
 #else
 			typedef unsigned long NativeWindowHandleType;
 #endif
+			
+			static const NativeWindowHandleType INVALID_WINDOW_HANDLE = static_cast<NativeWindowHandleType>(-1);
 	}
 }

@@ -1,6 +1,7 @@
 #include <stdafx.h>
 #include <WindowEventsProcessor.h>
 #include <SDLWindowManager.h>
+#include <ComponentInterfaces/GUI/WindowEventsListenerComponent.h>
 
 #include <SDL.h>
 
@@ -8,7 +9,7 @@ namespace UnknownEngine
 {
 	namespace GUI
 	{
-		WindowEventsProcessor::WindowEventsProcessor ( const std::string& name, SDLWindowManager* window_manager, UnknownEngine::Core::EngineContext* engine_context ):
+		WindowEventsProcessor::WindowEventsProcessor ( const std::string& name, SDLWindowManager* window_manager):
 		key_pressed_message_sender(name),
 		mouse_button_pressed_message_sender(name),
 		mouse_moved_message_sender(name),
@@ -135,12 +136,10 @@ namespace UnknownEngine
 						{
 							case SDL_WINDOWEVENT_RESIZED:
 							{
-								Graphics::WindowResizedMessage msg;
-								msg.window_name = window_manager->getWindowName(event.window.windowID);
-								msg.width = event.window.data1;
-								msg.height = event.window.data1;
-								
-								window_resized_message_sender.sendMessage(msg);
+								for(ComponentInterfaces::WindowEventsListenerComponent* listener : window_events_listeners)
+								{
+									listener->onWindowResized(event.window.data1, event.window.data2);
+								}
 								break;
 							}
 						}
@@ -191,5 +190,16 @@ namespace UnknownEngine
 			
 		}
 
+		void WindowEventsProcessor::addWindowEventsListener ( ComponentInterfaces::WindowEventsListenerComponent* listener )
+		{
+			window_events_listeners.emplace(listener);
+		}
+
+		void WindowEventsProcessor::removeWindowEventsListener ( ComponentInterfaces::WindowEventsListenerComponent* listener )
+		{
+			window_events_listeners.erase(listener);
+		}
+
+		
 	}
 }
