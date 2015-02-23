@@ -41,6 +41,8 @@ namespace UnknownEngine
 			Ogre::Root* getRoot(){return root;}
 			Ogre::SceneManager* getSceneManager(){return scene_manager;}
 			
+			void onWindowCreated();
+			
 		private:
 			void loadResourcesFile ( const std::string& filename );
 			
@@ -60,6 +62,8 @@ namespace UnknownEngine
 			Ogre::LogManager* ogre_log_manager;
 			Ogre::Root* root;
 			Ogre::SceneManager* scene_manager;
+			
+			bool resources_initialized;
 		};
 	}
 }

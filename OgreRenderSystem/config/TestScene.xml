@@ -3,104 +3,10 @@
 	<constant name="global_log_level" value="warning"/>
 
 	<subsystems>
-		<subsystem name="WindowManager" module="SDLWindowManagerPlugin">
-			
-			<messaging_rules>
-				
-				<listener>
-					<message type="Engine.MainLoop.UpdateFrameMessage"/>
-					<message type="Graphics.GUI.GetWindowHandleMessage"/>
-				</listener>
-				
-				<sender>
-					<message type="IO.KeyStateChanged"/>
-					<message type="IO.MouseMoved"/>
-					<message type="IO.MouseWheelMoved"/>
-					<message type="IO.MouseButtonStateChanged"/>
-					<message type="IO.JoystickAxisMoved"/>
-					<message type="IO.JoystickButtonStateChanged"/>
-					<message type="Engine.MainLoop.UpdateFrameMessage"/>
-					<message type="Utils.LogMessage"/>
-				</sender>
-				
-			</messaging_rules>
-
-			<options_section>
-				<options_section name="RenderWindow">
-					<option name="log_level" value="${global_log_level}"/>
-					<option name="width" value="800"/>
-					<option name="height" value="600"/>
-					<option name="window_name" value="TestWindow"/>
-					<option name="window_title" value="Test render window"/>
-					<option name="fullscreen" value="false"/>
-					<option name="resizable" value="false"/>
-				</options_section>
-			</options_section>
-			
-		</subsystem>
+		<subsystem name="WindowManager" module="SDLWindowManagerPlugin"/>
+		<subsystem name="Graphics" module="OgreRenderSystem"/>
 		
-		<subsystem name="Graphics" module="OgreRenderSystem">
-		
-			<dependencies>
-				<dependency>UserInput</dependency>
-			</dependencies>
-		
-			<messaging_rules>
-				
-				<listener>
-					<message type="Engine.MainLoop.UpdateFrameMessage">
-						<receive_policy type="FromSingleSender">
-							<options_section>
-								<option name="sender_name" value="Engine"/>
-							</options_section>
-						</receive_policy>
-					</message>
-					<message type="Graphics.OgreRenderSystem.GetOgreRenderTargetMessage"/>
-				</listener>
-			
-				<sender>
-					<message type="Graphics.GUI.GetWindowHandleMessage"/>
-					<message type="Utils.LogMessage"/>
-					<message type="Utils.SubsystemInitializedMessage"/>
-				</sender>
-				
-			</messaging_rules>
-		
-			<options_section>
-				
-				<option name="log_level" value="${global_log_level}"/>
-
-				<option name="separate_rendering_thread" value="true"/>
-				
-				<option name="update_frame_provider_name" value="Engine.MainLoop"/>
-				
-				<options_section name="RenderWindow">
-
-					<option name="window_name" value="TestWindow"/>
-					<option name="window_title" value="ParserTestWindowTitle"/>
-					<option name="window_type" value="external"/>
-					
-					<option name="width" value="1024"/>
-					<option name="height" value="768"/>
-					
-					<options_section name="window_flags">
-						<option name="fullscreen" value="false"/>
-					</options_section>
-					
-				</options_section>
-				
-				<options_section name="ConfigFiles">
-					<option name="ogre_plugins_filename" value="plugins.cfg"/>
-					<option name="ogre_log_filename" value="Ogre.log"/>
-					<option name="ogre_config_filename" value="ogre.cfg"/>
-					<option name="ogre_resources_filename" value="resources.cfg"/>
-				</options_section>
-				
-			</options_section>
-			
-		</subsystem>
-		
-		<subsystem name="HUD" module="CEGuiPlugin">
+		<!--<subsystem name="HUD" module="CEGuiPlugin">
 			<messaging_rules>
 				<listener>
 					<message type="Utils.SubsystemInitializedMessage">
@@ -194,12 +100,62 @@
 		</subsystem>
 		
 		<subsystem name="Algorithms" module="ESInstrumentAlgorithmsPlugin">
-		</subsystem>
+		</subsystem>-->
 		
 	</subsystems>
 
 	<entities>
 
+		<entity name="System">
+			<component name="SDLWindowManager" type="SDL.WindowManager"/>
+			
+			<component name="SDLRenderWindow" type="SDL.Window">
+				<options_section>
+					<option name="log_level" value="${global_log_level}"/>
+					<option name="width" value="800"/>
+					<option name="height" value="600"/>
+					<option name="window_name" value="TestWindow"/>
+					<option name="window_title" value="Test render window"/>
+					<option name="fullscreen" value="false"/>
+					<option name="resizable" value="true"/>
+					<option name="update_frame_provider_name" value="Engine.MainLoop"/>
+				</options_section>
+			</component>
+			
+			<component name="OgreRenderSubsystem" type="Ogre.SingleThreadRenderSubsystem">
+				
+				<options_section>
+					<option name="log_level" value="${global_log_level}"/>
+
+					<option name="update_frame_provider_name" value="Engine.MainLoop"/>
+					
+					<options_section name="ConfigFiles">
+						<option name="ogre_plugins_filename" value="plugins.cfg"/>
+						<option name="ogre_log_filename" value="Ogre.log"/>
+						<option name="ogre_config_filename" value="ogre.cfg"/>
+						<option name="ogre_resources_filename" value="resources.cfg"/>
+					</options_section>
+				
+				</options_section>				
+			</component>
+			
+			<component name="OgreRenderWindow" type="Ogre.RenderWindow">
+				
+				<options_section>
+					<option name="parent_window_component_name" value="System.SDLRenderWindow"/>
+					<option name="window_title" value="ParserTestWindowTitle"/>
+					<option name="window_type" value="external"/>
+
+					<option name="width" value="800"/>
+					<option name="height" value="600"/>
+
+					<options_section name="window_flags">
+						<option name="fullscreen" value="false"/>
+					</options_section>				
+				</options_section>
+			</component>
+		</entity>
+		<!--
 		<entity name="EndoscopicHardwareControllers">
 			<component name="Camera" type="Endoscopy.HardwareController">
 				<messaging_rules>
@@ -255,7 +211,7 @@
 	
 		<entity name="Lighting">
 			
-			<component name="LightComponentD" type="Graphics.Light.Directional">
+			<component name="LightComponentD" type="Ogre.DirectionalLight">
 			
 				<options_section>
 					
@@ -297,13 +253,12 @@
 				</options_section>
 			</component>
 			
-			<component type="Graphics.Camera" name="Camera">
+			<component type="Ogre.Camera" name="Camera">
 				
 				<messaging_rules><listener>
 					<message type="Engine.TransformChangedMessage">
 						<receive_policy type="FromSingleSender">
 							<options_section>
-								<!--<option name="sender_name" value="MainCamera.Rotation"/>-->
 								<option name="sender_name" value="CameraInstrument.PoseAlgorithm"/>
 							</options_section>
 						</receive_policy>
@@ -326,7 +281,7 @@
 					
 			</component>
 						
-			<component name="LightComponentS" type="Graphics.Light.Spot">
+			<component name="LightComponentS" type="Ogre.SpotLight">
 
 				<messaging_rules><listener>
 					<message type="Engine.TransformChangedMessage">
@@ -451,7 +406,7 @@
 		
 		<entity name="Floor">
 			
-			<component name="Graphics" type="Graphics.Renderable">
+			<component name="Graphics" type="Ogre.Renderable">
 				<options_section>
 					
 					<option name="log_level" value="${global_log_level}"/>
@@ -525,7 +480,7 @@
 				</options_section>
 			</component>
 			
-			<component name="Graphics" type="Graphics.Renderable">
+			<component name="Graphics" type="Ogre.Renderable">
 				
 				<messaging_rules><listener>
 					<message type="Engine.TransformChangedMessage">
@@ -597,7 +552,7 @@
 				</options_section>
 			</component>
 			
-			<component name="Graphics" type="Graphics.Renderable">
+			<component name="Graphics" type="Ogre.Renderable">
 				
 				<messaging_rules><listener>
 					<message type="Engine.TransformChangedMessage">
@@ -634,7 +589,7 @@
 		
 		<entity name="HalfSphere">
 			
-			<component name="Graphics" type="Graphics.Renderable">
+			<component name="Graphics" type="Ogre.Renderable">
 				<options_section>
 					
 					<option name="log_level" value="${global_log_level}"/>
@@ -650,7 +605,7 @@
 			</component>
 						
 		</entity>
-		
+		-->
 	</entities>
 	
 </scene>

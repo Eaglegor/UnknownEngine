@@ -107,13 +107,13 @@ namespace UnknownEngine
 						component->setEngineSpecificData(engine_data);
 
 						component->init(parent);
+						
+						components.insert(std::make_pair(std::string(component->getName()), component));
 					}
 					else
 					{
 						LOG_ERROR (logger, "Component '" + desc.name + "' was NOT created" );
 					}
-
-					components.insert(std::make_pair(std::string(component->getName()), component));
 
 					return component;
 				}

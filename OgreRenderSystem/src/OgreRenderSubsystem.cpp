@@ -3,6 +3,7 @@
 #include <OGRE/OgreLogManager.h>
 #include <OGRE/OgreRoot.h>
 #include <OGRE/OgreConfigFile.h>
+#include <OgreGpuProgramManager.h>
 #include <Logging.h>
 
 namespace UnknownEngine
@@ -13,10 +14,18 @@ namespace UnknownEngine
 		OgreRenderSubsystem::OgreRenderSubsystem ( const char* name, const OgreRenderSubsystemDescriptor& desc ) : 
 		BaseComponent ( name ),
 		desc(desc),
-		logger(name, desc.log_level)
+		logger(name, desc.log_level),
+		root(nullptr),
+		scene_manager(nullptr),
+		ogre_log_manager(nullptr),
+		resources_initialized(false)
 		{
 		}
 
+		OgreRenderSubsystem::~OgreRenderSubsystem ()
+		{
+		}
+		
 		void OgreRenderSubsystem::init ( const Core::IEntity* parent_entity )
 		{
 			LOG_INFO(logger, "Initializing OGRE");
@@ -41,9 +50,17 @@ namespace UnknownEngine
 			scene_manager = root->createSceneManager ( Ogre::ST_GENERIC );
 			root->initialise ( false );
 			
-			if(desc.ogre_resources_filename) loadResourcesFile(desc.ogre_resources_filename.get());
 		}
 
+		void OgreRenderSubsystem::onWindowCreated()
+		{
+			if(!resources_initialized)
+			{
+				if(desc.ogre_resources_filename) loadResourcesFile(desc.ogre_resources_filename.get());
+				resources_initialized = true;
+			}
+		}
+		
 		void OgreRenderSubsystem::shutdown()
 		{
 			LOG_INFO(logger, "Shutting down OGRE");
@@ -79,7 +96,7 @@ namespace UnknownEngine
 						archName, typeName, secName);
 				}
 			}
-			
+
 			Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 		}
 		
@@ -91,6 +108,7 @@ namespace UnknownEngine
 				for(int i = 0; i < count; ++i)
 				{
 					BaseOgreComponent* component = initializing_components.front();
+					initializing_components.pop();
 					if(component->getState() == BaseOgreComponent::State::INITIALIZATION)
 					{
 						component->_init();

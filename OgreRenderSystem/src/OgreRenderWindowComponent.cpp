@@ -8,18 +8,19 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 		OgreRenderWindowComponent::OgreRenderWindowComponent (const char* name, const OgreRenderWindowDescriptor& desc, OgreRenderSubsystem* render_subsystem):
-		Core::BaseComponent(name),
+		BaseOgreComponent(name, render_subsystem),
 		desc(desc),
 		logger(name, desc.log_level),
 		render_subsystem(render_subsystem),
-		root(render_subsystem->getRoot()),
 		parent_window(desc.parent_window)
 		{
 			Core::ComponentsManager::getSingleton()->reserveComponent(render_subsystem);
 		}
 
-		void OgreRenderWindowComponent::init ( const Core::IEntity* parent_entity )
+		void OgreRenderWindowComponent::internalInit ( const Core::IEntity* parent_entity )
 		{
+			root = render_subsystem->getRoot();
+			
 			Ogre::NameValuePairList params;
 			
 			if(desc.type != OgreRenderWindowDescriptor::WindowType::OWN && parent_window)
@@ -44,9 +45,11 @@ namespace UnknownEngine
 			}
 			
 			render_window = root->createRenderWindow(desc.window_title, desc.width, desc.height, desc.fullscreen, &params);
+			render_window->setVisible(true);
+			render_subsystem->onWindowCreated();
 		}
 
-		void OgreRenderWindowComponent::shutdown()
+		void OgreRenderWindowComponent::internalShutdown()
 		{
 			if(parent_window && desc.type != OgreRenderWindowDescriptor::WindowType::OWN){
 				parent_window->removeWindowEventsListener(this);

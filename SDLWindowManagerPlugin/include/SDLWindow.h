@@ -9,7 +9,7 @@
 #include <SDLWindowDesc.h>
 #include <unordered_set>
 
-class SDL_Window;
+struct SDL_Window;
 namespace UnknownEngine
 {
 	namespace GUI

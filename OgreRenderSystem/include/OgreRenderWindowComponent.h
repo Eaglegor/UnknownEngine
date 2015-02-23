@@ -3,6 +3,7 @@
 #include <OgreRenderWindow.h>
 #include <OgreRenderSubsystem.h>
 #include <Descriptors/OgreRenderWindowDescriptor.h>
+#include <Components/BaseOgreComponent.h>
 #include <InlineSpecification.h>
 #include <ComponentSystem/BaseComponent.h>
 #include <ComponentInterfaces/GUI/WindowEventsListenerComponent.h>
@@ -15,8 +16,9 @@ namespace UnknownEngine
 {
 	namespace Graphics
 	{
+
 		class OgreRenderWindowComponent : 
-			public Core::BaseComponent,
+			public BaseOgreComponent,
 			public ComponentInterfaces::WindowEventsListenerComponent,
 			public ComponentInterfaces::IOgreRenderWindowComponent
 		{
@@ -27,9 +29,6 @@ namespace UnknownEngine
 			constexpr static const char* getTypeName(){return "Ogre.RenderWindow";}
 			virtual Core::ComponentType getType() const {return getTypeName();}
 			
-			virtual void init ( const Core::IEntity* parent_entity );
-			virtual void shutdown();
-			
 			virtual void onWindowResized ( size_t new_width, size_t new_height );
 
 			virtual Ogre::RenderWindow* getOgreRenderWindow() override
@@ -38,6 +37,10 @@ namespace UnknownEngine
 			}
 			
 			virtual IComponentInterface* getInterface ( const Core::ComponentType& type );
+
+		protected:
+			virtual void internalInit ( const Core::IEntity* parent_entity );
+			virtual void internalShutdown();
 			
 		private:
 			OgreRenderWindowDescriptor desc;
