@@ -41,6 +41,11 @@ namespace UnknownEngine
 			this->action = action;
 		}
 
+		void SimpleActionSlot::reset()
+		{
+			this->action = ActionType();
+		}
+		
 		void SimpleActionSlot::onEvent(bool event_started)
 		{
 			if(condition) 

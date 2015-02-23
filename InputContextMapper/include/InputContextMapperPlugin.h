@@ -7,16 +7,9 @@
 
 namespace UnknownEngine
 {
-
-    namespace Core
-    {
-        class EngineContext;
-		class ILogger;
-    }
-
     namespace IO
     {
-        class InputContextMapper;
+		class InputContextMapperFactory;
 
         class InputContextMapperPlugin : public Core::BasePlugin
         {
@@ -34,10 +27,7 @@ namespace UnknownEngine
             virtual bool uninstall() override;
 
         private:
-            Core::SubsystemDesc desc;
-            Core::ILogger* logger;
-            std::unique_ptr<InputContextMapper> context_mapper;
-            Core::EngineContext* engine_context;
+            std::unique_ptr<InputContextMapperFactory> factory;
 
         };
     }

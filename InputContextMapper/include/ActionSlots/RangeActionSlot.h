@@ -19,6 +19,7 @@ namespace UnknownEngine
 			void update();
 			
 			void setAction(ActionType action);
+			void reset();
 			
 			void onEvent(Math::Scalar new_state);
 			

@@ -34,7 +34,16 @@ namespace UnknownEngine
 						{"input_layout_config_file", PropertiesParser::OptionalValue<std::string> ( desc.input_layout_config_file ) },
 						{"update_frame_provider_name", PropertiesParser::RequiredValue<std::string>([&desc](const std::string& value){
 							desc.update_frame_provider = Core::ComponentsManager::getSingleton()->findComponent(value.c_str());
-						})}
+						})},
+						{"mouse_input_provider_name", PropertiesParser::RequiredValue<std::string>([&desc](const std::string& value){
+							desc.mouse_input_provider = Core::ComponentsManager::getSingleton()->findComponent(value.c_str());
+						})},
+						{"keyboard_input_provider_name", PropertiesParser::RequiredValue<std::string>([&desc](const std::string& value){
+							desc.keyboard_input_provider = Core::ComponentsManager::getSingleton()->findComponent(value.c_str());
+						})},
+						{"joystick_input_provider_name", PropertiesParser::RequiredValue<std::string>([&desc](const std::string& value){
+							desc.joystick_input_provider = Core::ComponentsManager::getSingleton()->findComponent(value.c_str());
+						})},
 					}
 					);
 

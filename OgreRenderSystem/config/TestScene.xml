@@ -5,6 +5,7 @@
 	<subsystems>
 		<subsystem name="WindowManager" module="SDLWindowManagerPlugin"/>
 		<subsystem name="Graphics" module="OgreRenderSystem"/>
+		<subsystem name="MeshDataLoader" module="AssimpMeshDataLoader"/>
 		
 		<!--<subsystem name="HUD" module="CEGuiPlugin">
 			<messaging_rules>
@@ -21,18 +22,11 @@
 					<message type="Graphics.OgreRenderSystem.GetOgreRenderTargetMessage"/>
 				</sender>
 			</messaging_rules>
-		</subsystem>
-		
-		<subsystem name="MeshDataLoader" module="AssimpMeshDataLoader"/>
+		</subsystem>-->
 		
 		<subsystem name="InputContext" module="InputContextMapper">
 			
-			<options_section>
-				<option name="log_level" value="${global_log_level}"/>
-				<option name="action_slots_config_file" value="InputContextMapperConfig/ActionSlots.xml"/>
-				<option name="input_layout_config_file" value="InputContextMapperConfig/InputLayout.cfg"/>
-				<option name="update_frame_provider_name" value="Engine.MainLoop"/>
-			</options_section>
+
 			
 			<messaging_rules>
 				
@@ -89,18 +83,18 @@
 				<option name="update_frame_provider_name" value="Engine.MainLoop"/>
 			</options_section>
 		</subsystem>
-		
+		<!--
 		<subsystem name="ScriptEngine" module="AngelScriptPlugin">
 			<options_section>
 				<option name="log_level" value="debug"/>
 			</options_section>
 		</subsystem>
-	
+		-->
 		<subsystem name="Hardware" module="ESInstrumentHardwarePlugin">
 		</subsystem>
 		
 		<subsystem name="Algorithms" module="ESInstrumentAlgorithmsPlugin">
-		</subsystem>-->
+		</subsystem>
 		
 	</subsystems>
 
@@ -154,8 +148,22 @@
 					</options_section>				
 				</options_section>
 			</component>
+			
+			<component name="InputContextMapper" type="InputContextMapper">
+				<options_section>
+					<option name="log_level" value="${global_log_level}"/>
+					<option name="action_slots_config_file" value="InputContextMapperConfig/ActionSlots.xml"/>
+					<option name="input_layout_config_file" value="InputContextMapperConfig/InputLayout.cfg"/>
+					<option name="update_frame_provider_name" value="Engine.MainLoop"/>
+					<option name="keyboard_input_provider_name" value="System.SDLRenderWindow"/>
+					<option name="mouse_input_provider_name" value="System.SDLRenderWindow"/>
+					<option name="joystick_input_provider_name" value="System.SDLRenderWindow"/>
+				</options_section>
+			</component>
+			
 		</entity>
-		<!--
+		
+		
 		<entity name="EndoscopicHardwareControllers">
 			<component name="Camera" type="Endoscopy.HardwareController">
 				<messaging_rules>
@@ -250,27 +258,20 @@
 						<option name="position" value="Vector3(x:0, y:10, z:50)"/>
 					</options_section>
 					<option name="update_frame_provider_name" value="Engine.MainLoop"/>
+					<option name="input_context_mapping_provider_name" value="System.InputContextMapper"/>
 				</options_section>
 			</component>
 			
 			<component type="Ogre.Camera" name="Camera">
-				
-				<messaging_rules><listener>
-					<message type="Engine.TransformChangedMessage">
-						<receive_policy type="FromSingleSender">
-							<options_section>
-								<option name="sender_name" value="CameraInstrument.PoseAlgorithm"/>
-							</options_section>
-						</receive_policy>
-					</message>
-				</listener></messaging_rules>
-				
+
 				<options_section>
 					
-					<option name="render_window_name" value="TestWindow"/>
+					<option name="render_window_name" value="System.OgreRenderWindow"/>
 					<option name="log_level" value="${global_log_level}"/>
 					<option name="far_clip_distance" value="100"/>
 					<option name="near_clip_distance" value="0.01"/>
+					
+					<option name="transform_provider_name" value="MainCamera.Rotation"/>
 					
 					<options_section name="InitialTransform">
 						<option name="position" value="Vector3(x:0, y:10, z:50)"/>
@@ -448,6 +449,7 @@
 						<option name="position" value="Vector3(x:10, y:10, z:0)"/>
 					</options_section>
 					<option name="update_frame_provider_name" value="Engine.MainLoop"/>
+					<option name="input_context_mapping_provider_name" value="System.InputContextMapper"/>
 				</options_section>
 			</component>
 			
@@ -605,7 +607,7 @@
 			</component>
 						
 		</entity>
-		-->
+		
 	</entities>
 	
 </scene>

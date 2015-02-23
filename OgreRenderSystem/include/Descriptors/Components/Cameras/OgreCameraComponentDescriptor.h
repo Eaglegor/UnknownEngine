@@ -24,11 +24,15 @@ namespace UnknownEngine
 			boost::optional<Math::Scalar> far_clip_distance;
 
 			Core::IComponent* render_window;
+			Core::IComponent* transform_provider;
 			
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
 			OgreCameraComponentDescriptor() :
-				log_level ( Core::LogSeverity::NONE ) {}
+				log_level ( Core::LogSeverity::NONE ),
+				render_window(nullptr),
+				transform_provider(nullptr)
+				{}
 		};
 	}
 }

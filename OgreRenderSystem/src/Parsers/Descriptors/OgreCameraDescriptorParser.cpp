@@ -42,7 +42,11 @@ namespace UnknownEngine
 					})},
 					{"log_level", PropertiesParser::OptionalValue<Core::LogSeverity>(desc.log_level)},
 					{"near_clip_distance", PropertiesParser::OptionalValue<Math::Scalar>(desc.near_clip_distance)},
-					{"far_clip_distance", PropertiesParser::OptionalValue<Math::Scalar>(desc.far_clip_distance)}
+					{"far_clip_distance", PropertiesParser::OptionalValue<Math::Scalar>(desc.far_clip_distance)},
+					{"transform_provider_name", PropertiesParser::OptionalValue<std::string>([&desc](const std::string& value){
+						desc.transform_provider = Core::ComponentsManager::getSingleton()->findComponent(value.c_str());
+					}
+					)}
 				}
 			);
 			

@@ -8,6 +8,7 @@
 #include <LogHelper.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
 #include <ComponentInterfaces/Ogre/IOgreRenderWindowComponent.h>
+#include <ComponentInterfaces/Transform/TransformHolderComponent.h>
 
 namespace Ogre
 {
@@ -47,9 +48,10 @@ namespace UnknownEngine
 				
 				virtual Core::ComponentType getType() const override;				
 
-				void onTransformChanged ( const Core::TransformChangedMessage& msg );
 				void doLookAt ( const CameraLookAtActionMessage& msg );
 
+				virtual void _update() override;
+				
 				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
 			protected:
@@ -65,6 +67,7 @@ namespace UnknownEngine
 				Core::LogHelper logger;
 				
 				Core::ComponentInterfacePtr<ComponentInterfaces::IOgreRenderWindowComponent> render_window;
+				Core::ComponentInterfacePtr<ComponentInterfaces::TransformHolderComponent> transform_provider;
 		};
 	}
 }

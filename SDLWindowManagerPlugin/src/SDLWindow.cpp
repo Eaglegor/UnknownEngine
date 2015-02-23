@@ -72,6 +72,9 @@ namespace UnknownEngine
 		Core::IComponentInterface* SDLWindow::getInterface ( const Core::ComponentType& type )
 		{
 			if(type == ComponentInterfaces::GUIWindowComponent::getTypeName()) return static_cast<ComponentInterfaces::GUIWindowComponent*>(this);
+			if(type == ComponentInterfaces::IMouseHandler::getTypeName()) return static_cast<ComponentInterfaces::IMouseHandler*>(this);
+			if(type == ComponentInterfaces::IKeyboardHandler::getTypeName()) return static_cast<ComponentInterfaces::IKeyboardHandler*>(this);
+			if(type == ComponentInterfaces::IJoystickHandler::getTypeName()) return static_cast<ComponentInterfaces::IJoystickHandler*>(this);
 			return nullptr;
 		}
 
@@ -88,6 +91,36 @@ namespace UnknownEngine
 		void SDLWindow::onUpdateFrame ( Math::Scalar dt )
 		{
 			if(window_events_processor) window_events_processor->processEvents();
+		}
+		
+		void SDLWindow::addJoystickEventsListener ( ComponentInterfaces::IJoystickEventsListener* listener )
+		{
+			if(window_events_processor) window_events_processor->addJoystickEventsListener(listener);
+		}
+
+		void SDLWindow::addKeyboardEventsListener ( ComponentInterfaces::IKeyboardEventsListener* listener )
+		{
+			if(window_events_processor) window_events_processor->addKeyboardEventsListener(listener);
+		}
+
+		void SDLWindow::addMouseEventsListener ( ComponentInterfaces::IMouseEventsListener* listener )
+		{
+			if(window_events_processor) window_events_processor->addMouseEventsListener(listener);
+		}
+
+		void SDLWindow::removeJoystickEventsListener ( ComponentInterfaces::IJoystickEventsListener* listener )
+		{
+			if(window_events_processor) window_events_processor->removeJoystickEventsListener(listener);
+		}
+
+		void SDLWindow::removeKeyboardEventsListener ( ComponentInterfaces::IKeyboardEventsListener* listener )
+		{
+			if(window_events_processor) window_events_processor->removeKeyboardEventsListener(listener);
+		}
+
+		void SDLWindow::removeMouseEventsListener ( ComponentInterfaces::IMouseEventsListener* listener )
+		{
+			if(window_events_processor) window_events_processor->removeMouseEventsListener(listener);
 		}
 		
 	}

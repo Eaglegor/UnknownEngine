@@ -31,6 +31,7 @@ namespace UnknownEngine
 			std::string pitch_action_name;
 			
 			Core::IComponent* update_frame_provider;
+			Core::IComponent* input_context_mapping_provider;
 			
 			MouseLookComponentDesc():
 			linear_speed(5),
@@ -43,7 +44,8 @@ namespace UnknownEngine
 			strafe_down_action_name("StrafeDown"),
 			yaw_action_name("Yaw"),
 			pitch_action_name("Pitch"),
-			update_frame_provider(nullptr)
+			update_frame_provider(nullptr),
+			input_context_mapping_provider(nullptr)
 			{
 			}
 		};

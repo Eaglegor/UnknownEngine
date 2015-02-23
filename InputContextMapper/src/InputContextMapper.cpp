@@ -1,20 +1,7 @@
 #include <stdafx.h>
 #include <InputContextMapper.h>
-#include <ExportedMessages/InputContext/AddSimpleActionMessage.h>
-#include <ExportedMessages/InputContext/AddRangeActionMessage.h>
 #include <Parsers/ActionSlotsConfigParser.h>
 #include <Parsers/InputLayoutConfigParser.h>
-#include <MessageSystem/BaseMessageListener.h>
-#include <ExportedMessages/UpdateFrameMessage.h>
-#include <MessageBuffers/QueuedMessageBuffer.h>
-#include <MessageBuffers/InstantForwardMessageBuffer.h>
-#include <ExportedMessages/UserInput/KeyStateChangedMessage.h>
-#include <ExportedMessages/UserInput/MouseButtonStateChangedMessage.h>
-#include <ExportedMessages/UserInput/MouseMovedMessage.h>
-#include <ExportedMessages/UserInput/MouseWheelMovedMessage.h>
-#include <ExportedMessages/UserInput/JoystickAxisMovedMessage.h>
-#include <ExportedMessages/UserInput/JoystickButtonStateChangedMessage.h>
-#include <ExportedMessages/UpdateFrameMessage.h>
 
 #include <Logging.h>
 
@@ -22,97 +9,25 @@ namespace UnknownEngine
 {
 	namespace IO
 	{
-		InputContextMapper::InputContextMapper( const InputContextMapperDescriptor& desc, const InputContextMapperCreationOptions& creation_options, Core::ILogger* logger ):
-		creation_options(creation_options),
+		InputContextMapper::InputContextMapper(const char* name, const InputContextMapperDescriptor& desc):
+		Core::BaseComponent(name),
+		desc(desc),
 		keyboard_event_handler(this),
 		mouse_event_handler(this),
 		joystick_event_handler(this),
-		logger(logger),
-		update_frame_provider(desc.update_frame_provider)
+		logger(name, desc.log_level),
+		update_frame_provider(desc.update_frame_provider),
+		mouse_input_provider(desc.mouse_input_provider),
+		keyboard_input_provider(desc.keyboard_input_provider),
+		joystick_input_provider(desc.joystick_input_provider)
 		{
-			listener.reset(new Core::BaseMessageListener(creation_options.name));
+		}
 
-			/*LOG_INFO(logger, "Registering update frame message buffer");
-			{
-				typedef Core::UpdateFrameMessage MessageType;
-				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
+		InputContextMapper::~InputContextMapper(){
+		};
 
-				listener->createMessageBuffer<MessageType, BufferType>(this, &InputContextMapper::update);
-			}*/
-			
-			LOG_INFO(logger, "Registering add simple action message buffer");
-			{
-				typedef AddSimpleActionMessage MessageType;
-				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
-				
-				listener->createMessageBuffer<MessageType, BufferType>(this, &InputContextMapper::addSimpleAction);
-			}
-
-			LOG_INFO(logger, "Registering add range action message buffer");
-			{
-				typedef AddRangeActionMessage MessageType;
-				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
-
-				listener->createMessageBuffer<MessageType, BufferType>(this, &InputContextMapper::addRangeAction);
-			}
-			
-			LOG_INFO(logger, "Registering on key pressed message buffer");
-			{
-				typedef IO::KeyStateChangedMessage MessageType;
-				typedef Utils::QueuedMessageBuffer<MessageType> BufferType;
-
-				listener->createMessageBuffer<MessageType, BufferType>(this, &InputContextMapper::onKeyPressed);
-			}
-
-			LOG_INFO(logger, "Registering on mouse button click message buffer");
-			{
-				typedef IO::MouseButtonStateChangedMessage MessageType;
-				typedef Utils::QueuedMessageBuffer<MessageType> BufferType;
-				
-				listener->createMessageBuffer<MessageType, BufferType>(this, &InputContextMapper::onMouseButtonClick);
-			}
-			
-			LOG_INFO(logger, "Registering on mouse moved message buffer");
-			{
-				typedef IO::MouseMovedMessage MessageType;
-				typedef Utils::QueuedMessageBuffer<MessageType> BufferType;
-				
-				listener->createMessageBuffer<MessageType, BufferType>(this, &InputContextMapper::onMouseMoved);
-			}
-			
-			LOG_INFO(logger, "Registering on mouse wheel moved message buffer");
-			{
-				typedef IO::MouseWheelMovedMessage MessageType;
-				typedef Utils::QueuedMessageBuffer<MessageType> BufferType;
-				
-				listener->createMessageBuffer<MessageType, BufferType>(this, &InputContextMapper::onMouseWheelMoved);
-			}
-
-			
-			LOG_INFO(logger, "Registering on mouse wheel moved message buffer");
-			{
-				typedef IO::MouseWheelMovedMessage MessageType;
-				typedef Utils::QueuedMessageBuffer<MessageType> BufferType;
-				
-				listener->createMessageBuffer<MessageType, BufferType>(this, &InputContextMapper::onMouseWheelMoved);
-			}
-			
-			LOG_INFO(logger, "Registering on joystick axis moved message buffer");
-			{
-				typedef IO::JoystickAxisMovedMessage MessageType;
-				typedef Utils::QueuedMessageBuffer<MessageType> BufferType;
-				
-				listener->createMessageBuffer<MessageType, BufferType>(this, &InputContextMapper::onJoystickAxisMoved);
-			}
-			
-			LOG_INFO(logger, "Registering on joystick button click message buffer");
-			{
-				typedef IO::JoystickButtonStateChangedMessage MessageType;
-				typedef Utils::QueuedMessageBuffer<MessageType> BufferType;
-				
-				listener->createMessageBuffer<MessageType, BufferType>(this, &InputContextMapper::onJoystickButtonStateChanged);
-			}
-			
+		void InputContextMapper::init ( const Core::IEntity* parent_entity )
+		{
 			if(!desc.action_slots_config_file.empty())
 			{
 				LOG_INFO(logger, "Parsing action slots config file");
@@ -133,23 +48,22 @@ namespace UnknownEngine
 			
 			joystick_event_handler.setJoystickAxisValueMapping(-32768, 32767, -1, 1);
 			
-			LOG_INFO(logger, "Registering listener");
-			listener->registerAtDispatcher();
-			
 			if(update_frame_provider) update_frame_provider->addListener(this);
-			
+			if(keyboard_input_provider) keyboard_input_provider->addKeyboardEventsListener(this);
+			if(mouse_input_provider) mouse_input_provider->addMouseEventsListener(this);
+			if(joystick_input_provider) joystick_input_provider->addJoystickEventsListener(this);
 		}
 
-		InputContextMapper::~InputContextMapper(){
-			
+		void InputContextMapper::shutdown()
+		{
+			if(joystick_input_provider) joystick_input_provider->removeJoystickEventsListener(this);
+			if(mouse_input_provider) mouse_input_provider->removeMouseEventsListener(this);
+			if(keyboard_input_provider) keyboard_input_provider->removeKeyboardEventsListener(this);
 			if(update_frame_provider) update_frame_provider->removeListener(this);
-			
-			listener->unregisterAtDispatcher();
-		};
-
+		}
+		
 		void InputContextMapper::onUpdateFrame ( Math::Scalar dt )
 		{
-			listener->flushAllMessageBuffers();
 			for(auto &iter : contexts)
 			{
 				iter.second.update();
@@ -168,73 +82,109 @@ namespace UnknownEngine
 			if(iter == contexts.end()) return nullptr;
 			return &iter->second;
 		}
-		
-		void InputContextMapper::onKeyPressed(const KeyStateChangedMessage &msg)
+
+		void InputContextMapper::addSimpleAction ( const char* context_name, const char* action_slot_name, std::function< void() > action_callback )
 		{
-			keyboard_event_handler.processEvent(msg.key, msg.new_state);
-		}
-		
-		void InputContextMapper::addSimpleAction(const AddSimpleActionMessage &msg)
-		{
-			LOG_INFO(logger, "Registering simple action. Context: " + msg.context_name + ", Slot: " + msg.action_slot_name);
-			InputContext* context = findContext(msg.context_name);
+			LOG_INFO(logger, "Registering simple action. Context: " + context_name + ", Slot: " + action_slot_name);
+			InputContext* context = findContext(context_name);
 			if(context == nullptr) 
 			{
-				LOG_ERROR(logger, "Can't find requested input context: " + msg.context_name);
-				throw InputContextNotFoundException("Can't find requested input context: " + msg.context_name);
+				LOG_ERROR(logger, "Can't find requested input context: " + context_name);
+				throw InputContextNotFoundException("Can't find requested input context: " + std::string(context_name));
 			}
-			SimpleActionSlot* action_slot = context->findSimpleActionSlot(msg.action_slot_name);
+			SimpleActionSlot* action_slot = context->findSimpleActionSlot(action_slot_name);
 			if(action_slot == nullptr) 
 			{
-				LOG_ERROR(logger, "Can't find requested action slot: " + msg.action_slot_name);
-				throw ActionSlotNotFoundException("Can't find requested action slot: " + msg.action_slot_name);
+				LOG_ERROR(logger, "Can't find requested action slot: " + action_slot_name);
+				throw ActionSlotNotFoundException("Can't find requested action slot: " + std::string(action_slot_name));
 			}
-			action_slot->setAction(msg.action_callback);
+			action_slot->setAction(action_callback);
 		}
 		
-		void InputContextMapper::addRangeAction(const AddRangeActionMessage &msg)
+		void InputContextMapper::addRangedAction ( const char* context_name, const char* action_slot_name, std::function< void(Math::Scalar) > action_callback )
 		{
-			LOG_INFO(logger, "Registering range action. Context: " + msg.context_name + ", Slot: " + msg.action_slot_name);
-			InputContext* context = findContext(msg.context_name);
+			LOG_INFO(logger, "Registering range action. Context: " + context_name + ", Slot: " + action_slot_name);
+			InputContext* context = findContext(context_name);
 			if(context == nullptr) 
 			{
-				LOG_ERROR(logger, "Can't find requested input context: " + msg.context_name);
-				throw InputContextNotFoundException("Can't find requested input context: " + msg.context_name);
+				LOG_ERROR(logger, "Can't find requested input context: " + context_name);
+				throw InputContextNotFoundException("Can't find requested input context: " + std::string(context_name));
 			}
-			RangeActionSlot* action_slot = context->findRangeActionSlot(msg.action_slot_name);
+			RangeActionSlot* action_slot = context->findRangeActionSlot(action_slot_name);
 			if(action_slot == nullptr) 
 			{
-				LOG_ERROR(logger, "Can't find requested action slot: " + msg.action_slot_name);
-				throw ActionSlotNotFoundException("Can't find requested action slot: " + msg.action_slot_name);
+				LOG_ERROR(logger, "Can't find requested action slot: " + action_slot_name);
+				throw ActionSlotNotFoundException("Can't find requested action slot: " + std::string(action_slot_name));
 			}
-			action_slot->setAction(msg.action_callback);
+			action_slot->setAction(action_callback);
+		}
+
+		void InputContextMapper::removeSimpleAction ( const char* context_name, const char* action_slot_name )
+		{
+			LOG_INFO(logger, "Removing simple action. Context: " + context_name + ", Slot: " + action_slot_name);
+			InputContext* context = findContext(context_name);
+			if(context == nullptr) 
+			{
+				LOG_ERROR(logger, "Can't find requested input context: " + context_name);
+				throw InputContextNotFoundException("Can't find requested input context: " + std::string(context_name));
+			}
+			SimpleActionSlot* action_slot = context->findSimpleActionSlot(action_slot_name);
+			if(action_slot == nullptr) 
+			{
+				LOG_ERROR(logger, "Can't find requested action slot: " + action_slot_name);
+				throw ActionSlotNotFoundException("Can't find requested action slot: " + std::string(action_slot_name));
+			}
+			action_slot->reset();
+		}
+
+		void InputContextMapper::removeRangedAction ( const char* context_name, const char* action_slot_name )
+		{
+			LOG_INFO(logger, "Removing range action. Context: " + context_name + ", Slot: " + action_slot_name);
+			InputContext* context = findContext(context_name);
+			if(context == nullptr) 
+			{
+				LOG_ERROR(logger, "Can't find requested input context: " + context_name);
+				throw InputContextNotFoundException("Can't find requested input context: " + std::string(context_name));
+			}
+			RangeActionSlot* action_slot = context->findRangeActionSlot(action_slot_name);
+			if(action_slot == nullptr) 
+			{
+				LOG_ERROR(logger, "Can't find requested action slot: " + action_slot_name);
+				throw ActionSlotNotFoundException("Can't find requested action slot: " + std::string(action_slot_name));
+			}
+			action_slot->reset();
+		}
+
+		
+		void InputContextMapper::onMouseButtonEvent ( const MouseButtonEvent& evt )
+		{
+			mouse_event_handler.processEvent(evt.button_id, evt.new_state);
+		}
+
+		void InputContextMapper::onMouseMoveEvent ( const MouseMovedEvent& evt )
+		{
+			mouse_event_handler.processEvent(MouseAxis::X, evt.delta_x);
+			mouse_event_handler.processEvent(MouseAxis::Y, evt.delta_y);
+		}
+
+		void InputContextMapper::onMouseWheelEvent ( const MouseWheelEvent& evt )
+		{
+			mouse_event_handler.processEvent(MouseAxis::Z, evt.delta);
+		}
+
+		void InputContextMapper::onJoystickAxisEvent ( const JoystickAxisEvent& evt )
+		{
+			joystick_event_handler.processEvent(evt.joystick_id, evt.axis_id, evt.new_value);
+		}
+
+		void InputContextMapper::onJoystickButtonEvent ( const JoystickButtonEvent& evt )
+		{
+			joystick_event_handler.processEvent(evt.joystick_id, evt.button_id, evt.new_state);
 		}
 		
-		void InputContextMapper::onMouseButtonClick ( const MouseButtonStateChangedMessage& msg )
+		void InputContextMapper::onKeyboardEvent ( const KeyboardEvent& evt )
 		{
-			mouse_event_handler.processEvent(msg.button_id, msg.new_state);
-		}
-
-		void InputContextMapper::onMouseMoved ( const MouseMovedMessage& msg )
-		{
-			mouse_event_handler.processEvent(MouseAxis::X, msg.delta_x);
-			mouse_event_handler.processEvent(MouseAxis::Y, msg.delta_y);
-		}
-
-		void InputContextMapper::onMouseWheelMoved ( const MouseWheelMovedMessage& msg )
-		{
-			mouse_event_handler.processEvent(MouseAxis::Z, msg.delta_y);
-		}
-
-		
-		void InputContextMapper::onJoystickAxisMoved ( const JoystickAxisMovedMessage& msg )
-		{
-			joystick_event_handler.processEvent(msg.joystick_id, msg.axis_id, msg.new_value);
-		}
-
-		void InputContextMapper::onJoystickButtonStateChanged ( const JoystickButtonStateChangedMessage& msg )
-		{
-			joystick_event_handler.processEvent(msg.joystick_id, msg.button_id, msg.new_state);
+			keyboard_event_handler.processEvent(evt.key, evt.new_state);
 		}
 		
 		KeyboardEventHandler* InputContextMapper::getKeyboardEventHandler()
@@ -252,5 +202,11 @@ namespace UnknownEngine
 			return &joystick_event_handler;
 		}
 		
+		Core::IComponentInterface* InputContextMapper::getInterface ( const Core::ComponentType& type )
+		{
+			if(type == ComponentInterfaces::IContextualActionsMapper::getTypeName()) return static_cast<ComponentInterfaces::IContextualActionsMapper*>(this);
+			return nullptr;
+		}
+	
 	}
 }

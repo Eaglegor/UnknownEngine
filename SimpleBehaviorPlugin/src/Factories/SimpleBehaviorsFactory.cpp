@@ -53,7 +53,7 @@ namespace UnknownEngine
 		Core::IComponent* SimpleBehaviorsFactory::createMouseLookComponent ( const Core::ComponentDesc& desc )
 		{
 			MouseLookComponentDesc component_desc = desc.descriptor.apply_visitor(mouse_look_descriptor_getter);
-			MouseLookComponent* component = new MouseLookComponent(desc.name, engine_context, component_desc);
+			MouseLookComponent* component = new MouseLookComponent(desc.name, component_desc);
 			//behaviors_performer->addSimpleBehaviorComponent(component);
 			return component;
 		}

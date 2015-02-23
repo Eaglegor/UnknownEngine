@@ -3,6 +3,17 @@
 #include <SDLWindowManager.h>
 #include <ComponentInterfaces/GUI/WindowEventsListenerComponent.h>
 
+#include <Events/JoystickAxisEvent.h>
+#include <Events/JoystickButtonEvent.h>
+#include <Events/KeyboardEvent.h>
+#include <Events/MouseButtonEvent.h>
+#include <Events/MouseMovedEvent.h>
+#include <Events/MouseWheelEvent.h>
+
+#include <ComponentInterfaces/Input/IJoystickEventsListener.h>
+#include <ComponentInterfaces/Input/IKeyboardEventsListener.h>
+#include <ComponentInterfaces/Input/IMouseEventsListener.h>
+
 #include <SDL.h>
 
 namespace UnknownEngine
@@ -10,13 +21,6 @@ namespace UnknownEngine
 	namespace GUI
 	{
 		WindowEventsProcessor::WindowEventsProcessor ( const std::string& name, SDLWindowManager* window_manager):
-		key_pressed_message_sender(name),
-		mouse_button_pressed_message_sender(name),
-		mouse_moved_message_sender(name),
-		mouse_wheel_moved_message_sender(name),
-		joystick_axis_moved_message_sender(name),
-		joystick_button_state_changed_message(name),
-		window_resized_message_sender(name),
 		window_manager(window_manager)
 		{
 		}
@@ -44,12 +48,15 @@ namespace UnknownEngine
 							}
 						}
 						
-						IO::KeyStateChangedMessage msg;
+						IO::KeyboardEvent evt;
 						
-						msg.key = keys_converter.getUnknownEngineKey(event.key.keysym.sym);
-						msg.new_state = (event.type == SDL_KEYDOWN ? IO::KeyState::KEY_PRESSED : IO::KeyState::KEY_UNPRESSED);
+						evt.key = keys_converter.getUnknownEngineKey(event.key.keysym.sym);
+						evt.new_state = (event.type == SDL_KEYDOWN ? IO::KeyState::KEY_PRESSED : IO::KeyState::KEY_UNPRESSED);
 						
-						key_pressed_message_sender.sendMessage(msg);
+						for(ComponentInterfaces::IKeyboardEventsListener* listener : keyboard_events_listeners)
+						{
+							listener->onKeyboardEvent(evt);
+						}
 						
 						break;
 					}
@@ -57,76 +64,80 @@ namespace UnknownEngine
 					case SDL_MOUSEBUTTONUP:
 					{
 
-						IO::MouseButtonStateChangedMessage msg;
+						IO::MouseButtonEvent evt;
 
-						msg.mouse_id = event.button.which;
+						evt.mouse_id = event.button.which;
 
-						msg.new_state = (event.type == SDL_MOUSEBUTTONDOWN ? IO::MouseButtonState::MOUSE_BUTTON_PRESSED : IO::MouseButtonState::MOUSE_BUTTON_UNPRESSED);
-						msg.clicks_count = event.button.clicks;
-
-						msg.cursor_position_x = event.button.x;
-						msg.cursor_position_y = event.button.y;
+						evt.new_state = (event.type == SDL_MOUSEBUTTONDOWN ? IO::MouseButtonState::MOUSE_BUTTON_PRESSED : IO::MouseButtonState::MOUSE_BUTTON_UNPRESSED);
 
 						switch(event.button.button)
 						{
 							case SDL_BUTTON_LEFT:
 							{
-								msg.button_id = 0;
+								evt.button_id = 0;
 								break;
 							}
 							case SDL_BUTTON_RIGHT:
 							{
-								msg.button_id = 1;
+								evt.button_id = 1;
 								break;
 							}
 							case SDL_BUTTON_MIDDLE:
 							{
-								msg.button_id = 2;
+								evt.button_id = 2;
 								break;
 							}
 							case SDL_BUTTON_X1:
 							{
-								msg.button_id = 3;
+								evt.button_id = 3;
 								break;
 							}
 							case SDL_BUTTON_X2:
 							{
-								msg.button_id = 4;
+								evt.button_id = 4;
 								break;
 							}
 						}
 
-						mouse_button_pressed_message_sender.sendMessage(msg);
+						for(ComponentInterfaces::IMouseEventsListener* listener : mouse_events_listeners)
+						{
+							listener->onMouseButtonEvent(evt);
+						}
 
 						break;
 					}
 					case SDL_MOUSEWHEEL:
 					{
 
-						IO::MouseWheelMovedMessage msg;
+						IO::MouseWheelEvent evt;
 
-						msg.mouse_id = event.wheel.which;
+						evt.mouse_id = event.wheel.which;
 
-						msg.delta_x = event.wheel.x;
-						msg.delta_y = event.wheel.y;
+						evt.delta = event.wheel.y;
 
-						mouse_wheel_moved_message_sender.sendMessage(msg);
+						for(ComponentInterfaces::IMouseEventsListener* listener : mouse_events_listeners)
+						{
+							listener->onMouseWheelEvent(evt);
+						}
 
 						break;
 					}
 					case SDL_MOUSEMOTION:
 					{
 
-						IO::MouseMovedMessage msg;
+						IO::MouseMovedEvent evt;
 
-						msg.mouse_id = event.motion.which;
+						evt.mouse_id = event.motion.which;
 
-						msg.new_x = event.motion.x;
-						msg.new_y = event.motion.y;
-						msg.delta_x = event.motion.xrel;
-						msg.delta_y = event.motion.yrel;
+						evt.new_x = event.motion.x;
+						evt.new_y = event.motion.y;
+						evt.delta_x = event.motion.xrel;
+						evt.delta_y = event.motion.yrel;
 
-						mouse_moved_message_sender.sendMessage(msg);
+						for(ComponentInterfaces::IMouseEventsListener* listener : mouse_events_listeners)
+						{
+							listener->onMouseMoveEvent(evt);
+						}
 
 						break;
 					}
@@ -147,36 +158,43 @@ namespace UnknownEngine
 					}
 					case SDL_JOYAXISMOTION:
 					{
-						IO::JoystickAxisMovedMessage msg;
-						msg.axis_id = event.jaxis.axis;
-						msg.joystick_id = event.jaxis.which;
-						msg.new_value = event.jaxis.value;
+						IO::JoystickAxisEvent evt;
+						evt.axis_id = event.jaxis.axis;
+						evt.joystick_id = event.jaxis.which;
+						evt.new_value = event.jaxis.value;
 						
-						joystick_axis_moved_message_sender.sendMessage(msg);
+						for(ComponentInterfaces::IJoystickEventsListener* listener : joystick_events_listeners)
+						{
+							listener->onJoystickAxisEvent(evt);
+						}
+						
 						break;
 					}
 					case SDL_JOYBUTTONUP:
 					case SDL_JOYBUTTONDOWN:
 					{
-						IO::JoystickButtonStateChangedMessage msg;
-						msg.joystick_id = event.jbutton.which;
-						msg.button_id = event.jbutton.button;
+						IO::JoystickButtonEvent evt;
+						evt.joystick_id = event.jbutton.which;
+						evt.button_id = event.jbutton.button;
 						
 						switch(event.jbutton.state)
 						{
 							case SDL_PRESSED:
 							{
-								msg.new_state = IO::JoystickButtonState::PRESSED;
+								evt.new_state = IO::JoystickButtonState::PRESSED;
 								break;
 							}
 							case SDL_RELEASED:
 							{
-								msg.new_state = IO::JoystickButtonState::UNPRESSED;
+								evt.new_state = IO::JoystickButtonState::UNPRESSED;
 								break;
 							}
 						}
 						
-						joystick_button_state_changed_message.sendMessage(msg);
+						for(ComponentInterfaces::IJoystickEventsListener* listener : joystick_events_listeners)
+						{
+							listener->onJoystickButtonEvent(evt);
+						}
 						
 						break;
 					}
@@ -200,6 +218,35 @@ namespace UnknownEngine
 			window_events_listeners.erase(listener);
 		}
 
+		void WindowEventsProcessor::addJoystickEventsListener ( ComponentInterfaces::IJoystickEventsListener* listener )
+		{
+			joystick_events_listeners.emplace(listener);
+		}
+
+		void WindowEventsProcessor::removeJoystickEventsListener ( ComponentInterfaces::IJoystickEventsListener* listener )
+		{
+			joystick_events_listeners.erase(listener);
+		}
+
+		void WindowEventsProcessor::addKeyboardEventsListener ( ComponentInterfaces::IKeyboardEventsListener* listener )
+		{
+			keyboard_events_listeners.emplace(listener);
+		}
+
+		void WindowEventsProcessor::removeKeyboardEventsListener ( ComponentInterfaces::IKeyboardEventsListener* listener )
+		{
+			keyboard_events_listeners.erase(listener);
+		}
+
+		void WindowEventsProcessor::addMouseEventsListener ( ComponentInterfaces::IMouseEventsListener* listener )
+		{
+			mouse_events_listeners.emplace(listener);
+		}
+
+		void WindowEventsProcessor::removeMouseEventsListener ( ComponentInterfaces::IMouseEventsListener* listener )
+		{
+			mouse_events_listeners.erase(listener);
+		}
 		
 	}
 }

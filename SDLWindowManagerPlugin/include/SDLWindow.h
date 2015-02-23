@@ -4,6 +4,9 @@
 #include <ComponentInterfaces/GUI/GUIWindowComponent.h>
 #include <ComponentInterfaces/Engine/UpdateFrameListenerComponent.h>
 #include <ComponentInterfaces/Engine/FrameUpdaterComponent.h>
+#include <ComponentInterfaces/Input/IKeyboardHandler.h>
+#include <ComponentInterfaces/Input/IMouseHandler.h>
+#include <ComponentInterfaces/Input/IJoystickHandler.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
 #include <LogHelper.h>
 #include <SDLWindowDesc.h>
@@ -21,7 +24,10 @@ namespace UnknownEngine
 		class SDLWindow : 
 			public Core::BaseComponent, 
 			public ComponentInterfaces::GUIWindowComponent,
-			public ComponentInterfaces::UpdateFrameListenerComponent
+			public ComponentInterfaces::UpdateFrameListenerComponent,
+			public ComponentInterfaces::IKeyboardHandler,
+			public ComponentInterfaces::IMouseHandler,
+			public ComponentInterfaces::IJoystickHandler
 		{
 		public:
 			SDLWindow(const char* name, const SDLWindowDesc &desc, SDLWindowManager* window_manager);
@@ -35,12 +41,19 @@ namespace UnknownEngine
 			
 			virtual Graphics::NativeWindowHandleType getWindowHandle() override;
 			virtual const char* getWindowTitle() override;
-			virtual void addWindowEventsListener ( ComponentInterfaces::WindowEventsListenerComponent* listener );
-			virtual void removeWindowEventsListener ( ComponentInterfaces::WindowEventsListenerComponent* listener );
+			virtual void addWindowEventsListener ( ComponentInterfaces::WindowEventsListenerComponent* listener ) override;
+			virtual void removeWindowEventsListener ( ComponentInterfaces::WindowEventsListenerComponent* listener ) override;
 			
 			virtual IComponentInterface* getInterface ( const Core::ComponentType& type ) override;
 			
 			void onUpdateFrame(Math::Scalar dt) override;
+			
+			virtual void addJoystickEventsListener ( ComponentInterfaces::IJoystickEventsListener* listener ) override;
+			virtual void addKeyboardEventsListener ( ComponentInterfaces::IKeyboardEventsListener* listener ) override;
+			virtual void addMouseEventsListener ( ComponentInterfaces::IMouseEventsListener* listener ) override;
+			virtual void removeJoystickEventsListener ( ComponentInterfaces::IJoystickEventsListener* listener ) override;
+			virtual void removeKeyboardEventsListener ( ComponentInterfaces::IKeyboardEventsListener* listener ) override;
+			virtual void removeMouseEventsListener ( ComponentInterfaces::IMouseEventsListener* listener ) override;
 			
 		private:
 			SDLWindowManager* window_manager;

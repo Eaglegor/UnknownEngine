@@ -9,7 +9,9 @@
 
 #include <ComponentInterfaces/Engine/FrameUpdaterComponent.h>
 #include <ComponentInterfaces/Engine/UpdateFrameListenerComponent.h>
+#include <ComponentInterfaces/Input/IContextualActionsMapper.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
+#include <ComponentInterfaces/Transform/TransformHolderComponent.h>
 
 namespace UnknownEngine
 {
@@ -26,10 +28,11 @@ namespace UnknownEngine
 		
 		UNKNOWNENGINE_ALIGNED_CLASS(16) MouseLookComponent : 
 			public Core::BaseComponent, 
-			public ComponentInterfaces::UpdateFrameListenerComponent
+			public ComponentInterfaces::UpdateFrameListenerComponent,
+			public ComponentInterfaces::TransformHolderComponent
 		{
 		public:
-			explicit MouseLookComponent(const std::string& name, Core::EngineContext* engine_context, const MouseLookComponentDesc& desc );
+			explicit MouseLookComponent(const std::string& name, const MouseLookComponentDesc& desc );
 			virtual ~MouseLookComponent();
 				
 			UNKNOWNENGINE_INLINE
@@ -49,6 +52,12 @@ namespace UnknownEngine
 			void pitch(Math::Scalar amount);
 			void yaw(Math::Scalar amount);
 			
+			virtual Math::Transform getTransform() override;
+			virtual Math::Quaternion getOrientation() override;
+			virtual Math::Vector3 getPosition() override;
+			
+			virtual IComponentInterface * getInterface ( const Core::ComponentType & type ) override;
+			
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 			
 		private:
@@ -60,7 +69,6 @@ namespace UnknownEngine
 			
 			Core::MessageSender<Core::TransformChangedMessage> transform_changed_message_sender;
 			
-			Core::EngineContext* engine_context;
 			Math::Transform current_transform;
 			
 			Math::Vector3 forward_axis;
@@ -81,6 +89,7 @@ namespace UnknownEngine
 			bool needs_update_quaternion;
 			
 			Core::ComponentInterfacePtr<ComponentInterfaces::FrameUpdaterComponent> update_frame_provider;
+			Core::ComponentInterfacePtr<ComponentInterfaces::IContextualActionsMapper> input_context_mapping_provider;
 		};
 	}
 }

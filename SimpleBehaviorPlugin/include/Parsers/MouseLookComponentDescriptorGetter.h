@@ -57,6 +57,10 @@ namespace UnknownEngine
 						{"update_frame_provider_name", PropertiesParser::RequiredValue<std::string>([&desc](const std::string& value) {
 							desc.update_frame_provider = Core::ComponentsManager::getSingleton()->findComponent(value.c_str());
 						}
+						)},
+						{"input_context_mapping_provider_name", PropertiesParser::RequiredValue<std::string>([&desc](const std::string& value) {
+							desc.input_context_mapping_provider = Core::ComponentsManager::getSingleton()->findComponent(value.c_str());
+						}
 						)}
 					}
 				);

@@ -63,6 +63,11 @@ namespace UnknownEngine
 			render_window->resize(new_width, new_height);
 		}
 		
+		void OgreRenderWindowComponent::onWindowClosed()
+		{
+			// Perhaps some internal shutdown?
+		}
+		
 		OgreRenderWindowComponent::~OgreRenderWindowComponent()
 		{
 			Core::ComponentsManager::getSingleton()->releaseComponent(render_subsystem);

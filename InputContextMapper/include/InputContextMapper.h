@@ -10,69 +10,88 @@
 #include <InputContext.h>
 #include <EventHandlers/KeyboardEventHandler.h>
 #include <EventHandlers/MouseEventHandler.h>
-#include "EventHandlers/JoystickEventHandler.h"
+#include <EventHandlers/JoystickEventHandler.h>
 
 #include <ComponentInterfaces/Engine/FrameUpdaterComponent.h>
 #include <ComponentInterfaces/Engine/UpdateFrameListenerComponent.h>
+
+#include <ComponentSystem/BaseComponent.h>
+
+#include <ComponentInterfaces/Input/IMouseHandler.h>
+#include <ComponentInterfaces/Input/IKeyboardHandler.h>
+#include <ComponentInterfaces/Input/IJoystickHandler.h>
+
+#include <ComponentInterfaces/Input/IMouseEventsListener.h>
+#include <ComponentInterfaces/Input/IKeyboardEventsListener.h>
+#include <ComponentInterfaces/Input/IJoystickEventsListener.h>
+
+#include <ComponentInterfaces/Input/IContextualActionsMapper.h>
+
 #include <ComponentSystem/ComponentInterfacePtr.h>
+
+#include <LogHelper.h>
 
 namespace UnknownEngine
 {
 
     namespace Core
     {
-        class EngineContext;
         class BaseMessageListener;
 		class ILogger;
     }
 
     namespace IO
     {
-
-		struct JoystickAxisMovedMessage;
- 		struct JoystickButtonStateChangedMessage;
-
-        struct KeyStateChangedMessage;
-		struct AddSimpleActionMessage;
-		struct AddRangeActionMessage;
-		struct MouseWheelMovedMessage;
-		struct MouseMovedMessage;
-		struct MouseButtonStateChangedMessage;
-		
-        class InputContextMapper : public ComponentInterfaces::UpdateFrameListenerComponent
+        class InputContextMapper : 
+			public Core::BaseComponent,
+			public ComponentInterfaces::UpdateFrameListenerComponent,
+			public ComponentInterfaces::IMouseEventsListener,
+			public ComponentInterfaces::IKeyboardEventsListener,
+			public ComponentInterfaces::IJoystickEventsListener,
+			public ComponentInterfaces::IContextualActionsMapper
         {
         public:
 			
 			UNKNOWNENGINE_SIMPLE_EXCEPTION(InputContextNotFoundException);
 			UNKNOWNENGINE_SIMPLE_EXCEPTION(ActionSlotNotFoundException);
 			
-            InputContextMapper(const InputContextMapperDescriptor& desc, const InputContextMapperCreationOptions& creation_options, Core::ILogger *logger);
+            InputContextMapper(const char* name, const InputContextMapperDescriptor& desc);
 			virtual ~InputContextMapper();
 
 			InputContext* createContext(const std::string &name);
 			InputContext* findContext(const std::string& name);
 			
+			constexpr static const char* getTypeName(){return "InputContextMapper";}
+			virtual Core::ComponentType getType() const {return getTypeName();}
+			
+			virtual void init ( const Core::IEntity* parent_entity );
+			virtual void shutdown();
+			
 			virtual void onUpdateFrame ( Math::Scalar dt ) override;
 			
-            void onKeyPressed(const KeyStateChangedMessage &msg);
+			virtual void onKeyboardEvent ( const KeyboardEvent& evt ) override;
 			
-			void onMouseButtonClick(const MouseButtonStateChangedMessage& msg);
-			void onMouseMoved(const MouseMovedMessage &msg);
-			void onMouseWheelMoved(const MouseWheelMovedMessage &msg);
-
-			void onJoystickAxisMoved(const JoystickAxisMovedMessage &msg);
-			void onJoystickButtonStateChanged(const JoystickButtonStateChangedMessage &msg);
+			virtual void onMouseButtonEvent ( const MouseButtonEvent& evt ) override;
+			virtual void onMouseMoveEvent ( const MouseMovedEvent& evt ) override;
+			virtual void onMouseWheelEvent ( const MouseWheelEvent& evt ) override;
 			
-			void addSimpleAction(const AddSimpleActionMessage &msg);
-			void addRangeAction(const AddRangeActionMessage &msg);
+			virtual void onJoystickAxisEvent ( const JoystickAxisEvent& evt ) override;
+			virtual void onJoystickButtonEvent ( const JoystickButtonEvent& evt ) override;
+			
+			virtual void addSimpleAction ( const char* context_name, const char* action_slot_name, std::function< void() > action_callback ) override;
+			virtual void addRangedAction ( const char* context_name, const char* action_slot_name, std::function< void(Math::Scalar) > action_callback ) override;
 
+			virtual void removeSimpleAction ( const char* context_name, const char* action_slot_name ) override;
+			virtual void removeRangedAction ( const char* context_name, const char* action_slot_name ) override;
+			
+			virtual IComponentInterface* getInterface ( const Core::ComponentType& type );
+			
 			KeyboardEventHandler* getKeyboardEventHandler();
 			MouseEventHandler* getMouseEventHandler();
 			JoystickEventHandler* getJoystickEventHandler();
 			
         private:
-            std::unique_ptr<Core::BaseMessageListener> listener;
-            InputContextMapperCreationOptions creation_options;
+			InputContextMapperDescriptor desc;
 			
 			KeyboardEventHandler keyboard_event_handler;
 			MouseEventHandler mouse_event_handler;
@@ -80,9 +99,12 @@ namespace UnknownEngine
 			
 			std::unordered_map<std::string, InputContext> contexts;
 			
-			Core::ILogger* logger;
+			Core::LogHelper logger;
 			
 			Core::ComponentInterfacePtr<ComponentInterfaces::FrameUpdaterComponent> update_frame_provider;
+			Core::ComponentInterfacePtr<ComponentInterfaces::IMouseHandler> mouse_input_provider;
+			Core::ComponentInterfacePtr<ComponentInterfaces::IKeyboardHandler> keyboard_input_provider;
+			Core::ComponentInterfacePtr<ComponentInterfaces::IJoystickHandler> joystick_input_provider;
 			
         };
     }

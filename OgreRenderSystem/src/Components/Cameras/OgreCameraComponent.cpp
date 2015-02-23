@@ -30,7 +30,8 @@ namespace UnknownEngine
 			  logger(name, desc.log_level),
 			  scene_node(nullptr),
 			  camera(nullptr),
-			  render_window(desc.render_window)
+			  render_window(desc.render_window),
+			  transform_provider(desc.transform_provider)
 		{
 			LOG_INFO ( logger, "Logger initialized" );
 		}
@@ -89,12 +90,15 @@ namespace UnknownEngine
 			if(scene_node && camera) this->scene_node->detachObject ( this->camera );
 		}
 
-		void OgreCameraComponent::onTransformChanged ( const Core::TransformChangedMessage &msg )
+		void OgreCameraComponent::_update()
 		{
-			this->scene_node->setPosition ( OgreVector3Converter::toOgreVector ( msg.new_transform.getPosition() ) );
-			this->scene_node->setOrientation ( OgreQuaternionConverter::toOgreQuaternion ( msg.new_transform.getOrientation() ) );
+			if(transform_provider) 
+			{
+				this->scene_node->setPosition ( OgreVector3Converter::toOgreVector ( transform_provider->getPosition() ) );
+				this->scene_node->setOrientation ( OgreQuaternionConverter::toOgreQuaternion ( transform_provider->getOrientation() ) );
+			}
 		}
-
+		
 		void OgreCameraComponent::doLookAt ( const CameraLookAtActionMessage &msg )
 		{
 			camera->lookAt ( OgreVector3Converter::toOgreVector ( msg.look_at_position ) );

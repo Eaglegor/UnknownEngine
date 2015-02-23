@@ -16,10 +16,16 @@ namespace UnknownEngine
 			std::string input_layout_config_file;
 			
 			Core::IComponent* update_frame_provider;
+			Core::IComponent* mouse_input_provider;
+			Core::IComponent* keyboard_input_provider;
+			Core::IComponent* joystick_input_provider;
 			
             InputContextMapperDescriptor():
             log_level(Core::LogSeverity::NONE),
-            update_frame_provider(nullptr)
+            update_frame_provider(nullptr),
+            mouse_input_provider(nullptr),
+            keyboard_input_provider(nullptr),
+            joystick_input_provider(nullptr)
             {}
         };
     }

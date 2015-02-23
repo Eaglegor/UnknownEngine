@@ -27,16 +27,17 @@ namespace UnknownEngine
 			virtual ~OgreRenderWindowComponent();
 			
 			constexpr static const char* getTypeName(){return "Ogre.RenderWindow";}
-			virtual Core::ComponentType getType() const {return getTypeName();}
+			virtual Core::ComponentType getType() const override {return getTypeName();}
 			
-			virtual void onWindowResized ( size_t new_width, size_t new_height );
+			virtual void onWindowResized ( size_t new_width, size_t new_height ) override;
+			virtual void onWindowClosed() override;
 
 			virtual Ogre::RenderWindow* getOgreRenderWindow() override
 			{
 				return render_window;
 			}
 			
-			virtual IComponentInterface* getInterface ( const Core::ComponentType& type );
+			virtual IComponentInterface* getInterface ( const Core::ComponentType& type ) override;
 
 		protected:
 			virtual void internalInit ( const Core::IEntity* parent_entity );
