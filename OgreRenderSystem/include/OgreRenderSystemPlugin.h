@@ -6,21 +6,11 @@
 
 namespace UnknownEngine
 {
-
-	namespace Core
-	{
-		class EngineContext;
-		class ILogger;
-	}
-
 	namespace Graphics
 	{
-
-		class OgreRenderableComponentsFactory;
-		class OgreCameraComponentsFactory;
-		class OgreLightComponentsFactory;
-		class OgreMeshPtrDataProvidersFactory;
-		class OgreRenderSubsystem;
+		class OgreRenderSubsystemFactory;
+		class OgreComponentsFactory;
+		class OgreDataProvidersFactory;
 		
 		class OgreRenderSystemPlugin: public Core::BasePlugin
 		{
@@ -37,20 +27,10 @@ namespace UnknownEngine
 				virtual bool uninstall()  override;
 
 			private:
-
-				Core::SubsystemDesc desc;
-				Core::EngineContext *engine_context;
-
-				std::unique_ptr<OgreRenderSubsystem> render_system;
+				std::unique_ptr<OgreComponentsFactory> components_factory;
+				std::unique_ptr<OgreDataProvidersFactory> data_providers_factory;
 				
-				std::unique_ptr<OgreRenderableComponentsFactory> renderable_components_factory;
-				std::unique_ptr<OgreCameraComponentsFactory> camera_components_factory;
-				std::unique_ptr<OgreLightComponentsFactory> light_components_factory;
-				
-				std::unique_ptr<OgreMeshPtrDataProvidersFactory> mesh_ptr_data_providers_factory;
-
-				Core::ILogger* logger;
-
+				std::unique_ptr<OgreRenderSubsystemFactory> render_subsystem_factory;
 		};
 
 	} /* namespace Graphics */

@@ -7,6 +7,7 @@
 #include <Singleton.h>
 #include <ComponentSystem/IComponentFactory_fwd.h>
 #include <condition_variable>
+#include <unordered_map>
 
 namespace UnknownEngine
 {

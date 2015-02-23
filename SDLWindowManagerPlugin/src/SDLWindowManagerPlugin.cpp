@@ -48,13 +48,11 @@ namespace UnknownEngine
 
 		bool SDLWindowManagerPlugin::init () 
 		{
-			LOG_INFO(logger, "Initializing SDL plugin");
 			return true;
 		}
 
 		bool SDLWindowManagerPlugin::shutdown () 
 		{
-			LOG_INFO(logger, "Shutting down SDL plugin");
 			return true;
 		}
 

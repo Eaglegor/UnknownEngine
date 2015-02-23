@@ -29,18 +29,18 @@ namespace UnknownEngine
 
 			bool show_config_dialog;
 
-			OgreRenderWindowDescriptor render_window_descriptor;
+			//OgreRenderWindowDescriptor render_window_descriptor;
 			
-			Core::IComponent* update_frame_provider;
+			//Core::IComponent* update_frame_provider;
 			
 			OgreRenderSubsystemDescriptor() :
 				ogre_plugins_filename ( "plugins.cfg" ),
 				ogre_config_filename ( "ogre.cfg" ),
 				ogre_log_filename ( "Ogre.log" ),
 				log_level(Core::LogSeverity::NONE),
-				separate_rendering_thread ( true ),
-				show_config_dialog ( false ),
-				update_frame_provider( nullptr )
+				separate_rendering_thread ( true )
+				//show_config_dialog ( false ),
+				//update_frame_provider( nullptr )
 			{}
 
 		};

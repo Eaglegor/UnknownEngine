@@ -1,6 +1,9 @@
 #pragma once
 
 #include <ComponentSystem/IComponentInterface.h>
+#include <Transform/Transform.h>
+#include <Vectors/Vector3.h>
+#include <Quaternion.h>
 
 namespace UnknownEngine
 {
@@ -14,9 +17,9 @@ namespace UnknownEngine
 					return "Interface.MovableComponent";
 				}
 			
-				virtual Math::Vector3 setPosition() = 0;
-				virtual Math::Quaternion setOrientation() = 0;
-				virtual Math::Transform setTransform() = 0;
+				virtual void setPosition(const Math::Vector3 &position) = 0;
+				virtual void setOrientation(const Math::Quaternion &quaternion) = 0;
+				virtual void setTransform(const Math::Transform &transform) = 0;
 			
 		};
 	}

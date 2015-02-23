@@ -12,18 +12,16 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 		
-		OgreDirectionalLightComponent::OgreDirectionalLightComponent ( const std::string& name, const OgreDirectionalLightComponentDescriptor& desc, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context ) : 
-		BaseOgreLightComponent ( name, render_subsystem, engine_context, desc.light_settings ), 
-		desc(desc)
+		OgreDirectionalLightComponent::OgreDirectionalLightComponent ( const std::string& name, const OgreDirectionalLightComponentDescriptor& desc, OgreRenderSubsystem* render_subsystem) : 
+		BaseOgreLightComponent ( name, render_subsystem, desc.light_settings ), 
+		desc(desc),
+		logger(name.c_str(), desc.log_level)
 		{
-			logger = CREATE_LOGGER(getName(), desc.log_level);
-			
 			LOG_INFO ( logger, "Logger initialized" );			
 		}
 		
 		OgreDirectionalLightComponent::~OgreDirectionalLightComponent()
 		{
-			RELEASE_LOGGER(logger);
 		}
 		
 		Core::ComponentType OgreDirectionalLightComponent::getType() const

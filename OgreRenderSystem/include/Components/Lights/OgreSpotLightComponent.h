@@ -1,6 +1,7 @@
 #pragma once
 #include <Components/Lights/BaseOgreLightComponent.h>
 #include <Descriptors/Components/Lights/OgreSpotLightComponentDescriptor.h>
+#include <LogHelper.h>
 
 namespace UnknownEngine
 {
@@ -12,7 +13,10 @@ namespace UnknownEngine
 		UNKNOWNENGINE_ALIGNED_CLASS(16) OgreSpotLightComponent : public BaseOgreLightComponent
 		{
 			public:
-				OgreSpotLightComponent ( const std::string& name, const OgreSpotLightComponentDescriptor& desc, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context );
+				
+				constexpr static const char* getTypeName(){return "Ogre.SpotLight";}
+				
+				OgreSpotLightComponent ( const std::string& name, const OgreSpotLightComponentDescriptor& desc, OgreRenderSubsystem* render_subsystem);
 				virtual ~OgreSpotLightComponent();
 				
 				virtual Core::ComponentType getType() const override;
@@ -24,6 +28,7 @@ namespace UnknownEngine
 				
 			private:
 				OgreSpotLightComponentDescriptor desc;
+				Core::LogHelper logger;
 			
 		};
 	}

@@ -4,6 +4,7 @@
 #include <ComponentSystem/ComponentInterfacePtr.h>
 #include <Exception.h>
 #include <Descriptors/Components/Renderables/OgreRenderableComponentDescriptor.h>
+#include <LogHelper.h>
 
 namespace Ogre
 {
@@ -33,14 +34,16 @@ namespace UnknownEngine
 		{
 			public:
 
+				constexpr static const char* getTypeName(){return "Ogre.Renderable";}
+				
 				UNKNOWNENGINE_SIMPLE_EXCEPTION(NoMeshDataProvidedException);
 				
-				OgreRenderableComponent ( const std::string &name, const OgreRenderableComponentDescriptor &desc, OgreRenderSubsystem* render_subsystem, Core::EngineContext *engine_context );
+				OgreRenderableComponent ( const std::string &name, const OgreRenderableComponentDescriptor &desc, OgreRenderSubsystem* render_subsystem );
 				virtual ~OgreRenderableComponent();
 			
  				virtual Core::ComponentType getType() const override;
 				
-				virtual void update() override;
+				virtual void _update() override;
 
 				virtual void onTransformChanged ( const Core::TransformChangedMessage &message );
 				virtual void doChangeMaterial ( const ChangeMaterialActionMessage &message );
@@ -50,15 +53,15 @@ namespace UnknownEngine
 			protected:
 				virtual void internalInit(const Core::IEntity* parent_entity) override;
 				virtual void internalShutdown() override;
-				
-				virtual void initMessageListenerBuffers ( bool can_be_multi_threaded ) override;
-				
+
 			private:
 				Core::ComponentInterfacePtr<ComponentInterfaces::TransformHolderComponent> transform_provider;
 				OgreRenderableComponentDescriptor desc;
 				
 				Ogre::Entity* entity;
 				Ogre::SceneNode* scene_node;
+				
+				Core::LogHelper logger;
 		};
 
 	} // namespace Graphics

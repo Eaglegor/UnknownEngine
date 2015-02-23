@@ -21,13 +21,12 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		OgreRenderableComponent::OgreRenderableComponent ( const std::string &name, const OgreRenderableComponentDescriptor &desc, OgreRenderSubsystem *render_subsystem, Core::EngineContext *engine_context )
-			: BaseOgreComponent ( name, render_subsystem, engine_context ),
+		OgreRenderableComponent::OgreRenderableComponent ( const std::string &name, const OgreRenderableComponentDescriptor &desc, OgreRenderSubsystem *render_subsystem)
+			: BaseOgreComponent ( name, render_subsystem ),
 			  transform_provider(desc.transform_provider),
-			  desc ( desc )
+			  desc ( desc ),
+			  logger(name.c_str(), desc.log_level)
 		{
-			logger = CREATE_LOGGER(getName(), desc.log_level);
-
 			if ( desc.mesh_data_provider != nullptr ) 
 			{
 				GET_DATA_PROVIDER(desc.mesh_data_provider->getName());
@@ -43,7 +42,6 @@ namespace UnknownEngine
 				LOG_INFO(logger, "Releasing ogre mesh data provider");
 				RELEASE_DATA_PROVIDER(desc.mesh_data_provider);
 			}
-			RELEASE_LOGGER(logger);
 		}
 
 		void OgreRenderableComponent::internalInit ( const UnknownEngine::Core::IEntity* parent_entity )
@@ -103,7 +101,7 @@ namespace UnknownEngine
 			return OGRE_RENDERABLE_COMPONENT_TYPE;
 		}
 
-		void OgreRenderableComponent::update()
+		void OgreRenderableComponent::_update()
 		{
 			if(transform_provider)
 			{
@@ -121,47 +119,6 @@ namespace UnknownEngine
 		void OgreRenderableComponent::doChangeMaterial ( const ChangeMaterialActionMessage &message )
 		{
 			this->entity->setMaterialName ( message.new_material_name );
-		}
-
-		void OgreRenderableComponent::initMessageListenerBuffers ( bool can_be_multi_threaded )
-		{
-			if(!listener) return;
-			
-			if(can_be_multi_threaded)
-			{
-				{
-					typedef Core::TransformChangedMessage MessageType;
-					typedef Utils::OnlyLastMessageBuffer<MessageType> BufferType;
-
-					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreRenderableComponent::onTransformChanged);
-				}
-
-				{
-					typedef ChangeMaterialActionMessage MessageType;
-					typedef Utils::OnlyLastMessageBuffer<MessageType> BufferType;
-
-					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreRenderableComponent::doChangeMaterial);
-				}
-			
-				listener->registerAtDispatcher();
-			
-			}
-			else
-			{
-				{
-					typedef Core::TransformChangedMessage MessageType;
-					typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
-
-					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreRenderableComponent::onTransformChanged);
-				}
-
-				{
-					typedef ChangeMaterialActionMessage MessageType;
-					typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
-
-					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreRenderableComponent::doChangeMaterial);
-				}
-			}
 		}
 		
 	} // namespace Graphics

@@ -5,6 +5,9 @@
 #include <AlignedNew.h>
 #include <Descriptors/Components/Cameras/OgreCameraComponentDescriptor.h>
 #include <Exception.h>
+#include <LogHelper.h>
+#include <ComponentSystem/ComponentInterfacePtr.h>
+#include <ComponentInterfaces/Ogre/IOgreRenderWindowComponent.h>
 
 namespace Ogre
 {
@@ -35,9 +38,11 @@ namespace UnknownEngine
 		{
 			public:
 
+				constexpr static const char* getTypeName(){return "Ogre.Camera";}
+				
 				UNKNOWNENGINE_SIMPLE_EXCEPTION(RenderWindowNotFound);
 				
-				OgreCameraComponent ( const std::string &name, const OgreCameraComponentDescriptor& desc, OgreRenderSubsystem *render_subsystem, Core::EngineContext* engine_context );
+				OgreCameraComponent ( const std::string &name, const OgreCameraComponentDescriptor& desc, OgreRenderSubsystem *render_subsystem );
 				virtual ~OgreCameraComponent();
 				
 				virtual Core::ComponentType getType() const override;				
@@ -51,13 +56,15 @@ namespace UnknownEngine
 				virtual void internalInit ( const Core::IEntity *parent_entity ) override;
 				virtual void internalShutdown (  ) override;
 				
-				virtual void initMessageListenerBuffers ( bool can_be_multi_threaded ) override;
-				
 			private:
 				OgreCameraComponentDescriptor desc;
 				
 				Ogre::SceneNode *scene_node;
 				Ogre::Camera *camera;
+				
+				Core::LogHelper logger;
+				
+				Core::ComponentInterfacePtr<ComponentInterfaces::IOgreRenderWindowComponent> render_window;
 		};
 	}
 }

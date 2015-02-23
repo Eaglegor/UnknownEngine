@@ -1,47 +1,24 @@
-#include <stdafx.h>
-
-#include <Ogre.h>
-#include <OgreFrameListener.h>
 #include <OgreRenderSubsystem.h>
+#include <Components/BaseOgreComponent.h>
+#include <OGRE/OgreLogManager.h>
+#include <OGRE/OgreRoot.h>
+#include <OGRE/OgreConfigFile.h>
 #include <Logging.h>
-#include <EngineContext.h>
-
-#include <MessageSystem/MessageDispatcher.h>
-#include <MessageSystem/MessageSender.h>
-
-#include <ExportedMessages/StopEngineActionMessage.h>
-#include <ExportedMessages/SubsystemInitializedMessage.h>
-
-#include <Listeners/OgreUpdateFrameListener.h>
-#include <ExportedMessages/RenderSystem/GetWindowHandleMessage.h>
-
-#include <ExportedMessages/RenderSystem/WindowResizedMessage.h>
-#include <MessageSystem/BaseMessageListener.h>
-
-#include <ExportedMessages/OgreRenderSystem/GetOgreRenderTargetMessage.h>
-
-#include <MessageBuffers/InstantForwardMessageBuffer.h>
-#include <MessageBuffers/OnlyLastMessageBuffer.h>
-
-#include <OgreRenderFrameListener.h>
-#include <OgreRenderWindowWrapper.h>
 
 namespace UnknownEngine
 {
 	namespace Graphics
 	{
-	
-		OgreRenderSubsystem::OgreRenderSubsystem ( const OgreRenderSubsystemDescriptor& desc, Core::ILogger* logger, Core::EngineContext* engine_context ):
-		logger ( logger ),
-		engine_context(engine_context),
+		
+		OgreRenderSubsystem::OgreRenderSubsystem ( const char* name, const OgreRenderSubsystemDescriptor& desc ) : 
+		BaseComponent ( name ),
 		desc(desc),
-		update_frame_provider(desc.update_frame_provider)
+		logger(name, desc.log_level)
 		{
 		}
 
-		void OgreRenderSubsystem::initOgre(const std::string &subsystem_name)
+		void OgreRenderSubsystem::init ( const Core::IEntity* parent_entity )
 		{
-			
 			LOG_INFO(logger, "Initializing OGRE");
 			
 			ogre_log_manager = new Ogre::LogManager();
@@ -63,23 +40,12 @@ namespace UnknownEngine
 			
 			scene_manager = root->createSceneManager ( Ogre::ST_GENERIC );
 			root->initialise ( false );
-
-			OgreRenderWindowWrapper* render_window = new OgreRenderWindowWrapper(this, desc.render_window_descriptor);
-			
-			render_windows.emplace( desc.render_window_descriptor.window_name, render_window );
-			render_windows[desc.render_window_descriptor.window_name]->setVisible(true);
 			
 			if(desc.ogre_resources_filename) loadResourcesFile(desc.ogre_resources_filename.get());
 		}
 
-		void OgreRenderSubsystem::shutdownOgre()
+		void OgreRenderSubsystem::shutdown()
 		{
-			for(auto &iter : render_windows)
-			{
-				delete iter.second;
-			}
-			render_windows.clear();
-			
 			LOG_INFO(logger, "Shutting down OGRE");
 			root->shutdown();
 			
@@ -89,17 +55,6 @@ namespace UnknownEngine
 			LOG_INFO(logger, "Deleting OGRE Log Manager");
 			ogre_log_manager->destroyLog("DefaultLog");
 			delete ogre_log_manager;
-		}
-		
-		void OgreRenderSubsystem::onUpdateFrame ( Math::Scalar dt )
-		{
-			Ogre::WindowEventUtilities::messagePump();
-			if(frame_listener) frame_listener->update();
-			root->renderOneFrame();
-		}
-
-		OgreRenderSubsystem::~OgreRenderSubsystem()
-		{
 		}
 
 		void OgreRenderSubsystem::loadResourcesFile ( const std::string& filename )
@@ -126,164 +81,92 @@ namespace UnknownEngine
 			}
 			
 			Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
-			
 		}
 		
-		void OgreRenderSubsystem::onWindowResized ( const WindowResizedMessage& msg )
+		void OgreRenderSubsystem::onUpdateFrame ( Math::Scalar dt )
 		{
-			Ogre::RenderWindow *window = getRenderWindow(msg.window_name);
-			if(window != nullptr)
 			{
-				window->resize(msg.width, msg.height);
-			}
-		}
-		
-		Ogre::RenderWindow* OgreRenderSubsystem::getRenderWindow ( const std::string& name )
-		{
-			auto iter = render_windows.find(name);
-			if(iter == render_windows.end() ) return nullptr;
-			else return iter->second->getOgreRenderWindow();
-		}
-
-		void OgreRenderSubsystem::start(const std::string& name)
-		{
-			this->name = name;
-			listener.reset ( new Core::BaseMessageListener(name) );
-			
-			frame_listener.reset ( new OgreRenderFrameListener() );
-			
-			if ( !desc.separate_rendering_thread )
-			{
-				initOgre(name);
-				
-				/*{
-					typedef Core::UpdateFrameMessage MessageType;
-					typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
-					
-					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreRenderSubsystem::onFrameUpdated);
-				}*/
-				
+				std::lock_guard<LockPrimitive> guard(initializing_components_lock);
+				size_t count = initializing_components.size();
+				for(int i = 0; i < count; ++i)
 				{
-					typedef Graphics::WindowResizedMessage MessageType;
-					typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
-					
-					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreRenderSubsystem::onWindowResized);
-				}
-			
-				{
-					typedef Graphics::GetOgreRenderTargetMessage MessageType;
-					typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
-					
-					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreRenderSubsystem::onGetOgreRenderTarget);
-				}
-
-				if(update_frame_provider) update_frame_provider->addListener(this);
-				
-				if(listener) listener->registerAtDispatcher();
-				
-				{
-					Core::MessageSender<Utils::SubsystemInitializedMessage> sender(name.c_str());
-					sender.sendMessage(Utils::SubsystemInitializedMessage());
-				}
-				
-			}
-			else
-			{
-				
-				{
-					typedef Graphics::WindowResizedMessage MessageType;
-					typedef Utils::OnlyLastMessageBuffer<MessageType> BufferType;
-					
-					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreRenderSubsystem::onWindowResized);
-				}
-				
-				{
-					typedef Graphics::GetOgreRenderTargetMessage MessageType;
-					typedef Utils::OnlyLastMessageBuffer<MessageType> BufferType;
-					
-					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreRenderSubsystem::onGetOgreRenderTarget);
-				}
-				
-				if(listener) listener->registerAtDispatcher();
-				
-				rendering_thread.reset ( new boost::thread ( [this, name]()
-				{
-					initOgre(name);
-					
+					BaseOgreComponent* component = initializing_components.front();
+					if(component->getState() == BaseOgreComponent::State::INITIALIZATION)
 					{
-						Core::MessageSender<Utils::SubsystemInitializedMessage> sender(name.c_str());
-						sender.sendMessage(Utils::SubsystemInitializedMessage());
+						component->_init();
+						components.emplace(component);
 					}
-					
-					addSynchronizeCallback("FlushMessageBuffers", [this](){listener->flushAllMessageBuffers();});
-					root->addFrameListener ( frame_listener.get() );
-					this->root->startRendering();
-					root->removeFrameListener ( frame_listener.get() );
-					removeSynchronizeCallback("FlushMessageBuffers");
-					shutdownOgre();
-					frame_listener->setFinished();
-				} ) );
-				
+					else
+					{
+						initializing_components.push(component);
+					}
+				}
+			}
+			
+			for(BaseOgreComponent* component : components)
+			{
+				if(component->getState() == BaseOgreComponent::State::WORK)
+				{
+					component->_update();
+				}
+			}
+			
+			{
+				std::lock_guard<LockPrimitive> guard(shutting_down_components_lock);
+				size_t count = shutting_down_components.size();
+				for(int i = 0; i < count; ++i)
+				{
+					BaseOgreComponent* component = shutting_down_components.front();
+					shutting_down_components.pop();
+					if(component->getState() == BaseOgreComponent::State::SHUTTING_DOWN)
+					{
+						component->_shutdown();
+						components.erase(component);
+					}
+					else
+					{
+						shutting_down_components.push(component);
+					}
+				}
+			}
+			
+			{
+				std::lock_guard<LockPrimitive> guard(destructing_components_lock);
+				size_t count = destructing_components.size();
+				for(int i = 0; i < count; ++i)
+				{
+					BaseOgreComponent* component = destructing_components.front();
+					destructing_components.pop();
+					if(component->getState() == BaseOgreComponent::State::DELETION)
+					{
+						component->_destroy();
+					}
+					else
+					{
+						destructing_components.push(component);
+					}
+				}
 			}
 			
 		}
 		
-		void OgreRenderSubsystem::stop()
+		void OgreRenderSubsystem::initComponent ( BaseOgreComponent* component )
 		{
-			if(listener) listener->unregisterAtDispatcher();
+			std::lock_guard<LockPrimitive> guard(initializing_components_lock);
+			initializing_components.push(component);
+		}
 
-			if ( desc.separate_rendering_thread )
-			{
-				if(update_frame_provider) update_frame_provider->removeListener(this);
-				
-				frame_listener->stopRendering();
-				LOG_INFO( logger, "Waiting for OGRE shutdown");
-				frame_listener->waitUntilFinished();
-				LOG_INFO( logger, "Ogre shut down");
-			}
-			else
-			{
-				shutdownOgre();
-			}
-			
-			frame_listener.reset();
-			
+		void OgreRenderSubsystem::shutdownComponent ( BaseOgreComponent* component )
+		{
+			std::lock_guard<LockPrimitive> guard(shutting_down_components_lock);
+			shutting_down_components.push(component);
 		}
 		
-		void OgreRenderSubsystem::addSynchronizeCallback ( const std::string& name, const std::function< void() >& callback )
+		void OgreRenderSubsystem::destroyComponent ( BaseOgreComponent* component )
 		{
-			if(frame_listener) frame_listener->addSynchronizeCallback ( name, callback );
+			std::lock_guard<LockPrimitive> guard(destructing_components_lock);
+			destructing_components.push(component);
 		}
 		
-		void OgreRenderSubsystem::removeSynchronizeCallback ( const std::string& name )
-		{
-			if(frame_listener) frame_listener->removeSynchronizeCallback ( name );
-		}
-		
-		void OgreRenderSubsystem::addInitCallback ( const std::function< void() >& callback )
-		{
-			if(frame_listener) frame_listener->addInitCallback ( callback );
-		}
-		
-		void OgreRenderSubsystem::addShutdownCallback ( const std::function< void() >& callback )
-		{
-			if(frame_listener) frame_listener->addShutdownCallback ( callback );
-		}
-		
-		void OgreRenderSubsystem::addRemoveCallback ( const std::function< void() >& callback )
-		{
-			if(frame_listener) frame_listener->addRemoveCallback ( callback );
-		}
-	
-		void OgreRenderSubsystem::onGetOgreRenderTarget ( const GetOgreRenderTargetMessage& msg )
-		{
-			auto iter = render_windows.find(msg.render_target_name);
-			if(iter != render_windows.end())
-			{
-				Ogre::RenderWindow* render_window = iter->second->getOgreRenderWindow();
-				msg.value_return_callback(render_window);
-			}
-		}
-	
-	} // namespace Graphics
-} // namespace UnknownEngine
+	}
+}

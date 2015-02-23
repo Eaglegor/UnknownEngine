@@ -2,6 +2,8 @@
 #include <CommonParsers/PropertiesParser.h>
 
 #include <Parsers/Descriptors/OgreRenderWindowDescriptorParser.h>
+#include <ComponentSystem/ComponentsManager.h>
+#include <Logging.h>
 
 namespace boost
 {
@@ -32,7 +34,6 @@ namespace UnknownEngine
 			(
 				properties,
 				{
-					{"window_name", PropertiesParser::OptionalValue <std::string> ( desc.window_name )},
 					{"window_title", PropertiesParser::RequiredValue <std::string> ( desc.window_title )},
 					{"window_type", PropertiesParser::OptionalValue <OgreRenderWindowDescriptor::WindowType> ( desc.type )},
 					{
@@ -45,7 +46,12 @@ namespace UnknownEngine
 						)
 					},
 					{"width", PropertiesParser::OptionalValue <size_t> ( desc.width )},
-					{"height", PropertiesParser::OptionalValue <size_t> ( desc.height )}
+					{"height", PropertiesParser::OptionalValue <size_t> ( desc.height )},
+					{"log_level", PropertiesParser::OptionalValue <Core::LogSeverity> ( desc.log_level )},
+					{"parent_window_component_name", PropertiesParser::OptionalValue<std::string>([&desc](const std::string& value){
+						desc.parent_window = Core::ComponentsManager::getSingleton()->findComponent(value.c_str());
+					}
+					)}
 				}
 			);
 

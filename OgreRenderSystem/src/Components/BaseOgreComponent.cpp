@@ -4,71 +4,71 @@
 #include <OgreRenderSubsystem.h>
 #include <Logging.h>
 #include <MessageSystem/BaseMessageListener.h>
+#include <ComponentSystem/ComponentsManager.h>
 
 namespace UnknownEngine {
 	namespace Graphics
 	{
-		BaseOgreComponent::BaseOgreComponent ( const std::string& name, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context ) :
+		BaseOgreComponent::BaseOgreComponent ( const std::string& name, OgreRenderSubsystem* render_subsystem ) :
 			Core::BaseComponent(name.c_str()),
-			shutdown_initialized(false),
-			render_subsystem ( render_subsystem )
+			render_subsystem ( render_subsystem ),
+			state(State::CREATION),
+			parent_entity(nullptr)
 		{
+			Core::ComponentsManager::getSingleton()->reserveComponent(render_subsystem);
 		}
 		
 		BaseOgreComponent::~BaseOgreComponent() {
+			Core::ComponentsManager::getSingleton()->releaseComponent(render_subsystem);
 		}
-		
-		void BaseOgreComponent::init ( const UnknownEngine::Core::IEntity* parent_entity )
+
+		void BaseOgreComponent::init ( const Core::IEntity* parent_entity )
 		{
-			if ( render_subsystem->hasSeparateRenderThreadEnabled() )
+			if(state == State::CREATION)
 			{
-				initMessageListenerBuffers(true);
-				render_subsystem->addInitCallback ( [this, parent_entity]()
-				{
-					this->internalInit ( parent_entity );
-				} );
+				state = State::INITIALIZATION;
+				render_subsystem->initComponent(this);
 			}
-			else
-			{
-				initMessageListenerBuffers(false);
-				this->internalInit ( parent_entity );
-			}
-			
-			render_subsystem->addSynchronizeCallback ( this->getName(), [this]()
-				{
-					if(!shutdown_initialized) 
-					{
-						if(listener)
-						{
-							listener->flushAllMessageBuffers();
-						}
-						this->update();
-					}
-				} );
 		}
 		
 		void BaseOgreComponent::shutdown()
 		{
-			render_subsystem->removeSynchronizeCallback ( this->getName() );
-			
-			if ( render_subsystem->hasSeparateRenderThreadEnabled() )
+			if(state == State::WORK)
 			{
-				shutdown_initialized = true;
-				render_subsystem->addShutdownCallback ( [this]()
-				{
-					this->internalShutdown ( );
-					shutdown_initialized = false;
-				} );
-			}
-			else
-			{
-				this->internalShutdown();
+				state = State::SHUTTING_DOWN;
+				render_subsystem->shutdownComponent(this);
 			}
 		}
-		
-		void BaseOgreComponent::setMessageListener ( std::unique_ptr< Core::BaseMessageListener > listener )
+
+		void BaseOgreComponent::_init()
 		{
-			this->listener = std::move(listener);
+			internalInit(parent_entity);
+			state = State::WORK;
+		}
+
+		void BaseOgreComponent::_shutdown()
+		{
+			if(state == State::WORK)
+			{
+				internalShutdown();
+			}
+			state = State::DELETION;
+		}
+
+		void BaseOgreComponent::_destroy()
+		{
+			if(destruction_callback) destruction_callback(this);
+		}
+
+		void BaseOgreComponent::setDestructionCallback ( std::function< void (Core::IComponent*)> callback )
+		{
+			destruction_callback = callback;
+			render_subsystem->destroyComponent(this);
+		}
+		
+		BaseOgreComponent::State BaseOgreComponent::getState() const
+		{
+			return state;
 		}
 
 	}

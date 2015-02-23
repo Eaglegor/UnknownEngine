@@ -24,12 +24,14 @@ namespace UnknownEngine
 	{
 
 
-		OgreCameraComponent::OgreCameraComponent ( const std::string &name, const OgreCameraComponentDescriptor &desc, OgreRenderSubsystem *render_subsystem, Core::EngineContext *engine_context )
-			: BaseOgreComponent ( name, render_subsystem, engine_context ),
-			  desc ( desc )
+		OgreCameraComponent::OgreCameraComponent ( const std::string &name, const OgreCameraComponentDescriptor &desc, OgreRenderSubsystem *render_subsystem )
+			: BaseOgreComponent ( name, render_subsystem ),
+			  desc ( desc ),
+			  logger(name, desc.log_level),
+			  scene_node(nullptr),
+			  camera(nullptr),
+			  render_window(desc.render_window)
 		{
-			logger = CREATE_LOGGER(getName(), desc.log_level);
-
 			LOG_INFO ( logger, "Logger initialized" );
 		}
 
@@ -40,8 +42,6 @@ namespace UnknownEngine
 
 			LOG_INFO ( logger, "Destroying OGRE scene node" );
 			render_subsystem->getSceneManager()->destroySceneNode ( this->scene_node );
-			
-			RELEASE_LOGGER(logger);
 		}
 
 		UnknownEngine::Core::ComponentType OgreCameraComponent::getType() const
@@ -49,18 +49,20 @@ namespace UnknownEngine
 			return OGRE_CAMERA_COMPONENT_TYPE;
 		}
 
-
 		void OgreCameraComponent::internalInit ( const UnknownEngine::Core::IEntity *parent_entity )
 		{
+			if(!render_window) {
+				LOG_ERROR(logger, "Can't find render window to create camera viewport");
+				return;
+			}
+			
 			LOG_INFO ( logger, "Creating OGRE camera" );
 			this->camera = render_subsystem->getSceneManager()->createCamera ( Ogre::String ( getName() ) + ".Camera" );
 
 			LOG_INFO ( logger, "Creating OGRE scene node" );
 			this->scene_node = render_subsystem->getSceneManager()->getRootSceneNode()->createChildSceneNode ( Ogre::String ( getName() ) + ".SceneNode" );
 
-			Ogre::RenderWindow* render_window = render_subsystem->getRenderWindow(desc.render_window_name);
-			if(!render_window) throw RenderWindowNotFound("Can't find render window " + desc.render_window_name + " to create viewport for camera " + std::string(getName()));
-			render_window->addViewport ( camera );
+			render_window->getOgreRenderWindow()->addViewport ( camera );
 
 			scene_node->setPosition ( OgreVector3Converter::toOgreVector ( desc.initial_transform.getPosition() ) );
 			scene_node->setOrientation ( OgreQuaternionConverter::toOgreQuaternion ( desc.initial_transform.getOrientation() ) );
@@ -79,16 +81,12 @@ namespace UnknownEngine
 			if ( desc.far_clip_distance.is_initialized() ) camera->setFarClipDistance ( desc.far_clip_distance.get() );
 
 			this->scene_node->attachObject ( this->camera );
-			
-			if(listener && !listener->isRegisteredAtDispatcher()) listener->registerAtDispatcher();
 		}
 
 		void OgreCameraComponent::internalShutdown()
 		{
-			if(listener) listener->unregisterAtDispatcher();
-			
 			LOG_INFO ( logger, "Shutting down" );
-			this->scene_node->detachObject ( this->camera );
+			if(scene_node && camera) this->scene_node->detachObject ( this->camera );
 		}
 
 		void OgreCameraComponent::onTransformChanged ( const Core::TransformChangedMessage &msg )
@@ -100,49 +98,6 @@ namespace UnknownEngine
 		void OgreCameraComponent::doLookAt ( const CameraLookAtActionMessage &msg )
 		{
 			camera->lookAt ( OgreVector3Converter::toOgreVector ( msg.look_at_position ) );
-		}
-
-		void OgreCameraComponent::initMessageListenerBuffers ( bool can_be_multi_threaded )
-		{
-			if ( !listener ) return;
-
-			if ( can_be_multi_threaded )
-			{
-				{
-					typedef Core::TransformChangedMessage MessageType;
-					typedef Utils::OnlyLastMessageBuffer<MessageType> BufferType;
-
-					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreCameraComponent::onTransformChanged);
-				}
-
-				{
-					typedef CameraLookAtActionMessage MessageType;
-					typedef Utils::OnlyLastMessageBuffer<MessageType> BufferType;
-
-					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreCameraComponent::doLookAt);
-				}
-
-				listener->registerAtDispatcher();
-				
-			}
-			else
-			{
-				
-				{
-					typedef Core::TransformChangedMessage MessageType;
-					typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
-
-					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreCameraComponent::onTransformChanged);
-				}
-
-				{
-					typedef CameraLookAtActionMessage MessageType;
-					typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
-
-					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreCameraComponent::doLookAt);
-				}
-
-			}
 		}
 
 	}

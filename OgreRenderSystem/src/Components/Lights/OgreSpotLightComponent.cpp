@@ -12,18 +12,16 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 		
-		OgreSpotLightComponent::OgreSpotLightComponent ( const std::string& name, const OgreSpotLightComponentDescriptor& desc, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context ) : 
-		BaseOgreLightComponent ( name, render_subsystem, engine_context, desc.light_settings ), 
-		desc(desc)
+		OgreSpotLightComponent::OgreSpotLightComponent ( const std::string& name, const OgreSpotLightComponentDescriptor& desc, OgreRenderSubsystem* render_subsystem) : 
+		BaseOgreLightComponent ( name, render_subsystem, desc.light_settings ), 
+		desc(desc),
+		logger(name.c_str(), desc.log_level)
 		{
-			logger = CREATE_LOGGER(getName(), desc.log_level);
-			
 			LOG_INFO ( logger, "Logger initialized" );			
 		}
 		
 		OgreSpotLightComponent::~OgreSpotLightComponent()
 		{
-			RELEASE_LOGGER(logger);
 		}
 		
 		UnknownEngine::Core::ComponentType OgreSpotLightComponent::getType() const

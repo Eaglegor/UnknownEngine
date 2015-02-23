@@ -1,24 +1,22 @@
 #include <stdafx.h>
 
-#include <Factories/OgreMeshPtrDataProvidersFactory.h>
+#include <Factories/OgreDataProvidersFactory.h>
 
 #include <DataProviders/OgreMeshPtrFromMeshDataProvider.h>
 #include <Parsers/Descriptors/OgreMeshPtrFromMeshDataProviderDescriptorParser.h>
 #include <ResourceManager/DataProviders/DataProviderDesc.h>
 #include <Factories/OgreGetDescriptorVisitor.h>
+#include <OgreRenderSubsystem.h>
 
 namespace UnknownEngine {
 	namespace Graphics {
 		
 		static OgreGetDescriptorVisitor<OgreMeshPtrFromMeshDataProviderDescriptor, OgreMeshPtrFromMeshDataProviderDescriptorParser> descriptor_getter;
 		
-		OgreMeshPtrDataProvidersFactory::OgreMeshPtrDataProvidersFactory( Core::ILogger* logger, Core::EngineContext* engine_context, OgreRenderSubsystem* render_subsystem )
-		:logger(logger),
-		 engine_context(engine_context),
-		 render_subsystem(render_subsystem)
+		OgreDataProvidersFactory::OgreDataProvidersFactory():
+		render_subsystem(nullptr)
 		{
-			
-			typedef OgreMeshPtrDataProvidersFactory self_type;
+			typedef OgreDataProvidersFactory self_type;
 			
 			CreatableObjectDesc creatable_data_provider;
 			creatable_data_provider.type = OGRE_MESH_PTR_FROM_MESH_DATA_PROVIDER_TYPE;
@@ -26,14 +24,20 @@ namespace UnknownEngine {
 			registerCreator(creatable_data_provider);
 		}
 
-		const char* OgreMeshPtrDataProvidersFactory::getName() const
+		void OgreDataProvidersFactory::setRenderSubsystem ( OgreRenderSubsystem* render_subsystem )
 		{
-			return "Graphics.OgreRenderSystem.OgreMeshPtrDataProvidersFactory";
+			this->render_subsystem = render_subsystem;
+		}
+		
+		const char* OgreDataProvidersFactory::getName() const
+		{
+			return "Ogre.DataProvidersFactory";
 		}
 
-		Core::IDataProvider* OgreMeshPtrDataProvidersFactory::createOgreMeshPtrFromMeshDataProvider ( const Core::DataProviderDesc& desc )
+		Core::IDataProvider* OgreDataProvidersFactory::createOgreMeshPtrFromMeshDataProvider ( const Core::DataProviderDesc& desc )
 		{
-			return new OgreMeshPtrFromMeshDataProvider(desc.name, desc.descriptor.apply_visitor(descriptor_getter), render_subsystem, engine_context);
+			if(!render_subsystem) return nullptr;
+			return new OgreMeshPtrFromMeshDataProvider(desc.name, desc.descriptor.apply_visitor(descriptor_getter), render_subsystem);
 		}
 		
 	}

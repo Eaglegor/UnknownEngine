@@ -19,8 +19,8 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		BaseOgreLightComponent::BaseOgreLightComponent ( const std::string& name, UnknownEngine::Graphics::OgreRenderSubsystem* render_subsystem, UnknownEngine::Core::EngineContext* engine_context, const UnknownEngine::Graphics::OgreLightSettings& light_settings ):
-		BaseOgreComponent(name, render_subsystem, engine_context),
+		BaseOgreLightComponent::BaseOgreLightComponent ( const std::string& name, UnknownEngine::Graphics::OgreRenderSubsystem* render_subsystem, const UnknownEngine::Graphics::OgreLightSettings& light_settings ):
+		BaseOgreComponent(name, render_subsystem),
 		light_settings(light_settings)
 		{
 		}
@@ -53,13 +53,10 @@ namespace UnknownEngine
 			
 			ogre_scene_node->attachObject(ogre_light);
 			
-			if(listener && !listener->isRegisteredAtDispatcher()) listener->registerAtDispatcher();
 		}
 		
 		void BaseOgreLightComponent::internalShutdown()
 		{
-			if(listener) listener->unregisterAtDispatcher();
-			
 			ogre_scene_node->detachObject(ogre_light);
 			
 			render_subsystem->getSceneManager()->destroyLight(ogre_light);
@@ -70,37 +67,6 @@ namespace UnknownEngine
 		{
 			ogre_scene_node->setPosition( OgreVector3Converter::toOgreVector(msg.new_transform.getPosition()) );
 			ogre_scene_node->setOrientation( OgreQuaternionConverter::toOgreQuaternion(msg.new_transform.getOrientation()) );
-		}
-		
-		void BaseOgreLightComponent::initMessageListenerBuffers ( bool can_be_multi_threaded )
-		{
-			if(!listener) return;
-			
-			if(can_be_multi_threaded)
-			{
-
-				{
-					typedef Core::TransformChangedMessage MessageType;
-					typedef Utils::OnlyLastMessageBuffer<MessageType> BufferType;
-					
-					listener->createMessageBuffer<MessageType, BufferType>(this, &BaseOgreLightComponent::onTransformChanged);
-				}
-
-				listener->registerAtDispatcher();
-				
-			}
-			else
-			{
-
-				{
-					typedef Core::TransformChangedMessage MessageType;
-					typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
-
-					listener->createMessageBuffer<MessageType, BufferType>(this, &BaseOgreLightComponent::onTransformChanged);
-				}
-
-				
-			}
 		}
 		
 	}

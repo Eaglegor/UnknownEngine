@@ -15,18 +15,17 @@ namespace UnknownEngine
 		
 		class OgreRenderSubsystem;
 
-		class OgreMeshPtrDataProvidersFactory : public Core::BaseDataProviderFactory
+		class OgreDataProvidersFactory : public Core::BaseDataProviderFactory
 		{
 		public:
-			OgreMeshPtrDataProvidersFactory(Core::ILogger* logger, Core::EngineContext* engine_context, OgreRenderSubsystem* render_subsystem);
+			OgreDataProvidersFactory();
 			virtual const char* getName() const override;
+			
+			void setRenderSubsystem(OgreRenderSubsystem* render_subsystem);
 			
 		private:
 			Core::IDataProvider* createOgreMeshPtrFromMeshDataProvider ( const Core::DataProviderDesc& desc );
 			
-			Core::ILogger* logger;
-			
-			Core::EngineContext* engine_context;
 			OgreRenderSubsystem* render_subsystem;
 			
 		};

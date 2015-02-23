@@ -1,5 +1,6 @@
 #include <SDLWindow.h>
 #include <WindowEventsProcessor.h>
+#include <SDLWindowManager.h>
 #include <ComponentSystem/ComponentsManager.h>
 #include <SDL_video.h>
 #include <SDL_syswm.h>
@@ -31,7 +32,7 @@ namespace UnknownEngine
 			if(desc.full_screen) flags |= SDL_WINDOW_FULLSCREEN;
 			sdl_window = SDL_CreateWindow(desc.window_title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, desc.width, desc.height, flags);
 			
-			window_events_processor.reset ( new WindowEventsProcessor(name, window_manager) );
+			window_events_processor.reset ( new WindowEventsProcessor(getName(), window_manager) );
 			
 			if(update_frame_provider) update_frame_provider->addListener(this); 
 		}
@@ -70,7 +71,7 @@ namespace UnknownEngine
 		
 		Core::IComponentInterface* SDLWindow::getInterface ( const Core::ComponentType& type )
 		{
-			if(type == ComponentInterfaces::GUIWindowComponent::getTypeName()) return this;
+			if(type == ComponentInterfaces::GUIWindowComponent::getTypeName()) return static_cast<ComponentInterfaces::GUIWindowComponent*>(this);
 			return nullptr;
 		}
 

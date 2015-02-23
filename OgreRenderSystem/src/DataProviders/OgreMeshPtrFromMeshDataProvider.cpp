@@ -16,7 +16,7 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 		
-		OgreMeshPtrFromMeshDataProvider::OgreMeshPtrFromMeshDataProvider ( const std::string& name, const OgreMeshPtrFromMeshDataProviderDescriptor& descriptor, UnknownEngine::Graphics::OgreRenderSubsystem* render_subsystem, UnknownEngine::Core::EngineContext* engine_context )
+		OgreMeshPtrFromMeshDataProvider::OgreMeshPtrFromMeshDataProvider ( const std::string& name, const OgreMeshPtrFromMeshDataProviderDescriptor& descriptor, UnknownEngine::Graphics::OgreRenderSubsystem* render_subsystem )
 			: OgreMeshPtrProvider ( name ),
 			  mesh_data_provider ( descriptor.mesh_data_provider ),
 			  render_subsystem(render_subsystem),

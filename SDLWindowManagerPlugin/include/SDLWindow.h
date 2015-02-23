@@ -27,7 +27,7 @@ namespace UnknownEngine
 			SDLWindow(const char* name, const SDLWindowDesc &desc, SDLWindowManager* window_manager);
 			virtual ~SDLWindow();
 			
-			constexpr static const char* getTypeName() override {return "SDL.Window";}
+			constexpr static const char* getTypeName() {return "SDL.Window";}
 			virtual Core::ComponentType getType() const override {return getTypeName();}
 			
 			virtual void init ( const Core::IEntity* parent_entity ) override;

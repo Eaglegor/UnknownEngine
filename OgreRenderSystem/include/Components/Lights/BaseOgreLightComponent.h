@@ -27,7 +27,7 @@ namespace UnknownEngine
 		class BaseOgreLightComponent : public BaseOgreComponent
 		{
 			public:
-				BaseOgreLightComponent ( const std::string& name, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context, const OgreLightSettings& light_settings );
+				BaseOgreLightComponent ( const std::string& name, OgreRenderSubsystem* render_subsystem, const OgreLightSettings& light_settings );
 				virtual ~BaseOgreLightComponent();
 				
 				void onTransformChanged(const Core::TransformChangedMessage& msg);
@@ -35,9 +35,7 @@ namespace UnknownEngine
 			protected:
 				virtual void internalInit(const Core::IEntity* parent_entity) override;
 				virtual void internalShutdown() override;
-				
-				virtual void initMessageListenerBuffers ( bool can_be_multi_threaded ) override;
-				
+
 				OgreLightSettings light_settings;
 				
 				Ogre::Light* ogre_light;

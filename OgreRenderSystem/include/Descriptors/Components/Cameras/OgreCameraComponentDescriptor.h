@@ -7,6 +7,11 @@
 
 namespace UnknownEngine
 {
+	namespace Core
+	{
+		class IComponent;
+	}
+	
 	namespace Graphics
 	{
 		UNKNOWNENGINE_ALIGNED_STRUCT ( 16 ) OgreCameraComponentDescriptor
@@ -18,7 +23,7 @@ namespace UnknownEngine
 			boost::optional<Math::Scalar> near_clip_distance;
 			boost::optional<Math::Scalar> far_clip_distance;
 
-			std::string render_window_name;
+			Core::IComponent* render_window;
 			
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 

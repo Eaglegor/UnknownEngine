@@ -1,6 +1,6 @@
 #include <stdafx.h>
 
-#include <Parsers/Descriptors/OgreSubsystemDescParser.h>
+#include <Parsers/Descriptors/OgreRenderSubsystemDescriptorParser.h>
 #include <Parsers/Descriptors/OgreRenderWindowDescriptorParser.h>
 #include <Descriptors/OgreRenderWindowDescriptor.h>
 
@@ -35,18 +35,7 @@ namespace UnknownEngine
 						}
 						)
 					},
-					{
-						"RenderWindow",
-						PropertiesParser::ExternalParserOptionalNestedValue<OgreRenderWindowDescriptor, OgreRenderWindowDescriptorParser>
-						(desc.render_window_descriptor)
-					},
-					{"separate_rendering_thread", PropertiesParser::OptionalValue<bool>(desc.separate_rendering_thread) },
-					{"show_config_dialog", PropertiesParser::OptionalValue<bool>(desc.show_config_dialog) },
-					{"update_frame_provider_name", PropertiesParser::OptionalValue<std::string>([&desc](const std::string& value){
-						desc.update_frame_provider = Core::ComponentsManager::getSingleton()->findComponent(value.c_str());
-					}
-					)}
-					
+					{"show_config_dialog", PropertiesParser::OptionalValue<bool>(desc.show_config_dialog) }
 				}
 			);
 			
