@@ -26,6 +26,7 @@ namespace UnknownEngine
 			void destroyRenderSubsystem(Core::IComponent* component);
 			
 			Core::IComponent* createOgreRenderWindow(const Core::ComponentDesc& desc);
+			void destroyOgreRenderWindow(Core::IComponent* component);
 			
 			OgreRenderSubsystem* render_subsystem;
 			OgreComponentsFactory* components_factory;

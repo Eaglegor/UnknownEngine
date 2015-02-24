@@ -28,20 +28,17 @@ namespace UnknownEngine
 		struct ChangeMaterialActionMessage;
 		class OgreRenderSubsystem;
 
-		const Core::ComponentType OGRE_RENDERABLE_COMPONENT_TYPE = "Graphics.Renderable";
-
 		UNKNOWNENGINE_ALIGNED_CLASS(16) OgreRenderableComponent: public BaseOgreComponent
 		{
 			public:
 
-				constexpr static const char* getTypeName(){return "Ogre.Renderable";}
-				
 				UNKNOWNENGINE_SIMPLE_EXCEPTION(NoMeshDataProvidedException);
 				
 				OgreRenderableComponent ( const std::string &name, const OgreRenderableComponentDescriptor &desc, OgreRenderSubsystem* render_subsystem );
 				virtual ~OgreRenderableComponent();
-			
- 				virtual Core::ComponentType getType() const override;
+
+				constexpr static const char* getTypeName(){return "Ogre.Renderable";}
+ 				virtual Core::ComponentType getType() const override {return getTypeName();}
 				
 				virtual void _update() override;
 

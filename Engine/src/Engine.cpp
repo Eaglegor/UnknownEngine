@@ -92,11 +92,11 @@ namespace UnknownEngine
 			this->context.components_manager->clearEntities();
 
 			this->context.resource_manager->waitUntilAllDataProvidersReleased();
-
+			this->context.components_manager->waitUntilAllComponentsReleased();
+			
 			LOG_INFO ( logger, "Destroying plugins manager" );
 			PluginsManager::destroyInstance();
 
-			this->context.components_manager->waitUntilAllComponentsReleased();
 			context.getComponentsManager()->removeComponentFactory ( main_loop_factory.get() );
 			main_loop_factory.reset();
 			

@@ -57,7 +57,10 @@ namespace UnknownEngine {
 
 		void BaseOgreComponent::_destroy()
 		{
-			if(destruction_callback) destruction_callback(this);
+			if(destruction_callback) 
+			{
+				destruction_callback(this);
+			}
 		}
 
 		void BaseOgreComponent::setDestructionCallback ( std::function< void (Core::IComponent*)> callback )

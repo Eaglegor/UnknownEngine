@@ -8,18 +8,15 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		static const Core::ComponentType OGRE_DIRECTIONAL_LIGHT_COMPONENT_TYPE = "Graphics.Light.Directional";
-		
 		UNKNOWNENGINE_ALIGNED_CLASS(16) OgreDirectionalLightComponent : public BaseOgreLightComponent
 		{
 			public:
 				
-				constexpr static const char* getTypeName(){return "Ogre.DirectionalLight";}
-				
 				OgreDirectionalLightComponent ( const std::string& name, const OgreDirectionalLightComponentDescriptor& desc, OgreRenderSubsystem* render_subsystem);
 				virtual ~OgreDirectionalLightComponent();
 				
-				virtual Core::ComponentType getType() const override;
+				constexpr static const char* getTypeName(){return "Ogre.DirectionalLight";}				
+				virtual Core::ComponentType getType() const override {return getTypeName();}
 				
 				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 				

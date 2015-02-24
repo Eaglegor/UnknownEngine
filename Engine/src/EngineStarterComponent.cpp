@@ -1,6 +1,5 @@
 #include <EngineStarterComponent.h>
 #include <Engine.h>
-#include <d2d1helper.h>
 
 namespace UnknownEngine
 {

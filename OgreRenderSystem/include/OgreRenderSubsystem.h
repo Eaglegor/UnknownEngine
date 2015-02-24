@@ -34,30 +34,23 @@ namespace UnknownEngine
 			
 			virtual void onUpdateFrame(Math::Scalar dt) override;
 			
-			void initComponent(BaseOgreComponent* component);
-			void shutdownComponent(BaseOgreComponent* component);
-			void destroyComponent(BaseOgreComponent* component);
+			virtual void initComponent(BaseOgreComponent* component) = 0;
+			virtual void shutdownComponent(BaseOgreComponent* component) = 0;
+			virtual void destroyComponent(BaseOgreComponent* component) = 0;
 		
 			Ogre::Root* getRoot(){return root;}
 			Ogre::SceneManager* getSceneManager(){return scene_manager;}
 			
 			void onWindowCreated();
 			
+		protected:
+			std::unordered_set<BaseOgreComponent*> components;
+			
 		private:
 			void loadResourcesFile ( const std::string& filename );
 			
 			OgreRenderSubsystemDescriptor desc;
 			Core::LogHelper logger;
-			
-			std::unordered_set<BaseOgreComponent*> components;
-			std::queue<BaseOgreComponent*> initializing_components;
-			std::queue<BaseOgreComponent*> shutting_down_components;
-			std::queue<BaseOgreComponent*> destructing_components;
-			
-			typedef std::mutex LockPrimitive;
-			LockPrimitive initializing_components_lock;
-			LockPrimitive shutting_down_components_lock;
-			LockPrimitive destructing_components_lock;
 			
 			Ogre::LogManager* ogre_log_manager;
 			Ogre::Root* root;

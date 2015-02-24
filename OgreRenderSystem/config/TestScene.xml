@@ -80,9 +80,10 @@
 				<option name="log_level" value="${global_log_level}"/>
 				<option name="enable_profiling" value="false"/>
 				<option name="enable_hardware" value="false"/>
-				<option name="update_frame_provider_name" value="Engine.MainLoop"/>
+				<option name="update_frame_provider_name" value=""/>
 			</options_section>
 		</subsystem>
+		
 		<!--
 		<subsystem name="ScriptEngine" module="AngelScriptPlugin">
 			<options_section>
@@ -116,7 +117,7 @@
 				</options_section>
 			</component>
 			
-			<component name="OgreRenderSubsystem" type="Ogre.SingleThreadRenderSubsystem">
+			<component name="OgreRenderSubsystem" type="Ogre.SeparateThreadRenderSubsystem">
 				
 				<options_section>
 					<option name="log_level" value="${global_log_level}"/>
@@ -158,6 +159,15 @@
 					<option name="keyboard_input_provider_name" value="System.SDLRenderWindow"/>
 					<option name="mouse_input_provider_name" value="System.SDLRenderWindow"/>
 					<option name="joystick_input_provider_name" value="System.SDLRenderWindow"/>
+				</options_section>
+			</component>
+			
+			<component name="EngineStopper" type="Behavior.SimpleStopper">
+				<options_section>
+					<option name="input_context_name" value="Generic"/>
+					<option name="action_name" value="StopEngine"/>
+					<option name="input_context_mapping_provider_name" value="System.InputContextMapper"/>
+					<option name="stoppable_component_name" value="Engine.Starter"/>
 				</options_section>
 			</component>
 			

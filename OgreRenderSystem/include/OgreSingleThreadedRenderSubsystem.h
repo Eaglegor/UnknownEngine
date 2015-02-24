@@ -22,6 +22,10 @@ namespace UnknownEngine
 			
 			virtual void onUpdateFrame ( Math::Scalar dt ) override;
 			
+			virtual void initComponent ( BaseOgreComponent* component ) override;
+			virtual void shutdownComponent ( BaseOgreComponent* component ) override;
+			virtual void destroyComponent ( BaseOgreComponent* component ) override;
+			
 		private:
 			Core::ComponentInterfacePtr<ComponentInterfaces::FrameUpdaterComponent> update_frame_provider;
 		};

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <boost/variant.hpp>
-#include <Descriptors/SimpleEngineStopperDesc.h>
+#include <Descriptors/SimpleStopperDesc.h>
 #include <DescriptorContainer.h>
 #include <Exception.h>
 #include <Properties/Properties.h>
@@ -14,32 +14,35 @@ namespace UnknownEngine
 {
 	namespace Behavior
 	{
-		class SimpleEngineStopperComponentDescriptorGetter : public boost::static_visitor<SimpleEngineStopperDesc>
+		class SimpleStopperComponentDescriptorGetter : public boost::static_visitor<SimpleStopperDesc>
 		{
 		public:
 			UNKNOWNENGINE_SIMPLE_EXCEPTION(NoDescriptorProvided);
 
-            SimpleEngineStopperDesc operator()(const Core::DescriptorContainer& descriptor) const
+            SimpleStopperDesc operator()(const Core::DescriptorContainer& descriptor) const
 			{
 				if(descriptor.isEmpty()) throw NoDescriptorProvided("No descriptor provided to create component");
-				return descriptor.get<SimpleEngineStopperDesc>();
+				return descriptor.get<SimpleStopperDesc>();
 			}
 
-            SimpleEngineStopperDesc operator()(const Core::Properties &properties) const
+            SimpleStopperDesc operator()(const Core::Properties &properties) const
 			{
-                SimpleEngineStopperDesc desc;
+                SimpleStopperDesc desc;
 				
 				using Utils::PropertiesParser;
-
-                desc.engine_starter_component = Core::ComponentsManager::getSingleton()->findComponent("Engine.Starter");
 
 				Utils::PropertiesParser properties_parser;
 				properties_parser.parse(
 					properties,
 					{
 						{"input_context_name", PropertiesParser::RequiredValue<std::string>(desc.input_context_name)},
+						{"action_name", PropertiesParser::RequiredValue<std::string>(desc.action_name)},
 						{"input_context_mapping_provider_name", PropertiesParser::RequiredValue<std::string>([&desc](const std::string& value) {
 							desc.input_context_mapping_provider = Core::ComponentsManager::getSingleton()->findComponent(value.c_str());
+						}
+						)},
+						{"stoppable_component_name", PropertiesParser::RequiredValue<std::string>([&desc](const std::string& value) {
+							desc.stoppable_component = Core::ComponentsManager::getSingleton()->findComponent(value.c_str());
 						}
 						)}
 					}

@@ -28,6 +28,8 @@ namespace UnknownEngine
 		render_subsystem(nullptr)
 		{
 			CreatableObjectDesc creatable_object;
+			creatable_object.deleter = std::bind(&OgreComponentsFactory::destroyOgreComponent, this, std::placeholders::_1); 			
+			
 			creatable_object.creator = std::bind(&OgreComponentsFactory::createCameraComponent, this, std::placeholders::_1);
 			creatable_object.type = OgreCameraComponent::getTypeName();
 			registerCreator(creatable_object);

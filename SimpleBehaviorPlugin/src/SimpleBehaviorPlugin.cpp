@@ -79,16 +79,6 @@ namespace UnknownEngine
 			
 			return true;
 		}
-
-		/*void SimpleBehaviorPlugin::onUpdateFrame( const Core::UpdateFrameMessage& msg )
-		{
-			behaviors_performer->perform(msg.dt);
-		}*/
-
-		void SimpleBehaviorPlugin::stopEngine ( )
-		{
-			stop_engine_message_sender->sendMessage(Core::StopEngineActionMessage());
-		}
 		
 	} /* namespace Graphics */
 } /* namespace UnknownEngine */

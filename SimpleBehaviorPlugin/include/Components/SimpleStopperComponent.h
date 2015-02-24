@@ -5,30 +5,29 @@
 #include <ComponentSystem/ComponentInterfacePtr.h>
 #include <ComponentInterfaces/Engine/IStartableComponent.h>
 #include <ComponentInterfaces/Input/IContextualActionsMapper.h>
-#include <Descriptors/SimpleEngineStopperDesc.h>
+#include <Descriptors/SimpleStopperDesc.h>
 
-class SimpleEngineStopperDesc;
 namespace UnknownEngine
 {
     namespace Behavior
     {
-        class SimpleEngineStopperComponent :
+        class SimpleStopperComponent :
         public Core::BaseComponent
         {
         public:
-            SimpleEngineStopperComponent(const char* name, const SimpleEngineStopperDesc &desc);
+            SimpleStopperComponent(const char* name, const SimpleStopperDesc &desc);
 
             virtual void init(Core::IEntity const *parent_entity);
 
             virtual void shutdown();
 
-            constexpr static const char* getTypeName(){return "Behavior.SimpleEngineStopper";}
+            constexpr static const char* getTypeName(){return "Behavior.SimpleStopper";}
             virtual Core::ComponentType getType() const{return getTypeName();}
 
         private:
             Core::ComponentInterfacePtr<ComponentInterfaces::IContextualActionsMapper> input_context_mapping_provider;
-            Core::ComponentInterfacePtr<ComponentInterfaces::IStartableComponent> engine_starter;
-            SimpleEngineStopperDesc desc;
+            Core::ComponentInterfacePtr<ComponentInterfaces::IStartableComponent> stoppable;
+            SimpleStopperDesc desc;
         };
     }
 }

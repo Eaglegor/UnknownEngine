@@ -9,8 +9,8 @@
 #include <Components/SimpleCreateJointComponent.h>
 #include <Parsers/SimpleCreateJointComponentDescriptorGetter.h>
 #include <Parsers/SimpleRotationComponentDescriptorGetter.h>
-#include <Parsers/SimpleEngineStopperComponentDescriptorGetter.h>
-#include <Components/SimpleEngineStopperComponent.h>
+#include <Parsers/SimpleStopperComponentDescriptorGetter.h>
+#include <Components/SimpleStopperComponent.h>
 
 #include <Transform/Transform.h>
 
@@ -22,7 +22,7 @@ namespace UnknownEngine
 		static SimpleRotationComponentDescriptorGetter rotation_descriptor_getter;
 		static MouseLookComponentDescriptorGetter mouse_look_descriptor_getter;
 		static SimpleCreateJointComponentDescriptorGetter simple_create_joint_descriptor_getter;
-        static SimpleEngineStopperComponentDescriptorGetter simple_engine_stopper_descriptor_getter;
+        static SimpleStopperComponentDescriptorGetter simple_stopper_descriptor_getter;
 		
 		SimpleBehaviorsFactory::SimpleBehaviorsFactory ( UnknownEngine::Core::EngineContext* engine_context):
 		engine_context(engine_context)
@@ -30,22 +30,18 @@ namespace UnknownEngine
 			CreatableObjectDesc creatable_component;
 			creatable_component.type = SIMPLE_ROTATION_COMPONENT_TYPE;
 			creatable_component.creator = std::bind(&SimpleBehaviorsFactory::createSimpleRotationComponent, this, std::placeholders::_1);
-			creatable_component.deleter = std::bind(&SimpleBehaviorsFactory::destroySimpleBehaviorComponent, this, std::placeholders::_1);
 			registerCreator(creatable_component);
 			
 			creatable_component.type = MOUSE_LOOK_COMPONENT_TYPE;
 			creatable_component.creator = std::bind(&SimpleBehaviorsFactory::createMouseLookComponent, this, std::placeholders::_1);
-			creatable_component.deleter = std::bind(&SimpleBehaviorsFactory::destroySimpleBehaviorComponent, this, std::placeholders::_1);
 			registerCreator(creatable_component);
 			
 			creatable_component.type = SIMPLE_CREATE_JOINT_COMPONENT_TYPE;
             creatable_component.creator = std::bind(&SimpleBehaviorsFactory::createSimpleCreateJointComponent, this, std::placeholders::_1);
-            creatable_component.deleter = std::bind(&SimpleBehaviorsFactory::destroySimpleBehaviorComponent, this, std::placeholders::_1);
             registerCreator(creatable_component);
 
-            creatable_component.type = SimpleEngineStopperComponent::getTypeName();
-            creatable_component.creator = std::bind(&SimpleBehaviorsFactory::createSimpleEngineStopperComponent, this, std::placeholders::_1);
-            creatable_component.deleter = std::bind(&SimpleBehaviorsFactory::destroySimpleBehaviorComponent, this, std::placeholders::_1);
+            creatable_component.type = SimpleStopperComponent::getTypeName();
+            creatable_component.creator = std::bind(&SimpleBehaviorsFactory::createSimpleStopperComponent, this, std::placeholders::_1);
             registerCreator(creatable_component);
 		}
 
@@ -70,18 +66,12 @@ namespace UnknownEngine
 			return component;
 		}
 
-        Core::IComponent* SimpleBehaviorsFactory::createSimpleEngineStopperComponent ( const Core::ComponentDesc& desc )
+        Core::IComponent* SimpleBehaviorsFactory::createSimpleStopperComponent ( const Core::ComponentDesc& desc )
         {
-            SimpleEngineStopperDesc component_desc = desc.descriptor.apply_visitor(simple_engine_stopper_descriptor_getter);
-            SimpleEngineStopperComponent* component = new SimpleEngineStopperComponent(desc.name.c_str(), component_desc);
+            SimpleStopperDesc component_desc = desc.descriptor.apply_visitor(simple_stopper_descriptor_getter);
+            SimpleStopperComponent* component = new SimpleStopperComponent(desc.name.c_str(), component_desc);
             return component;
         }
-
-		void SimpleBehaviorsFactory::destroySimpleBehaviorComponent ( Core::IComponent* object )
-		{
-			//behaviors_performer->removeSimpleBehaviorComponent( static_cast<SimpleBehaviorComponent*>(object) );
-			delete object;
-		}
 		
 		const char* SimpleBehaviorsFactory::getName() const
 		{

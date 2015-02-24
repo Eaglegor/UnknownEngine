@@ -8,8 +8,6 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		static const Core::ComponentType OGRE_SPOT_LIGHT_COMPONENT_TYPE = "Graphics.Light.Spot";
-		
 		UNKNOWNENGINE_ALIGNED_CLASS(16) OgreSpotLightComponent : public BaseOgreLightComponent
 		{
 			public:
@@ -19,7 +17,7 @@ namespace UnknownEngine
 				OgreSpotLightComponent ( const std::string& name, const OgreSpotLightComponentDescriptor& desc, OgreRenderSubsystem* render_subsystem);
 				virtual ~OgreSpotLightComponent();
 				
-				virtual Core::ComponentType getType() const override;
+				virtual Core::ComponentType getType() const override {return getTypeName();}
 				
 				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 

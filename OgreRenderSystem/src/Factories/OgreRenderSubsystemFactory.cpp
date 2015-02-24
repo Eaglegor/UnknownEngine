@@ -29,16 +29,18 @@ namespace UnknownEngine
 		data_providers_factory(data_providers_factory)
 		{
 			CreatableObjectDesc creatable_object;
-			creatable_object.creator = std::bind(&OgreRenderSubsystemFactory::createSingleThreadedOgreRenderSubsystem, this, std::placeholders::_1);
 			creatable_object.type = OgreSingleThreadedRenderSubsystem::getTypeName();
+			creatable_object.creator = std::bind(&OgreRenderSubsystemFactory::createSingleThreadedOgreRenderSubsystem, this, std::placeholders::_1);
+			creatable_object.deleter = std::bind(&OgreRenderSubsystemFactory::destroyRenderSubsystem, this, std::placeholders::_1);
 			registerCreator(creatable_object);
 			
-			creatable_object.creator = std::bind(&OgreRenderSubsystemFactory::createSeparateThreadOgreRenderSubsystem, this, std::placeholders::_1);
 			creatable_object.type = OgreSeparateThreadRenderSubsystem::getTypeName();
+			creatable_object.creator = std::bind(&OgreRenderSubsystemFactory::createSeparateThreadOgreRenderSubsystem, this, std::placeholders::_1);
 			registerCreator(creatable_object);
 			
-			creatable_object.creator = std::bind(&OgreRenderSubsystemFactory::createOgreRenderWindow, this, std::placeholders::_1);
 			creatable_object.type = OgreRenderWindowComponent::getTypeName();
+			creatable_object.creator = std::bind(&OgreRenderSubsystemFactory::createOgreRenderWindow, this, std::placeholders::_1);
+			creatable_object.deleter = std::bind(&OgreRenderSubsystemFactory::destroyOgreRenderWindow, this, std::placeholders::_1);
 			registerCreator(creatable_object);
 		}
 
@@ -77,5 +79,11 @@ namespace UnknownEngine
 			return window;
 		}
 
+		void OgreRenderSubsystemFactory::destroyOgreRenderWindow ( Core::IComponent* component )
+		{
+			BaseOgreComponent* ogre_component = static_cast<BaseOgreComponent*>(component);
+			ogre_component->setDestructionCallback(std::default_delete<Core::IComponent>());
+		}
+		
 	}
 }

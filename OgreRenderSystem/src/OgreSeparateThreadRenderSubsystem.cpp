@@ -1,6 +1,7 @@
 #include <OgreSeparateThreadRenderSubsystem.h>
 #include <Descriptors/OgreSeparateThreadRenderSubsystemDescriptor.h>
 #include <OgreRenderFrameListener.h>
+#include <Components/BaseOgreComponent.h>
 #include <OGRE/OgreRoot.h>
 
 namespace UnknownEngine
@@ -15,6 +16,73 @@ namespace UnknownEngine
 
 		OgreSeparateThreadRenderSubsystem::~OgreSeparateThreadRenderSubsystem()
 		{
+		}
+		
+		void OgreSeparateThreadRenderSubsystem::onUpdateFrame ( Math::Scalar dt )
+		{
+			{
+				std::unique_lock<LockPrimitive> guard(initializing_components_lock);
+				size_t count = initializing_components.size();
+				for(int i = 0; i < count; ++i)
+				{
+					BaseOgreComponent* component = initializing_components.front();
+					initializing_components.pop();
+					if(component->getState() == BaseOgreComponent::State::INITIALIZATION)
+					{
+						guard.unlock();
+						component->_init();
+						guard.lock();
+						components.emplace(component);
+					}
+					else
+					{
+						initializing_components.push(component);
+					}
+				}
+			}
+			
+			UnknownEngine::Graphics::OgreRenderSubsystem::onUpdateFrame ( dt );
+			
+			{
+				std::unique_lock<LockPrimitive> guard(shutting_down_components_lock);
+				size_t count = shutting_down_components.size();
+				for(int i = 0; i < count; ++i)
+				{
+					BaseOgreComponent* component = shutting_down_components.front();
+					shutting_down_components.pop();
+					if(component->getState() == BaseOgreComponent::State::SHUTTING_DOWN)
+					{
+						guard.unlock();
+						component->_shutdown();
+						guard.lock();
+						components.erase(component);
+					}
+					else
+					{
+						shutting_down_components.push(component);
+					}
+				}
+			}
+			
+			{
+				std::unique_lock<LockPrimitive> guard(destructing_components_lock);
+				size_t count = destructing_components.size();
+				for(int i = 0; i < count; ++i)
+				{
+					BaseOgreComponent* component = destructing_components.front();
+					destructing_components.pop();
+					if(component->getState() == BaseOgreComponent::State::DELETION)
+					{
+						guard.unlock();
+						component->_destroy();
+						guard.lock();
+					}
+					else
+					{
+						destructing_components.push(component);
+					}
+				}
+			}
 		}
 		
 		void OgreSeparateThreadRenderSubsystem::init ( const Core::IEntity* parent_entity )
@@ -40,6 +108,25 @@ namespace UnknownEngine
 			listener->stopRendering();
 			listener->waitUntilFinished();
 			listener.reset();
+		}
+		
+				
+		void OgreSeparateThreadRenderSubsystem::initComponent ( BaseOgreComponent* component )
+		{
+			std::lock_guard<LockPrimitive> guard(initializing_components_lock);
+			initializing_components.push(component);
+		}
+
+		void OgreSeparateThreadRenderSubsystem::shutdownComponent ( BaseOgreComponent* component )
+		{
+			std::lock_guard<LockPrimitive> guard(shutting_down_components_lock);
+			shutting_down_components.push(component);
+		}
+		
+		void OgreSeparateThreadRenderSubsystem::destroyComponent ( BaseOgreComponent* component )
+		{
+			std::lock_guard<LockPrimitive> guard(destructing_components_lock);
+			destructing_components.push(component);
 		}
 		
 	}

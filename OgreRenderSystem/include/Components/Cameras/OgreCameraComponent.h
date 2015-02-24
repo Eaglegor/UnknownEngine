@@ -33,20 +33,16 @@ namespace UnknownEngine
 		struct CameraLookAtActionMessage;
 		class OgreRenderSubsystem;
 
-		const Core::ComponentType OGRE_CAMERA_COMPONENT_TYPE = "Graphics.Camera";
-
 		UNKNOWNENGINE_ALIGNED_CLASS(16) OgreCameraComponent : public BaseOgreComponent
 		{
 			public:
-
-				constexpr static const char* getTypeName(){return "Ogre.Camera";}
-				
 				UNKNOWNENGINE_SIMPLE_EXCEPTION(RenderWindowNotFound);
 				
 				OgreCameraComponent ( const std::string &name, const OgreCameraComponentDescriptor& desc, OgreRenderSubsystem *render_subsystem );
 				virtual ~OgreCameraComponent();
 				
-				virtual Core::ComponentType getType() const override;				
+				constexpr static const char* getTypeName(){return "Ogre.Camera";}
+				virtual Core::ComponentType getType() const override {return getTypeName();}
 
 				void doLookAt ( const CameraLookAtActionMessage& msg );
 

@@ -1,4 +1,5 @@
 #include <OgreSingleThreadedRenderSubsystem.h>
+#include <Components/BaseOgreComponent.h>
 #include <OgreWindowEventUtilities.h>
 #include <OgreRoot.h>
 
@@ -32,6 +33,21 @@ namespace UnknownEngine
 			UnknownEngine::Graphics::OgreRenderSubsystem::onUpdateFrame ( dt );
 			Ogre::WindowEventUtilities::messagePump();
 			getRoot()->renderOneFrame();
+		}
+		
+		void OgreSingleThreadedRenderSubsystem::initComponent ( BaseOgreComponent* component )
+		{
+			if(component->getState() == BaseOgreComponent::State::INITIALIZATION) component->_init();
+		}
+
+		void OgreSingleThreadedRenderSubsystem::shutdownComponent ( BaseOgreComponent* component )
+		{
+			if(component->getState() == BaseOgreComponent::State::SHUTTING_DOWN) component->_shutdown();
+		}
+
+		void OgreSingleThreadedRenderSubsystem::destroyComponent ( BaseOgreComponent* component )
+		{
+			if(component->getState() == BaseOgreComponent::State::DELETION) component->_destroy();
 		}
 
 	}

@@ -23,11 +23,6 @@ namespace UnknownEngine
 		OgrePointLightComponent::~OgrePointLightComponent()
 		{
 		}
-		
-		UnknownEngine::Core::ComponentType OgrePointLightComponent::getType() const
-		{
-			return OGRE_POINT_LIGHT_COMPONENT_TYPE;
-		}
 
 		void OgrePointLightComponent::internalInit (const UnknownEngine::Core::IEntity* parent_entity)
 		{
