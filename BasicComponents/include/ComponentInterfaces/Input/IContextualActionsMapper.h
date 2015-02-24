@@ -1,6 +1,7 @@
 #pragma once
 #include <ComponentSystem/IComponentInterface.h>
 #include <functional>
+#include <Scalar.h>
 
 namespace UnknownEngine
 {

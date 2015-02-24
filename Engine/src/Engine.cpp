@@ -25,6 +25,7 @@
 #include <Logging.h>
 #include <EngineLogLevel.h>
 #include <MainLoopComponentFactory.h>
+#include <EngineStarterComponent.h>
 
 namespace UnknownEngine
 {
@@ -75,8 +76,7 @@ namespace UnknownEngine
 		void Engine::stop()
 		{
 			LOG_INFO ( logger, "Stopping engine" );
-			MessageSender<StopEngineActionMessage> sender ( "Engine" );
-			sender.sendMessage ( StopEngineActionMessage() );
+			if(main_loop) main_loop->stop();
 		}
 
 		void Engine::shutdown()
@@ -161,7 +161,7 @@ namespace UnknownEngine
 
 			state = INIT;
 
-			main_loop_factory.reset ( new MainLoopComponentFactory() );
+			main_loop_factory.reset ( new EngineCoreComponentsFactory(*this) );
 			context.getComponentsManager()->addComponentFactory ( main_loop_factory.get() );
 			engine_entity = context.getComponentsManager()->createEntity ( "Engine" );
 			
@@ -182,6 +182,23 @@ namespace UnknownEngine
 					main_loop = static_cast<MainLoopComponent*> ( component );
 				}
 			}
+
+            engine_starter = nullptr;
+            {
+                ComponentDesc desc;
+                desc.type = EngineStarterComponent::getTypeName();
+                desc.name = ENGINE_STARTER_COMPONENT_NAME;
+
+                IComponent* component = engine_entity->createComponent ( desc );
+                if ( !component )
+                {
+                    LOG_ERROR ( logger, "Can't create engine starter component" );
+                }
+                else
+                {
+                    engine_starter = static_cast<EngineStarterComponent*> ( component );
+                }
+            }
 
 		}
 

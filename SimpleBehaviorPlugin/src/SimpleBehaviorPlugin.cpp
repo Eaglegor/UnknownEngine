@@ -56,35 +56,9 @@ namespace UnknownEngine
 
 			LOG_INFO ( logger, "Registering update frame listener..." );
 
-			behaviors_performer.reset (new SimpleBehaviorsPerformer());
-
-
-			stop_engine_message_sender.reset ( new Core::MessageSender<Core::StopEngineActionMessage>(
-				std::string(getName())
-			) );
-			
-			listener.reset(new Core::BaseMessageListener(std::string(getName())));
-			
-			/*{
-				typedef Core::UpdateFrameMessage MessageType;
-				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
-
-				listener->createMessageBuffer<MessageType, BufferType>(this, &SimpleBehaviorPlugin::onUpdateFrame);
-			}*/
-			
-			Core::MessageSender<IO::AddSimpleActionMessage> add_action_sender(getName());
-			
-			IO::AddSimpleActionMessage msg;
-			msg.context_name = "Generic";
-			msg.action_slot_name = "StopEngine";
-			msg.action_callback = std::bind(&SimpleBehaviorPlugin::stopEngine, this);
-			add_action_sender.sendMessage(msg);
-			
-			if(!simple_behaviors_factory) simple_behaviors_factory.reset( new SimpleBehaviorsFactory(engine_context, behaviors_performer.get()) );
+			if(!simple_behaviors_factory) simple_behaviors_factory.reset( new SimpleBehaviorsFactory(engine_context) );
 			engine_context->getComponentsManager()->addComponentFactory(simple_behaviors_factory.get());
 
-			listener->registerAtDispatcher();
-			
 			return true;
 		}
 
@@ -92,8 +66,6 @@ namespace UnknownEngine
 		{
 			LOG_INFO(logger, "Shutting down simple behavior plugin");
 
-			listener->unregisterAtDispatcher();
-			
 			engine_context->getComponentsManager()->removeComponentFactory(simple_behaviors_factory.get());
 			
 			return true;

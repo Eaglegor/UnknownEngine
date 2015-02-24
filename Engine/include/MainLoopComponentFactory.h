@@ -5,14 +5,20 @@ namespace UnknownEngine
 {
 	namespace Core
 	{
-		class MainLoopComponentFactory : public BaseComponentFactory
+        class Engine;
+
+		class EngineCoreComponentsFactory : public BaseComponentFactory
 		{
 		public:
-			MainLoopComponentFactory();
+			EngineCoreComponentsFactory(Engine &engine);
 			
 			virtual const char* getName() const;
 			
 			virtual IComponent* createMainLoopComponent( const ComponentDesc& desc );
+            virtual IComponent* createEngineStarterComponent( const ComponentDesc& desc );
+
+        private:
+            Engine &engine;
 		};
 	}
 }

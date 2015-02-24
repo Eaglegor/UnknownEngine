@@ -12,7 +12,9 @@ namespace UnknownEngine
 
 		class EngineContext;
 
-		class MainLoopComponent : public BaseComponent, public ComponentInterfaces::FrameUpdaterComponent
+		class MainLoopComponent :
+                public BaseComponent,
+                public ComponentInterfaces::FrameUpdaterComponent
 		{
 			public:
 				ENGINE_EXPORT
