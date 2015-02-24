@@ -42,6 +42,8 @@ namespace UnknownEngine
 			if(update_frame_provider) update_frame_provider->removeListener(this); 
 			
 			window_events_processor.reset();
+			
+			SDL_DestroyWindow(sdl_window);
 		}
 
 		Graphics::NativeWindowHandleType SDLWindow::getWindowHandle()

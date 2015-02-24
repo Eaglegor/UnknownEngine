@@ -139,7 +139,7 @@
 				<options_section>
 					<option name="parent_window_component_name" value="System.SDLRenderWindow"/>
 					<option name="window_title" value="ParserTestWindowTitle"/>
-					<option name="window_type" value="external"/>
+					<option name="window_type" value="parent"/>
 
 					<option name="width" value="800"/>
 					<option name="height" value="600"/>
