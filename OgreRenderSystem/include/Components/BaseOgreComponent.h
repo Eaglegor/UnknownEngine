@@ -26,7 +26,7 @@ namespace UnknownEngine
 				BaseOgreComponent ( const std::string &name, OgreRenderSubsystem* render_subsystem );
 				virtual ~BaseOgreComponent();
 
-				virtual void init () override final;
+				virtual bool init () override final;
 				virtual void shutdown() override final;
 
 				void _init ();

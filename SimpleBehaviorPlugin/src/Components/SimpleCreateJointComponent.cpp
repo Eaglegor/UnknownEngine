@@ -33,7 +33,7 @@ namespace UnknownEngine
 			return SIMPLE_CREATE_JOINT_COMPONENT_TYPE;
 		}
 
-		void SimpleCreateJointComponent::init (  )
+		bool SimpleCreateJointComponent::init (  )
 		{	
 				Core::MessageSender<IO::AddSimpleActionMessage> simple_action_message_sender(getName());
 				
@@ -42,6 +42,7 @@ namespace UnknownEngine
 				msg.action_slot_name = desc.create_joint_action_name;
 				msg.action_callback = std::bind(&SimpleCreateJointComponent::switchJoint, this);
 				simple_action_message_sender.sendMessage(msg);
+				return true;
 		}
 
 		void SimpleCreateJointComponent::shutdown()

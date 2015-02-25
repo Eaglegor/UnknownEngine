@@ -28,7 +28,7 @@ namespace UnknownEngine
 		{
 		}
 
-		void SDLWindowManager::init()
+		bool SDLWindowManager::init()
 		{
 			SDL_SetHint(SDL_HINT_RENDER_DRIVER, "software");
 			int result = SDL_Init( SDL_INIT_VIDEO | SDL_INIT_JOYSTICK );
@@ -36,10 +36,12 @@ namespace UnknownEngine
 			if(result < 0) 
 			{
 				LOG_ERROR(logger, "SDL initialization failed");
+				return false;
 			}
 			else
 			{
 				LOG_INFO(logger, "SDL initialized successfully");
+				return true;
 			}
 		}
 

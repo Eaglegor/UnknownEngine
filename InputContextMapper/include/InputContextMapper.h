@@ -64,7 +64,7 @@ namespace UnknownEngine
 			constexpr static const char* getTypeName(){return "InputContextMapper";}
 			virtual Core::ComponentType getType() const {return getTypeName();}
 			
-			virtual void init ();
+			virtual bool init ();
 			virtual void shutdown();
 			
 			virtual void onUpdateFrame ( Math::Scalar dt ) override;

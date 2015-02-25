@@ -15,7 +15,7 @@ namespace UnknownEngine
 			static constexpr const char* getTypeName(){return "Endoscopy.Algorithms.BranchesMotion";}
 			virtual Core::ComponentType getType() const;
 
-			virtual void init ();
+			virtual bool init ();
 			virtual void shutdown();
 
 		private:

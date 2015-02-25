@@ -101,14 +101,21 @@ namespace UnknownEngine
 						MessageDispatcher::getSingleton()->setSenderRules(desc.name.c_str(), desc.sender_rules);
 						LOG_INFO(logger, "Messaging rules for component " + desc.name + " registered");*/
 						
-						EngineSpecificComponentDataImpl* engine_data = createComponentEngineSpecificData();
-						engine_data->factory_name = factory.first;
-						engine_data->ref_counter = 1;
-						component->setEngineSpecificData(engine_data);
-
-						component->init();
+						bool init_success = component->init();
+						if(init_success)
+						{
+							EngineSpecificComponentDataImpl* engine_data = createComponentEngineSpecificData();
+							engine_data->factory_name = factory.first;
+							engine_data->ref_counter = 1;
+							component->setEngineSpecificData(engine_data);
 						
-						components.insert(std::make_pair(std::string(component->getName()), component));
+							components.insert(std::make_pair(std::string(component->getName()), component));
+						}
+						else
+						{
+							LOG_ERROR(logger, "Failed to initialize component '" + desc.name + "'. Destroying it immediately WITHOUT a shutdown!");
+							factory.second->destroyObject(component);
+						}
 					}
 					else
 					{

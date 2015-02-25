@@ -43,7 +43,7 @@ namespace UnknownEngine
 			Core::ComponentsManager::getSingleton()->releaseComponent(physics_subsystem);
 		}
 
-		void PxRigidBodyComponent::init()
+		bool PxRigidBodyComponent::init()
 		{
 			switch (desc.dynamics_type)
 			{
@@ -88,6 +88,8 @@ namespace UnknownEngine
 			physics_subsystem->getPxScene()->addActor ( *px_rigid_body );
 			
 			physics_subsystem->addUpdateListener(this);
+			
+			return true;
 		}
 
 		void PxRigidBodyComponent::update()

@@ -22,13 +22,14 @@ namespace UnknownEngine {
 			Core::ComponentsManager::getSingleton()->releaseComponent(render_subsystem);
 		}
 
-		void BaseOgreComponent::init ()
+		bool BaseOgreComponent::init ()
 		{
 			if(state == State::CREATION)
 			{
 				state = State::INITIALIZATION;
 				render_subsystem->initComponent(this);
 			}
+			return true;
 		}
 		
 		void BaseOgreComponent::shutdown()

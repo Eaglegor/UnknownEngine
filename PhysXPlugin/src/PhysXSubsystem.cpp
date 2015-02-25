@@ -37,7 +37,7 @@ namespace UnknownEngine
 		{
 		}
 
-		void PhysXSubsystem::init()
+		bool PhysXSubsystem::init()
 		{
 			physx_logger.reset(new PhysXErrorCallback(logger));
 			
@@ -128,7 +128,7 @@ namespace UnknownEngine
 			}
 			
 			if(update_frame_provider) update_frame_provider->addListener(this);
-			
+			return true;
 		}
 
 		void PhysXSubsystem::shutdown()

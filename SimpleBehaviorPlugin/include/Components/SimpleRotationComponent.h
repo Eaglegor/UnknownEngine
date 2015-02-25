@@ -39,7 +39,7 @@ namespace UnknownEngine
 			UNKNOWNENGINE_INLINE
 			virtual Core::ComponentType getType() const override {return SIMPLE_ROTATION_COMPONENT_TYPE;}
 			
-			virtual void init () override;
+			virtual bool init () override;
 			virtual void shutdown() override;
 			
 			virtual void onUpdateFrame ( Math::Scalar dt ) override;

@@ -65,7 +65,7 @@ namespace UnknownEngine
 			constexpr static const char* getTypeName(){return "PhysXSubsystem";}
 			virtual Core::ComponentType getType() const{return getTypeName();}
 			
-			void init() override;
+			bool init() override;
 			void shutdown() override;
 			
 			virtual void onUpdateFrame(Math::Scalar dt) override;

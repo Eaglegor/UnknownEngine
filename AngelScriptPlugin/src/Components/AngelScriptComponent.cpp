@@ -28,7 +28,7 @@ namespace UnknownEngine
 			return TYPE;
 		}
 		
-		void AngelScriptComponent::init ()
+		bool AngelScriptComponent::init ()
 		{
 			asIScriptEngine* script_engine = angel_script_subsystem->getScriptEngine();
 			

@@ -25,7 +25,7 @@ namespace UnknownEngine
 			Core::ComponentsManager::getSingleton()->releaseComponent(window_manager);
 		}
 		
-		void SDLWindow::init ()
+		bool SDLWindow::init ()
 		{
 			size_t flags = SDL_WINDOW_SHOWN;
 			if(desc.resizable) flags |= SDL_WINDOW_RESIZABLE;
@@ -35,6 +35,8 @@ namespace UnknownEngine
 			window_events_processor.reset ( new WindowEventsProcessor(getName(), window_manager) );
 			
 			if(update_frame_provider) update_frame_provider->addListener(this); 
+			
+			return true;
 		}
 
 		void SDLWindow::shutdown()

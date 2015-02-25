@@ -37,24 +37,13 @@ namespace UnknownEngine
 			return Core::ComponentType(getTypeName());
 		}
 
-		void ESInstrumentPoseAlgorithm::init ()
+		bool ESInstrumentPoseAlgorithm::init ()
 		{
-			listener.reset(new Core::BaseMessageListener(getName()));
-			
-			{
-				typedef ESHardwareOrientationChangedMessage MessageType;
-				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
-				
-				listener->createMessageBuffer<MessageType, BufferType>(this, &ESInstrumentPoseAlgorithm::onHardwarePoseUpdate);
-			}
-			
-			listener->registerAtDispatcher();
+			return true;
 		}
 
 		void ESInstrumentPoseAlgorithm::shutdown()
 		{
-			listener->unregisterAtDispatcher();
-			
 			listener.reset();
 		}
 

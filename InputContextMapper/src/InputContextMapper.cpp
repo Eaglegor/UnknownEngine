@@ -26,7 +26,7 @@ namespace UnknownEngine
 		InputContextMapper::~InputContextMapper(){
 		};
 
-		void InputContextMapper::init ()
+		bool InputContextMapper::init ()
 		{
 			if(!desc.action_slots_config_file.empty())
 			{
@@ -52,6 +52,8 @@ namespace UnknownEngine
 			if(keyboard_input_provider) keyboard_input_provider->addKeyboardEventsListener(this);
 			if(mouse_input_provider) mouse_input_provider->addMouseEventsListener(this);
 			if(joystick_input_provider) joystick_input_provider->addJoystickEventsListener(this);
+			
+			return true;
 		}
 
 		void InputContextMapper::shutdown()

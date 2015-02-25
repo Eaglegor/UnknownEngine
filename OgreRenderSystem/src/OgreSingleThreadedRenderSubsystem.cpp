@@ -14,11 +14,13 @@ namespace UnknownEngine
 			
 		}
 
-		void OgreSingleThreadedRenderSubsystem::init ()
+		bool OgreSingleThreadedRenderSubsystem::init ()
 		{
-			UnknownEngine::Graphics::OgreRenderSubsystem::init ();
+			bool success = UnknownEngine::Graphics::OgreRenderSubsystem::init ();
+			if(!success) return false;
 			
 			if(update_frame_provider) update_frame_provider->addListener(this);
+			return true;
 		}
 
 		void OgreSingleThreadedRenderSubsystem::shutdown()

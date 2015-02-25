@@ -65,9 +65,9 @@ namespace UnknownEngine
 			return Core::ComponentType(getTypeName());
 		}
 
-		void MainLoopComponent::init ()
+		bool MainLoopComponent::init ()
 		{
-
+			return true;
 		}
 
 		void MainLoopComponent::shutdown()

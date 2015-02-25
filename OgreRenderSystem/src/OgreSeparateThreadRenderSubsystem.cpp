@@ -85,22 +85,33 @@ namespace UnknownEngine
 			}
 		}
 		
-		void OgreSeparateThreadRenderSubsystem::init ()
+		bool OgreSeparateThreadRenderSubsystem::init ()
 		{
 			listener.reset(new OgreRenderFrameListener(this));
 			
-			rendering_thread.reset(new std::thread( [this]()
+			volatile bool success;
+			Utils::WaitingForEventWrapper wait_for_init;
+			
+			rendering_thread.reset(new std::thread( [this, &success, &wait_for_init]()
 			{
-				this->OgreRenderSubsystem::init ();
+				success = this->OgreRenderSubsystem::init ();
+				wait_for_init.notify();
 
-				this->getRoot()->addFrameListener(listener.get());
-				this->getRoot()->startRendering();
-				this->getRoot()->removeFrameListener( listener.get() );
-				
-				this->OgreRenderSubsystem::shutdown();
-				listener->setFinished();
+				if(success)
+				{
+					this->getRoot()->addFrameListener(listener.get());
+					this->getRoot()->startRendering();
+					this->getRoot()->removeFrameListener( listener.get() );
+					
+					this->OgreRenderSubsystem::shutdown();
+					listener->setFinished();
+				}
 			}
 			));
+			
+			wait_for_init.wait();
+			
+			return success;
 		}
 
 		void OgreSeparateThreadRenderSubsystem::shutdown()

@@ -40,7 +40,7 @@ namespace UnknownEngine
 
 		}
 
-		void MouseLookComponent::init ()
+		bool MouseLookComponent::init ()
 		{
 			if(input_context_mapping_provider)
 			{
@@ -96,7 +96,7 @@ namespace UnknownEngine
 			}
 
 			if(update_frame_provider) update_frame_provider->addListener(this);
-			
+			return true;
 		}
 
 		void MouseLookComponent::onUpdateFrame( Math::Scalar dt )

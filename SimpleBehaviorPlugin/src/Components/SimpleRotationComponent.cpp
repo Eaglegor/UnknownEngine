@@ -27,9 +27,10 @@ namespace UnknownEngine
 
 		}
 
-		void SimpleRotationComponent::init (  )
+		bool SimpleRotationComponent::init (  )
 		{
 			if(update_frame_provider) update_frame_provider->addListener(this);
+			return true;
 		}
 
 		void SimpleRotationComponent::onUpdateFrame( Math::Scalar dt )

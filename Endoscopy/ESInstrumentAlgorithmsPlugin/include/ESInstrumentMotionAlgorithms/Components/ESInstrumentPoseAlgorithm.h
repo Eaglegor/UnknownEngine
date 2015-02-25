@@ -27,7 +27,7 @@ namespace UnknownEngine
 			static constexpr const char* getTypeName() {return "Endoscopy.Algorithms.InstrumentPose";}
 			virtual Core::ComponentType getType() const;
 			
-			virtual void init ();
+			virtual bool init ();
 			virtual void shutdown();
 			
 		private:

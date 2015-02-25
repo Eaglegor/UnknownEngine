@@ -26,7 +26,7 @@ namespace UnknownEngine
 		{
 		}
 		
-		void OgreRenderSubsystem::init ()
+		bool OgreRenderSubsystem::init ()
 		{
 			LOG_INFO(logger, "Initializing OGRE");
 			
@@ -49,7 +49,7 @@ namespace UnknownEngine
 			
 			scene_manager = root->createSceneManager ( Ogre::ST_GENERIC );
 			root->initialise ( false );
-			
+			return true;
 		}
 
 		void OgreRenderSubsystem::onWindowCreated()

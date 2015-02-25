@@ -20,7 +20,8 @@ namespace UnknownEngine
             engine.stop();
         }
 
-        void EngineStarterComponent::init() {
+        bool EngineStarterComponent::init() {
+			return true;
         }
 
         void EngineStarterComponent::shutdown() {

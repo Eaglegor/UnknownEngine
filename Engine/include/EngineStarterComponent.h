@@ -21,7 +21,7 @@ namespace UnknownEngine
 
             virtual void stop() override;
 
-            virtual void init() override;
+            virtual bool init() override;
 
             virtual void shutdown() override;
 

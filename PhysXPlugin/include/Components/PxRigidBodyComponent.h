@@ -43,7 +43,7 @@ namespace UnknownEngine
 			
 			constexpr static const char* getTypeName(){return "PhysX.RigidBody";}
 			virtual Core::ComponentType getType() const override {return getTypeName();}
-			virtual void init () override;
+			virtual bool init () override;
 			virtual void shutdown() override;
 			
 			void setTransform(const Math::Transform &transform);

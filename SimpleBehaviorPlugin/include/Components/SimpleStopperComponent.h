@@ -17,7 +17,7 @@ namespace UnknownEngine
         public:
             SimpleStopperComponent(const char* name, const SimpleStopperDesc &desc);
 
-            virtual void init();
+            virtual bool init();
 
             virtual void shutdown();
 

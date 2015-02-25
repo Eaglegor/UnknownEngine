@@ -32,11 +32,11 @@ namespace UnknownEngine
 			Core::ComponentsManager::getSingleton()->releaseComponent(physics_subsystem);
 		}
 
-		void PxFixedJointComponent::init()
+		bool PxFixedJointComponent::init()
 		{
 			if (!rigid_body1 || !rigid_body2){
 				LOG_ERROR(logger, "Can't get both actors to create joint");
-				throw BothActorsNotFound("Can't get both actors to create joint");
+				return false;
 			}
 			actor1 = rigid_body1->getPxRigidActor();
 			actor2 = rigid_body2->getPxRigidActor();
@@ -53,7 +53,7 @@ namespace UnknownEngine
 			}
 			
 			px_joint->setConstraintFlag(physx::PxConstraintFlag::eCOLLISION_ENABLED, desc.collision_enabled);
-
+			return true;
 		}
 
 		void PxFixedJointComponent::calculateRelativeTransforms(physx::PxTransform &rel_transform_1, physx::PxTransform &rel_transform_2)

@@ -27,7 +27,7 @@ namespace UnknownEngine
 			constexpr static const char* getTypeName(){return "SDL.WindowManager";}
 			virtual Core::ComponentType getType() const {return Core::ComponentType(getTypeName());}
 			
-			void init() override;
+			bool init() override;
 			void shutdown() override;
 
 		private:

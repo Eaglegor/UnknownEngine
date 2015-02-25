@@ -14,11 +14,12 @@ namespace UnknownEngine
         {
         }
 
-        void SimpleStopperComponent::init() {
+        bool SimpleStopperComponent::init() {
             if(input_context_mapping_provider)
             {
                 input_context_mapping_provider->addSimpleAction(desc.input_context_name.c_str(), desc.action_name.c_str(), [this](){if(this->stoppable) this->stoppable->stop();});
             }
+            return true;
         }
 
         void SimpleStopperComponent::shutdown() {
