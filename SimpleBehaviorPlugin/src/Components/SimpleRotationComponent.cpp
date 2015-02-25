@@ -27,7 +27,7 @@ namespace UnknownEngine
 
 		}
 
-		void SimpleRotationComponent::init ( const Core::IEntity* parent_entity )
+		void SimpleRotationComponent::init (  )
 		{
 			if(update_frame_provider) update_frame_provider->addListener(this);
 		}

@@ -29,7 +29,7 @@ namespace UnknownEngine
 		{
 		}
 		
-		void BaseOgreLightComponent::internalInit( const UnknownEngine::Core::IEntity* parent_entity )
+		void BaseOgreLightComponent::internalInit(  )
 		{
 			ogre_light = render_subsystem->getSceneManager()->createLight(Ogre::String(getName()) + ".Light");
 			ogre_scene_node = render_subsystem->getSceneManager()->getRootSceneNode()->createChildSceneNode(Ogre::String(getName())+".SceneNode");

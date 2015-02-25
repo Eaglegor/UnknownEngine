@@ -22,7 +22,7 @@ namespace UnknownEngine
 			
 			virtual void onUpdateFrame ( Math::Scalar dt ) override;
 			
-			virtual void init ( const Core::IEntity* parent_entity ) override;
+			virtual void init () override;
 			virtual void shutdown() override;
 
 			virtual void initComponent ( BaseOgreComponent* component ) override;

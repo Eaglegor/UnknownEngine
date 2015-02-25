@@ -65,7 +65,7 @@ namespace UnknownEngine
 			return Core::ComponentType(getTypeName());
 		}
 
-		void MainLoopComponent::init ( const IEntity* parent_entity )
+		void MainLoopComponent::init ()
 		{
 
 		}

@@ -37,7 +37,7 @@ namespace UnknownEngine
 			return Core::ComponentType(getTypeName());
 		}
 
-		void ESInstrumentPoseAlgorithm::init ( const Core::IEntity* parent_entity )
+		void ESInstrumentPoseAlgorithm::init ()
 		{
 			listener.reset(new Core::BaseMessageListener(getName()));
 			

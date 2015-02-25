@@ -33,7 +33,7 @@ namespace UnknownEngine
 			return SIMPLE_CREATE_JOINT_COMPONENT_TYPE;
 		}
 
-		void SimpleCreateJointComponent::init ( const Core::IEntity* parent_entity )
+		void SimpleCreateJointComponent::init (  )
 		{	
 				Core::MessageSender<IO::AddSimpleActionMessage> simple_action_message_sender(getName());
 				

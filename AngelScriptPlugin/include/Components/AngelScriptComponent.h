@@ -27,7 +27,7 @@ namespace UnknownEngine
 			
 			virtual UnknownEngine::Core::ComponentType getType() const;
 			
-			virtual void init ( const Core::IEntity* parent_entity );
+			virtual void init ();
 			virtual void shutdown();
 			
 			static const Core::ComponentType TYPE;

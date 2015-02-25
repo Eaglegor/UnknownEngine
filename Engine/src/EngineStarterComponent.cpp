@@ -20,7 +20,7 @@ namespace UnknownEngine
             engine.stop();
         }
 
-        void EngineStarterComponent::init(const IEntity *parent_entity) {
+        void EngineStarterComponent::init() {
         }
 
         void EngineStarterComponent::shutdown() {

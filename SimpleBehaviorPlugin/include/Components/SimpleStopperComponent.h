@@ -17,7 +17,7 @@ namespace UnknownEngine
         public:
             SimpleStopperComponent(const char* name, const SimpleStopperDesc &desc);
 
-            virtual void init(Core::IEntity const *parent_entity);
+            virtual void init();
 
             virtual void shutdown();
 

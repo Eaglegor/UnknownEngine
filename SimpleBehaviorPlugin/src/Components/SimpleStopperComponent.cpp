@@ -14,7 +14,7 @@ namespace UnknownEngine
         {
         }
 
-        void SimpleStopperComponent::init(Core::IEntity const *parent_entity) {
+        void SimpleStopperComponent::init() {
             if(input_context_mapping_provider)
             {
                 input_context_mapping_provider->addSimpleAction(desc.input_context_name.c_str(), desc.action_name.c_str(), [this](){if(this->stoppable) this->stoppable->stop();});

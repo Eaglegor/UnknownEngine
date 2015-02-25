@@ -17,7 +17,7 @@ namespace UnknownEngine
 		{
 			public:
 
-				virtual void init ( const IEntity* parent_entity ) = 0;
+				virtual void init () = 0;
 
 				virtual void shutdown() = 0;
 

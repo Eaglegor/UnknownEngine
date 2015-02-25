@@ -28,7 +28,7 @@ namespace UnknownEngine
 		{
 		}
 
-		void SDLWindowManager::init(const Core::IEntity* parent_entity)
+		void SDLWindowManager::init()
 		{
 			SDL_SetHint(SDL_HINT_RENDER_DRIVER, "software");
 			int result = SDL_Init( SDL_INIT_VIDEO | SDL_INIT_JOYSTICK );

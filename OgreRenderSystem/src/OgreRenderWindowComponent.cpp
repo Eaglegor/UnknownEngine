@@ -17,7 +17,7 @@ namespace UnknownEngine
 			Core::ComponentsManager::getSingleton()->reserveComponent(render_subsystem);
 		}
 
-		void OgreRenderWindowComponent::internalInit ( const Core::IEntity* parent_entity )
+		void OgreRenderWindowComponent::internalInit ()
 		{
 			root = render_subsystem->getRoot();
 			

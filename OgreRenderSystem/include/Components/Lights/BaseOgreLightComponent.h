@@ -33,7 +33,7 @@ namespace UnknownEngine
 				void onTransformChanged(const Core::TransformChangedMessage& msg);
 
 			protected:
-				virtual void internalInit(const Core::IEntity* parent_entity) override;
+				virtual void internalInit() override;
 				virtual void internalShutdown() override;
 
 				OgreLightSettings light_settings;

@@ -16,7 +16,7 @@ namespace UnknownEngine
 			return Core::ComponentType(getTypeName());
 		}
 		
-		void ESInstrumentBranchesMotionAlgorithm::init ( const Core::IEntity* parent_entity )
+		void ESInstrumentBranchesMotionAlgorithm::init ()
 		{
 		}
 

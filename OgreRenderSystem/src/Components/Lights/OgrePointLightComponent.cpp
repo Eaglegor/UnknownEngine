@@ -24,9 +24,9 @@ namespace UnknownEngine
 		{
 		}
 
-		void OgrePointLightComponent::internalInit (const UnknownEngine::Core::IEntity* parent_entity)
+		void OgrePointLightComponent::internalInit ()
 		{
-			BaseOgreLightComponent::internalInit(parent_entity);
+			BaseOgreLightComponent::internalInit();
 			ogre_light->setType(Ogre::Light::LT_POINT);
 			
 			ogre_scene_node->setPosition( OgreVector3Converter::toOgreVector(desc.initial_transform.getPosition()) );

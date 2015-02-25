@@ -33,7 +33,7 @@ namespace UnknownEngine
 				return nullptr;
 			}
 			LOG_INFO ( logger, "Creating component '" + desc.name + "'" );
-			IComponent* component = components_manager->createComponent ( this, desc );
+			IComponent* component = components_manager->createComponent ( desc );
 			if ( component == nullptr )
 			{
 				LOG_ERROR ( logger, std::string ( "Failed to create component " ) + desc.name );

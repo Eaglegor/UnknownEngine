@@ -26,7 +26,7 @@ namespace UnknownEngine
 		{
 		}
 		
-		void OgreRenderSubsystem::init ( const Core::IEntity* parent_entity )
+		void OgreRenderSubsystem::init ()
 		{
 			LOG_INFO(logger, "Initializing OGRE");
 			

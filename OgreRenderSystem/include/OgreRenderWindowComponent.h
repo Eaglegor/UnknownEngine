@@ -40,7 +40,7 @@ namespace UnknownEngine
 			virtual IComponentInterface* getInterface ( const Core::ComponentType& type ) override;
 
 		protected:
-			virtual void internalInit ( const Core::IEntity* parent_entity );
+			virtual void internalInit ();
 			virtual void internalShutdown();
 			
 		private:

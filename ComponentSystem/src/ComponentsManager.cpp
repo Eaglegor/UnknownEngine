@@ -83,7 +83,7 @@ namespace UnknownEngine
 			return entity;
 		}
 
-		IComponent* ComponentsManager::createComponent ( IEntity* parent, const ComponentDesc& desc ) 
+		IComponent* ComponentsManager::createComponent ( const ComponentDesc& desc ) 
 		{
 			LOG_INFO(logger, "Creating component: '" + desc.name + "' [" + desc.type + "]");
 			for ( auto & factory : component_factories )
@@ -106,7 +106,7 @@ namespace UnknownEngine
 						engine_data->ref_counter = 1;
 						component->setEngineSpecificData(engine_data);
 
-						component->init(parent);
+						component->init();
 						
 						components.insert(std::make_pair(std::string(component->getName()), component));
 					}

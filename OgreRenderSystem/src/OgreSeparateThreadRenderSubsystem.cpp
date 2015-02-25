@@ -85,13 +85,13 @@ namespace UnknownEngine
 			}
 		}
 		
-		void OgreSeparateThreadRenderSubsystem::init ( const Core::IEntity* parent_entity )
+		void OgreSeparateThreadRenderSubsystem::init ()
 		{
 			listener.reset(new OgreRenderFrameListener(this));
 			
-			rendering_thread.reset(new std::thread( [this, parent_entity]()
+			rendering_thread.reset(new std::thread( [this]()
 			{
-				this->OgreRenderSubsystem::init ( parent_entity );
+				this->OgreRenderSubsystem::init ();
 
 				this->getRoot()->addFrameListener(listener.get());
 				this->getRoot()->startRendering();

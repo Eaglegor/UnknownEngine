@@ -14,9 +14,9 @@ namespace UnknownEngine
 			
 		}
 
-		void OgreSingleThreadedRenderSubsystem::init ( const Core::IEntity* parent_entity )
+		void OgreSingleThreadedRenderSubsystem::init ()
 		{
-			UnknownEngine::Graphics::OgreRenderSubsystem::init ( parent_entity );
+			UnknownEngine::Graphics::OgreRenderSubsystem::init ();
 			
 			if(update_frame_provider) update_frame_provider->addListener(this);
 		}

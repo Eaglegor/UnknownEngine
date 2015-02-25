@@ -70,7 +70,7 @@ namespace UnknownEngine
 				friend class Entity;
 				
 				COMPONENTSYSTEM_EXPORT
-				virtual IComponent* createComponent ( IEntity* parent, const ComponentDesc &desc ) ;
+				virtual IComponent* createComponent ( const ComponentDesc &desc ) ;
 
 				COMPONENTSYSTEM_EXPORT
 				virtual void removeComponent ( IComponent* component );

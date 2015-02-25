@@ -40,7 +40,7 @@ namespace UnknownEngine
 
 		}
 
-		void MouseLookComponent::init ( const Core::IEntity* parent_entity )
+		void MouseLookComponent::init ()
 		{
 			if(input_context_mapping_provider)
 			{

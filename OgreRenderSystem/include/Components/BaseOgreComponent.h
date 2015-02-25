@@ -26,7 +26,7 @@ namespace UnknownEngine
 				BaseOgreComponent ( const std::string &name, OgreRenderSubsystem* render_subsystem );
 				virtual ~BaseOgreComponent();
 
-				virtual void init ( const Core::IEntity* parent_entity ) override final;
+				virtual void init () override final;
 				virtual void shutdown() override final;
 
 				void _init ();
@@ -39,7 +39,7 @@ namespace UnknownEngine
 				State getState() const;
 				
 			protected:
-				virtual void internalInit ( const Core::IEntity* parent_entity ) = 0;
+				virtual void internalInit () = 0;
 				virtual void internalShutdown( ) = 0;
 	
 				OgreRenderSubsystem* render_subsystem;

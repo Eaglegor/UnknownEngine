@@ -9,6 +9,7 @@
 #include <ComponentInterfaces/Engine/FrameUpdaterComponent.h>
 #include <ComponentInterfaces/Engine/UpdateFrameListenerComponent.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
+#include <ComponentSystem/BaseComponent.h>
 
 namespace physx
 {
@@ -37,7 +38,8 @@ namespace UnknownEngine
 		
 		class PxRigidBodyComponent;
 		
-		class PhysXSubsystem : public ComponentInterfaces::UpdateFrameListenerComponent
+		class PhysXSubsystem : 
+			public ComponentInterfaces::UpdateFrameListenerComponent
 		{
 		public:
 			UNKNOWNENGINE_SIMPLE_EXCEPTION(PhysXInitFailed);

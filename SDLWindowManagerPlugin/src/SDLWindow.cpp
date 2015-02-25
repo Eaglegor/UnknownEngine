@@ -25,7 +25,7 @@ namespace UnknownEngine
 			Core::ComponentsManager::getSingleton()->releaseComponent(window_manager);
 		}
 		
-		void SDLWindow::init ( const Core::IEntity* parent_entity )
+		void SDLWindow::init ()
 		{
 			size_t flags = SDL_WINDOW_SHOWN;
 			if(desc.resizable) flags |= SDL_WINDOW_RESIZABLE;

@@ -22,7 +22,7 @@ namespace UnknownEngine
 			virtual ~SimpleCreateJointComponent();
 			
 			virtual Core::ComponentType getType() const override;
-			virtual void init ( const Core::IEntity* parent_entity ) override;
+			virtual void init () override;
 			virtual void shutdown() override;
 			
 		private:

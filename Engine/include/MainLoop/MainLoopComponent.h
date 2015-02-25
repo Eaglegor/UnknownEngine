@@ -29,7 +29,7 @@ namespace UnknownEngine
 				virtual ComponentType getType() const;
 				
 				ENGINE_EXPORT
-				virtual void init ( const IEntity* parent_entity );
+				virtual void init ();
 				
 				ENGINE_EXPORT
 				virtual void shutdown();

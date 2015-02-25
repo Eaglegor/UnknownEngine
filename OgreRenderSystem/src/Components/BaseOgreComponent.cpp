@@ -22,7 +22,7 @@ namespace UnknownEngine {
 			Core::ComponentsManager::getSingleton()->releaseComponent(render_subsystem);
 		}
 
-		void BaseOgreComponent::init ( const Core::IEntity* parent_entity )
+		void BaseOgreComponent::init ()
 		{
 			if(state == State::CREATION)
 			{
@@ -42,7 +42,7 @@ namespace UnknownEngine {
 
 		void BaseOgreComponent::_init()
 		{
-			internalInit(parent_entity);
+			internalInit();
 			state = State::WORK;
 		}
 

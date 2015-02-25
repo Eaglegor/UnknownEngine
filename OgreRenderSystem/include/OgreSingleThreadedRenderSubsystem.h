@@ -17,7 +17,7 @@ namespace UnknownEngine
 			constexpr static const char* getTypeName() {return "Ogre.SingleThreadRenderSubsystem";}
 			virtual Core::ComponentType getType() const {return getTypeName();}
 			
-			virtual void init ( const Core::IEntity* parent_entity ) override;
+			virtual void init () override;
 			virtual void shutdown() override;
 			
 			virtual void onUpdateFrame ( Math::Scalar dt ) override;

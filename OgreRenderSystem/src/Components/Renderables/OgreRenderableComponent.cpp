@@ -44,7 +44,7 @@ namespace UnknownEngine
 			}
 		}
 
-		void OgreRenderableComponent::internalInit ( const UnknownEngine::Core::IEntity* parent_entity )
+		void OgreRenderableComponent::internalInit ()
 		{
 			LOG_INFO ( logger, "Creating OGRE entity" );
 			if ( desc.mesh_data_provider != nullptr )

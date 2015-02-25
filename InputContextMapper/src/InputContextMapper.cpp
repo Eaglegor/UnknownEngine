@@ -26,7 +26,7 @@ namespace UnknownEngine
 		InputContextMapper::~InputContextMapper(){
 		};
 
-		void InputContextMapper::init ( const Core::IEntity* parent_entity )
+		void InputContextMapper::init ()
 		{
 			if(!desc.action_slots_config_file.empty())
 			{

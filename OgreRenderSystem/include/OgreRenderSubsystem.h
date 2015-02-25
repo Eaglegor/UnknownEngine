@@ -29,7 +29,7 @@ namespace UnknownEngine
 			OgreRenderSubsystem(const char* name, const OgreRenderSubsystemDescriptor &desc);
 			~OgreRenderSubsystem();
 			
-			virtual void init ( const Core::IEntity* parent_entity ) override;
+			virtual void init () override;
 			virtual void shutdown() override;
 			
 			virtual void onUpdateFrame(Math::Scalar dt) override;

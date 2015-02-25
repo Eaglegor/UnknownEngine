@@ -45,7 +45,7 @@ namespace UnknownEngine
 			render_subsystem->getSceneManager()->destroySceneNode ( this->scene_node );
 		}
 
-		void OgreCameraComponent::internalInit ( const UnknownEngine::Core::IEntity *parent_entity )
+		void OgreCameraComponent::internalInit (  )
 		{
 			if(!render_window) {
 				LOG_ERROR(logger, "Can't find render window to create camera viewport");

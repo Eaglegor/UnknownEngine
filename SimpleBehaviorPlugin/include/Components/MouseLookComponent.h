@@ -38,7 +38,7 @@ namespace UnknownEngine
 			UNKNOWNENGINE_INLINE
 			virtual Core::ComponentType getType() const override {return MOUSE_LOOK_COMPONENT_TYPE;}
 			
-			virtual void init ( const Core::IEntity* parent_entity ) override;
+			virtual void init () override;
 			virtual void shutdown() override;
 			
 			virtual void onUpdateFrame(Math::Scalar dt) override;

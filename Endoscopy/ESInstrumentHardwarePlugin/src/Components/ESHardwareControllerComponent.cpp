@@ -12,7 +12,7 @@ namespace UnknownEngine
 		{
 		}
 		
-		void ESHardwareControllerComponent::init ( const Core::IEntity* parent_entity )
+		void ESHardwareControllerComponent::init ()
 		{
 			assert(controllers_factory != nullptr);
 			
