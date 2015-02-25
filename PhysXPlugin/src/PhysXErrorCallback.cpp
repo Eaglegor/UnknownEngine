@@ -1,6 +1,7 @@
 #include <stdafx.h>
 #include <PhysXErrorCallback.h>
 
+#include <LogHelper.h>
 #include <Logging.h>
 
 namespace UnknownEngine
@@ -8,7 +9,7 @@ namespace UnknownEngine
 	namespace Physics
 	{
 		
-		PhysXErrorCallback::PhysXErrorCallback(Core::ILogger* logger):
+		PhysXErrorCallback::PhysXErrorCallback(Core::LogHelper &logger):
 		logger(logger)
 		{}
 		

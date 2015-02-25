@@ -6,6 +6,11 @@
 		<subsystem name="WindowManager" module="SDLWindowManagerPlugin"/>
 		<subsystem name="Graphics" module="OgreRenderSystem"/>
 		<subsystem name="MeshDataLoader" module="AssimpMeshDataLoader"/>
+		<subsystem name="Physics" module="PhysXPlugin"/>
+		<subsystem name="InputContext" module="InputContextMapper"/>
+		<subsystem name="SimpleBehavior" module="SimpleBehaviorPlugin"/>
+		<subsystem name="Hardware" module="ESInstrumentHardwarePlugin"/>
+		<subsystem name="Algorithms" module="ESInstrumentAlgorithmsPlugin"/>
 		
 		<!--<subsystem name="HUD" module="CEGuiPlugin">
 			<messaging_rules>
@@ -22,80 +27,15 @@
 					<message type="Graphics.OgreRenderSystem.GetOgreRenderTargetMessage"/>
 				</sender>
 			</messaging_rules>
-		</subsystem>-->
-		
-		<subsystem name="InputContext" module="InputContextMapper">
-			
-
-			
-			<messaging_rules>
-				
-				<listener>
-					<message type="Engine.MainLoop.UpdateFrameMessage"/>
-					<message type="IO.KeyStateChanged"/>
-					<message type="IO.MouseMoved"/>
-					<message type="IO.MouseWheelMoved"/>
-					<message type="IO.MouseButtonStateChanged"/>
-					<message type="IO.JoystickAxisMoved"/>
-					<message type="IO.JoystickButtonStateChanged"/>
-					<message type="IO.InputContext.AddSimpleActionMessage"/>
-					<message type="IO.InputContext.AddRangeActionMessage"/>
-				</listener>
-				
-				<sender>
-					<message type="Utils.LogMessage"/>
-				</sender>
-				
-			</messaging_rules>
 		</subsystem>
 		
-		<subsystem name="SimpleBehavior" module="SimpleBehaviorPlugin">
-			
-			<messaging_rules>
-				<listener>
-					<message type="Engine.MainLoop.UpdateFrameMessage"/>
-				</listener>
-				
-				<sender>
-					<message type="Engine.StopEngineActionMessage"/>
-					<message type="IO.InputContext.AddSimpleActionMessage"/>
-					<message type="Utils.LogMessage"/>
-				</sender>
-			</messaging_rules>
-			
-		</subsystem>
-		
-		<subsystem name="Physics" module="PhysXPlugin">
-			<messaging_rules>
-				<listener>
-					<message type="Engine.MainLoop.UpdateFrameMessage"/>
-				</listener>
-				<sender>
-					<message type="Utils.LogMessage"/>
-				</sender>
-			</messaging_rules>
-			
-			<options_section>
-				<option name="gravity" value="Vector3(x:0, y:-9.8, z:0)"/>
-				<option name="log_level" value="${global_log_level}"/>
-				<option name="enable_profiling" value="false"/>
-				<option name="enable_hardware" value="false"/>
-				<option name="update_frame_provider_name" value=""/>
-			</options_section>
-		</subsystem>
-		
-		<!--
 		<subsystem name="ScriptEngine" module="AngelScriptPlugin">
 			<options_section>
 				<option name="log_level" value="debug"/>
 			</options_section>
 		</subsystem>
 		-->
-		<subsystem name="Hardware" module="ESInstrumentHardwarePlugin">
-		</subsystem>
 		
-		<subsystem name="Algorithms" module="ESInstrumentAlgorithmsPlugin">
-		</subsystem>
 		
 	</subsystems>
 
@@ -168,6 +108,16 @@
 					<option name="action_name" value="StopEngine"/>
 					<option name="input_context_mapping_provider_name" value="System.InputContextMapper"/>
 					<option name="stoppable_component_name" value="Engine.Starter"/>
+				</options_section>
+			</component>
+			
+			<component name="Physics" type="PhysXSubsystem">
+				<options_section>
+					<option name="gravity" value="Vector3(x:0, y:-9.8, z:0)"/>
+					<option name="log_level" value="${global_log_level}"/>
+					<option name="enable_profiling" value="false"/>
+					<option name="enable_hardware" value="false"/>
+					<option name="update_frame_provider_name" value="Engine.MainLoop"/>
 				</options_section>
 			</component>
 			
@@ -417,6 +367,14 @@
 		
 		<entity name="Floor">
 			
+			<component name="RigidBodyComponent" type="PhysX.RigidBody">
+				<options_section>
+					<provided_data name="shape" data_provider_name="FloorShape"/>
+					<option name="dynamics_type" value="static"/>
+					<option name="mass" value="1"/>
+				</options_section>
+			</component>
+			
 			<component name="Graphics" type="Ogre.Renderable">
 				<options_section>
 					
@@ -424,6 +382,7 @@
 					<option name="throw_exception_on_missing_mesh_data" value="true"/>
 					
 					<provided_data name="mesh_ptr_provider" data_provider_name="OgreFloorMesh"/>
+					<option name="transform_provider_name" value="Floor.RigidBodyComponent"/>
 					
 					<options_section name="Material">
 						<option name="material_name" value="FloorMaterial"/>
@@ -432,14 +391,6 @@
 				</options_section>
 			</component>
 			
-			<component name="RigidBodyComponent" type="Physics.RigidBody">
-				<options_section>
-					<provided_data name="shape" data_provider_name="FloorShape"/>
-					<option name="dynamics_type" value="static"/>
-					<option name="mass" value="1"/>
-				</options_section>
-			</component>
-						
 		</entity>
 		
 		<entity name="ActiveCube">
@@ -463,7 +414,7 @@
 				</options_section>
 			</component>
 			
-			<component name="RigidBodyComponent" type="Physics.RigidBody">
+			<component name="RigidBodyComponent" type="PhysX.RigidBody">
 				
 				<messaging_rules>
 					<listener>
@@ -493,23 +444,14 @@
 			</component>
 			
 			<component name="Graphics" type="Ogre.Renderable">
-				
-				<messaging_rules><listener>
-					<message type="Engine.TransformChangedMessage">
-						<receive_policy type="FromSingleSender">
-							<options_section>
-								<option name="sender_name" value="ActiveCube.RigidBodyComponent"/>
-							</options_section>
-						</receive_policy>
-					</message>
-				</listener></messaging_rules>
-				
 				<options_section>
 					
 					<option name="log_level" value="${global_log_level}"/>
 					<option name="throw_exception_on_missing_mesh_data" value="true"/>
 					
 					<provided_data name="mesh_ptr_provider" data_provider_name="OgreCubeMesh"/>
+					
+					<option name="transform_provider_name" value="ActiveCube.RigidBodyComponent"/>
 					
 					<options_section name="Material">
 						<option name="material_name" value="ActiveCubeMaterial"/>
@@ -544,7 +486,7 @@
 		
 		<entity name="PassiveCube">
 			
-			<component name="RigidBodyComponent" type="Physics.RigidBody">
+			<component name="RigidBodyComponent" type="PhysX.RigidBody">
 				
 				<messaging_rules>
 					<sender>
@@ -590,6 +532,7 @@
 					
 					<provided_data name="mesh_ptr_provider" data_provider_name="OgreCubeMesh"/>
 					
+					<option name="transform_provider_name" value="PassiveCube.RigidBodyComponent"/>
 					<options_section name="Material">
 						<option name="material_name" value="NormalMap"/>
 					</options_section>

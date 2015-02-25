@@ -96,10 +96,10 @@ namespace UnknownEngine
 					{
 						LOG_INFO(logger, "Component '" + desc.name + "' created" );
 
-						LOG_INFO(logger, "Registering messaging rules for component " + desc.name);
+						/*LOG_INFO(logger, "Registering messaging rules for component " + desc.name);
 						MessageDispatcher::getSingleton()->setListenerRules(desc.name.c_str(), desc.listener_rules);
 						MessageDispatcher::getSingleton()->setSenderRules(desc.name.c_str(), desc.sender_rules);
-						LOG_INFO(logger, "Messaging rules for component " + desc.name + " registered");
+						LOG_INFO(logger, "Messaging rules for component " + desc.name + " registered");*/
 						
 						EngineSpecificComponentDataImpl* engine_data = createComponentEngineSpecificData();
 						engine_data->factory_name = factory.first;
@@ -160,10 +160,10 @@ namespace UnknownEngine
 			
 			component->shutdown();
 
-			LOG_INFO(logger, "Unregistering messaging rules for component " + std::string(component->getName()));
+			/*LOG_INFO(logger, "Unregistering messaging rules for component " + std::string(component->getName()));
 			MessageDispatcher::getSingleton()->clearListenerRules(component->getName());
 			MessageDispatcher::getSingleton()->clearSenderRules(component->getName());
-			LOG_INFO(logger, "Messaging rules for component " + std::string(component->getName()) + " unregistered");
+			LOG_INFO(logger, "Messaging rules for component " + std::string(component->getName()) + " unregistered");*/
 
 			factory->destroyObject ( component );
 			

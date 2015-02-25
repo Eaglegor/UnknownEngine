@@ -7,6 +7,7 @@
 #include <Exception.h>
 #include <CommonParsers/PropertiesParser.h>
 #include <CommonParsers/LexicalCastForBoolAlpha.h>
+#include <ComponentSystem/ComponentsManager.h>
 
 namespace UnknownEngine
 {
@@ -34,8 +35,12 @@ namespace UnknownEngine
 					(
 					    properties,
 					{
-						{"actor1_name", PropertiesParser::RequiredValue<std::string>( desc.actor1_name )},
-						{"actor2_name", PropertiesParser::RequiredValue<std::string>(desc.actor2_name) },
+						{"actor1_name", PropertiesParser::RequiredValue<std::string>( [&desc](const std::string& value){
+							desc.actor1 = Core::ComponentsManager::getSingleton()->findComponent(value.c_str());
+						})},
+						{"actor2_name", PropertiesParser::RequiredValue<std::string>( [&desc](const std::string& value){
+							desc.actor2 = Core::ComponentsManager::getSingleton()->findComponent(value.c_str());
+						})},
 						{"use_projection", PropertiesParser::OptionalValue<bool>(desc.use_projection) },
 						{"collision_enabled", PropertiesParser::OptionalValue<bool>(desc.collision_enabled) },
 						{"projection_linear_tolerance", PropertiesParser::OptionalValue<Math::Scalar> ( desc.projection_linear_tolerance ) },

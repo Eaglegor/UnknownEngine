@@ -9,15 +9,18 @@ namespace UnknownEngine
 		class PxBoxShapeDataProvider;
 		class PhysXSubsystem;
 		
-		class PxShapeDataProvidersFactory : public Core::BaseDataProviderFactory
+		class PxDataProvidersFactory : public Core::BaseDataProviderFactory
 		{
 		public:
-			PxShapeDataProvidersFactory(PhysXSubsystem *physx_subsystem);
+			PxDataProvidersFactory();
+			
+			void setPhysXSubsystem(PhysXSubsystem* physx_subsystem);
+			virtual const char* getName() const override {return "PhysX.DataProvidersFactory";}
 			
 		private:
 			Core::IDataProvider* createPxBoxShapeDataProvider(const Core::DataProviderDesc& desc);
 			
-			virtual const char* getName() const override;
+			Core::IDataProvider* createPxMaterialDataProvider(const Core::DataProviderDesc& desc);
 			
 			PhysXSubsystem* physx_subsystem;
 			

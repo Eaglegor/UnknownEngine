@@ -8,23 +8,11 @@
 
 namespace UnknownEngine
 {
-
-	namespace Core
-	{
-		struct SubsystemDesc;
-		class EngineContext;
-		class BaseMessageListener;
-		class ILogger;
-	}
-
 	namespace Physics
 	{
-
-		class PhysXSubsystem;
-		class PxShapeDataProvidersFactory;
-		class PxMaterialDataProvidersFactory;
-		class PxRigidBodyComponentsFactory;
-		class PxJointComponentsFactory;
+		class PxComponentsFactory;
+		class PxDataProvidersFactory;
+		class PxSubsystemFactory;
 
 		class PhysXSubsystemPlugin: public Core::BasePlugin
 		{
@@ -38,18 +26,9 @@ namespace UnknownEngine
 				virtual bool uninstall()  override;
 
 			private:
-				PhysXSubsystemDesc desc;
-				Core::SubsystemDesc raw_desc;
-				Core::EngineContext* engine_context;
-				Core::ILogger* logger;
-				std::unique_ptr<PhysXSubsystem> physx_subsystem;
-
-				std::unique_ptr<PxShapeDataProvidersFactory> px_shape_data_providers_factory;
-				std::unique_ptr<PxMaterialDataProvidersFactory> px_material_data_providers_factory;
-				std::unique_ptr<PxRigidBodyComponentsFactory> px_rigid_body_components_factory;
-				std::unique_ptr<PxJointComponentsFactory> px_joint_components_factory;
-				
-				std::unique_ptr<Core::BaseMessageListener> listener;
+				std::unique_ptr<PxComponentsFactory> px_components_factory;
+				std::unique_ptr<PxDataProvidersFactory> px_data_providers_factory;
+				std::unique_ptr<PxSubsystemFactory> px_subsystem_factory;
 				
 		};
 
