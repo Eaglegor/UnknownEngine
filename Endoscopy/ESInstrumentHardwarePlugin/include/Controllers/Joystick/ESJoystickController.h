@@ -9,6 +9,7 @@
 
 #include <ComponentInterfaces/Engine/FrameUpdaterComponent.h>
 #include <ComponentInterfaces/Engine/UpdateFrameListenerComponent.h>
+#include <ComponentInterfaces/Input/IContextualActionsMapper.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
 
 namespace UnknownEngine
@@ -48,10 +49,7 @@ namespace UnknownEngine
 			ESJoystickControllerDesc desc;
 
 			ESInstrumentPort instrument_port;
-			
-			Core::MessageSender<ESHardwareOrientationChangedMessage> axis_sender;
-			Core::MessageSender<ESHardwareBranchesAngleChangedMessage> branches_sender;
-			
+
 			Math::Scalar current_x_delta;
 			Math::Scalar current_y_delta;
 			int8_t current_z_delta;
@@ -64,12 +62,11 @@ namespace UnknownEngine
 			Math::Scalar current_d_axis;
 			Math::Scalar current_branches_angle;
 
-			std::unique_ptr<Core::BaseMessageListener> listener;
-			
 			typedef std::mutex LockPrimitive;
 			LockPrimitive mutex;
 			
 			Core::ComponentInterfacePtr<ComponentInterfaces::FrameUpdaterComponent> update_frame_provider;
+			Core::ComponentInterfacePtr<ComponentInterfaces::IContextualActionsMapper> input_context_mapping_provider;
 			
 		};
 	}

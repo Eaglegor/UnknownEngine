@@ -43,6 +43,7 @@ namespace UnknownEngine
 			std::string branches_moved_together_action_name;
 			
 			Core::IComponent* update_frame_provider;
+			Core::IComponent* input_context_mapping_provider;
 			
 			ESJoystickControllerDesc():
 			instrument_port(ESInstrumentPort::CAMERA),
@@ -65,7 +66,8 @@ namespace UnknownEngine
 			d_axis_push_action_name("DAxisPush"),
 			d_axis_pull_action_name("DAxisPull"),
 			branches_moved_together_action_name("BranchesTogether"),
-			update_frame_provider(nullptr)
+			update_frame_provider(nullptr),
+			input_context_mapping_provider(nullptr)
 			{}
 			
 		};
