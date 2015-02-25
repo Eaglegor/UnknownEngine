@@ -77,7 +77,7 @@ namespace UnknownEngine
 			X,
 			Y,
 			Z,
-			DELETE,
+			_DELETE,
 			KP0,
 			KP1,
 			KP2,

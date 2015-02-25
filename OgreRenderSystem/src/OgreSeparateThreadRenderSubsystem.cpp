@@ -2,7 +2,7 @@
 #include <Descriptors/OgreSeparateThreadRenderSubsystemDescriptor.h>
 #include <OgreRenderFrameListener.h>
 #include <Components/BaseOgreComponent.h>
-#include <OGRE/OgreRoot.h>
+#include <OgreRoot.h>
 
 namespace UnknownEngine
 {

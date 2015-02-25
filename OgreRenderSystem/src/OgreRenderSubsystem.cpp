@@ -1,8 +1,8 @@
 #include <OgreRenderSubsystem.h>
 #include <Components/BaseOgreComponent.h>
-#include <OGRE/OgreLogManager.h>
-#include <OGRE/OgreRoot.h>
-#include <OGRE/OgreConfigFile.h>
+#include <OgreLogManager.h>
+#include <OgreRoot.h>
+#include <OgreConfigFile.h>
 #include <OgreGpuProgramManager.h>
 #include <Logging.h>
 

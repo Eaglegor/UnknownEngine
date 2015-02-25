@@ -16,8 +16,8 @@ namespace UnknownEngine
 
 		if(component == nullptr) return nullptr;
 		
-		Core::IComponentInterface* interface = component->getInterface(Core::ComponentType(RawTargetType::getTypeName()));
-		if(interface == nullptr) return nullptr;
-		else return static_cast<T>(interface);
+		Core::IComponentInterface* component_interface = component->getInterface(Core::ComponentType(RawTargetType::getTypeName()));
+		if (component_interface == nullptr) return nullptr;
+		else return static_cast<T>(component_interface);
 	}
 }

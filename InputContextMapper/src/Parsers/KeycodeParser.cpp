@@ -151,7 +151,7 @@ namespace UnknownEngine
 			
 			mapping.emplace ( "Z", Key::Z );
 			
-			mapping.emplace ( "DELETE", Key::DELETE );
+			mapping.emplace ( "_DELETE", Key::_DELETE);
 			
 			mapping.emplace ( "KP0", Key::KP0 );
 			
