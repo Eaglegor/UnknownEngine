@@ -56,7 +56,7 @@ namespace UnknownEngine
 
 			LOG_INFO ( logger, "Registering update frame listener..." );
 
-			if(!simple_behaviors_factory) simple_behaviors_factory.reset( new SimpleBehaviorsFactory(engine_context) );
+			if(!simple_behaviors_factory) simple_behaviors_factory.reset( new SimpleBehaviorsFactory() );
 			engine_context->getComponentsManager()->addComponentFactory(simple_behaviors_factory.get());
 
 			return true;

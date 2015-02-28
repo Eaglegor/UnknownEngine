@@ -28,15 +28,15 @@ namespace UnknownEngine
 		}
 
 		ComponentType::ComponentType(const ComponentType& type):
-		name(type.getTypeName()),
 		base_types(type.getBases()),
+		name(type.getTypeName()),
 		type_id(type.getTypeId())
 		{
 		}
 
 		ComponentType::ComponentType(const char* name, const std::set<ComponentType>& bases):
-		name(name),
 		base_types(bases),
+		name(name),
 		type_id(retrieveTypeId(name))
 		{
 		}

@@ -13,7 +13,7 @@ namespace UnknownEngine
 	{
 		
 		OgreSpotLightComponent::OgreSpotLightComponent ( const std::string& name, const OgreSpotLightComponentDescriptor& desc, OgreRenderSubsystem* render_subsystem) : 
-		BaseOgreLightComponent ( name, render_subsystem, desc.light_settings ), 
+		BaseOgreLightComponent ( name, render_subsystem, desc.light_settings, desc.transform_provider ), 
 		desc(desc),
 		logger(name.c_str(), desc.log_level)
 		{
@@ -29,7 +29,8 @@ namespace UnknownEngine
 			BaseOgreLightComponent::internalInit();
 			ogre_light->setType(Ogre::Light::LT_SPOTLIGHT);
 			
-			ogre_light->setPosition( OgreVector3Converter::toOgreVector(desc.initial_transform.getPosition()) );
+			//ogre_light->setPosition( OgreVector3Converter::toOgreVector(desc.initial_transform.getPosition()) );
+			transform_adapter.setTransform(desc.initial_transform);
 			
 			if(desc.initial_look_at.is_initialized())
 			{

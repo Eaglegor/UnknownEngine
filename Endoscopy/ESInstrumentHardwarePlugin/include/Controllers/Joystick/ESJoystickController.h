@@ -48,7 +48,7 @@ namespace UnknownEngine
 			
 			ESJoystickControllerDesc desc;
 
-			ESInstrumentPort instrument_port;
+			//ESInstrumentPort instrument_port;
 
 			Math::Scalar current_x_delta;
 			Math::Scalar current_y_delta;

@@ -46,6 +46,11 @@ namespace UnknownEngine
 					text = "[WARNING] ";
 					break;
 				}
+				case LogSeverity::NONE:
+				{
+					// Doing nothing, just avoiding compiler warning
+					break;
+				}
 			}
 			text += getName();
 			text += ": ";

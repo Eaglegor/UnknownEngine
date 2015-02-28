@@ -19,7 +19,7 @@ namespace UnknownEngine
 			virtual void shutdown();
 
 		private:
-			ESInstrumentBranchesMotionAlgorithmDesc desc;
+			//ESInstrumentBranchesMotionAlgorithmDesc desc;
 			
 		};
 	}

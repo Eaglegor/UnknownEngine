@@ -26,10 +26,10 @@ namespace UnknownEngine
 			Core::LogSeverity log_level = Core::LogSeverity::NONE;
 			
 			PxFixedJointComponentDesc():
-			use_projection(false),
-			collision_enabled(false),
 			actor1(nullptr),
-			actor2(nullptr)
+			actor2(nullptr),
+			use_projection(false),
+			collision_enabled(false)
 			{}
 		};
 	}

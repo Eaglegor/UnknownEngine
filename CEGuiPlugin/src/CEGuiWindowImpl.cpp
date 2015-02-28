@@ -11,8 +11,8 @@ namespace UnknownEngine
 		static const char* DEFAULT_WINDOW_LAYOUT_NAME = "DefaultWindow";
 		
 		CEGuiWindowImpl::CEGuiWindowImpl ( const char* name, ICEGuiSubsystem* gui_subsystem):
-		name(name),
-		gui_subsystem(gui_subsystem)
+		name(name)//,
+		//gui_subsystem(gui_subsystem)
 		{
 			init();
 		}

@@ -13,7 +13,7 @@ namespace UnknownEngine
 	{
 		
 		OgrePointLightComponent::OgrePointLightComponent ( const std::string& name, const OgrePointLightComponentDescriptor& desc, OgreRenderSubsystem* render_subsystem) : 
-		BaseOgreLightComponent ( name, render_subsystem, desc.light_settings ), 
+		BaseOgreLightComponent ( name, render_subsystem, desc.light_settings, desc.transform_provider ), 
 		desc(desc),
 		logger(name.c_str(), desc.log_level)
 		{
@@ -29,8 +29,7 @@ namespace UnknownEngine
 			BaseOgreLightComponent::internalInit();
 			ogre_light->setType(Ogre::Light::LT_POINT);
 			
-			ogre_scene_node->setPosition( OgreVector3Converter::toOgreVector(desc.initial_transform.getPosition()) );
-			ogre_scene_node->setOrientation( OgreQuaternionConverter::toOgreQuaternion(desc.initial_transform.getOrientation()) );
+			transform_adapter.setTransform(desc.initial_transform);
 		}
 	}
 }

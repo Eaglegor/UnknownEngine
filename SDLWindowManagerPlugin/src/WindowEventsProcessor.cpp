@@ -20,8 +20,7 @@ namespace UnknownEngine
 {
 	namespace GUI
 	{
-		WindowEventsProcessor::WindowEventsProcessor ( const std::string& name, SDLWindowManager* window_manager):
-		window_manager(window_manager)
+		WindowEventsProcessor::WindowEventsProcessor ( const std::string& name, SDLWindowManager* window_manager)
 		{
 		}
 		

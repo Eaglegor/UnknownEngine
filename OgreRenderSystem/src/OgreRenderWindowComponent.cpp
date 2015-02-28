@@ -39,6 +39,11 @@ namespace UnknownEngine
 						params["parentWindowHandle"] = string_handle;
 						break;
 					}
+					case OgreRenderWindowDescriptor::WindowType::OWN:
+					{
+						// Doing nothing. Just avoiding compiler warning.
+						break;
+					}
 				}
 				
 				parent_window->addWindowEventsListener(this);

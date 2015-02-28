@@ -24,19 +24,18 @@ namespace UnknownEngine
 		static SimpleCreateJointComponentDescriptorGetter simple_create_joint_descriptor_getter;
         static SimpleStopperComponentDescriptorGetter simple_stopper_descriptor_getter;
 		
-		SimpleBehaviorsFactory::SimpleBehaviorsFactory ( UnknownEngine::Core::EngineContext* engine_context):
-		engine_context(engine_context)
+		SimpleBehaviorsFactory::SimpleBehaviorsFactory ()
 		{
 			CreatableObjectDesc creatable_component;
-			creatable_component.type = SIMPLE_ROTATION_COMPONENT_TYPE;
+			creatable_component.type = SimpleRotationComponent::getTypeName();
 			creatable_component.creator = std::bind(&SimpleBehaviorsFactory::createSimpleRotationComponent, this, std::placeholders::_1);
 			registerCreator(creatable_component);
 			
-			creatable_component.type = MOUSE_LOOK_COMPONENT_TYPE;
+			creatable_component.type = MouseLookComponent::getTypeName();
 			creatable_component.creator = std::bind(&SimpleBehaviorsFactory::createMouseLookComponent, this, std::placeholders::_1);
 			registerCreator(creatable_component);
 			
-			creatable_component.type = SIMPLE_CREATE_JOINT_COMPONENT_TYPE;
+			creatable_component.type = SimpleCreateJointComponent::getTypeName();
             creatable_component.creator = std::bind(&SimpleBehaviorsFactory::createSimpleCreateJointComponent, this, std::placeholders::_1);
             registerCreator(creatable_component);
 
@@ -48,7 +47,7 @@ namespace UnknownEngine
 		Core::IComponent* SimpleBehaviorsFactory::createSimpleRotationComponent ( const Core::ComponentDesc& desc )
 		{
 			SimpleRotationComponentDesc component_desc = desc.descriptor.apply_visitor(rotation_descriptor_getter);
-			SimpleRotationComponent* component = new SimpleRotationComponent(desc.name, component_desc, engine_context);
+			SimpleRotationComponent* component = new SimpleRotationComponent(desc.name, component_desc);
 			return component;
 		}
 		
@@ -62,7 +61,7 @@ namespace UnknownEngine
 		Core::IComponent* SimpleBehaviorsFactory::createSimpleCreateJointComponent ( const Core::ComponentDesc& desc )
 		{
 			SimpleCreateJointComponentDesc component_desc = desc.descriptor.apply_visitor(simple_create_joint_descriptor_getter);
-			SimpleCreateJointComponent* component = new SimpleCreateJointComponent(desc.name, component_desc, engine_context);
+			SimpleCreateJointComponent* component = new SimpleCreateJointComponent(desc.name, component_desc);
 			return component;
 		}
 

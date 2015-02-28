@@ -6,8 +6,8 @@ namespace UnknownEngine
 	{
 		
 		ESInstrumentBranchesMotionAlgorithm::ESInstrumentBranchesMotionAlgorithm ( const char* name, ESInstrumentBranchesMotionAlgorithmDesc& desc ):
-		BaseComponent ( name ),
-		desc(desc)
+		BaseComponent ( name )//,
+		//desc(desc)
 		{
 		}
 

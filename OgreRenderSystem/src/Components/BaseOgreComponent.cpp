@@ -12,8 +12,7 @@ namespace UnknownEngine {
 		BaseOgreComponent::BaseOgreComponent ( const std::string& name, OgreRenderSubsystem* render_subsystem ) :
 			Core::BaseComponent(name.c_str()),
 			render_subsystem ( render_subsystem ),
-			state(State::CREATION),
-			parent_entity(nullptr)
+			state(State::CREATION)
 		{
 			Core::ComponentsManager::getSingleton()->reserveComponent(render_subsystem);
 		}

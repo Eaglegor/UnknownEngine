@@ -33,7 +33,7 @@ namespace UnknownEngine
 			
 		private:
 			std::string name;
-			ICEGuiSubsystem* gui_subsystem;
+			//ICEGuiSubsystem* gui_subsystem;
 			
 			CEGUI::Window* window;
 			

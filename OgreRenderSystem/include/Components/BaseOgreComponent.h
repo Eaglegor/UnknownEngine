@@ -47,7 +47,6 @@ namespace UnknownEngine
 				std::function<void(Core::IComponent*)> destruction_callback;
 				
 				volatile State state;
-				Core::IEntity *parent_entity;
 		};
 
 	}

@@ -15,9 +15,9 @@ namespace UnknownEngine
 		BaseComponent ( name ),
 		desc(desc),
 		logger(name, desc.log_level),
+		ogre_log_manager(nullptr),
 		root(nullptr),
 		scene_manager(nullptr),
-		ogre_log_manager(nullptr),
 		resources_initialized(false)
 		{
 		}

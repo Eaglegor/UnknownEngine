@@ -56,7 +56,6 @@ namespace UnknownEngine
 		private:
 			Descriptor desc;
 			Core::ILogger* logger;
-			Core::EngineContext* engine_context;
 		};
 		
 	}

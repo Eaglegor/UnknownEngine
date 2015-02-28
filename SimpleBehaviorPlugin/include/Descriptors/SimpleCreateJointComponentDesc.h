@@ -4,6 +4,11 @@
 
 namespace UnknownEngine
 {
+	namespace Core
+	{
+		class IComponent;
+	}
+	
 	namespace Behavior
 	{
 		
@@ -18,8 +23,13 @@ namespace UnknownEngine
 			std::string jointed_material_name;
 			std::string free_material_name;
 			
+			Core::IComponent* input_context_mapper;
+			Core::IComponent* renderable_component;
+			
 			SimpleCreateJointComponentDesc():
-			create_joint_action_name("CreateJoint")
+			create_joint_action_name("CreateJoint"),
+			input_context_mapper(nullptr),
+			renderable_component(nullptr)
 			{
 			}
 		};

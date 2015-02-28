@@ -8,6 +8,7 @@
 #include <ComponentSystem/IComponentFactory_fwd.h>
 #include <condition_variable>
 #include <unordered_map>
+#include <unordered_set>
 
 namespace UnknownEngine
 {
@@ -77,7 +78,8 @@ namespace UnknownEngine
 				
 				std::unordered_map<std::string, IComponentFactory*> component_factories;
 				std::unordered_map<std::string, IEntity*> entities;
-
+				std::unordered_set<IEntity*> entities_set;
+				
 				std::unordered_map<std::string, IComponent*> components;
 			
 				std::unique_ptr<Utils::NameGenerator> name_generator;

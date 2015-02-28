@@ -17,12 +17,12 @@ namespace UnknownEngine
 
 		PxFixedJointComponent::PxFixedJointComponent(const std::string& name, const PxFixedJointComponentDesc &desc, PhysXSubsystem* physics_subsystem) :
 			Core::BaseComponent ( name.c_str() ),
-			physics_subsystem(physics_subsystem),
-			logger(name.c_str(), desc.log_level),
 			desc ( desc ),
 			px_joint(nullptr),
+			physics_subsystem(physics_subsystem),
 			rigid_body1(desc.actor1),
-			rigid_body2(desc.actor2)
+			rigid_body2(desc.actor2),
+			logger(name.c_str(), desc.log_level)
 		{
 			Core::ComponentsManager::getSingleton()->reserveComponent(physics_subsystem);
 		}

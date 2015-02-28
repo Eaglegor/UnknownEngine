@@ -29,8 +29,7 @@ namespace UnknownEngine
 				
 				virtual void removeAllComponents() override;
 				
-			private:
-	
+			private:	
 				typedef std::unordered_map<std::string, IComponent*> InternalMapType;
 
 				InternalMapType components;

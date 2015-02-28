@@ -22,6 +22,7 @@ namespace UnknownEngine
 					break;
 				}
 			}
+			return nullptr;
 		}
 
 		void CEGuiSubsystemFactory::destroySubsystem ( ICEGuiSubsystem* cegui_subsystem )

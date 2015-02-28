@@ -3,9 +3,15 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/optional/optional.hpp>
 #include <functional>
+#include <type_traits>
 
 namespace UnknownEngine
 {
+	namespace Core
+	{
+		class IComponent;
+	}
+	
 	namespace Utils
 	{
 		class PropertiesParser
@@ -49,7 +55,7 @@ namespace UnknownEngine
 				private:
 					boost::optional<T> &t;
 				};
-				
+
 				class PropertiesValue
 				{
 					public:
@@ -153,7 +159,7 @@ namespace UnknownEngine
 							setter ( BoostOptionalSetter<T>(out_value) )
 						{
 						}
-						
+
 						virtual void setOutputValue ( const Core::Properties& properties, const std::string& property_name )
 						{
 							boost::optional<const std::string&> string_value = properties.get_optional<std::string> ( property_name );
@@ -180,7 +186,7 @@ namespace UnknownEngine
 							setter(setter)
 						{
 						}
-						
+
 						virtual void setOutputValue ( const Core::Properties& properties, const std::string& property_name )
 						{
 							std::string string_value = properties.get<std::string> ( property_name );

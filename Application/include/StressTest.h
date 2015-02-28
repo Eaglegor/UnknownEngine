@@ -30,8 +30,6 @@ public:
 private:
 	std::vector<UnknownEngine::Core::IDataProvider*> data_providers;
 	
-	UnknownEngine::Core::ComponentInterfacePtr<UnknownEngine::ComponentInterfaces::FrameUpdaterComponent> update_frame_provider;
-	
 	UnknownEngine::Core::EngineContext* engine_context;
 	float x_position;
 	float z_position;
@@ -40,4 +38,6 @@ private:
 	std::unique_ptr<UnknownEngine::Core::BaseMessageListener> listener;
 	
 	UnknownEngine::Utils::TimeCounter time_counter;
+	
+	UnknownEngine::Core::ComponentInterfacePtr<UnknownEngine::ComponentInterfaces::FrameUpdaterComponent> update_frame_provider;
 };

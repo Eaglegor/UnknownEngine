@@ -14,6 +14,7 @@ namespace UnknownEngine
 					return createJoystickController(name);
 				}
 			};
+			return nullptr;
 		}
 
 		void ESControllersFactory::destroyController ( IESController* controller )

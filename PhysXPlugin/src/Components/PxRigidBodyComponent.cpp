@@ -5,6 +5,7 @@
 
 #include <Converters/PxTransformConverter.h>
 #include <DataProviders/PxShapeDataProvider.h>
+#include <ComponentInterfaces/Transform/MovableComponent.h>
 
 #include <Logging.h>
 
@@ -21,6 +22,8 @@ using std::isfinite;
 
 namespace UnknownEngine
 {
+	using namespace ComponentInterfaces;
+	
 	namespace Physics
 	{
 
@@ -99,6 +102,11 @@ namespace UnknownEngine
 			{
 				current_transform = PxTransformConverter::fromPxTransform(px_rigid_body->getGlobalPose());
 				if(!first_update_passed) first_update_passed = true;
+				
+				for(MovableComponent* listener : listeners)
+				{
+					listener->setTransform(current_transform);
+				}
 			}
 		}
 		
@@ -125,6 +133,11 @@ namespace UnknownEngine
 						dynamic_rigid->setGlobalPose(PxTransformConverter::toPxTransform(transform));
 						break;
 					}
+					case RigidBodyDynamicsType::STATIC:
+					{
+						// Doing nothing. Just avoiding compiler warning.
+						break;
+					}
 				}
 			}
 		}
@@ -146,9 +159,36 @@ namespace UnknownEngine
 		
 		Core::IComponentInterface* PxRigidBodyComponent::getInterface ( const Core::ComponentType& type )
 		{
-			if(type == ComponentInterfaces::IPhysXRigidBodyComponent::getTypeName()) return static_cast<ComponentInterfaces::IPhysXRigidBodyComponent*>(this);
-			if(type == ComponentInterfaces::TransformHolderComponent::getTypeName()) return static_cast<ComponentInterfaces::TransformHolderComponent*>(this);
+			if(type == IPhysXRigidBodyComponent::getTypeName()) return static_cast<IPhysXRigidBodyComponent*>(this);
+			if(type == TransformHolderComponent::getTypeName()) return static_cast<TransformHolderComponent*>(this);
+			if(type == TransformNotifierComponent::getTypeName()) return static_cast<TransformNotifierComponent*>(this);
+			if(type == MovableComponent::getTypeName()) return static_cast<MovableComponent*>(this);
 			return nullptr;
+		}
+		
+			
+		void PxRigidBodyComponent::addListener ( MovableComponent* movable_component )
+		{
+			listeners.emplace(movable_component);
+		}
+
+		void PxRigidBodyComponent::removeListener ( MovableComponent* movable_component )
+		{
+			listeners.erase(movable_component);
+		}
+		
+		void PxRigidBodyComponent::setOrientation ( const Math::Quaternion& quaternion )
+		{
+			Math::Transform transform = getTransform();
+			transform.setOrientation(quaternion);
+			setTransform(transform);
+		}
+
+		void PxRigidBodyComponent::setPosition ( const Math::Vector3& position )
+		{
+			Math::Transform transform = getTransform();
+			transform.setPosition(position);
+			setTransform(transform);
 		}
 		
 	}

@@ -15,6 +15,7 @@
 #include <ExportedMessages/TransformChangedMessage.h>
 #include <ExportedMessages/RenderSystem/ChangeMaterialActionMessage.h>
 #include <ResourceManager/ResourceManager.h>
+#include <mutex>
 
 namespace UnknownEngine
 {
@@ -71,20 +72,23 @@ namespace UnknownEngine
 			LOG_INFO ( logger, "Creating OGRE scene node" );
 			scene_node = render_subsystem->getSceneManager()->getRootSceneNode()->createChildSceneNode ( Ogre::String(getName()) + ".SceneNode" );
 
-			scene_node->setPosition ( OgreVector3Converter::toOgreVector ( desc.initial_transform.getPosition() ) );
-			scene_node->setOrientation ( OgreQuaternionConverter::toOgreQuaternion ( desc.initial_transform.getOrientation() ) );
-
 			LOG_INFO ( logger, "Starting" );
 			scene_node->attachObject ( entity );
 			
-			//LOG_INFO (logger, "Registering listener");
-			//if(listener && !listener->isRegisteredAtDispatcher()) listener->registerAtDispatcher();
+			transform_adapter.setTransform(desc.initial_transform);
+			
+			if(transform_provider)
+			{
+				transform_provider->addListener(&transform_adapter);
+			}
 		}
 
 		void OgreRenderableComponent::internalShutdown()
 		{
-			//LOG_INFO (logger, "Unregistering listener");
-			//if(listener) listener->unregisterAtDispatcher();
+			if(transform_provider)
+			{
+				transform_provider->removeListener(&transform_adapter);
+			}
 			
 			LOG_INFO ( logger, "Shutting down" );
 			scene_node->detachObject ( entity );
@@ -98,22 +102,36 @@ namespace UnknownEngine
 
 		void OgreRenderableComponent::_update()
 		{
-			if(transform_provider)
-			{
-				this->scene_node->setPosition ( OgreVector3Converter::toOgreVector(transform_provider->getPosition()) );
-				this->scene_node->setOrientation ( OgreQuaternionConverter::toOgreQuaternion(transform_provider->getOrientation()) );
-			}
-		}
-		
-		void OgreRenderableComponent::onTransformChanged ( const Core::TransformChangedMessage &message )
-		{
-			this->scene_node->setPosition ( OgreVector3Converter::toOgreVector ( message.new_transform.getPosition() ) );
-			this->scene_node->setOrientation ( OgreQuaternionConverter::toOgreQuaternion ( message.new_transform.getOrientation() ) );
+			transform_adapter.apply(this);
 		}
 
-		void OgreRenderableComponent::doChangeMaterial ( const ChangeMaterialActionMessage &message )
+		void OgreRenderableComponent::setMaterialName ( const char* material_name )
 		{
-			this->entity->setMaterialName ( message.new_material_name );
+			this->entity->setMaterialName(material_name);
+		}
+		
+		void OgreRenderableComponent::setOrientation ( const Math::Quaternion& quaternion )
+		{
+			this->scene_node->setOrientation( OgreQuaternionConverter::toOgreQuaternion(quaternion) );
+		}
+
+		void OgreRenderableComponent::setPosition ( const Math::Vector3& position )
+		{
+			this->scene_node->setPosition( OgreVector3Converter::toOgreVector(position) );
+		}
+
+		void OgreRenderableComponent::setTransform ( const Math::Transform& transform )
+		{
+			this->scene_node->setPosition( OgreVector3Converter::toOgreVector(transform.getPosition()) );
+			this->scene_node->setOrientation( OgreQuaternionConverter::toOgreQuaternion(transform.getOrientation()) );
+		}
+		
+		Core::IComponentInterface* OgreRenderableComponent::getInterface ( const Core::ComponentType& type )
+		{
+			using namespace ComponentInterfaces;
+			if(type == MovableComponent::getTypeName() ) return static_cast<MovableComponent*>(&transform_adapter);
+			if(type == IRenderable::getTypeName() ) return static_cast<IRenderable*>(this);
+			return nullptr;
 		}
 		
 	} // namespace Graphics

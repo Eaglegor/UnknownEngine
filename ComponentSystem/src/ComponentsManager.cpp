@@ -80,6 +80,7 @@ namespace UnknownEngine
 			LOG_INFO(logger, "Creating entity: " + name );
 			IEntity* entity = new Entity ( name, this );
 			entities.emplace(name, entity);
+			entities_set.emplace(entity);
 			return entity;
 		}
 
@@ -105,7 +106,7 @@ namespace UnknownEngine
 						if(init_success)
 						{
 							EngineSpecificComponentDataImpl* engine_data = createComponentEngineSpecificData();
-							engine_data->factory_name = factory.first;
+							engine_data->factory = factory.second;
 							engine_data->ref_counter = 1;
 							component->setEngineSpecificData(engine_data);
 						
@@ -115,6 +116,7 @@ namespace UnknownEngine
 						{
 							LOG_ERROR(logger, "Failed to initialize component '" + desc.name + "'. Destroying it immediately WITHOUT a shutdown!");
 							factory.second->destroyObject(component);
+							component = nullptr;
 						}
 					}
 					else
@@ -139,7 +141,7 @@ namespace UnknownEngine
 			if (engine_data != nullptr)
 			{
 				LOG_DEBUG(logger, "Found engine specific data - using factory according to it");
-				factory = component_factories.at(engine_data->factory_name);
+				factory = engine_data->factory;
 			}
 			else
 			{
@@ -180,11 +182,12 @@ namespace UnknownEngine
 
 		void ComponentsManager::removeEntity ( IEntity* entity )
 		{
-			if ( entity )
+			if ( entity && entities_set.find(entity) != entities_set.end() )
 			{
 				LOG_INFO(logger, std::string("Destroying entity '") + entity->getName() + "'" );
 				entity->removeAllComponents();
 				entities.erase(entity->getName());
+				entities_set.erase(entity);
 				delete entity;
 			}
 		}
@@ -195,6 +198,7 @@ namespace UnknownEngine
 			{
 				LOG_INFO(logger, std::string("Destroying entity '") + iter.second->getName() + "'" );
 				iter.second->removeAllComponents();
+				entities_set.erase(iter.second);
 				delete iter.second;
 			}
 			entities.clear();
@@ -219,6 +223,11 @@ namespace UnknownEngine
 
 		void Core::ComponentsManager::releaseComponent ( Core::IComponent* component )
 		{
+			if(component == nullptr) {
+				LOG_DEBUG(logger, "Trying to release nullptr component. Nothing to do.");
+				return;
+			}
+			
 			EngineSpecificComponentDataImpl* engine_data = getComponentEngineSpecificData(component);
 			if (engine_data == nullptr)
 			{

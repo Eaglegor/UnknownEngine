@@ -20,7 +20,7 @@ namespace UnknownEngine
 		class SimpleBehaviorsFactory : public Core::BaseComponentFactory
 		{
 		public:
-			SimpleBehaviorsFactory( UnknownEngine::Core::EngineContext* engine_context);
+			SimpleBehaviorsFactory();
 			virtual const char* getName() const override;
 
 		private:
@@ -28,8 +28,6 @@ namespace UnknownEngine
 			Core::IComponent* createMouseLookComponent(const Core::ComponentDesc& desc);
 			Core::IComponent* createSimpleCreateJointComponent(const Core::ComponentDesc& desc);
             Core::IComponent* createSimpleStopperComponent(const Core::ComponentDesc& desc);
-			
-			Core::EngineContext* engine_context;
 		};
 		
 	}

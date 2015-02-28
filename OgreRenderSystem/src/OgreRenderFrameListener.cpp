@@ -7,8 +7,8 @@ namespace UnknownEngine
 	{
 		
 		OgreRenderFrameListener::OgreRenderFrameListener(OgreRenderSubsystem* render_subsystem) :
-		stopped ( false ),
-		render_subsystem(render_subsystem)
+		render_subsystem(render_subsystem),
+		stopped ( false )
 		{}
 		
 		bool OgreRenderFrameListener::frameStarted ( const Ogre::FrameEvent& evt )

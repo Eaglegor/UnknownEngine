@@ -27,9 +27,9 @@ namespace UnknownEngine
 		OgreCameraComponent::OgreCameraComponent ( const std::string &name, const OgreCameraComponentDescriptor &desc, OgreRenderSubsystem *render_subsystem )
 			: BaseOgreComponent ( name, render_subsystem ),
 			  desc ( desc ),
-			  logger(name, desc.log_level),
 			  scene_node(nullptr),
 			  camera(nullptr),
+			  logger(name, desc.log_level),
 			  render_window(desc.render_window),
 			  transform_provider(desc.transform_provider)
 		{
@@ -60,8 +60,7 @@ namespace UnknownEngine
 
 			render_window->getOgreRenderWindow()->addViewport ( camera );
 
-			scene_node->setPosition ( OgreVector3Converter::toOgreVector ( desc.initial_transform.getPosition() ) );
-			scene_node->setOrientation ( OgreQuaternionConverter::toOgreQuaternion ( desc.initial_transform.getOrientation() ) );
+			transform_adapter.setTransform(desc.initial_transform);
 
 			if ( desc.initial_look_at.is_initialized() )
 			{
@@ -77,27 +76,46 @@ namespace UnknownEngine
 			if ( desc.far_clip_distance.is_initialized() ) camera->setFarClipDistance ( desc.far_clip_distance.get() );
 
 			this->scene_node->attachObject ( this->camera );
+			
+			
+			if(transform_provider) transform_provider->addListener(&transform_adapter);
 		}
 
 		void OgreCameraComponent::internalShutdown()
 		{
+			if(transform_provider) transform_provider->removeListener(&transform_adapter);
+			
 			LOG_INFO ( logger, "Shutting down" );
 			if(scene_node && camera) this->scene_node->detachObject ( this->camera );
 		}
 
 		void OgreCameraComponent::_update()
 		{
-			if(transform_provider) 
-			{
-				this->scene_node->setPosition ( OgreVector3Converter::toOgreVector ( transform_provider->getPosition() ) );
-				this->scene_node->setOrientation ( OgreQuaternionConverter::toOgreQuaternion ( transform_provider->getOrientation() ) );
-			}
+			transform_adapter.apply(this);
 		}
 		
 		void OgreCameraComponent::doLookAt ( const CameraLookAtActionMessage &msg )
 		{
 			camera->lookAt ( OgreVector3Converter::toOgreVector ( msg.look_at_position ) );
 		}
+		
+		void OgreCameraComponent::setOrientation ( const Math::Quaternion& quaternion )
+		{
+			this->scene_node->setOrientation( OgreQuaternionConverter::toOgreQuaternion(quaternion) );
+		}
+
+		void OgreCameraComponent::setPosition ( const Math::Vector3& position )
+		{
+			this->scene_node->setPosition( OgreVector3Converter::toOgreVector(position) );
+		}
+
+		void OgreCameraComponent::setTransform ( const Math::Transform& transform )
+		{
+			this->scene_node->setPosition( OgreVector3Converter::toOgreVector(transform.getPosition()) );
+			this->scene_node->setOrientation( OgreQuaternionConverter::toOgreQuaternion(transform.getOrientation()) );
+		}
+		
+		
 
 	}
 }

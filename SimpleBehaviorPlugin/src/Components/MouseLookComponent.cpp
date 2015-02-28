@@ -6,11 +6,14 @@
 
 #include <ExportedMessages/InputContext/AddSimpleActionMessage.h>
 #include <ExportedMessages/InputContext/AddRangeActionMessage.h>
+#include <ComponentInterfaces/Transform/MovableComponent.h>
 
 #include <iostream>
 
 namespace UnknownEngine 
 {
+	using namespace ComponentInterfaces;
+	
 	namespace Behavior 
 	{
 		MouseLookComponent::MouseLookComponent ( const std::string& name, const MouseLookComponentDesc &desc ) : 
@@ -122,6 +125,11 @@ namespace UnknownEngine
 			{
 				updateQuaternion();
 				needs_update_quaternion = false;
+			}
+			
+			for(MovableComponent* listener : listeners)
+			{
+				listener->setTransform(current_transform);
 			}
 			
 		}
@@ -254,9 +262,20 @@ namespace UnknownEngine
 			current_y_angle = 0;
 		}
 	
+		void MouseLookComponent::addListener ( MovableComponent* movable_component )
+		{
+			listeners.emplace(movable_component);
+		}
+
+		void MouseLookComponent::removeListener ( MovableComponent* movable_component )
+		{
+			listeners.erase(movable_component);
+		}
+	
 		Core::IComponentInterface* MouseLookComponent::getInterface ( const Core::ComponentType& type )
 		{
-			if(type == ComponentInterfaces::TransformHolderComponent::getTypeName()) return static_cast<ComponentInterfaces::TransformHolderComponent*>(this);
+			if(type == TransformHolderComponent::getTypeName()) return static_cast<TransformHolderComponent*>(this);
+			if(type == TransformNotifierComponent::getTypeName()) return static_cast<TransformNotifierComponent*>(this);
 			return nullptr;
 		}
 	

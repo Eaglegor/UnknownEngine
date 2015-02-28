@@ -36,18 +36,31 @@ namespace UnknownEngine
 			
 			switch ( severity )
 			{
-			case LogSeverity::INFO:
-				std::cout << "INFO";
-				break;
-			case LogSeverity::ERROR_:
-				std::cout << "ERROR";
-				break;
-			case LogSeverity::WARNING:
-				std::cout << "WARNING";
-				break;
-			case LogSeverity::DEBUG:
-				std::cout << "DEBUG";
-				break;
+				case LogSeverity::INFO:
+				{
+					std::cout << "INFO";
+					break;
+				}
+				case LogSeverity::ERROR_:
+				{
+					std::cout << "ERROR";
+					break;
+				}
+				case LogSeverity::WARNING:
+				{
+					std::cout << "WARNING";
+					break;
+				}
+				case LogSeverity::DEBUG:
+				{
+					std::cout << "DEBUG";
+					break;
+				}
+				case LogSeverity::NONE:
+				{
+					// Doing nothing, only avoiding compiler warnings
+					break;
+				}
 			}
 
 			std::cout << "] ";

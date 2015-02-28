@@ -39,7 +39,6 @@ namespace UnknownEngine
 			IO::SDLKeyCodesConverter keys_converter;
 
 			std::string name;
-			SDLWindowManager *window_manager;
 			SDLJoystickWrapper joystick_wrapper;
 			
 			std::unordered_set<ComponentInterfaces::WindowEventsListenerComponent*> window_events_listeners;

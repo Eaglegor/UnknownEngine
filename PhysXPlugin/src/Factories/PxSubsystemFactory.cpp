@@ -12,9 +12,9 @@ namespace UnknownEngine
 		static PhysXSubsystemDescriptorGetter subsystem_descriptor_getter;
 		
 		PxSubsystemFactory::PxSubsystemFactory ( PxComponentsFactory* components_factory, PxDataProvidersFactory* data_providers_factory ):
+		physx_subsystem(nullptr),
 		components_factory(components_factory),
-		data_providers_factory(data_providers_factory),
-		physx_subsystem(nullptr)
+		data_providers_factory(data_providers_factory)
 		{
 			CreatableObjectDesc creatable_object;
 			creatable_object.type = PhysXSubsystem::getTypeName();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Components/BaseOgreComponent.h>
+#include <Components/ConcurrentTransformAdapter.h>
 #include <ComponentSystem/ComponentType.h>
 #include <AlignedNew.h>
 #include <Descriptors/Components/Cameras/OgreCameraComponentDescriptor.h>
@@ -8,7 +9,9 @@
 #include <LogHelper.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
 #include <ComponentInterfaces/Ogre/IOgreRenderWindowComponent.h>
-#include <ComponentInterfaces/Transform/TransformHolderComponent.h>
+#include <ComponentInterfaces/Transform/TransformNotifierComponent.h>
+#include <ComponentInterfaces/Transform/MovableComponent.h>
+#include <Spinlock.h>
 
 namespace Ogre
 {
@@ -33,7 +36,9 @@ namespace UnknownEngine
 		struct CameraLookAtActionMessage;
 		class OgreRenderSubsystem;
 
-		UNKNOWNENGINE_ALIGNED_CLASS(16) OgreCameraComponent : public BaseOgreComponent
+		UNKNOWNENGINE_ALIGNED_CLASS(16) OgreCameraComponent : 
+		public BaseOgreComponent,
+		public ComponentInterfaces::MovableComponent
 		{
 			public:
 				UNKNOWNENGINE_SIMPLE_EXCEPTION(RenderWindowNotFound);
@@ -47,6 +52,10 @@ namespace UnknownEngine
 				void doLookAt ( const CameraLookAtActionMessage& msg );
 
 				virtual void _update() override;
+				
+				virtual void setOrientation ( const Math::Quaternion & quaternion ) override;
+				virtual void setPosition ( const Math::Vector3 & position ) override;
+				virtual void setTransform ( const Math::Transform & transform ) override;
 				
 				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
@@ -63,7 +72,9 @@ namespace UnknownEngine
 				Core::LogHelper logger;
 				
 				Core::ComponentInterfacePtr<ComponentInterfaces::IOgreRenderWindowComponent> render_window;
-				Core::ComponentInterfacePtr<ComponentInterfaces::TransformHolderComponent> transform_provider;
+				Core::ComponentInterfacePtr<ComponentInterfaces::TransformNotifierComponent> transform_provider;
+				
+				ConcurrentTransformAdapter transform_adapter;
 		};
 	}
 }

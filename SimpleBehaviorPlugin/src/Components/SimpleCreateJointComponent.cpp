@@ -13,12 +13,12 @@ namespace UnknownEngine
 	namespace Behavior
 	{
 
-		SimpleCreateJointComponent::SimpleCreateJointComponent ( const std::string& name, const SimpleCreateJointComponentDesc& desc, Core::EngineContext* engine_context ) : 
+		SimpleCreateJointComponent::SimpleCreateJointComponent ( const std::string& name, const SimpleCreateJointComponentDesc& desc) : 
 		Core::BaseComponent ( name.c_str() ),
 		desc(desc),
-		engine_context(engine_context),
 		joint_entity(nullptr),
-		change_material_message_sender(name)
+		input_context_mapper(desc.input_context_mapper),
+		renderable_component(desc.renderable_component)
 		{
 			
 		}
@@ -28,26 +28,25 @@ namespace UnknownEngine
 
 		}
 
-		Core::ComponentType SimpleCreateJointComponent::getType() const
-		{
-			return SIMPLE_CREATE_JOINT_COMPONENT_TYPE;
-		}
-
 		bool SimpleCreateJointComponent::init (  )
 		{	
-				Core::MessageSender<IO::AddSimpleActionMessage> simple_action_message_sender(getName());
-				
-				IO::AddSimpleActionMessage msg;
-				msg.context_name = desc.input_context_name;
-				msg.action_slot_name = desc.create_joint_action_name;
-				msg.action_callback = std::bind(&SimpleCreateJointComponent::switchJoint, this);
-				simple_action_message_sender.sendMessage(msg);
-				return true;
+			if(input_context_mapper)
+			{
+				input_context_mapper->addSimpleAction(desc.input_context_name.c_str(), desc.create_joint_action_name.c_str(), std::bind(&SimpleCreateJointComponent::switchJoint, this));
+			}
+			return true;
 		}
 
 		void SimpleCreateJointComponent::shutdown()
 		{
-			
+			if(input_context_mapper)
+			{
+				input_context_mapper->removeSimpleAction(desc.input_context_name.c_str(), desc.create_joint_action_name.c_str());
+			}
+			if(joint_entity)
+			{
+				destroyJoint();
+			}
 		}
 
 		void SimpleCreateJointComponent::switchJoint()
@@ -66,22 +65,23 @@ namespace UnknownEngine
 		{
 			if(!joint_entity)
 			{
-				Core::ComponentsManager* components_manager = engine_context->getComponentsManager();
+				Core::ComponentsManager* components_manager = Core::ComponentsManager::getSingleton();
 				Utils::NameGenerator* name_generator = components_manager->getNameGenerator();
 				
 				joint_entity = components_manager->createEntity( name_generator->generateName() );
 				Core::ComponentDesc cdesc;
 				cdesc.name = name_generator->generateName();
-				cdesc.type = "Physics.Joint.Fixed";
+				cdesc.type = "PhysX.FixedJoint";
 				Core::Properties props;
 				props.set<std::string>("actor1_name", desc.body1_name);
 				props.set<std::string>("actor2_name", desc.body2_name);
 				cdesc.descriptor = props;
 				joint_entity->createComponent(cdesc);
 				
-				Graphics::ChangeMaterialActionMessage msg;
-				msg.new_material_name = desc.jointed_material_name;
-				change_material_message_sender.sendMessage(msg);
+				if(renderable_component)
+				{
+					renderable_component->setMaterialName(desc.jointed_material_name.c_str());
+				}
 			}
 		}
 
@@ -89,12 +89,9 @@ namespace UnknownEngine
 		{
 			if(joint_entity)
 			{
-				engine_context->getComponentsManager()->removeEntity(joint_entity);
+				Core::ComponentsManager* components_manager = Core::ComponentsManager::getSingleton();
+				components_manager->removeEntity(joint_entity);
 				joint_entity = nullptr;
-				
-				Graphics::ChangeMaterialActionMessage msg;
-				msg.new_material_name = desc.free_material_name;
-				change_material_message_sender.sendMessage(msg);
 			}
 		}
 

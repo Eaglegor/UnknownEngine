@@ -90,6 +90,8 @@ void StressTest::generateObjects ( size_t count )
 			
 			desc.descriptor = props;
 			
+			transform.set<std::string>("input_context_mapping_provider_name", "System.InputContextMapper");
+			
 			MessageSenderRules rules;
 			MessageSenderRule rule;
 			rule.message_type_name = "Engine.TransformChangedMessage";
@@ -100,7 +102,7 @@ void StressTest::generateObjects ( size_t count )
 		entity->createComponent(desc);
 		
 		desc.name = name_generator->generateName();
-		desc.type = "Graphics.Renderable";
+		desc.type = "Ogre.Renderable";
 		{
 			Properties props;
 			props.set<IDataProvider*>("mesh_ptr_provider", data_providers[1]);

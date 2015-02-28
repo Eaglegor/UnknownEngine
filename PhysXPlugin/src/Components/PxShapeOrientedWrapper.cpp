@@ -14,16 +14,16 @@ namespace UnknownEngine
 	namespace Physics
 	{
 		PxShapeOrientedWrapper::PxShapeOrientedWrapper( const physx::PxGeometry& geometry, const physx::PxMaterial *material, PhysXSubsystem* physx_subsystem, bool is_exclusive ):
-		px_shape(nullptr),
-		physx_subsystem(physx_subsystem)
+		px_shape(nullptr)//,
+		//physx_subsystem(physx_subsystem)
 		{
 			createPxShape(geometry, material, physx_subsystem, is_exclusive);
 		}
 
 		PxShapeOrientedWrapper::PxShapeOrientedWrapper ( const physx::PxGeometry& geometry, const physx::PxMaterial *material, const Math::Transform& pose_offset, PhysXSubsystem* physx_subsystem, bool is_exclusive ):
 		px_shape(nullptr),
-		pose_offset(pose_offset),
-		physx_subsystem(physx_subsystem)
+		pose_offset(pose_offset)//,
+		//physx_subsystem(physx_subsystem)
 		{
 			createPxShape(geometry, material, physx_subsystem, is_exclusive);
 		}

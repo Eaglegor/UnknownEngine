@@ -1,10 +1,15 @@
 #pragma once
 
 #include <Components/BaseOgreComponent.h>
+#include <Components/ConcurrentTransformAdapter.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
 #include <Exception.h>
 #include <Descriptors/Components/Renderables/OgreRenderableComponentDescriptor.h>
 #include <LogHelper.h>
+#include <ComponentInterfaces/Transform/MovableComponent.h>
+#include <ComponentInterfaces/RenderSystem/IRenderable.h>
+#include <ComponentInterfaces/Transform/TransformNotifierComponent.h>
+#include <Spinlock.h>
 
 namespace Ogre
 {
@@ -28,7 +33,10 @@ namespace UnknownEngine
 		struct ChangeMaterialActionMessage;
 		class OgreRenderSubsystem;
 
-		UNKNOWNENGINE_ALIGNED_CLASS(16) OgreRenderableComponent: public BaseOgreComponent
+		UNKNOWNENGINE_ALIGNED_CLASS(16) OgreRenderableComponent: 
+		public BaseOgreComponent,
+		public ComponentInterfaces::MovableComponent,
+		public ComponentInterfaces::IRenderable
 		{
 			public:
 
@@ -42,9 +50,14 @@ namespace UnknownEngine
 				
 				virtual void _update() override;
 
-				virtual void onTransformChanged ( const Core::TransformChangedMessage &message );
-				virtual void doChangeMaterial ( const ChangeMaterialActionMessage &message );
-
+				virtual void setOrientation ( const Math::Quaternion & quaternion ) override;
+				virtual void setPosition ( const Math::Vector3 & position ) override;
+				virtual void setTransform ( const Math::Transform & transform ) override;
+				
+				virtual void setMaterialName ( const char * material_name ) override;
+				
+				virtual IComponentInterface * getInterface ( const Core::ComponentType & type ) override;
+				
 				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
 			protected:
@@ -52,13 +65,15 @@ namespace UnknownEngine
 				virtual void internalShutdown() override;
 
 			private:
-				Core::ComponentInterfacePtr<ComponentInterfaces::TransformHolderComponent> transform_provider;
+				Core::ComponentInterfacePtr<ComponentInterfaces::TransformNotifierComponent> transform_provider;
 				OgreRenderableComponentDescriptor desc;
 				
 				Ogre::Entity* entity;
 				Ogre::SceneNode* scene_node;
 				
 				Core::LogHelper logger;
+			
+				ConcurrentTransformAdapter transform_adapter;
 		};
 
 	} // namespace Graphics
