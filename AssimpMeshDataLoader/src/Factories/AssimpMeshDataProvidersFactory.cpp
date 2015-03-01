@@ -3,7 +3,6 @@
 #include <DataProviders/AssimpMeshDataProvider.h>
 #include <Logging.h>
 #include <ResourceManager/DataProviders/DataProviderDesc.h>
-#include <Parsers/AssimpMeshDataProviderDescParser.h>
 #include <DataProviders/AssimpMeshDataProviderDescriptorGetter.h>
 
 namespace UnknownEngine {

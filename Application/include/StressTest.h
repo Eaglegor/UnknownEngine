@@ -1,12 +1,18 @@
 #pragma once
 
-#include <EngineContext.h>
-#include <MessageSystem/BaseMessageListener.h>
-#include <ResourceManager/DataProviders/IDataProvider.h>
 #include <Profiling/TimeCounter.h>
 #include <ComponentInterfaces/Engine/UpdateFrameListenerComponent.h>
 #include <ComponentInterfaces/Engine/FrameUpdaterComponent.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
+#include <vector>
+
+namespace UnknownEngine
+{
+	namespace Core
+	{
+		class IDataProvider;
+	}
+}
 
 class StressTest : public UnknownEngine::ComponentInterfaces::UpdateFrameListenerComponent
 {
@@ -19,7 +25,7 @@ public:
 	update_frame_provider(update_frame_provider)
 	{}
 	
-	void init(UnknownEngine::Core::EngineContext* engine_context);
+	void init();
 	void shutdown();
 
 	void generateObjects(size_t count);
@@ -29,12 +35,10 @@ public:
 private:
 	std::vector<UnknownEngine::Core::IDataProvider*> data_providers;
 	
-	UnknownEngine::Core::EngineContext* engine_context;
 	float x_position;
 	float z_position;
 	bool was_init;
 	size_t objects_count;
-	std::unique_ptr<UnknownEngine::Core::BaseMessageListener> listener;
 	
 	UnknownEngine::Utils::TimeCounter time_counter;
 	

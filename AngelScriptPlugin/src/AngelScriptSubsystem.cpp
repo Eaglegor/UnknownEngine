@@ -13,16 +13,9 @@
 #include <Registrators/Core/ResourceManager/DataProviderDescRegistrator.h>
 #include <Registrators/Core/ResourceManager/IDataProviderRegistrator.h>
 #include <Registrators/Core/ResourceManager/ResourceManagerRegistrator.h>
-#include <Registrators/Core/MessageSystem/MessageDispatcherRegistrator.h>
-#include <Registrators/Core/MessageSystem/MessageListenerRuleRegistrator.h>
-#include <Registrators/Core/MessageSystem/MessageSenderRulesRegistrator.h>
-#include <Registrators/Core/MessageSystem/MessageListenerRulesRegistrator.h>
-#include <Registrators/Core/MessageSystem/MessageSenderRuleRegistrator.h>
-#include <Registrators/Core/Messages/StopEngineActionMessageRegistrator.h>
 #include <Registrators/Utils/NameGeneratorRegistrator.h>
 #include <Registrators/Utils/StdOutPrintRegistrator.h>
 #include <Registrators/Utils/LogSeverityRegistrator.h>
-#include <Registrators/Core/Messages/UpdateFrameMessageRegistrator.h>
 
 #include <scriptbuilder/scriptbuilder.h>
 
@@ -87,19 +80,6 @@ namespace UnknownEngine
 		
 		void AngelScriptSubsystem::registerDefaultTemplatesPredefinition()
 		{
-			script_engine->SetDefaultNamespace("Core");
-			
-			script_engine->RegisterObjectType("MessageSender<class T>", 0, asOBJ_REF | asOBJ_TEMPLATE );
-			script_engine->RegisterObjectBehaviour("MessageSender<T>", asBEHAVE_FACTORY, "MessageSender<T>@ f(int &in)", asFUNCTION(stub_factory), asCALL_CDECL);
-			script_engine->RegisterObjectBehaviour("MessageSender<T>", asBEHAVE_ADDREF, "void f()", asFUNCTION(stub_addref), asCALL_CDECL_OBJFIRST);
-			script_engine->RegisterObjectBehaviour("MessageSender<T>", asBEHAVE_RELEASE, "void f()", asFUNCTION(stub_release), asCALL_CDECL_OBJFIRST);
-			
-			script_engine->RegisterObjectType("MessageListener<class T>", 0, asOBJ_REF | asOBJ_TEMPLATE );
-			script_engine->RegisterObjectBehaviour("MessageListener<T>", asBEHAVE_FACTORY, "MessageListener<T>@ f(int &in)", asFUNCTION(stub_factory), asCALL_CDECL);
-			script_engine->RegisterObjectBehaviour("MessageListener<T>", asBEHAVE_ADDREF, "void f()", asFUNCTION(stub_addref), asCALL_CDECL_OBJFIRST);
-			script_engine->RegisterObjectBehaviour("MessageListener<T>", asBEHAVE_RELEASE, "void f()", asFUNCTION(stub_release), asCALL_CDECL_OBJFIRST);
-			
-			script_engine->SetDefaultNamespace("");
 		}
 
 		
@@ -121,19 +101,10 @@ namespace UnknownEngine
 			registerObjectType(ComponentsManagerRegistrator());
 			registerObjectType(DataProviderDescRegistrator());
 			registerObjectType(ResourceManagerRegistrator());
-
-			registerObjectType(MessageListenerRuleRegistrator());
-			registerObjectType(MessageListenerRulesRegistrator());
-			registerObjectType(MessageSenderRuleRegistrator());
-			registerObjectType(MessageSenderRulesRegistrator());
-			registerObjectType(MessageDispatcherRegistrator());
 			
 			registerObjectType(EngineContextRegistrator());
 			
 			registerObjectType(StdOutPrintRegistrator());
-
-			registerObjectType(StopEngineActionMessageRegistrator());
-			registerObjectType(UpdateFrameMessageRegistrator());
 			
 		}
 		

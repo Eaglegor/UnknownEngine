@@ -4,6 +4,7 @@
 #include <vector>
 #include <ComponentInterfaces/Engine/FrameUpdaterComponent.h>
 #include <ComponentSystem/BaseComponent.h>
+#include <unordered_set>
 
 namespace UnknownEngine
 {

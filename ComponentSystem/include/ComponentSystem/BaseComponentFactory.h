@@ -1,11 +1,12 @@
 #pragma once
 
 #include <ComponentSystem/IComponentFactory.h>
+#include <ComponentSystem/IComponent.h>
+
 #include <memory>
 #include <unordered_map>
-#include <unordered_set>
 #include <functional>
-#include <ComponentSystem/IComponent.h>
+
 
 namespace UnknownEngine
 {
@@ -38,7 +39,6 @@ namespace UnknownEngine
 			void registerCreator(const CreatableObjectDesc& creatable_object_desc);
 			
 		private:
-			std::unordered_set<ComponentType> supported_types;
 			std::unordered_map<ComponentType, CreatableObjectDesc> creators;
 		};
 	}

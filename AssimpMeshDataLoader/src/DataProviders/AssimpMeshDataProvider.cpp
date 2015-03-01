@@ -24,14 +24,13 @@ namespace UnknownEngine
 		
 		AssimpMeshDataProvider::AssimpMeshDataProvider ( const std::string& name, const AssimpMeshDataProvider::Descriptor& desc, Core::EngineContext* engine_context ) :
 			SeparateLoaderThreadDataProvider ( name ),
-			desc ( desc )
+			desc ( desc ),
+			logger(name.c_str(), desc.log_level)
 		{
-			logger = CREATE_LOGGER(name.c_str(), desc.log_level);
 		}
 
 		AssimpMeshDataProvider::~AssimpMeshDataProvider()
 		{
-			RELEASE_LOGGER(logger);
 		}
 		
 		const Core::DataProviderType AssimpMeshDataProvider::getType() const

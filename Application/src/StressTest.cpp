@@ -1,4 +1,5 @@
 #include <StressTest.h>
+#include <ResourceManager/DataProviders/IDataProvider.h>
 #include <NameGenerators/NameGenerator.h>
 #include <ComponentSystem/ComponentsManager.h>
 #include <ComponentSystem/Entity.h>
@@ -11,15 +12,13 @@
 using namespace UnknownEngine::Core;
 using namespace UnknownEngine::Utils;
 
-void StressTest::init ( EngineContext* engine_context )
+void StressTest::init ()
 {
 	if(update_frame_provider) update_frame_provider->addListener(this);
 	
-	this->engine_context = engine_context;
-	
 	was_init = true;
 	
-	ResourceManager* rm = engine_context->getResourceManager();
+	ResourceManager* rm = UnknownEngine::Core::ResourceManager::getSingleton();
 	
 	DataProviderDesc dp_desc;
 	dp_desc.name = "TeapotMesh";
@@ -68,7 +67,7 @@ void StressTest::generateObjects ( size_t count )
 {
 	for(size_t i = 0; i < count; ++i)
 	{
-		ComponentsManager* mgr = engine_context->getComponentsManager();
+		ComponentsManager* mgr = UnknownEngine::Core::ComponentsManager::getSingleton();
 		NameGenerator* name_generator = mgr->getNameGenerator();
 		IEntity* entity = mgr->createEntity(name_generator->generateName());
 		
@@ -90,12 +89,6 @@ void StressTest::generateObjects ( size_t count )
 			desc.descriptor = props;
 			
 			transform.set<std::string>("input_context_mapping_provider_name", "System.InputContextMapper");
-			
-			//MessageSenderRules rules;
-			//MessageSenderRule rule;
-			//rule.message_type_name = "Engine.TransformChangedMessage";
-			//rules.push_back(rule);
-			//desc.sender_rules = rules;
 			
 		}
 		entity->createComponent(desc);
@@ -119,18 +112,7 @@ void StressTest::generateObjects ( size_t count )
 			
 			desc.descriptor = props;
 		}
-		
-		{
-			//MessageListenerRules rules;
-			//MessageListenerRule rule;
-			//rule.message_type_name = "Engine.TransformChangedMessage";
-			//rule.receive_policy_type_name = "FromSingleSender";
-			//rule.receive_policy_options.set<std::string>("sender_name", rotation_component_name);
-			//rules.push_back(rule);
-			
-			//desc.listener_rules = rules;
-		}
-		
+
 		entity->createComponent(desc);
 		
 		x_position += 10;

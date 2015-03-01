@@ -1,7 +1,6 @@
 #pragma once
 
 #include <ComponentSystem/BaseComponent.h>
-#include <mutex>
 #include <functional>
 
 namespace UnknownEngine

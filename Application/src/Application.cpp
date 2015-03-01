@@ -44,7 +44,7 @@ int main ( int argc, char** argv )
 		{
 			IComponent* main_loop = engine.getContext().getComponentsManager()->findComponent(MAIN_LOOP_COMPONENT_NAME);
 			test = new StressTest(main_loop);
-			test->init ( &engine.getContext() );
+			test->init ();
 		}
 	}
 
