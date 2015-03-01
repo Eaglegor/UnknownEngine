@@ -4,7 +4,6 @@
 #include <Quaternion.h>
 #include <Vectors/Vector3.h>
 #include <AlignedNew.h>
-#include <MessageSystem/MessageSender.h>
 #include <Descriptors/SimpleRotationComponentDesc.h>
 
 #include <ComponentInterfaces/Transform/TransformHolderComponent.h>

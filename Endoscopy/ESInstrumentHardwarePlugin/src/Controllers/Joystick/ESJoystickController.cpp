@@ -1,8 +1,5 @@
 #include <Controllers/Joystick/ESJoystickController.h>
-
-#include <MessageSystem/BaseMessageListener.h>
-#include <MessageBuffers/InstantForwardMessageBuffer.h>
-
+#include <cmath>
 
 namespace UnknownEngine
 {

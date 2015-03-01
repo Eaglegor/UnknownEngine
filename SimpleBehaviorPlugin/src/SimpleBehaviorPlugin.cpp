@@ -3,16 +3,11 @@
 #include <Plugins/PluginsManager.h>
 #include <Properties/Properties.h>
 #include <SimpleBehaviorPlugin.h>
-#include <MessageSystem/MessageDictionary.h>
 #include <ComponentSystem/ComponentsManager.h>
 #include <EngineContext.h>
 #include <Logging.h>
 #include <Factories/SimpleBehaviorsFactory.h>
 #include <SimpleBehaviorsPerformer.h>
-
-#include <MessageSystem/BaseMessageListener.h>
-#include <MessageSystem/MessageSender.h>
-#include <MessageBuffers/InstantForwardMessageBuffer.h>
 
 #include <Parsers/SimpleBehaviorsPluginDescriptorGetter.h>
 

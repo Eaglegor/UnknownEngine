@@ -1,6 +1,5 @@
 #include <OgreRoot.h>
 #include <OgreRenderWindowComponent.h>
-#include <MessageSystem/MessageSender.h>
 
 namespace UnknownEngine
 {

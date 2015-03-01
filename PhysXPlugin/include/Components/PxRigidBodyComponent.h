@@ -4,7 +4,6 @@
 #include <Descriptors/Components/PxRigidBodyComponentDesc.h>
 #include "IPhysXUpdateListener.h"
 #include <AlignedNew.h>
-#include <MessageSystem/MessageSender.h>
 #include <ComponentInterfaces/PhysX/IPhysXRigidBodyComponent.h>
 #include <ComponentInterfaces/Transform/TransformHolderComponent.h>
 #include <ComponentInterfaces/Transform/TransformNotifierComponent.h>

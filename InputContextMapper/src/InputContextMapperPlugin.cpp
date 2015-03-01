@@ -4,7 +4,6 @@
 #include <InputContextMapperDescriptorGetter.h>
 #include <InputContextMapperFactory.h>
 #include <Logging.h>
-#include <MessageSystem/MessageDictionary.h>
 
 namespace UnknownEngine
 {

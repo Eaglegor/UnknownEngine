@@ -9,12 +9,8 @@
 #include <Converters/OgreVector3Converter.h>
 #include <Converters/OgreQuaternionConverter.h>
 #include <EngineContext.h>
-#include <MessageSystem/MessageDispatcher.h>
-#include <MessageSystem/BaseMessageListener.h>
 
 #include <Logging.h>
-#include <MessageBuffers/InstantForwardMessageBuffer.h>
-#include <MessageBuffers/OnlyLastMessageBuffer.h>
 
 namespace UnknownEngine
 {

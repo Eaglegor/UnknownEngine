@@ -3,7 +3,6 @@
 #include <OgreCEGuiSubsystem.h>
 
 #include <CEGUI/RendererModules/Ogre/Renderer.h>
-#include <MessageSystem/MessageSender.h>
 
 namespace UnknownEngine
 {

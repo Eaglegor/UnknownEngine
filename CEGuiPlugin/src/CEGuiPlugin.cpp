@@ -4,8 +4,6 @@
 #include <CEGuiSubsystemFactory.h>
 #include <Plugins/PluginsManager.h>
 #include <Logging.h>
-#include <MessageSystem/BaseMessageListener.h>
-#include <MessageBuffers/InstantForwardMessageBuffer.h>
 
 namespace UnknownEngine
 {

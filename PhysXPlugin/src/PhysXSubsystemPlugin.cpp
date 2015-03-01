@@ -3,8 +3,6 @@
 #include <Plugins/PluginsManager.h>
 #include <Properties/Properties.h>
 #include <PhysXSubsystemPlugin.h>
-#include <MessageSystem/MessageDictionary.h>
-#include <MessageSystem/BaseMessageListener.h>
 #include <ComponentSystem/ComponentsManager.h>
 #include <EngineContext.h>
 #include <Logging.h>
@@ -14,7 +12,6 @@
 #include <Factories/PxSubsystemFactory.h>
 #include <Parsers/PhysXSubsystemDescriptorGetter.h>
 #include <ResourceManager/ResourceManager.h>
-#include <MessageBuffers/InstantForwardMessageBuffer.h>
 
 namespace UnknownEngine
 {

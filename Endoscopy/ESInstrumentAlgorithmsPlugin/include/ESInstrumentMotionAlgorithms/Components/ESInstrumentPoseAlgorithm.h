@@ -3,7 +3,6 @@
 #include <ComponentSystem/BaseComponent.h>
 #include <ESInstrumentMotionAlgorithms/Descriptors/ESInstrumentPoseAlgorithmDesc.h>
 #include <ComponentInterfaces/ESHardware/ESHardwareStateListener.h>
-#include <MessageSystem/MessageSender.h>
 #include <memory>
 #include <ValueRangeMapper.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>

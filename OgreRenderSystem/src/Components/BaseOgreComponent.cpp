@@ -3,7 +3,6 @@
 #include <Components/BaseOgreComponent.h>
 #include <OgreRenderSubsystem.h>
 #include <Logging.h>
-#include <MessageSystem/BaseMessageListener.h>
 #include <ComponentSystem/ComponentsManager.h>
 
 namespace UnknownEngine {

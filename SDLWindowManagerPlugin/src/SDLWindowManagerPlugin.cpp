@@ -8,10 +8,8 @@
 #include <SDLWindowDesc.h>
 #include <SDLWindowManagerDescriptorGetter.h>
 #include <SDLWindowManagerFactory.h>
-#include <MessageSystem/MessageDictionary.h>
 #include <EngineContext.h>
 #include <Logging.h>
-#include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <SDL.h>
 #include <SDL_syswm.h>
 #include <boost/lexical_cast.hpp>

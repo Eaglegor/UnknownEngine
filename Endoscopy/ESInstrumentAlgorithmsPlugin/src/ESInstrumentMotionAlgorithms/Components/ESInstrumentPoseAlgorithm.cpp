@@ -1,6 +1,4 @@
 #include <ESInstrumentMotionAlgorithms/Components/ESInstrumentPoseAlgorithm.h>
-#include <MessageSystem/BaseMessageListener.h>
-#include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <ValueRangeMapper.h>
 #include <Transform/Transform.h>
 

@@ -9,8 +9,6 @@
 
 #include <Logging.h>
 
-#include <MessageBuffers/InstantForwardMessageBuffer.h>
-#include <MessageSystem/BaseMessageListener.h>
 
 using std::isfinite;
 

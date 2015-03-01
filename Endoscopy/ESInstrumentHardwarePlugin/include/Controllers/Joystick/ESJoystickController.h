@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Controllers/IESController.h>
-#include <MessageSystem/MessageSender.h>
 #include <Controllers/Joystick/ESJoystickControllerDesc.h>
 #include <mutex>
 

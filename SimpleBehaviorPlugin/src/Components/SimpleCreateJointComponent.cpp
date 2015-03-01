@@ -4,7 +4,6 @@
 #include <ComponentSystem/Entity.h>
 #include <ComponentSystem/ComponentsManager.h>
 #include <ComponentSystem/ComponentDesc.h>
-#include <MessageSystem/MessageSender.h>
 #include <NameGenerators/NameGenerator.h>
 
 namespace UnknownEngine

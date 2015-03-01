@@ -4,8 +4,6 @@
 #include <WindowEventsProcessor.h>
 #include <SDL.h>
 #include <Logging.h>
-#include <MessageBuffers/InstantForwardMessageBuffer.h>
-#include <MessageSystem/BaseMessageListener.h>
 #include <SDL_syswm.h>
 #include <thread>
 

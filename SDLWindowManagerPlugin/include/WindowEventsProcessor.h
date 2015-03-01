@@ -1,5 +1,4 @@
 #pragma once
-#include <MessageSystem/MessageSender.h>
 #include <SDLKeyCodesConverter.h>
 #include <SDLJoystickWrapper.h>
 

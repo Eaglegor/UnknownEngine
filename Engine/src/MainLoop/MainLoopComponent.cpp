@@ -1,8 +1,6 @@
 #include <stdafx.h>
 
 #include <MainLoop/MainLoopComponent.h>
-#include <MessageSystem/MessageDispatcher.h>
-#include <MessageSystem/MessageSender.h>
 #include <Profiling/AverageFpsCounter.h>
 #include <Profiling/SimpleFpsPrinter.h>
 #include <Profiling/TimeCounter.h>

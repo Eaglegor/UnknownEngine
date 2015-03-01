@@ -5,13 +5,9 @@
 #include <OgreRenderSubsystem.h>
 #include <DataProviders/OgreMeshPtrProvider.h>
 #include <EngineContext.h>
-#include <MessageSystem/MessageDispatcher.h>
-#include <MessageSystem/BaseMessageListener.h>
 #include <Converters/OgreVector3Converter.h>
 #include <Converters/OgreQuaternionConverter.h>
 #include <Logging.h>
-#include <MessageBuffers/OnlyLastMessageBuffer.h>
-#include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <ResourceManager/ResourceManager.h>
 #include <mutex>
 

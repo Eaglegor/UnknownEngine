@@ -5,10 +5,6 @@
 #include <Converters/OgreVector3Converter.h>
 #include <Converters/OgreColourValueConverter.h>
 #include <Converters/OgreQuaternionConverter.h>
-#include <MessageBuffers/InstantForwardMessageBuffer.h>
-#include <MessageBuffers/OnlyLastMessageBuffer.h>
-#include <MessageSystem/BaseMessageListener.h>
-#include <MessageSystem/MessageDispatcher.h>
 #include <OgreSceneNode.h>
 #include <OgreSceneManager.h>
 

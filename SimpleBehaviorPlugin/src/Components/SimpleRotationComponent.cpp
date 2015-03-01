@@ -2,7 +2,6 @@
 #include <Components/SimpleRotationComponent.h>
 
 #include <EngineContext.h>
-#include <MessageSystem/MessageDispatcher.h>
 #include <PositionProducerComponent.h>
 #include <ComponentInterfaces/Transform/MovableComponent.h>
 

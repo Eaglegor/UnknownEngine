@@ -6,7 +6,6 @@
 
 #include <Plugins/PluginsManager.h>
 #include <OgreRenderSystemPlugin.h>
-#include <MessageSystem/MessageDispatcher.h>
 
 #include <Properties/Properties.h>
 #include <EngineContext.h>

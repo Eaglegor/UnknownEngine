@@ -6,7 +6,6 @@
 #include <ComponentSystem/IComponent.h>
 #include <ComponentSystem/Entity.h>
 #include <ComponentSystem/EngineSpecificComponentDataImpl.h>
-#include <MessageSystem/MessageDispatcher.h>
 
 #include <Logging.h>
 #include <NameGenerators/GuidNameGenerator.h>
@@ -96,11 +95,6 @@ namespace UnknownEngine
 					if(component)
 					{
 						LOG_INFO(logger, "Component '" + desc.name + "' created" );
-
-						/*LOG_INFO(logger, "Registering messaging rules for component " + desc.name);
-						MessageDispatcher::getSingleton()->setListenerRules(desc.name.c_str(), desc.listener_rules);
-						MessageDispatcher::getSingleton()->setSenderRules(desc.name.c_str(), desc.sender_rules);
-						LOG_INFO(logger, "Messaging rules for component " + desc.name + " registered");*/
 						
 						bool init_success = component->init();
 						if(init_success)
@@ -168,11 +162,6 @@ namespace UnknownEngine
 			cv.notify_all();
 			
 			component->shutdown();
-
-			/*LOG_INFO(logger, "Unregistering messaging rules for component " + std::string(component->getName()));
-			MessageDispatcher::getSingleton()->clearListenerRules(component->getName());
-			MessageDispatcher::getSingleton()->clearSenderRules(component->getName());
-			LOG_INFO(logger, "Messaging rules for component " + std::string(component->getName()) + " unregistered");*/
 
 			factory->destroyObject ( component );
 			
