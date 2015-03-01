@@ -82,7 +82,7 @@ namespace UnknownEngine
 			//Core::ILogger* logger;
 			Math::Transform current_transform;
 			
-			Utils::LockingConcurrentSet<ComponentInterfaces::MovableComponent*> listeners;
+			Utils::LockingConcurrentSet<ComponentInterfaces::MovableComponent*> transform_listeners;
 		};
 	}
 }

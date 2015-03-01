@@ -398,74 +398,6 @@
 			
 		</entity>
 		
-		<entity name="ActiveCube">
-			
-			<component name="AxisMovement" type="Behavior.MouseLook">
-				
-				<messaging_rules>
-					<sender>
-						<message type="IO.InputContext.AddSimpleActionMessage"/>
-						<message type="Engine.TransformChangedMessage"/>
-					</sender>
-				</messaging_rules>
-				
-				<options_section>
-					<option name="input_context_name" value="CubeControl"/>
-					<options_section name="InitialTransform">
-						<option name="position" value="Vector3(x:10, y:10, z:0)"/>
-					</options_section>
-					<option name="update_frame_provider_name" value="Engine.MainLoop"/>
-					<option name="input_context_mapping_provider_name" value="System.InputContextMapper"/>
-				</options_section>
-			</component>
-			
-			<component name="RigidBodyComponent" type="PhysX.RigidBody">
-				<options_section>
-					<provided_data name="shape" data_provider_name="CubeShape"/>
-					<option name="dynamics_type" value="kinematic"/>
-					<option name="mass" value="1"/>
-					
-					<options_section name="InitialTransform">
-						<option name="position" value="Vector3(x:10, y:10, z:0)"/>
-					</options_section>
-				</options_section>
-			</component>
-			
-			<component name="Graphics" type="Ogre.Renderable">
-				<options_section>
-					
-					<option name="log_level" value="${global_log_level}"/>
-					<option name="throw_exception_on_missing_mesh_data" value="true"/>
-					
-					<provided_data name="mesh_ptr_provider" data_provider_name="OgreCubeMesh"/>
-					
-					<option name="transform_provider_name" value="ActiveCube.RigidBodyComponent"/>
-					
-					<options_section name="Material">
-						<option name="material_name" value="ActiveCubeMaterial"/>
-					</options_section>
-					
-					<options_section name="InitialTransform">
-						<option name="position" value="Vector3(x:10, y:10, z:0)"/>
-					</options_section>
-					
-				</options_section>
-			</component>
-			
-			<component name="JointComponent" type="Behavior.SimpleCreateJoint">
-				<options_section>
-					<option name="body1_name" value="ActiveCube.RigidBodyComponent"/>
-					<option name="body2_name" value="PassiveCube.RigidBodyComponent"/>
-					<option name="input_context_name" value="TestCreateJoint"/>
-					<option name="jointed_material_name" value="ActiveCubeMaterial"/>
-					<option name="free_material_name" value="NormalMap"/>
-					<option name="input_context_mapper" value="System.InputContextMapper"/>
-					<option name="renderable_component" value="PassiveCube.Graphics"/>
-					
-				</options_section>
-			</component>
-						
-		</entity>
 		
 		<entity name="PassiveCube">
 			
@@ -519,6 +451,83 @@
 					<options_section name="Material">
 						<option name="material_name" value="NormalMap"/>
 					</options_section>
+					
+				</options_section>
+			</component>
+						
+		</entity>
+		
+		
+		<entity name="ActiveCube">
+			
+			<component name="AxisMovement" type="Behavior.MouseLook">
+				
+				<messaging_rules>
+					<sender>
+						<message type="IO.InputContext.AddSimpleActionMessage"/>
+						<message type="Engine.TransformChangedMessage"/>
+					</sender>
+				</messaging_rules>
+				
+				<options_section>
+					<option name="input_context_name" value="CubeControl"/>
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:10, y:10, z:0)"/>
+					</options_section>
+					<option name="update_frame_provider_name" value="Engine.MainLoop"/>
+					<option name="input_context_mapping_provider_name" value="System.InputContextMapper"/>
+				</options_section>
+			</component>
+			
+			<component name="RigidBodyComponent" type="PhysX.RigidBody">
+				<options_section>
+					<provided_data name="shape" data_provider_name="CubeShape"/>
+					<option name="dynamics_type" value="kinematic"/>
+					<option name="mass" value="1"/>
+					
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:10, y:10, z:0)"/>
+					</options_section>
+				</options_section>
+			</component>
+			
+			<component name="TransformProxy" type="Behavior.TransformProxyComponent">
+				<options_section>
+					<option name="transform_provider" value="ActiveCube.AxisMovement"/>
+					<option name="transform_receiver" value="ActiveCube.RigidBodyComponent"/>
+				</options_section>
+			</component>
+			
+			<component name="Graphics" type="Ogre.Renderable">
+				<options_section>
+					
+					<option name="log_level" value="${global_log_level}"/>
+					<option name="throw_exception_on_missing_mesh_data" value="true"/>
+					
+					<provided_data name="mesh_ptr_provider" data_provider_name="OgreCubeMesh"/>
+					
+					<option name="transform_provider_name" value="ActiveCube.RigidBodyComponent"/>
+					
+					<options_section name="Material">
+						<option name="material_name" value="ActiveCubeMaterial"/>
+					</options_section>
+					
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:10, y:10, z:0)"/>
+					</options_section>
+					
+				</options_section>
+			</component>
+			
+			<component name="JointComponent" type="Behavior.SimpleCreateJoint">
+				<options_section>
+					<option name="body1_name" value="ActiveCube.RigidBodyComponent"/>
+					<option name="body2_name" value="PassiveCube.RigidBodyComponent"/>
+					<option name="input_context_name" value="TestCreateJoint"/>
+					<option name="jointed_material_name" value="ActiveCubeMaterial"/>
+					<option name="free_material_name" value="NormalMap"/>
+					<option name="input_context_mapper" value="System.InputContextMapper"/>
+					<option name="renderable_component" value="PassiveCube.Graphics"/>
 					
 				</options_section>
 			</component>

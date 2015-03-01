@@ -28,6 +28,7 @@ namespace UnknownEngine
 			Core::IComponent* createMouseLookComponent(const Core::ComponentDesc& desc);
 			Core::IComponent* createSimpleCreateJointComponent(const Core::ComponentDesc& desc);
             Core::IComponent* createSimpleStopperComponent(const Core::ComponentDesc& desc);
+			Core::IComponent* createTransformProxyComponent(const Core::ComponentDesc& desc);
 		};
 		
 	}

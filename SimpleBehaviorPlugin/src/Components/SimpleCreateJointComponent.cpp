@@ -92,6 +92,11 @@ namespace UnknownEngine
 				Core::ComponentsManager* components_manager = Core::ComponentsManager::getSingleton();
 				components_manager->removeEntity(joint_entity);
 				joint_entity = nullptr;
+				
+				if(renderable_component)
+				{
+					renderable_component->setMaterialName(desc.free_material_name.c_str());
+				}
 			}
 		}
 

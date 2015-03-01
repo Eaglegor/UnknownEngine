@@ -5,11 +5,13 @@
 #include <EngineContext.h>
 #include <SimpleBehaviorsPerformer.h>
 #include <Components/MouseLookComponent.h>
+#include <Components/TransformProxyComponent.h>
 #include <Parsers/MouseLookComponentDescriptorGetter.h>
 #include <Components/SimpleCreateJointComponent.h>
 #include <Parsers/SimpleCreateJointComponentDescriptorGetter.h>
 #include <Parsers/SimpleRotationComponentDescriptorGetter.h>
 #include <Parsers/SimpleStopperComponentDescriptorGetter.h>
+#include <Parsers/TransformProxyComponentDescriptorGetter.h>
 #include <Components/SimpleStopperComponent.h>
 
 #include <Transform/Transform.h>
@@ -23,6 +25,7 @@ namespace UnknownEngine
 		static MouseLookComponentDescriptorGetter mouse_look_descriptor_getter;
 		static SimpleCreateJointComponentDescriptorGetter simple_create_joint_descriptor_getter;
         static SimpleStopperComponentDescriptorGetter simple_stopper_descriptor_getter;
+		static TransformProxyComponentDescriptorGetter transform_proxy_descriptor_getter;
 		
 		SimpleBehaviorsFactory::SimpleBehaviorsFactory ()
 		{
@@ -41,6 +44,10 @@ namespace UnknownEngine
 
             creatable_component.type = SimpleStopperComponent::getTypeName();
             creatable_component.creator = std::bind(&SimpleBehaviorsFactory::createSimpleStopperComponent, this, std::placeholders::_1);
+            registerCreator(creatable_component);
+			
+			creatable_component.type = TransformProxyComponent::getTypeName();
+            creatable_component.creator = std::bind(&SimpleBehaviorsFactory::createTransformProxyComponent, this, std::placeholders::_1);
             registerCreator(creatable_component);
 		}
 
@@ -71,7 +78,14 @@ namespace UnknownEngine
             SimpleStopperComponent* component = new SimpleStopperComponent(desc.name.c_str(), component_desc);
             return component;
         }
-		
+
+		Core::IComponent* SimpleBehaviorsFactory::createTransformProxyComponent ( const Core::ComponentDesc& desc )
+		{
+			TransformProxyComponentDesc component_desc = desc.descriptor.apply_visitor(transform_proxy_descriptor_getter);
+            TransformProxyComponent* component = new TransformProxyComponent(desc.name.c_str(), component_desc);
+            return component;
+		}
+        
 		const char* SimpleBehaviorsFactory::getName() const
 		{
 			return "SimpleBehaviorPlugin.Factories.SimpleBehaviorFactory";
