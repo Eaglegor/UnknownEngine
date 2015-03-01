@@ -1,7 +1,9 @@
 #include <stdafx.h>
 #include <Parsers/AssimpMeshDataProviderDescParser.h>
 #include <CommonParsers/LexicalCastForBoolAlpha.h>
-#include <Logging.h>
+#include <LogSeverity.h>
+#include <boost/optional.hpp>
+#include <Properties/Properties.h>
 
 namespace UnknownEngine
 {

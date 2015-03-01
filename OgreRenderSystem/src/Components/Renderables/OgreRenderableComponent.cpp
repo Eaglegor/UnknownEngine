@@ -5,28 +5,23 @@
 #include <OgreRenderSubsystem.h>
 #include <DataProviders/OgreMeshPtrProvider.h>
 #include <EngineContext.h>
-#include <MessageSystem/MessageDispatcher.h>
-#include <MessageSystem/BaseMessageListener.h>
 #include <Converters/OgreVector3Converter.h>
 #include <Converters/OgreQuaternionConverter.h>
 #include <Logging.h>
-#include <MessageBuffers/OnlyLastMessageBuffer.h>
-#include <MessageBuffers/InstantForwardMessageBuffer.h>
-#include <ExportedMessages/TransformChangedMessage.h>
-#include <ExportedMessages/RenderSystem/ChangeMaterialActionMessage.h>
 #include <ResourceManager/ResourceManager.h>
+#include <mutex>
 
 namespace UnknownEngine
 {
 	namespace Graphics
 	{
 
-		OgreRenderableComponent::OgreRenderableComponent ( const std::string &name, const OgreRenderableComponentDescriptor &desc, OgreRenderSubsystem *render_subsystem, Core::EngineContext *engine_context )
-			: BaseOgreComponent ( name, render_subsystem, engine_context ),
-			  desc ( desc )
+		OgreRenderableComponent::OgreRenderableComponent ( const std::string &name, const OgreRenderableComponentDescriptor &desc, OgreRenderSubsystem *render_subsystem)
+			: BaseOgreComponent ( name, render_subsystem ),
+			  transform_provider(desc.transform_provider),
+			  desc ( desc ),
+			  logger(name.c_str(), desc.log_level)
 		{
-			logger = CREATE_LOGGER(getName(), desc.log_level);
-
 			if ( desc.mesh_data_provider != nullptr ) 
 			{
 				GET_DATA_PROVIDER(desc.mesh_data_provider->getName());
@@ -39,12 +34,12 @@ namespace UnknownEngine
 		{
 			if ( desc.mesh_data_provider != nullptr ) 
 			{
+				LOG_INFO(logger, "Releasing ogre mesh data provider");
 				RELEASE_DATA_PROVIDER(desc.mesh_data_provider);
 			}
-			RELEASE_LOGGER(logger);
 		}
 
-		void OgreRenderableComponent::internalInit ( const UnknownEngine::Core::IEntity* parent_entity )
+		void OgreRenderableComponent::internalInit ()
 		{
 			LOG_INFO ( logger, "Creating OGRE entity" );
 			if ( desc.mesh_data_provider != nullptr )
@@ -71,20 +66,23 @@ namespace UnknownEngine
 			LOG_INFO ( logger, "Creating OGRE scene node" );
 			scene_node = render_subsystem->getSceneManager()->getRootSceneNode()->createChildSceneNode ( Ogre::String(getName()) + ".SceneNode" );
 
-			scene_node->setPosition ( OgreVector3Converter::toOgreVector ( desc.initial_transform.getPosition() ) );
-			scene_node->setOrientation ( OgreQuaternionConverter::toOgreQuaternion ( desc.initial_transform.getOrientation() ) );
-
 			LOG_INFO ( logger, "Starting" );
 			scene_node->attachObject ( entity );
 			
-			LOG_INFO (logger, "Registering listener");
-			if(listener && !listener->isRegisteredAtDispatcher()) listener->registerAtDispatcher();
+			transform_adapter.setTransform(desc.initial_transform);
+			
+			if(transform_provider)
+			{
+				transform_provider->addListener(&transform_adapter);
+			}
 		}
 
 		void OgreRenderableComponent::internalShutdown()
 		{
-			LOG_INFO (logger, "Unregistering listener");
-			if(listener) listener->unregisterAtDispatcher();
+			if(transform_provider)
+			{
+				transform_provider->removeListener(&transform_adapter);
+			}
 			
 			LOG_INFO ( logger, "Shutting down" );
 			scene_node->detachObject ( entity );
@@ -96,61 +94,38 @@ namespace UnknownEngine
 			render_subsystem->getSceneManager()->destroyEntity ( entity );
 		}
 
-		Core::ComponentType OgreRenderableComponent::getType() const
+		void OgreRenderableComponent::_update()
 		{
-			return OGRE_RENDERABLE_COMPONENT_TYPE;
+			transform_adapter.apply(this);
 		}
 
-		void OgreRenderableComponent::onTransformChanged ( const Core::TransformChangedMessage &message )
+		void OgreRenderableComponent::setMaterialName ( const char* material_name )
 		{
-			this->scene_node->setPosition ( OgreVector3Converter::toOgreVector ( message.new_transform.getPosition() ) );
-			this->scene_node->setOrientation ( OgreQuaternionConverter::toOgreQuaternion ( message.new_transform.getOrientation() ) );
+			this->entity->setMaterialName(material_name);
+		}
+		
+		void OgreRenderableComponent::setOrientation ( const Math::Quaternion& quaternion )
+		{
+			this->scene_node->setOrientation( OgreQuaternionConverter::toOgreQuaternion(quaternion) );
 		}
 
-		void OgreRenderableComponent::doChangeMaterial ( const ChangeMaterialActionMessage &message )
+		void OgreRenderableComponent::setPosition ( const Math::Vector3& position )
 		{
-			this->entity->setMaterialName ( message.new_material_name );
+			this->scene_node->setPosition( OgreVector3Converter::toOgreVector(position) );
 		}
 
-		void OgreRenderableComponent::initMessageListenerBuffers ( bool can_be_multi_threaded )
+		void OgreRenderableComponent::setTransform ( const Math::Transform& transform )
 		{
-			if(!listener) return;
-			
-			if(can_be_multi_threaded)
-			{
-				{
-					typedef Core::TransformChangedMessage MessageType;
-					typedef Utils::OnlyLastMessageBuffer<MessageType> BufferType;
-
-					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreRenderableComponent::onTransformChanged);
-				}
-
-				{
-					typedef ChangeMaterialActionMessage MessageType;
-					typedef Utils::OnlyLastMessageBuffer<MessageType> BufferType;
-
-					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreRenderableComponent::doChangeMaterial);
-				}
-			
-				listener->registerAtDispatcher();
-			
-			}
-			else
-			{
-				{
-					typedef Core::TransformChangedMessage MessageType;
-					typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
-
-					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreRenderableComponent::onTransformChanged);
-				}
-
-				{
-					typedef ChangeMaterialActionMessage MessageType;
-					typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
-
-					listener->createMessageBuffer<MessageType, BufferType>(this, &OgreRenderableComponent::doChangeMaterial);
-				}
-			}
+			this->scene_node->setPosition( OgreVector3Converter::toOgreVector(transform.getPosition()) );
+			this->scene_node->setOrientation( OgreQuaternionConverter::toOgreQuaternion(transform.getOrientation()) );
+		}
+		
+		Core::IComponentInterface* OgreRenderableComponent::getInterface ( const Core::ComponentType& type )
+		{
+			using namespace ComponentInterfaces;
+			if(type == MovableComponent::getTypeName() ) return static_cast<MovableComponent*>(&transform_adapter);
+			if(type == IRenderable::getTypeName() ) return static_cast<IRenderable*>(this);
+			return nullptr;
 		}
 		
 	} // namespace Graphics

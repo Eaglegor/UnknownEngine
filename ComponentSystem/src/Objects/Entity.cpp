@@ -39,7 +39,6 @@ namespace UnknownEngine
 				LOG_ERROR ( logger, std::string ( "Failed to create component " ) + desc.name );
 				return nullptr;
 			}
-			component->init ( this );
 			components.emplace ( desc.name, component );
 			return component;
 		}
@@ -48,8 +47,7 @@ namespace UnknownEngine
 		{
 			for ( auto & iter : components )
 			{
-				iter.second->shutdown();
-				components_manager->removeComponent ( iter.second );
+				components_manager->releaseComponent ( iter.second );
 			}
 			components.clear();
 		}
@@ -68,7 +66,7 @@ namespace UnknownEngine
 			}
 			components.erase ( name );
 			component->shutdown();
-			components_manager->removeComponent ( component );
+			components_manager->releaseComponent ( component );
 		}
 
 		const char* Entity::getName() const

@@ -8,12 +8,7 @@ namespace UnknownEngine
 	{
 		struct SDLWindowManagerDescriptor
 		{
-			SDLWindowDesc window_desc;
-			Core::LogSeverity log_level;
-
-			SDLWindowManagerDescriptor() :
-				log_level(Core::LogSeverity::NONE)
-			{}
+			Core::LogSeverity log_level = Core::LogSeverity::NONE;
 		};
 	}
 }

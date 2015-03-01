@@ -2,22 +2,20 @@
 #include <Components/MouseLookComponent.h>
 
 #include <EngineContext.h>
-#include <MessageSystem/MessageDispatcher.h>
 
-#include <ExportedMessages/InputContext/AddSimpleActionMessage.h>
-#include <ExportedMessages/InputContext/AddRangeActionMessage.h>
+#include <ComponentInterfaces/Transform/MovableComponent.h>
 
 #include <iostream>
 
 namespace UnknownEngine 
 {
+	using namespace ComponentInterfaces;
+	
 	namespace Behavior 
 	{
-		MouseLookComponent::MouseLookComponent ( const std::string& name, UnknownEngine::Core::EngineContext* engine_context, const MouseLookComponentDesc &desc ) : 
-		SimpleBehaviorComponent ( name ),
+		MouseLookComponent::MouseLookComponent ( const std::string& name, const MouseLookComponentDesc &desc ) : 
+		Core::BaseComponent ( name.c_str() ),
 		desc(desc),
-		transform_changed_message_sender (name),
-		engine_context(engine_context),
 		current_transform(desc.initial_transform),
 		forward_axis(-Math::Z_AXIS),
 		right_axis(Math::X_AXIS),
@@ -30,7 +28,9 @@ namespace UnknownEngine
 		moving_y_neg(false),
 		moving_z_pos(false),
 		moving_z_neg(false),
-		needs_update_quaternion(false)
+		needs_update_quaternion(false),
+		update_frame_provider(desc.update_frame_provider),
+		input_context_mapping_provider(desc.input_context_mapping_provider)
 		{
 		}
 
@@ -39,55 +39,66 @@ namespace UnknownEngine
 
 		}
 
-		void MouseLookComponent::init ( const Core::IEntity* parent_entity )
+		bool MouseLookComponent::init ()
 		{
+			if(input_context_mapping_provider)
 			{
-				Core::MessageSender<IO::AddSimpleActionMessage> simple_action_message_sender(getName());
+				const char* input_context_name = desc.input_context_name.c_str();
 				
-				IO::AddSimpleActionMessage msg;
-				msg.context_name = desc.input_context_name;
-				msg.action_slot_name = desc.move_forward_action_name;
-				msg.action_callback = std::bind(&MouseLookComponent::moveForward, this);
-				simple_action_message_sender.sendMessage(msg);
+				{
+					const char* action_name = desc.move_forward_action_name.c_str();
+					auto action_callback = std::bind(&MouseLookComponent::moveForward, this);
+					input_context_mapping_provider->addSimpleAction(input_context_name, action_name, action_callback);
+				}
 				
-				msg.action_slot_name = desc.move_backward_action_name;
-				msg.action_callback = std::bind(&MouseLookComponent::moveBackward, this);
-				simple_action_message_sender.sendMessage(msg);
+				{
+					const char* action_name = desc.move_backward_action_name.c_str();
+					auto action_callback = std::bind(&MouseLookComponent::moveBackward, this);
+					input_context_mapping_provider->addSimpleAction(input_context_name, action_name, action_callback);
+				}
 				
-				msg.action_slot_name = desc.strafe_left_action_name;
-				msg.action_callback = std::bind(&MouseLookComponent::strafeLeft, this);
-				simple_action_message_sender.sendMessage(msg);
+				{
+					const char* action_name = desc.strafe_left_action_name.c_str();
+					auto action_callback = std::bind(&MouseLookComponent::strafeLeft, this);
+					input_context_mapping_provider->addSimpleAction(input_context_name, action_name, action_callback);
+				}
 				
-				msg.action_slot_name = desc.strafe_right_action_name;
-				msg.action_callback = std::bind(&MouseLookComponent::strafeRight, this);
-				simple_action_message_sender.sendMessage(msg);
+				{
+					const char* action_name = desc.strafe_right_action_name.c_str();
+					auto action_callback = std::bind(&MouseLookComponent::strafeRight, this);
+					input_context_mapping_provider->addSimpleAction(input_context_name, action_name, action_callback);
+				}
 				
-				msg.action_slot_name = desc.strafe_up_action_name;
-				msg.action_callback = std::bind(&MouseLookComponent::strafeUp, this);
-				simple_action_message_sender.sendMessage(msg);
+				{
+					const char* action_name = desc.strafe_up_action_name.c_str();
+					auto action_callback = std::bind(&MouseLookComponent::strafeUp, this);
+					input_context_mapping_provider->addSimpleAction(input_context_name, action_name, action_callback);
+				}
 				
-				msg.action_slot_name = desc.strafe_down_action_name;
-				msg.action_callback = std::bind(&MouseLookComponent::strafeDown, this);
-				simple_action_message_sender.sendMessage(msg);
+				{
+					const char* action_name = desc.strafe_down_action_name.c_str();
+					auto action_callback = std::bind(&MouseLookComponent::strafeDown, this);
+					input_context_mapping_provider->addSimpleAction(input_context_name, action_name, action_callback);
+				}
+				
+				{
+					const char* action_name = desc.pitch_action_name.c_str();
+					auto action_callback = std::bind(&MouseLookComponent::pitch, this, std::placeholders::_1);
+					input_context_mapping_provider->addRangedAction(input_context_name, action_name, action_callback);
+				}
+				
+				{
+					const char* action_name = desc.yaw_action_name.c_str();
+					auto action_callback = std::bind(&MouseLookComponent::yaw, this, std::placeholders::_1);
+					input_context_mapping_provider->addRangedAction(input_context_name, action_name, action_callback);
+				}
 			}
-			
-			{
-				Core::MessageSender<IO::AddRangeActionMessage> range_action_message_sender(getName());
-				
-				IO::AddRangeActionMessage msg;
-				msg.context_name = desc.input_context_name;
-				msg.action_slot_name = desc.pitch_action_name;
-				msg.action_callback = std::bind(&MouseLookComponent::pitch, this, std::placeholders::_1);
-				range_action_message_sender.sendMessage(msg);
-				
-				msg.action_slot_name = desc.yaw_action_name;
-				msg.action_callback = std::bind(&MouseLookComponent::yaw, this, std::placeholders::_1);
-				range_action_message_sender.sendMessage(msg);
-			}
-			
+
+			if(update_frame_provider) update_frame_provider->addListener(this);
+			return true;
 		}
 
-		void MouseLookComponent::act( Math::Scalar dt )
+		void MouseLookComponent::onUpdateFrame( Math::Scalar dt )
 		{
 			
 			Math::Vector3 position_change(0,0,0);
@@ -112,15 +123,76 @@ namespace UnknownEngine
 				needs_update_quaternion = false;
 			}
 			
-			Core::TransformChangedMessage message;
-			message.new_transform = current_transform;
+			for(MovableComponent* listener : listeners)
+			{
+				listener->setTransform(current_transform);
+			}
 			
-			transform_changed_message_sender.sendMessage(message);
+		}
+		
+		Math::Quaternion MouseLookComponent::getOrientation()
+		{
+			return current_transform.getOrientation();
+		}
+		
+		Math::Vector3 MouseLookComponent::getPosition()
+		{
+			return current_transform.getPosition();
+		}
+
+		Math::Transform MouseLookComponent::getTransform()
+		{
+			return current_transform;
 		}
 		
 		void MouseLookComponent::shutdown()
 		{
+			if(update_frame_provider) update_frame_provider->removeListener(this);
 			
+			if(input_context_mapping_provider)
+			{
+				const char* input_context_name = desc.input_context_name.c_str();
+				
+				{
+					const char* action_name = desc.move_forward_action_name.c_str();
+					input_context_mapping_provider->removeSimpleAction(input_context_name, action_name);
+				}
+				
+				{
+					const char* action_name = desc.move_backward_action_name.c_str();
+					input_context_mapping_provider->removeSimpleAction(input_context_name, action_name);
+				}
+				
+				{
+					const char* action_name = desc.strafe_left_action_name.c_str();
+					input_context_mapping_provider->removeSimpleAction(input_context_name, action_name);
+				}
+				
+				{
+					const char* action_name = desc.strafe_right_action_name.c_str();
+					input_context_mapping_provider->removeSimpleAction(input_context_name, action_name);
+				}
+				
+				{
+					const char* action_name = desc.strafe_up_action_name.c_str();
+					input_context_mapping_provider->removeSimpleAction(input_context_name, action_name);
+				}
+				
+				{
+					const char* action_name = desc.strafe_down_action_name.c_str();
+					input_context_mapping_provider->removeSimpleAction(input_context_name, action_name);
+				}
+				
+				{
+					const char* action_name = desc.pitch_action_name.c_str();
+					input_context_mapping_provider->removeRangedAction(input_context_name, action_name);
+				}
+				
+				{
+					const char* action_name = desc.yaw_action_name.c_str();
+					input_context_mapping_provider->removeRangedAction(input_context_name, action_name);
+				}
+			}
 		}
 	
 		void MouseLookComponent::moveBackward()
@@ -184,6 +256,23 @@ namespace UnknownEngine
 			
 			current_x_angle = 0;
 			current_y_angle = 0;
+		}
+	
+		void MouseLookComponent::addListener ( MovableComponent* movable_component )
+		{
+			listeners.emplace(movable_component);
+		}
+
+		void MouseLookComponent::removeListener ( MovableComponent* movable_component )
+		{
+			listeners.erase(movable_component);
+		}
+	
+		Core::IComponentInterface* MouseLookComponent::getInterface ( const Core::ComponentType& type )
+		{
+			if(type == TransformHolderComponent::getTypeName()) return static_cast<TransformHolderComponent*>(this);
+			if(type == TransformNotifierComponent::getTypeName()) return static_cast<TransformNotifierComponent*>(this);
+			return nullptr;
 		}
 	
 	}

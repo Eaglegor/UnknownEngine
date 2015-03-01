@@ -14,7 +14,7 @@ namespace UnknownEngine
 		public:
 			ESHardwareControllerComponent(const char* name, const ESHardwareControllerComponentDesc& desc, ESControllersFactory *controllers_factory);
 			
-			virtual void init ( const Core::IEntity* parent_entity );
+			virtual bool init ();
 			virtual void shutdown();
 			
 			virtual Core::ComponentType getType() const;

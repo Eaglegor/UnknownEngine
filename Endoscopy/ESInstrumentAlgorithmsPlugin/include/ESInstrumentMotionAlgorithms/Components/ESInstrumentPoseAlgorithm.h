@@ -2,10 +2,10 @@
 
 #include <ComponentSystem/BaseComponent.h>
 #include <ESInstrumentMotionAlgorithms/Descriptors/ESInstrumentPoseAlgorithmDesc.h>
-#include <MessageSystem/MessageSender.h>
-#include <ExportedMessages/TransformChangedMessage.h>
+#include <ComponentInterfaces/ESHardware/ESHardwareStateListener.h>
 #include <memory>
 #include <ValueRangeMapper.h>
+#include <ComponentSystem/ComponentInterfacePtr.h>
 
 namespace UnknownEngine
 {
@@ -17,26 +17,23 @@ namespace UnknownEngine
 	namespace Endoscopy
 	{
 
-		struct ESHardwareOrientationChangedMessage;
-		
-		class ESInstrumentPoseAlgorithm : public Core::BaseComponent
+		class ESInstrumentPoseAlgorithm : 
+		public Core::BaseComponent,
+		public ComponentInterfaces::ESHardwareStateListener
 		{
 		public:
 			ESInstrumentPoseAlgorithm(const char* name, const ESInstrumentPoseAlgorithmDesc& desc);
 
 			static constexpr const char* getTypeName() {return "Endoscopy.Algorithms.InstrumentPose";}
-			virtual Core::ComponentType getType() const;
+			virtual Core::ComponentType getType() const override;
 			
-			virtual void init ( const Core::IEntity* parent_entity );
-			virtual void shutdown();
+			virtual bool init () override;
+			virtual void shutdown() override;
+			
+			virtual void onHardwareStateUpdate ( Math::Scalar x, Math::Scalar y, Math::Scalar z, Math::Scalar d ) override;
 			
 		private:
-			
-			void onHardwarePoseUpdate(const ESHardwareOrientationChangedMessage& msg);
-			
 			ESInstrumentPoseAlgorithmDesc desc;
-			std::unique_ptr<Core::BaseMessageListener> listener;
-			Core::MessageSender<Core::TransformChangedMessage> transform_changed_message_sender;
 
 			Utils::ValueRangeMapper<Math::Scalar> x_range_mapper;
 			Utils::ValueRangeMapper<Math::Scalar> y_range_mapper;

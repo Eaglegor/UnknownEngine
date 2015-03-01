@@ -2,6 +2,7 @@
 
 #include <AlignedNew.h>
 #include <Transform/Transform.h>
+#include <ComponentSystem/IComponent.h>
 
 namespace UnknownEngine
 {
@@ -10,6 +11,7 @@ namespace UnknownEngine
 		UNKNOWNENGINE_ALIGNED_STRUCT(16) SimpleRotationComponentDesc
 		{
 			Math::Transform initial_transform;
+			Core::IComponent* update_frame_provider = nullptr;
 		};
 	}
 }

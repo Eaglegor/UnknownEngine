@@ -9,6 +9,8 @@
 #include <Logging.h>
 #include <CommonParsers/LexicalCastForBoolAlpha.h>
 #include <CommonParsers/PropertiesParser.h>
+#include <ComponentSystem/ComponentCast.h>
+#include <ComponentSystem/ComponentsManager.h>
 
 namespace UnknownEngine
 {
@@ -66,6 +68,9 @@ namespace UnknownEngine
 						)
 					},
 					{"log_level", PropertiesParser::OptionalValue<Core::LogSeverity>(desc.log_level)},
+					{"transform_provider_name", PropertiesParser::OptionalValue<std::string>([&desc](const std::string& name){
+						desc.transform_provider = Core::ComponentsManager::getSingleton()->findComponent(name.c_str());
+					})},
 			 
 					{"mesh_ptr_provider", PropertiesParser::RequiredRawValue<Core::IDataProvider*>( 
 						[&](Core::IDataProvider* data_provider){

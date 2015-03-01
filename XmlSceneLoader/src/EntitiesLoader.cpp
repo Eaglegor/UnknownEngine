@@ -123,17 +123,17 @@ namespace UnknownEngine
 			component_desc.name = std::string(parent_entity->getName()) + "." + name;
 
 			const std::string component_type = component_node.get_child ( XMLATTR ).get<std::string> ( Attributes::COMPONENT::TYPE );
-			component_desc.type = Core::ComponentType ( component_type );
+			component_desc.type = Core::ComponentType ( component_type.c_str() );
 
 			for ( const ptree::value_type & iter : component_node )
 			{
-				if ( iter.first == Tags::MESSAGING_RULES )
+				/*if ( iter.first == Tags::MESSAGING_RULES )
 				{
 					MessageListenerParser::MessagingRules rules = MessageListenerParser::parseMessagingRules ( iter.second, scene_loader->getConstantsHolder() );
 					component_desc.listener_rules = rules.listener_rules;
 					component_desc.sender_rules = rules.sender_rules;
 				}
-				else if ( iter.first == Tags::OPTIONS_SECTION )
+				else */if ( iter.first == Tags::OPTIONS_SECTION )
 				{
 					component_desc.descriptor = OptionsParser::parseOptions ( iter.second, scene_loader->getConstantsHolder(), &data_providers );
 				}

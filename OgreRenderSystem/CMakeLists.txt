@@ -45,4 +45,3 @@ if(OGRE_FOUND)
   include(${MODULE_TEMPLATE_CMAKELISTS_FILE})
   
 endif(OGRE_FOUND)
-

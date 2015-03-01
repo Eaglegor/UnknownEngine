@@ -6,6 +6,7 @@
 #include <Exception.h>
 #include <Properties/Properties.h>
 #include <CommonParsers/PropertiesParser.h>
+#include <ComponentSystem/ComponentsManager.h>
 
 namespace UnknownEngine
 {
@@ -37,7 +38,15 @@ namespace UnknownEngine
 						{"body1_name", PropertiesParser::RequiredValue<std::string>(desc.body1_name)},
 						{"body2_name", PropertiesParser::RequiredValue<std::string>(desc.body2_name)},
 						{"jointed_material_name", PropertiesParser::RequiredValue<std::string>(desc.jointed_material_name)},
-						{"free_material_name", PropertiesParser::RequiredValue<std::string>(desc.free_material_name)}
+						{"free_material_name", PropertiesParser::RequiredValue<std::string>(desc.free_material_name)},
+						{"input_context_mapper", PropertiesParser::RequiredValue<std::string>([&desc](const std::string& value) {
+							desc.input_context_mapper = Core::ComponentsManager::getSingleton()->findComponent(value.c_str());
+						}
+						)},
+						{"renderable_component", PropertiesParser::RequiredValue<std::string>([&desc](const std::string& value) {
+							desc.renderable_component = Core::ComponentsManager::getSingleton()->findComponent(value.c_str());
+						}
+						)}
 					}
 				);
 				

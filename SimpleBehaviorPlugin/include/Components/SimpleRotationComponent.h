@@ -2,10 +2,18 @@
 #include <InlineSpecification.h>
 #include <Components/SimpleBehaviorComponent.h>
 #include <Quaternion.h>
+#include <Vectors/Vector3.h>
 #include <AlignedNew.h>
-#include <MessageSystem/MessageSender.h>
-#include <ExportedMessages/TransformChangedMessage.h>
 #include <Descriptors/SimpleRotationComponentDesc.h>
+
+#include <ComponentInterfaces/Transform/TransformHolderComponent.h>
+#include <ComponentInterfaces/Transform/TransformNotifierComponent.h>
+#include <ComponentInterfaces/Engine/UpdateFrameListenerComponent.h>
+#include <ComponentInterfaces/Engine/FrameUpdaterComponent.h>
+
+#include <ComponentSystem/ComponentInterfacePtr.h>
+
+#include <Concurrency/DataStructures/LockingConcurrentSet.h>
 
 namespace UnknownEngine
 {
@@ -17,30 +25,43 @@ namespace UnknownEngine
 
 	namespace Behavior
 	{
-		
-		static const Core::ComponentType SIMPLE_ROTATION_COMPONENT_TYPE = "Behavior.SimpleRotation";
-		
-		UNKNOWNENGINE_ALIGNED_CLASS(16) SimpleRotationComponent : public SimpleBehaviorComponent
+		UNKNOWNENGINE_ALIGNED_CLASS(16) SimpleRotationComponent : 
+			public Core::BaseComponent,
+			public ComponentInterfaces::TransformHolderComponent, 
+			public ComponentInterfaces::UpdateFrameListenerComponent,
+			public ComponentInterfaces::TransformNotifierComponent
 		{
 		public:
-			explicit SimpleRotationComponent ( const std::string& name, const SimpleRotationComponentDesc& desc, Core::EngineContext* engine_context );
+			explicit SimpleRotationComponent ( const std::string& name, const SimpleRotationComponentDesc& desc);
 			virtual ~SimpleRotationComponent();
 				
-			UNKNOWNENGINE_INLINE
-			virtual Core::ComponentType getType() const override {return SIMPLE_ROTATION_COMPONENT_TYPE;}
+			constexpr static const char* getTypeName(){return "Behavior.SimpleRotation";}
+			virtual Core::ComponentType getType() const override {return getTypeName();}
 			
-			virtual void init ( const Core::IEntity* parent_entity ) override;
+			virtual bool init () override;
 			virtual void shutdown() override;
 			
-			virtual void act(Math::Scalar dt) override;
+			virtual void onUpdateFrame ( Math::Scalar dt ) override;
+			
+			virtual Math::Vector3 getPosition() override;
+			virtual Math::Quaternion getOrientation() override;
+			virtual Math::Transform getTransform() override;
+			
+			virtual void addListener ( ComponentInterfaces::MovableComponent * movable_component ) override;
+			virtual void removeListener ( ComponentInterfaces::MovableComponent * movable_component ) override;
+			
+			virtual Core::IComponentInterface * getInterface ( const Core::ComponentType & type );
 			
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 			
 		private:
-			SimpleRotationComponentDesc desc;
-			Core::MessageSender<Core::TransformChangedMessage> transform_changed_message_sender;
+			Core::ComponentInterfacePtr<ComponentInterfaces::FrameUpdaterComponent> update_frame_provider;
 			
-			Core::EngineContext* engine_context;
+			SimpleRotationComponentDesc desc;
+			
+			Utils::LockingConcurrentSet<ComponentInterfaces::MovableComponent*> listeners;
+			
+			Math::Transform current_transform;
 			Math::Scalar current_angle;
 			Math::Quaternion quaterion;
 		};

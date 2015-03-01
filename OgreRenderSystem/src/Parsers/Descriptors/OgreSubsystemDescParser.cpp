@@ -1,11 +1,12 @@
 #include <stdafx.h>
 
-#include <Parsers/Descriptors/OgreSubsystemDescParser.h>
+#include <Parsers/Descriptors/OgreRenderSubsystemDescriptorParser.h>
 #include <Parsers/Descriptors/OgreRenderWindowDescriptorParser.h>
 #include <Descriptors/OgreRenderWindowDescriptor.h>
 
 #include <CommonParsers/LexicalCastForBoolAlpha.h>
 #include <CommonParsers/PropertiesParser.h>
+#include <ComponentSystem/ComponentsManager.h>
 
 namespace UnknownEngine
 {
@@ -34,14 +35,7 @@ namespace UnknownEngine
 						}
 						)
 					},
-					{
-						"RenderWindow",
-						PropertiesParser::ExternalParserOptionalNestedValue<OgreRenderWindowDescriptor, OgreRenderWindowDescriptorParser>
-						(desc.render_window_descriptor)
-					},
-					{"separate_rendering_thread", PropertiesParser::OptionalValue<bool>(desc.separate_rendering_thread) },
 					{"show_config_dialog", PropertiesParser::OptionalValue<bool>(desc.show_config_dialog) }
-					
 				}
 			);
 			

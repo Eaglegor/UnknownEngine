@@ -5,6 +5,7 @@
 #include <Properties/Properties_fwd.h>
 #include <CommonParsers/PropertiesParser.h>
 #include <CommonParsers/LexicalCastForBoolAlpha.h>
+#include <ComponentSystem/ComponentsManager.h>
 
 namespace UnknownEngine
 {
@@ -16,7 +17,7 @@ namespace UnknownEngine
 			public:
 				SDLWindowManagerDescriptor operator() ( const Core::DescriptorContainer& descriptor_container ) const
 				{
-					if(descriptor_container.isEmpty()) return SDLWindowManagerDescriptor();
+					if ( descriptor_container.isEmpty() ) return SDLWindowManagerDescriptor();
 					return descriptor_container.get<SDLWindowManagerDescriptor>();
 				}
 
@@ -30,19 +31,7 @@ namespace UnknownEngine
 					(
 					    properties,
 					{
-						{
-							"RenderWindow",
-							PropertiesParser::RequiredNestedValue
-							( {
-								{"width", PropertiesParser::RequiredValue<size_t> ( desc.window_desc.width ) },
-								{"height", PropertiesParser::RequiredValue<size_t> ( desc.window_desc.height ) },
-								{"window_name", PropertiesParser::RequiredValue <std::string> ( desc.window_desc.window_name ) },
-								{"window_title", PropertiesParser::OptionalValue <std::string> ( desc.window_desc.window_title ) },
-								{"resizable", PropertiesParser::OptionalValue <bool> ( desc.window_desc.resizable ) },
-								{"fullscreen", PropertiesParser::OptionalValue <bool> ( desc.window_desc.full_screen ) },
-								{"log_level", PropertiesParser::OptionalValue<Core::LogSeverity>(desc.log_level)}
-							} )
-						}
+						{"log_level", PropertiesParser::OptionalValue<Core::LogSeverity> ( desc.log_level ) }
 					}
 					);
 

@@ -46,7 +46,6 @@ LogManager
 
 #Subsystems
 DummySubsystem
-ConsoleLogger
 
 RenderSystem
 OgreRenderSystem
@@ -61,6 +60,7 @@ PhysXPlugin
 AngelScriptPlugin
 
 Endoscopy
+CEGuiPlugin
 )
 
 set(

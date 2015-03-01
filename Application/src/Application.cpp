@@ -32,8 +32,8 @@ int main ( int argc, char** argv )
 	Engine engine;
 	engine.init();
 
-	StressTest test;
-
+	StressTest *test = nullptr;
+	
 	if ( vm.count ( "scene" ) )
 	{
 		std::string scene_name = vm["scene"].as<std::string>();
@@ -42,13 +42,19 @@ int main ( int argc, char** argv )
 		
 		if(scene_name == "StressTestScene.xml")
 		{
-			test.init ( &engine.getContext() );
+			IComponent* main_loop = engine.getContext().getComponentsManager()->findComponent(MAIN_LOOP_COMPONENT_NAME);
+			test = new StressTest(main_loop);
+			test->init ();
 		}
 	}
 
 	engine.start();
 
-	test.shutdown();
+	if(test)
+	{
+		test->shutdown();
+		delete test;
+	}
 
 	engine.shutdown();
 

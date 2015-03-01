@@ -1,6 +1,6 @@
 #pragma once
 #include <DataProviders/AssimpMeshDataProvider.h>
-#include <Properties/Properties.h>
+#include <Properties/Properties_fwd.h>
 
 namespace UnknownEngine
 {

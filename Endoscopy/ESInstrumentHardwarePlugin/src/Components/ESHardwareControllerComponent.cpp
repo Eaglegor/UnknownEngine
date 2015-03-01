@@ -12,12 +12,14 @@ namespace UnknownEngine
 		{
 		}
 		
-		void ESHardwareControllerComponent::init ( const Core::IEntity* parent_entity )
+		bool ESHardwareControllerComponent::init ()
 		{
 			assert(controllers_factory != nullptr);
 			
 			controller = controllers_factory->createController(getName(), desc.controller_type);
 			controller->init();
+			
+			return true;
 		}
 
 		void ESHardwareControllerComponent::shutdown()

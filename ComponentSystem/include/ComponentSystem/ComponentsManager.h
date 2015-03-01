@@ -6,6 +6,9 @@
 #include <ComponentSystem_export.h>
 #include <Singleton.h>
 #include <ComponentSystem/IComponentFactory_fwd.h>
+#include <condition_variable>
+#include <unordered_map>
+#include <unordered_set>
 
 namespace UnknownEngine
 {
@@ -51,21 +54,41 @@ namespace UnknownEngine
 
 				COMPONENTSYSTEM_EXPORT
 				virtual Utils::NameGenerator* getNameGenerator();
+
+				COMPONENTSYSTEM_EXPORT
+				virtual void reserveComponent(IComponent* component);
 				
+				COMPONENTSYSTEM_EXPORT
+				virtual void releaseComponent(IComponent* component);
+				
+				COMPONENTSYSTEM_EXPORT
+				virtual IComponent* findComponent(const char* name);
+				
+				COMPONENTSYSTEM_EXPORT
+				virtual void waitUntilAllComponentsReleased();
+
 			private:
 				friend class Entity;
-
+				
 				COMPONENTSYSTEM_EXPORT
 				virtual IComponent* createComponent ( const ComponentDesc &desc ) ;
 
 				COMPONENTSYSTEM_EXPORT
 				virtual void removeComponent ( IComponent* component );
-
+				
 				std::unordered_map<std::string, IComponentFactory*> component_factories;
 				std::unordered_map<std::string, IEntity*> entities;
+				std::unordered_set<IEntity*> entities_set;
 				
+				std::unordered_map<std::string, IComponent*> components;
+			
 				std::unique_ptr<Utils::NameGenerator> name_generator;
 				ILogger* logger;
+				
+				typedef std::mutex LockPrimitive;
+				
+				LockPrimitive lock;
+				std::condition_variable cv;
 		};
 
 #ifdef _MSC_VER

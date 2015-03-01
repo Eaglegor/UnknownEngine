@@ -1,8 +1,10 @@
 #pragma once
 #include <Components/SimpleBehaviorComponent.h>
 #include <Descriptors/SimpleCreateJointComponentDesc.h>
-#include <MessageSystem/MessageSender.h>
-#include <ExportedMessages/RenderSystem/ChangeMaterialActionMessage.h>
+#include <ComponentSystem/ComponentInterfacePtr.h>
+#include <ComponentInterfaces/Input/IContextualActionsMapper.h>
+#include <ComponentInterfaces/RenderSystem/IRenderable.h>
+
 
 namespace UnknownEngine
 {
@@ -13,19 +15,17 @@ namespace UnknownEngine
 
 	namespace Behavior
 	{
-		static const Core::ComponentType SIMPLE_CREATE_JOINT_COMPONENT_TYPE = "Behavior.SimpleCreateJoint";
-		
-		class SimpleCreateJointComponent : public SimpleBehaviorComponent
+		class SimpleCreateJointComponent : public Core::BaseComponent
 		{
 		public:
-			SimpleCreateJointComponent ( const std::string& name, const SimpleCreateJointComponentDesc &desc, Core::EngineContext* engine_context );
+			SimpleCreateJointComponent ( const std::string& name, const SimpleCreateJointComponentDesc &desc);
 			virtual ~SimpleCreateJointComponent();
 			
-			virtual Core::ComponentType getType() const override;
-			virtual void init ( const Core::IEntity* parent_entity ) override;
+			constexpr static const char* getTypeName(){return "Behavior.SimpleCreateJoint";}
+			virtual Core::ComponentType getType() const override {return getTypeName();}
+			virtual bool init () override;
 			virtual void shutdown() override;
-			virtual void act ( Math::Scalar dt ) override;
-
+			
 		private:
 			void switchJoint();
 			void createJoint();
@@ -33,10 +33,10 @@ namespace UnknownEngine
 			
 			SimpleCreateJointComponentDesc desc;
 			
-			Core::EngineContext* engine_context;
 			Core::IEntity* joint_entity;
 			
-			Core::MessageSender<Graphics::ChangeMaterialActionMessage> change_material_message_sender;
+			Core::ComponentInterfacePtr<ComponentInterfaces::IContextualActionsMapper> input_context_mapper;
+			Core::ComponentInterfacePtr<ComponentInterfaces::IRenderable> renderable_component;
 		};
 	}
 }

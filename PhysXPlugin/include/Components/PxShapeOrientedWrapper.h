@@ -38,7 +38,7 @@ namespace UnknownEngine
 			
 			physx::PxShape* px_shape;
 			Math::Transform pose_offset;
-			PhysXSubsystem* physx_subsystem;
+			//PhysXSubsystem* physx_subsystem;
 		};
 	}
 }

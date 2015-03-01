@@ -26,6 +26,7 @@ namespace UnknownEngine
 			void update();
 			
 			void setAction(ActionType action);
+			void reset();
 			
 			void onEvent(bool event_started);
 			

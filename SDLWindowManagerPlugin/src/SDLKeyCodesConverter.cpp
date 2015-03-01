@@ -78,7 +78,7 @@ namespace UnknownEngine
 			keys_mapping.emplace(SDLK_x, Key::X);
 			keys_mapping.emplace(SDLK_y, Key::Y);
 			keys_mapping.emplace(SDLK_z, Key::Z);
-			keys_mapping.emplace(SDLK_DELETE, Key::DELETE);
+			keys_mapping.emplace(SDLK_DELETE, Key::_DELETE);
 			keys_mapping.emplace(SDLK_KP_0, Key::KP0);
 			keys_mapping.emplace(SDLK_KP_1, Key::KP1);
 			keys_mapping.emplace(SDLK_KP_2, Key::KP2);

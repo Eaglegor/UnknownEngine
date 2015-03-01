@@ -20,18 +20,15 @@ namespace UnknownEngine
 		class SimpleBehaviorsFactory : public Core::BaseComponentFactory
 		{
 		public:
-			SimpleBehaviorsFactory( UnknownEngine::Core::EngineContext* engine_context, SimpleBehaviorsPerformer* behaviors_performer );
+			SimpleBehaviorsFactory();
 			virtual const char* getName() const override;
 
 		private:
 			Core::IComponent* createSimpleRotationComponent(const Core::ComponentDesc& desc);
 			Core::IComponent* createMouseLookComponent(const Core::ComponentDesc& desc);
 			Core::IComponent* createSimpleCreateJointComponent(const Core::ComponentDesc& desc);
-			
-			void destroySimpleBehaviorComponent(Core::IComponent* object);
-			
-			Core::EngineContext* engine_context;
-			SimpleBehaviorsPerformer* behaviors_performer;
+            Core::IComponent* createSimpleStopperComponent(const Core::ComponentDesc& desc);
+			Core::IComponent* createTransformProxyComponent(const Core::ComponentDesc& desc);
 		};
 		
 	}

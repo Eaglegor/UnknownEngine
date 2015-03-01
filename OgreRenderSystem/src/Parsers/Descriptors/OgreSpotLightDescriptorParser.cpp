@@ -54,6 +54,10 @@ namespace UnknownEngine {
 						)
 					},
 					{"log_level", PropertiesParser::OptionalValue<Core::LogSeverity>(desc.log_level)},
+					{"transform_provider_name", PropertiesParser::OptionalValue<std::string>([&desc](const std::string& value){
+						desc.transform_provider = Core::ComponentsManager::getSingleton()->findComponent(value.c_str());
+					}
+					)}
 				}
 			);
 

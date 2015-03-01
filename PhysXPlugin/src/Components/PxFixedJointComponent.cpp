@@ -15,25 +15,32 @@ namespace UnknownEngine
 	namespace Physics
 	{
 
-		PxFixedJointComponent::PxFixedJointComponent(const std::string& name, const PxFixedJointComponentDesc &desc, PhysXSubsystem* physics_subsystem, Core::EngineContext* engine_context) :
-			PxJointComponent ( name, physics_subsystem, engine_context ),
+		PxFixedJointComponent::PxFixedJointComponent(const std::string& name, const PxFixedJointComponentDesc &desc, PhysXSubsystem* physics_subsystem) :
+			Core::BaseComponent ( name.c_str() ),
 			desc ( desc ),
-			px_joint(nullptr)
+			px_joint(nullptr),
+			physics_subsystem(physics_subsystem),
+			rigid_body1(desc.actor1),
+			rigid_body2(desc.actor2),
+			logger(name.c_str(), desc.log_level)
 		{
+			Core::ComponentsManager::getSingleton()->reserveComponent(physics_subsystem);
 		}
 
 		PxFixedJointComponent::~PxFixedJointComponent()
 		{
+			Core::ComponentsManager::getSingleton()->releaseComponent(physics_subsystem);
 		}
 
-		void PxFixedJointComponent::init(const Core::IEntity* parent_entity)
+		bool PxFixedJointComponent::init()
 		{
-			actor1 = physics_subsystem->getRigidBodyComponent(desc.actor1_name)->getPxRigidActor();
-			actor2 = physics_subsystem->getRigidBodyComponent(desc.actor2_name)->getPxRigidActor();
-			if (actor1 == nullptr || actor2 == nullptr){
+			if (!rigid_body1 || !rigid_body2){
 				LOG_ERROR(logger, "Can't get both actors to create joint");
-				throw BothActorsNotFound("Can't get both actors to create joint");
+				return false;
 			}
+			actor1 = rigid_body1->getPxRigidActor();
+			actor2 = rigid_body2->getPxRigidActor();
+			
 			physx::PxTransform relative_transform_1, relative_transform_2;
 			calculateRelativeTransforms(relative_transform_1, relative_transform_2);
 			px_joint = physx::PxFixedJointCreate(*physics_subsystem->getPxPhysics(), actor1, relative_transform_1, actor2, relative_transform_2);
@@ -46,7 +53,7 @@ namespace UnknownEngine
 			}
 			
 			px_joint->setConstraintFlag(physx::PxConstraintFlag::eCOLLISION_ENABLED, desc.collision_enabled);
-
+			return true;
 		}
 
 		void PxFixedJointComponent::calculateRelativeTransforms(physx::PxTransform &rel_transform_1, physx::PxTransform &rel_transform_2)
@@ -58,11 +65,6 @@ namespace UnknownEngine
 		void PxFixedJointComponent::shutdown()
 		{
 			px_joint->release();
-		}
-
-		Core::ComponentType PxFixedJointComponent::getType() const
-		{
-			return PX_FIXED_JOINT_COMPONENT_TYPE;
 		}
 
 	}

@@ -1,6 +1,5 @@
 #include <stdafx.h>
 #include <MessageSystem/BaseMessageListener.h>
-#include <MessageBuffers/MessageBuffer.h>
 #include <MessageSystem/MessageDictionary.h>
 #include <MessageSystem/MessageDispatcher.h>
 #include <mutex>

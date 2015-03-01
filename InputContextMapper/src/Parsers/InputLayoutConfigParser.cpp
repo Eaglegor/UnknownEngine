@@ -19,7 +19,7 @@ namespace UnknownEngine
 		
 		using namespace boost::property_tree;
 		
-		InputLayoutConfigParser::InputLayoutConfigParser ( InputContextMapper* context_mapper, Core::ILogger* logger ):
+		InputLayoutConfigParser::InputLayoutConfigParser ( InputContextMapper* context_mapper, Core::LogHelper &logger ):
 		context_mapper(context_mapper),
 		logger(logger)
 		{

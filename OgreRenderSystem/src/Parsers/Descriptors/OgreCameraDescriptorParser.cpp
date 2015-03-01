@@ -6,6 +6,7 @@
 #include <CommonParsers/QuaternionParser.h>
 #include <CommonParsers/PropertiesParser.h>
 #include <Logging.h>
+#include <ComponentSystem/ComponentsManager.h>
 
 namespace UnknownEngine
 {
@@ -36,10 +37,16 @@ namespace UnknownEngine
 							}
 						)
 					},
-					{"render_window_name", PropertiesParser::RequiredValue<std::string>(desc.render_window_name)},
+					{"render_window_name", PropertiesParser::OptionalValue<std::string>([&desc](const std::string& value){
+						desc.render_window = Core::ComponentsManager::getSingleton()->findComponent(value.c_str());
+					})},
 					{"log_level", PropertiesParser::OptionalValue<Core::LogSeverity>(desc.log_level)},
 					{"near_clip_distance", PropertiesParser::OptionalValue<Math::Scalar>(desc.near_clip_distance)},
-					{"far_clip_distance", PropertiesParser::OptionalValue<Math::Scalar>(desc.far_clip_distance)}
+					{"far_clip_distance", PropertiesParser::OptionalValue<Math::Scalar>(desc.far_clip_distance)},
+					{"transform_provider_name", PropertiesParser::OptionalValue<std::string>([&desc](const std::string& value){
+						desc.transform_provider = Core::ComponentsManager::getSingleton()->findComponent(value.c_str());
+					}
+					)}
 				}
 			);
 			

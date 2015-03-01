@@ -3,10 +3,15 @@
 #include <AlignedNew.h>
 #include <Descriptors/Components/Lights/OgreLightSettings.h>
 #include <Transform/Transform.h>
-#include <ExportedMessages/LogMessage.h>
+#include <LogSeverity.h>
 
 namespace UnknownEngine
 {
+	namespace Core
+	{
+		class IComponent;
+	}
+	
 	namespace Graphics
 	{
 		UNKNOWNENGINE_ALIGNED_STRUCT ( 16 ) OgreSpotLightComponentDescriptor
@@ -23,10 +28,13 @@ namespace UnknownEngine
 			boost::optional<Math::Scalar> outer_angle;
 			boost::optional<Math::Scalar> falloff;
 
+			Core::IComponent* transform_provider;
+			
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
 			OgreSpotLightComponentDescriptor() :
-				log_level ( Core::LogSeverity::NONE )
+				log_level ( Core::LogSeverity::NONE ),
+				transform_provider(nullptr)
 			{}
 		};
 	}

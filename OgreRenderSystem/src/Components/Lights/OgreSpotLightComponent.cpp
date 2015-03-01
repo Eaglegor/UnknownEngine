@@ -12,31 +12,25 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 		
-		OgreSpotLightComponent::OgreSpotLightComponent ( const std::string& name, const OgreSpotLightComponentDescriptor& desc, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context ) : 
-		BaseOgreLightComponent ( name, render_subsystem, engine_context, desc.light_settings ), 
-		desc(desc)
+		OgreSpotLightComponent::OgreSpotLightComponent ( const std::string& name, const OgreSpotLightComponentDescriptor& desc, OgreRenderSubsystem* render_subsystem) : 
+		BaseOgreLightComponent ( name, render_subsystem, desc.light_settings, desc.transform_provider ), 
+		desc(desc),
+		logger(name.c_str(), desc.log_level)
 		{
-			logger = CREATE_LOGGER(getName(), desc.log_level);
-			
 			LOG_INFO ( logger, "Logger initialized" );			
 		}
 		
 		OgreSpotLightComponent::~OgreSpotLightComponent()
 		{
-			RELEASE_LOGGER(logger);
-		}
-		
-		UnknownEngine::Core::ComponentType OgreSpotLightComponent::getType() const
-		{
-			return OGRE_SPOT_LIGHT_COMPONENT_TYPE;
 		}
 
-		void OgreSpotLightComponent::internalInit (const UnknownEngine::Core::IEntity* parent_entity)
+		void OgreSpotLightComponent::internalInit ()
 		{
-			BaseOgreLightComponent::internalInit(parent_entity);
+			BaseOgreLightComponent::internalInit();
 			ogre_light->setType(Ogre::Light::LT_SPOTLIGHT);
 			
-			ogre_light->setPosition( OgreVector3Converter::toOgreVector(desc.initial_transform.getPosition()) );
+			//ogre_light->setPosition( OgreVector3Converter::toOgreVector(desc.initial_transform.getPosition()) );
+			transform_adapter.setTransform(desc.initial_transform);
 			
 			if(desc.initial_look_at.is_initialized())
 			{

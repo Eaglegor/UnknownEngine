@@ -4,35 +4,43 @@
 #include <Descriptors/MouseLookComponentDesc.h>
 #include <Transform/Transform.h>
 #include <AlignedNew.h>
-#include <MessageSystem/MessageSender.h>
-#include <ExportedMessages/TransformChangedMessage.h>
+
+#include <ComponentInterfaces/Engine/FrameUpdaterComponent.h>
+#include <ComponentInterfaces/Engine/UpdateFrameListenerComponent.h>
+#include <ComponentInterfaces/Input/IContextualActionsMapper.h>
+#include <ComponentSystem/ComponentInterfacePtr.h>
+#include <ComponentInterfaces/Transform/TransformHolderComponent.h>
+#include <ComponentInterfaces/Transform/TransformNotifierComponent.h>
+
+#include <Concurrency/DataStructures/LockingConcurrentSet.h>
 
 namespace UnknownEngine
 {
 	namespace Core
 	{
-
 		class EngineContext;
 	}
 
 	namespace Behavior
 	{
-		
-		static const Core::ComponentType MOUSE_LOOK_COMPONENT_TYPE = "Behavior.MouseLook";
-		
-		UNKNOWNENGINE_ALIGNED_CLASS(16) MouseLookComponent : public SimpleBehaviorComponent
+
+		UNKNOWNENGINE_ALIGNED_CLASS(16) MouseLookComponent : 
+			public Core::BaseComponent, 
+			public ComponentInterfaces::UpdateFrameListenerComponent,
+			public ComponentInterfaces::TransformHolderComponent,
+			public ComponentInterfaces::TransformNotifierComponent
 		{
 		public:
-			explicit MouseLookComponent(const std::string& name, Core::EngineContext* engine_context, const MouseLookComponentDesc& desc );
+			explicit MouseLookComponent(const std::string& name, const MouseLookComponentDesc& desc );
 			virtual ~MouseLookComponent();
 				
-			UNKNOWNENGINE_INLINE
-			virtual Core::ComponentType getType() const override {return MOUSE_LOOK_COMPONENT_TYPE;}
+			constexpr static const char* getTypeName(){return "Behavior.MouseLook";}
+			virtual Core::ComponentType getType() const override {return getTypeName();}
 			
-			virtual void init ( const Core::IEntity* parent_entity ) override;
+			virtual bool init () override;
 			virtual void shutdown() override;
 			
-			virtual void act(Math::Scalar dt) override;
+			virtual void onUpdateFrame(Math::Scalar dt) override;
 			
 			void moveForward();
 			void moveBackward();
@@ -43,6 +51,15 @@ namespace UnknownEngine
 			void pitch(Math::Scalar amount);
 			void yaw(Math::Scalar amount);
 			
+			virtual Math::Transform getTransform() override;
+			virtual Math::Quaternion getOrientation() override;
+			virtual Math::Vector3 getPosition() override;
+			
+			virtual void addListener ( ComponentInterfaces::MovableComponent * movable_component ) override;
+			virtual void removeListener ( ComponentInterfaces::MovableComponent * movable_component ) override;
+			
+			virtual IComponentInterface * getInterface ( const Core::ComponentType & type ) override;
+			
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 			
 		private:
@@ -52,9 +69,6 @@ namespace UnknownEngine
 			void updateAxisDirections();
 			void updateQuaternion();
 			
-			Core::MessageSender<Core::TransformChangedMessage> transform_changed_message_sender;
-			
-			Core::EngineContext* engine_context;
 			Math::Transform current_transform;
 			
 			Math::Vector3 forward_axis;
@@ -73,6 +87,11 @@ namespace UnknownEngine
 			bool moving_z_neg;
 			
 			bool needs_update_quaternion;
+			
+			Core::ComponentInterfacePtr<ComponentInterfaces::FrameUpdaterComponent> update_frame_provider;
+			Core::ComponentInterfacePtr<ComponentInterfaces::IContextualActionsMapper> input_context_mapping_provider;
+			
+			Utils::LockingConcurrentSet<ComponentInterfaces::MovableComponent*> listeners;
 		};
 	}
 }

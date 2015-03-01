@@ -21,12 +21,11 @@ namespace UnknownEngine
 		
 		bool BaseComponentFactory::supportsType ( const ComponentType& object_type ) const
 		{
-			return supported_types.find ( object_type ) != supported_types.end();
+			return creators.find ( object_type ) != creators.end();
 		}
 		
 		void BaseComponentFactory::registerCreator ( const BaseComponentFactory::CreatableObjectDesc& creatable_object_desc )
 		{
-			supported_types.insert ( creatable_object_desc.type );
 			creators[creatable_object_desc.type] = creatable_object_desc;
 		}
 	}

@@ -26,6 +26,11 @@ namespace UnknownEngine
 			this->action = action;
 		}
 
+		void RangeActionSlot::reset()
+		{
+			this->action = ActionType();
+		}
+		
 		void RangeActionSlot::update()
 		{
 			if(action)

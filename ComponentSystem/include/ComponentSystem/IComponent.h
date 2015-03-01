@@ -8,13 +8,16 @@ namespace UnknownEngine
 	namespace Core
 	{
 
+		class IComponentInterface;
+
 		class IEntity;
+		class EngineSpecificComponentData;
 
 		class IComponent
 		{
 			public:
 
-				virtual void init ( const IEntity* parent_entity ) = 0;
+				virtual bool init () = 0;
 
 				virtual void shutdown() = 0;
 
@@ -22,6 +25,11 @@ namespace UnknownEngine
 
 				virtual const char* getName() const = 0;
 
+				virtual void setEngineSpecificData(EngineSpecificComponentData* data) = 0;
+				virtual EngineSpecificComponentData* getEngineSpecificData() = 0;
+				
+				virtual IComponentInterface* getInterface(const Core::ComponentType& type) = 0;
+				
 				virtual ~IComponent () {};
 
 		};

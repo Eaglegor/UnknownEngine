@@ -1,17 +1,10 @@
 #pragma once
 
 #include <ComponentSystem/BaseComponent.h>
+#include <functional>
 
 namespace UnknownEngine
 {
-	namespace Core
-	{
-
-		class EngineContext;
-		class BaseMessageListener;
-		class ILogger;
-	}
-
 	namespace Graphics
 	{
 
@@ -20,30 +13,39 @@ namespace UnknownEngine
 		class BaseOgreComponent : public Core::BaseComponent
 		{
 			public:
-				BaseOgreComponent ( const std::string &name, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context );
-
-				void setMessageListener(std::unique_ptr<Core::BaseMessageListener> listener);
+				enum class State
+				{
+					CREATION,
+					INITIALIZATION,
+					WORK,
+					SHUTTING_DOWN,
+					DELETION
+				};
 				
+				BaseOgreComponent ( const std::string &name, OgreRenderSubsystem* render_subsystem );
 				virtual ~BaseOgreComponent();
 
-				virtual void init ( const Core::IEntity* parent_entity ) override;
+				virtual bool init () override final;
+				virtual void shutdown() override final;
 
-				virtual void shutdown ( ) override;
+				void _init ();
+				virtual void _update(){};
+				void _shutdown();
+				void _destroy();
+				
+				void setDestructionCallback(std::function<void(Core::IComponent*)> callback);
+				
+				State getState() const;
 				
 			protected:
-				volatile bool shutdown_initialized;
-				
-				virtual void internalInit ( const Core::IEntity* parent_entity ) = 0;
+				virtual void internalInit () = 0;
 				virtual void internalShutdown( ) = 0;
-
-				virtual void initMessageListenerBuffers(bool can_be_multi_threaded){};
-			
-				std::unique_ptr<Core::BaseMessageListener> listener;
-				
+	
 				OgreRenderSubsystem* render_subsystem;
-				Core::EngineContext* engine_context;
-				Core::ILogger* logger;
 				
+				std::function<void(Core::IComponent*)> destruction_callback;
+				
+				volatile State state;
 		};
 
 	}

@@ -1,8 +1,9 @@
 #pragma once
+
 #include <ResourceManager/DataProviders/SeparateLoaderThreadDataProvider.h>
 #include <Exception.h>
-#include <ExportedMessages/LogMessage.h>
-#include <memory>
+#include <LogSeverity.h>
+#include <LogHelper.h>
 
 namespace UnknownEngine
 {
@@ -55,8 +56,7 @@ namespace UnknownEngine
 
 		private:
 			Descriptor desc;
-			Core::ILogger* logger;
-			Core::EngineContext* engine_context;
+			Core::LogHelper logger;
 		};
 		
 	}

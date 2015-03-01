@@ -3,7 +3,8 @@
 #include <string>
 #include <istream>
 #include <boost/property_tree/ptree_fwd.hpp>
-#include "KeycodeParser.h"
+#include <Parsers/KeycodeParser.h>
+#include <LogHelper.h>
 
 namespace UnknownEngine
 {
@@ -20,7 +21,7 @@ namespace UnknownEngine
 		class InputLayoutConfigParser
 		{
 		public:
-			InputLayoutConfigParser(InputContextMapper* context_mapper, Core::ILogger* logger);
+			InputLayoutConfigParser(InputContextMapper* context_mapper, Core::LogHelper &logger);
 			
 			void processConfig(const std::string &filename);
 			void processConfig(std::istream& input_stream);
@@ -49,7 +50,7 @@ namespace UnknownEngine
 			
 			KeycodeParser keycode_parser;
 			InputContextMapper* context_mapper;
-			Core::ILogger* logger;
+			Core::LogHelper &logger;
 		};
 	}
 }

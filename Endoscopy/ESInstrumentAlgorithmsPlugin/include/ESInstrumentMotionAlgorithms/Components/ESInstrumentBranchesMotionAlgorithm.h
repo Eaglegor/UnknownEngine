@@ -15,11 +15,11 @@ namespace UnknownEngine
 			static constexpr const char* getTypeName(){return "Endoscopy.Algorithms.BranchesMotion";}
 			virtual Core::ComponentType getType() const;
 
-			virtual void init ( const Core::IEntity* parent_entity );
+			virtual bool init ();
 			virtual void shutdown();
 
 		private:
-			ESInstrumentBranchesMotionAlgorithmDesc desc;
+			//ESInstrumentBranchesMotionAlgorithmDesc desc;
 			
 		};
 	}

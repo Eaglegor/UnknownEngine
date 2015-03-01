@@ -1,23 +1,33 @@
 #pragma once
 
 #include <Scalar.h>
+#include <LogSeverity.h>
 #include <boost/optional.hpp>
 
 namespace UnknownEngine
 {
+	namespace Core
+	{
+		class IComponent;
+	}
+	
 	namespace Physics
 	{
 		struct PxFixedJointComponentDesc
 		{
-			std::string actor1_name;
-			std::string actor2_name;
+			Core::IComponent* actor1;
+			Core::IComponent* actor2;
 
 			bool use_projection;
 			bool collision_enabled;
 			boost::optional<Math::Scalar> projection_linear_tolerance;
 			boost::optional<Math::Scalar> projection_angular_tolerance;
 
+			Core::LogSeverity log_level = Core::LogSeverity::NONE;
+			
 			PxFixedJointComponentDesc():
+			actor1(nullptr),
+			actor2(nullptr),
 			use_projection(false),
 			collision_enabled(false)
 			{}

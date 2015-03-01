@@ -3,172 +3,109 @@
 	<constant name="global_log_level" value="warning"/>
 
 	<subsystems>
-		<subsystem name="WindowManager" module="SDLWindowManagerPlugin">
-			
-			<messaging_rules>
-				
-				<listener>
-					<message type="Engine.MainLoop.UpdateFrameMessage"/>
-					<message type="Graphics.GUI.GetWindowHandleMessage"/>
-				</listener>
-				
-				<sender>
-					<message type="IO.KeyStateChanged"/>
-					<message type="IO.MouseMoved"/>
-					<message type="IO.MouseWheelMoved"/>
-					<message type="IO.MouseButtonStateChanged"/>
-					<message type="Engine.MainLoop.UpdateFrameMessage"/>
-					<message type="Utils.LogMessage"/>
-				</sender>
-				
-			</messaging_rules>
+		<subsystem name="WindowManager" module="SDLWindowManagerPlugin"/>
+		<subsystem name="Graphics" module="OgreRenderSystem"/>
+		<subsystem name="MeshDataLoader" module="AssimpMeshDataLoader"/>
+		<subsystem name="Physics" module="PhysXPlugin"/>
+		<subsystem name="InputContext" module="InputContextMapper"/>
+		<subsystem name="SimpleBehavior" module="SimpleBehaviorPlugin"/>
+		<subsystem name="Hardware" module="ESInstrumentHardwarePlugin"/>
+		<subsystem name="Algorithms" module="ESInstrumentAlgorithmsPlugin"/>
+	</subsystems>
 
-			<options_section>
-				<options_section name="RenderWindow">
+	<entities>
+
+		<entity name="System">
+			<component name="SDLWindowManager" type="SDL.WindowManager"/>
+			
+			<component name="SDLRenderWindow" type="SDL.Window">
+				<options_section>
+					<option name="log_level" value="${global_log_level}"/>
 					<option name="width" value="800"/>
 					<option name="height" value="600"/>
 					<option name="window_name" value="TestWindow"/>
 					<option name="window_title" value="Test render window"/>
 					<option name="fullscreen" value="false"/>
-					<option name="resizable" value="false"/>
+					<option name="resizable" value="true"/>
+					<option name="update_frame_provider_name" value="Engine.MainLoop"/>
 				</options_section>
-			</options_section>
+			</component>
 			
-		</subsystem>
-		
-		<subsystem name="Graphics" module="OgreRenderSystem">
-		
-			<dependencies>
-				<dependency>UserInput</dependency>
-			</dependencies>
-		
-			<messaging_rules>
+			<component name="OgreRenderSubsystem" type="Ogre.SeparateThreadRenderSubsystem">
 				
-				<listener>
-					<message type="Engine.MainLoop.UpdateFrameMessage">
-						<receive_policy type="FromSingleSender">
-							<options_section>
-								<option name="sender_name" value="Engine"/>
-							</options_section>
-						</receive_policy>
-					</message>
-				</listener>
+				<options_section>
+					<option name="log_level" value="${global_log_level}"/>
+
+					<option name="update_frame_provider_name" value="Engine.MainLoop"/>
+					
+					<options_section name="ConfigFiles">
+						<option name="ogre_plugins_filename" value="plugins.cfg"/>
+						<option name="ogre_log_filename" value="Ogre.log"/>
+						<option name="ogre_config_filename" value="ogre.cfg"/>
+						<option name="ogre_resources_filename" value="resources.cfg"/>
+					</options_section>
+				
+				</options_section>				
+			</component>
 			
-				<sender>
-					<message type="Graphics.GUI.GetWindowHandleMessage"/>
-					<message type="Utils.LogMessage"/>
-				</sender>
+			<component name="OgreRenderWindow" type="Ogre.RenderWindow">
 				
-			</messaging_rules>
-		
-			<options_section>
-				
-				<option name="log_level" value="${global_log_level}"/>
-
-				<option name="separate_rendering_thread" value="true"/>
-				
-				<options_section name="RenderWindow">
-
-					<option name="window_name" value="TestWindow"/>
+				<options_section>
+					<option name="parent_window_component_name" value="System.SDLRenderWindow"/>
 					<option name="window_title" value="ParserTestWindowTitle"/>
-					<option name="window_type" value="external"/>
-					
-					<option name="width" value="1024"/>
-					<option name="height" value="768"/>
-					
+					<option name="window_type" value="parent"/>
+
+					<option name="width" value="800"/>
+					<option name="height" value="600"/>
+
 					<options_section name="window_flags">
 						<option name="fullscreen" value="false"/>
-					</options_section>
-					
+					</options_section>				
 				</options_section>
-				
-				<options_section name="ConfigFiles">
-					<option name="ogre_plugins_filename" value="plugins.cfg"/>
-					<option name="ogre_log_filename" value="Ogre.log"/>
-					<option name="ogre_config_filename" value="ogre.cfg"/>
-					<option name="ogre_resources_filename" value="resources.cfg"/>
+			</component>
+			
+			<component name="InputContextMapper" type="InputContextMapper">
+				<options_section>
+					<option name="log_level" value="${global_log_level}"/>
+					<option name="action_slots_config_file" value="InputContextMapperConfig/ActionSlots.xml"/>
+					<option name="input_layout_config_file" value="InputContextMapperConfig/InputLayout.cfg"/>
+					<option name="update_frame_provider_name" value="Engine.MainLoop"/>
+					<option name="keyboard_input_provider_name" value="System.SDLRenderWindow"/>
+					<option name="mouse_input_provider_name" value="System.SDLRenderWindow"/>
+					<option name="joystick_input_provider_name" value="System.SDLRenderWindow"/>
 				</options_section>
-				
-			</options_section>
+			</component>
 			
-		</subsystem>
+			<component name="EngineStopper" type="Behavior.SimpleStopper">
+				<options_section>
+					<option name="input_context_name" value="Generic"/>
+					<option name="action_name" value="StopEngine"/>
+					<option name="input_context_mapping_provider_name" value="System.InputContextMapper"/>
+					<option name="stoppable_component_name" value="Engine.Starter"/>
+				</options_section>
+			</component>
+			
+			<component name="Physics" type="PhysXSubsystem">
+				<options_section>
+					<option name="gravity" value="Vector3(x:0, y:-9.8, z:0)"/>
+					<option name="log_level" value="${global_log_level}"/>
+					<option name="enable_profiling" value="false"/>
+					<option name="enable_hardware" value="false"/>
+					<option name="update_frame_provider_name" value="Engine.MainLoop"/>
+				</options_section>
+			</component>
+			
+		</entity>
 		
-		<subsystem name="MeshDataLoader" module="AssimpMeshDataLoader"/>
-		
-		<subsystem name="InputContext" module="InputContextMapper">
-			
-			<options_section>
-				<option name="log_level" value="${global_log_level}"/>
-				<option name="action_slots_config_file" value="InputContextMapperConfig/ActionSlots.xml"/>
-				<option name="input_layout_config_file" value="InputContextMapperConfig/InputLayout.cfg"/>
-			</options_section>
-			
-			<messaging_rules>
-				
-				<listener>
-					<message type="Engine.MainLoop.UpdateFrameMessage"/>
-					<message type="IO.KeyStateChanged"/>
-					<message type="IO.MouseMoved"/>
-					<message type="IO.MouseWheelMoved"/>
-					<message type="IO.MouseButtonStateChanged"/>
-					<message type="IO.InputContext.AddSimpleActionMessage"/>
-					<message type="IO.InputContext.AddRangeActionMessage"/>
-				</listener>
-				
-				<sender>
-					<message type="Utils.LogMessage"/>
-				</sender>
-				
-			</messaging_rules>
-		</subsystem>
-		
-		<subsystem name="SimpleBehavior" module="SimpleBehaviorPlugin">
-			
-			<messaging_rules>
-				<listener>
-					<message type="Engine.MainLoop.UpdateFrameMessage"/>
-				</listener>
-				
-				<sender>
-					<message type="Engine.StopEngineActionMessage"/>
-					<message type="IO.InputContext.AddSimpleActionMessage"/>
-					<message type="Utils.LogMessage"/>
-				</sender>
-			</messaging_rules>
-			
-		</subsystem>
-		
-		<subsystem name="Physics" module="PhysXPlugin">
-			<messaging_rules>
-				<listener>
-					<message type="Engine.MainLoop.UpdateFrameMessage"/>
-				</listener>
-				<sender>
-					<message type="Utils.LogMessage"/>
-				</sender>
-			</messaging_rules>
-			
-			<options_section>
-				<option name="gravity" value="Vector3(x:0, y:-9.8, z:0)"/>
-				<option name="log_level" value="${global_log_level}"/>
-				<option name="enable_profiling" value="false"/>
-				<option name="enable_hardware" value="false"/>
-			</options_section>
-		</subsystem>
-		
-	</subsystems>
-
-	<entities>
-
 		<entity name="MainCamera">
 		
 			<component name="Rotation" type="Behavior.MouseLook">
 				
 				<messaging_rules>
 					<sender>
-						<message type="IO.InputContext.AddRangeActionMessage"/>
-						<message type="IO.InputContext.AddSimpleActionMessage"/>
 						<message type="Engine.TransformChangedMessage"/>
+						<message type="IO.InputContext.AddSimpleActionMessage"/>
+						<message type="IO.InputContext.AddRangeActionMessage"/>
 					</sender>
 				</messaging_rules>
 				
@@ -177,12 +114,33 @@
 					<options_section name="InitialTransform">
 						<option name="position" value="Vector3(x:0, y:10, z:50)"/>
 					</options_section>
-					<option name="linear_speed" value="20"/>
+					<option name="update_frame_provider_name" value="Engine.MainLoop"/>
+					<option name="input_context_mapping_provider_name" value="System.InputContextMapper"/>
 				</options_section>
 			</component>
 			
-			<component type="Graphics.Camera" name="Camera">
-				
+			<component type="Ogre.Camera" name="Camera">
+
+				<options_section>
+					
+					<option name="render_window_name" value="System.OgreRenderWindow"/>
+					<option name="log_level" value="${global_log_level}"/>
+					<option name="far_clip_distance" value="5000"/>
+					<option name="near_clip_distance" value="0.01"/>
+					
+					<option name="transform_provider_name" value="MainCamera.Rotation"/>
+					
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:0, y:10, z:50)"/>
+						<option name="initial_direction" value="Vector3(x:0, y:0, z:-50)"/>
+					</options_section>
+					
+				</options_section>
+					
+			</component>
+<!--						
+			<component name="LightComponentS" type="Ogre.SpotLight">
+
 				<messaging_rules><listener>
 					<message type="Engine.TransformChangedMessage">
 						<receive_policy type="FromSingleSender">
@@ -192,76 +150,29 @@
 						</receive_policy>
 					</message>
 				</listener></messaging_rules>
-				
+			
 				<options_section>
-					
-					<option name="render_window_name" value="TestWindow"/>
-					<option name="log_level" value="${global_log_level}"/>
-					<option name="near_clip_distance" value="0.1"/>
 					
 					<options_section name="InitialTransform">
 						<option name="initial_direction" value="Vector3(x:0, y:0, z:-50)"/>
 					</options_section>
 					
-				</options_section>
+					<option name="transform_provider_name" value="MainCamera.Rotation"/>
 					
-			</component>
-			
-		</entity>
-		
-		<entity name="LightEntity">
-		
-			<component name="LightComponentD" type="Graphics.Light.Directional">
+					<option name="log_level" value="${global_log_level}"/>
+					
+					<options_section name="LightSettings">
+						<option name="intensity" value="1"/>
+						<option name="diffuse_color" value="Colour(r:1, g:1, b:1)"/>
+						<option name="specular_color" value="Colour(r:1, g:1, b:1)"/>
+						<option name="spotlight_inner_angle" value="5"/>
+						<option name="spotlight_outer_angle" value="20"/>
+					</options_section>
 
-				<messaging_rules><listener>
-					<message type="Engine.TransformChangedMessage">
-						<receive_policy type="FromSingleSender">
-							<options_section>
-								<option name="sender_name" value="TestRenderable.Rotation"/>
-							</options_section>
-						</receive_policy>
-					</message>
-				</listener></messaging_rules>
-			
-				<options_section>
-					
-					<option name="log_level" value="${global_log_level}"/>
-					
-					<options_section name="LightSettings">
-						<option name="intensity" value="1"/>
-						<option name="diffuse_color" value="Colour(r:0, g:1, b:0)"/>
-						<option name="specular_color" value="Colour(r:0, g:1, b:0)"/>
-					</options_section>
-					
-					<options_section name="InitialTransform">
-						<option name="position" value="Vector3(x:10, y:0, z:100)"/>
-						<option name="initial_look_at" value="Vector3(x:-30, y:0, z:-50)"/>
-					</options_section>
-					
 				</options_section>
 			</component>
-			
-			<component name="LightComponentD2" type="Graphics.Light.Directional">
-				<options_section>
-					
-					<option name="log_level" value="${global_log_level}"/>
-					
-					<options_section name="LightSettings">
-						<option name="intensity" value="1"/>
-						<option name="diffuse_color" value="Colour(r:0, g:0, b:1)"/>
-						<option name="specular_color" value="Colour(r:0, g:0, b:1)"/>
-					</options_section>
-					
-					<options_section name="InitialTransform">
-						<option name="position" value="Vector3(x:-10, y:0, z:100)"/>
-						<option name="initial_look_at" value="Vector3(x:30, y:0, z:-50)"/>
-					</options_section>
-					
-				</options_section>
-			</component>
-			
+			-->		
 		</entity>
 		
 	</entities>
-	
 </scene>

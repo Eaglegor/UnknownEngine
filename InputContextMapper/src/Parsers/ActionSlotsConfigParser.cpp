@@ -16,7 +16,7 @@ namespace UnknownEngine
 		
 		using namespace boost::property_tree;
 		
-		ActionSlotsConfigParser::ActionSlotsConfigParser ( InputContextMapper* context_mapper, Core::ILogger* logger ):
+		ActionSlotsConfigParser::ActionSlotsConfigParser ( InputContextMapper* context_mapper, Core::LogHelper &logger ):
 		context_mapper(context_mapper),
 		logger(logger)
 		{

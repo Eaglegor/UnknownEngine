@@ -1,7 +1,10 @@
 #pragma once
 
-#include <Components/PxJointComponent.h>
+#include <ComponentSystem/BaseComponent.h>
 #include <Descriptors/Components/PxFixedJointComponentDesc.h>
+#include <ComponentInterfaces/PhysX/IPhysXRigidBodyComponent.h>
+#include <ComponentSystem/ComponentInterfacePtr.h>
+#include <LogHelper.h>
 #include <Exception.h>
 
 namespace physx
@@ -15,21 +18,20 @@ namespace UnknownEngine
 {
 	namespace Physics
 	{
-		const Core::ComponentType PX_FIXED_JOINT_COMPONENT_TYPE = Core::ComponentType("Physics.Joint.Fixed");
-		
 		class PhysXSubsystem;
 		
-		class PxFixedJointComponent : public PxJointComponent
+		class PxFixedJointComponent : public Core::BaseComponent
 		{
 		public:
 
 			UNKNOWNENGINE_SIMPLE_EXCEPTION(BothActorsNotFound);
 
-			PxFixedJointComponent(const std::string & name, const PxFixedJointComponentDesc & desc, PhysXSubsystem * physics_subsystem, Core::EngineContext * engine_context);
+			PxFixedJointComponent(const std::string & name, const PxFixedJointComponentDesc & desc, PhysXSubsystem * physics_subsystem);
 			virtual ~PxFixedJointComponent();
 			
-			virtual Core::ComponentType getType() const override;
-			virtual void init ( const Core::IEntity* parent_entity ) override;
+			constexpr static const char* getTypeName(){return "PhysX.FixedJoint";}
+			virtual Core::ComponentType getType() const override {return getTypeName();}
+			virtual bool init () override;
 			virtual void shutdown() override;
 			
 		private:
@@ -37,7 +39,17 @@ namespace UnknownEngine
 
 			PxFixedJointComponentDesc desc;
 			physx::PxFixedJoint* px_joint;
+			
+			PhysXSubsystem* physics_subsystem;
+			
+			Core::ComponentInterfacePtr<ComponentInterfaces::IPhysXRigidBodyComponent> rigid_body1;
+			Core::ComponentInterfacePtr<ComponentInterfaces::IPhysXRigidBodyComponent> rigid_body2;
+			
+			physx::PxRigidActor* actor1;
+			physx::PxRigidActor* actor2;
 
+			Core::LogHelper logger;
+			
 		};
 	}
 }

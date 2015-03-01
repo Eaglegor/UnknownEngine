@@ -6,6 +6,11 @@
 
 namespace UnknownEngine
 {
+	namespace Core
+	{
+		class IComponent;
+	}
+	
 	namespace Endoscopy
 	{
 		static const Math::Scalar DEFAULT_SPEED = 1;
@@ -37,6 +42,9 @@ namespace UnknownEngine
 			std::string d_axis_pull_action_name;
 			std::string branches_moved_together_action_name;
 			
+			Core::IComponent* update_frame_provider;
+			Core::IComponent* input_context_mapping_provider;
+			
 			ESJoystickControllerDesc():
 			instrument_port(ESInstrumentPort::CAMERA),
 			x_axis_speed(DEFAULT_SPEED),
@@ -57,7 +65,9 @@ namespace UnknownEngine
 			z_axis_right_rotation_action_name("ZRightRotation"),
 			d_axis_push_action_name("DAxisPush"),
 			d_axis_pull_action_name("DAxisPull"),
-			branches_moved_together_action_name("BranchesTogether")
+			branches_moved_together_action_name("BranchesTogether"),
+			update_frame_provider(nullptr),
+			input_context_mapping_provider(nullptr)
 			{}
 			
 		};

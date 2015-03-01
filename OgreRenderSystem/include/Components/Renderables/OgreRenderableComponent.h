@@ -1,8 +1,15 @@
 #pragma once
 
 #include <Components/BaseOgreComponent.h>
+#include <Components/ConcurrentTransformAdapter.h>
+#include <ComponentSystem/ComponentInterfacePtr.h>
 #include <Exception.h>
 #include <Descriptors/Components/Renderables/OgreRenderableComponentDescriptor.h>
+#include <LogHelper.h>
+#include <ComponentInterfaces/Transform/MovableComponent.h>
+#include <ComponentInterfaces/RenderSystem/IRenderable.h>
+#include <ComponentInterfaces/Transform/TransformNotifierComponent.h>
+#include <Spinlock.h>
 
 namespace Ogre
 {
@@ -26,35 +33,47 @@ namespace UnknownEngine
 		struct ChangeMaterialActionMessage;
 		class OgreRenderSubsystem;
 
-		const Core::ComponentType OGRE_RENDERABLE_COMPONENT_TYPE = "Graphics.Renderable";
-
-		UNKNOWNENGINE_ALIGNED_CLASS(16) OgreRenderableComponent: public BaseOgreComponent
+		UNKNOWNENGINE_ALIGNED_CLASS(16) OgreRenderableComponent: 
+		public BaseOgreComponent,
+		public ComponentInterfaces::MovableComponent,
+		public ComponentInterfaces::IRenderable
 		{
 			public:
 
 				UNKNOWNENGINE_SIMPLE_EXCEPTION(NoMeshDataProvidedException);
 				
-				OgreRenderableComponent ( const std::string &name, const OgreRenderableComponentDescriptor &desc, OgreRenderSubsystem* render_subsystem, Core::EngineContext *engine_context );
+				OgreRenderableComponent ( const std::string &name, const OgreRenderableComponentDescriptor &desc, OgreRenderSubsystem* render_subsystem );
 				virtual ~OgreRenderableComponent();
-			
- 				virtual Core::ComponentType getType() const override;
 
-				virtual void onTransformChanged ( const Core::TransformChangedMessage &message );
-				virtual void doChangeMaterial ( const ChangeMaterialActionMessage &message );
+				constexpr static const char* getTypeName(){return "Ogre.Renderable";}
+ 				virtual Core::ComponentType getType() const override {return getTypeName();}
+				
+				virtual void _update() override;
 
+				virtual void setOrientation ( const Math::Quaternion & quaternion ) override;
+				virtual void setPosition ( const Math::Vector3 & position ) override;
+				virtual void setTransform ( const Math::Transform & transform ) override;
+				
+				virtual void setMaterialName ( const char * material_name ) override;
+				
+				virtual IComponentInterface * getInterface ( const Core::ComponentType & type ) override;
+				
 				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
 			protected:
-				virtual void internalInit(const Core::IEntity* parent_entity) override;
+				virtual void internalInit() override;
 				virtual void internalShutdown() override;
-				
-				virtual void initMessageListenerBuffers ( bool can_be_multi_threaded ) override;
-				
+
 			private:
+				Core::ComponentInterfacePtr<ComponentInterfaces::TransformNotifierComponent> transform_provider;
 				OgreRenderableComponentDescriptor desc;
 				
 				Ogre::Entity* entity;
 				Ogre::SceneNode* scene_node;
+				
+				Core::LogHelper logger;
+			
+				ConcurrentTransformAdapter transform_adapter;
 		};
 
 	} // namespace Graphics

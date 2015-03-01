@@ -6,9 +6,9 @@ using std::isfinite;
 #include <PxPhysicsAPI.h>
 #include <PxScene.h>
 #include <Logging.h>
-#include <ExportedMessages/UpdateFrameMessage.h>
 #include <pxtask/PxCudaContextManager.h>
 #include <Components/PxRigidBodyComponent.h>
+#include <Components/IPhysXUpdateListener.h>
 #include <PhysXErrorCallback.h>
 #include <Converters/PxVec3Converter.h>
 
@@ -20,10 +20,10 @@ namespace UnknownEngine
 {
 	namespace Physics
 	{
-		PhysXSubsystem::PhysXSubsystem ( const PhysXSubsystemDesc& desc, Core::EngineContext* engine_context, Core::ILogger* logger ) :
+		PhysXSubsystem::PhysXSubsystem (const char* name, const PhysXSubsystemDesc& desc) :
+			Core::BaseComponent(name),
 			is_initialized ( false ),
-			engine_context ( engine_context ),
-			logger ( logger ),
+			logger ( name, desc.log_level ),
 			px_foundation ( nullptr ),
 			px_physics ( nullptr ),
 			px_scene ( nullptr ),
@@ -31,13 +31,13 @@ namespace UnknownEngine
 			px_gpu_dispatcher ( nullptr ),
 			px_cuda_context_manager ( nullptr ),
 			px_profile_zone_manager ( nullptr ),
-			desc(desc)
+			desc(desc),
+			update_frame_provider(desc.update_frame_provider)
 		{
 		}
 
-		void PhysXSubsystem::init()
+		bool PhysXSubsystem::init()
 		{
-			
 			physx_logger.reset(new PhysXErrorCallback(logger));
 			
 			px_foundation = PxCreateFoundation ( PX_PHYSICS_VERSION, gDefaultAllocatorCallback, *physx_logger );
@@ -126,10 +126,14 @@ namespace UnknownEngine
 				}
 			}
 			
+			if(update_frame_provider) update_frame_provider->addListener(this);
+			return true;
 		}
 
 		void PhysXSubsystem::shutdown()
 		{
+			if(update_frame_provider) update_frame_provider->removeListener(this);
+			
 			if ( px_cuda_context_manager ) px_cuda_context_manager->release();
 			if ( px_profile_zone_manager ) px_profile_zone_manager->release();
 			if ( px_scene ) px_scene->release();
@@ -148,44 +152,42 @@ namespace UnknownEngine
 			return px_scene;
 		}
 
-		void PhysXSubsystem::onUpdateFrame ( const Core::UpdateFrameMessage& msg )
+		void PhysXSubsystem::onUpdateFrame ( Math::Scalar dt )
 		{
-			if(px_scene && msg.dt > 0)
+			if(px_scene && dt > 0)
 			{
-				px_scene->simulate(msg.dt);
+				px_scene->simulate(dt);
 				px_scene->fetchResults(true);
 				
-				for(auto &iter : rigid_body_components)
+				std::lock_guard<LockPrimitive> guard(update_listeners_lock);
+				for(IPhysXUpdateListener* listener : update_listeners)
 				{
-					iter.second->update();
+					listener->update();
 				}
-				
 			}
-		}
-
-		void PhysXSubsystem::addRigidBodyComponent ( const std::string& name, PxRigidBodyComponent* rigid_body_component )
-		{
-			rigid_body_components[name] = rigid_body_component;
-		}
-
-		void PhysXSubsystem::removeRigidBodyComponent ( const std::string& name )
-		{
-			rigid_body_components.erase(name);
 		}
 		
-		PxRigidBodyComponent* PhysXSubsystem::getRigidBodyComponent(const std::string &name)
-		{
-			auto iter = rigid_body_components.find(name);
-			if (iter == rigid_body_components.end()) {
-				LOG_ERROR(logger, "Find request for rigid body component '" + name + "' but it doesn't exist");
-				return nullptr;
-			}
-			return iter->second;
-		}
-
 		PhysXSubsystem::~PhysXSubsystem()
 		{
 		}
 
+		Core::IComponentInterface* PhysXSubsystem::getInterface ( const Core::ComponentType& type )
+		{
+			if(type == ComponentInterfaces::IPhysXSubsystemComponent::getTypeName()) return static_cast<ComponentInterfaces::IPhysXSubsystemComponent*>(this);
+			return nullptr;
+		}
+
+		void PhysXSubsystem::addUpdateListener ( IPhysXUpdateListener* listener )
+		{
+			std::lock_guard<LockPrimitive> guard(update_listeners_lock);
+			update_listeners.emplace(listener);
+		}
+
+		void PhysXSubsystem::removeUpdateListener ( IPhysXUpdateListener* listener )
+		{
+			std::lock_guard<LockPrimitive> guard(update_listeners_lock);
+			update_listeners.erase(listener);
+		}
+		
 	}
 }

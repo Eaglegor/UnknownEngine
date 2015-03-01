@@ -5,6 +5,11 @@
 
 namespace UnknownEngine
 {
+	namespace Core
+	{
+		class IComponent;
+	}
+	
 	namespace Behavior
 	{
 		UNKNOWNENGINE_ALIGNED_STRUCT(16) MouseLookComponentDesc
@@ -25,6 +30,9 @@ namespace UnknownEngine
 			std::string yaw_action_name;
 			std::string pitch_action_name;
 			
+			Core::IComponent* update_frame_provider;
+			Core::IComponent* input_context_mapping_provider;
+			
 			MouseLookComponentDesc():
 			linear_speed(5),
 			angular_speed(0.04f),
@@ -35,7 +43,9 @@ namespace UnknownEngine
 			strafe_up_action_name("StrafeUp"),
 			strafe_down_action_name("StrafeDown"),
 			yaw_action_name("Yaw"),
-			pitch_action_name("Pitch")
+			pitch_action_name("Pitch"),
+			update_frame_provider(nullptr),
+			input_context_mapping_provider(nullptr)
 			{
 			}
 		};

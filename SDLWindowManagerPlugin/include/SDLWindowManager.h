@@ -4,60 +4,36 @@
 #include <memory>
 #include <unordered_map>
 #include <Exception.h>
+#include <Scalar.h>
+#include <ComponentSystem/BaseComponent.h>
+#include <LogHelper.h>
+#include <SDLWindowManagerDescriptor.h>
 
 struct SDL_Window;
 
 namespace UnknownEngine
 {
-	namespace Core
-	{
-
-		class EngineContext;
-		class BaseMessageListener;
-		struct UpdateFrameMessage;
-		class ILogger;		
-	}
-
-	namespace Graphics
-	{
-		struct GetWindowHandleMessage;
-	}
-	
 	namespace GUI
 	{
-
-		class WindowEventsProcessor;
-		struct SDLWindowDesc;
-		
-		class SDLWindowManager
+		class SDLWindowManager : public Core::BaseComponent
 		{
 		public:
 			
 			UNKNOWNENGINE_SIMPLE_EXCEPTION(WindowNotFound);
 			
-			SDLWindowManager(const std::string &name, Core::EngineContext* engine_context, Core::ILogger* logger);
+			SDLWindowManager(const std::string &name, const SDLWindowManagerDescriptor &desc);
 			virtual ~SDLWindowManager();
 			
-			void init();
-			void shutdown();
-			void createWindow(const SDLWindowDesc &desc);
+			constexpr static const char* getTypeName(){return "SDL.WindowManager";}
+			virtual Core::ComponentType getType() const {return Core::ComponentType(getTypeName());}
+			
+			bool init() override;
+			void shutdown() override;
 
-			SDL_Window* getWindow(const std::string &name);
-			std::string getWindowName(size_t window_id);
-			
 		private:
-			void initSDL();
-			void shutdownSDL();
-			void onUpdateFrame(const Core::UpdateFrameMessage& msg);
-			void getWindowHandle( const Graphics::GetWindowHandleMessage& msg );
+			SDLWindowManagerDescriptor desc;
 			
-			std::vector<std::string> window_names;
-			
-			std::unique_ptr< WindowEventsProcessor > window_events_listener;
-			Core::EngineContext* engine_context;
-			std::unique_ptr< Core::BaseMessageListener > listener;
-			std::unordered_map<std::string, SDL_Window*> sdl_windows;
-			Core::ILogger* logger;
+			Core::LogHelper logger;
 			std::string name;
 		};
 		

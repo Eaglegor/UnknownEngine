@@ -8,6 +8,7 @@
 #include <CommonParsers/PropertiesParser.h>
 #include <CommonParsers/Vector3Parser.h>
 #include <CommonParsers/QuaternionParser.h>
+#include <ComponentSystem/ComponentsManager.h>
 
 namespace UnknownEngine
 {
@@ -41,7 +42,10 @@ namespace UnknownEngine
 									{"orientation", PropertiesParser::OptionalValue<Math::Quaternion>([&](const Math::Quaternion &quat){desc.initial_transform.setOrientation(quat);})}
 								}
 							)
-						}
+						},
+						{"update_frame_provider_name", PropertiesParser::RequiredValue<std::string>([&desc](const std::string& value){
+							desc.update_frame_provider = Core::ComponentsManager::getSingleton()->findComponent(value.c_str());
+						})}
 					}
 				);
 				

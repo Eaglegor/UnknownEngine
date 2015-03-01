@@ -19,16 +19,14 @@ namespace UnknownEngine
 		struct SubsystemDesc;
 		class EngineContext;
 		class BaseMessageListener;
-		struct UpdateFrameMessage;
 		class ILogger;
 	}
 
 	namespace GUI
 	{
 
-		class SDLWindowManager;
-
 		class WindowEventsProcessor;
+		class SDLWindowManagerFactory;
 
 		class SDLWindowManagerPlugin: public Core::BasePlugin
 		{
@@ -42,10 +40,9 @@ namespace UnknownEngine
 				virtual bool uninstall() override;
 
 			private:
-				SDLWindowManagerDescriptor wm_desc;
-				std::unique_ptr<SDLWindowManager> window_manager;
+				std::unique_ptr<SDLWindowManagerFactory> sdl_window_manager_factory;
+				
 				Core::SubsystemDesc desc;
-				Core::EngineContext* engine_context;
 				Core::ILogger* logger;
 		};
 

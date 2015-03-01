@@ -22,7 +22,7 @@ namespace UnknownEngine
 		class OgreMeshPtrFromMeshDataProvider : public OgreMeshPtrProvider
 		{
 			public:
-				OgreMeshPtrFromMeshDataProvider ( const std::string &name, const OgreMeshPtrFromMeshDataProviderDescriptor &descriptor, OgreRenderSubsystem* render_subsystem, Core::EngineContext* engine_context );
+				OgreMeshPtrFromMeshDataProvider ( const std::string &name, const OgreMeshPtrFromMeshDataProviderDescriptor &descriptor, OgreRenderSubsystem* render_subsystem);
 				virtual ~OgreMeshPtrFromMeshDataProvider();
 				
 				virtual const Core::DataProviderType getType() const override;

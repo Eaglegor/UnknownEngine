@@ -6,6 +6,15 @@
 #include <unordered_map>
 #include <Descriptors/PhysXSubsystemDesc.h>
 
+#include <ComponentInterfaces/Engine/FrameUpdaterComponent.h>
+#include <ComponentInterfaces/Engine/UpdateFrameListenerComponent.h>
+#include <ComponentInterfaces/PhysX/IPhysXSubsystemComponent.h>
+#include <ComponentSystem/ComponentInterfacePtr.h>
+#include <ComponentSystem/BaseComponent.h>
+#include <LogHelper.h>
+#include <unordered_set>
+#include <mutex>
+
 namespace physx
 {
 	class PxFoundation;
@@ -23,46 +32,53 @@ namespace UnknownEngine
 	{
 		class EngineContext;
 		class BaseMessageListener;
-		struct UpdateFrameMessage;
 		class ILogger;
 	}
 
 	namespace Physics
 	{
 
+		class IPhysXUpdateListener;
+
 		class PhysXErrorCallback;
 		
 		class PxRigidBodyComponent;
 		
-		class PhysXSubsystem
+		class PhysXSubsystem : 
+			public Core::BaseComponent,
+			public ComponentInterfaces::UpdateFrameListenerComponent,
+			public ComponentInterfaces::IPhysXSubsystemComponent
 		{
 		public:
 			UNKNOWNENGINE_SIMPLE_EXCEPTION(PhysXInitFailed);
 
-			PhysXSubsystem(const PhysXSubsystemDesc &desc, Core::EngineContext* engine_context, Core::ILogger* logger);
+			PhysXSubsystem(const char* name, const PhysXSubsystemDesc &desc);
 			
-			physx::PxPhysics* getPxPhysics();
-			physx::PxScene* getPxScene();
+			physx::PxPhysics* getPxPhysics() override;
+			physx::PxScene* getPxScene() override;
 			
 			~PhysXSubsystem();
 
 			UNKNOWNENGINE_INLINE
 			bool isInitialized(){ return is_initialized; }
 
-			void init();
-			void shutdown();
+			constexpr static const char* getTypeName(){return "PhysXSubsystem";}
+			virtual Core::ComponentType getType() const{return getTypeName();}
 			
-			void onUpdateFrame(const Core::UpdateFrameMessage &msg);
+			bool init() override;
+			void shutdown() override;
 			
-			void addRigidBodyComponent(const std::string& name, PxRigidBodyComponent* rigid_body_component);
-			void removeRigidBodyComponent(const std::string& name);
-			PxRigidBodyComponent* getRigidBodyComponent(const std::string &name);
-
+			virtual void onUpdateFrame(Math::Scalar dt) override;
+			
+			virtual IComponentInterface* getInterface ( const Core::ComponentType& type );
+			
+			void addUpdateListener(IPhysXUpdateListener* listener);
+			void removeUpdateListener(IPhysXUpdateListener* listener);
+			
 		private:
 			bool is_initialized;
 
-			Core::EngineContext* engine_context;
-			Core::ILogger* logger;
+			Core::LogHelper logger;
 
 			physx::PxFoundation* px_foundation;
 			physx::PxPhysics* px_physics;
@@ -73,11 +89,16 @@ namespace UnknownEngine
 			physx::PxCudaContextManager* px_cuda_context_manager;
 			physx::PxProfileZoneManager* px_profile_zone_manager;
 			
-			std::unordered_map<std::string, PxRigidBodyComponent*> rigid_body_components;
-			
 			PhysXSubsystemDesc desc;
 			
 			std::unique_ptr<PhysXErrorCallback> physx_logger;
+			
+			typedef std::mutex LockPrimitive;
+			LockPrimitive update_listeners_lock;
+			
+			Core::ComponentInterfacePtr<ComponentInterfaces::FrameUpdaterComponent> update_frame_provider;
+			
+			std::unordered_set<IPhysXUpdateListener*> update_listeners;
 			
 		};
 	}

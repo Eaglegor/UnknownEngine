@@ -1,40 +1,24 @@
 #include <StressTest.h>
-#include <MessageBuffers/InstantForwardMessageBuffer.h>
+#include <ResourceManager/DataProviders/IDataProvider.h>
 #include <NameGenerators/NameGenerator.h>
 #include <ComponentSystem/ComponentsManager.h>
 #include <ComponentSystem/Entity.h>
 #include <ComponentSystem/ComponentDesc.h>
 #include <ResourceManager/DataProviders/DataProviderDesc.h>
 #include <ResourceManager/ResourceManager.h>
-#include <MessageSystem/MessageDispatcher.h>
+#include <Engine.h>
+#include <iostream>
 
 using namespace UnknownEngine::Core;
 using namespace UnknownEngine::Utils;
 
-void StressTest::init ( EngineContext* engine_context )
+void StressTest::init ()
 {
-	this->engine_context = engine_context;
+	if(update_frame_provider) update_frame_provider->addListener(this);
 	
-	MessageListenerRules rules;
-	MessageListenerRule rule;
-	rule.message_type_name = UpdateFrameMessage::getTypeName();
-	rules.push_back(rule);
-	
-	listener.reset(new BaseMessageListener("StressTest"));
-
-	engine_context->getMessageDispatcher()->setListenerRules(listener->getName(), rules);
-	
-	{
-		typedef UpdateFrameMessage MessageType;
-		typedef InstantForwardMessageBuffer<UpdateFrameMessage> BufferType;
-		
-		listener->createMessageBuffer<MessageType, BufferType>(this, &StressTest::onUpdate);
-	}
-	
-	listener->registerAtDispatcher();
 	was_init = true;
 	
-	ResourceManager* rm = engine_context->getResourceManager();
+	ResourceManager* rm = UnknownEngine::Core::ResourceManager::getSingleton();
 	
 	DataProviderDesc dp_desc;
 	dp_desc.name = "TeapotMesh";
@@ -53,7 +37,6 @@ void StressTest::init ( EngineContext* engine_context )
 	IDataProvider* dp = rm->createDataProvider(dp_desc);
 	dp->startLoading();
 	data_providers.push_back(dp);
-	
 	
 	dp_desc.name = "OgreAdaptedTeapotMesh";
 	dp_desc.type = "Loader.OgreMeshPtr.OgreMeshPtrFromMeshDataProvider";
@@ -76,14 +59,15 @@ void StressTest::shutdown()
 	{
 		UnknownEngine::RELEASE_DATA_PROVIDER(dp);
 	}
-	listener->unregisterAtDispatcher();
+	
+	if(update_frame_provider) update_frame_provider->removeListener(this);
 }
 
 void StressTest::generateObjects ( size_t count )
 {
 	for(size_t i = 0; i < count; ++i)
 	{
-		ComponentsManager* mgr = engine_context->getComponentsManager();
+		ComponentsManager* mgr = UnknownEngine::Core::ComponentsManager::getSingleton();
 		NameGenerator* name_generator = mgr->getNameGenerator();
 		IEntity* entity = mgr->createEntity(name_generator->generateName());
 		
@@ -100,46 +84,35 @@ void StressTest::generateObjects ( size_t count )
 			transform.set<std::string>("position", "Vector3(x: " + std::to_string(x_position) + ", y:0, z:" + std::to_string(z_position) + ")");
 			props.set<Properties>("InitialTransform", transform);
 			
+			props.set<std::string>("update_frame_provider_name", MAIN_LOOP_COMPONENT_NAME);
+			
 			desc.descriptor = props;
 			
-			MessageSenderRules rules;
-			MessageSenderRule rule;
-			rule.message_type_name = "Engine.TransformChangedMessage";
-			rules.push_back(rule);
-			desc.sender_rules = rules;
+			transform.set<std::string>("input_context_mapping_provider_name", "System.InputContextMapper");
 			
 		}
 		entity->createComponent(desc);
 		
 		desc.name = name_generator->generateName();
-		desc.type = "Graphics.Renderable";
+		desc.type = "Ogre.Renderable";
 		{
 			Properties props;
 			props.set<IDataProvider*>("mesh_ptr_provider", data_providers[1]);
 			props.set<std::string>("log_level", "none");
 			
 			Properties material;
-			material.set<std::string>("material_name", "Simple");
+			material.set<std::string>("material_name", "BaseWhiteNoLighting");
 			props.set<Properties>("Material", material);
 			
 			Properties transform;
 			transform.set<std::string>("position", "Vector3(x: " + std::to_string(x_position) + ", y:0, z:" + std::to_string(z_position) + ")");
 			props.set<Properties>("InitialTransform", transform);
 			
+			props.set<std::string>("transform_provider_name", rotation_component_name);
+			
 			desc.descriptor = props;
 		}
-		
-		{
-			MessageListenerRules rules;
-			MessageListenerRule rule;
-			rule.message_type_name = "Engine.TransformChangedMessage";
-			rule.receive_policy_type_name = "FromSingleSender";
-			rule.receive_policy_options.set<std::string>("sender_name", rotation_component_name);
-			rules.push_back(rule);
-			
-			desc.listener_rules = rules;
-		}
-		
+
 		entity->createComponent(desc);
 		
 		x_position += 10;
@@ -152,12 +125,13 @@ void StressTest::generateObjects ( size_t count )
 	std::cout << "Objects count: " << objects_count << std::endl;
 }
 
-void StressTest::onUpdate ( const UpdateFrameMessage& msg )
+void StressTest::onUpdateFrame ( UnknownEngine::Math::Scalar dt )
 {
 	time_counter.tick();
-	if(time_counter.getElapsedTime() > 0.02f)
+	if(time_counter.getElapsedTime() > 20.0f)
 	{
 		time_counter.resetElapsedTime();
-		generateObjects(1);
+		generateObjects(1000);
 	}
 }
+

@@ -5,11 +5,6 @@
 #include <Converters/OgreVector3Converter.h>
 #include <Converters/OgreColourValueConverter.h>
 #include <Converters/OgreQuaternionConverter.h>
-#include <ExportedMessages/TransformChangedMessage.h>
-#include <MessageBuffers/InstantForwardMessageBuffer.h>
-#include <MessageBuffers/OnlyLastMessageBuffer.h>
-#include <MessageSystem/BaseMessageListener.h>
-#include <MessageSystem/MessageDispatcher.h>
 #include <OgreSceneNode.h>
 #include <OgreSceneManager.h>
 
@@ -19,9 +14,10 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 
-		BaseOgreLightComponent::BaseOgreLightComponent ( const std::string& name, UnknownEngine::Graphics::OgreRenderSubsystem* render_subsystem, UnknownEngine::Core::EngineContext* engine_context, const UnknownEngine::Graphics::OgreLightSettings& light_settings ):
-		BaseOgreComponent(name, render_subsystem, engine_context),
-		light_settings(light_settings)
+		BaseOgreLightComponent::BaseOgreLightComponent ( const std::string& name, UnknownEngine::Graphics::OgreRenderSubsystem* render_subsystem, const UnknownEngine::Graphics::OgreLightSettings& light_settings, Core::IComponent* transform_provider  ):
+		BaseOgreComponent(name, render_subsystem),
+		light_settings(light_settings),
+		transform_provider(transform_provider)
 		{
 		}
 		
@@ -29,7 +25,7 @@ namespace UnknownEngine
 		{
 		}
 		
-		void BaseOgreLightComponent::internalInit( const UnknownEngine::Core::IEntity* parent_entity )
+		void BaseOgreLightComponent::internalInit(  )
 		{
 			ogre_light = render_subsystem->getSceneManager()->createLight(Ogre::String(getName()) + ".Light");
 			ogre_scene_node = render_subsystem->getSceneManager()->getRootSceneNode()->createChildSceneNode(Ogre::String(getName())+".SceneNode");
@@ -53,54 +49,45 @@ namespace UnknownEngine
 			
 			ogre_scene_node->attachObject(ogre_light);
 			
-			if(listener && !listener->isRegisteredAtDispatcher()) listener->registerAtDispatcher();
+			if(transform_provider)
+			{
+				transform_provider->addListener(&transform_adapter);
+			}
+			
 		}
 		
 		void BaseOgreLightComponent::internalShutdown()
 		{
-			if(listener) listener->unregisterAtDispatcher();
+			if(transform_provider)
+			{
+				transform_provider->removeListener(&transform_adapter);
+			}
 			
 			ogre_scene_node->detachObject(ogre_light);
 			
 			render_subsystem->getSceneManager()->destroyLight(ogre_light);
 			render_subsystem->getSceneManager()->destroySceneNode(ogre_scene_node);
 		}
-		
-		void BaseOgreLightComponent::onTransformChanged ( const Core::TransformChangedMessage& msg )
+
+		void BaseOgreLightComponent::setOrientation ( const Math::Quaternion& quaternion )
 		{
-			ogre_scene_node->setPosition( OgreVector3Converter::toOgreVector(msg.new_transform.getPosition()) );
-			ogre_scene_node->setOrientation( OgreQuaternionConverter::toOgreQuaternion(msg.new_transform.getOrientation()) );
+			this->ogre_scene_node->setOrientation( OgreQuaternionConverter::toOgreQuaternion(quaternion) );
+		}
+
+		void BaseOgreLightComponent::setPosition ( const Math::Vector3& position )
+		{
+			this->ogre_scene_node->setPosition( OgreVector3Converter::toOgreVector(position) );
+		}
+
+		void BaseOgreLightComponent::setTransform ( const Math::Transform& transform )
+		{
+			this->ogre_scene_node->setPosition( OgreVector3Converter::toOgreVector(transform.getPosition()) );
+			this->ogre_scene_node->setOrientation( OgreQuaternionConverter::toOgreQuaternion(transform.getOrientation()) );
 		}
 		
-		void BaseOgreLightComponent::initMessageListenerBuffers ( bool can_be_multi_threaded )
+		void BaseOgreLightComponent::_update()
 		{
-			if(!listener) return;
-			
-			if(can_be_multi_threaded)
-			{
-
-				{
-					typedef Core::TransformChangedMessage MessageType;
-					typedef Utils::OnlyLastMessageBuffer<MessageType> BufferType;
-					
-					listener->createMessageBuffer<MessageType, BufferType>(this, &BaseOgreLightComponent::onTransformChanged);
-				}
-
-				listener->registerAtDispatcher();
-				
-			}
-			else
-			{
-
-				{
-					typedef Core::TransformChangedMessage MessageType;
-					typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
-
-					listener->createMessageBuffer<MessageType, BufferType>(this, &BaseOgreLightComponent::onTransformChanged);
-				}
-
-				
-			}
+			transform_adapter.apply(this);
 		}
 		
 	}

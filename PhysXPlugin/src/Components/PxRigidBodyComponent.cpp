@@ -5,11 +5,10 @@
 
 #include <Converters/PxTransformConverter.h>
 #include <DataProviders/PxShapeDataProvider.h>
+#include <ComponentInterfaces/Transform/MovableComponent.h>
 
 #include <Logging.h>
 
-#include <MessageBuffers/InstantForwardMessageBuffer.h>
-#include <MessageSystem/BaseMessageListener.h>
 
 using std::isfinite;
 
@@ -21,28 +20,30 @@ using std::isfinite;
 
 namespace UnknownEngine
 {
+	using namespace ComponentInterfaces;
+	
 	namespace Physics
 	{
 
-		PxRigidBodyComponent::PxRigidBodyComponent ( const std::string& name, const PxRigidBodyComponentDesc &desc, PhysXSubsystem* physics_subsystem, Core::EngineContext* engine_context ) :
+		PxRigidBodyComponent::PxRigidBodyComponent ( const std::string& name, const PxRigidBodyComponentDesc &desc, PhysXSubsystem* physics_subsystem) :
 			Core::BaseComponent ( name.c_str() ),
-			transform_message_sender(name),
 			desc ( desc ),
 			physics_subsystem ( physics_subsystem ),
 			px_rigid_body ( nullptr ),
 			px_shape ( nullptr ),
-			first_update_passed(false),
-			engine_context(engine_context)
+			first_update_passed(false)
 		{
+			Core::ComponentsManager::getSingleton()->reserveComponent(physics_subsystem);
 			GET_DATA_PROVIDER(desc.shape_data_provider->getName());
 		}
 
 		PxRigidBodyComponent::~PxRigidBodyComponent()
 		{
 			RELEASE_DATA_PROVIDER(desc.shape_data_provider);
+			Core::ComponentsManager::getSingleton()->releaseComponent(physics_subsystem);
 		}
 
-		void PxRigidBodyComponent::init(const Core::IEntity* parent_entity)
+		bool PxRigidBodyComponent::init()
 		{
 			switch (desc.dynamics_type)
 			{
@@ -85,19 +86,10 @@ namespace UnknownEngine
 			}
 
 			physics_subsystem->getPxScene()->addActor ( *px_rigid_body );
-			physics_subsystem->addRigidBodyComponent(getName(), this);
-
-			listener.reset(new Core::BaseMessageListener(std::string(getName())));
-
-			{
-				typedef Core::TransformChangedMessage MessageType;
-				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
-
-				listener->createMessageBuffer<MessageType, BufferType>(this, &PxRigidBodyComponent::onTransformChanged);
-			}
 			
-			listener->registerAtDispatcher();
-
+			physics_subsystem->addUpdateListener(this);
+			
+			return true;
 		}
 
 		void PxRigidBodyComponent::update()
@@ -105,34 +97,23 @@ namespace UnknownEngine
 			physx::PxRigidDynamic* dynamic_rigid = px_rigid_body->isRigidDynamic();
 			if(!first_update_passed || (dynamic_rigid && !dynamic_rigid->isSleeping()))
 			{
-				Core::TransformChangedMessage msg;
-				msg.new_transform = PxTransformConverter::fromPxTransform(px_rigid_body->getGlobalPose());
-				transform_message_sender.sendMessage(msg);
+				current_transform = PxTransformConverter::fromPxTransform(px_rigid_body->getGlobalPose());
 				if(!first_update_passed) first_update_passed = true;
+				
+				for(MovableComponent* listener : transform_listeners)
+				{
+					listener->setTransform(current_transform);
+				}
 			}
 		}
 		
 		void PxRigidBodyComponent::shutdown()
 		{
-
-			listener->unregisterAtDispatcher();
-			listener.reset();
-			
-			physics_subsystem->removeRigidBodyComponent(getName());
+			physics_subsystem->removeUpdateListener(this);
 			physics_subsystem->getPxScene()->removeActor ( *px_rigid_body );
 			px_rigid_body->release();
 		}
-
-		Core::ComponentType PxRigidBodyComponent::getType() const
-		{
-			return PX_RIGID_BODY_COMPONENT_TYPE;
-		}
-
-		void PxRigidBodyComponent::onTransformChanged(const Core::TransformChangedMessage &msg)
-		{
-			if (px_rigid_body) setTransform(msg.new_transform);
-		}
-
+		
 		void PxRigidBodyComponent::setTransform(const Math::Transform &transform)
 		{
 			physx::PxRigidDynamic* dynamic_rigid = px_rigid_body->isRigidDynamic();
@@ -149,9 +130,63 @@ namespace UnknownEngine
 						dynamic_rigid->setGlobalPose(PxTransformConverter::toPxTransform(transform));
 						break;
 					}
+					case RigidBodyDynamicsType::STATIC:
+					{
+						// Doing nothing. Just avoiding compiler warning.
+						break;
+					}
 				}
 			}
 		}
 
+		Math::Quaternion PxRigidBodyComponent::getOrientation()
+		{
+			return current_transform.getOrientation();
+		}
+
+		Math::Vector3 PxRigidBodyComponent::getPosition()
+		{
+			return current_transform.getPosition();
+		}
+
+		Math::Transform PxRigidBodyComponent::getTransform()
+		{
+			return current_transform;
+		}
+		
+		Core::IComponentInterface* PxRigidBodyComponent::getInterface ( const Core::ComponentType& type )
+		{
+			if(type == IPhysXRigidBodyComponent::getTypeName()) return static_cast<IPhysXRigidBodyComponent*>(this);
+			if(type == TransformHolderComponent::getTypeName()) return static_cast<TransformHolderComponent*>(this);
+			if(type == TransformNotifierComponent::getTypeName()) return static_cast<TransformNotifierComponent*>(this);
+			if(type == MovableComponent::getTypeName()) return static_cast<MovableComponent*>(this);
+			return nullptr;
+		}
+		
+			
+		void PxRigidBodyComponent::addListener ( MovableComponent* movable_component )
+		{
+			transform_listeners.emplace(movable_component);
+		}
+
+		void PxRigidBodyComponent::removeListener ( MovableComponent* movable_component )
+		{
+			transform_listeners.erase(movable_component);
+		}
+		
+		void PxRigidBodyComponent::setOrientation ( const Math::Quaternion& quaternion )
+		{
+			Math::Transform transform = getTransform();
+			transform.setOrientation(quaternion);
+			setTransform(transform);
+		}
+
+		void PxRigidBodyComponent::setPosition ( const Math::Vector3& position )
+		{
+			Math::Transform transform = getTransform();
+			transform.setPosition(position);
+			setTransform(transform);
+		}
+		
 	}
 }
