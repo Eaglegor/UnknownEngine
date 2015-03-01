@@ -11,16 +11,12 @@
 #include <ComponentSystem/ComponentDesc.h>
 #include <ComponentSystem/Entity.h>
 
-#include <ExportedMessages/LogMessage.h>
-#include <ExportedMessages/UpdateFrameMessage.h>
 
 #include <Plugins/SubsystemDesc.h>
 #include <ISceneLoader.h>
 
-#include <StopEngineListener.h>
 #include <Logging/ConsoleLoggingSubsystem.h>
 
-#include <ExportedMessages/TransformChangedMessage.h>
 #include <LogManager.h>
 #include <Logging.h>
 #include <EngineLogLevel.h>
@@ -55,18 +51,8 @@ namespace UnknownEngine
 			
 			if ( main_loop )
 			{
-				LOG_INFO ( logger, "Registering engine stop listener" );
-				StopEngineListener stop_listener ( "Engine", main_loop );
-
-				initMessagingRules ( "Engine" );
-
-				context.getMessageDispatcher()->addListener ( MESSAGE_TYPE_ID ( StopEngineActionMessage::getTypeName() ), &stop_listener );
-
 				LOG_INFO ( logger, "Starting main loop" );
 				main_loop->start();
-
-				LOG_INFO ( logger, "Unregistering engine stop listener" );
-				context.getMessageDispatcher()->removeListener ( &stop_listener );
 			}
 
 			state = STOPPED;
@@ -205,30 +191,6 @@ namespace UnknownEngine
 		PluginsManager* Engine::getPluginsManager()
 		{
 			return plugins_manager;
-		}
-
-		void Engine::initMessagingRules ( const std::string &message_system_participant )
-		{
-			{
-				MessageListenerRules listener_rules;
-				MessageListenerRule msg;
-				msg.message_type_name = StopEngineActionMessage::getTypeName();
-				listener_rules.push_back ( msg );
-
-				context.getMessageDispatcher()->setListenerRules ( message_system_participant.c_str(), listener_rules );
-			}
-
-			{
-				MessageSenderRules sender_rules;
-				MessageSenderRule msg;
-				//msg.message_type_name = UpdateFrameMessage::getTypeName();
-				//sender_rules.push_back ( msg );
-
-				msg.message_type_name = StopEngineActionMessage::getTypeName();
-				sender_rules.push_back ( msg );
-
-				context.getMessageDispatcher()->setSenderRules ( message_system_participant.c_str(), sender_rules );
-			}
 		}
 
 	} /* namespace Core */

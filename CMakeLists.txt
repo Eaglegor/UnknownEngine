@@ -46,7 +46,6 @@ LogManager
 
 #Subsystems
 DummySubsystem
-ConsoleLogger
 
 RenderSystem
 OgreRenderSystem

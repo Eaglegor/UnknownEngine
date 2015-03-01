@@ -2,8 +2,8 @@
 
 #include <Descriptors/Components/Lights/OgreLightSettings.h>
 #include <Transform/Transform.h>
-#include <ExportedMessages/LogMessage.h>
 #include <AlignedNew.h>
+#include <LogSeverity.h>
 
 namespace UnknownEngine
 {

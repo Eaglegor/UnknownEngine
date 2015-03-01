@@ -8,7 +8,6 @@
 #include <ComponentSystem/ComponentsManager.h>
 #include <EngineContext.h>
 #include <Logging.h>
-#include <ExportedMessages/UpdateFrameMessage.h>
 #include <PhysXSubsystem.h>
 #include <Factories/PxDataProvidersFactory.h>
 #include <Factories/PxComponentsFactory.h>

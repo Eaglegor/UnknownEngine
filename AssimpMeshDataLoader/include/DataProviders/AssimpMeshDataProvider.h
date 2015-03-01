@@ -1,8 +1,8 @@
 #pragma once
 #include <ResourceManager/DataProviders/SeparateLoaderThreadDataProvider.h>
 #include <Exception.h>
-#include <ExportedMessages/LogMessage.h>
 #include <memory>
+#include <LogSeverity.h>
 
 namespace UnknownEngine
 {

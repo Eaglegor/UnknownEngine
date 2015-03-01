@@ -29,7 +29,6 @@ namespace UnknownEngine
 
 		PxRigidBodyComponent::PxRigidBodyComponent ( const std::string& name, const PxRigidBodyComponentDesc &desc, PhysXSubsystem* physics_subsystem) :
 			Core::BaseComponent ( name.c_str() ),
-			transform_message_sender(name),
 			desc ( desc ),
 			physics_subsystem ( physics_subsystem ),
 			px_rigid_body ( nullptr ),

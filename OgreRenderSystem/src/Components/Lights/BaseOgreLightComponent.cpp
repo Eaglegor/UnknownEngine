@@ -5,7 +5,6 @@
 #include <Converters/OgreVector3Converter.h>
 #include <Converters/OgreColourValueConverter.h>
 #include <Converters/OgreQuaternionConverter.h>
-#include <ExportedMessages/TransformChangedMessage.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <MessageBuffers/OnlyLastMessageBuffer.h>
 #include <MessageSystem/BaseMessageListener.h>
@@ -73,13 +72,7 @@ namespace UnknownEngine
 			render_subsystem->getSceneManager()->destroyLight(ogre_light);
 			render_subsystem->getSceneManager()->destroySceneNode(ogre_scene_node);
 		}
-		
-		void BaseOgreLightComponent::onTransformChanged ( const Core::TransformChangedMessage& msg )
-		{
-			ogre_scene_node->setPosition( OgreVector3Converter::toOgreVector(msg.new_transform.getPosition()) );
-			ogre_scene_node->setOrientation( OgreQuaternionConverter::toOgreQuaternion(msg.new_transform.getOrientation()) );
-		}
-		
+
 		void BaseOgreLightComponent::setOrientation ( const Math::Quaternion& quaternion )
 		{
 			this->ogre_scene_node->setOrientation( OgreQuaternionConverter::toOgreQuaternion(quaternion) );

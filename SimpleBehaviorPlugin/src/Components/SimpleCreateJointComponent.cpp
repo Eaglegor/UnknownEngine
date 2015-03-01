@@ -5,7 +5,6 @@
 #include <ComponentSystem/ComponentsManager.h>
 #include <ComponentSystem/ComponentDesc.h>
 #include <MessageSystem/MessageSender.h>
-#include <ExportedMessages/InputContext/AddSimpleActionMessage.h>
 #include <NameGenerators/NameGenerator.h>
 
 namespace UnknownEngine

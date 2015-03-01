@@ -2,8 +2,6 @@
 
 #include <Controllers/IESController.h>
 #include <MessageSystem/MessageSender.h>
-#include <ExportedMessages/EndoscopicHardware/ESHardwareOrientationChangedMessage.h>
-#include <ExportedMessages/EndoscopicHardware/ESHardwareBranchesAngleChangedMessage.h>
 #include <Controllers/Joystick/ESJoystickControllerDesc.h>
 #include <mutex>
 

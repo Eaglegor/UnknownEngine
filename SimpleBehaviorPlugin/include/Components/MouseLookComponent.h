@@ -4,8 +4,6 @@
 #include <Descriptors/MouseLookComponentDesc.h>
 #include <Transform/Transform.h>
 #include <AlignedNew.h>
-#include <MessageSystem/MessageSender.h>
-#include <ExportedMessages/TransformChangedMessage.h>
 
 #include <ComponentInterfaces/Engine/FrameUpdaterComponent.h>
 #include <ComponentInterfaces/Engine/UpdateFrameListenerComponent.h>
@@ -70,8 +68,6 @@ namespace UnknownEngine
 			
 			void updateAxisDirections();
 			void updateQuaternion();
-			
-			Core::MessageSender<Core::TransformChangedMessage> transform_changed_message_sender;
 			
 			Math::Transform current_transform;
 			

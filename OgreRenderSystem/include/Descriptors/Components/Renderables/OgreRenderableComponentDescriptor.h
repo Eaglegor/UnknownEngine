@@ -3,10 +3,10 @@
 #include <AlignedNew.h>
 #include <string>
 #include <DataProviders/OgreMeshPtrProvider.h>
-#include <ExportedMessages/LogMessage.h>
 #include <Transform/Transform.h>
 #include <ComponentInterfaces/Transform/TransformHolderComponent.h>
 #include <ComponentSystem/IComponent.h>
+#include <LogSeverity.h>
 
 namespace UnknownEngine
 {

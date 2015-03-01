@@ -1,6 +1,5 @@
 #pragma once
 
-#include <ExportedMessages/UpdateFrameMessage.h>
 #include <EngineContext.h>
 #include <MessageSystem/BaseMessageListener.h>
 #include <ResourceManager/DataProviders/IDataProvider.h>

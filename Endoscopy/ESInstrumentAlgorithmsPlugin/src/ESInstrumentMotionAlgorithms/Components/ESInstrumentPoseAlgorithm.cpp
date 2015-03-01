@@ -1,8 +1,8 @@
 #include <ESInstrumentMotionAlgorithms/Components/ESInstrumentPoseAlgorithm.h>
 #include <MessageSystem/BaseMessageListener.h>
-#include <ExportedMessages/EndoscopicHardware/ESHardwareOrientationChangedMessage.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <ValueRangeMapper.h>
+#include <Transform/Transform.h>
 
 namespace UnknownEngine
 {
@@ -14,7 +14,6 @@ namespace UnknownEngine
 		ESInstrumentPoseAlgorithm::ESInstrumentPoseAlgorithm ( const char* name, const ESInstrumentPoseAlgorithmDesc& desc ):
 		BaseComponent ( name ),
 		desc(desc),
-		transform_changed_message_sender(name),
 		x_range_mapper(-1, 1, -RANGE_VALUE, RANGE_VALUE),
 		y_range_mapper(-1, 1, -RANGE_VALUE, RANGE_VALUE),
 		z_range_mapper(-1, 1, -RANGE_VALUE, RANGE_VALUE),
@@ -44,27 +43,25 @@ namespace UnknownEngine
 
 		void ESInstrumentPoseAlgorithm::shutdown()
 		{
-			listener.reset();
 		}
 
-		void ESInstrumentPoseAlgorithm::onHardwarePoseUpdate ( const ESHardwareOrientationChangedMessage& msg )
+		void ESInstrumentPoseAlgorithm::onHardwareStateUpdate ( Math::Scalar x, Math::Scalar y, Math::Scalar z, Math::Scalar d )
 		{
-
-			Math::Scalar x = x_range_mapper.getMappedValue(msg.new_x_axis);
-			Math::Scalar y = y_range_mapper.getMappedValue(msg.new_y_axis);
-			Math::Scalar z = z_range_mapper.getMappedValue(msg.new_z_axis);
-			Math::Scalar d = d_range_mapper.getMappedValue(msg.new_d_axis);
+			Math::Scalar mx = x_range_mapper.getMappedValue(x);
+			Math::Scalar my = y_range_mapper.getMappedValue(y);
+			Math::Scalar mz = z_range_mapper.getMappedValue(z);
+			Math::Scalar md = d_range_mapper.getMappedValue(d);
 
 			
-			Math::Quaternion x_quat(Math::AngleAxis(x, Math::X_AXIS));
-			Math::Quaternion y_quat(Math::AngleAxis(y, Math::Y_AXIS));
-			Math::Quaternion z_quat(Math::AngleAxis(z, Math::Z_AXIS));
-
-			Core::TransformChangedMessage transform_msg;
-			transform_msg.new_transform.setOrientation(x_quat * y_quat * z_quat);
-			transform_msg.new_transform.setPosition(desc.instrument_port_position + transform_msg.new_transform.getOrientation() * desc.instrument_direction * d);
-
-			transform_changed_message_sender.sendMessage(transform_msg);
+			Math::Quaternion x_quat(Math::AngleAxis(mx, Math::X_AXIS));
+			Math::Quaternion y_quat(Math::AngleAxis(my, Math::Y_AXIS));
+			Math::Quaternion z_quat(Math::AngleAxis(mz, Math::Z_AXIS));
+			
+			Math::Transform transform;
+			transform.setOrientation(x_quat * y_quat * z_quat);
+			transform.setPosition(desc.instrument_port_position + transform.getOrientation() * desc.instrument_direction * md);
+			
+			// [TODO] Send transform
 		}
 		
 	}

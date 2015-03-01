@@ -6,7 +6,6 @@ using std::isfinite;
 #include <PxPhysicsAPI.h>
 #include <PxScene.h>
 #include <Logging.h>
-#include <ExportedMessages/UpdateFrameMessage.h>
 #include <pxtask/PxCudaContextManager.h>
 #include <Components/PxRigidBodyComponent.h>
 #include <Components/IPhysXUpdateListener.h>

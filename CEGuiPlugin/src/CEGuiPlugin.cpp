@@ -6,7 +6,6 @@
 #include <Logging.h>
 #include <MessageSystem/BaseMessageListener.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
-#include <ExportedMessages/SubsystemInitializedMessage.h>
 
 namespace UnknownEngine
 {
@@ -36,16 +35,6 @@ namespace UnknownEngine
 			
 			this->desc = desc;
 			engine_context = plugins_manager->getEngineContext();
-
-			listener.reset(new Core::BaseMessageListener(getName()));
-			{
-				typedef Utils::SubsystemInitializedMessage MessageType;
-				typedef Utils::InstantForwardMessageBuffer<MessageType> BufferType;
-				
-				listener->createMessageBuffer<MessageType, BufferType>(this, &CEGuiPlugin::onTargetSubsystemInitialized);
-			}
-			
-			listener->registerAtDispatcher();
 			
 			return true;
 		}
@@ -57,8 +46,6 @@ namespace UnknownEngine
 
 		bool CEGuiPlugin::shutdown () 
 		{
-			listener->unregisterAtDispatcher();
-			
 			if(!was_init) return true;
 						   
 			LOG_INFO(logger, "Shutting down CEGUI plugin");

@@ -11,9 +11,7 @@
 #include <MessageSystem/MessageDictionary.h>
 #include <EngineContext.h>
 #include <Logging.h>
-#include <ExportedMessages/UpdateFrameMessage.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
-#include <ExportedMessages/RenderSystem/GetWindowHandleMessage.h>
 #include <SDL.h>
 #include <SDL_syswm.h>
 #include <boost/lexical_cast.hpp>

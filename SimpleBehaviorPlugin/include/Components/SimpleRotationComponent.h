@@ -5,7 +5,6 @@
 #include <Vectors/Vector3.h>
 #include <AlignedNew.h>
 #include <MessageSystem/MessageSender.h>
-#include <ExportedMessages/TransformChangedMessage.h>
 #include <Descriptors/SimpleRotationComponentDesc.h>
 
 #include <ComponentInterfaces/Transform/TransformHolderComponent.h>

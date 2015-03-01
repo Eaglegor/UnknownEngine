@@ -47,7 +47,6 @@ namespace UnknownEngine
 				ICEGuiSubsystem* cegui_subsystem;
 				
 				std::unique_ptr<CEGuiSubsystemFactory> subsystem_factory;
-				std::unique_ptr<Core::BaseMessageListener> listener;
 				
 				volatile bool was_init;
 		};

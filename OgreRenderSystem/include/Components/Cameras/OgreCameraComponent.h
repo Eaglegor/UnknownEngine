@@ -49,8 +49,6 @@ namespace UnknownEngine
 				constexpr static const char* getTypeName(){return "Ogre.Camera";}
 				virtual Core::ComponentType getType() const override {return getTypeName();}
 
-				void doLookAt ( const CameraLookAtActionMessage& msg );
-
 				virtual void _update() override;
 				
 				virtual void setOrientation ( const Math::Quaternion & quaternion ) override;

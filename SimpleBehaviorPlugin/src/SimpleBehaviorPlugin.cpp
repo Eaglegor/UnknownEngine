@@ -7,9 +7,6 @@
 #include <ComponentSystem/ComponentsManager.h>
 #include <EngineContext.h>
 #include <Logging.h>
-#include <ExportedMessages/UpdateFrameMessage.h>
-#include <ExportedMessages/StopEngineActionMessage.h>
-#include <ExportedMessages/InputContext/AddSimpleActionMessage.h>
 #include <Factories/SimpleBehaviorsFactory.h>
 #include <SimpleBehaviorsPerformer.h>
 

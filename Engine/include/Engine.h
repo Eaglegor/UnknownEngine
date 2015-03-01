@@ -70,8 +70,6 @@ namespace UnknownEngine
 				    STOPPED = 3
 				};
 
-				void initMessagingRules(const std::string &name);
-				
 				State state;
 
 				std::unique_ptr<EngineCoreComponentsFactory> main_loop_factory;

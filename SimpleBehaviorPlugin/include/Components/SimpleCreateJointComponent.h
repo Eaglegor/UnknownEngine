@@ -2,7 +2,6 @@
 #include <Components/SimpleBehaviorComponent.h>
 #include <Descriptors/SimpleCreateJointComponentDesc.h>
 #include <MessageSystem/MessageSender.h>
-#include <ExportedMessages/RenderSystem/ChangeMaterialActionMessage.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
 #include <ComponentInterfaces/Input/IContextualActionsMapper.h>
 #include <ComponentInterfaces/RenderSystem/IRenderable.h>

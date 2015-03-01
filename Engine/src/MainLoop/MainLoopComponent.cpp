@@ -1,7 +1,6 @@
 #include <stdafx.h>
 
 #include <MainLoop/MainLoopComponent.h>
-#include <ExportedMessages/UpdateFrameMessage.h>
 #include <MessageSystem/MessageDispatcher.h>
 #include <MessageSystem/MessageSender.h>
 #include <Profiling/AverageFpsCounter.h>

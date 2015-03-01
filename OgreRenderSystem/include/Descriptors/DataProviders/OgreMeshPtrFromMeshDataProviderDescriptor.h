@@ -1,7 +1,7 @@
 #pragma once
 
-#include <ExportedMessages/LogMessage.h>
 #include <ResourceManager/DataProviders/IDataProvider.h>
+#include <LogSeverity.h>
 
 namespace UnknownEngine
 {

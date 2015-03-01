@@ -2,7 +2,6 @@
 
 #include <string>
 #include <boost/optional.hpp>
-#include <ExportedMessages/LogMessage.h>
 #include <Descriptors/OgreRenderWindowDescriptor.h>
 
 namespace UnknownEngine

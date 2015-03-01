@@ -5,7 +5,6 @@
 #include "IPhysXUpdateListener.h"
 #include <AlignedNew.h>
 #include <MessageSystem/MessageSender.h>
-#include <ExportedMessages/TransformChangedMessage.h>
 #include <ComponentInterfaces/PhysX/IPhysXRigidBodyComponent.h>
 #include <ComponentInterfaces/Transform/TransformHolderComponent.h>
 #include <ComponentInterfaces/Transform/TransformNotifierComponent.h>
@@ -71,8 +70,6 @@ namespace UnknownEngine
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 			
 		private:
-			Core::MessageSender<Core::TransformChangedMessage> transform_message_sender;
-			
 			PxRigidBodyComponentDesc desc;
 			PhysXSubsystem* physics_subsystem;
 			physx::PxRigidActor* px_rigid_body;

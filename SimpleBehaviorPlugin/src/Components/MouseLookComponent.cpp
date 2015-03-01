@@ -4,8 +4,6 @@
 #include <EngineContext.h>
 #include <MessageSystem/MessageDispatcher.h>
 
-#include <ExportedMessages/InputContext/AddSimpleActionMessage.h>
-#include <ExportedMessages/InputContext/AddRangeActionMessage.h>
 #include <ComponentInterfaces/Transform/MovableComponent.h>
 
 #include <iostream>
@@ -19,7 +17,6 @@ namespace UnknownEngine
 		MouseLookComponent::MouseLookComponent ( const std::string& name, const MouseLookComponentDesc &desc ) : 
 		Core::BaseComponent ( name.c_str() ),
 		desc(desc),
-		transform_changed_message_sender (name),
 		current_transform(desc.initial_transform),
 		forward_axis(-Math::Z_AXIS),
 		right_axis(Math::X_AXIS),

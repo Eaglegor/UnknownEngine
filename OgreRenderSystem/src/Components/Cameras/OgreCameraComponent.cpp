@@ -15,8 +15,6 @@
 #include <Logging.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
 #include <MessageBuffers/OnlyLastMessageBuffer.h>
-#include <ExportedMessages/TransformChangedMessage.h>
-#include <ExportedMessages/RenderSystem/CameraLookAtActionMessage.h>
 
 namespace UnknownEngine
 {
@@ -93,12 +91,7 @@ namespace UnknownEngine
 		{
 			transform_adapter.apply(this);
 		}
-		
-		void OgreCameraComponent::doLookAt ( const CameraLookAtActionMessage &msg )
-		{
-			camera->lookAt ( OgreVector3Converter::toOgreVector ( msg.look_at_position ) );
-		}
-		
+
 		void OgreCameraComponent::setOrientation ( const Math::Quaternion& quaternion )
 		{
 			this->scene_node->setOrientation( OgreQuaternionConverter::toOgreQuaternion(quaternion) );

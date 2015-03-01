@@ -36,8 +36,6 @@ namespace UnknownEngine
 				BaseOgreLightComponent ( const std::string& name, OgreRenderSubsystem* render_subsystem, const OgreLightSettings& light_settings, Core::IComponent* transform_provider );
 				virtual ~BaseOgreLightComponent();
 				
-				void onTransformChanged(const Core::TransformChangedMessage& msg);
-
 				virtual void setOrientation ( const Math::Quaternion& quaternion );
 				virtual void setPosition ( const Math::Vector3& position );
 				virtual void setTransform ( const Math::Transform& transform );

@@ -1,9 +1,9 @@
 #pragma once
 
-#include <ExportedMessages/LogMessage.h>
 #include <Transform/Transform.h>
 #include <AlignedNew.h>
 #include <boost/optional.hpp>
+#include <LogSeverity.h>
 
 namespace UnknownEngine
 {

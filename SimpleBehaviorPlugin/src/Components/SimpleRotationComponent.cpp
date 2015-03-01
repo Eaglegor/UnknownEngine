@@ -1,7 +1,6 @@
 #include <stdafx.h>
 #include <Components/SimpleRotationComponent.h>
 
-#include <ExportedMessages/TransformChangedMessage.h>
 #include <EngineContext.h>
 #include <MessageSystem/MessageDispatcher.h>
 #include <PositionProducerComponent.h>

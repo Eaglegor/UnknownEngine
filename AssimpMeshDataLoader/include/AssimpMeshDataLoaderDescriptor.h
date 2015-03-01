@@ -1,5 +1,5 @@
 #pragma once
-#include <ExportedMessages/LogMessage.h>
+#include <LogSeverity.h>
 
 namespace UnknownEngine
 {

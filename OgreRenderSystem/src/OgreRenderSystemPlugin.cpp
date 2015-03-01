@@ -8,8 +8,6 @@
 #include <OgreRenderSystemPlugin.h>
 #include <MessageSystem/MessageDispatcher.h>
 
-#include <ExportedMessages/UpdateFrameMessage.h>
-#include <ExportedMessages/RenderSystem/ChangeMaterialActionMessage.h>
 #include <Properties/Properties.h>
 #include <EngineContext.h>
 #include <OgreRenderSubsystem.h>

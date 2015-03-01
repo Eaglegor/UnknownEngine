@@ -2,8 +2,6 @@
 #include <InputContextMapper.h>
 #include <InputContextMapperPlugin.h>
 #include <InputContextMapperDescriptorGetter.h>
-#include <ExportedMessages/InputContext/AddSimpleActionMessage.h>
-#include <ExportedMessages/InputContext/AddRangeActionMessage.h>
 #include <InputContextMapperFactory.h>
 #include <Logging.h>
 #include <MessageSystem/MessageDictionary.h>

@@ -12,8 +12,6 @@
 #include <Logging.h>
 #include <MessageBuffers/OnlyLastMessageBuffer.h>
 #include <MessageBuffers/InstantForwardMessageBuffer.h>
-#include <ExportedMessages/TransformChangedMessage.h>
-#include <ExportedMessages/RenderSystem/ChangeMaterialActionMessage.h>
 #include <ResourceManager/ResourceManager.h>
 #include <mutex>
 
