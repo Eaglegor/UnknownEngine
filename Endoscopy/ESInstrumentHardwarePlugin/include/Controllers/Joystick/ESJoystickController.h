@@ -8,6 +8,7 @@
 #include <ComponentInterfaces/Engine/UpdateFrameListenerComponent.h>
 #include <ComponentInterfaces/Input/IContextualActionsMapper.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
+#include <Concurrency/DataStructures/LockingConcurrentSet.h>
 
 namespace UnknownEngine
 {
@@ -18,7 +19,9 @@ namespace UnknownEngine
 
 	namespace Endoscopy
 	{
-		class ESJoystickController : public IESController, public ComponentInterfaces::UpdateFrameListenerComponent
+		class ESJoystickController : 
+		public IESController, 
+		public ComponentInterfaces::UpdateFrameListenerComponent
 		{
 		public:
 			ESJoystickController(const char* name, const ESJoystickControllerDesc &desc);
@@ -29,6 +32,9 @@ namespace UnknownEngine
 			
 			virtual ESControllerType getType();
 			virtual const char* getName();
+			
+			virtual void addListener ( ComponentInterfaces::ESHardwareStateListener* listener ) override;
+			virtual void removeListener ( ComponentInterfaces::ESHardwareStateListener* listener ) override;
 			
 		private:
 			std::string name;
@@ -64,6 +70,8 @@ namespace UnknownEngine
 			
 			Core::ComponentInterfacePtr<ComponentInterfaces::FrameUpdaterComponent> update_frame_provider;
 			Core::ComponentInterfacePtr<ComponentInterfaces::IContextualActionsMapper> input_context_mapping_provider;
+			
+			Utils::LockingConcurrentSet<ComponentInterfaces::ESHardwareStateListener*> listeners;
 			
 		};
 	}

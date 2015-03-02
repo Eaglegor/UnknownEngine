@@ -38,6 +38,7 @@ namespace UnknownEngine
 		{
 			ESJoystickControllerDesc desc;
 			desc.update_frame_provider = Core::ComponentsManager::getSingleton()->findComponent("Engine.MainLoop");
+			desc.input_context_mapping_provider = Core::ComponentsManager::getSingleton()->findComponent("System.InputContextMapper");
 			return new ESJoystickController(name, desc);
 		}
 		

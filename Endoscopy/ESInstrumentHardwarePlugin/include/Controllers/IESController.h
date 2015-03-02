@@ -1,12 +1,14 @@
 #pragma once
 
 #include <Controllers/ESControllerType.h>
+#include <ComponentInterfaces/ESHardware/ESHardwareStateNotifier.h>
 
 namespace UnknownEngine
 {
 	namespace Endoscopy
 	{
-		class IESController
+		class IESController : 
+		public ComponentInterfaces::ESHardwareStateNotifier
 		{
 		public:
 			virtual ~IESController(){};

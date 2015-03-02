@@ -26,6 +26,7 @@ namespace UnknownEngine
 		Core::IComponent* ESInstrumentMotionAlgorithmsFactory::createInstrumentPoseAlgorithm ( const Core::ComponentDesc& desc )
 		{
 			ESInstrumentPoseAlgorithmDesc alg_desc;
+			alg_desc.hardware_controller = Core::ComponentsManager::getSingleton()->findComponent("EndoscopicHardwareControllers.Camera");
 			return new ESInstrumentPoseAlgorithm(desc.name.c_str(), alg_desc);
 		}
 
