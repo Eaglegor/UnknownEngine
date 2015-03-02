@@ -24,8 +24,7 @@ namespace UnknownEngine
 			  scene_node(nullptr),
 			  camera(nullptr),
 			  logger(name, desc.log_level),
-			  render_window(desc.render_window),
-			  transform_provider(desc.transform_provider)
+			  render_window(desc.render_window)
 		{
 			LOG_INFO ( logger, "Logger initialized" );
 		}
@@ -71,14 +70,10 @@ namespace UnknownEngine
 
 			this->scene_node->attachObject ( this->camera );
 			
-			
-			if(transform_provider) transform_provider->addListener(&transform_adapter);
 		}
 
 		void OgreCameraComponent::internalShutdown()
 		{
-			if(transform_provider) transform_provider->removeListener(&transform_adapter);
-			
 			LOG_INFO ( logger, "Shutting down" );
 			if(scene_node && camera) this->scene_node->detachObject ( this->camera );
 		}
@@ -104,7 +99,12 @@ namespace UnknownEngine
 			this->scene_node->setOrientation( OgreQuaternionConverter::toOgreQuaternion(transform.getOrientation()) );
 		}
 		
-		
+		Core::IComponentInterface* OgreCameraComponent::getInterface ( const Core::ComponentType& type )
+		{
+			using namespace ComponentInterfaces;
+			if(type == MovableComponent::getTypeName()) return static_cast<MovableComponent*>(&transform_adapter);
+			return nullptr;
+		}
 
 	}
 }

@@ -12,31 +12,6 @@
 		<subsystem name="Hardware" module="ESInstrumentHardwarePlugin"/>
 		<subsystem name="Algorithms" module="ESInstrumentAlgorithmsPlugin"/>
 		
-		<!--<subsystem name="HUD" module="CEGuiPlugin">
-			<messaging_rules>
-				<listener>
-					<message type="Utils.SubsystemInitializedMessage">
-						<receive_policy type="FromSingleSender">
-							<options_section>
-								<option name="sender_name" value="Graphics"/>
-							</options_section>
-						</receive_policy>
-					</message>
-				</listener>
-				<sender>
-					<message type="Graphics.OgreRenderSystem.GetOgreRenderTargetMessage"/>
-				</sender>
-			</messaging_rules>
-		</subsystem>
-		
-		<subsystem name="ScriptEngine" module="AngelScriptPlugin">
-			<options_section>
-				<option name="log_level" value="debug"/>
-			</options_section>
-		</subsystem>
-		-->
-		
-		
 	</subsystems>
 
 	<entities>
@@ -125,36 +100,12 @@
 		
 		
 		<entity name="EndoscopicHardwareControllers">
-			<component name="Camera" type="Endoscopy.HardwareController">
-				<messaging_rules>
-					<sender>
-						<message type="Endoscopy.Hardware.OrientationChanged"/>
-						<message type="IO.InputContext.AddSimpleActionMessage"/>
-						<message type="IO.InputContext.AddRangeActionMessage"/>
-					</sender>
-					<listener>
-						<message type="Engine.MainLoop.UpdateFrameMessage"/>
-					</listener>
-				</messaging_rules>
-			</component>
+			<component name="Camera" type="Endoscopy.HardwareController"/>
 		</entity>
 		
 		<entity name="CameraInstrument">
 			<component name="PoseAlgorithm" type="Endoscopy.Algorithms.InstrumentPose">
-				<messaging_rules>
-					<listener>
-						<message type="Endoscopy.Hardware.OrientationChanged">
-							<receive_policy type="FromSingleSender">
-								<options_section>
-									<option name="sender_name" value="EndoscopicHardwareControllers.Camera"/>
-								</options_section>
-							</receive_policy>
-						</message>
-					</listener>
-					<sender>
-						<message type="Engine.TransformChangedMessage"/>
-					</sender>
-				</messaging_rules>
+				<option name="hardware_controller" value="EndoscopicHardwareControllers.Camera"/>
 			</component>
 		</entity>
 		
@@ -208,8 +159,6 @@
 					<option name="far_clip_distance" value="100"/>
 					<option name="near_clip_distance" value="0.01"/>
 					
-					<option name="transform_provider_name" value="MainCamera.Rotation"/>
-					
 					<options_section name="InitialTransform">
 						<option name="position" value="Vector3(x:0, y:10, z:50)"/>
 						<option name="initial_direction" value="Vector3(x:0, y:0, z:-50)"/>
@@ -218,7 +167,15 @@
 				</options_section>
 					
 			</component>
-						
+					
+			<component name="CameraTransformProxy" type="Behavior.TransformProxyComponent">
+				<options_section>
+					<option name="transform_provider" value="CameraInstrument.PoseAlgorithm"/>
+					<!--<option name="transform_provider" value="MainCamera.Rotation"/>-->
+					<option name="transform_receiver" value="MainCamera.Camera"/>
+				</options_section>
+			</component>
+			
 			<component name="LightComponentS" type="Ogre.SpotLight">
 
 				<messaging_rules><listener>

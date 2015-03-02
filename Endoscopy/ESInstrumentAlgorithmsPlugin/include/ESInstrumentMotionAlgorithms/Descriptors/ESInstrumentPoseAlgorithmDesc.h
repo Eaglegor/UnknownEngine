@@ -6,6 +6,11 @@
 
 namespace UnknownEngine
 {
+	namespace Core
+	{
+		class IComponent;
+	}
+	
 	namespace Endoscopy
 	{
 		struct ESInstrumentPoseAlgorithmDesc
@@ -22,8 +27,11 @@ namespace UnknownEngine
 			Math::Vector3 instrument_port_position;
 			Math::Vector3 instrument_direction;
 
+			Core::IComponent* hardware_controller;
+			
 			ESInstrumentPoseAlgorithmDesc():
-			instrument_direction(Math::X_AXIS)
+			instrument_direction(Math::X_AXIS),
+			hardware_controller(nullptr)
 			{
 			}
 		};

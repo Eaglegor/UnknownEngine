@@ -55,6 +55,8 @@ namespace UnknownEngine
 				virtual void setPosition ( const Math::Vector3 & position ) override;
 				virtual void setTransform ( const Math::Transform & transform ) override;
 				
+				virtual IComponentInterface * getInterface ( const Core::ComponentType & type );
+				
 				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
 			protected:
@@ -70,7 +72,6 @@ namespace UnknownEngine
 				Core::LogHelper logger;
 				
 				Core::ComponentInterfacePtr<ComponentInterfaces::IOgreRenderWindowComponent> render_window;
-				Core::ComponentInterfacePtr<ComponentInterfaces::TransformNotifierComponent> transform_provider;
 				
 				ConcurrentTransformAdapter transform_adapter;
 		};

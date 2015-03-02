@@ -1,4 +1,7 @@
 #include <Controllers/Joystick/ESJoystickController.h>
+#include <ESHardwareEvents/ESHardwareStickPoseChangedEvent.h>
+#include <ESHardwareEvents/ESHardwareBranchesAngleChangedEvent.h>
+#include <ComponentInterfaces/ESHardware/ESHardwareStateListener.h>
 #include <cmath>
 
 namespace UnknownEngine
@@ -204,22 +207,28 @@ namespace UnknownEngine
 			if(current_d_axis < desc.d_low_limit) current_d_axis = desc.d_low_limit;
 			if(current_d_axis > desc.d_high_limit) current_d_axis = desc.d_high_limit;
 			
-			/*{
-				ESHardwareOrientationChangedMessage msg;
-				msg.instrument_port = instrument_port;
-				msg.new_x_axis = current_x_axis;
-				msg.new_y_axis = current_y_axis;
-				msg.new_z_axis = current_z_axis;
-				msg.new_d_axis = current_d_axis;
-				axis_sender.sendMessage(msg);
-			}*/
+			{
+				ESHardwareStickPoseChangedEvent evt;
+				evt.x = current_x_axis;
+				evt.y = current_y_axis;
+				evt.z = current_z_axis;
+				evt.d = current_d_axis;
+				
+				for(ComponentInterfaces::ESHardwareStateListener* listener : listeners)
+				{
+					listener->onHardwareStickPoseChanged(evt);
+				}
+			}
 			
-			/*{
-				ESHardwareBranchesAngleChangedMessage msg;
-				msg.instrument_port = instrument_port;
-				msg.new_angle = current_branches_angle;
-				branches_sender.sendMessage(msg);
-			}*/
+			{
+				ESHardwareBranchesAngleChangedEvent evt;
+				evt.new_angle = current_branches_angle;
+				
+				for(ComponentInterfaces::ESHardwareStateListener* listener : listeners)
+				{
+					listener->onBranchesAngleChangedEvent(evt);
+				}
+			}
 
 			current_z_delta = 0;
 			current_d_delta = 0;
@@ -229,6 +238,17 @@ namespace UnknownEngine
 		{
 			return name.c_str();
 		}
-		
+	
+				
+		void ESJoystickController::addListener ( ComponentInterfaces::ESHardwareStateListener* listener )
+		{
+			listeners.emplace(listener);
+		}
+
+		void ESJoystickController::removeListener ( ComponentInterfaces::ESHardwareStateListener* listener )
+		{
+			listeners.erase(listener);
+		}
+	
 	}
 }

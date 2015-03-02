@@ -1,6 +1,8 @@
 #include <ESInstrumentMotionAlgorithms/Components/ESInstrumentPoseAlgorithm.h>
+#include <ESHardwareEvents/ESHardwareStickPoseChangedEvent.h>
 #include <ValueRangeMapper.h>
 #include <Transform/Transform.h>
+#include <ComponentInterfaces/Transform/MovableComponent.h>
 
 namespace UnknownEngine
 {
@@ -15,7 +17,8 @@ namespace UnknownEngine
 		x_range_mapper(-1, 1, -RANGE_VALUE, RANGE_VALUE),
 		y_range_mapper(-1, 1, -RANGE_VALUE, RANGE_VALUE),
 		z_range_mapper(-1, 1, -RANGE_VALUE, RANGE_VALUE),
-		d_range_mapper(-1, 1, -RANGE_VALUE, RANGE_VALUE*10)
+		d_range_mapper(-1, 1, -RANGE_VALUE, RANGE_VALUE*10),
+		hardware_controller(desc.hardware_controller)
 		{
 			this->desc.lower_x = -RANGE_VALUE;
 			this->desc.higher_x = RANGE_VALUE;
@@ -36,20 +39,27 @@ namespace UnknownEngine
 
 		bool ESInstrumentPoseAlgorithm::init ()
 		{
+			if(!hardware_controller) return false;
+			hardware_controller->addListener(this);
 			return true;
 		}
 
 		void ESInstrumentPoseAlgorithm::shutdown()
 		{
+			hardware_controller->removeListener(this);
 		}
 
-		void ESInstrumentPoseAlgorithm::onHardwareStateUpdate ( Math::Scalar x, Math::Scalar y, Math::Scalar z, Math::Scalar d )
+		void ESInstrumentPoseAlgorithm::onBranchesAngleChangedEvent ( const ESHardwareBranchesAngleChangedEvent& evt )
 		{
-			Math::Scalar mx = x_range_mapper.getMappedValue(x);
-			Math::Scalar my = y_range_mapper.getMappedValue(y);
-			Math::Scalar mz = z_range_mapper.getMappedValue(z);
-			Math::Scalar md = d_range_mapper.getMappedValue(d);
+			// Branches not supported by the pose algorithm
+		}
 
+		void ESInstrumentPoseAlgorithm::onHardwareStickPoseChanged ( const ESHardwareStickPoseChangedEvent& evt )
+		{
+			Math::Scalar mx = x_range_mapper.getMappedValue(evt.x);
+			Math::Scalar my = y_range_mapper.getMappedValue(evt.y);
+			Math::Scalar mz = z_range_mapper.getMappedValue(evt.z);
+			Math::Scalar md = d_range_mapper.getMappedValue(evt.d);
 			
 			Math::Quaternion x_quat(Math::AngleAxis(mx, Math::X_AXIS));
 			Math::Quaternion y_quat(Math::AngleAxis(my, Math::Y_AXIS));
@@ -59,8 +69,28 @@ namespace UnknownEngine
 			transform.setOrientation(x_quat * y_quat * z_quat);
 			transform.setPosition(desc.instrument_port_position + transform.getOrientation() * desc.instrument_direction * md);
 			
-			// [TODO] Send transform
+			for(ComponentInterfaces::MovableComponent* listener : transform_listeners)
+			{
+				listener->setTransform(transform);
+			}
 		}
-		
+
+		void ESInstrumentPoseAlgorithm::addListener ( ComponentInterfaces::MovableComponent* movable_component )
+		{
+			transform_listeners.emplace(movable_component);
+		}
+
+		void ESInstrumentPoseAlgorithm::removeListener ( ComponentInterfaces::MovableComponent* movable_component )
+		{
+			transform_listeners.erase(movable_component);
+		}
+	
+		Core::IComponentInterface* ESInstrumentPoseAlgorithm::getInterface ( const Core::ComponentType& type )
+		{
+			using namespace ComponentInterfaces;
+			if(type == TransformNotifierComponent::getTypeName()) return static_cast<TransformNotifierComponent*>(this);
+			return nullptr;
+		}
+	
 	}
 }

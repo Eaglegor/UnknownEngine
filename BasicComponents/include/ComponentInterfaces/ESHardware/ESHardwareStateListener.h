@@ -1,10 +1,15 @@
 #pragma once
 
 #include <ComponentSystem/IComponentInterface.h>
-#include <Scalar.h>
 
 namespace UnknownEngine
 {
+	namespace Endoscopy
+	{
+		struct ESHardwareStickPoseChangedEvent;
+		struct ESHardwareBranchesAngleChangedEvent;
+	}
+	
 	namespace ComponentInterfaces
 	{
 		class ESHardwareStateListener : public Core::IComponentInterface
@@ -12,7 +17,8 @@ namespace UnknownEngine
 		public:
 			constexpr static const char* getTypeName(){ return "IESHardwareStateListener"; }
 			
-			virtual void onHardwareStateUpdate(Math::Scalar x, Math::Scalar y, Math::Scalar z, Math::Scalar d) = 0;
+			virtual void onHardwareStickPoseChanged(const Endoscopy::ESHardwareStickPoseChangedEvent& evt) = 0;
+			virtual void onBranchesAngleChangedEvent(const Endoscopy::ESHardwareBranchesAngleChangedEvent& evt) = 0;
 		};
 	}
 }

@@ -3,9 +3,12 @@
 #include <ComponentSystem/BaseComponent.h>
 #include <ESInstrumentMotionAlgorithms/Descriptors/ESInstrumentPoseAlgorithmDesc.h>
 #include <ComponentInterfaces/ESHardware/ESHardwareStateListener.h>
+#include <ComponentInterfaces/Transform/TransformNotifierComponent.h>
 #include <memory>
 #include <ValueRangeMapper.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
+#include <Concurrency/DataStructures/ConcurrentSet.h>
+#include <ComponentInterfaces/ESHardware/ESHardwareStateNotifier.h>
 
 namespace UnknownEngine
 {
@@ -19,7 +22,8 @@ namespace UnknownEngine
 
 		class ESInstrumentPoseAlgorithm : 
 		public Core::BaseComponent,
-		public ComponentInterfaces::ESHardwareStateListener
+		public ComponentInterfaces::ESHardwareStateListener,
+		public ComponentInterfaces::TransformNotifierComponent
 		{
 		public:
 			ESInstrumentPoseAlgorithm(const char* name, const ESInstrumentPoseAlgorithmDesc& desc);
@@ -30,7 +34,13 @@ namespace UnknownEngine
 			virtual bool init () override;
 			virtual void shutdown() override;
 			
-			virtual void onHardwareStateUpdate ( Math::Scalar x, Math::Scalar y, Math::Scalar z, Math::Scalar d ) override;
+			virtual void onHardwareStickPoseChanged ( const ESHardwareStickPoseChangedEvent& evt ) override;
+			virtual void onBranchesAngleChangedEvent ( const ESHardwareBranchesAngleChangedEvent& evt ) override;
+			
+			virtual void addListener ( ComponentInterfaces::MovableComponent* movable_component );
+			virtual void removeListener ( ComponentInterfaces::MovableComponent* movable_component );
+			
+			virtual IComponentInterface* getInterface ( const Core::ComponentType& type );
 			
 		private:
 			ESInstrumentPoseAlgorithmDesc desc;
@@ -39,6 +49,10 @@ namespace UnknownEngine
 			Utils::ValueRangeMapper<Math::Scalar> y_range_mapper;
 			Utils::ValueRangeMapper<Math::Scalar> z_range_mapper;
 			Utils::ValueRangeMapper<Math::Scalar> d_range_mapper;
+			
+			Utils::ConcurrentSet<ComponentInterfaces::MovableComponent*> transform_listeners;
+			
+			Core::ComponentInterfacePtr<ComponentInterfaces::ESHardwareStateNotifier> hardware_controller;
 		};
 	}
 }

@@ -9,13 +9,16 @@ namespace UnknownEngine
 {
 	namespace Endoscopy
 	{
-		class ESHardwareControllerComponent : public Core::BaseComponent
+		class ESHardwareControllerComponent : 
+		public Core::BaseComponent
 		{
 		public:
 			ESHardwareControllerComponent(const char* name, const ESHardwareControllerComponentDesc& desc, ESControllersFactory *controllers_factory);
 			
 			virtual bool init ();
 			virtual void shutdown();
+			
+			virtual Core::IComponentInterface* getInterface ( const Core::ComponentType& type );
 			
 			virtual Core::ComponentType getType() const;
 			constexpr static const char* getTypeName(){return "Endoscopy.HardwareController";}
