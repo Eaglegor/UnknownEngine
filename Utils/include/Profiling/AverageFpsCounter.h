@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Profiling/TimeCounter.h>
+#include <functional>
 #include <iostream>
 namespace UnknownEngine
 {
