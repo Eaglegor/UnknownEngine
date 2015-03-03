@@ -11,7 +11,7 @@
 		<subsystem name="SimpleBehavior" module="SimpleBehaviorPlugin"/>
 		<subsystem name="Hardware" module="ESInstrumentHardwarePlugin"/>
 		<subsystem name="Algorithms" module="ESInstrumentAlgorithmsPlugin"/>
-		
+		<subsystem name="GUI" module="CEGuiPlugin"/>
 	</subsystems>
 
 	<entities>
@@ -32,7 +32,7 @@
 				</options_section>
 			</component>
 			
-			<component name="OgreRenderSubsystem" type="Ogre.SeparateThreadRenderSubsystem">
+			<component name="OgreRenderSubsystem" type="Ogre.SingleThreadRenderSubsystem">
 				
 				<options_section>
 					<option name="log_level" value="${global_log_level}"/>
@@ -93,6 +93,13 @@
 					<option name="enable_profiling" value="false"/>
 					<option name="enable_hardware" value="false"/>
 					<option name="update_frame_provider_name" value="Engine.MainLoop"/>
+				</options_section>
+			</component>
+			
+			<component name="HUD" type="CEGui.OgreContext">
+				<options_section>
+					<option name="render_window" value="System.OgreRenderWindow"/>
+					<option name="log_level" value="info"/>
 				</options_section>
 			</component>
 			

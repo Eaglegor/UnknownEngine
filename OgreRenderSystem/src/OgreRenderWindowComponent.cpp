@@ -10,7 +10,8 @@ namespace UnknownEngine
 		desc(desc),
 		logger(name, desc.log_level),
 		render_subsystem(render_subsystem),
-		parent_window(desc.parent_window)
+		parent_window(desc.parent_window),
+		render_window(nullptr)
 		{
 			Core::ComponentsManager::getSingleton()->reserveComponent(render_subsystem);
 		}
