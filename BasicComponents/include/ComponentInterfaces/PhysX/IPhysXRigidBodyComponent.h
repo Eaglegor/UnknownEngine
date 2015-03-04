@@ -14,7 +14,7 @@ namespace UnknownEngine
 		class IPhysXRigidBodyComponent : public Core::IComponentInterface
 		{
 		public:
-			constexpr static const char* getTypeName(){return "IPhysXRigidBodyComponent";}
+			constexpr static const char* getType(){return "IPhysXRigidBodyComponent";}
 			
 			virtual physx::PxRigidActor* getPxRigidActor() = 0;
 		};

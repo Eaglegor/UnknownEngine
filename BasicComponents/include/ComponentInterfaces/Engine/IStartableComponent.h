@@ -9,7 +9,7 @@ namespace UnknownEngine
         class IStartableComponent : public Core::IComponentInterface
         {
         public:
-            constexpr static const char* getTypeName(){return "IStartableComponent";}
+            constexpr static const char* getType(){return "IStartableComponent";}
 
             virtual void start() = 0;
             virtual void stop() = 0;

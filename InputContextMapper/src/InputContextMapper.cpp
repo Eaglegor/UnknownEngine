@@ -206,7 +206,7 @@ namespace UnknownEngine
 		
 		Core::IComponentInterface* InputContextMapper::getInterface ( const Core::ComponentType& type )
 		{
-			if(type == ComponentInterfaces::IContextualActionsMapper::getTypeName()) return static_cast<ComponentInterfaces::IContextualActionsMapper*>(this);
+			if(type == ComponentInterfaces::IContextualActionsMapper::getType()) return static_cast<ComponentInterfaces::IContextualActionsMapper*>(this);
 			return nullptr;
 		}
 	

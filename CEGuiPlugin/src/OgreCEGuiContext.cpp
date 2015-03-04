@@ -10,50 +10,45 @@ namespace UnknownEngine
 {
 	namespace GUI
 	{
-		OgreCEGuiContext::OgreCEGuiContext (const char* name, const OgreCEGuiContextDesc &desc):
-		Core::BaseComponent(name),
-		logger(name, desc.log_level),
-		ogre_render_window(desc.render_window),
-		renderer(nullptr)
+		OgreCEGuiContext::OgreCEGuiContext ( const char* name, const OgreCEGuiContextDesc &desc ) :
+			Core::BaseComponent ( name ),
+			renderer ( nullptr ),
+			logger ( name, desc.log_level ),
+			ogre_render_window ( desc.render_window )
 		{
 		}
-		
+
 		OgreCEGuiContext::~OgreCEGuiContext()
 		{
 		}
 
-		bool OgreCEGuiContext::init()
+		bool OgreCEGuiContext::initializeRenderer()
 		{
-			if(!ogre_render_window) 
+			LOG_INFO ( logger, "Initializing CEGUI Ogre context" );
+			renderer = &CEGUI::OgreRenderer::bootstrapSystem ( *ogre_render_window->getOgreRenderWindow() );
+
+			if ( !renderer )
 			{
-				LOG_ERROR(logger, "No OGRE render window provided. Can't create context");
+				LOG_ERROR ( logger, "Failed to initialize CEGUI Ogre context" );
 				return false;
 			}
-			
-			renderer = &CEGUI::OgreRenderer::bootstrapSystem(*ogre_render_window->getOgreRenderWindow());
-			
-			if(!renderer)
-			{
-				LOG_ERROR(logger, "Failed to initialize CEGUI Ogre context");
-				return false;
-			}
-			
-			LOG_INFO(logger, "CEGUI Ogre context created");
-			
+
+			LOG_INFO ( logger, "CEGUI Ogre context created" );
 			return true;
 		}
 
-		void OgreCEGuiContext::shutdown()
+		void OgreCEGuiContext::shutdownRenderer()
 		{
 			if(renderer) 
 			{
 				LOG_INFO(logger, "Destroying CEGUI Ogre context");
-				
+
 				CEGUI::OgreRenderer::destroySystem();
-				
+				renderer = nullptr;
 				LOG_INFO(logger, "CEGUI Ogre context destroyed");
 			}
 		}
+
 		
 	}
 }

@@ -11,6 +11,7 @@
 #include <ComponentInterfaces/Ogre/IOgreRenderWindowComponent.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
 #include <LogHelper.h>
+#include <Concurrency/DataStructures/ConcurrentSet.h>
 
 namespace UnknownEngine
 {
@@ -37,6 +38,11 @@ namespace UnknownEngine
 				return render_window;
 			}
 			
+			virtual void _update();
+			
+			virtual void addListener ( ComponentInterfaces::IRenderWindowEventsListener* listener );
+			virtual void removeListener ( ComponentInterfaces::IRenderWindowEventsListener* listener );
+			
 			virtual IComponentInterface* getInterface ( const Core::ComponentType& type ) override;
 
 		protected:
@@ -51,6 +57,8 @@ namespace UnknownEngine
 			
 			Ogre::Root *root;
 			Core::ComponentInterfacePtr<ComponentInterfaces::GUIWindowComponent> parent_window;
+			
+			Utils::ConcurrentSet<ComponentInterfaces::IRenderWindowEventsListener*> render_events_listeners;
 		};
 	}
 }

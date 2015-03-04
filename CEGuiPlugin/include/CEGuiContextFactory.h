@@ -17,7 +17,8 @@ namespace UnknownEngine
 			}
 			
 		private:
-			Core::IComponent* createOgreContext(const Core::ComponentDesc& desc);
+			Core::IComponent* createSynchronizedOgreContext(const Core::ComponentDesc& desc);
+			Core::IComponent* createSeparateThreadOgreContext(const Core::ComponentDesc& desc);
 		};
 	}
 }

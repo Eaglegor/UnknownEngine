@@ -72,6 +72,14 @@ namespace UnknownEngine
 			// Perhaps some internal shutdown?
 		}
 		
+		void OgreRenderWindowComponent::_update()
+		{
+			for(ComponentInterfaces::IRenderWindowEventsListener* listener : render_events_listeners)
+			{
+				listener->onRenderFrame();
+			}
+		}
+		
 		OgreRenderWindowComponent::~OgreRenderWindowComponent()
 		{
 			Core::ComponentsManager::getSingleton()->releaseComponent(render_subsystem);
@@ -79,8 +87,19 @@ namespace UnknownEngine
 		
 		Core::IComponentInterface* OgreRenderWindowComponent::getInterface ( const Core::ComponentType& type )
 		{
-			if(type == ComponentInterfaces::IOgreRenderWindowComponent::getTypeName()) return static_cast<ComponentInterfaces::IOgreRenderWindowComponent*>(this);
+			if(type == ComponentInterfaces::IOgreRenderWindowComponent::getType()) return static_cast<ComponentInterfaces::IOgreRenderWindowComponent*>(this);
+			if(type == ComponentInterfaces::IRenderWindowComponent::getType()) return static_cast<ComponentInterfaces::IRenderWindowComponent*>(this);
 			return nullptr;
+		}
+		
+		void OgreRenderWindowComponent::addListener ( ComponentInterfaces::IRenderWindowEventsListener* listener )
+		{
+			render_events_listeners.emplace(listener);
+		}
+
+		void OgreRenderWindowComponent::removeListener ( ComponentInterfaces::IRenderWindowEventsListener* listener )
+		{
+			render_events_listeners.erase(listener);
 		}
 		
 	}

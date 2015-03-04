@@ -53,9 +53,9 @@ namespace UnknownEngine
 
 		Core::IComponentInterface* SimpleRotationComponent::getInterface ( const Core::ComponentType& type )
 		{
-			if(type == TransformHolderComponent::getTypeName()) return static_cast<TransformHolderComponent*>(this);
-			if(type == TransformNotifierComponent::getTypeName()) return static_cast<TransformNotifierComponent*>(this);
-			if(type == UpdateFrameListenerComponent::getTypeName()) return static_cast<UpdateFrameListenerComponent*>(this);
+			if(type == TransformHolderComponent::getType()) return static_cast<TransformHolderComponent*>(this);
+			if(type == TransformNotifierComponent::getType()) return static_cast<TransformNotifierComponent*>(this);
+			if(type == UpdateFrameListenerComponent::getType()) return static_cast<UpdateFrameListenerComponent*>(this);
 			return nullptr;
 		}
 		

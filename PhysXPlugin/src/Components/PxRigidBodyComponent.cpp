@@ -156,10 +156,10 @@ namespace UnknownEngine
 		
 		Core::IComponentInterface* PxRigidBodyComponent::getInterface ( const Core::ComponentType& type )
 		{
-			if(type == IPhysXRigidBodyComponent::getTypeName()) return static_cast<IPhysXRigidBodyComponent*>(this);
-			if(type == TransformHolderComponent::getTypeName()) return static_cast<TransformHolderComponent*>(this);
-			if(type == TransformNotifierComponent::getTypeName()) return static_cast<TransformNotifierComponent*>(this);
-			if(type == MovableComponent::getTypeName()) return static_cast<MovableComponent*>(this);
+			if(type == IPhysXRigidBodyComponent::getType()) return static_cast<IPhysXRigidBodyComponent*>(this);
+			if(type == TransformHolderComponent::getType()) return static_cast<TransformHolderComponent*>(this);
+			if(type == TransformNotifierComponent::getType()) return static_cast<TransformNotifierComponent*>(this);
+			if(type == MovableComponent::getType()) return static_cast<MovableComponent*>(this);
 			return nullptr;
 		}
 		

@@ -15,7 +15,7 @@ namespace UnknownEngine
 		class ESHardwareStateListener : public Core::IComponentInterface
 		{
 		public:
-			constexpr static const char* getTypeName(){ return "IESHardwareStateListener"; }
+			constexpr static const char* getType(){ return "ESHardwareStateListener"; }
 			
 			virtual void onHardwareStickPoseChanged(const Endoscopy::ESHardwareStickPoseChangedEvent& evt) = 0;
 			virtual void onBranchesAngleChangedEvent(const Endoscopy::ESHardwareBranchesAngleChangedEvent& evt) = 0;

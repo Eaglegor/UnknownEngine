@@ -9,7 +9,7 @@ namespace UnknownEngine
 		class IRenderable : public Core::IComponentInterface
 		{
 			public:
-				constexpr static const char* getTypeName()
+				constexpr static const char* getType()
 				{
 					return "IRenderable";
 				}

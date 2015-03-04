@@ -10,7 +10,7 @@ namespace UnknownEngine
 		class IContextualActionsMapper : public Core::IComponentInterface
 		{
 		public:
-			constexpr static const char* getTypeName(){ return "IContexturalActionsMapper"; }
+			constexpr static const char* getType(){ return "IContextualActionsMapper"; }
 			
 			virtual void addSimpleAction(const char* context_name, const char* action_slot_name, std::function<void()> action_callback) = 0;
 			virtual void addRangedAction(const char* context_name, const char* action_slot_name, std::function<void(Math::Scalar)> action_callback) = 0;

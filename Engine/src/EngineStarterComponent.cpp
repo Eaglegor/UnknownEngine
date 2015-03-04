@@ -28,7 +28,7 @@ namespace UnknownEngine
         }
 
         IComponentInterface *EngineStarterComponent::getInterface(const ComponentType &type) {
-            if(type == ComponentInterfaces::IStartableComponent::getTypeName()) return static_cast<ComponentInterfaces::IStartableComponent*>(this);
+            if(type == ComponentInterfaces::IStartableComponent::getType()) return static_cast<ComponentInterfaces::IStartableComponent*>(this);
             return nullptr;
         }
     }

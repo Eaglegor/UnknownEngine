@@ -270,8 +270,8 @@ namespace UnknownEngine
 	
 		Core::IComponentInterface* MouseLookComponent::getInterface ( const Core::ComponentType& type )
 		{
-			if(type == TransformHolderComponent::getTypeName()) return static_cast<TransformHolderComponent*>(this);
-			if(type == TransformNotifierComponent::getTypeName()) return static_cast<TransformNotifierComponent*>(this);
+			if(type == TransformHolderComponent::getType()) return static_cast<TransformHolderComponent*>(this);
+			if(type == TransformNotifierComponent::getType()) return static_cast<TransformNotifierComponent*>(this);
 			return nullptr;
 		}
 	

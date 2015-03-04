@@ -123,8 +123,8 @@ namespace UnknownEngine
 		Core::IComponentInterface* OgreRenderableComponent::getInterface ( const Core::ComponentType& type )
 		{
 			using namespace ComponentInterfaces;
-			if(type == MovableComponent::getTypeName() ) return static_cast<MovableComponent*>(&transform_adapter);
-			if(type == IRenderable::getTypeName() ) return static_cast<IRenderable*>(this);
+			if(type == MovableComponent::getType() ) return static_cast<MovableComponent*>(&transform_adapter);
+			if(type == IRenderable::getType() ) return static_cast<IRenderable*>(this);
 			return nullptr;
 		}
 		

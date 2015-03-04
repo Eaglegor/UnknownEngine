@@ -74,7 +74,7 @@ namespace UnknownEngine
 		
 		IComponentInterface* MainLoopComponent::getInterface ( const ComponentType& type )
 		{
-			if(type == ComponentInterfaces::FrameUpdaterComponent::getTypeName()) return this;
+			if(type == ComponentInterfaces::FrameUpdaterComponent::getType()) return this;
 			return nullptr;
 		}
 

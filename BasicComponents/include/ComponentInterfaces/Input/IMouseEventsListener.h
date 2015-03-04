@@ -11,7 +11,7 @@ namespace UnknownEngine
 		class IMouseEventsListener : public Core::IComponentInterface
 		{
 		public:
-			constexpr static const char* getTypeName(){return "IMouseEventsListener";}
+			constexpr static const char* getType(){return "IMouseEventsListener";}
 			
 			virtual void onMouseButtonEvent(const IO::MouseButtonEvent &evt) = 0;
 			virtual void onMouseMoveEvent(const IO::MouseMovedEvent &evt) = 0;

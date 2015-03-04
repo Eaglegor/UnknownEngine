@@ -11,7 +11,7 @@ namespace UnknownEngine
 		class GUIWindowComponent : public Core::IComponentInterface
 		{
 		public:
-			constexpr static const char* getTypeName(){return "GUIWindowComponent";}
+			constexpr static const char* getType(){return "GUIWindowComponent";}
 			
 			virtual Graphics::NativeWindowHandleType getWindowHandle() = 0;
 			virtual const char* getWindowTitle() = 0;

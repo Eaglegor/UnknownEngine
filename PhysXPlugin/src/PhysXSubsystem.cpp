@@ -173,7 +173,7 @@ namespace UnknownEngine
 
 		Core::IComponentInterface* PhysXSubsystem::getInterface ( const Core::ComponentType& type )
 		{
-			if(type == ComponentInterfaces::IPhysXSubsystemComponent::getTypeName()) return static_cast<ComponentInterfaces::IPhysXSubsystemComponent*>(this);
+			if(type == ComponentInterfaces::IPhysXSubsystemComponent::getType()) return static_cast<ComponentInterfaces::IPhysXSubsystemComponent*>(this);
 			return nullptr;
 		}
 
