@@ -32,7 +32,7 @@
 				</options_section>
 			</component>
 			
-			<component name="OgreRenderSubsystem" type="Ogre.SeparateThreadRenderSubsystem">
+			<component name="OgreRenderSubsystem" type="Ogre.SingleThreadRenderSubsystem">
 				
 				<options_section>
 					<option name="log_level" value="${global_log_level}"/>
@@ -96,10 +96,22 @@
 				</options_section>
 			</component>
 			
-			<component name="HUD" type="CEGui.SeparateThreadOgreContext">
+			
+			<component name="HUD" type="CEGui.SynchronizedOgreContext">
 				<options_section>
 					<option name="render_window" value="System.OgreRenderWindow"/>
 					<option name="log_level" value="info"/>
+					<option name="mouse_handler" value="System.SDLRenderWindow"/>
+					<option name="keyboard_handler" value="System.SDLRenderWindow"/>
+				</options_section>
+			</component>
+			
+			<component name="FrameWindow" type="CEGui.FrameWindowComponent">
+				<options_section>
+					<option name="parent_window" value="System.HUD"/>
+					<option name="log_level" value="info"/>
+					<option name="type" value="WindowsLook/FrameWindow"/>
+					<option name="title" value="Hello world!"/>
 				</options_section>
 			</component>
 			
