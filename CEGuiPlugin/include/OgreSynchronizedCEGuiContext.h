@@ -1,6 +1,8 @@
 #pragma once
 
 #include <OgreCEGuiContext.h>
+#include <lmconfig.h>
+#include <ComponentInterfaces/RenderSystem/IRenderWindowEventsListener.h>
 
 namespace CEGUI
 {
@@ -14,7 +16,8 @@ namespace UnknownEngine
 		struct OgreCEGuiContextDesc;
 		
 		class OgreSynchronizedCEGuiContext : 
-		public OgreCEGuiContext
+		public OgreCEGuiContext,
+		public ComponentInterfaces::IRenderWindowEventsListener
 		{
 		public:
 			OgreSynchronizedCEGuiContext(const char* name, const OgreCEGuiContextDesc &desc);
@@ -25,6 +28,14 @@ namespace UnknownEngine
 			
 			virtual bool init();
 			virtual void shutdown();
+
+			virtual void onRenderFrame() override;
+
+			virtual void initComponent(ICEGuiComponent* component) override;
+			virtual void shutdownComponent(ICEGuiComponent* component) override;
+			virtual void destroyComponent(ICEGuiComponent* component) override;
+
+
 		};
 	}
 }

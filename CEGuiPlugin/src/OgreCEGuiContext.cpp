@@ -218,6 +218,14 @@ namespace UnknownEngine
 			if(type == CEGuiWidgetComponent::getType()) return static_cast<CEGuiWidgetComponent*>(this);
 			return nullptr;
 		}
-		
+
+		void OgreCEGuiContext::updateComponents()
+		{
+			for(ICEGuiComponent* component : components)
+			{
+				if(component->getState() == ICEGuiComponent::State::WORK) component->_update();
+			}
+		}
+
 	}
 }

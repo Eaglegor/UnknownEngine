@@ -61,13 +61,87 @@ namespace UnknownEngine
 			}
 			else 
 			{
-				if(is_waiting_for_destruction)
+
+				{//Initialization of components
+					int count = initialization_queue.size();
+					for(int i = 0; i < count; ++i)
+					{
+						ICEGuiComponent* component;
+						if(initialization_queue.try_pop(component))
+						{
+							if(component->getState() == ICEGuiComponent::State::INITIALIZATION)
+							{
+								component->_init();
+								components.emplace(component);
+							}
+							else
+							{
+								initialization_queue.push(component);
+							}
+						}
+					}
+				}
+
+				updateComponents();
+
+				{//Shutting down of components
+					int count = shutdown_queue.size();
+					for(int i = 0; i < count; ++i)
+					{
+						ICEGuiComponent* component;
+						if(shutdown_queue.try_pop(component))
+						{
+							if(component->getState() == ICEGuiComponent::State::SHUTTING_DOWN)
+							{
+								components.erase(component);
+								component->_shutdown();
+							}
+							else
+							{
+								shutdown_queue.push(component);
+							}
+						}
+					}
+				}
+
+				{//Destruction of components
+					int count = destruction_queue.size();
+					for(int i = 0; i < count; ++i)
+					{
+						ICEGuiComponent* component;
+						if(destruction_queue.try_pop(component))
+						{
+							if(component->getState() == ICEGuiComponent::State::DESTRUCTION)
+							{
+								component->_destroy();
+							}
+							else
+							{
+								destruction_queue.push(component);
+							}
+						}
+					}
+				}
+
+				if(is_waiting_for_destruction && components.empty())
 				{
 					if(renderer) shutdownRenderer();
 					waiting_for_destruction.notify();
 				}
 			}
 		}
-		
+
+		void OgreSeparateThreadCEGuiContext::initComponent(ICEGuiComponent * component) {
+			initialization_queue.push(component);
+		}
+
+		void OgreSeparateThreadCEGuiContext::shutdownComponent(ICEGuiComponent * component) {
+			shutdown_queue.push(component);
+		}
+
+		void OgreSeparateThreadCEGuiContext::destroyComponent(ICEGuiComponent * component) {
+			destruction_queue.push(component);
+		}
+
 	}
 }
