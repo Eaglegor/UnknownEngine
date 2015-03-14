@@ -13,7 +13,9 @@ namespace UnknownEngine
 		OgreSeparateThreadCEGuiContext::OgreSeparateThreadCEGuiContext (const char* name, const OgreCEGuiContextDesc &desc):
 		OgreCEGuiContext(name, desc),
 		is_initialized(false),
-		is_waiting_for_destruction(false)
+		is_waiting_for_shutdown(false),
+		is_waiting_for_destruction(false),
+		is_shutdown(false)
 		{
 		}
 		
@@ -46,12 +48,16 @@ namespace UnknownEngine
 		{
 			if(is_initialized)
 			{
-				is_waiting_for_destruction = true;
-				waiting_for_destruction.wait();
-				ogre_render_window->removeListener(this);
+				is_waiting_for_shutdown = true;
 			}
 		}
 
+		void OgreSeparateThreadCEGuiContext::startDestruction ( OgreSeparateThreadCEGuiContext::DestructionCallback destruction_callback )
+		{
+			this->destruction_callback = destruction_callback;
+			is_waiting_for_destruction = true;
+		}
+		
 		void OgreSeparateThreadCEGuiContext::onRenderFrame()
 		{
 			if(!is_initialized)
@@ -83,6 +89,7 @@ namespace UnknownEngine
 				}
 
 				updateComponents();
+				flushInputEvents();
 
 				{//Shutting down of components
 					int count = shutdown_queue.size();
@@ -123,10 +130,15 @@ namespace UnknownEngine
 					}
 				}
 
-				if(is_waiting_for_destruction && components.empty())
+				if(is_waiting_for_shutdown && components.empty())
 				{
 					if(renderer) shutdownRenderer();
-					waiting_for_destruction.notify();
+					is_shutdown = true;
+				}
+				if(is_shutdown && is_waiting_for_destruction)
+				{
+					ogre_render_window->removeListener(this);
+					destruction_callback(this);
 				}
 			}
 		}
@@ -143,5 +155,57 @@ namespace UnknownEngine
 			destruction_queue.push(component);
 		}
 
+		void OgreSeparateThreadCEGuiContext::onKeyboardEvent ( const IO::KeyboardEvent& evt )
+		{
+			keyboard_events.push(evt);
+		}
+
+		void OgreSeparateThreadCEGuiContext::onMouseButtonEvent ( const IO::MouseButtonEvent& evt )
+		{
+			mouse_button_events.push(evt);
+		}
+
+		void OgreSeparateThreadCEGuiContext::onMouseMoveEvent ( const IO::MouseMovedEvent& evt )
+		{
+			mouse_moved_events.push(evt);
+		}
+
+		void OgreSeparateThreadCEGuiContext::onMouseWheelEvent ( const IO::MouseWheelEvent& evt )
+		{
+			mouse_wheel_events.push(evt);
+		}
+		
+		void OgreSeparateThreadCEGuiContext::flushInputEvents()
+		{
+			{
+				IO::MouseWheelEvent evt;
+				while(mouse_wheel_events.try_pop(evt))
+				{
+					OgreCEGuiContext::onMouseWheelEvent(evt);
+				}
+			}
+			{
+				IO::MouseButtonEvent evt;
+				while(mouse_button_events.try_pop(evt))
+				{
+					OgreCEGuiContext::onMouseButtonEvent(evt);
+				}
+			}
+			{
+				IO::MouseMovedEvent evt;
+				while(mouse_moved_events.try_pop(evt))
+				{
+					OgreCEGuiContext::onMouseMoveEvent(evt);
+				}
+			}
+			{
+				IO::KeyboardEvent evt;
+				while(keyboard_events.try_pop(evt))
+				{
+					OgreCEGuiContext::onKeyboardEvent(evt);
+				}
+			}
+		}
+		
 	}
 }

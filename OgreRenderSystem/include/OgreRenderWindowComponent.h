@@ -59,6 +59,8 @@ namespace UnknownEngine
 			Core::ComponentInterfacePtr<ComponentInterfaces::GUIWindowComponent> parent_window;
 			
 			Utils::ConcurrentSet<ComponentInterfaces::IRenderWindowEventsListener*> render_events_listeners;
+			ComponentInterfaces::IRenderWindowEventsListener* current_listener;
+			ComponentInterfaces::IRenderWindowEventsListener* removing_listener;
 		};
 	}
 }

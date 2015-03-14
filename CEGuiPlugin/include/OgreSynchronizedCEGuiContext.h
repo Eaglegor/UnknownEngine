@@ -1,7 +1,6 @@
 #pragma once
 
 #include <OgreCEGuiContext.h>
-#include <lmconfig.h>
 #include <ComponentInterfaces/RenderSystem/IRenderWindowEventsListener.h>
 
 namespace CEGUI

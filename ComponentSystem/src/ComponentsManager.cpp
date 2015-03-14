@@ -247,7 +247,7 @@ namespace UnknownEngine
 		void ComponentsManager::waitUntilAllComponentsReleased()
 		{
 			std::unique_lock<LockPrimitive> guard(lock);
-			const std::chrono::seconds RELEASE_WARNING_TIMEOUT(10);
+			const std::chrono::seconds RELEASE_WARNING_TIMEOUT(1);
 			while(!components.empty())
 			{
 				LOG_INFO(logger, "Waiting until all components are destroyed. Remaining components: " + std::to_string(components.size()));

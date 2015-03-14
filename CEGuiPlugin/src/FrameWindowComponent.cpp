@@ -6,8 +6,8 @@ namespace UnknownEngine
 {
 	namespace GUI
 	{
-		FrameWindowComponent::FrameWindowComponent(const char* name, const FrameWindowDesc &desc) : 
-		BaseComponent(name),
+		FrameWindowComponent::FrameWindowComponent(const char* name, const FrameWindowDesc &desc, ICEGuiContext* context) : 
+		BaseCEGuiComponent(name, context),
 		desc(desc),
 		window(nullptr),
 		parent_widget(desc.parent_window),
@@ -15,12 +15,16 @@ namespace UnknownEngine
 		{
 		}
 
-		bool FrameWindowComponent::init()
+		FrameWindowComponent::~FrameWindowComponent()
+		{
+		}
+		
+		void FrameWindowComponent::internalInit()
 		{
 			if(!parent_widget)
 			{
 				LOG_ERROR(logger, "No parent window provided. Can't create component");
-				return false;
+				return;
 			}
 			
 			CEGUI::WindowManager& mgr = CEGUI::WindowManager::getSingleton();
@@ -29,17 +33,16 @@ namespace UnknownEngine
 			if(!window)
 			{
 				LOG_ERROR(logger, "Failed to initialize frame window");
-				return false;
+				return;
 			}
 			
 			window->setText(desc.window_caption.c_str());
 			
 			parent_widget->addChild(this);
 			
-			return true;
 		}
 
-		void FrameWindowComponent::shutdown()
+		void FrameWindowComponent::internalShutdown()
 		{
 			if(window)
 			{
@@ -51,6 +54,11 @@ namespace UnknownEngine
 			}
 		}
 
+		CEGUI::Window* FrameWindowComponent::getCEGuiWindow()
+		{
+			return window;
+		}
+		
 		void FrameWindowComponent::addChild ( ComponentInterfaces::CEGuiWidgetComponent* child )
 		{
 			window->addChild(child->getCEGuiWindow());
@@ -61,10 +69,9 @@ namespace UnknownEngine
 			window->removeChild(child->getCEGuiWindow()->getID());
 		}
 
-		CEGUI::Window* FrameWindowComponent::getCEGuiWindow()
+		void FrameWindowComponent::_update()
 		{
-			return window;
 		}
-
+		
 	}
 }

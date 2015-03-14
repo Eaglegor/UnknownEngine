@@ -13,7 +13,7 @@ namespace UnknownEngine
 		public:
 			BaseCEGuiComponent(const char* name, ICEGuiContext* context):
 			Core::BaseComponent(name),
-			state(CREATION),
+			state(State::CREATION),
 			context(context)
 			{}
 
@@ -42,6 +42,7 @@ namespace UnknownEngine
 			virtual void _shutdown() final
 			{
 				internalShutdown();
+				state = State::DESTRUCTION;
 			}
 
 			virtual void _update() = 0;
@@ -54,7 +55,6 @@ namespace UnknownEngine
 			virtual void startDestruction(DestructionCallback destruction_callback)
 			{
 				this->destruction_callback = destruction_callback;
-				state = State::DESTRUCTION;
 				context->destroyComponent(this);
 			}
 

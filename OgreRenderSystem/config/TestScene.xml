@@ -32,7 +32,7 @@
 				</options_section>
 			</component>
 			
-			<component name="OgreRenderSubsystem" type="Ogre.SingleThreadRenderSubsystem">
+			<component name="OgreRenderSubsystem" type="Ogre.SeparateThreadRenderSubsystem">
 				
 				<options_section>
 					<option name="log_level" value="${global_log_level}"/>
@@ -97,7 +97,7 @@
 			</component>
 			
 			
-			<component name="HUD" type="CEGui.SynchronizedOgreContext">
+			<component name="HUD" type="CEGui.SeparateThreadOgreContext">
 				<options_section>
 					<option name="render_window" value="System.OgreRenderWindow"/>
 					<option name="log_level" value="info"/>

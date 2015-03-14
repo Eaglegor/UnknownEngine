@@ -29,6 +29,12 @@ namespace UnknownEngine
 				internal_queue.push(value);
 			}
 			
+			size_t size()
+			{
+				std::lock_guard<LockPrimitive> guard(lock);
+				return internal_queue.size();
+			}
+			
 		private:
 			std::queue<T> internal_queue;
 			LockPrimitive lock;

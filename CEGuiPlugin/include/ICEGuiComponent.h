@@ -30,6 +30,8 @@ namespace UnknownEngine
 
 			typedef std::function<void(Core::IComponent*)> DestructionCallback;
 			virtual void startDestruction (DestructionCallback destruction_callback) = 0;
+			
+			virtual ~ICEGuiComponent() {}
 		};
 	}
 }
