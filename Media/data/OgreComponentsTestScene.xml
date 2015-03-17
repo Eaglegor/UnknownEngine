@@ -1,0 +1,521 @@
+<scene>
+
+	<constant name="global_log_level" value="warning"/>
+
+	<subsystems>
+		<subsystem name="WindowManager" module="SDLWindowManagerPlugin">
+			
+			<messaging_rules>
+				
+				<listener>
+					<message type="Engine.MainLoop.UpdateFrameMessage"/>
+					<message type="Graphics.GUI.GetWindowHandleMessage"/>
+				</listener>
+				
+				<sender>
+					<message type="IO.KeyStateChanged"/>
+					<message type="IO.MouseMoved"/>
+					<message type="IO.MouseWheelMoved"/>
+					<message type="IO.MouseButtonStateChanged"/>
+					<message type="Engine.MainLoop.UpdateFrameMessage"/>
+					<message type="Utils.LogMessage"/>
+				</sender>
+				
+			</messaging_rules>
+
+			<options_section>
+				<options_section name="RenderWindow">
+					<option name="width" value="800"/>
+					<option name="height" value="600"/>
+					<option name="window_name" value="TestWindow"/>
+					<option name="window_title" value="Test render window"/>
+					<option name="fullscreen" value="false"/>
+					<option name="resizable" value="false"/>
+				</options_section>
+			</options_section>
+			
+		</subsystem>
+		
+		<subsystem name="Graphics" module="OgreRenderSystem">
+		
+			<dependencies>
+				<dependency>UserInput</dependency>
+			</dependencies>
+		
+			<messaging_rules>
+				
+				<listener>
+					<message type="Engine.MainLoop.UpdateFrameMessage">
+						<receive_policy type="FromSingleSender">
+							<options_section>
+								<option name="sender_name" value="Engine"/>
+							</options_section>
+						</receive_policy>
+					</message>
+				</listener>
+			
+				<sender>
+					<message type="Graphics.GUI.GetWindowHandleMessage"/>
+					<message type="Utils.LogMessage"/>
+				</sender>
+				
+			</messaging_rules>
+		
+			<options_section>
+				
+				<option name="log_level" value="${global_log_level}"/>
+
+				<option name="separate_rendering_thread" value="true"/>
+				
+				<options_section name="RenderWindow">
+
+					<option name="window_name" value="TestWindow"/>
+					<option name="window_title" value="ParserTestWindowTitle"/>
+					<option name="window_type" value="external"/>
+					
+					<option name="width" value="1024"/>
+					<option name="height" value="768"/>
+					
+					<options_section name="window_flags">
+						<option name="fullscreen" value="false"/>
+					</options_section>
+					
+				</options_section>
+				
+				<options_section name="ConfigFiles">
+					<option name="ogre_plugins_filename" value="plugins.cfg"/>
+					<option name="ogre_log_filename" value="Ogre.log"/>
+					<option name="ogre_config_filename" value="ogre.cfg"/>
+					<option name="ogre_resources_filename" value="resources.cfg"/>
+				</options_section>
+				
+				<option name="update_frame_provider_name" value="Engine.MainLoop"/>
+				
+			</options_section>
+			
+		</subsystem>
+		
+		<subsystem name="MeshDataLoader" module="AssimpMeshDataLoader"/>
+		
+		<subsystem name="InputContext" module="InputContextMapper">
+			
+			<options_section>
+				<option name="log_level" value="${global_log_level}"/>
+				<option name="action_slots_config_file" value="InputContextMapperConfig/ActionSlots.xml"/>
+				<option name="input_layout_config_file" value="InputContextMapperConfig/InputLayout.cfg"/>
+				<option name="update_frame_provider_name" value="Engine.MainLoop"/>
+			</options_section>
+			
+			<messaging_rules>
+				
+				<listener>
+					<message type="Engine.MainLoop.UpdateFrameMessage"/>
+					<message type="IO.KeyStateChanged"/>
+					<message type="IO.MouseMoved"/>
+					<message type="IO.MouseWheelMoved"/>
+					<message type="IO.MouseButtonStateChanged"/>
+					<message type="IO.InputContext.AddSimpleActionMessage"/>
+					<message type="IO.InputContext.AddRangeActionMessage"/>
+				</listener>
+				
+				<sender>
+					<message type="Utils.LogMessage"/>
+				</sender>
+				
+			</messaging_rules>
+		</subsystem>
+		
+		<subsystem name="SimpleBehavior" module="SimpleBehaviorPlugin">
+			
+			<messaging_rules>
+				<listener>
+					<message type="Engine.MainLoop.UpdateFrameMessage"/>
+				</listener>
+				
+				<sender>
+					<message type="Engine.StopEngineActionMessage"/>
+					<message type="IO.InputContext.AddSimpleActionMessage"/>
+					<message type="Utils.LogMessage"/>
+				</sender>
+			</messaging_rules>
+			
+		</subsystem>
+		
+		<subsystem name="Physics" module="PhysXPlugin">
+			<messaging_rules>
+				<listener>
+					<message type="Engine.MainLoop.UpdateFrameMessage"/>
+				</listener>
+				<sender>
+					<message type="Utils.LogMessage"/>
+				</sender>
+			</messaging_rules>
+			
+			<options_section>
+				<option name="gravity" value="Vector3(x:0, y:-9.8, z:0)"/>
+				<option name="log_level" value="${global_log_level}"/>
+				<option name="enable_profiling" value="false"/>
+				<option name="enable_hardware" value="false"/>
+				<option name="update_frame_provider_name" value="Engine.MainLoop"/>
+			</options_section>
+		</subsystem>
+		
+	</subsystems>
+
+	<entities>
+
+		<entity name="MainCamera">
+		
+			<component name="Rotation" type="Behavior.MouseLook">
+				
+				<messaging_rules>
+					<sender>
+						<message type="IO.InputContext.AddRangeActionMessage"/>
+						<message type="IO.InputContext.AddSimpleActionMessage"/>
+						<message type="Engine.TransformChangedMessage"/>
+						<message type="Utils.LogMessage"/>
+					</sender>
+				</messaging_rules>
+				
+				<options_section>
+					<option name="input_context_name" value="MouseLook"/>
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:0, y:10, z:50)"/>
+					</options_section>
+					<option name="update_frame_provider_name" value="Engine.MainLoop"/>
+				</options_section>
+			</component>
+			
+			<component type="Graphics.Camera" name="Camera">
+				
+				<messaging_rules>
+					
+					<listener>
+						<message type="Engine.TransformChangedMessage">
+							<receive_policy type="FromSingleSender">
+								<options_section>
+									<option name="sender_name" value="MainCamera.Rotation"/>
+								</options_section>
+							</receive_policy>
+						</message>
+					</listener>
+					
+					<sender>
+						<message type="Utils.LogMessage"/>
+					</sender>
+					
+				</messaging_rules>
+				
+				<options_section>
+					
+					<option name="render_window_name" value="TestWindow"/>
+					<option name="log_level" value="${global_log_level}"/>
+					<option name="near_clip_distance" value="0.0001"/>
+					
+					<options_section name="InitialTransform">
+						<option name="initial_direction" value="Vector3(x:0, y:0, z:-50)"/>
+					</options_section>
+					
+				</options_section>
+					
+			</component>
+			
+			
+			<component name="LightComponentS" type="Graphics.Light.Spot">
+
+				<messaging_rules>
+					<listener>
+						<message type="Engine.TransformChangedMessage">
+							<receive_policy type="FromSingleSender">
+								<options_section>
+									<option name="sender_name" value="MainCamera.Rotation"/>
+								</options_section>
+							</receive_policy>
+						</message>
+					</listener>
+					<sender>
+						<message type="Utils.LogMessage"/>
+					</sender>
+				</messaging_rules>
+			
+				<options_section>
+					
+					<options_section name="InitialTransform">
+						<option name="initial_direction" value="Vector3(x:0, y:0, z:-50)"/>
+					</options_section>
+					
+					<option name="log_level" value="${global_log_level}"/>
+					
+					<options_section name="LightSettings">
+						<option name="intensity" value="1"/>
+						<option name="diffuse_color" value="Colour(r:1, g:1, b:1)"/>
+						<option name="specular_color" value="Colour(r:1, g:1, b:1)"/>
+						<option name="spotlight_inner_angle" value="5"/>
+						<option name="spotlight_outer_angle" value="20"/>
+					</options_section>
+
+				</options_section>
+			</component>
+			
+			
+		</entity>
+
+		<data_provider name="TeapotMesh" type="Loader.MeshData.AssimpMeshDataLoader">
+			<options_section>
+				<option name="filename" value="media/models/teapot.obj"/>
+				<option name="log_level" value="${global_log_level}"/>
+				
+				<options_section name="Postprocessing">
+					<option name="generate_normals" value="true"/>
+				</options_section>
+					
+			</options_section>
+		</data_provider>
+		
+		<data_provider name="OgreAdaptedTeapotMesh" type="Loader.OgreMeshPtr.OgreMeshPtrFromMeshDataProvider">
+			<options_section>
+				<provided_data name="mesh_data_provider" data_provider_name="TeapotMesh"/>
+				<option name="log_level" value="${global_log_level}"/>
+			</options_section>
+		</data_provider>
+		
+		<data_provider name="CapsuleMesh" type="Loader.MeshData.AssimpMeshDataLoader">
+			<options_section>
+				<option name="filename" value="media/models/capsule.obj"/>
+				<option name="log_level" value="${global_log_level}"/>
+				
+				<options_section name="Postprocessing">
+					<option name="generate_tangents" value="true"/>
+				</options_section>
+					
+			</options_section>
+		</data_provider>
+		
+		<data_provider name="OgreAdaptedCapsuleMesh" type="Loader.OgreMeshPtr.OgreMeshPtrFromMeshDataProvider">
+			<options_section>
+				<provided_data name="mesh_data_provider" data_provider_name="CapsuleMesh"/>
+				<option name="log_level" value="${global_log_level}"/>
+			</options_section>
+		</data_provider>
+		
+		<data_provider name="SimpleMaterial" type="Loader.PxMaterial.PxMaterialDataProvider">
+			<options_section>
+				<option name="static_friction" value="1"/>
+				<option name="dynamic_friction" value="1"/>
+				<option name="restitution" value="1"/>
+			</options_section>
+		</data_provider>
+		
+		<data_provider name="SimpleBoxShape" type="Loader.PxShape.PxBoxShapeDataProvider">
+			<options_section>
+				<provided_data name="material" data_provider_name="SimpleMaterial"/>
+				<option name="width" value="0.2"/>
+				<option name="height" value="0.2"/>
+				<option name="depth" value="0.2"/>
+			</options_section>
+		</data_provider>
+		
+		<entity name="TestRenderable">
+			
+			<component name="Rotation" type="Behavior.SimpleRotation">
+				<messaging_rules>
+					<sender>
+						<message type="Engine.TransformChangedMessage"/>
+						<message type="Utils.LogMessage"/>
+					</sender>
+				</messaging_rules>
+				<options_section>
+					<option name="update_frame_provider_name" value="Engine.MainLoop"/>
+				</options_section>
+			</component>
+			
+			<component name="RigidBodyComponent" type="Physics.RigidBody">
+				
+				<messaging_rules>
+					<sender>
+						<message type="Utils.LogMessage"/>
+					</sender>
+				</messaging_rules>
+				
+				<options_section>
+					<provided_data name="shape" data_provider_name="SimpleBoxShape"/>
+					<option name="dynamics_type" value="dynamic"/>
+					<option name="mass" value="0.5"/>
+					
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:10, y:0, z:0)"/>
+					</options_section>
+					
+				</options_section>
+			</component>
+			
+			<component name="RenderableComponent" type="Graphics.Renderable">
+				
+				<messaging_rules>
+					<listener>
+						<message type="Engine.TransformChangedMessage">
+							<receive_policy type="FromSingleSender">
+								<options_section>
+									<option name="sender_name" value="TestRenderable.RigidBodyComponent"/>
+								</options_section>
+							</receive_policy>
+						</message>
+					</listener>
+					<sender>
+						<message type="Utils.LogMessage"/>
+					</sender>
+				</messaging_rules>
+				
+				<options_section>
+					
+					<option name="log_level" value="${global_log_level}"/>
+					
+					<option name="throw_exception_on_missing_mesh_data" value="true"/>
+					
+					<provided_data name="mesh_ptr_provider" data_provider_name="OgreAdaptedCapsuleMesh"/>
+					
+					<options_section name="Material">
+						<option name="material_name" value="NormalMap"/>
+					</options_section>
+					
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:10, y:0, z:0)"/>
+					</options_section>
+					
+				</options_section>
+			</component>
+		</entity>
+		
+		<entity name="TestRenderable2">
+		
+			<component name="RigidBodyComponent" type="Physics.RigidBody">
+				
+				<messaging_rules>
+					<sender>
+						<message type="Engine.TransformChangedMessage"/>
+						<message type="Utils.LogMessage"/>
+					</sender>
+				</messaging_rules>
+				
+				<options_section>
+					<provided_data name="shape" data_provider_name="SimpleBoxShape"/>
+					<option name="dynamics_type" value="static"/>
+					<option name="mass" value="0.5"/>
+					
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:-10, y:0, z:0)"/>
+					</options_section>
+					
+				</options_section>
+			</component>
+		
+			<component name="RenderableComponent" type="Graphics.Renderable">
+				
+				<messaging_rules>
+					<sender>
+						<message type="Utils.LogMessage"/>
+					</sender>
+				</messaging_rules>
+				
+				<options_section>
+					
+					<option name="log_level" value="${global_log_level}"/>
+					<option name="throw_exception_on_missing_mesh_data" value="true"/>
+					
+					<provided_data name="mesh_ptr_provider" data_provider_name="OgreAdaptedTeapotMesh"/>
+					
+					<options_section name="Material">
+						<option name="material_name" value="Simple"/>
+					</options_section>
+					
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:-10, y:0, z:0)"/>
+					</options_section>
+					
+				</options_section>
+			</component>
+			
+			<component name="Joint" type="Physics.Joint.Fixed">
+				
+				<messaging_rules>
+					<sender>
+						<message type="Utils.LogMessage"/>
+					</sender>
+				</messaging_rules>
+				
+				<options_section>
+					<option name="actor1_name" value="TestRenderable.RigidBodyComponent"/>
+					<option name="actor2_name" value="TestRenderable2.RigidBodyComponent"/>
+				</options_section>
+			</component>
+			
+		</entity>
+		
+		<entity name="LightEntity">
+		
+			<component name="LightComponentD" type="Graphics.Light.Directional">
+
+				<messaging_rules>
+					<listener>
+						<message type="Engine.TransformChangedMessage">
+							<receive_policy type="FromSingleSender">
+								<options_section>
+									<option name="sender_name" value="TestRenderable.Rotation"/>
+								</options_section>
+							</receive_policy>
+						</message>
+					</listener>
+					<sender>
+						<message type="Utils.LogMessage"/>
+					</sender>
+				</messaging_rules>
+			
+				<options_section>
+					
+					<option name="log_level" value="${global_log_level}"/>
+					
+					<options_section name="LightSettings">
+						<option name="intensity" value="1"/>
+						<option name="diffuse_color" value="Colour(r:0, g:1, b:0)"/>
+						<option name="specular_color" value="Colour(r:0, g:1, b:0)"/>
+					</options_section>
+					
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:10, y:0, z:100)"/>
+						<option name="initial_look_at" value="Vector3(x:-30, y:0, z:-50)"/>
+					</options_section>
+					
+				</options_section>
+			</component>
+			
+			<component name="LightComponentD2" type="Graphics.Light.Directional">
+				
+				<messaging_rules>
+					<sender>
+						<message type="Utils.LogMessage"/>
+					</sender>
+				</messaging_rules>
+				
+				<options_section>
+					
+					<option name="log_level" value="${global_log_level}"/>
+					
+					<options_section name="LightSettings">
+						<option name="intensity" value="1"/>
+						<option name="diffuse_color" value="Colour(r:0, g:0, b:1)"/>
+						<option name="specular_color" value="Colour(r:0, g:0, b:1)"/>
+					</options_section>
+					
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:-10, y:0, z:100)"/>
+						<option name="initial_look_at" value="Vector3(x:30, y:0, z:-50)"/>
+					</options_section>
+					
+				</options_section>
+			</component>
+			
+		</entity>
+		
+	</entities>
+	
+</scene>

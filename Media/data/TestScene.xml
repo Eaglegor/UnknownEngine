@@ -1,0 +1,541 @@
+<scene>
+
+	<constant name="global_log_level" value="warning"/>
+
+	<subsystems>
+		<subsystem name="WindowManager" module="SDLWindowManagerPlugin"/>
+		<subsystem name="Graphics" module="OgreRenderSystem"/>
+		<subsystem name="MeshDataLoader" module="AssimpMeshDataLoader"/>
+		<subsystem name="Physics" module="PhysXPlugin"/>
+		<subsystem name="InputContext" module="InputContextMapper"/>
+		<subsystem name="SimpleBehavior" module="SimpleBehaviorPlugin"/>
+		<subsystem name="Hardware" module="ESInstrumentHardwarePlugin"/>
+		<subsystem name="Algorithms" module="ESInstrumentAlgorithmsPlugin"/>
+		<subsystem name="GUI" module="CEGuiPlugin"/>
+	</subsystems>
+
+	<entities>
+
+		<entity name="System">
+			<component name="SDLWindowManager" type="SDL.WindowManager"/>
+			
+			<component name="SDLRenderWindow" type="SDL.Window">
+				<options_section>
+					<option name="log_level" value="${global_log_level}"/>
+					<option name="width" value="800"/>
+					<option name="height" value="600"/>
+					<option name="window_name" value="TestWindow"/>
+					<option name="window_title" value="Test render window"/>
+					<option name="fullscreen" value="false"/>
+					<option name="resizable" value="true"/>
+					<option name="update_frame_provider_name" value="Engine.MainLoop"/>
+				</options_section>
+			</component>
+			
+			<component name="OgreRenderSubsystem" type="Ogre.SeparateThreadRenderSubsystem">
+				
+				<options_section>
+					<option name="log_level" value="${global_log_level}"/>
+
+					<option name="update_frame_provider_name" value="Engine.MainLoop"/>
+					
+					<options_section name="ConfigFiles">
+						<option name="ogre_plugins_filename" value="plugins.cfg"/>
+						<option name="ogre_log_filename" value="Ogre.log"/>
+						<option name="ogre_config_filename" value="ogre.cfg"/>
+						<option name="ogre_resources_filename" value="resources.cfg"/>
+					</options_section>
+				
+				</options_section>				
+			</component>
+			
+			<component name="OgreRenderWindow" type="Ogre.RenderWindow">
+				
+				<options_section>
+					<option name="parent_window_component_name" value="System.SDLRenderWindow"/>
+					<option name="window_title" value="ParserTestWindowTitle"/>
+					<option name="window_type" value="parent"/>
+
+					<option name="width" value="800"/>
+					<option name="height" value="600"/>
+
+					<options_section name="window_flags">
+						<option name="fullscreen" value="false"/>
+					</options_section>				
+				</options_section>
+			</component>
+			
+			<component name="InputContextMapper" type="InputContextMapper">
+				<options_section>
+					<option name="log_level" value="${global_log_level}"/>
+					<option name="action_slots_config_file" value="InputContextMapperConfig/ActionSlots.xml"/>
+					<option name="input_layout_config_file" value="InputContextMapperConfig/InputLayout.cfg"/>
+					<option name="update_frame_provider_name" value="Engine.MainLoop"/>
+					<option name="keyboard_input_provider_name" value="System.SDLRenderWindow"/>
+					<option name="mouse_input_provider_name" value="System.SDLRenderWindow"/>
+					<option name="joystick_input_provider_name" value="System.SDLRenderWindow"/>
+				</options_section>
+			</component>
+			
+			<component name="EngineStopper" type="Behavior.SimpleStopper">
+				<options_section>
+					<option name="input_context_name" value="Generic"/>
+					<option name="action_name" value="StopEngine"/>
+					<option name="input_context_mapping_provider_name" value="System.InputContextMapper"/>
+					<option name="stoppable_component_name" value="Engine.Starter"/>
+				</options_section>
+			</component>
+			
+			<component name="Physics" type="PhysXSubsystem">
+				<options_section>
+					<option name="gravity" value="Vector3(x:0, y:-9.8, z:0)"/>
+					<option name="log_level" value="${global_log_level}"/>
+					<option name="enable_profiling" value="false"/>
+					<option name="enable_hardware" value="false"/>
+					<option name="update_frame_provider_name" value="Engine.MainLoop"/>
+				</options_section>
+			</component>
+			
+			
+			<component name="HUD" type="CEGui.SeparateThreadOgreContext">
+				<options_section>
+					<option name="render_window" value="System.OgreRenderWindow"/>
+					<option name="log_level" value="info"/>
+					<option name="mouse_handler" value="System.SDLRenderWindow"/>
+					<option name="keyboard_handler" value="System.SDLRenderWindow"/>
+				</options_section>
+			</component>
+			
+			<!--<component name="FrameWindow" type="CEGui.FrameWindowComponent">
+				<options_section>
+					<option name="parent_window" value="System.HUD"/>
+					<option name="log_level" value="info"/>
+					<option name="type" value="WindowsLook/FrameWindow"/>
+					<option name="title" value="Hello world!"/>
+				</options_section>
+			</component>-->
+			
+			<component name="FrameWindow" type="CEGUI.ConsoleWindow">
+				<options_section>
+					<option name="parent_window" value="System.HUD"/>
+					<option name="log_level" value="info"/>
+				</options_section>
+			</component>
+			
+		</entity>
+		
+		
+		<entity name="EndoscopicHardwareControllers">
+			<component name="Camera" type="Endoscopy.HardwareController"/>
+		</entity>
+		
+		<entity name="CameraInstrument">
+			<component name="PoseAlgorithm" type="Endoscopy.Algorithms.InstrumentPose">
+				<option name="hardware_controller" value="EndoscopicHardwareControllers.Camera"/>
+			</component>
+		</entity>
+		
+		<entity name="MasterScript">
+			<component name="MainModule" type="Behavior.AngelScript">
+				
+				<messaging_rules>
+					<listener>
+						<message type="Engine.MainLoop.UpdateFrameMessage"/>
+					</listener>
+					<sender>
+						<message type="Engine.StopEngineActionMessage"/>
+						<message type="Utils.LogMessage"/>
+					</sender>
+				</messaging_rules>
+				
+				<options_section>
+					<option name="script_filename" value="test.as"/>
+				</options_section>
+			</component>
+		</entity>
+	
+		<entity name="MainCamera">
+		
+			<component name="Rotation" type="Behavior.MouseLook">
+				
+				<messaging_rules>
+					<sender>
+						<message type="Engine.TransformChangedMessage"/>
+						<message type="IO.InputContext.AddSimpleActionMessage"/>
+						<message type="IO.InputContext.AddRangeActionMessage"/>
+					</sender>
+				</messaging_rules>
+				
+				<options_section>
+					<option name="input_context_name" value="MouseLook"/>
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:0, y:10, z:50)"/>
+					</options_section>
+					<option name="update_frame_provider_name" value="Engine.MainLoop"/>
+					<option name="input_context_mapping_provider_name" value="System.InputContextMapper"/>
+				</options_section>
+			</component>
+			
+			<component type="Ogre.Camera" name="Camera">
+
+				<options_section>
+					
+					<option name="render_window_name" value="System.OgreRenderWindow"/>
+					<option name="log_level" value="${global_log_level}"/>
+					<option name="far_clip_distance" value="100"/>
+					<option name="near_clip_distance" value="0.01"/>
+					
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:0, y:10, z:50)"/>
+						<option name="initial_direction" value="Vector3(x:0, y:0, z:-50)"/>
+					</options_section>
+					
+				</options_section>
+					
+			</component>
+					
+			<component name="CameraTransformProxy" type="Behavior.TransformProxyComponent">
+				<options_section>
+					<!--<option name="transform_provider" value="CameraInstrument.PoseAlgorithm"/>-->
+					<option name="transform_provider" value="MainCamera.Rotation"/>
+					<option name="transform_receiver" value="MainCamera.Camera"/>
+				</options_section>
+			</component>
+			
+			<component name="LightComponentS" type="Ogre.SpotLight">
+
+				<messaging_rules><listener>
+					<message type="Engine.TransformChangedMessage">
+						<receive_policy type="FromSingleSender">
+							<options_section>
+								<option name="sender_name" value="MainCamera.Rotation"/>
+							</options_section>
+						</receive_policy>
+					</message>
+				</listener></messaging_rules>
+			
+				<options_section>
+					
+					<options_section name="InitialTransform">
+						<option name="initial_direction" value="Vector3(x:0, y:0, z:-50)"/>
+					</options_section>
+					
+					<option name="transform_provider_name" value="MainCamera.Rotation"/>
+					
+					<option name="log_level" value="${global_log_level}"/>
+					
+					<options_section name="LightSettings">
+						<option name="intensity" value="1"/>
+						<option name="diffuse_color" value="Colour(r:1, g:1, b:1)"/>
+						<option name="specular_color" value="Colour(r:1, g:1, b:1)"/>
+						<option name="spotlight_inner_angle" value="5"/>
+						<option name="spotlight_outer_angle" value="20"/>
+					</options_section>
+
+				</options_section>
+			</component>
+						
+		</entity>
+
+			
+		<entity name="Lighting">
+			
+			<component name="LightComponentD" type="Ogre.DirectionalLight">
+			
+				<options_section>
+					
+					<options_section name="InitialTransform">
+						<option name="initial_direction" value="Vector3(x:0, y:-50, z:-50)"/>
+					</options_section>
+					
+					<option name="log_level" value="${global_log_level}"/>
+					
+					<!--<option name="transform_provider_name" value="MainCamera.Rotation"/>-->
+					
+					<options_section name="LightSettings">
+						<option name="intensity" value="1"/>
+						<option name="diffuse_color" value="Colour(r:1, g:1, b:1)"/>
+						<option name="specular_color" value="Colour(r:1, g:1, b:1)"/>
+					</options_section>
+
+				</options_section>
+			</component>
+
+		</entity>
+		
+		<data_provider name="CubeMesh" type="Loader.MeshData.AssimpMeshDataLoader">
+			<options_section>
+				<option name="filename" value="media/models/Cube.obj"/>
+				<option name="log_level" value="${global_log_level}"/>
+				
+				<options_section name="Postprocessing">
+					<option name="generate_tangents" value="true"/>
+					<option name="generate_normals" value="true"/>
+					<option name="triangulate" value="true"/>
+				</options_section>
+				
+			</options_section>
+		</data_provider>
+			
+		<data_provider name="FloorMesh" type="Loader.MeshData.AssimpMeshDataLoader">
+			<options_section>
+				<option name="filename" value="media/models/Floor.obj"/>
+				<option name="log_level" value="${global_log_level}"/>
+				
+				<options_section name="Postprocessing">
+					<option name="generate_tangents" value="true"/>
+					<option name="generate_normals" value="true"/>
+					<option name="triangulate" value="true"/>
+				</options_section>
+				
+			</options_section>
+		</data_provider>
+		
+		<data_provider name="HalfSphereMesh" type="Loader.MeshData.AssimpMeshDataLoader">
+			<options_section>
+				<option name="filename" value="media/models/HalfSphere.obj"/>
+				<option name="log_level" value="${global_log_level}"/>
+				
+				<options_section name="Postprocessing">
+					<option name="generate_tangents" value="true"/>
+					<option name="generate_normals" value="true"/>
+					<option name="triangulate" value="true"/>
+				</options_section>
+				
+			</options_section>
+		</data_provider>
+
+		<data_provider name="OgreCubeMesh" type="Loader.OgreMeshPtr.OgreMeshPtrFromMeshDataProvider">
+			<options_section>
+				<provided_data name="mesh_data_provider" data_provider_name="CubeMesh"/>
+				<option name="log_level" value="${global_log_level}"/>
+			</options_section>
+		</data_provider>
+		
+		<data_provider name="OgreFloorMesh" type="Loader.OgreMeshPtr.OgreMeshPtrFromMeshDataProvider">
+			<options_section>
+				<provided_data name="mesh_data_provider" data_provider_name="FloorMesh"/>
+				<option name="log_level" value="${global_log_level}"/>
+			</options_section>
+		</data_provider>
+		
+		<data_provider name="OgreHalfSphereMesh" type="Loader.OgreMeshPtr.OgreMeshPtrFromMeshDataProvider">
+			<options_section>
+				<provided_data name="mesh_data_provider" data_provider_name="HalfSphereMesh"/>
+				<option name="log_level" value="${global_log_level}"/>
+			</options_section>
+		</data_provider>
+		
+		<data_provider name="DefaultPhysicsMaterial" type="Loader.PxMaterial.PxMaterialDataProvider">
+			<options_section>
+				<option name="static_friction" value="1"/>
+				<option name="dynamic_friction" value="1"/>
+				<option name="restitution" value="0.1"/>
+			</options_section>
+		</data_provider>
+		
+		<data_provider name="CubeShape" type="Loader.PxShape.PxBoxShapeDataProvider">
+			<options_section>
+				<provided_data name="material" data_provider_name="DefaultPhysicsMaterial"/>
+				<option name="width" value="1"/>
+				<option name="height" value="1"/>
+				<option name="depth" value="1"/>
+			</options_section>
+		</data_provider>
+		
+		<data_provider name="FloorShape" type="Loader.PxShape.PxBoxShapeDataProvider">
+			<options_section>
+				<provided_data name="material" data_provider_name="DefaultPhysicsMaterial"/>
+				<option name="width" value="50"/>
+				<option name="height" value="0.5"/>
+				<option name="depth" value="50"/>
+			</options_section>
+		</data_provider>
+		
+		
+		<entity name="Floor">
+			
+			<component name="RigidBodyComponent" type="PhysX.RigidBody">
+				<options_section>
+					<provided_data name="shape" data_provider_name="FloorShape"/>
+					<option name="dynamics_type" value="static"/>
+					<option name="mass" value="1"/>
+				</options_section>
+			</component>
+			
+			<component name="Graphics" type="Ogre.Renderable">
+				<options_section>
+					
+					<option name="log_level" value="${global_log_level}"/>
+					<option name="throw_exception_on_missing_mesh_data" value="true"/>
+					
+					<provided_data name="mesh_ptr_provider" data_provider_name="OgreFloorMesh"/>
+					<option name="transform_provider_name" value="Floor.RigidBodyComponent"/>
+					
+					<options_section name="Material">
+						<option name="material_name" value="FloorMaterial"/>
+					</options_section>
+					
+				</options_section>
+			</component>
+			
+		</entity>
+		
+		
+		<entity name="PassiveCube">
+			
+			<component name="RigidBodyComponent" type="PhysX.RigidBody">
+				
+				<messaging_rules>
+					<sender>
+						<message type="Engine.TransformChangedMessage"/>
+					</sender>
+				</messaging_rules>
+				
+				<options_section>
+					<provided_data name="shape" data_provider_name="CubeShape"/>
+					<option name="dynamics_type" value="dynamic"/>
+					<option name="mass" value="10"/>
+					
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:-10, y:10, z:0)"/>
+					</options_section>
+					
+				</options_section>
+			</component>
+			
+			<component name="Graphics" type="Ogre.Renderable">
+				
+				<messaging_rules><listener>
+					<message type="Engine.TransformChangedMessage">
+						<receive_policy type="FromSingleSender">
+							<options_section>
+								<option name="sender_name" value="PassiveCube.RigidBodyComponent"/>
+							</options_section>
+						</receive_policy>
+					</message>
+					<message type="Graphics.ChangeMaterialActionMessage">
+						<receive_policy type="FromSingleSender">
+							<options_section>
+								<option name="sender_name" value="ActiveCube.JointComponent"/>
+							</options_section>
+						</receive_policy>
+					</message>
+				</listener></messaging_rules>
+				
+				<options_section>
+					
+					<option name="log_level" value="${global_log_level}"/>
+					<option name="throw_exception_on_missing_mesh_data" value="true"/>
+					
+					<provided_data name="mesh_ptr_provider" data_provider_name="OgreCubeMesh"/>
+					
+					<option name="transform_provider_name" value="PassiveCube.RigidBodyComponent"/>
+					<options_section name="Material">
+						<option name="material_name" value="NormalMap"/>
+					</options_section>
+					
+				</options_section>
+			</component>
+						
+		</entity>
+		
+		
+		<entity name="ActiveCube">
+			
+			<component name="AxisMovement" type="Behavior.MouseLook">
+				
+				<messaging_rules>
+					<sender>
+						<message type="IO.InputContext.AddSimpleActionMessage"/>
+						<message type="Engine.TransformChangedMessage"/>
+					</sender>
+				</messaging_rules>
+				
+				<options_section>
+					<option name="input_context_name" value="CubeControl"/>
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:10, y:10, z:0)"/>
+					</options_section>
+					<option name="update_frame_provider_name" value="Engine.MainLoop"/>
+					<option name="input_context_mapping_provider_name" value="System.InputContextMapper"/>
+				</options_section>
+			</component>
+			
+			<component name="RigidBodyComponent" type="PhysX.RigidBody">
+				<options_section>
+					<provided_data name="shape" data_provider_name="CubeShape"/>
+					<option name="dynamics_type" value="kinematic"/>
+					<option name="mass" value="1"/>
+					
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:10, y:10, z:0)"/>
+					</options_section>
+				</options_section>
+			</component>
+			
+			<component name="TransformProxy" type="Behavior.TransformProxyComponent">
+				<options_section>
+					<option name="transform_provider" value="ActiveCube.AxisMovement"/>
+					<option name="transform_receiver" value="ActiveCube.RigidBodyComponent"/>
+				</options_section>
+			</component>
+			
+			<component name="Graphics" type="Ogre.Renderable">
+				<options_section>
+					
+					<option name="log_level" value="${global_log_level}"/>
+					<option name="throw_exception_on_missing_mesh_data" value="true"/>
+					
+					<provided_data name="mesh_ptr_provider" data_provider_name="OgreCubeMesh"/>
+					
+					<option name="transform_provider_name" value="ActiveCube.RigidBodyComponent"/>
+					
+					<options_section name="Material">
+						<option name="material_name" value="ActiveCubeMaterial"/>
+					</options_section>
+					
+					<options_section name="InitialTransform">
+						<option name="position" value="Vector3(x:10, y:10, z:0)"/>
+					</options_section>
+					
+				</options_section>
+			</component>
+			
+			<component name="JointComponent" type="Behavior.SimpleCreateJoint">
+				<options_section>
+					<option name="body1_name" value="ActiveCube.RigidBodyComponent"/>
+					<option name="body2_name" value="PassiveCube.RigidBodyComponent"/>
+					<option name="input_context_name" value="TestCreateJoint"/>
+					<option name="jointed_material_name" value="ActiveCubeMaterial"/>
+					<option name="free_material_name" value="NormalMap"/>
+					<option name="input_context_mapper" value="System.InputContextMapper"/>
+					<option name="renderable_component" value="PassiveCube.Graphics"/>
+					
+				</options_section>
+			</component>
+						
+		</entity>
+		
+		<entity name="HalfSphere">
+			
+			<component name="Graphics" type="Ogre.Renderable">
+				<options_section>
+					
+					<option name="log_level" value="${global_log_level}"/>
+					<option name="throw_exception_on_missing_mesh_data" value="true"/>
+					
+					<provided_data name="mesh_ptr_provider" data_provider_name="OgreHalfSphereMesh"/>
+					
+					<options_section name="Material">
+						<option name="material_name" value="FloorMaterial"/>
+					</options_section>
+					
+				</options_section>
+			</component>
+						
+		</entity>
+		
+	</entities>
+	
+</scene>
