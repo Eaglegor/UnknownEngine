@@ -9,6 +9,7 @@ namespace UnknownEngine
 	{
 		class ConsoleOutputStream : public Core::IComponentInterface
 		{
+		public:
 			constexpr static const char* getType(){return "ConsoleOutputStream";}
 			
 			virtual ConsoleOutputStream& operator<<(const char* text) = 0;

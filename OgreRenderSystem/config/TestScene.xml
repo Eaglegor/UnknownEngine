@@ -106,12 +106,19 @@
 				</options_section>
 			</component>
 			
-			<component name="FrameWindow" type="CEGui.FrameWindowComponent">
+			<!--<component name="FrameWindow" type="CEGui.FrameWindowComponent">
 				<options_section>
 					<option name="parent_window" value="System.HUD"/>
 					<option name="log_level" value="info"/>
 					<option name="type" value="WindowsLook/FrameWindow"/>
 					<option name="title" value="Hello world!"/>
+				</options_section>
+			</component>-->
+			
+			<component name="FrameWindow" type="CEGUI.ConsoleWindow">
+				<options_section>
+					<option name="parent_window" value="System.HUD"/>
+					<option name="log_level" value="info"/>
 				</options_section>
 			</component>
 			

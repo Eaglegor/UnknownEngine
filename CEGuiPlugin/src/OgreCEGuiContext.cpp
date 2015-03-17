@@ -112,6 +112,7 @@ namespace UnknownEngine
 				case IO::KeyState::KEY_PRESSED:
 				{
 					CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyDown(ScanCodeConverter::toCeguiScancode(evt.key));
+					CEGUI::System::getSingleton().getDefaultGUIContext().injectChar (evt.character);
 					break;
 				}
 				case IO::KeyState::KEY_UNPRESSED:

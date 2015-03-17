@@ -9,6 +9,7 @@ namespace UnknownEngine
 	{
 		class ConsoleCommandHandler : public Core::IComponentInterface
 		{
+		public:
 			constexpr static const char* getType(){return "ConsoleCommandHandler";}
 			
 			virtual void onConsoleCommand(const char* command, ConsoleOutputStream& ostream) = 0;

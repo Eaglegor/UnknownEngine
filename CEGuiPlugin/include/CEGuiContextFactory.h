@@ -28,6 +28,9 @@ namespace UnknownEngine
 			Core::IComponent* createFrameWindow(const Core::ComponentDesc &desc);
 			void destroyFrameWindow(Core::IComponent* component);
 			
+			Core::IComponent* createConsoleWindow(const Core::ComponentDesc &desc);
+			void destroyConsoleWindow(Core::IComponent* component);
+			
 			ICEGuiContext* context;
 		};
 	}

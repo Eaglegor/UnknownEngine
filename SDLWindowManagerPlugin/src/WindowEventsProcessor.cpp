@@ -51,6 +51,7 @@ namespace UnknownEngine
 						
 						evt.key = keys_converter.getUnknownEngineKey(event.key.keysym.sym);
 						evt.new_state = (event.type == SDL_KEYDOWN ? IO::KeyState::KEY_PRESSED : IO::KeyState::KEY_UNPRESSED);
+						evt.character = event.key.keysym.sym;
 						
 						for(ComponentInterfaces::IKeyboardEventsListener* listener : keyboard_events_listeners)
 						{

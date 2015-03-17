@@ -2,6 +2,7 @@
 
 #include <ComponentSystem/IComponentInterface.h>
 #include <ComponentInterfaces/GUI/Common/Console/ConsoleCommandHandler.h>
+#include <ComponentInterfaces/GUI/Common/Console/ConsoleOutputStream.h>
 
 namespace UnknownEngine
 {
@@ -14,7 +15,7 @@ namespace UnknownEngine
 			virtual void addCommandHandler(const char* command, ConsoleCommandHandler* handler) = 0;
 			virtual void removeCommandHandler(const char* command, ConsoleCommandHandler* handler) = 0;
 			
-			virtual void appendText(const char* text) = 0;
+			virtual ConsoleOutputStream& getOutputStream() = 0;
 		};
 	}
 }
