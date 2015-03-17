@@ -138,7 +138,7 @@ namespace UnknownEngine {
 		void ResourceManager::waitUntilAllDataProvidersReleased()
 		{
 			std::unique_lock<LockPrimitive> guard(data_providers_mutex);
-			const std::chrono::seconds RELEASE_WARNING_TIMEOUT(10);
+			const std::chrono::seconds RELEASE_WARNING_TIMEOUT(1);
 			while(!data_providers.empty())
 			{
 				LOG_INFO(logger, "Waiting until all data providers are released. Remaining unreleased data providers: " + std::to_string(data_providers.size()));

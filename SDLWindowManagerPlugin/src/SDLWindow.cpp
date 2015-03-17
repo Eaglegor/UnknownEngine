@@ -75,10 +75,10 @@ namespace UnknownEngine
 		
 		Core::IComponentInterface* SDLWindow::getInterface ( const Core::ComponentType& type )
 		{
-			if(type == ComponentInterfaces::GUIWindowComponent::getTypeName()) return static_cast<ComponentInterfaces::GUIWindowComponent*>(this);
-			if(type == ComponentInterfaces::IMouseHandler::getTypeName()) return static_cast<ComponentInterfaces::IMouseHandler*>(this);
-			if(type == ComponentInterfaces::IKeyboardHandler::getTypeName()) return static_cast<ComponentInterfaces::IKeyboardHandler*>(this);
-			if(type == ComponentInterfaces::IJoystickHandler::getTypeName()) return static_cast<ComponentInterfaces::IJoystickHandler*>(this);
+			if(type == ComponentInterfaces::GUIWindowComponent::getType()) return static_cast<ComponentInterfaces::GUIWindowComponent*>(this);
+			if(type == ComponentInterfaces::IMouseHandler::getType()) return static_cast<ComponentInterfaces::IMouseHandler*>(this);
+			if(type == ComponentInterfaces::IKeyboardHandler::getType()) return static_cast<ComponentInterfaces::IKeyboardHandler*>(this);
+			if(type == ComponentInterfaces::IJoystickHandler::getType()) return static_cast<ComponentInterfaces::IJoystickHandler*>(this);
 			return nullptr;
 		}
 

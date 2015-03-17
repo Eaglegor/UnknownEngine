@@ -9,7 +9,7 @@ namespace UnknownEngine
 		class IKeyboardEventsListener : public Core::IComponentInterface
 		{
 		public:
-			constexpr static const char* getTypeName(){return "IKeyboardEventsListener";}
+			constexpr static const char* getType(){return "IKeyboardEventsListener";}
 			
 			virtual void onKeyboardEvent(const IO::KeyboardEvent &evt) = 0;
 		};

@@ -1,16 +1,16 @@
 #pragma once
 
-#include <ComponentSystem/IComponentInterface.h>
 #include <OgreRenderWindow.h>
+#include <ComponentInterfaces/RenderSystem/IRenderWindowComponent.h>
 
 namespace UnknownEngine
 {
 	namespace ComponentInterfaces
 	{
-		class IOgreRenderWindowComponent : public Core::IComponentInterface
+		class IOgreRenderWindowComponent : public IRenderWindowComponent
 		{
 		public:
-			constexpr static const char* getTypeName(){return "OgreRenderWindowComponent";}
+			constexpr static const char* getType(){return "IOgreRenderWindowComponent";}
 			
 			virtual Ogre::RenderWindow* getOgreRenderWindow() = 0;
 		};

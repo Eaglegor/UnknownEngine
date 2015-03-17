@@ -9,7 +9,7 @@ namespace UnknownEngine
 		public:
 			virtual ~IComponentInterface(){}
 			
-			constexpr static const char* getTypeName()
+			constexpr static const char* getType()
 			{
 				return "UnknownComponentInterface";
 			}

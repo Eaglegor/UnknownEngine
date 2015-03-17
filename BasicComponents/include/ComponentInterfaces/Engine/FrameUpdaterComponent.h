@@ -10,9 +10,9 @@ namespace UnknownEngine
 		class FrameUpdaterComponent : public Core::IComponentInterface
 		{
 			public:
-				constexpr static const char* getTypeName()
+				constexpr static const char* getType()
 				{
-					return "Interface.FrameUpdaterComponent";
+					return "FrameUpdaterComponent";
 				}
 
 				virtual void addListener(UpdateFrameListenerComponent* listener) = 0;

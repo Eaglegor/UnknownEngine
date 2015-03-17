@@ -25,14 +25,19 @@ namespace UnknownEngine
 			virtual bool supportsType ( const ComponentType& object_type ) const override;
 			
 		protected:
+			typedef std::function< IComponent* (const ComponentDesc&) > CreationFunctor;
+			typedef std::function< void (IComponent*) > DestructionFunctor;
+			
+			typedef std::default_delete<IComponent> DefaultDestructionFunctor;
+			
 			struct CreatableObjectDesc
 			{
 				ComponentType type;
-				std::function< IComponent* (const ComponentDesc&) > creator;
-				std::function< void (IComponent*) > deleter;
+				CreationFunctor creator;
+				DestructionFunctor deleter;
 				
 				CreatableObjectDesc():
-				deleter( std::default_delete<IComponent>() ){}
+				deleter( DefaultDestructionFunctor() ){}
 			};
 
 			COMPONENTSYSTEM_EXPORT

@@ -10,7 +10,10 @@ namespace UnknownEngine
 		desc(desc),
 		logger(name, desc.log_level),
 		render_subsystem(render_subsystem),
-		parent_window(desc.parent_window)
+		parent_window(desc.parent_window),
+		render_window(nullptr),
+		current_listener(nullptr),
+		removing_listener(nullptr)
 		{
 			Core::ComponentsManager::getSingleton()->reserveComponent(render_subsystem);
 		}
@@ -71,6 +74,21 @@ namespace UnknownEngine
 			// Perhaps some internal shutdown?
 		}
 		
+		void OgreRenderWindowComponent::_update()
+		{
+			for(ComponentInterfaces::IRenderWindowEventsListener* listener : render_events_listeners)
+			{
+				if(removing_listener != nullptr) 
+				{
+					render_events_listeners.erase(removing_listener);
+					removing_listener = nullptr;
+				}
+				current_listener = listener;
+				listener->onRenderFrame();
+			}
+			current_listener = nullptr;
+		}
+		
 		OgreRenderWindowComponent::~OgreRenderWindowComponent()
 		{
 			Core::ComponentsManager::getSingleton()->releaseComponent(render_subsystem);
@@ -78,8 +96,27 @@ namespace UnknownEngine
 		
 		Core::IComponentInterface* OgreRenderWindowComponent::getInterface ( const Core::ComponentType& type )
 		{
-			if(type == ComponentInterfaces::IOgreRenderWindowComponent::getTypeName()) return static_cast<ComponentInterfaces::IOgreRenderWindowComponent*>(this);
+			if(type == ComponentInterfaces::IOgreRenderWindowComponent::getType()) return static_cast<ComponentInterfaces::IOgreRenderWindowComponent*>(this);
+			if(type == ComponentInterfaces::IRenderWindowComponent::getType()) return static_cast<ComponentInterfaces::IRenderWindowComponent*>(this);
 			return nullptr;
+		}
+		
+		void OgreRenderWindowComponent::addListener ( ComponentInterfaces::IRenderWindowEventsListener* listener )
+		{
+
+			render_events_listeners.emplace(listener);
+		}
+
+		void OgreRenderWindowComponent::removeListener ( ComponentInterfaces::IRenderWindowEventsListener* listener )
+		{
+			if(listener == current_listener)
+			{
+				removing_listener = listener;
+			}
+			else
+			{
+				render_events_listeners.erase(listener);
+			}
 		}
 		
 	}

@@ -39,12 +39,20 @@ namespace UnknownEngine
 		
 		void OgreSingleThreadedRenderSubsystem::initComponent ( BaseOgreComponent* component )
 		{
-			if(component->getState() == BaseOgreComponent::State::INITIALIZATION) component->_init();
+			if(component->getState() == BaseOgreComponent::State::INITIALIZATION) 
+			{
+				component->_init();
+				components.emplace(component);
+			}
 		}
 
 		void OgreSingleThreadedRenderSubsystem::shutdownComponent ( BaseOgreComponent* component )
 		{
-			if(component->getState() == BaseOgreComponent::State::SHUTTING_DOWN) component->_shutdown();
+			if(component->getState() == BaseOgreComponent::State::SHUTTING_DOWN) 
+			{
+				components.erase(component);
+				component->_shutdown();
+			}
 		}
 
 		void OgreSingleThreadedRenderSubsystem::destroyComponent ( BaseOgreComponent* component )

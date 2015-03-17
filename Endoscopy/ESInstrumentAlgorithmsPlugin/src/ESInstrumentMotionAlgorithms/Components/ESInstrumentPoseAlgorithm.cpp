@@ -88,7 +88,7 @@ namespace UnknownEngine
 		Core::IComponentInterface* ESInstrumentPoseAlgorithm::getInterface ( const Core::ComponentType& type )
 		{
 			using namespace ComponentInterfaces;
-			if(type == TransformNotifierComponent::getTypeName()) return static_cast<TransformNotifierComponent*>(this);
+			if(type == TransformNotifierComponent::getType()) return static_cast<TransformNotifierComponent*>(this);
 			return nullptr;
 		}
 	

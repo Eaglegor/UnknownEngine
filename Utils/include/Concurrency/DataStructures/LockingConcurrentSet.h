@@ -15,7 +15,6 @@ namespace UnknownEngine
 		{
 		public:
 			LockingConcurrentSet():
-			lock(mutex, std::defer_lock),
 			write_locks(0)
 			{}
 			
@@ -87,24 +86,33 @@ namespace UnknownEngine
 			template<typename... ConstructorArgs>
 			bool emplace(ConstructorArgs&&... args)
 			{
-				std::lock_guard<LockPrimitive> guard(mutex);
-				return internal_set.emplace(std::forward<ConstructorArgs>(args)...).second;
+				bool rehash_needed = internal_set.size() + 1 > internal_set.bucket_count() * internal_set.max_load_factor();
+				if(rehash_needed && write_locks > 0)
+				{
+					std::lock_guard<LockPrimitive> guard(mutex);
+					return internal_set.emplace(std::forward<ConstructorArgs>(args)...).second;
+				}
+				else
+				{
+					return internal_set.emplace(std::forward<ConstructorArgs>(args)...).second;
+				}
 			}
 			
 			size_t erase(const T &value)
 			{
-				std::lock_guard<LockPrimitive> guard(mutex);
 				return internal_set.erase(value);
+			}
+			
+			bool empty()
+			{
+				//std::lock_guard<LockPrimitive> guard(mutex);
+				return internal_set.empty();
 			}
 			
 		private:
 			void reserve_write_lock()
 			{
 				std::lock_guard<LockPrimitive> guard(write_lock_mutex);
-				if(write_locks == 0)
-				{
-					lock.lock();
-				}
 				++write_locks;
 			}
 			
@@ -112,17 +120,12 @@ namespace UnknownEngine
 			{
 				std::lock_guard<LockPrimitive> guard(write_lock_mutex);
 				--write_locks;
-				if(write_locks == 0)
-				{
-					lock.unlock();
-				}
 			}
 			
 			friend class Iterator;
 			
 			LockPrimitive mutex;
 			LockPrimitive write_lock_mutex;
-			std::unique_lock<LockPrimitive> lock;
 			volatile size_t write_locks;
 			
 			std::unordered_set<T> internal_set;

@@ -10,7 +10,7 @@ namespace UnknownEngine
 		class IJoystickHandler : public Core::IComponentInterface
 		{
 		public:
-			constexpr static const char* getTypeName(){return "IJoystickHandler";}
+			constexpr static const char* getType(){return "IJoystickHandler";}
 			
 			virtual void addJoystickEventsListener(IJoystickEventsListener* listener) = 0;
 			virtual void removeJoystickEventsListener(IJoystickEventsListener* listener) = 0;

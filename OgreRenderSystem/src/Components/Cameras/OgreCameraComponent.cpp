@@ -102,7 +102,7 @@ namespace UnknownEngine
 		Core::IComponentInterface* OgreCameraComponent::getInterface ( const Core::ComponentType& type )
 		{
 			using namespace ComponentInterfaces;
-			if(type == MovableComponent::getTypeName()) return static_cast<MovableComponent*>(&transform_adapter);
+			if(type == MovableComponent::getType()) return static_cast<MovableComponent*>(&transform_adapter);
 			return nullptr;
 		}
 

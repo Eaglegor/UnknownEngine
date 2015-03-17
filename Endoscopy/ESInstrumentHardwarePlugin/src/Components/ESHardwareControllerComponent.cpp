@@ -42,7 +42,7 @@ namespace UnknownEngine
 		Core::IComponentInterface* ESHardwareControllerComponent::getInterface ( const Core::ComponentType& type )
 		{
 			using namespace ComponentInterfaces;
-			if(controller && type == ESHardwareStateNotifier::getTypeName()) return static_cast<ESHardwareStateNotifier*>(controller);
+			if(controller && type == ESHardwareStateNotifier::getType()) return static_cast<ESHardwareStateNotifier*>(controller);
 			return nullptr;
 		}
 

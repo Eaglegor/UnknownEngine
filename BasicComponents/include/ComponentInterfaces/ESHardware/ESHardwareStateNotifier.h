@@ -11,7 +11,7 @@ namespace UnknownEngine
 		class ESHardwareStateNotifier : public Core::IComponentInterface
 		{
 		public:
-			constexpr static const char* getTypeName(){return "IESHardwareStateNotifier";}
+			constexpr static const char* getType(){return "ESHardwareStateNotifier";}
 			
 			virtual void addListener(ESHardwareStateListener* listener) = 0;
 			virtual void removeListener(ESHardwareStateListener* listener) = 0;
