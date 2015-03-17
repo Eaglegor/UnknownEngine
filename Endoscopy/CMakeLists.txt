@@ -1,5 +1,6 @@
 message(STATUS "### Building Endoscopy module ###")
 
+add_subdirectory(ESAngelScriptBindingPlugin)
 add_subdirectory(ESInstrumentAlgorithmsPlugin)
 add_subdirectory(ESInstrumentHardwarePlugin)
 
