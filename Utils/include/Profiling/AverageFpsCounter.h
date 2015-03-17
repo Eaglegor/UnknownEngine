@@ -14,6 +14,7 @@ namespace UnknownEngine
 			typedef std::function<void(size_t)> FpsReturnPolicy;
 			
 			AverageFpsCounter(size_t frames_count, FpsReturnPolicy return_policy):
+			counter(0),
 			frames_count(frames_count),
 			return_policy(return_policy)
 			{

@@ -4,7 +4,7 @@
 #include <ComponentSystem/IEntity.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
 #include <ComponentInterfaces/Engine/IStartableComponent.h>
-#include <ComponentInterfaces/Input/IContextualActionsMapper.h>
+#include <ComponentInterfaces/Input/Common/IContextualActionsMapper.h>
 #include <Descriptors/SimpleStopperDesc.h>
 
 namespace UnknownEngine

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <OgreRenderWindow.h>
-#include <ComponentInterfaces/RenderSystem/IRenderWindowComponent.h>
+#include <ComponentInterfaces/RenderSystem/Common/IRenderWindowComponent.h>
 
 namespace UnknownEngine
 {

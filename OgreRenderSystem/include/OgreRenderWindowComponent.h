@@ -6,9 +6,9 @@
 #include <Components/BaseOgreComponent.h>
 #include <InlineSpecification.h>
 #include <ComponentSystem/BaseComponent.h>
-#include <ComponentInterfaces/GUI/WindowEventsListenerComponent.h>
-#include <ComponentInterfaces/GUI/GUIWindowComponent.h>
-#include <ComponentInterfaces/Ogre/IOgreRenderWindowComponent.h>
+#include <ComponentInterfaces/GUI/Common/WindowEventsListenerComponent.h>
+#include <ComponentInterfaces/GUI/Common/GUIWindowComponent.h>
+#include <ComponentInterfaces/RenderSystem/Ogre/IOgreRenderWindowComponent.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
 #include <LogHelper.h>
 #include <Concurrency/DataStructures/ConcurrentSet.h>

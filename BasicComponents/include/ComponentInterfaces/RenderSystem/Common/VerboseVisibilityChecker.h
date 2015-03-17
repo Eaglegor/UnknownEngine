@@ -1,8 +1,8 @@
 #pragma once
 
 #include <ComponentSystem/IComponentInterface.h>
-#include <ComponentInterfaces/RenderSystem/VisibilityChecker.h>
-#include <ComponentInterfaces/RenderSystem/VisibilityData.h>
+#include <ComponentInterfaces/RenderSystem/Common/VisibilityChecker.h>
+#include <ComponentInterfaces/RenderSystem/Common/VisibilityData.h>
 
 namespace UnknownEngine
 {

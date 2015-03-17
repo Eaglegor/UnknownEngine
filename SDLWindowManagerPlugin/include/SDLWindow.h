@@ -1,12 +1,12 @@
 #pragma once
 
 #include <ComponentSystem/BaseComponent.h>
-#include <ComponentInterfaces/GUI/GUIWindowComponent.h>
+#include <ComponentInterfaces/GUI/Common/GUIWindowComponent.h>
 #include <ComponentInterfaces/Engine/UpdateFrameListenerComponent.h>
 #include <ComponentInterfaces/Engine/FrameUpdaterComponent.h>
-#include <ComponentInterfaces/Input/IKeyboardHandler.h>
-#include <ComponentInterfaces/Input/IMouseHandler.h>
-#include <ComponentInterfaces/Input/IJoystickHandler.h>
+#include <ComponentInterfaces/Input/Common/IKeyboardHandler.h>
+#include <ComponentInterfaces/Input/Common/IMouseHandler.h>
+#include <ComponentInterfaces/Input/Common/IJoystickHandler.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
 #include <LogHelper.h>
 #include <SDLWindowDesc.h>

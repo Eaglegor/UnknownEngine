@@ -1,7 +1,7 @@
 #pragma once
 
 #include <ComponentSystem/IComponentInterface.h>
-#include <ComponentInterfaces/Endoscopy/GUI/ESGuiComponentListener.h>
+#include <ComponentInterfaces/Modules/Endoscopy/GUI/ESGuiComponentListener.h>
 
 namespace UnknownEngine
 {

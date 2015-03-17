@@ -2,7 +2,7 @@
 
 #include <ComponentSystem/IComponentInterface.h>
 #include <WindowHandle.h>
-#include <ComponentInterfaces/GUI/WindowEventsListenerComponent.h>
+#include <ComponentInterfaces/GUI/Common/WindowEventsListenerComponent.h>
 
 namespace UnknownEngine
 {

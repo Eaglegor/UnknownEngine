@@ -1,7 +1,7 @@
 #include <Controllers/Joystick/ESJoystickController.h>
 #include <ESHardwareEvents/ESHardwareStickPoseChangedEvent.h>
 #include <ESHardwareEvents/ESHardwareBranchesAngleChangedEvent.h>
-#include <ComponentInterfaces/ESHardware/ESHardwareStateListener.h>
+#include <ComponentInterfaces/Modules/Endoscopy/Hardware/ESHardwareStateListener.h>
 #include <cmath>
 
 namespace UnknownEngine

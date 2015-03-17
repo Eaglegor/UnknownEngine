@@ -7,7 +7,7 @@
 #include <Descriptors/Components/Renderables/OgreRenderableComponentDescriptor.h>
 #include <LogHelper.h>
 #include <ComponentInterfaces/Transform/MovableComponent.h>
-#include <ComponentInterfaces/RenderSystem/IRenderable.h>
+#include <ComponentInterfaces/RenderSystem/Common/IRenderable.h>
 #include <ComponentInterfaces/Transform/TransformNotifierComponent.h>
 #include <Spinlock.h>
 

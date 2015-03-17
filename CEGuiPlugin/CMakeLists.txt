@@ -1,7 +1,7 @@
 set(TARGET_NAME CEGuiPlugin)
 set(LINKAGE SHARED)
 
-set(INCLUDED_MODULE_HEADERS CEGuiPlugin Plugins MessageSystem Utils Engine LogManager UserInput OgreRenderSystem ComponentSystem)
+set(INCLUDED_MODULE_HEADERS Math CEGuiPlugin Plugins MessageSystem Utils Engine LogManager UserInput OgreRenderSystem ComponentSystem)
 set(LINKED_LIBS Engine MessageSystem Plugins LogManager ComponentSystem )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <ComponentSystem/IComponentInterface.h>
-#include <ComponentInterfaces/RenderSystem/IRenderWindowEventsListener.h>
+#include <ComponentInterfaces/RenderSystem/Common/IRenderWindowEventsListener.h>
 
 namespace UnknownEngine
 {

@@ -17,15 +17,15 @@
 
 #include <ComponentSystem/BaseComponent.h>
 
-#include <ComponentInterfaces/Input/IMouseHandler.h>
-#include <ComponentInterfaces/Input/IKeyboardHandler.h>
-#include <ComponentInterfaces/Input/IJoystickHandler.h>
+#include <ComponentInterfaces/Input/Common/IMouseHandler.h>
+#include <ComponentInterfaces/Input/Common/IKeyboardHandler.h>
+#include <ComponentInterfaces/Input/Common/IJoystickHandler.h>
 
-#include <ComponentInterfaces/Input/IMouseEventsListener.h>
-#include <ComponentInterfaces/Input/IKeyboardEventsListener.h>
-#include <ComponentInterfaces/Input/IJoystickEventsListener.h>
+#include <ComponentInterfaces/Input/Common/IMouseEventsListener.h>
+#include <ComponentInterfaces/Input/Common/IKeyboardEventsListener.h>
+#include <ComponentInterfaces/Input/Common/IJoystickEventsListener.h>
 
-#include <ComponentInterfaces/Input/IContextualActionsMapper.h>
+#include <ComponentInterfaces/Input/Common/IContextualActionsMapper.h>
 
 #include <ComponentSystem/ComponentInterfacePtr.h>
 

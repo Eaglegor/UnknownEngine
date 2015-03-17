@@ -1,7 +1,7 @@
 #pragma once
 
 #include <ComponentSystem/IComponentInterface.h>
-#include <ComponentInterfaces/RenderSystem/VisibilityCheckerListener.h>
+#include <ComponentInterfaces/RenderSystem/Common/VisibilityCheckerListener.h>
 
 namespace UnknownEngine
 {

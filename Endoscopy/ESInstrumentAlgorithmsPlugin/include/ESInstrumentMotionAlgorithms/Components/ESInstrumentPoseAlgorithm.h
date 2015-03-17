@@ -2,13 +2,13 @@
 
 #include <ComponentSystem/BaseComponent.h>
 #include <ESInstrumentMotionAlgorithms/Descriptors/ESInstrumentPoseAlgorithmDesc.h>
-#include <ComponentInterfaces/ESHardware/ESHardwareStateListener.h>
+#include <ComponentInterfaces/Modules/Endoscopy/Hardware/ESHardwareStateListener.h>
 #include <ComponentInterfaces/Transform/TransformNotifierComponent.h>
 #include <memory>
 #include <ValueRangeMapper.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
 #include <Concurrency/DataStructures/ConcurrentSet.h>
-#include <ComponentInterfaces/ESHardware/ESHardwareStateNotifier.h>
+#include <ComponentInterfaces/Modules/Endoscopy/Hardware/ESHardwareStateNotifier.h>
 
 namespace UnknownEngine
 {
