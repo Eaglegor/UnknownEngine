@@ -86,6 +86,8 @@ namespace UnknownEngine
 			
 			virtual IComponentInterface* getInterface ( const Core::ComponentType& type );
 			
+			virtual void setCurrentContext(const char* context_name) override;
+
 			KeyboardEventHandler* getKeyboardEventHandler();
 			MouseEventHandler* getMouseEventHandler();
 			JoystickEventHandler* getJoystickEventHandler();
@@ -105,6 +107,8 @@ namespace UnknownEngine
 			Core::ComponentInterfacePtr<ComponentInterfaces::IMouseHandler> mouse_input_provider;
 			Core::ComponentInterfacePtr<ComponentInterfaces::IKeyboardHandler> keyboard_input_provider;
 			Core::ComponentInterfacePtr<ComponentInterfaces::IJoystickHandler> joystick_input_provider;
+
+			InputContext* current_context;
 			
         };
     }

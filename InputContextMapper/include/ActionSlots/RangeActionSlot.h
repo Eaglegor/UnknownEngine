@@ -8,12 +8,14 @@ namespace UnknownEngine
 	namespace IO
 	{
 		
+		class InputContext;
+
 		class RangeActionSlot
 		{
 		public:
 			typedef std::function<void(Math::Scalar)> ActionType;
 
-			RangeActionSlot();
+			RangeActionSlot(InputContext* context);
 			~RangeActionSlot();
 			
 			void update();
@@ -23,7 +25,10 @@ namespace UnknownEngine
 			
 			void onEvent(Math::Scalar new_state);
 			
+			bool isActive();
+
 		private:
+			InputContext* context;
 			ActionType action;
 			Math::Scalar current_state;
 			

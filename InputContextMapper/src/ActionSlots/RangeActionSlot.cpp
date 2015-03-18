@@ -1,5 +1,6 @@
 #include <stdafx.h>
 #include <ActionSlots/RangeActionSlot.h>
+#include <InputContext.h>
 #include <cmath>
 
 namespace UnknownEngine
@@ -7,7 +8,8 @@ namespace UnknownEngine
 	namespace IO
 	{
 		
-		RangeActionSlot::RangeActionSlot():
+		RangeActionSlot::RangeActionSlot(InputContext* context):
+		context(context),
 		current_state(0)
 		{
 		}
@@ -41,6 +43,11 @@ namespace UnknownEngine
 					current_state = 0;
 				}
 			}
+		}
+
+		bool RangeActionSlot::isActive()
+		{
+			return context->isActive();
 		}
 
 	}

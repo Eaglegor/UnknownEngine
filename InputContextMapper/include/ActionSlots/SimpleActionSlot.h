@@ -8,6 +8,8 @@ namespace UnknownEngine
 {
 	namespace IO
 	{
+		class InputContext;
+
 		class SimpleActionSlot
 		{
 		public:
@@ -20,7 +22,7 @@ namespace UnknownEngine
 				EVENT_ENDED
 			};
 			
-			SimpleActionSlot(const ConditionType &condition_type);
+			SimpleActionSlot(InputContext* context, const ConditionType &condition_type);
 			~SimpleActionSlot();
 			
 			void update();
@@ -30,7 +32,10 @@ namespace UnknownEngine
 			
 			void onEvent(bool event_started);
 			
+			bool isActive();
+
 		private:
+			InputContext* context;
 			ActionType action;
 			std::shared_ptr<ActionCondition> condition;
 			

@@ -2,6 +2,7 @@
 #include <ActionConditions/EventActiveCondition.h>
 #include <ActionConditions/EventStateChangedCondition.h>
 #include <ActionSlots/SimpleActionSlot.h>
+#include <InputContext.h>
 
 #include <iostream>
 
@@ -10,7 +11,8 @@ namespace UnknownEngine
 	namespace IO
 	{
 
-		SimpleActionSlot::SimpleActionSlot( const SimpleActionSlot::ConditionType& condition_type )
+		SimpleActionSlot::SimpleActionSlot(InputContext* context, const SimpleActionSlot::ConditionType& condition_type ):
+		context(context)
 		{
 			switch(condition_type)
 			{
@@ -60,6 +62,11 @@ namespace UnknownEngine
 			{
 				action();
 			}
+		}
+
+		bool SimpleActionSlot::isActive()
+		{
+			return context->isActive();
 		}
 		
 	}
