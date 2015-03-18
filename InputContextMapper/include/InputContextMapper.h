@@ -87,6 +87,7 @@ namespace UnknownEngine
 			virtual IComponentInterface* getInterface ( const Core::ComponentType& type );
 			
 			virtual void setCurrentContext(const char* context_name) override;
+			virtual const char* getCurrentContext() override;
 
 			KeyboardEventHandler* getKeyboardEventHandler();
 			MouseEventHandler* getMouseEventHandler();

@@ -83,7 +83,7 @@ namespace UnknownEngine
 		InputContext* InputContextMapper::createContext(const std::string& name)
 		{
 			LOG_INFO(logger, "Creating input context: " + name);
-			return &(contexts.emplace(name, InputContext()).first->second);
+			return &(contexts.emplace(name, InputContext(name.c_str())).first->second);
 		}
 		
 		InputContext* InputContextMapper::findContext(const std::string& name)
@@ -232,5 +232,10 @@ namespace UnknownEngine
 			}
 		}
 
+		const char* InputContextMapper::getCurrentContext()
+		{
+			return current_context->getName();
+		}
+		
 	}
 }

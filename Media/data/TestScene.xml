@@ -74,13 +74,14 @@
 					<option name="keyboard_input_provider_name" value="System.SDLRenderWindow"/>
 					<option name="mouse_input_provider_name" value="System.SDLRenderWindow"/>
 					<option name="joystick_input_provider_name" value="System.SDLRenderWindow"/>
+					<option name="default_context_name" value="Game"/>
 				</options_section>
 			</component>
 			
 			<component name="EngineStopper" type="Behavior.SimpleStopper">
 				<options_section>
-					<option name="input_context_name" value="Generic"/>
-					<option name="action_name" value="StopEngine"/>
+					<option name="input_context_name" value="Game"/>
+					<option name="action_name" value="System_StopEngine"/>
 					<option name="input_context_mapping_provider_name" value="System.InputContextMapper"/>
 					<option name="stoppable_component_name" value="Engine.Starter"/>
 				</options_section>
@@ -119,6 +120,9 @@
 				<options_section>
 					<option name="parent_window" value="System.HUD"/>
 					<option name="log_level" value="info"/>
+					<option name="input_context_mapper" value="System.InputContextMapper"/>
+					<option name="game_context_name" value="Game"/>
+					<option name="console_context_name" value="ConsoleActive"/>
 				</options_section>
 			</component>
 			
@@ -166,13 +170,23 @@
 					</sender>
 				</messaging_rules>
 				
+				<constant name="action_name_prefix" value="CameraML_"/>
+				
 				<options_section>
-					<option name="input_context_name" value="MouseLook"/>
+					<option name="input_context_name" value="Game"/>
 					<options_section name="InitialTransform">
 						<option name="position" value="Vector3(x:0, y:10, z:50)"/>
 					</options_section>
 					<option name="update_frame_provider_name" value="Engine.MainLoop"/>
 					<option name="input_context_mapping_provider_name" value="System.InputContextMapper"/>
+					<option name="move_forward_action_name" value="${action_name_prefix}MoveForward"/>
+					<option name="move_backward_action_name" value="${action_name_prefix}MoveBackward"/>
+					<option name="strafe_left_action_name" value="${action_name_prefix}StrafeLeft"/>
+					<option name="strafe_right_action_name" value="${action_name_prefix}StrafeRight"/>
+					<option name="strafe_up_action_name" value="${action_name_prefix}StrafeUp"/>
+					<option name="strafe_down_action_name" value="${action_name_prefix}StrafeDown"/>
+					<option name="yaw_action_name" value="${action_name_prefix}Yaw"/>
+					<option name="pitch_action_name" value="${action_name_prefix}Pitch"/>
 				</options_section>
 			</component>
 			
@@ -445,20 +459,23 @@
 			
 			<component name="AxisMovement" type="Behavior.MouseLook">
 				
-				<messaging_rules>
-					<sender>
-						<message type="IO.InputContext.AddSimpleActionMessage"/>
-						<message type="Engine.TransformChangedMessage"/>
-					</sender>
-				</messaging_rules>
+				<constant name="action_name_prefix" value="CubeAlg_"/>
 				
 				<options_section>
-					<option name="input_context_name" value="CubeControl"/>
+					<option name="input_context_name" value="Game"/>
 					<options_section name="InitialTransform">
 						<option name="position" value="Vector3(x:10, y:10, z:0)"/>
 					</options_section>
 					<option name="update_frame_provider_name" value="Engine.MainLoop"/>
 					<option name="input_context_mapping_provider_name" value="System.InputContextMapper"/>
+					<option name="move_forward_action_name" value="${action_name_prefix}MoveForward"/>
+					<option name="move_backward_action_name" value="${action_name_prefix}MoveBackward"/>
+					<option name="strafe_left_action_name" value="${action_name_prefix}StrafeLeft"/>
+					<option name="strafe_right_action_name" value="${action_name_prefix}StrafeRight"/>
+					<option name="strafe_up_action_name" value="${action_name_prefix}StrafeUp"/>
+					<option name="strafe_down_action_name" value="${action_name_prefix}StrafeDown"/>
+					<option name="yaw_action_name" value="${action_name_prefix}Yaw"/>
+					<option name="pitch_action_name" value="${action_name_prefix}Pitch"/>
 				</options_section>
 			</component>
 			
@@ -506,8 +523,9 @@
 				<options_section>
 					<option name="body1_name" value="ActiveCube.RigidBodyComponent"/>
 					<option name="body2_name" value="PassiveCube.RigidBodyComponent"/>
-					<option name="input_context_name" value="TestCreateJoint"/>
+					<option name="input_context_name" value="Game"/>
 					<option name="jointed_material_name" value="ActiveCubeMaterial"/>
+					<option name="create_joint_action_name" value="JointAlg_CreateJoint"/>
 					<option name="free_material_name" value="NormalMap"/>
 					<option name="input_context_mapper" value="System.InputContextMapper"/>
 					<option name="renderable_component" value="PassiveCube.Graphics"/>

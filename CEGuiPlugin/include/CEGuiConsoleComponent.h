@@ -5,6 +5,7 @@
 #include <ComponentInterfaces/GUI/Common/Console/ConsoleWindow.h>
 #include <ComponentInterfaces/GUI/CEGUI/CEGuiWidgetComponent.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
+#include <ComponentInterfaces/Input/Common/IContextualActionsMapper.h>
 #include <unordered_map>
 #include <unordered_set>
 #include <LogHelper.h>
@@ -46,6 +47,9 @@ namespace UnknownEngine
 			virtual void removeChild ( CEGuiWidgetComponent* child );
 			
 			virtual CEGUI::Window* getCEGuiWindow();
+
+			virtual void activate();
+			virtual void deactivate();
 			
 		private:
 			class SimpleOutputStream : public ComponentInterfaces::ConsoleOutputStream
@@ -78,6 +82,7 @@ namespace UnknownEngine
 			CEGUI::Window* window;
 			
 			Core::ComponentInterfacePtr<ComponentInterfaces::CEGuiWidgetComponent> parent_window;
+			Core::ComponentInterfacePtr<ComponentInterfaces::IContextualActionsMapper> input_context_mapper;
 			Core::LogHelper logger;
 			
 			typedef std::unordered_set<ComponentInterfaces::ConsoleCommandHandler*> CommandHandlersSet;
@@ -87,6 +92,8 @@ namespace UnknownEngine
 			
 			SimpleOutputStream output_stream;
 			SimpleEchoHandler echo_handler;
+			
+			bool is_active;
 		};
 	}
 }

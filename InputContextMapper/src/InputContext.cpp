@@ -6,7 +6,8 @@ namespace UnknownEngine
 	namespace IO
 	{
 
-		InputContext::InputContext() :
+		InputContext::InputContext(const char* name) :
+		name(name),
 		is_active(false)
 		{}
 
@@ -56,6 +57,10 @@ namespace UnknownEngine
 			this->is_active = value;
 		}
 
+		const char* InputContext::getName()
+		{
+			return name.c_str();
+		}
 		
 	}
 }

@@ -116,6 +116,9 @@ namespace UnknownEngine
 			CEGuiConsoleComponentDesc subsystem_desc;
 			subsystem_desc.parent_window = render_window;
 			subsystem_desc.log_level = log_severity;
+			subsystem_desc.input_context_mapper = Core::ComponentsManager::getSingleton()->findComponent((props.get<std::string>("input_context_mapper")).c_str());
+			subsystem_desc.game_context_name = props.get<std::string>("game_context_name");
+			subsystem_desc.console_context_name = props.get<std::string>("console_context_name");
 			return new CEGuiConsoleComponent(desc.name.c_str(), subsystem_desc, context);
 		}
 

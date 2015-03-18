@@ -16,7 +16,9 @@ namespace UnknownEngine
 		desc(desc),
 		window(nullptr),
 		parent_window(desc.parent_window),
-		logger(name, desc.log_level)
+		input_context_mapper(desc.input_context_mapper),
+		logger(name, desc.log_level),
+		is_active(false)
 		{
 		}
 		
@@ -57,12 +59,26 @@ namespace UnknownEngine
 			output_stream.setListBox(static_cast<CEGUI::Listbox*>(window->getChild(HISTORY_BOX_NAME)));
 			
 			addCommandHandler("echo", &echo_handler);
+			
+			if(input_context_mapper)
+			{
+				window->setVisible(false);
+				
+				input_context_mapper->addSimpleAction(desc.game_context_name.c_str(), "System_OpenConsole", std::bind(&CEGuiConsoleComponent::activate, this));
+				input_context_mapper->addSimpleAction(desc.console_context_name.c_str(), "System_CloseConsole", std::bind(&CEGuiConsoleComponent::deactivate, this));
+			}
 		}
 
 		void CEGuiConsoleComponent::internalShutdown()
 		{
 			if(window)
 			{
+				if(input_context_mapper)
+				{
+					input_context_mapper->removeSimpleAction(desc.game_context_name.c_str(), "System_OpenConsole");
+					input_context_mapper->removeSimpleAction(desc.console_context_name.c_str(), "System_CloseConsole");
+				}
+				
 				removeCommandHandler("echo", &echo_handler);
 				parent_window->removeChild(this);
 				CEGUI::WindowManager::getSingleton().destroyWindow(window);
@@ -91,7 +107,7 @@ namespace UnknownEngine
 		
 		void CEGuiConsoleComponent::_update()
 		{
-			
+			if(window) window->setVisible(is_active);
 		}
 		
 		void CEGuiConsoleComponent::addChild ( ComponentInterfaces::CEGuiWidgetComponent* child )
@@ -151,6 +167,17 @@ namespace UnknownEngine
 			return *this;
 		}
 
+		void CEGuiConsoleComponent::activate()
+		{
+			is_active = true;
+			input_context_mapper->setCurrentContext(desc.console_context_name.c_str());
+		}
+
+		void CEGuiConsoleComponent::deactivate()
+		{
+			is_active = false;
+			input_context_mapper->setCurrentContext(desc.game_context_name.c_str());
+		}
 	
 	}
 }

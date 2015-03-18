@@ -44,7 +44,10 @@ namespace UnknownEngine
 			{
 				for(SimpleActionSlot* action_slot : *subscriptions)
 				{
-					action_slot->onEvent( new_state == KeyState::KEY_PRESSED );
+					if(action_slot->isActive())
+					{
+						action_slot->onEvent( new_state == KeyState::KEY_PRESSED );
+					}
 				}
 			}
 		}
