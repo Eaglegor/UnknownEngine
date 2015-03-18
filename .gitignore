@@ -6,7 +6,8 @@
 Docs/
 html/
 SharedLibrariesExportHeaders/
-UnknownEngineResources/
+ThirdParty/*
+!ThirdParty/CMakeLists.txt
 
 #################
 ## Eclipse
