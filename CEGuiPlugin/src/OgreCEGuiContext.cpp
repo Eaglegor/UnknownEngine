@@ -10,6 +10,7 @@
 #include <CEGUI/GUIContext.h>
 #include <CEGUI/Window.h>
 #include <Logging.h>
+#include <Scalar.h>
 #include <ScanCodeConverter.h>
 
 namespace UnknownEngine
@@ -205,7 +206,14 @@ namespace UnknownEngine
 
 		void OgreCEGuiContext::onMouseMoveEvent ( const IO::MouseMovedEvent& evt )
 		{
-			CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseMove(evt.delta_x, evt.delta_y);
+			if(evt.new_x != 0 || evt.new_y != 0)
+			{
+				CEGUI::System::getSingleton().getDefaultGUIContext().injectMousePosition(evt.new_x, evt.new_y);
+			}
+			else
+			{
+				CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseMove(evt.delta_x, evt.delta_y);
+			}
 		}
 
 		void OgreCEGuiContext::onMouseWheelEvent ( const IO::MouseWheelEvent& evt )
