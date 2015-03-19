@@ -6,8 +6,8 @@
 Docs/
 html/
 SharedLibrariesExportHeaders/
-ThirdParty/*
-!ThirdParty/CMakeLists.txt
+ThirdParty/*/*
+!ThirdParty/*/CMakeLists.txt
 
 #################
 ## Eclipse
