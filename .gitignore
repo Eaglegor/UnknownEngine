@@ -8,6 +8,8 @@ html/
 SharedLibrariesExportHeaders/
 ThirdParty/*/*
 !ThirdParty/*/CMakeLists.txt
+!ThirdParty/tools
+!ThirdParty/tools/*
 
 #################
 ## Eclipse
