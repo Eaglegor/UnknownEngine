@@ -12,7 +12,7 @@ namespace UnknownEngine
 			public:
 				constexpr static const char* getType(){return "VisibilityChecker";}
 				
-				virtual bool isVisible() = 0;
+				virtual bool isVisible() const = 0;
 				
 				virtual void addListener(VisibilityCheckerListener* listener) = 0;
 				virtual void removeListener(VisibilityCheckerListener* listener) = 0;

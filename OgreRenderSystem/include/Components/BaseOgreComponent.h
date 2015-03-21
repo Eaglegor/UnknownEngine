@@ -38,9 +38,12 @@ namespace UnknownEngine
 				State getState() const;
 				
 			protected:
+				OgreRenderSubsystem* getRenderSubsystem(){return render_subsystem;}
+				
+			private:
 				virtual void internalInit () = 0;
 				virtual void internalShutdown( ) = 0;
-	
+				
 				OgreRenderSubsystem* render_subsystem;
 				
 				std::function<void(Core::IComponent*)> destruction_callback;

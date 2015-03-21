@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Vectors/Vector3.h>
+#include <Scalar.h>
 
 namespace UnknownEngine
 {
@@ -9,9 +9,12 @@ namespace UnknownEngine
 		struct VisibilityData
 		{
 			bool is_visible;
+			Math::Scalar visibility_ratio;
 			
-			float percent_visible;
-			Math::Vector3 screen_space_aabb_center_position;
+			VisibilityData():
+			is_visible(false),
+			visibility_ratio(0)
+			{}
 		};
 	}
 }

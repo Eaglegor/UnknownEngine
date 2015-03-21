@@ -141,17 +141,6 @@
 		
 		<entity name="MasterScript">
 			<component name="MainModule" type="Behavior.AngelScript">
-				
-				<messaging_rules>
-					<listener>
-						<message type="Engine.MainLoop.UpdateFrameMessage"/>
-					</listener>
-					<sender>
-						<message type="Engine.StopEngineActionMessage"/>
-						<message type="Utils.LogMessage"/>
-					</sender>
-				</messaging_rules>
-				
 				<options_section>
 					<option name="script_filename" value="test.as"/>
 				</options_section>
@@ -161,15 +150,7 @@
 		<entity name="MainCamera">
 		
 			<component name="Rotation" type="Behavior.MouseLook">
-				
-				<messaging_rules>
-					<sender>
-						<message type="Engine.TransformChangedMessage"/>
-						<message type="IO.InputContext.AddSimpleActionMessage"/>
-						<message type="IO.InputContext.AddRangeActionMessage"/>
-					</sender>
-				</messaging_rules>
-				
+			
 				<constant name="action_name_prefix" value="CameraML_"/>
 				
 				<options_section>
@@ -217,17 +198,7 @@
 			</component>
 			
 			<component name="LightComponentS" type="Ogre.SpotLight">
-
-				<messaging_rules><listener>
-					<message type="Engine.TransformChangedMessage">
-						<receive_policy type="FromSingleSender">
-							<options_section>
-								<option name="sender_name" value="MainCamera.Rotation"/>
-							</options_section>
-						</receive_policy>
-					</message>
-				</listener></messaging_rules>
-			
+		
 				<options_section>
 					
 					<options_section name="InitialTransform">
@@ -399,13 +370,7 @@
 		<entity name="PassiveCube">
 			
 			<component name="RigidBodyComponent" type="PhysX.RigidBody">
-				
-				<messaging_rules>
-					<sender>
-						<message type="Engine.TransformChangedMessage"/>
-					</sender>
-				</messaging_rules>
-				
+
 				<options_section>
 					<provided_data name="shape" data_provider_name="CubeShape"/>
 					<option name="dynamics_type" value="dynamic"/>
@@ -419,24 +384,7 @@
 			</component>
 			
 			<component name="Graphics" type="Ogre.Renderable">
-				
-				<messaging_rules><listener>
-					<message type="Engine.TransformChangedMessage">
-						<receive_policy type="FromSingleSender">
-							<options_section>
-								<option name="sender_name" value="PassiveCube.RigidBodyComponent"/>
-							</options_section>
-						</receive_policy>
-					</message>
-					<message type="Graphics.ChangeMaterialActionMessage">
-						<receive_policy type="FromSingleSender">
-							<options_section>
-								<option name="sender_name" value="ActiveCube.JointComponent"/>
-							</options_section>
-						</receive_policy>
-					</message>
-				</listener></messaging_rules>
-				
+
 				<options_section>
 					
 					<option name="log_level" value="${global_log_level}"/>
@@ -452,6 +400,14 @@
 				</options_section>
 			</component>
 						
+			<component name="VisibilityChecker" type="Ogre.HOQVisibilityChecker">
+				<options_section>
+					<option name="checkable_object" value="PassiveCube.Graphics"/>
+					<option name="log_level" value="${global_log_level}"/>
+					<option name="render_window" value="System.OgreRenderWindow"/>
+				</options_section>
+			</component>
+			
 		</entity>
 		
 		

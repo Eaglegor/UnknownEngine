@@ -45,7 +45,7 @@ namespace UnknownEngine
 			if ( desc.mesh_data_provider != nullptr )
 			{
 				Ogre::MeshPtr mesh_data = desc.mesh_data_provider->getResource().getData<Ogre::MeshPtr>();
-				entity = render_subsystem->getSceneManager()->createEntity ( Ogre::String(getName()) + ".OgreEntity", mesh_data );
+				entity = getRenderSubsystem()->getSceneManager()->createEntity ( Ogre::String(getName()) + ".OgreEntity", mesh_data );
 			}
 			else
 			{
@@ -57,14 +57,14 @@ namespace UnknownEngine
 				else
 				{
 					LOG_ERROR ( logger, "No mesh data provider found. Using substitute mesh (Ogre::PT_SPHERE) instead" );
-					entity = render_subsystem->getSceneManager()->createEntity ( Ogre::String(getName()) + ".OgreEntity", Ogre::SceneManager::PT_SPHERE );
+					entity = getRenderSubsystem()->getSceneManager()->createEntity ( Ogre::String(getName()) + ".OgreEntity", Ogre::SceneManager::PT_SPHERE );
 				}
 			}
 
 			entity->setMaterialName ( desc.material_desc.name );
 
 			LOG_INFO ( logger, "Creating OGRE scene node" );
-			scene_node = render_subsystem->getSceneManager()->getRootSceneNode()->createChildSceneNode ( Ogre::String(getName()) + ".SceneNode" );
+			scene_node = getRenderSubsystem()->getSceneManager()->getRootSceneNode()->createChildSceneNode ( Ogre::String(getName()) + ".SceneNode" );
 
 			LOG_INFO ( logger, "Starting" );
 			scene_node->attachObject ( entity );
@@ -88,10 +88,10 @@ namespace UnknownEngine
 			scene_node->detachObject ( entity );
 
 			LOG_INFO ( logger, "Destroying scene node" );
-			render_subsystem->getSceneManager()->destroySceneNode ( scene_node );
+			getRenderSubsystem()->getSceneManager()->destroySceneNode ( scene_node );
 
 			LOG_INFO ( logger, "Destroying entity" );
-			render_subsystem->getSceneManager()->destroyEntity ( entity );
+			getRenderSubsystem()->getSceneManager()->destroyEntity ( entity );
 		}
 
 		void OgreRenderableComponent::_update()
@@ -125,7 +125,18 @@ namespace UnknownEngine
 			using namespace ComponentInterfaces;
 			if(type == MovableComponent::getType() ) return static_cast<MovableComponent*>(&transform_adapter);
 			if(type == IRenderable::getType() ) return static_cast<IRenderable*>(this);
+			if(type == IOgreRenderableComponent::getType() ) return static_cast<IOgreRenderableComponent*>(this);
 			return nullptr;
+		}
+		
+		Ogre::Entity* OgreRenderableComponent::getEntity()
+		{
+			return entity;
+		}
+
+		Ogre::SceneNode* OgreRenderableComponent::getSceneNode()
+		{
+			return scene_node;
 		}
 		
 	} // namespace Graphics

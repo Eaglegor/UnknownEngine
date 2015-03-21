@@ -61,7 +61,7 @@ namespace UnknownEngine
 			if(keyboard_handler) keyboard_handler->addKeyboardEventsListener(this);
 			if(mouse_handler) mouse_handler->addMouseEventsListener(this);
 			
-			CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");
+			//CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");
 			
 			return true;
 		}

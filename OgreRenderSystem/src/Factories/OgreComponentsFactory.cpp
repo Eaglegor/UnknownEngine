@@ -4,11 +4,13 @@
 #include <Components/Lights/OgrePointLightComponent.h>
 #include <Components/Lights/OgreSpotLightComponent.h>
 #include <Components/Renderables/OgreRenderableComponent.h>
+#include <Components/VisibilityCheckers/OgreHOQVisibilityChecker.h>
 #include <Parsers/Descriptors/OgreCameraDescriptorParser.h>
 #include <Parsers/Descriptors/OgreRenderableDescriptorParser.h>
 #include <Parsers/Descriptors/OgrePointLightDescriptorParser.h>
 #include <Parsers/Descriptors/OgreDirectionalLightDescriptorParser.h>
 #include <Parsers/Descriptors/OgreSpotLightDescriptorParser.h>
+#include <Parsers/Descriptors/OgreHOQVisibilityCheckerDescriptorParser.h>
 
 #include <Factories/OgreGetDescriptorVisitor.h>
 #include <ComponentSystem/ComponentDesc.h>
@@ -23,6 +25,7 @@ namespace UnknownEngine
 		static OgreGetDescriptorVisitor<OgrePointLightComponentDescriptor, OgrePointLightDescriptorParser> point_light_descriptor_getter;
 		static OgreGetDescriptorVisitor<OgreDirectionalLightComponentDescriptor, OgreDirectionalLightDescriptorParser> directional_light_descriptor_getter;
 		static OgreGetDescriptorVisitor<OgreSpotLightComponentDescriptor, OgreSpotLightDescriptorParser> spot_light_descriptor_getter;
+		static OgreGetDescriptorVisitor<OgreHOQVisibilityCheckerDesc, OgreHOQVisibilityCheckerDescriptorParser> hoq_visibility_checker_desc_getter;
 		
 		OgreComponentsFactory::OgreComponentsFactory():
 		render_subsystem(nullptr)
@@ -48,6 +51,10 @@ namespace UnknownEngine
 			
 			creatable_object.creator = std::bind(&OgreComponentsFactory::createRenderableComponent, this, std::placeholders::_1);
 			creatable_object.type = OgreRenderableComponent::getTypeName();
+			registerCreator(creatable_object);
+			
+			creatable_object.creator = std::bind(&OgreComponentsFactory::createHOQVisibilityChecker, this, std::placeholders::_1);
+			creatable_object.type = OgreHOQVisibilityChecker::getTypeName();
 			registerCreator(creatable_object);
 		}
 
@@ -96,6 +103,14 @@ namespace UnknownEngine
 			return renderable;
 		}
 
+		Core::IComponent* OgreComponentsFactory::createHOQVisibilityChecker ( const Core::ComponentDesc& desc )
+		{
+			if(!render_subsystem) return nullptr;
+			OgreHOQVisibilityCheckerDesc descriptor = desc.descriptor.apply_visitor(hoq_visibility_checker_desc_getter);
+			OgreHOQVisibilityChecker* visibility_checker = new OgreHOQVisibilityChecker(desc.name.c_str(), descriptor, render_subsystem);
+			return visibility_checker;
+		}
+		
 		void OgreComponentsFactory::destroyOgreComponent ( Core::IComponent* component )
 		{
 			BaseOgreComponent* ogre_component = static_cast<BaseOgreComponent*>(component);

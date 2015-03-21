@@ -13,7 +13,7 @@ namespace UnknownEngine
 			public:
 				constexpr static const char* getType(){return "VerboseVisibilityChecker";}
 				
-				virtual VisibilityData getVisibilityData() = 0;
+				virtual VisibilityData getVisibilityData() const = 0;
 		};
 	}
 }

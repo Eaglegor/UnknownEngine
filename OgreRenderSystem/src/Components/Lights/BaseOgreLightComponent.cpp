@@ -27,8 +27,8 @@ namespace UnknownEngine
 		
 		void BaseOgreLightComponent::internalInit(  )
 		{
-			ogre_light = render_subsystem->getSceneManager()->createLight(Ogre::String(getName()) + ".Light");
-			ogre_scene_node = render_subsystem->getSceneManager()->getRootSceneNode()->createChildSceneNode(Ogre::String(getName())+".SceneNode");
+			ogre_light = getRenderSubsystem()->getSceneManager()->createLight(Ogre::String(getName()) + ".Light");
+			ogre_scene_node = getRenderSubsystem()->getSceneManager()->getRootSceneNode()->createChildSceneNode(Ogre::String(getName())+".SceneNode");
 			
 			Ogre::ColourValue diffuse_color = light_settings.diffuse_color * light_settings.intensity;
 			ogre_light->setDiffuseColour( diffuse_color );
@@ -65,8 +65,8 @@ namespace UnknownEngine
 			
 			ogre_scene_node->detachObject(ogre_light);
 			
-			render_subsystem->getSceneManager()->destroyLight(ogre_light);
-			render_subsystem->getSceneManager()->destroySceneNode(ogre_scene_node);
+			getRenderSubsystem()->getSceneManager()->destroyLight(ogre_light);
+			getRenderSubsystem()->getSceneManager()->destroySceneNode(ogre_scene_node);
 		}
 
 		void BaseOgreLightComponent::setOrientation ( const Math::Quaternion& quaternion )
