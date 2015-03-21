@@ -274,6 +274,8 @@ namespace UnknownEngine
 			mapping.emplace ( "POWER", Key::POWER );
 			
 			mapping.emplace ( "EURO", Key::EURO );
+			
+			mapping.emplace ( "~", Key::BACKQUOTE );
 		}
 
 		Key KeycodeParser::parse ( const std::string& value ) const

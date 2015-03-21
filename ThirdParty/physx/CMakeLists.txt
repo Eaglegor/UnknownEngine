@@ -1,0 +1,6 @@
+file(MD5 ${CMAKE_CURRENT_SOURCE_DIR}/physx_3.3.3.zip HASH)
+if(NOT HASH STREQUAL 367495e8b0ec4ff4f05a20ae4b6aa789)
+	message(ERROR "PhysX package not found or has different MD5 hash")
+else()
+	message(STATUS "PhysX package found")
+endif()

@@ -2,7 +2,7 @@
 
 #include <ComponentSystem/BaseComponent.h>
 #include <Descriptors/Components/PxFixedJointComponentDesc.h>
-#include <ComponentInterfaces/PhysX/IPhysXRigidBodyComponent.h>
+#include <ComponentInterfaces/Physics/PhysX/IPhysXRigidBodyComponent.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
 #include <LogHelper.h>
 #include <Exception.h>

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Controllers/ESControllerType.h>
-#include <ComponentInterfaces/ESHardware/ESHardwareStateNotifier.h>
+#include <ComponentInterfaces/Modules/Endoscopy/Hardware/ESHardwareStateNotifier.h>
 
 namespace UnknownEngine
 {

@@ -2,15 +2,15 @@
 
 #include <LogHelper.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
-#include <ComponentInterfaces/Ogre/IOgreRenderWindowComponent.h>
-#include <ComponentInterfaces/CEGUI/CEGuiWidgetComponent.h>
+#include <ComponentInterfaces/RenderSystem/Ogre/IOgreRenderWindowComponent.h>
+#include <ComponentInterfaces/GUI/CEGUI/CEGuiWidgetComponent.h>
 #include <ComponentSystem/BaseComponent.h>
 #include <OgreRenderTargetListener.h>
 #include <Concurrency/WaitingForEventWrapper.h>
-#include <ComponentInterfaces/Input/IMouseEventsListener.h>
-#include <ComponentInterfaces/Input/IKeyboardEventsListener.h>
-#include <ComponentInterfaces/Input/IKeyboardHandler.h>
-#include <ComponentInterfaces/Input/IMouseHandler.h>
+#include <ComponentInterfaces/Input/Common/IMouseEventsListener.h>
+#include <ComponentInterfaces/Input/Common/IKeyboardEventsListener.h>
+#include <ComponentInterfaces/Input/Common/IKeyboardHandler.h>
+#include <ComponentInterfaces/Input/Common/IMouseHandler.h>
 #include <ICEGuiContext.h>
 #include <Concurrency/DataStructures/ConcurrentSet.h>
 

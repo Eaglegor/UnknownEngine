@@ -74,7 +74,10 @@ namespace UnknownEngine
 			{
 				for(SimpleActionSlot* action_slot : *subscriptions)
 				{
-					action_slot->onEvent( new_state == MouseButtonState::MOUSE_BUTTON_PRESSED );
+					if(action_slot->isActive())
+					{
+						action_slot->onEvent( new_state == MouseButtonState::MOUSE_BUTTON_PRESSED );
+					}
 				}
 			}
 		}
@@ -87,7 +90,10 @@ namespace UnknownEngine
 			{
 				for(RangeActionSlot* action_slot : *subscriptions)
 				{
-					action_slot->onEvent( delta_axis );
+					if(action_slot->isActive())
+					{
+						action_slot->onEvent( delta_axis );
+					}
 				}
 			}
 		}

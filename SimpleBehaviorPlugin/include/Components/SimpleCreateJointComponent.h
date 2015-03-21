@@ -2,8 +2,8 @@
 #include <Components/SimpleBehaviorComponent.h>
 #include <Descriptors/SimpleCreateJointComponentDesc.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
-#include <ComponentInterfaces/Input/IContextualActionsMapper.h>
-#include <ComponentInterfaces/RenderSystem/IRenderable.h>
+#include <ComponentInterfaces/Input/Common/IContextualActionsMapper.h>
+#include <ComponentInterfaces/RenderSystem/Common/IRenderable.h>
 
 
 namespace UnknownEngine

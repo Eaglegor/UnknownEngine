@@ -98,7 +98,10 @@ namespace UnknownEngine
 			{
 				for(SimpleActionSlot* action_slot : *subscriptions)
 				{
-					action_slot->onEvent( new_state == JoystickButtonState::PRESSED );
+					if(action_slot->isActive())
+					{
+						action_slot->onEvent( new_state == JoystickButtonState::PRESSED );
+					}
 				}
 			}
 		}
@@ -112,7 +115,10 @@ namespace UnknownEngine
 				Math::Scalar event_value = range_mapper ? range_mapper->getMappedValue(new_value) : new_value;
 				for(RangeActionSlot* action_slot : *subscriptions)
 				{
-					action_slot->onEvent( event_value );
+					if(action_slot->isActive())
+					{
+						action_slot->onEvent( event_value );
+					}
 				}
 			}
 		}

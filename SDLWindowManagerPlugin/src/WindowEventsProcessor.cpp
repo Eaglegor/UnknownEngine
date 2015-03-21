@@ -1,7 +1,7 @@
 #include <stdafx.h>
 #include <WindowEventsProcessor.h>
 #include <SDLWindowManager.h>
-#include <ComponentInterfaces/GUI/WindowEventsListenerComponent.h>
+#include <ComponentInterfaces/GUI/Common/WindowEventsListenerComponent.h>
 
 #include <Events/JoystickAxisEvent.h>
 #include <Events/JoystickButtonEvent.h>
@@ -10,9 +10,9 @@
 #include <Events/MouseMovedEvent.h>
 #include <Events/MouseWheelEvent.h>
 
-#include <ComponentInterfaces/Input/IJoystickEventsListener.h>
-#include <ComponentInterfaces/Input/IKeyboardEventsListener.h>
-#include <ComponentInterfaces/Input/IMouseEventsListener.h>
+#include <ComponentInterfaces/Input/Common/IJoystickEventsListener.h>
+#include <ComponentInterfaces/Input/Common/IKeyboardEventsListener.h>
+#include <ComponentInterfaces/Input/Common/IMouseEventsListener.h>
 
 #include <SDL.h>
 
@@ -51,6 +51,7 @@ namespace UnknownEngine
 						
 						evt.key = keys_converter.getUnknownEngineKey(event.key.keysym.sym);
 						evt.new_state = (event.type == SDL_KEYDOWN ? IO::KeyState::KEY_PRESSED : IO::KeyState::KEY_UNPRESSED);
+						evt.character = event.key.keysym.sym;
 						
 						for(ComponentInterfaces::IKeyboardEventsListener* listener : keyboard_events_listeners)
 						{

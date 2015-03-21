@@ -1,10 +1,11 @@
 #pragma once
 #include <ComponentSystem/BaseComponent.h>
-#include <ComponentInterfaces/CEGUI/CEGuiWidgetComponent.h>
+#include <ComponentInterfaces/GUI/CEGUI/CEGuiWidgetComponent.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
 #include <FrameWindowDesc.h>
-#include "BaseCEGuiComponent.h"
+#include <BaseCEGuiComponent.h>
 #include <LogHelper.h>
+#include <Profiling/AverageFpsCounter.h>
 
 namespace CEGUI
 {
@@ -36,10 +37,14 @@ namespace UnknownEngine
 			virtual void internalInit();
 			virtual void internalShutdown();
 			
+			void updateFps(size_t fps);
+			
 			FrameWindowDesc desc;
 			CEGUI::FrameWindow* window;
 			Core::ComponentInterfacePtr<ComponentInterfaces::CEGuiWidgetComponent> parent_widget;
 			Core::LogHelper logger;
+			
+			Utils::AverageFpsCounter fps_counter;
 		};
 	}
 }

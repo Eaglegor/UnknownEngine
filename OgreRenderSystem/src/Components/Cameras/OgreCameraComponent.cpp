@@ -32,10 +32,10 @@ namespace UnknownEngine
 		OgreCameraComponent::~OgreCameraComponent()
 		{
 			LOG_INFO ( logger, "Destroying OGRE camera" );
-			render_subsystem->getSceneManager()->destroyCamera ( this->camera );
+			getRenderSubsystem()->getSceneManager()->destroyCamera ( this->camera );
 
 			LOG_INFO ( logger, "Destroying OGRE scene node" );
-			render_subsystem->getSceneManager()->destroySceneNode ( this->scene_node );
+			getRenderSubsystem()->getSceneManager()->destroySceneNode ( this->scene_node );
 		}
 
 		void OgreCameraComponent::internalInit (  )
@@ -46,10 +46,10 @@ namespace UnknownEngine
 			}
 			
 			LOG_INFO ( logger, "Creating OGRE camera" );
-			this->camera = render_subsystem->getSceneManager()->createCamera ( Ogre::String ( getName() ) + ".Camera" );
+			this->camera = getRenderSubsystem()->getSceneManager()->createCamera ( Ogre::String ( getName() ) + ".Camera" );
 
 			LOG_INFO ( logger, "Creating OGRE scene node" );
-			this->scene_node = render_subsystem->getSceneManager()->getRootSceneNode()->createChildSceneNode ( Ogre::String ( getName() ) + ".SceneNode" );
+			this->scene_node = getRenderSubsystem()->getSceneManager()->getRootSceneNode()->createChildSceneNode ( Ogre::String ( getName() ) + ".SceneNode" );
 
 			render_window->getOgreRenderWindow()->addViewport ( camera );
 

@@ -7,7 +7,7 @@
 #include <Descriptors/Components/Renderables/OgreRenderableComponentDescriptor.h>
 #include <LogHelper.h>
 #include <ComponentInterfaces/Transform/MovableComponent.h>
-#include <ComponentInterfaces/RenderSystem/IRenderable.h>
+#include <ComponentInterfaces/RenderSystem/Ogre/IOgreRenderableComponent.h>
 #include <ComponentInterfaces/Transform/TransformNotifierComponent.h>
 #include <Spinlock.h>
 
@@ -36,7 +36,7 @@ namespace UnknownEngine
 		UNKNOWNENGINE_ALIGNED_CLASS(16) OgreRenderableComponent: 
 		public BaseOgreComponent,
 		public ComponentInterfaces::MovableComponent,
-		public ComponentInterfaces::IRenderable
+		public ComponentInterfaces::IOgreRenderableComponent
 		{
 			public:
 
@@ -55,6 +55,9 @@ namespace UnknownEngine
 				virtual void setTransform ( const Math::Transform & transform ) override;
 				
 				virtual void setMaterialName ( const char * material_name ) override;
+
+				virtual Ogre::Entity * getEntity();
+				virtual Ogre::SceneNode * getSceneNode();
 				
 				virtual IComponentInterface * getInterface ( const Core::ComponentType & type ) override;
 				

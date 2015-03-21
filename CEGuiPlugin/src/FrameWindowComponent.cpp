@@ -11,7 +11,8 @@ namespace UnknownEngine
 		desc(desc),
 		window(nullptr),
 		parent_widget(desc.parent_window),
-		logger(name, desc.log_level)
+		logger(name, desc.log_level),
+		fps_counter(2500, std::bind(&FrameWindowComponent::updateFps, this, std::placeholders::_1))
 		{
 		}
 
@@ -71,6 +72,12 @@ namespace UnknownEngine
 
 		void FrameWindowComponent::_update()
 		{
+			fps_counter.nextFrame();
+		}
+		
+		void FrameWindowComponent::updateFps(size_t fps)
+		{
+			window->setText(std::to_string(fps));
 		}
 		
 	}

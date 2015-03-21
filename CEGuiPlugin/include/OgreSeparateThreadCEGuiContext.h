@@ -1,7 +1,7 @@
 #pragma once
 
 #include <OgreCEGuiContext.h>
-#include <ComponentInterfaces/RenderSystem/IRenderWindowEventsListener.h>
+#include <ComponentInterfaces/RenderSystem/Common/IRenderWindowEventsListener.h>
 #include <Spinlock.h>
 #include <Concurrency/DataStructures/LockingConcurrentQueue.h>
 #include <Concurrency/DataStructures/ConcurrentSet.h>

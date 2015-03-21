@@ -61,6 +61,8 @@ AngelScriptPlugin
 
 Endoscopy
 CEGuiPlugin
+
+Media
 )
 
 set(

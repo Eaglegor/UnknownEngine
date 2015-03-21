@@ -8,7 +8,7 @@
 
 #include <ComponentInterfaces/Engine/FrameUpdaterComponent.h>
 #include <ComponentInterfaces/Engine/UpdateFrameListenerComponent.h>
-#include <ComponentInterfaces/PhysX/IPhysXSubsystemComponent.h>
+#include <ComponentInterfaces/Physics/PhysX/IPhysXSubsystemComponent.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
 #include <ComponentSystem/BaseComponent.h>
 #include <LogHelper.h>

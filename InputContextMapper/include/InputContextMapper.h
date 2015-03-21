@@ -17,15 +17,15 @@
 
 #include <ComponentSystem/BaseComponent.h>
 
-#include <ComponentInterfaces/Input/IMouseHandler.h>
-#include <ComponentInterfaces/Input/IKeyboardHandler.h>
-#include <ComponentInterfaces/Input/IJoystickHandler.h>
+#include <ComponentInterfaces/Input/Common/IMouseHandler.h>
+#include <ComponentInterfaces/Input/Common/IKeyboardHandler.h>
+#include <ComponentInterfaces/Input/Common/IJoystickHandler.h>
 
-#include <ComponentInterfaces/Input/IMouseEventsListener.h>
-#include <ComponentInterfaces/Input/IKeyboardEventsListener.h>
-#include <ComponentInterfaces/Input/IJoystickEventsListener.h>
+#include <ComponentInterfaces/Input/Common/IMouseEventsListener.h>
+#include <ComponentInterfaces/Input/Common/IKeyboardEventsListener.h>
+#include <ComponentInterfaces/Input/Common/IJoystickEventsListener.h>
 
-#include <ComponentInterfaces/Input/IContextualActionsMapper.h>
+#include <ComponentInterfaces/Input/Common/IContextualActionsMapper.h>
 
 #include <ComponentSystem/ComponentInterfacePtr.h>
 
@@ -86,6 +86,9 @@ namespace UnknownEngine
 			
 			virtual IComponentInterface* getInterface ( const Core::ComponentType& type );
 			
+			virtual void setCurrentContext(const char* context_name) override;
+			virtual const char* getCurrentContext() override;
+
 			KeyboardEventHandler* getKeyboardEventHandler();
 			MouseEventHandler* getMouseEventHandler();
 			JoystickEventHandler* getJoystickEventHandler();
@@ -105,6 +108,8 @@ namespace UnknownEngine
 			Core::ComponentInterfacePtr<ComponentInterfaces::IMouseHandler> mouse_input_provider;
 			Core::ComponentInterfacePtr<ComponentInterfaces::IKeyboardHandler> keyboard_input_provider;
 			Core::ComponentInterfacePtr<ComponentInterfaces::IJoystickHandler> joystick_input_provider;
+
+			InputContext* current_context;
 			
         };
     }

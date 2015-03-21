@@ -44,6 +44,7 @@ namespace UnknownEngine
 						{"joystick_input_provider_name", PropertiesParser::RequiredValue<std::string>([&desc](const std::string& value){
 							desc.joystick_input_provider = Core::ComponentsManager::getSingleton()->findComponent(value.c_str());
 						})},
+						{ "default_context_name", PropertiesParser::OptionalValue<std::string>(desc.default_context_name) }
 					}
 					);
 

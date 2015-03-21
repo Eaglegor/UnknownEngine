@@ -10,8 +10,8 @@ namespace UnknownEngine
 		desc(desc),
 		logger(name, desc.log_level),
 		render_subsystem(render_subsystem),
-		parent_window(desc.parent_window),
 		render_window(nullptr),
+		parent_window(desc.parent_window),
 		current_listener(nullptr),
 		removing_listener(nullptr)
 		{

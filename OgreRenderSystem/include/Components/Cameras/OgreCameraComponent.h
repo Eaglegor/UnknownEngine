@@ -8,7 +8,7 @@
 #include <Exception.h>
 #include <LogHelper.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
-#include <ComponentInterfaces/Ogre/IOgreRenderWindowComponent.h>
+#include <ComponentInterfaces/RenderSystem/Ogre/IOgreRenderWindowComponent.h>
 #include <ComponentInterfaces/Transform/TransformNotifierComponent.h>
 #include <ComponentInterfaces/Transform/MovableComponent.h>
 #include <Spinlock.h>

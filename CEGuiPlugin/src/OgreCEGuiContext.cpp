@@ -10,6 +10,7 @@
 #include <CEGUI/GUIContext.h>
 #include <CEGUI/Window.h>
 #include <Logging.h>
+#include <Scalar.h>
 #include <ScanCodeConverter.h>
 
 namespace UnknownEngine
@@ -60,7 +61,7 @@ namespace UnknownEngine
 			if(keyboard_handler) keyboard_handler->addKeyboardEventsListener(this);
 			if(mouse_handler) mouse_handler->addMouseEventsListener(this);
 			
-			CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");
+			//CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");
 			
 			return true;
 		}
@@ -112,6 +113,7 @@ namespace UnknownEngine
 				case IO::KeyState::KEY_PRESSED:
 				{
 					CEGUI::System::getSingleton().getDefaultGUIContext().injectKeyDown(ScanCodeConverter::toCeguiScancode(evt.key));
+					CEGUI::System::getSingleton().getDefaultGUIContext().injectChar (evt.character);
 					break;
 				}
 				case IO::KeyState::KEY_UNPRESSED:
@@ -204,7 +206,14 @@ namespace UnknownEngine
 
 		void OgreCEGuiContext::onMouseMoveEvent ( const IO::MouseMovedEvent& evt )
 		{
-			CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseMove(evt.delta_x, evt.delta_y);
+			if(evt.new_x != 0 || evt.new_y != 0)
+			{
+				CEGUI::System::getSingleton().getDefaultGUIContext().injectMousePosition(evt.new_x, evt.new_y);
+			}
+			else
+			{
+				CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseMove(evt.delta_x, evt.delta_y);
+			}
 		}
 
 		void OgreCEGuiContext::onMouseWheelEvent ( const IO::MouseWheelEvent& evt )

@@ -7,7 +7,7 @@
 
 #include <ComponentInterfaces/Engine/FrameUpdaterComponent.h>
 #include <ComponentInterfaces/Engine/UpdateFrameListenerComponent.h>
-#include <ComponentInterfaces/Input/IContextualActionsMapper.h>
+#include <ComponentInterfaces/Input/Common/IContextualActionsMapper.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
 #include <ComponentInterfaces/Transform/TransformHolderComponent.h>
 #include <ComponentInterfaces/Transform/TransformNotifierComponent.h>

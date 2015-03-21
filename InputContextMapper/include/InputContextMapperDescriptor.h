@@ -19,6 +19,8 @@ namespace UnknownEngine
 			Core::IComponent* mouse_input_provider;
 			Core::IComponent* keyboard_input_provider;
 			Core::IComponent* joystick_input_provider;
+
+			std::string default_context_name;
 			
             InputContextMapperDescriptor():
             log_level(Core::LogSeverity::NONE),

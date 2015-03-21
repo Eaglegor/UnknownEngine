@@ -19,7 +19,8 @@ namespace UnknownEngine
 		update_frame_provider(desc.update_frame_provider),
 		mouse_input_provider(desc.mouse_input_provider),
 		keyboard_input_provider(desc.keyboard_input_provider),
-		joystick_input_provider(desc.joystick_input_provider)
+		joystick_input_provider(desc.joystick_input_provider),
+		current_context(nullptr)
 		{
 		}
 
@@ -53,6 +54,13 @@ namespace UnknownEngine
 			if(mouse_input_provider) mouse_input_provider->addMouseEventsListener(this);
 			if(joystick_input_provider) joystick_input_provider->addJoystickEventsListener(this);
 			
+			if (!desc.default_context_name.empty())
+			{
+				current_context = findContext(desc.default_context_name);
+				if (current_context) current_context->setActive(true);
+				else LOG_ERROR(logger, "Can't find input context " + desc.default_context_name + " to set as a default input context");
+			}
+
 			return true;
 		}
 
@@ -75,7 +83,7 @@ namespace UnknownEngine
 		InputContext* InputContextMapper::createContext(const std::string& name)
 		{
 			LOG_INFO(logger, "Creating input context: " + name);
-			return &(contexts.emplace(name, InputContext()).first->second);
+			return &(contexts.emplace(name, InputContext(name.c_str())).first->second);
 		}
 		
 		InputContext* InputContextMapper::findContext(const std::string& name)
@@ -210,5 +218,24 @@ namespace UnknownEngine
 			return nullptr;
 		}
 	
+		void InputContextMapper::setCurrentContext(const char* context_name)
+		{
+			InputContext* new_context = findContext(context_name);
+			if (new_context) {
+				current_context->setActive(false);
+				current_context = new_context;
+				current_context->setActive(true);
+			}
+			else
+			{
+				LOG_ERROR(logger, "Can't find input context " + context_name);
+			}
+		}
+
+		const char* InputContextMapper::getCurrentContext()
+		{
+			return current_context->getName();
+		}
+		
 	}
 }

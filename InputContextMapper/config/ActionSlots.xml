@@ -1,5 +1,98 @@
 <contexts>
 	
+	<context name="Game">
+		
+		<action_slots>
+			<action_slot name="System_StopEngine" event="Simple" condition="EventStarted"/>
+			<action_slot name="System_GrabMouse" event="Simple" condition="EventStarted"/>
+			<action_slot name="System_OpenConsole" event="Simple" condition="EventStarted"/>
+			
+			<action_slot name="CameraML_Yaw" event="Range"/>
+			<action_slot name="CameraML_Pitch" event="Range"/>
+			<action_slot name="CameraML_MoveForward" event="Simple" condition="EventActive"/>
+			<action_slot name="CameraML_MoveBackward" event="Simple" condition="EventActive"/>
+			<action_slot name="CameraML_StrafeLeft" event="Simple" condition="EventActive"/>
+			<action_slot name="CameraML_StrafeRight" event="Simple" condition="EventActive"/>
+			<action_slot name="CameraML_StrafeUp" event="Simple" condition="EventActive"/>
+			<action_slot name="CameraML_StrafeDown" event="Simple" condition="EventActive"/>
+			
+			<action_slot name="CameraAlg_XRotation" event="Range"/>
+			<action_slot name="CameraAlg_YRotation" event="Range"/>
+			<action_slot name="CameraAlg_ZLeftRotation" event="Simple" condition="EventActive"/>
+			<action_slot name="CameraAlg_ZRightRotation" event="Simple" condition="EventActive"/>
+			<action_slot name="CameraAlg_DAxisPush" event="Simple" condition="EventActive"/>
+			<action_slot name="CameraAlg_DAxisPull" event="Simple" condition="EventActive"/>
+			<action_slot name="CameraAlg_BranchesTogether" event="Simple" condition="EventActive"/>
+			
+			<action_slot name="CubeAlg_Yaw" event="Range"/>
+			<action_slot name="CubeAlg_Pitch" event="Range"/>
+			<action_slot name="CubeAlg_MoveForward" event="Simple" condition="EventActive"/>
+			<action_slot name="CubeAlg_MoveBackward" event="Simple" condition="EventActive"/>
+			<action_slot name="CubeAlg_StrafeLeft" event="Simple" condition="EventActive"/>
+			<action_slot name="CubeAlg_StrafeRight" event="Simple" condition="EventActive"/>
+			<action_slot name="CubeAlg_StrafeUp" event="Simple" condition="EventActive"/>
+			<action_slot name="CubeAlg_StrafeDown" event="Simple" condition="EventActive"/>
+			
+			<action_slot name="JointAlg_CreateJoint" event="Simple" condition="EventStarted"/>
+		</action_slots>
+		
+		<group prefix="System_">
+			<action_slot name="StopEngine" event="Simple" condition="EventStarted"/>
+			<action_slot name="GrabMouse" event="Simple" condition="EventStarted"/>
+			<action_slot name="OpenConsole" event="Simple" condition="EventStarted"/>
+		</group>
+		
+		<group prefix="CameraML_">
+			<action_slot name="Yaw" event="Range"/>
+			<action_slot name="Pitch" event="Range"/>
+
+			<action_slot name="MoveForward" event="Simple" condition="EventActive"/>
+			<action_slot name="MoveBackward" event="Simple" condition="EventActive"/>
+			<action_slot name="StrafeLeft" event="Simple" condition="EventActive"/>
+			<action_slot name="StrafeRight" event="Simple" condition="EventActive"/>
+			<action_slot name="StrafeUp" event="Simple" condition="EventActive"/>
+			<action_slot name="StrafeDown" event="Simple" condition="EventActive"/>
+		</group>
+		
+		<group prefix="CameraAlg_">
+			<action_slot name="XRotation" event="Range"/>
+			<action_slot name="YRotation" event="Range"/>
+			<action_slot name="ZLeftRotation" event="Simple" condition="EventActive"/>
+			<action_slot name="ZRightRotation" event="Simple" condition="EventActive"/>
+			<action_slot name="DAxisPush" event="Simple" condition="EventActive"/>
+			<action_slot name="DAxisPull" event="Simple" condition="EventActive"/>
+			<action_slot name="BranchesTogether" event="Simple" condition="EventActive"/>
+		</group>
+
+		<group prefix="CubeAlg_">
+			<action_slot name="Yaw" event="Range"/>
+			<action_slot name="Pitch" event="Range"/>
+
+			<action_slot name="MoveForward" event="Simple" condition="EventActive"/>
+			<action_slot name="MoveBackward" event="Simple" condition="EventActive"/>
+			<action_slot name="StrafeLeft" event="Simple" condition="EventActive"/>
+			<action_slot name="StrafeRight" event="Simple" condition="EventActive"/>
+			<action_slot name="StrafeUp" event="Simple" condition="EventActive"/>
+			<action_slot name="StrafeDown" event="Simple" condition="EventActive"/>
+		</group>
+
+		<group prefix="JointAlg_">
+			<action_slot name="CreateJoint" event="Simple" condition="EventStarted"/>
+		</group>
+		
+	</context>
+	
+	<context name="ConsoleActive">
+		
+		<action_slots>
+			<action_slot name="System_CloseConsole" event="Simple" condition="EventStarted"/>
+		</action_slots>
+		
+		<group prefix="System_">
+			<action_slot name="CloseConsole" event="Simple" condition="EventStarted"/>
+		</group>
+	</context>
+	
 	<context name="Generic">
 		
 		<action_slots>

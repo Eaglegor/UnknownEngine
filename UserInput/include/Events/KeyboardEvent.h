@@ -12,6 +12,7 @@ namespace UnknownEngine
 			uint32_t keyboard_id;
 			Key key;
 			KeyState new_state;
+			char character;
 		};
 	}
 }
