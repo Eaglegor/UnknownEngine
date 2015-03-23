@@ -5,6 +5,7 @@
 #include <ComponentInterfaces/Engine/FrameUpdaterComponent.h>
 #include <ComponentSystem/BaseComponent.h>
 #include <unordered_set>
+#include <Observer.h>
 
 namespace UnknownEngine
 {
@@ -50,7 +51,7 @@ namespace UnknownEngine
 			private:
 				volatile bool stopped;
 
-				std::unordered_set<ComponentInterfaces::UpdateFrameListenerComponent*> listeners;
+				Utils::Observer<ComponentInterfaces::UpdateFrameListenerComponent> update_frame_observer;
 		};
 
 	} /* namespace Core */

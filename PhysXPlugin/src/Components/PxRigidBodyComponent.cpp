@@ -100,10 +100,12 @@ namespace UnknownEngine
 				current_transform = PxTransformConverter::fromPxTransform(px_rigid_body->getGlobalPose());
 				if(!first_update_passed) first_update_passed = true;
 				
-				for(MovableComponent* listener : transform_listeners)
-				{
-					listener->setTransform(current_transform);
-				}
+				transform_listeners.doForAllListeners(
+					[this](MovableComponent* listener)
+					{
+						listener->setTransform(this->current_transform);
+					}
+				);
 			}
 		}
 		
@@ -166,12 +168,12 @@ namespace UnknownEngine
 			
 		void PxRigidBodyComponent::addListener ( MovableComponent* movable_component )
 		{
-			transform_listeners.emplace(movable_component);
+			transform_listeners.addListener(movable_component);
 		}
 
 		void PxRigidBodyComponent::removeListener ( MovableComponent* movable_component )
 		{
-			transform_listeners.erase(movable_component);
+			transform_listeners.removeListener(movable_component);
 		}
 		
 		void PxRigidBodyComponent::setOrientation ( const Math::Quaternion& quaternion )

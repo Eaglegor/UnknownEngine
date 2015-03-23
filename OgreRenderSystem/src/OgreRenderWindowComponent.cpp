@@ -11,9 +11,7 @@ namespace UnknownEngine
 		logger(name, desc.log_level),
 		render_subsystem(render_subsystem),
 		render_window(nullptr),
-		parent_window(desc.parent_window),
-		current_listener(nullptr),
-		removing_listener(nullptr)
+		parent_window(desc.parent_window)
 		{
 			Core::ComponentsManager::getSingleton()->reserveComponent(render_subsystem);
 		}
@@ -76,17 +74,12 @@ namespace UnknownEngine
 		
 		void OgreRenderWindowComponent::_update()
 		{
-			for(ComponentInterfaces::IRenderWindowEventsListener* listener : render_events_listeners)
-			{
-				if(removing_listener != nullptr) 
+			render_events_observer.doForAllListeners(
+				[](ComponentInterfaces::IRenderWindowEventsListener* listener)
 				{
-					render_events_listeners.erase(removing_listener);
-					removing_listener = nullptr;
+					listener->onRenderFrame();
 				}
-				current_listener = listener;
-				listener->onRenderFrame();
-			}
-			current_listener = nullptr;
+			);
 		}
 		
 		OgreRenderWindowComponent::~OgreRenderWindowComponent()
@@ -103,20 +96,12 @@ namespace UnknownEngine
 		
 		void OgreRenderWindowComponent::addListener ( ComponentInterfaces::IRenderWindowEventsListener* listener )
 		{
-
-			render_events_listeners.emplace(listener);
+			render_events_observer.addListener(listener);
 		}
 
 		void OgreRenderWindowComponent::removeListener ( ComponentInterfaces::IRenderWindowEventsListener* listener )
 		{
-			if(listener == current_listener)
-			{
-				removing_listener = listener;
-			}
-			else
-			{
-				render_events_listeners.erase(listener);
-			}
+			render_events_observer.removeListener(listener);
 		}
 		
 	}

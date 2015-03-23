@@ -15,6 +15,7 @@
 #include <OgreRenderQueueListener.h>
 #include <OgreRenderTargetListener.h>
 #include <unordered_set>
+#include <Observer.h>
 
 namespace Ogre
 {
@@ -67,7 +68,7 @@ namespace UnknownEngine
 			Core::ComponentInterfacePtr<ComponentInterfaces::IOgreRenderableComponent> checkable_object;
 			Core::ComponentInterfacePtr<ComponentInterfaces::IOgreRenderWindowComponent> render_window;
 			
-			Utils::ConcurrentSet<ComponentInterfaces::VisibilityCheckerListener*> listeners;
+			Utils::Observer<ComponentInterfaces::VisibilityCheckerListener> listeners;
 			
 			Ogre::HardwareOcclusionQuery* area_query;
 			Ogre::HardwareOcclusionQuery* visible_part_query;

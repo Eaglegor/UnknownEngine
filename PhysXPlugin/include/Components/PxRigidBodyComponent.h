@@ -10,6 +10,7 @@
 #include <ComponentInterfaces/Transform/MovableComponent.h>
 #include <memory>
 #include <Concurrency/DataStructures/LockingConcurrentSet.h>
+#include <Observer.h>
 
 namespace physx
 {
@@ -78,7 +79,7 @@ namespace UnknownEngine
 			//Core::ILogger* logger;
 			Math::Transform current_transform;
 			
-			Utils::LockingConcurrentSet<ComponentInterfaces::MovableComponent*> transform_listeners;
+			Utils::Observer<ComponentInterfaces::MovableComponent> transform_listeners;
 		};
 	}
 }

@@ -123,11 +123,12 @@ namespace UnknownEngine
 				needs_update_quaternion = false;
 			}
 			
-			for(MovableComponent* listener : listeners)
-			{
-				listener->setTransform(current_transform);
-			}
-			
+			listeners.doForAllListeners(
+				[this](MovableComponent* listener)
+				{
+					listener->setTransform(this->current_transform);
+				}
+			);
 		}
 		
 		Math::Quaternion MouseLookComponent::getOrientation()
@@ -260,12 +261,12 @@ namespace UnknownEngine
 	
 		void MouseLookComponent::addListener ( MovableComponent* movable_component )
 		{
-			listeners.emplace(movable_component);
+			listeners.addListener(movable_component);
 		}
 
 		void MouseLookComponent::removeListener ( MovableComponent* movable_component )
 		{
-			listeners.erase(movable_component);
+			listeners.removeListener(movable_component);
 		}
 	
 		Core::IComponentInterface* MouseLookComponent::getInterface ( const Core::ComponentType& type )

@@ -13,8 +13,8 @@ namespace UnknownEngine
 	namespace Core
 	{
 
-		MainLoopComponent::MainLoopComponent (const char* name) :
-			Core::BaseComponent(name),
+		MainLoopComponent::MainLoopComponent ( const char* name ) :
+			Core::BaseComponent ( name ),
 			stopped ( true )
 		{
 		}
@@ -30,15 +30,17 @@ namespace UnknownEngine
 
 			Utils::TimeCounter time_counter;
 			time_counter.tick();
-			
+
 			while ( !stopped )
 			{
 				time_counter.tick();
 
-				for(ComponentInterfaces::UpdateFrameListenerComponent* listener : listeners)
-				{
-					listener->onUpdateFrame(time_counter.getDt());
-				}
+				update_frame_observer.doForAllListeners (
+				    [&time_counter] ( ComponentInterfaces::UpdateFrameListenerComponent * listener )
+					{
+						listener->onUpdateFrame ( time_counter.getDt() );
+					}
+				);
 			}
 		}
 
@@ -46,20 +48,20 @@ namespace UnknownEngine
 		{
 			stopped = true;
 		}
-		
+
 		void MainLoopComponent::addListener ( ComponentInterfaces::UpdateFrameListenerComponent* listener )
 		{
-			listeners.insert(listener);
+			update_frame_observer.addListener ( listener );
 		}
 
 		void MainLoopComponent::removeListener ( ComponentInterfaces::UpdateFrameListenerComponent* listener )
 		{
-			listeners.erase(listener);
+			update_frame_observer.addListener ( listener );
 		}
 
 		ComponentType MainLoopComponent::getType() const
 		{
-			return Core::ComponentType(getTypeName());
+			return Core::ComponentType ( getTypeName() );
 		}
 
 		bool MainLoopComponent::init ()
@@ -71,13 +73,13 @@ namespace UnknownEngine
 		{
 
 		}
-		
+
 		IComponentInterface* MainLoopComponent::getInterface ( const ComponentType& type )
 		{
-			if(type == ComponentInterfaces::FrameUpdaterComponent::getType()) return this;
+			if ( type == ComponentInterfaces::FrameUpdaterComponent::getType() ) return this;
 			return nullptr;
 		}
 
-		
+
 	} /* namespace Core */
 } /* namespace UnknownEngine */

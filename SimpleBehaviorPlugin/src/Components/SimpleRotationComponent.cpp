@@ -39,10 +39,12 @@ namespace UnknownEngine
 			current_transform.setPosition(desc.initial_transform.getPosition());
 			current_transform.setOrientation( Math::Quaternion(Math::AngleAxis(current_angle, Math::Vector3(0,1,0))) );
 			
-			for(ComponentInterfaces::MovableComponent* listener : listeners)
-			{
-				listener->setTransform(current_transform);
-			}
+			listeners.doForAllListeners(
+				[this](ComponentInterfaces::MovableComponent* listener)
+				{
+					listener->setTransform(this->current_transform);
+				}
+			);
 		}
 		
 		void SimpleRotationComponent::shutdown()
@@ -75,12 +77,12 @@ namespace UnknownEngine
 	
 		void SimpleRotationComponent::addListener ( ComponentInterfaces::MovableComponent* movable_component )
 		{
-			listeners.emplace(movable_component);
+			listeners.addListener(movable_component);
 		}
 
 		void SimpleRotationComponent::removeListener ( ComponentInterfaces::MovableComponent* movable_component )
 		{
-			listeners.erase(movable_component);
+			listeners.removeListener(movable_component);
 		}
 	
 	}

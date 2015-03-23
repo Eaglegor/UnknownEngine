@@ -12,6 +12,7 @@
 #include <ComponentSystem/ComponentInterfacePtr.h>
 #include <LogHelper.h>
 #include <Concurrency/DataStructures/ConcurrentSet.h>
+#include <Observer.h>
 
 namespace UnknownEngine
 {
@@ -58,9 +59,7 @@ namespace UnknownEngine
 			Ogre::Root *root;
 			Core::ComponentInterfacePtr<ComponentInterfaces::GUIWindowComponent> parent_window;
 			
-			Utils::ConcurrentSet<ComponentInterfaces::IRenderWindowEventsListener*> render_events_listeners;
-			ComponentInterfaces::IRenderWindowEventsListener* current_listener;
-			ComponentInterfaces::IRenderWindowEventsListener* removing_listener;
+			Utils::Observer<ComponentInterfaces::IRenderWindowEventsListener> render_events_observer;
 		};
 	}
 }

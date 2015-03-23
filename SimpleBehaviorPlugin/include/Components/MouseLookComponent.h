@@ -13,6 +13,7 @@
 #include <ComponentInterfaces/Transform/TransformNotifierComponent.h>
 
 #include <Concurrency/DataStructures/LockingConcurrentSet.h>
+#include <Observer.h>
 
 namespace UnknownEngine
 {
@@ -91,7 +92,7 @@ namespace UnknownEngine
 			Core::ComponentInterfacePtr<ComponentInterfaces::FrameUpdaterComponent> update_frame_provider;
 			Core::ComponentInterfacePtr<ComponentInterfaces::IContextualActionsMapper> input_context_mapping_provider;
 			
-			Utils::LockingConcurrentSet<ComponentInterfaces::MovableComponent*> listeners;
+			Utils::Observer<ComponentInterfaces::MovableComponent> listeners;
 		};
 	}
 }

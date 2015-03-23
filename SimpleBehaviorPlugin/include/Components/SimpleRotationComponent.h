@@ -14,6 +14,7 @@
 #include <ComponentSystem/ComponentInterfacePtr.h>
 
 #include <Concurrency/DataStructures/LockingConcurrentSet.h>
+#include <Observer.h>
 
 namespace UnknownEngine
 {
@@ -59,7 +60,7 @@ namespace UnknownEngine
 			
 			SimpleRotationComponentDesc desc;
 			
-			Utils::LockingConcurrentSet<ComponentInterfaces::MovableComponent*> listeners;
+			Utils::Observer<ComponentInterfaces::MovableComponent> listeners;
 			
 			Math::Transform current_transform;
 			Math::Scalar current_angle;

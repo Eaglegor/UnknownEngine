@@ -9,6 +9,7 @@
 #include <ComponentInterfaces/Input/Common/IContextualActionsMapper.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
 #include <Concurrency/DataStructures/LockingConcurrentSet.h>
+#include <Observer.h>
 
 namespace UnknownEngine
 {
@@ -71,8 +72,7 @@ namespace UnknownEngine
 			Core::ComponentInterfacePtr<ComponentInterfaces::FrameUpdaterComponent> update_frame_provider;
 			Core::ComponentInterfacePtr<ComponentInterfaces::IContextualActionsMapper> input_context_mapping_provider;
 			
-			Utils::LockingConcurrentSet<ComponentInterfaces::ESHardwareStateListener*> listeners;
-			
+			Utils::Observer<ComponentInterfaces::ESHardwareStateListener> listeners;
 		};
 	}
 }

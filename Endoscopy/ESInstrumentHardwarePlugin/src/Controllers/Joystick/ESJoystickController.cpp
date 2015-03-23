@@ -214,20 +214,24 @@ namespace UnknownEngine
 				evt.z = current_z_axis;
 				evt.d = current_d_axis;
 				
-				for(ComponentInterfaces::ESHardwareStateListener* listener : listeners)
-				{
-					listener->onHardwareStickPoseChanged(evt);
-				}
+				listeners.doForAllListeners(
+					[&evt](ComponentInterfaces::ESHardwareStateListener* listener)
+					{
+						listener->onHardwareStickPoseChanged(evt);
+					}
+				);
 			}
 			
 			{
 				ESHardwareBranchesAngleChangedEvent evt;
 				evt.new_angle = current_branches_angle;
 				
-				for(ComponentInterfaces::ESHardwareStateListener* listener : listeners)
-				{
-					listener->onBranchesAngleChangedEvent(evt);
-				}
+				listeners.doForAllListeners(
+					[&evt](ComponentInterfaces::ESHardwareStateListener* listener)
+					{
+						listener->onBranchesAngleChangedEvent(evt);
+					}
+				);
 			}
 
 			current_z_delta = 0;
@@ -242,12 +246,12 @@ namespace UnknownEngine
 				
 		void ESJoystickController::addListener ( ComponentInterfaces::ESHardwareStateListener* listener )
 		{
-			listeners.emplace(listener);
+			listeners.addListener(listener);
 		}
 
 		void ESJoystickController::removeListener ( ComponentInterfaces::ESHardwareStateListener* listener )
 		{
-			listeners.erase(listener);
+			listeners.removeListener(listener);
 		}
 	
 	}

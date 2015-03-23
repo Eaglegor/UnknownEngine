@@ -69,20 +69,22 @@ namespace UnknownEngine
 			transform.setOrientation(x_quat * y_quat * z_quat);
 			transform.setPosition(desc.instrument_port_position + transform.getOrientation() * desc.instrument_direction * md);
 			
-			for(ComponentInterfaces::MovableComponent* listener : transform_listeners)
-			{
-				listener->setTransform(transform);
-			}
+			transform_listeners.doForAllListeners(
+				[&transform](ComponentInterfaces::MovableComponent* listener)
+				{
+					listener->setTransform(transform);
+				}
+			);
 		}
 
 		void ESInstrumentPoseAlgorithm::addListener ( ComponentInterfaces::MovableComponent* movable_component )
 		{
-			transform_listeners.emplace(movable_component);
+			transform_listeners.addListener(movable_component);
 		}
 
 		void ESInstrumentPoseAlgorithm::removeListener ( ComponentInterfaces::MovableComponent* movable_component )
 		{
-			transform_listeners.erase(movable_component);
+			transform_listeners.removeListener(movable_component);
 		}
 	
 		Core::IComponentInterface* ESInstrumentPoseAlgorithm::getInterface ( const Core::ComponentType& type )

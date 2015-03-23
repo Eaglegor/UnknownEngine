@@ -9,6 +9,7 @@
 #include <ComponentSystem/ComponentInterfacePtr.h>
 #include <Concurrency/DataStructures/ConcurrentSet.h>
 #include <ComponentInterfaces/Modules/Endoscopy/Hardware/ESHardwareStateNotifier.h>
+#include <Observer.h>
 
 namespace UnknownEngine
 {
@@ -50,7 +51,7 @@ namespace UnknownEngine
 			Utils::ValueRangeMapper<Math::Scalar> z_range_mapper;
 			Utils::ValueRangeMapper<Math::Scalar> d_range_mapper;
 			
-			Utils::ConcurrentSet<ComponentInterfaces::MovableComponent*> transform_listeners;
+			Utils::Observer<ComponentInterfaces::MovableComponent> transform_listeners;
 			
 			Core::ComponentInterfacePtr<ComponentInterfaces::ESHardwareStateNotifier> hardware_controller;
 		};

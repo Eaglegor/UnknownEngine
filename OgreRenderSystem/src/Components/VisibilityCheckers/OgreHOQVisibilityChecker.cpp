@@ -142,19 +142,25 @@ namespace UnknownEngine
 				if(visible_pixels_count > 0 && current_visibility_data.is_visible == false)
 				{
 					LOG_INFO(logger, "Object visible");
-					for(ComponentInterfaces::VisibilityCheckerListener* listener : listeners)
-					{
-						listener->onObjectVisible(component_cast<ComponentInterfaces::IRenderable*>(desc.checkable_object));
-					}
+					
+					listeners.doForAllListeners(
+						[this](ComponentInterfaces::VisibilityCheckerListener* listener)
+						{
+							listener->onObjectVisible(component_cast<ComponentInterfaces::IRenderable*>(this->desc.checkable_object));
+						}
+					);
 				}
 				
 				if(visible_pixels_count == 0 && current_visibility_data.is_visible == true)
 				{
 					LOG_INFO(logger, "Object invisible");
-					for(ComponentInterfaces::VisibilityCheckerListener* listener : listeners)
-					{
-						listener->onObjectInvisible(component_cast<ComponentInterfaces::IRenderable*>(desc.checkable_object));
-					}
+					
+					listeners.doForAllListeners(
+						[this](ComponentInterfaces::VisibilityCheckerListener* listener)
+						{
+							listener->onObjectInvisible(component_cast<ComponentInterfaces::IRenderable*>(this->desc.checkable_object));
+						}
+					);
 				}
 				
 				current_visibility_data.is_visible = visible_pixels_count > 0;
@@ -167,10 +173,14 @@ namespace UnknownEngine
 			if(objectIsNotRendered() && current_visibility_data.is_visible == true)
 			{
 				LOG_INFO(logger, "Object invisible");
-				for(ComponentInterfaces::VisibilityCheckerListener* listener : listeners)
-				{
-					listener->onObjectInvisible(component_cast<ComponentInterfaces::IRenderable*>(desc.checkable_object));
-				}
+				
+				listeners.doForAllListeners(
+					[this](ComponentInterfaces::VisibilityCheckerListener* listener)
+					{
+						listener->onObjectInvisible(component_cast<ComponentInterfaces::IRenderable*>(this->desc.checkable_object));
+					}
+				);
+				
 				current_visibility_data.is_visible = false;
 				current_visibility_data.visibility_ratio = 0;
 			}
@@ -188,12 +198,12 @@ namespace UnknownEngine
 		
 		void OgreHOQVisibilityChecker::addListener ( ComponentInterfaces::VisibilityCheckerListener* listener )
 		{
-			listeners.emplace(listener);
+			listeners.addListener(listener);
 		}
 
 		void OgreHOQVisibilityChecker::removeListener ( ComponentInterfaces::VisibilityCheckerListener* listener )
 		{
-			listeners.erase(listener);
+			listeners.removeListener(listener);
 		}
 		
 		void OgreHOQVisibilityChecker::notifyRenderSingleObject ( Ogre::Renderable* rend, const Ogre::Pass* pass, const Ogre::AutoParamDataSource* source, const Ogre::LightList* pLightList, bool suppressRenderStateChanges )

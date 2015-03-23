@@ -1,6 +1,7 @@
 #pragma once
 #include <SDLKeyCodesConverter.h>
 #include <SDLJoystickWrapper.h>
+#include <Observer.h>
 
 
 namespace UnknownEngine
@@ -40,10 +41,10 @@ namespace UnknownEngine
 			std::string name;
 			SDLJoystickWrapper joystick_wrapper;
 			
-			std::unordered_set<ComponentInterfaces::WindowEventsListenerComponent*> window_events_listeners;
-			std::unordered_set<ComponentInterfaces::IKeyboardEventsListener*> keyboard_events_listeners;
-			std::unordered_set<ComponentInterfaces::IMouseEventsListener*> mouse_events_listeners;
-			std::unordered_set<ComponentInterfaces::IJoystickEventsListener*> joystick_events_listeners;
+			Utils::Observer<ComponentInterfaces::WindowEventsListenerComponent> window_events_listeners;
+			Utils::Observer<ComponentInterfaces::IKeyboardEventsListener> keyboard_events_listeners;
+			Utils::Observer<ComponentInterfaces::IMouseEventsListener> mouse_events_listeners;
+			Utils::Observer<ComponentInterfaces::IJoystickEventsListener> joystick_events_listeners;
 		};
 	}
 }

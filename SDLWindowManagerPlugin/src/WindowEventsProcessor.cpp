@@ -53,11 +53,13 @@ namespace UnknownEngine
 						evt.new_state = (event.type == SDL_KEYDOWN ? IO::KeyState::KEY_PRESSED : IO::KeyState::KEY_UNPRESSED);
 						evt.character = event.key.keysym.sym;
 						
-						for(ComponentInterfaces::IKeyboardEventsListener* listener : keyboard_events_listeners)
-						{
-							listener->onKeyboardEvent(evt);
-						}
-						
+						keyboard_events_listeners.doForAllListeners(
+							[&evt](ComponentInterfaces::IKeyboardEventsListener* listener)
+							{
+								listener->onKeyboardEvent(evt);
+							}
+						);
+
 						break;
 					}
 					case SDL_MOUSEBUTTONDOWN:
@@ -99,10 +101,12 @@ namespace UnknownEngine
 							}
 						}
 
-						for(ComponentInterfaces::IMouseEventsListener* listener : mouse_events_listeners)
-						{
-							listener->onMouseButtonEvent(evt);
-						}
+						mouse_events_listeners.doForAllListeners(
+							[&evt](ComponentInterfaces::IMouseEventsListener* listener)
+							{
+								listener->onMouseButtonEvent(evt);
+							}
+						);
 
 						break;
 					}
@@ -115,10 +119,12 @@ namespace UnknownEngine
 
 						evt.delta = event.wheel.y;
 
-						for(ComponentInterfaces::IMouseEventsListener* listener : mouse_events_listeners)
-						{
-							listener->onMouseWheelEvent(evt);
-						}
+						mouse_events_listeners.doForAllListeners(
+							[&evt](ComponentInterfaces::IMouseEventsListener* listener)
+							{
+								listener->onMouseWheelEvent(evt);
+							}
+						);
 
 						break;
 					}
@@ -134,10 +140,12 @@ namespace UnknownEngine
 						evt.delta_x = event.motion.xrel;
 						evt.delta_y = event.motion.yrel;
 
-						for(ComponentInterfaces::IMouseEventsListener* listener : mouse_events_listeners)
-						{
-							listener->onMouseMoveEvent(evt);
-						}
+						mouse_events_listeners.doForAllListeners(
+							[&evt](ComponentInterfaces::IMouseEventsListener* listener)
+							{
+								listener->onMouseMoveEvent(evt);
+							}
+						);
 
 						break;
 					}
@@ -147,10 +155,13 @@ namespace UnknownEngine
 						{
 							case SDL_WINDOWEVENT_RESIZED:
 							{
-								for(ComponentInterfaces::WindowEventsListenerComponent* listener : window_events_listeners)
-								{
-									listener->onWindowResized(event.window.data1, event.window.data2);
-								}
+								window_events_listeners.doForAllListeners(
+									[&event](ComponentInterfaces::WindowEventsListenerComponent* listener)
+									{
+										listener->onWindowResized(event.window.data1, event.window.data2);
+									}
+								);
+
 								break;
 							}
 						}
@@ -163,11 +174,13 @@ namespace UnknownEngine
 						evt.joystick_id = event.jaxis.which;
 						evt.new_value = event.jaxis.value;
 						
-						for(ComponentInterfaces::IJoystickEventsListener* listener : joystick_events_listeners)
-						{
-							listener->onJoystickAxisEvent(evt);
-						}
-						
+						joystick_events_listeners.doForAllListeners(
+							[&evt](ComponentInterfaces::IJoystickEventsListener* listener)
+							{
+								listener->onJoystickAxisEvent(evt);
+							}
+						);
+
 						break;
 					}
 					case SDL_JOYBUTTONUP:
@@ -190,11 +203,13 @@ namespace UnknownEngine
 								break;
 							}
 						}
-						
-						for(ComponentInterfaces::IJoystickEventsListener* listener : joystick_events_listeners)
-						{
-							listener->onJoystickButtonEvent(evt);
-						}
+
+						joystick_events_listeners.doForAllListeners(
+							[&evt](ComponentInterfaces::IJoystickEventsListener* listener)
+							{
+								listener->onJoystickButtonEvent(evt);
+							}
+						);
 						
 						break;
 					}
@@ -210,42 +225,42 @@ namespace UnknownEngine
 
 		void WindowEventsProcessor::addWindowEventsListener ( ComponentInterfaces::WindowEventsListenerComponent* listener )
 		{
-			window_events_listeners.emplace(listener);
+			window_events_listeners.addListener(listener);
 		}
 
 		void WindowEventsProcessor::removeWindowEventsListener ( ComponentInterfaces::WindowEventsListenerComponent* listener )
 		{
-			window_events_listeners.erase(listener);
+			window_events_listeners.removeListener(listener);
 		}
 
 		void WindowEventsProcessor::addJoystickEventsListener ( ComponentInterfaces::IJoystickEventsListener* listener )
 		{
-			joystick_events_listeners.emplace(listener);
+			joystick_events_listeners.addListener(listener);
 		}
 
 		void WindowEventsProcessor::removeJoystickEventsListener ( ComponentInterfaces::IJoystickEventsListener* listener )
 		{
-			joystick_events_listeners.erase(listener);
+			joystick_events_listeners.removeListener(listener);
 		}
 
 		void WindowEventsProcessor::addKeyboardEventsListener ( ComponentInterfaces::IKeyboardEventsListener* listener )
 		{
-			keyboard_events_listeners.emplace(listener);
+			keyboard_events_listeners.addListener(listener);
 		}
 
 		void WindowEventsProcessor::removeKeyboardEventsListener ( ComponentInterfaces::IKeyboardEventsListener* listener )
 		{
-			keyboard_events_listeners.erase(listener);
+			keyboard_events_listeners.removeListener(listener);
 		}
 
 		void WindowEventsProcessor::addMouseEventsListener ( ComponentInterfaces::IMouseEventsListener* listener )
 		{
-			mouse_events_listeners.emplace(listener);
+			mouse_events_listeners.addListener(listener);
 		}
 
 		void WindowEventsProcessor::removeMouseEventsListener ( ComponentInterfaces::IMouseEventsListener* listener )
 		{
-			mouse_events_listeners.erase(listener);
+			mouse_events_listeners.removeListener(listener);
 		}
 		
 	}
