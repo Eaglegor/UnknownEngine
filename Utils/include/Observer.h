@@ -23,7 +23,15 @@ namespace UnknownEngine
 				void addListener ( ListenerType* listener )
 				{
 					std::lock_guard<std::recursive_mutex> guard(lock);
-					listeners.emplace(listener);
+					if(rehashNeeded())
+					{
+						std::lock_guard<std::mutex> rehash_guard(rehash_lock);
+						listeners.emplace(listener);
+					}
+					else
+					{
+						listeners.emplace(listener);
+					}
 				}
 
 				void removeListener ( ListenerType* listener )
@@ -42,6 +50,7 @@ namespace UnknownEngine
 				void doForAllListeners ( CallbackFunc callback )
 				{
 					std::lock_guard<std::recursive_mutex> guard(lock);
+					std::lock_guard<std::mutex> rehash_guard(rehash_lock);
 					for(ListenerType* listener : listeners)
 					{
 						if(listener_to_remove != nullptr)
@@ -67,7 +76,8 @@ namespace UnknownEngine
 				
 				std::unordered_set<ListenerType*> listeners;
 				std::recursive_mutex lock;
-				
+				std::mutex rehash_lock;
+								
 				ListenerType* current_listener;
 				ListenerType* listener_to_remove;
 		};
