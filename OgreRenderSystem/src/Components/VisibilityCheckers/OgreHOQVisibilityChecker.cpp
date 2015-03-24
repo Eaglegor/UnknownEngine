@@ -4,6 +4,11 @@
 #include <OgreEntity.h>
 #include <OgreHardwareOcclusionQuery.h>
 #include <OgreSubEntity.h>
+#include <OgreMaterialManager.h>
+#include <OgreSceneNode.h>
+#include <OgreRenderWindow.h>
+#include <OgreViewport.h>
+#include <OgreCamera.h>
 
 namespace UnknownEngine
 {
