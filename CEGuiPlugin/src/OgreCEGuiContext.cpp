@@ -225,6 +225,7 @@ namespace UnknownEngine
 		{
 			using namespace ComponentInterfaces; 
 			if(type == CEGuiWidgetComponent::getType()) return static_cast<CEGuiWidgetComponent*>(this);
+			if(type == CEGuiContextComponent::getType()) return static_cast<CEGuiContextComponent*>(this);
 			return nullptr;
 		}
 

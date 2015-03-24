@@ -27,7 +27,7 @@ namespace UnknownEngine
 		public ComponentInterfaces::CEGuiWidgetComponent
 		{
 		public:
-			CEGuiConsoleComponent(const char* name, const CEGuiConsoleComponentDesc &desc, ICEGuiContext *context);
+			CEGuiConsoleComponent(const char* name, const CEGuiConsoleComponentDesc &desc, Core::IComponent *context);
 			~CEGuiConsoleComponent();
 			
 			constexpr static const char* getTypeName() {return "CEGUI.ConsoleWindow";}

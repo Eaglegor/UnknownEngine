@@ -51,9 +51,8 @@ namespace UnknownEngine
 			subsystem_desc.log_level = log_severity;
 			subsystem_desc.mouse_handler = Core::ComponentsManager::getSingleton()->findComponent((props.get<std::string>("mouse_handler")).c_str());
 			subsystem_desc.keyboard_handler = Core::ComponentsManager::getSingleton()->findComponent((props.get<std::string>("keyboard_handler")).c_str());
-			OgreSynchronizedCEGuiContext *context_instance = new OgreSynchronizedCEGuiContext(desc.name.c_str(), subsystem_desc);
-			context = context_instance;
-			return context_instance;
+			context = new OgreSynchronizedCEGuiContext(desc.name.c_str(), subsystem_desc);
+			return context;
 		}
 		
 		Core::IComponent* CEGuiContextFactory::createSeparateThreadOgreContext ( const Core::ComponentDesc &desc )
@@ -67,9 +66,8 @@ namespace UnknownEngine
 			subsystem_desc.log_level = log_severity;
 			subsystem_desc.mouse_handler = Core::ComponentsManager::getSingleton()->findComponent((props.get<std::string>("mouse_handler")).c_str());
 			subsystem_desc.keyboard_handler = Core::ComponentsManager::getSingleton()->findComponent((props.get<std::string>("keyboard_handler")).c_str());
-			OgreSeparateThreadCEGuiContext *context_instance = new OgreSeparateThreadCEGuiContext(desc.name.c_str(), subsystem_desc);
-			context = context_instance;
-			return context_instance;
+			context = new OgreSeparateThreadCEGuiContext(desc.name.c_str(), subsystem_desc);
+			return context;
 		}
 		
 		void CEGuiContextFactory::destroySynchronizedOgreContext ( Core::IComponent* component )

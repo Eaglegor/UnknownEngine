@@ -7,7 +7,6 @@ namespace UnknownEngine
 	namespace GUI
 	{
 
-		class ICEGuiContext;
 		class CEGuiContextFactory : public Core::BaseComponentFactory
 		{
 		public:
@@ -31,7 +30,7 @@ namespace UnknownEngine
 			Core::IComponent* createConsoleWindow(const Core::ComponentDesc &desc);
 			void destroyConsoleWindow(Core::IComponent* component);
 			
-			ICEGuiContext* context;
+			Core::IComponent* context;
 		};
 	}
 }

@@ -2,6 +2,7 @@
 
 #include <Keys.h>
 #include <KeyState.h>
+#include <cstdint>
 
 namespace UnknownEngine
 {
@@ -12,7 +13,7 @@ namespace UnknownEngine
 			uint32_t keyboard_id;
 			Key key;
 			KeyState new_state;
-			char character;
+			int32_t character;
 		};
 	}
 }

@@ -21,7 +21,7 @@ namespace UnknownEngine
 		public ComponentInterfaces::CEGuiWidgetComponent
 		{
 		public:
-			FrameWindowComponent( const char* name, const FrameWindowDesc& desc, ICEGuiContext* context );
+			FrameWindowComponent( const char* name, const FrameWindowDesc& desc, Core::IComponent* context );
 			~FrameWindowComponent();
 			
 			constexpr static const char* getTypeName() {return "CEGui.FrameWindowComponent";}

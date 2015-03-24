@@ -6,7 +6,7 @@ namespace UnknownEngine
 {
 	namespace GUI
 	{
-		FrameWindowComponent::FrameWindowComponent(const char* name, const FrameWindowDesc &desc, ICEGuiContext* context) : 
+		FrameWindowComponent::FrameWindowComponent(const char* name, const FrameWindowDesc &desc, Core::IComponent* context) : 
 		BaseCEGuiComponent(name, context),
 		desc(desc),
 		window(nullptr),

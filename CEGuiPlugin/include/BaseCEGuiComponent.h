@@ -3,6 +3,8 @@
 #include <ComponentSystem/BaseComponent.h>
 #include <ICEGuiContext.h>
 #include <ICEGuiComponent.h>
+#include <ComponentSystem/ComponentInterfacePtr.h>
+#include <ComponentInterfaces/GUI/CEGUI/CEGuiContextComponent.h>
 
 namespace UnknownEngine
 {
@@ -11,17 +13,17 @@ namespace UnknownEngine
 		class BaseCEGuiComponent : public Core::BaseComponent, public ICEGuiComponent
 		{
 		public:
-			BaseCEGuiComponent(const char* name, ICEGuiContext* context):
+			BaseCEGuiComponent(const char* name, Core::IComponent* context):
 			Core::BaseComponent(name),
 			state(State::CREATION),
 			context(context)
 			{}
 
-
 			State getState() const override {return state;}
 
 			virtual bool init () final
 			{
+				if(!context) return false;
 				state = State::INITIALIZATION;
 				context->initComponent(this);
 				return true;
@@ -55,7 +57,14 @@ namespace UnknownEngine
 			virtual void startDestruction(DestructionCallback destruction_callback)
 			{
 				this->destruction_callback = destruction_callback;
-				context->destroyComponent(this);
+				if(context) 
+				{
+					context->destroyComponent(this);
+				}
+				else 
+				{
+					_destroy();
+				}
 			}
 
 		private:
@@ -63,9 +72,10 @@ namespace UnknownEngine
 			virtual void internalShutdown() = 0;
 
 			State state;
-			ICEGuiContext* context;
 
 			DestructionCallback destruction_callback;
+			
+			Core::ComponentInterfacePtr<ComponentInterfaces::CEGuiContextComponent> context;
 		};
 
 	}

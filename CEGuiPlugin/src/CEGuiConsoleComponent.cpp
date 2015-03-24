@@ -11,7 +11,7 @@ namespace UnknownEngine
 		static const char* EDITBOX_NAME = "Editbox";
 		static const char* HISTORY_BOX_NAME = "History";
 		
-		CEGuiConsoleComponent::CEGuiConsoleComponent ( const char* name, const CEGuiConsoleComponentDesc& desc, ICEGuiContext* context ) : 
+		CEGuiConsoleComponent::CEGuiConsoleComponent ( const char* name, const CEGuiConsoleComponentDesc& desc, Core::IComponent* context ) : 
 		BaseCEGuiComponent ( name, context ),
 		desc(desc),
 		window(nullptr),
