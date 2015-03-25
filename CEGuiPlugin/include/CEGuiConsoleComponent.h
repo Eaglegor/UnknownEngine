@@ -50,6 +50,8 @@ namespace UnknownEngine
 			virtual void activate();
 			virtual void deactivate();
 			
+			virtual IComponentInterface* getInterface ( const Core::ComponentType& type );
+			
 		private:
 			class SimpleOutputStream : public ComponentInterfaces::ConsoleOutputStream
 			{

@@ -12,6 +12,7 @@
 		<subsystem name="Hardware" module="ESInstrumentHardwarePlugin"/>
 		<subsystem name="Algorithms" module="ESInstrumentAlgorithmsPlugin"/>
 		<subsystem name="GUI" module="CEGuiPlugin"/>
+		<subsystem name="EndoscopyGUI" module="ESGUIPlugin"/>
 	</subsystems>
 
 	<entities>
@@ -97,8 +98,10 @@
 				</options_section>
 			</component>
 			
-			
-			<component name="HUD" type="CEGui.SeparateThreadOgreContext">
+		</entity>
+		
+		<entity name="HUD">
+			<component name="Context" type="CEGui.SeparateThreadOgreContext">
 				<options_section>
 					<option name="render_window" value="System.OgreRenderWindow"/>
 					<option name="log_level" value="info"/>
@@ -107,15 +110,15 @@
 				</options_section>
 			</component>
 
-			<component name="LookNFeel2" type="CEGUI.Scheme">
+			<component name="LookNFeel" type="CEGUI.Scheme">
 				<options_section>
 					<option name="filename" value="schemes/TaharezLook.scheme"/>
 				</options_section>
 			</component>
 
-			<component name="FrameWindow" type="CEGUI.ConsoleWindow">
+			<component name="Console" type="CEGUI.ConsoleWindow">
 				<options_section>
-					<option name="parent_window" value="System.HUD"/>
+					<option name="parent_window" value="HUD.Context"/>
 					<option name="log_level" value="info"/>
 					<option name="input_context_mapper" value="System.InputContextMapper"/>
 					<option name="game_context_name" value="Game"/>
@@ -124,6 +127,15 @@
 				</options_section>
 			</component>
 			
+			<component name="Hint" type="Endoscopy.GUI.Hint">
+				<options_section>
+					<option name="cegui_context" value="HUD.Context"/>
+					<option name="parent_window" value="HUD.Context"/>
+					<option name="default_text" value="Camera base skill"/>
+					<option name="log_level" value="${global_log_level}"/>
+					<option name="layout_filename" value="ESHintLayout.layout"/>
+				</options_section>
+			</component>
 		</entity>
 		
 		

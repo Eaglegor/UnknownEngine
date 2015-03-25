@@ -10,6 +10,7 @@ namespace UnknownEngine
 	{
 		class ConsoleWindow : public Core::IComponentInterface
 		{
+		public:
 			constexpr static const char* getType(){return "ConsoleWindow";}
 			
 			virtual void addCommandHandler(const char* command, ConsoleCommandHandler* handler) = 0;

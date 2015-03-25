@@ -4,6 +4,7 @@
 #include <Plugins/BasePlugin.h>
 #include <Plugins/SubsystemDesc.h>
 #include <LogHelper.h>
+#include <memory>
 
 namespace UnknownEngine
 {
@@ -15,6 +16,8 @@ namespace UnknownEngine
 
 	namespace Endoscopy
 	{
+		class ESGUIComponentsFactory;
+		
 		class ESGUIPlugin: public Core::BasePlugin
 		{
 			public:
@@ -28,6 +31,7 @@ namespace UnknownEngine
 
 			private:
 				Core::SubsystemDesc desc;
+				std::unique_ptr<ESGUIComponentsFactory> components_factory;
 		};
 
 	} /* namespace Graphics */

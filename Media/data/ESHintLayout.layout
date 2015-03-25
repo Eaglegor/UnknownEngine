@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+ 
+<GUILayout version="4">
+	<Window name="BaseWindow" type="DefaultWindow">
+		<Window name="HintLabel" type="TaharezLook/StaticText">
+			<Property name="HorizontalAlignment" value="Centre"/>
+			<Property name="MaxSize" value="{{1.0, 0},{1.0,0}}" />
+			<Property name="Size" value="{{0.9, 0},{0.05, 0}}"/>
+			<Property name="FrameEnabled" value="False"/>
+			<Property name="BackgroundEnabled" value="False"/>
+		</Window>
+	</Window>
+</GUILayout>

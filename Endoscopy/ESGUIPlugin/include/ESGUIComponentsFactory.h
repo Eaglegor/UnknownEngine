@@ -15,11 +15,16 @@ namespace UnknownEngine
 
 		private:
 			Core::IComponent* createESHintComponent(const Core::ComponentDesc &desc);
+			void destroyESHintComponent(Core::IComponent* component);
+			
 			Core::IComponent* createESRestartButtonComponent(const Core::ComponentDesc &desc);
+			void destroyESRestartButtonComponent(Core::IComponent* component);
+			
 			Core::IComponent* createESCrosshairComponent(const Core::ComponentDesc &desc);
-			Core::IComponent* createESInstrumentChangerComponent(const Core::ComponentDesc &desc);
-
-			void destroyESGUIComponent(Core::IComponent* component);
+			void destroyESCrosshairComponent(Core::IComponent* component);
+			
+			Core::IComponent* createESInstrumentSelectorComponent(const Core::ComponentDesc &desc);
+			void destroyESInstrumentSelectorComponent(Core::IComponent* component);
 		};
 	}
 }

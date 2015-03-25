@@ -37,7 +37,8 @@ namespace UnknownEngine
 			
 			if(!window)
 			{
-				LOG_ERROR(logger, "Failed to create CEGUI console window");
+				LOG_ERROR(logger, "Failed to create CEGUI window");
+				return;
 			}
 			
 			parent_window->addChild(this);
@@ -178,6 +179,13 @@ namespace UnknownEngine
 			is_active = false;
 			input_context_mapper->setCurrentContext(desc.game_context_name.c_str());
 		}
-	
+
+		Core::IComponentInterface* CEGuiConsoleComponent::getInterface ( const Core::ComponentType& type )
+		{
+			using namespace ComponentInterfaces;
+			if(type == ConsoleWindow::getType()) return static_cast<ConsoleWindow*>(this);
+			return nullptr;
+		}
+		
 	}
 }
