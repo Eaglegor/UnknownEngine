@@ -6,12 +6,11 @@ namespace UnknownEngine
 {
 	namespace ComponentInterfaces
 	{
-		class ESGuiComponentListener : public Core::IComponentInterface
+		class ESGuiInstrumentSelectorComponentListener : public Core::IComponentInterface
 		{
 			public:
-				constexpr static const char* getType(){return "ESGuiComponentListener";}
+				constexpr static const char* getType(){return "ESGuiInstrumentSelectorComponentListener";}
 
-				virtual void onRestart() = 0;
 				virtual void onInstrumentChanged(int port, const char* instrument_asset_name) = 0;
 		};
 	}
