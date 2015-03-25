@@ -7,8 +7,9 @@
 #include <OgreCEGuiContextDesc.h>
 #include <ComponentSystem/ComponentDesc.h>
 #include <Logging.h>
-#include <ICEGuiContext.h>
 #include <CEGuiConsoleComponent.h>
+#include <CEGuiSchemeDesc.h>
+#include <CEGuiSchemeComponent.h>
 
 namespace UnknownEngine
 {
@@ -37,6 +38,11 @@ namespace UnknownEngine
 			creatable_object.type = CEGuiConsoleComponent::getTypeName();
 			creatable_object.creator = std::bind(&CEGuiContextFactory::createConsoleWindow, this, std::placeholders::_1);
 			creatable_object.deleter = std::bind(&CEGuiContextFactory::destroyConsoleWindow, this, std::placeholders::_1);
+			registerCreator(creatable_object);
+			
+			creatable_object.type = CEGuiSchemeComponent::getTypeName();
+			creatable_object.creator = std::bind(&CEGuiContextFactory::createScheme, this, std::placeholders::_1);
+			creatable_object.deleter = std::bind(&CEGuiContextFactory::destroyScheme, this, std::placeholders::_1);
 			registerCreator(creatable_object);
 		}
 		
@@ -117,12 +123,27 @@ namespace UnknownEngine
 			subsystem_desc.input_context_mapper = Core::ComponentsManager::getSingleton()->findComponent((props.get<std::string>("input_context_mapper")).c_str());
 			subsystem_desc.game_context_name = props.get<std::string>("game_context_name");
 			subsystem_desc.console_context_name = props.get<std::string>("console_context_name");
+			subsystem_desc.layout_filename = props.get<std::string>("layout_filename");
 			return new CEGuiConsoleComponent(desc.name.c_str(), subsystem_desc, context);
 		}
 
 		void CEGuiContextFactory::destroyConsoleWindow ( Core::IComponent* component )
 		{
 			(static_cast<CEGuiConsoleComponent*>(component))->startDestruction(DefaultDestructionFunctor());
+		}
+		
+		Core::IComponent* CEGuiContextFactory::createScheme ( const Core::ComponentDesc& desc )
+		{
+			if(!context) return nullptr;
+			const Core::Properties &props = boost::get<Core::Properties>(desc.descriptor);
+			CEGuiSchemeDesc subsystem_desc;
+			subsystem_desc.filename = props.get<std::string>("filename");
+			return new CEGuiSchemeComponent(desc.name.c_str(), context, subsystem_desc);
+		}
+
+		void CEGuiContextFactory::destroyScheme ( Core::IComponent* component )
+		{
+			(static_cast<CEGuiSchemeComponent*>(component))->startDestruction(DefaultDestructionFunctor());
 		}
 		
 	}

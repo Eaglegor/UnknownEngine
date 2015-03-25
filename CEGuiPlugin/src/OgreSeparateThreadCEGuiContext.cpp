@@ -2,6 +2,7 @@
 
 #include <OgreSeparateThreadCEGuiContext.h>
 #include <OgreCEGuiContextDesc.h>
+#include <ICEGuiComponent.h>
 
 #include <CEGUI/RendererModules/Ogre/Renderer.h>
 #include <Logging.h>

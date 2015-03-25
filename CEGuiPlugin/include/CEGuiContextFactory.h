@@ -30,6 +30,9 @@ namespace UnknownEngine
 			Core::IComponent* createConsoleWindow(const Core::ComponentDesc &desc);
 			void destroyConsoleWindow(Core::IComponent* component);
 			
+			Core::IComponent* createScheme(const Core::ComponentDesc &desc);
+			void destroyScheme(Core::IComponent* component);
+			
 			Core::IComponent* context;
 		};
 	}

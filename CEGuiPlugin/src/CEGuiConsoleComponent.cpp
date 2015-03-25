@@ -33,7 +33,7 @@ namespace UnknownEngine
 				LOG_ERROR(logger, "No parent window provided. Can't create console window");
 				return;
 			}
-			window = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("ConsoleWindowLayout.layout");
+			window = CEGUI::WindowManager::getSingleton().loadLayoutFromFile(desc.layout_filename);
 			
 			if(!window)
 			{

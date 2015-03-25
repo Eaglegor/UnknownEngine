@@ -5,13 +5,13 @@
 
 #include <CEGUI/RendererModules/Ogre/Renderer.h>
 #include <CEGUI/WindowManager.h>
-#include <CEGUI/SchemeManager.h>
 #include <CEGUI/System.h>
 #include <CEGUI/GUIContext.h>
 #include <CEGUI/Window.h>
 #include <Logging.h>
 #include <Scalar.h>
 #include <ScanCodeConverter.h>
+#include <ICEGuiComponent.h>
 
 namespace UnknownEngine
 {
@@ -53,15 +53,10 @@ namespace UnknownEngine
 			
 			CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(main_window);
 			
-			CEGUI::SchemeManager::getSingleton().createFromFile("TaharezLook.scheme");
-			CEGUI::SchemeManager::getSingleton().createFromFile("WindowsLook.scheme");
-			
 			LOG_INFO ( logger, "CEGUI Ogre context created" );
 			
 			if(keyboard_handler) keyboard_handler->addKeyboardEventsListener(this);
 			if(mouse_handler) mouse_handler->addMouseEventsListener(this);
-			
-			//CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("TaharezLook/MouseArrow");
 			
 			return true;
 		}

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <LogSeverity.h>
+#include <string>
 
 namespace UnknownEngine
 {
@@ -18,6 +19,7 @@ namespace UnknownEngine
 			Core::IComponent* input_context_mapper;
 			std::string game_context_name;
 			std::string console_context_name;
+			std::string layout_filename;
 			
 			CEGuiConsoleComponentDesc():
 			parent_window(nullptr),

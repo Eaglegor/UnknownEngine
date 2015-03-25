@@ -1,5 +1,4 @@
 #pragma once
-#include <ICEGuiContext.h>
 #include <CEGuiConsoleComponentDesc.h>
 #include <BaseCEGuiComponent.h>
 #include <ComponentInterfaces/GUI/Common/Console/ConsoleWindow.h>

@@ -12,7 +12,6 @@
 #include <ComponentInterfaces/Input/Common/IKeyboardHandler.h>
 #include <ComponentInterfaces/Input/Common/IMouseHandler.h>
 #include <ComponentInterfaces/GUI/CEGUI/CEGuiContextComponent.h>
-#include <ICEGuiContext.h>
 #include <Concurrency/DataStructures/ConcurrentSet.h>
 
 namespace CEGUI
@@ -32,7 +31,6 @@ namespace UnknownEngine
 		public ComponentInterfaces::CEGuiWidgetComponent,
 		public ComponentInterfaces::IKeyboardEventsListener,
 		public ComponentInterfaces::IMouseEventsListener,
-		public ICEGuiContext,
 		public ComponentInterfaces::CEGuiContextComponent
 		{
 		public:

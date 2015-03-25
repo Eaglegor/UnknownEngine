@@ -106,16 +106,13 @@
 					<option name="keyboard_handler" value="System.SDLRenderWindow"/>
 				</options_section>
 			</component>
-			
-			<!--<component name="FrameWindow" type="CEGui.FrameWindowComponent">
+
+			<component name="LookNFeel2" type="CEGUI.Scheme">
 				<options_section>
-					<option name="parent_window" value="System.HUD"/>
-					<option name="log_level" value="info"/>
-					<option name="type" value="WindowsLook/FrameWindow"/>
-					<option name="title" value="Hello world!"/>
+					<option name="filename" value="schemes/TaharezLook.scheme"/>
 				</options_section>
-			</component>-->
-			
+			</component>
+
 			<component name="FrameWindow" type="CEGUI.ConsoleWindow">
 				<options_section>
 					<option name="parent_window" value="System.HUD"/>
@@ -123,6 +120,7 @@
 					<option name="input_context_mapper" value="System.InputContextMapper"/>
 					<option name="game_context_name" value="Game"/>
 					<option name="console_context_name" value="ConsoleActive"/>
+					<option name="layout_filename" value="ConsoleWindowLayout.layout"/>
 				</options_section>
 			</component>
 			

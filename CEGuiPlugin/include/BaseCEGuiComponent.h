@@ -1,7 +1,6 @@
 #pragma once
 
 #include <ComponentSystem/BaseComponent.h>
-#include <ICEGuiContext.h>
 #include <ICEGuiComponent.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
 #include <ComponentInterfaces/GUI/CEGUI/CEGuiContextComponent.h>
