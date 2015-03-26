@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+ 
+<GUILayout version="4">
+	<Window name="BaseWindow" type="DefaultWindow">
+		<Window name="StaticImage" type="TaharezLook/StaticImage">
+			<Property name="HorizontalAlignment" value="Centre"/>
+			<Property name="VerticalAlignment" value="Centre"/>
+		</Window>
+	</Window>
+</GUILayout>

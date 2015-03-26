@@ -110,12 +110,18 @@
 				</options_section>
 			</component>
 
-			<component name="LookNFeel" type="CEGUI.Scheme">
+			<component name="Skin" type="CEGUI.Scheme">
 				<options_section>
 					<option name="filename" value="schemes/TaharezLook.scheme"/>
 				</options_section>
 			</component>
 
+			<component name="EndoscopyResources" type="CEGUI.Scheme">
+				<options_section>
+					<option name="filename" value="ESGuiScheme.scheme"/>
+				</options_section>
+			</component>
+			
 			<component name="Console" type="CEGUI.ConsoleWindow">
 				<options_section>
 					<option name="parent_window" value="HUD.Context"/>
@@ -134,6 +140,18 @@
 					<option name="default_text" value="Camera base skill"/>
 					<option name="log_level" value="${global_log_level}"/>
 					<option name="layout_filename" value="ESHintLayout.layout"/>
+				</options_section>
+			</component>
+			
+			<component name="Crosshair" type="Endoscopy.GUI.Crosshair">
+				<options_section>
+					<option name="cegui_context" value="HUD.Context"/>
+					<option name="parent_window" value="HUD.Context"/>
+					<option name="log_level" value="${global_log_level}"/>
+					<option name="imageset_name" value="CrosshairImages"/>
+					<option name="free_image_name" value="FreeCrosshair"/>
+					<option name="aimed_image_name" value="AimedCrosshair"/>
+					<option name="layout_filename" value="ESCrosshairLayout.layout"/>
 				</options_section>
 			</component>
 		</entity>

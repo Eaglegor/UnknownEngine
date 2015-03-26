@@ -1,0 +1,5 @@
+<?xml version="1.0" ?>
+<Imageset version="2" name="CrosshairImages" imagefile="Crosshair.png" nativeHorzRes="1280" nativeVertRes="1024" autoScaled="true">
+	 <Image name="FreeCrosshair" xPos="0" yPos="0" width="200" height="200" />
+	 <Image name="AimedCrosshair" xPos="200" yPos="0" width="200" height="200" />
+</Imageset>
