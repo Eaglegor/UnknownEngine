@@ -31,7 +31,8 @@ namespace UnknownEngine
 		{
 			if(aimed_changed)
 			{
-				// [TODO] Update crosshair
+				std::string new_value="set:" + desc.imageset_name + " :image:" + (new_aimed ? desc.aimed_image_name : desc.free_image_name);
+				window->setProperty("Image", new_value);
 				aimed_changed = false;
 			}
 		}

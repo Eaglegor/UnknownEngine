@@ -70,6 +70,9 @@ namespace UnknownEngine
 			descriptor.cegui_context = cegui_context;
 			descriptor.layout_filename = props.get<std::string>("layout_filename");
 			descriptor.log_level = log_severity;
+			descriptor.imageset_name = props.get<std::string>("imageset_name");
+			descriptor.aimed_image_name = props.get<std::string>("aimed_image_name");
+			descriptor.free_image_name = props.get<std::string>("free_image_name");
 			return new ESGUICrosshairComponent(desc.name.c_str(), descriptor);
 		}
 
