@@ -4,6 +4,8 @@
 #include <ComponentSystem/ComponentDesc.h>
 #include <ESGUIHintComponentDesc.h>
 #include <ESGUIHintComponent.h>
+#include <ESGUICrosshairComponentDesc.h>
+#include <ESGUICrosshairComponent.h>
 #include <LogSeverity.h>
 #include <Logging.h>
 
@@ -18,6 +20,11 @@ namespace UnknownEngine
 			creatable_object.type = ESGUIHintComponent::getTypeName();
 			creatable_object.creator = std::bind(&ESGUIComponentsFactory::createESHintComponent, this, std::placeholders::_1);
 			creatable_object.deleter = std::bind(&ESGUIComponentsFactory::destroyESHintComponent, this, std::placeholders::_1);
+			registerCreator(creatable_object);
+
+			creatable_object.type = ESGUICrosshairComponent::getTypeName();
+			creatable_object.creator = std::bind(&ESGUIComponentsFactory::createESCrosshairComponent, this, std::placeholders::_1);
+			creatable_object.deleter = std::bind(&ESGUIComponentsFactory::destroyESCrosshairComponent, this, std::placeholders::_1);
 			registerCreator(creatable_object);
 		}
 
@@ -54,12 +61,21 @@ namespace UnknownEngine
 		
 		Core::IComponent* ESGUIComponentsFactory::createESCrosshairComponent(const Core::ComponentDesc &desc)
 		{
-			return nullptr;
+			const Core::Properties &props = boost::get<Core::Properties>(desc.descriptor);
+			Core::IComponent* parent_window = Core::ComponentsManager::getSingleton()->findComponent((props.get<std::string>("parent_window")).c_str());
+			Core::IComponent* cegui_context = Core::ComponentsManager::getSingleton()->findComponent((props.get<std::string>("cegui_context")).c_str());
+			Core::LogSeverity log_severity = boost::lexical_cast<Core::LogSeverity>(props.get<std::string>("log_level", "none"));
+			ESGUICrosshairComponentDesc descriptor;
+			descriptor.parent_window = parent_window;
+			descriptor.cegui_context = cegui_context;
+			descriptor.layout_filename = props.get<std::string>("layout_filename");
+			descriptor.log_level = log_severity;
+			return new ESGUICrosshairComponent(desc.name.c_str(), descriptor);
 		}
 
 		void ESGUIComponentsFactory::destroyESCrosshairComponent ( Core::IComponent* component )
 		{
-
+			(static_cast<ESGUICrosshairComponent*>(component))->startDestruction(DefaultDestructionFunctor());
 		}
 		
 		Core::IComponent* ESGUIComponentsFactory::createESInstrumentSelectorComponent(const Core::ComponentDesc &desc)

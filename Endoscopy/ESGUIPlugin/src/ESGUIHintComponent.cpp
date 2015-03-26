@@ -62,6 +62,9 @@ namespace UnknownEngine
 		void ESGUIHintComponent::internalShutdown()
 		{
 			if(!window) return;
+
+			CEGUI::WindowManager::getSingleton().destroyWindow(window);
+			window = nullptr;
 		}
 
 		void ESGUIHintComponent::setText ( const char* text )
