@@ -14,7 +14,7 @@ namespace UnknownEngine
             public:
                 virtual bool isValid() = 0;
                 virtual operator Core::Properties() = 0;
-                virtual Descriptor& operator=(const Core::Properties& props) = 0;
+                virtual IDescriptor& operator=(const Core::Properties& props) = 0;
         };
     }
 }

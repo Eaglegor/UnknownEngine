@@ -69,4 +69,18 @@ namespace boost
 	{
 		return UnknownEngine::Utils::Vector4Parser::parse(string_value);
 	}
+	
+	template<>
+	UNKNOWNENGINE_INLINE
+	std::string lexical_cast<std::string, UnknownEngine::Math::Vector4>(const UnknownEngine::Math::Vector4& value)
+	{
+		std::string result = "Vector4(";
+		result += "x:" + std::to_string(value.x());
+		result += "y:" + std::to_string(value.y());
+		result += "z:" + std::to_string(value.z());
+		result += "w:" + std::to_string(value.w());
+		result += ")";
+		
+		return result;
+	}
 }

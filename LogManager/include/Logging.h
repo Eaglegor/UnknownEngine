@@ -62,4 +62,18 @@ namespace boost
 		if(converted_value=="error") return UnknownEngine::Core::LogSeverity::ERROR_;
 		return UnknownEngine::Core::LogSeverity::NONE;
 	}
+	
+	template<>
+	UNKNOWNENGINE_INLINE
+	std::string lexical_cast<std::string, UnknownEngine::Core::LogSeverity>(const UnknownEngine::Core::LogSeverity &value)
+	{
+		switch(value)
+		{
+			case UnknownEngine::Core::LogSeverity::INFO: return "info";
+			case UnknownEngine::Core::LogSeverity::DEBUG: return "debug";
+			case UnknownEngine::Core::LogSeverity::ERROR_: return "error";
+			case UnknownEngine::Core::LogSeverity::WARNING: return "warning";
+			default: return "none";
+		}
+	}
 }

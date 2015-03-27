@@ -70,5 +70,19 @@ namespace boost
 	{
 		return UnknownEngine::Utils::QuaternionParser::parse(string_value);
 	}
+	
+	template<>
+	UNKNOWNENGINE_INLINE
+	std::string lexical_cast<std::string, UnknownEngine::Math::Quaternion>(const UnknownEngine::Math::Quaternion& value)
+	{
+		std::string result = "Quaternion(";
+		result += "x:" + std::to_string(value.x());
+		result += "y:" + std::to_string(value.y());
+		result += "z:" + std::to_string(value.z());
+		result += "w:" + std::to_string(value.w());
+		result += ")";
+		
+		return result;
+	}
 }
 

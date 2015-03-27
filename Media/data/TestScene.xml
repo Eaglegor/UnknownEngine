@@ -115,13 +115,13 @@
 					<option name="filename" value="schemes/TaharezLook.scheme"/>
 				</options_section>
 			</component>
-
+<!--
 			<component name="EndoscopyResources" type="CEGUI.Scheme">
 				<options_section>
 					<option name="filename" value="ESGuiScheme.scheme"/>
 				</options_section>
 			</component>
-			
+			-->		
 			<component name="Console" type="CEGUI.ConsoleWindow">
 				<options_section>
 					<option name="parent_window" value="HUD.Context"/>
@@ -142,7 +142,7 @@
 					<option name="layout_filename" value="ESHintLayout.layout"/>
 				</options_section>
 			</component>
-			
+			<!--
 			<component name="Crosshair" type="Endoscopy.GUI.Crosshair">
 				<options_section>
 					<option name="cegui_context" value="HUD.Context"/>
@@ -153,7 +153,7 @@
 					<option name="aimed_image_name" value="AimedCrosshair"/>
 					<option name="layout_filename" value="ESCrosshairLayout.layout"/>
 				</options_section>
-			</component>
+			</component>-->
 		</entity>
 		
 		

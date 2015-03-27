@@ -9,37 +9,43 @@ namespace UnknownEngine
 {
 	namespace Utils
 	{
-                template<IProperty::Optionality optionality>
-                class ComponentDependency : public IProperty
+		template<IProperty::Optionality optionality>
+		class ComponentDependency : public IProperty
 		{
 			public:
-                                ComponentDependency(){}
-                                ComponentDependency(Core::IComponent* component):component(component){}
+				ComponentDependency() : component(nullptr) {}
+				ComponentDependency ( Core::IComponent* component ) : component ( component ) {}
 
-                                operator Core::IComponent*()
+				operator Core::IComponent*() const
 				{
-                                        return component;
+					return component;
 				}
 
-				virtual IProperty& operator =(const char *string_value_representation) override
+				virtual ComponentDependency<optionality>& operator = ( Core::IComponent* component )
 				{
-                                    component = Core::ComponentsManager::getSingleton()->findComponent(string_value_representation);
-                                    return *this;
+					this->component = component;
+					return *this;
+				}
+				
+				virtual IProperty& operator = ( const std::string &string_value_representation ) override
+				{
+					component = Core::ComponentsManager::getSingleton()->findComponent ( string_value_representation.c_str() );
+					return *this;
 				}
 
 				virtual operator std::string() override
 				{
-                                        return component->getName();
+					return component->getName();
 				}
 
 				virtual bool isValid()
 				{
-                                        if(component) return true;
-                                        return false;
+					if ( component ) return true;
+					return optionality == REQUIRED ? false : true;
 				}
 
 			private:
-                                Core::IComponent* component;
+				Core::IComponent* component;
 		};
 	}
 }

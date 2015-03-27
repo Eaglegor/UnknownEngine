@@ -31,8 +31,8 @@ namespace UnknownEngine
 		{
 			if(aimed_changed)
 			{
-				std::string new_value="set:" + desc.imageset_name + " :image:" + (new_aimed ? desc.aimed_image_name : desc.free_image_name);
-				window->setProperty("Image", new_value);
+				std::string new_value="set:" + desc.imageset_name.get() + " :image:" + (new_aimed ? desc.aimed_image_name.get() : desc.free_image_name.get());
+				image->setProperty("Image", new_value);
 				aimed_changed = false;
 			}
 		}
@@ -44,7 +44,7 @@ namespace UnknownEngine
 				return;
 			}
 
-			window = CEGUI::WindowManager::getSingleton().loadLayoutFromFile(desc.layout_filename);
+			window = CEGUI::WindowManager::getSingleton().loadLayoutFromFile(desc.layout_filename.get());
 
 			if(!window)
 			{
@@ -54,7 +54,7 @@ namespace UnknownEngine
 
 			try
 			{
-				label = window->getChild(ES_CROSSHAIR_IMAGE_NAME);
+				image = window->getChild(ES_CROSSHAIR_IMAGE_NAME);
 			}
 			catch(const CEGUI::UnknownObjectException &e)
 			{

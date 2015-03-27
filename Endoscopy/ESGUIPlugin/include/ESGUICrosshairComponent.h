@@ -48,6 +48,7 @@ namespace UnknownEngine
 				bool new_aimed;
 
 				CEGUI::Window* window;
+				CEGUI::Window* image;
 
 				Core::ComponentInterfacePtr<ComponentInterfaces::CEGuiWidgetComponent> parent_window;
 

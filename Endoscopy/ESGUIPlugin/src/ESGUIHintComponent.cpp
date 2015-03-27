@@ -30,7 +30,7 @@ namespace UnknownEngine
 				return;
 			}
 			
-			window = CEGUI::WindowManager::getSingleton().loadLayoutFromFile(desc.layout_filename);
+			window = CEGUI::WindowManager::getSingleton().loadLayoutFromFile(desc.layout_filename.get());
 			
 			if(!window)
 			{
@@ -52,9 +52,9 @@ namespace UnknownEngine
 			
 			parent_window->addChild(this);
 			
-			if(!desc.default_text.empty())
+			if(!desc.default_text.get().empty())
 			{
-				setText(desc.default_text.c_str());
+				setText(desc.default_text.get().c_str());
 			}
 		
 		}

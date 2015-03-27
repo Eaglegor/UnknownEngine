@@ -14,7 +14,7 @@ namespace UnknownEngine
 				};
 
 				virtual operator std::string() = 0;
-				virtual IProperty& operator=(const char* string_value_representation) = 0;
+				virtual IProperty& operator=(const std::string &string_value_representation) = 0;
 				virtual bool isValid() = 0;
 		};
 	}

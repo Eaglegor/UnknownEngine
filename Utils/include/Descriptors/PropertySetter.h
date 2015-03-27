@@ -11,22 +11,22 @@ namespace UnknownEngine
         {
             public:
                 PropertySetter(const char* name, IProperty &field):
-                name(name),
-                field(field)
+                field(field),
+                name(name)
                 {
                 }
 
-                virtual Result parseValue(Core::Properties &props){
-                    std::string* val = props.get_pointer<std::string>(name);
+                virtual void parseValue(const Core::Properties &props) override{
+                    const std::string* val = props.get_pointer<std::string>(name);
                     if(val)
                     {
-                        field = val->c_str();
+                        field = *val;
                     }
                 }
 
-                virtual void writeValue(Core::Properties &props)
+                virtual void writeValue(Core::Properties &props) override
                 {
-                    props.set<std::string>(desc);
+                    props.set<std::string>(name, field);
                 }
 
                 virtual bool isValid()

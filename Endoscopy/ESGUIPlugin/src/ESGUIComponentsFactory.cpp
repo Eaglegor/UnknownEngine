@@ -6,6 +6,7 @@
 #include <ESGUIHintComponent.h>
 #include <ESGUICrosshairComponentDesc.h>
 #include <ESGUICrosshairComponent.h>
+#include <ESGUIRestartButtonComponentDesc.h>
 #include <LogSeverity.h>
 #include <Logging.h>
 
@@ -31,15 +32,8 @@ namespace UnknownEngine
 		Core::IComponent* ESGUIComponentsFactory::createESHintComponent(const Core::ComponentDesc &desc)
 		{
 			const Core::Properties &props = boost::get<Core::Properties>(desc.descriptor);
-			Core::IComponent* parent_window = Core::ComponentsManager::getSingleton()->findComponent((props.get<std::string>("parent_window")).c_str());
-			Core::IComponent* cegui_context = Core::ComponentsManager::getSingleton()->findComponent((props.get<std::string>("cegui_context")).c_str());
-			Core::LogSeverity log_severity = boost::lexical_cast<Core::LogSeverity>(props.get<std::string>("log_level", "none"));
 			ESGUIHintComponentDesc descriptor;
-			descriptor.parent_window = parent_window;
-			descriptor.cegui_context = cegui_context;
-			descriptor.default_text = props.get<std::string>("default_text");
-			descriptor.layout_filename = props.get<std::string>("layout_filename");
-			descriptor.log_level = log_severity;
+			descriptor = props;
 			return new ESGUIHintComponent(desc.name.c_str(), descriptor);
 		}
 
@@ -50,6 +44,10 @@ namespace UnknownEngine
 		
 		Core::IComponent* ESGUIComponentsFactory::createESRestartButtonComponent(const Core::ComponentDesc &desc)
 		{
+			const Core::Properties &props = boost::get<Core::Properties>(desc.descriptor);
+			ESGUIRestartButtonComponentDesc descriptor;
+			descriptor = props;
+			if(!descriptor.isValid()) return nullptr;
 			return nullptr;
 		}
 
@@ -58,21 +56,12 @@ namespace UnknownEngine
 
 		}
 
-		
 		Core::IComponent* ESGUIComponentsFactory::createESCrosshairComponent(const Core::ComponentDesc &desc)
 		{
 			const Core::Properties &props = boost::get<Core::Properties>(desc.descriptor);
-			Core::IComponent* parent_window = Core::ComponentsManager::getSingleton()->findComponent((props.get<std::string>("parent_window")).c_str());
-			Core::IComponent* cegui_context = Core::ComponentsManager::getSingleton()->findComponent((props.get<std::string>("cegui_context")).c_str());
-			Core::LogSeverity log_severity = boost::lexical_cast<Core::LogSeverity>(props.get<std::string>("log_level", "none"));
 			ESGUICrosshairComponentDesc descriptor;
-			descriptor.parent_window = parent_window;
-			descriptor.cegui_context = cegui_context;
-			descriptor.layout_filename = props.get<std::string>("layout_filename");
-			descriptor.log_level = log_severity;
-			descriptor.imageset_name = props.get<std::string>("imageset_name");
-			descriptor.aimed_image_name = props.get<std::string>("aimed_image_name");
-			descriptor.free_image_name = props.get<std::string>("free_image_name");
+			descriptor = props;
+			if(!descriptor.isValid()) return nullptr;
 			return new ESGUICrosshairComponent(desc.name.c_str(), descriptor);
 		}
 
