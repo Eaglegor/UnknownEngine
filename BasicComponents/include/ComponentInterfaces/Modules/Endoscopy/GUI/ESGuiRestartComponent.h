@@ -1,7 +1,7 @@
 #pragma once
 
 #include <ComponentSystem/IComponentInterface.h>
-#include <ComponentInterfaces/Modules/Endoscopy/GUI/ESGuiRestartComponentListener.h>
+#include <ComponentInterfaces/Modules/Endoscopy/Behavior/ESEventsListener.h>
 
 namespace UnknownEngine
 {
@@ -12,8 +12,8 @@ namespace UnknownEngine
 			public:
 				constexpr static const char* getType(){return "ESGuiRestartComponent";}
 
-				virtual void addListener(ESGuiRestartComponentListener* listener) = 0;
-				virtual void removeListener(ESGuiRestartComponentListener* listener) = 0;
+				virtual void addListener(ESEventsListener* listener) = 0;
+				virtual void removeListener(ESEventsListener* listener) = 0;
 		};
 	}
 }

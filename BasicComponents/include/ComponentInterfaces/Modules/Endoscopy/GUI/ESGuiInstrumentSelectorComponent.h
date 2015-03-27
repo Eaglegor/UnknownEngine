@@ -1,7 +1,7 @@
 #pragma once
 
 #include <ComponentSystem/IComponentInterface.h>
-#include <ComponentInterfaces/Modules/Endoscopy/GUI/ESGuiInstrumentSelectorComponentListener.h>
+#include <ComponentInterfaces/Modules/Endoscopy/Behavior/ESEventsListener.h>
 
 namespace UnknownEngine
 {
@@ -16,8 +16,8 @@ namespace UnknownEngine
 				virtual void addInstrument(int port, const char* instrument_asset_name) = 0;
 				virtual void removeInstrument(int port, const char* instrument_asset_name) = 0;
 				
-				virtual void addListener(ESGuiInstrumentSelectorComponentListener* listener) = 0;
-				virtual void removeListener(ESGuiInstrumentSelectorComponentListener* listener) = 0;
+				virtual void addListener(ESEventsListener* listener) = 0;
+				virtual void removeListener(ESEventsListener* listener) = 0;
 		};
 	}
 }
