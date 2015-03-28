@@ -5,12 +5,7 @@
 #include <Components/Lights/OgreSpotLightComponent.h>
 #include <Components/Renderables/OgreRenderableComponent.h>
 #include <Components/VisibilityCheckers/OgreHOQVisibilityChecker.h>
-#include <Parsers/Descriptors/OgreCameraDescriptorParser.h>
 #include <Parsers/Descriptors/OgreRenderableDescriptorParser.h>
-#include <Parsers/Descriptors/OgrePointLightDescriptorParser.h>
-#include <Parsers/Descriptors/OgreDirectionalLightDescriptorParser.h>
-#include <Parsers/Descriptors/OgreSpotLightDescriptorParser.h>
-#include <Parsers/Descriptors/OgreHOQVisibilityCheckerDescriptorParser.h>
 
 #include <Factories/OgreGetDescriptorVisitor.h>
 #include <ComponentSystem/ComponentDesc.h>
@@ -20,12 +15,7 @@ namespace UnknownEngine
 	namespace Graphics
 	{
 		
-		static OgreGetDescriptorVisitor<OgreCameraComponentDescriptor, OgreCameraDescriptorParser> camera_descriptor_getter;
 		static OgreGetDescriptorVisitor<OgreRenderableComponentDescriptor, OgreRenderableDescriptorParser> renderable_descriptor_getter;
-		static OgreGetDescriptorVisitor<OgrePointLightComponentDescriptor, OgrePointLightDescriptorParser> point_light_descriptor_getter;
-		static OgreGetDescriptorVisitor<OgreDirectionalLightComponentDescriptor, OgreDirectionalLightDescriptorParser> directional_light_descriptor_getter;
-		static OgreGetDescriptorVisitor<OgreSpotLightComponentDescriptor, OgreSpotLightDescriptorParser> spot_light_descriptor_getter;
-		static OgreGetDescriptorVisitor<OgreHOQVisibilityCheckerDesc, OgreHOQVisibilityCheckerDescriptorParser> hoq_visibility_checker_desc_getter;
 		
 		OgreComponentsFactory::OgreComponentsFactory():
 		render_subsystem(nullptr)
@@ -66,7 +56,9 @@ namespace UnknownEngine
 		Core::IComponent* OgreComponentsFactory::createCameraComponent ( const Core::ComponentDesc& desc )
 		{
 			if(!render_subsystem) return nullptr;
-			OgreCameraComponentDescriptor descriptor = desc.descriptor.apply_visitor(camera_descriptor_getter);
+			OgreCameraComponentDescriptor descriptor;
+			descriptor = boost::get<Core::Properties>(desc.descriptor);
+			if(!descriptor.isValid()) return nullptr;
 			OgreCameraComponent* camera = new OgreCameraComponent(desc.name.c_str(), descriptor, render_subsystem);
 			return camera;
 		}
@@ -74,7 +66,9 @@ namespace UnknownEngine
 		Core::IComponent* OgreComponentsFactory::createDirectionalLightComponent ( const Core::ComponentDesc& desc )
 		{
 			if(!render_subsystem) return nullptr;
-			OgreDirectionalLightComponentDescriptor descriptor = desc.descriptor.apply_visitor(directional_light_descriptor_getter);
+			OgreDirectionalLightComponentDescriptor descriptor;
+			descriptor = boost::get<Core::Properties>(desc.descriptor);
+			if(!descriptor.isValid()) return nullptr;
 			OgreDirectionalLightComponent* light = new OgreDirectionalLightComponent(desc.name.c_str(), descriptor, render_subsystem);
 			return light;
 		}
@@ -82,7 +76,9 @@ namespace UnknownEngine
 		Core::IComponent* OgreComponentsFactory::createPointLightComponent ( const Core::ComponentDesc& desc )
 		{
 			if(!render_subsystem) return nullptr;
-			OgrePointLightComponentDescriptor descriptor = desc.descriptor.apply_visitor(point_light_descriptor_getter);
+			OgrePointLightComponentDescriptor descriptor;
+			descriptor = boost::get<Core::Properties>(desc.descriptor);
+			if(!descriptor.isValid()) return nullptr;
 			OgrePointLightComponent* light = new OgrePointLightComponent(desc.name.c_str(), descriptor, render_subsystem);
 			return light;
 		}
@@ -90,7 +86,9 @@ namespace UnknownEngine
 		Core::IComponent* OgreComponentsFactory::createSpotLightComponent ( const Core::ComponentDesc& desc )
 		{
 			if(!render_subsystem) return nullptr;
-			OgreSpotLightComponentDescriptor descriptor = desc.descriptor.apply_visitor(spot_light_descriptor_getter);
+			OgreSpotLightComponentDescriptor descriptor;
+			descriptor = boost::get<Core::Properties>(desc.descriptor);
+			if(!descriptor.isValid()) return nullptr;
 			OgreSpotLightComponent* light = new OgreSpotLightComponent(desc.name.c_str(), descriptor, render_subsystem);
 			return light;
 		}
@@ -99,6 +97,7 @@ namespace UnknownEngine
 		{
 			if(!render_subsystem) return nullptr;
 			OgreRenderableComponentDescriptor descriptor = desc.descriptor.apply_visitor(renderable_descriptor_getter);
+			//descriptor = boost::get<Core::Properties>(desc.descriptor);
 			OgreRenderableComponent* renderable = new OgreRenderableComponent(desc.name.c_str(), descriptor, render_subsystem);
 			return renderable;
 		}
@@ -106,7 +105,9 @@ namespace UnknownEngine
 		Core::IComponent* OgreComponentsFactory::createHOQVisibilityChecker ( const Core::ComponentDesc& desc )
 		{
 			if(!render_subsystem) return nullptr;
-			OgreHOQVisibilityCheckerDesc descriptor = desc.descriptor.apply_visitor(hoq_visibility_checker_desc_getter);
+			OgreHOQVisibilityCheckerDesc descriptor;
+			descriptor = boost::get<Core::Properties>(desc.descriptor);
+			if(!descriptor.isValid()) return nullptr;
 			OgreHOQVisibilityChecker* visibility_checker = new OgreHOQVisibilityChecker(desc.name.c_str(), descriptor, render_subsystem);
 			return visibility_checker;
 		}

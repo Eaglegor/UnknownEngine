@@ -4,10 +4,10 @@
 #include <Properties/Properties.h>
 #include <AssimpMeshDataLoaderPlugin.h>
 #include <Factories/AssimpMeshDataProvidersFactory.h>
-#include <AssimpMeshDataLoaderDescriptorGetter.h>
 #include <EngineContext.h>
 #include <Logging.h>
 #include <ResourceManager/ResourceManager.h>
+#include <AssimpMeshDataLoaderDescriptor.h>
 
 namespace UnknownEngine
 {
@@ -28,8 +28,9 @@ namespace UnknownEngine
 		bool AssimpMeshDataLoaderPlugin::install ( Core::PluginsManager* plugins_manager, const Core::SubsystemDesc& desc ) 
 		{
 		  
-			AssimpMeshDataLoaderDescriptorGetter descriptor_getter;
-			AssimpMeshDataLoaderDescriptor descriptor = desc.descriptor.apply_visitor(descriptor_getter);
+			//const Core::Properties& props = boost::get<Core::Properties>(desc.descriptor);
+			AssimpMeshDataLoaderDescriptor descriptor;
+			//descriptor = props;
 			
 			logger = CREATE_LOGGER(getName(), descriptor.log_level);
 

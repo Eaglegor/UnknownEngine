@@ -1,13 +1,11 @@
 #include <Factories/OgreRenderSubsystemFactory.h>
 #include <OgreSingleThreadedRenderSubsystem.h>
 #include <OgreSeparateThreadRenderSubsystem.h>
+#include <Descriptors/OgreSeparateThreadRenderSubsystemDescriptor.h>
 #include <OgreRenderWindowComponent.h>
 #include <Factories/OgreGetDescriptorVisitor.h>
 #include <Factories/OgreComponentsFactory.h>
 #include <Factories/OgreDataProvidersFactory.h>
-#include <Parsers/Descriptors/OgreSingleThreadedRenderSubsystemDescriptorParser.h>
-#include <Parsers/Descriptors/OgreSeparateThreadRenderSubsystemDescriptorParser.h>
-#include <Parsers/Descriptors/OgreRenderWindowDescriptorParser.h>
 #include <ComponentSystem/ComponentDesc.h>
 
 namespace UnknownEngine
@@ -18,10 +16,6 @@ namespace UnknownEngine
 		typedef OgreSingleThreadedRenderSubsystemDescriptor STDescriptor;
 		typedef OgreSeparateThreadRenderSubsystemDescriptor MTDescriptor;
 		typedef OgreRenderWindowDescriptor WindowDescriptor;
-		
-		static OgreGetDescriptorVisitor<STDescriptor, OgreSingleThreadedRenderSubsystemDescriptorParser> st_descriptor_getter;
-		static OgreGetDescriptorVisitor<MTDescriptor, OgreSeparateThreadRenderSubsystemDescriptorParser> mt_descriptor_getter;
-		static OgreGetDescriptorVisitor<WindowDescriptor, OgreRenderWindowDescriptorParser> window_descriptor_getter;
 		
 		OgreRenderSubsystemFactory::OgreRenderSubsystemFactory ( OgreComponentsFactory* components_factory, OgreDataProvidersFactory* data_providers_factory ):
 		render_subsystem(nullptr),
@@ -47,7 +41,9 @@ namespace UnknownEngine
 		Core::IComponent* OgreRenderSubsystemFactory::createSingleThreadedOgreRenderSubsystem ( const Core::ComponentDesc& desc )
 		{
 			if(render_subsystem) return nullptr;
-			STDescriptor cdesc = desc.descriptor.apply_visitor(st_descriptor_getter);
+			STDescriptor cdesc;
+			cdesc = boost::get<Core::Properties>(desc.descriptor);
+			if(!cdesc.isValid()) return nullptr;
 			render_subsystem = new OgreSingleThreadedRenderSubsystem(desc.name.c_str(), cdesc);
 			components_factory->setRenderSubsystem(render_subsystem);
 			data_providers_factory->setRenderSubsystem(render_subsystem);
@@ -57,7 +53,9 @@ namespace UnknownEngine
 		Core::IComponent* OgreRenderSubsystemFactory::createSeparateThreadOgreRenderSubsystem ( const Core::ComponentDesc& desc )
 		{
 			if(render_subsystem) return nullptr;
-			MTDescriptor cdesc = desc.descriptor.apply_visitor(mt_descriptor_getter);
+			MTDescriptor cdesc;
+			cdesc = boost::get<Core::Properties>(desc.descriptor); 
+			if(!cdesc.isValid()) return nullptr;
 			render_subsystem = new OgreSeparateThreadRenderSubsystem(desc.name.c_str(), cdesc);
 			components_factory->setRenderSubsystem(render_subsystem);
 			data_providers_factory->setRenderSubsystem(render_subsystem);
@@ -74,7 +72,9 @@ namespace UnknownEngine
 		Core::IComponent* OgreRenderSubsystemFactory::createOgreRenderWindow ( const Core::ComponentDesc& desc )
 		{
 			if(!render_subsystem) return nullptr;
-			WindowDescriptor cdesc = desc.descriptor.apply_visitor(window_descriptor_getter);
+			WindowDescriptor cdesc;
+			cdesc = boost::get<Core::Properties>(desc.descriptor);
+			if(!cdesc.isValid()) return nullptr;
 			OgreRenderWindowComponent* window = new OgreRenderWindowComponent(desc.name.c_str(), cdesc, render_subsystem);
 			return window;
 		}

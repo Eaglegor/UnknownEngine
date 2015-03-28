@@ -86,11 +86,6 @@ namespace UnknownEngine
 			}
 		}
 
-		CEGUI::Window* OgreCEGuiContext::getCEGuiWindow()
-		{
-			return main_window;
-		}
-
 		void OgreCEGuiContext::addChild ( ComponentInterfaces::CEGuiWidgetComponent* child )
 		{
 			main_window->addChild(child->getCEGuiWindow());
@@ -219,7 +214,7 @@ namespace UnknownEngine
 		Core::IComponentInterface* OgreCEGuiContext::getInterface ( const Core::ComponentType& type )
 		{
 			using namespace ComponentInterfaces; 
-			if(type == CEGuiWidgetComponent::getType()) return static_cast<CEGuiWidgetComponent*>(this);
+			if(type == CEGuiParentWidgetComponent::getType()) return static_cast<CEGuiParentWidgetComponent*>(this);
 			if(type == CEGuiContextComponent::getType()) return static_cast<CEGuiContextComponent*>(this);
 			return nullptr;
 		}

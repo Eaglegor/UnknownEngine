@@ -2,6 +2,7 @@
 
 #include <LogSeverity.h>
 #include <cstdint>
+#include <Descriptors/DescriptorUtils.h>
 
 namespace UnknownEngine
 {
@@ -12,19 +13,25 @@ namespace UnknownEngine
 	
 	namespace Graphics
 	{
-		struct OgreHOQVisibilityCheckerDesc
+		struct OgreHOQVisibilityCheckerDesc : public Utils::Descriptor
 		{
-			Core::IComponent* checkable_object;
-			Core::IComponent* render_window;
-			Core::LogSeverity log_level;
-			uint8_t render_queue_group;
+			using Utils::Descriptor::operator=;
+			
+			Utils::RequiredComponentDependency checkable_object;
+			Utils::RequiredComponentDependency render_window;
+			
+			Utils::OptionalProperty<Core::LogSeverity> log_level;
+			Utils::OptionalProperty<uint8_t> render_queue_group;
 			
 			OgreHOQVisibilityCheckerDesc():
-			checkable_object(nullptr),
-			render_window(nullptr),
 			log_level(Core::LogSeverity::NONE),
 			render_queue_group(51)
-			{}
+			{
+				UEDESC_ADD_FIELD(checkable_object);
+				UEDESC_ADD_FIELD(render_window);
+				UEDESC_ADD_FIELD(log_level);
+				UEDESC_ADD_FIELD(render_queue_group);
+			}
 		};
 	}
 }

@@ -110,16 +110,6 @@ namespace UnknownEngine
 		{
 			if(window) window->setVisible(is_active);
 		}
-		
-		void CEGuiConsoleComponent::addChild ( ComponentInterfaces::CEGuiWidgetComponent* child )
-		{
-			window->addChild(child->getCEGuiWindow());
-		}
-		
-		void CEGuiConsoleComponent::removeChild ( ComponentInterfaces::CEGuiWidgetComponent* child )
-		{
-			window->removeChild(child->getCEGuiWindow()->getID());
-		}
 
 		CEGUI::Window* CEGuiConsoleComponent::getCEGuiWindow()
 		{

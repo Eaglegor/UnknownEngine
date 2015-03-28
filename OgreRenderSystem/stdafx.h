@@ -10,3 +10,5 @@
 #include <OgreColourValue.h>
 #include <OgreVector3.h>
 #include <OgreQuaternion.h>
+
+#include <Descriptors/DescriptorUtils.h>

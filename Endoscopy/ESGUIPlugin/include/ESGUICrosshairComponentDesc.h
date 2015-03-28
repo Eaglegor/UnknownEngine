@@ -29,13 +29,13 @@ namespace UnknownEngine
 			ESGUICrosshairComponentDesc():
 			log_level(Core::LogSeverity::NONE)
 			{
-				DESCRIPTOR_PROPERTY_SETTER(layout_filename);
-				DESCRIPTOR_PROPERTY_SETTER(log_level);
-				DESCRIPTOR_PROPERTY_SETTER(parent_window);
-				DESCRIPTOR_PROPERTY_SETTER(cegui_context);
-				DESCRIPTOR_PROPERTY_SETTER(imageset_name);
-				DESCRIPTOR_PROPERTY_SETTER(aimed_image_name);
-				DESCRIPTOR_PROPERTY_SETTER(free_image_name);
+				UEDESC_ADD_FIELD(layout_filename);
+				UEDESC_ADD_FIELD(log_level);
+				UEDESC_ADD_FIELD(parent_window);
+				UEDESC_ADD_FIELD(cegui_context);
+				UEDESC_ADD_FIELD(imageset_name);
+				UEDESC_ADD_FIELD(aimed_image_name);
+				UEDESC_ADD_FIELD(free_image_name);
 			}
 		};
 	}

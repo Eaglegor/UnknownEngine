@@ -30,26 +30,26 @@ namespace UnknownEngine
 			ogre_light->setType(Ogre::Light::LT_SPOTLIGHT);
 			
 			//ogre_light->setPosition( OgreVector3Converter::toOgreVector(desc.initial_transform.getPosition()) );
-			transform_adapter.setTransform(desc.initial_transform);
+			transform_adapter.setTransform(desc.initial_transform.get());
 			
-			if(desc.initial_look_at.is_initialized())
+			if(desc.initial_look_at.isExplicitlyInitialized())
 			{
 				Ogre::Vector3 position = ogre_light->getPosition();
 				Ogre::Vector3 look_at_point = OgreVector3Converter::toOgreVector(desc.initial_look_at.get());
 				ogre_light->setDirection( look_at_point - position );
 			}
-			else if(desc.initial_direction.is_initialized())
+			else if(desc.initial_direction.isExplicitlyInitialized())
 			{
 				ogre_light->setDirection( OgreVector3Converter::toOgreVector(desc.initial_direction.get()) );
 			}
 			else
 			{
-				ogre_scene_node->setOrientation( OgreQuaternionConverter::toOgreQuaternion(desc.initial_transform.getOrientation()) );
+				ogre_scene_node->setOrientation( OgreQuaternionConverter::toOgreQuaternion(desc.initial_transform->orientation));
 			}
 			
-			if(desc.inner_angle.is_initialized()) ogre_light->setSpotlightInnerAngle( Ogre::Degree(desc.inner_angle.get()) );
-			if(desc.outer_angle.is_initialized()) ogre_light->setSpotlightOuterAngle( Ogre::Degree(desc.outer_angle.get()) );
-			if(desc.falloff.is_initialized()) ogre_light->setSpotlightFalloff(desc.falloff.get());
+			if(desc.inner_angle.isExplicitlyInitialized()) ogre_light->setSpotlightInnerAngle( Ogre::Degree(desc.inner_angle.get()) );
+			if(desc.outer_angle.isExplicitlyInitialized()) ogre_light->setSpotlightOuterAngle( Ogre::Degree(desc.outer_angle.get()) );
+			if(desc.falloff.isExplicitlyInitialized()) ogre_light->setSpotlightFalloff(desc.falloff.get());
 			
 		}
 	}

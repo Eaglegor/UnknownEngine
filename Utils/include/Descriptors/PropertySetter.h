@@ -3,6 +3,8 @@
 #include <Descriptors/IDescriptorPropertySetter.h>
 #include <Descriptors/IProperty.h>
 
+#include <iostream>
+
 namespace UnknownEngine
 {
     namespace Utils

@@ -1,10 +1,12 @@
 <?xml version="1.0" ?>
  
 <GUILayout version="4">
-	<Window name="BaseWindow" type="DefaultWindow">
-		<Window name="StaticImage" type="TaharezLook/StaticImage">
+	<Window name="CrosshairBaseWindow" type="DefaultWindow">
+		<Window name="CrosshairImage" type="TaharezLook/StaticImage">
 			<Property name="HorizontalAlignment" value="Centre"/>
 			<Property name="VerticalAlignment" value="Centre"/>
+			<Property name="FrameEnabled" value="False"/>
+			<Property name="BackgroundEnabled" value="False"/>
 		</Window>
 	</Window>
 </GUILayout>

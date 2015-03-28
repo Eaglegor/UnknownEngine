@@ -3,6 +3,7 @@
 #include <LogHelper.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
 #include <ComponentInterfaces/RenderSystem/Ogre/IOgreRenderWindowComponent.h>
+#include <ComponentInterfaces/GUI/CEGUI/CEGuiParentWidgetComponent.h>
 #include <ComponentInterfaces/GUI/CEGUI/CEGuiWidgetComponent.h>
 #include <ComponentSystem/BaseComponent.h>
 #include <OgreRenderTargetListener.h>
@@ -28,7 +29,7 @@ namespace UnknownEngine
 		
 		class OgreCEGuiContext : 
 		public Core::BaseComponent,
-		public ComponentInterfaces::CEGuiWidgetComponent,
+		public ComponentInterfaces::CEGuiParentWidgetComponent,
 		public ComponentInterfaces::IKeyboardEventsListener,
 		public ComponentInterfaces::IMouseEventsListener,
 		public ComponentInterfaces::CEGuiContextComponent
@@ -37,9 +38,8 @@ namespace UnknownEngine
 			OgreCEGuiContext(const char* name, const OgreCEGuiContextDesc &desc);
 			~OgreCEGuiContext();
 
-			virtual CEGUI::Window* getCEGuiWindow() override;
-			virtual void addChild ( CEGuiWidgetComponent* child ) override;
-			virtual void removeChild ( CEGuiWidgetComponent* child ) override;
+			virtual void addChild ( ComponentInterfaces::CEGuiWidgetComponent* child ) override;
+			virtual void removeChild ( ComponentInterfaces::CEGuiWidgetComponent* child ) override;
 			
 			virtual IComponentInterface* getInterface ( const Core::ComponentType& type ) override;
 

@@ -17,9 +17,6 @@ namespace UnknownEngine
 			constexpr static const char* getType(){return "CEGuiWidgetComponent";}
 			
 			virtual CEGUI::Window* getCEGuiWindow() = 0;
-			
-			virtual void addChild(CEGuiWidgetComponent* child) = 0;	
-			virtual void removeChild(CEGuiWidgetComponent* child) = 0;
 		};
 	}
 }

@@ -4,6 +4,8 @@
 #include <Descriptors/Components/Lights/OgreLightSettings.h>
 #include <Transform/Transform.h>
 #include <LogSeverity.h>
+#include <Descriptors/CommonDescriptors/TransformDescriptor.h>
+#include <Descriptors/DescriptorUtils.h>
 
 namespace UnknownEngine
 {
@@ -14,28 +16,39 @@ namespace UnknownEngine
 	
 	namespace Graphics
 	{
-		UNKNOWNENGINE_ALIGNED_STRUCT ( 16 ) OgreSpotLightComponentDescriptor
+		UNKNOWNENGINE_ALIGNED_STRUCT ( 16 ) OgreSpotLightComponentDescriptor : public Utils::Descriptor
 		{
+			using Utils::Descriptor::operator=;
+			
 			OgreLightSettings light_settings;
 
-			Math::Transform initial_transform;
-			Core::LogSeverity log_level;
+			Utils::OptionalDescriptor<Utils::TransformDescriptor> initial_transform;
+			Utils::OptionalProperty<Core::LogSeverity> log_level;
 
-			boost::optional<Math::Vector3> initial_look_at;
-			boost::optional<Math::Vector3> initial_direction;
+			Utils::OptionalProperty<Math::Vector3> initial_look_at;
+			Utils::OptionalProperty<Math::Vector3> initial_direction;
 
-			boost::optional<Math::Scalar> inner_angle;
-			boost::optional<Math::Scalar> outer_angle;
-			boost::optional<Math::Scalar> falloff;
+			Utils::OptionalProperty<Math::Scalar> inner_angle;
+			Utils::OptionalProperty<Math::Scalar> outer_angle;
+			Utils::OptionalProperty<Math::Scalar> falloff;
 
-			Core::IComponent* transform_provider;
+			Utils::OptionalComponentDependency transform_provider;
 			
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
 			OgreSpotLightComponentDescriptor() :
-				log_level ( Core::LogSeverity::NONE ),
-				transform_provider(nullptr)
-			{}
+				log_level ( Core::LogSeverity::NONE )
+			{
+				UEDESC_ADD_NESTED_DESCRIPTOR(light_settings);
+				UEDESC_ADD_NESTED_DESCRIPTOR(initial_transform);
+				UEDESC_ADD_FIELD(log_level);
+				UEDESC_ADD_FIELD(initial_look_at);
+				UEDESC_ADD_FIELD(initial_direction);
+				UEDESC_ADD_FIELD(inner_angle);
+				UEDESC_ADD_FIELD(outer_angle);
+				UEDESC_ADD_FIELD(falloff);
+				UEDESC_ADD_FIELD(transform_provider);
+			}
 		};
 	}
 }

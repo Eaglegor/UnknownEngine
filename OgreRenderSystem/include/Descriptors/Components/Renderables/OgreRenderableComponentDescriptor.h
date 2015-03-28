@@ -12,9 +12,9 @@ namespace UnknownEngine
 {
 	namespace Graphics
 	{
-		UNKNOWNENGINE_ALIGNED_STRUCT ( 16 ) OgreRenderableComponentDescriptor
+		UNKNOWNENGINE_ALIGNED_STRUCT ( 16 ) OgreRenderableComponentDescriptor 
 		{
-
+			
 			struct MaterialDesc
 			{
 				std::string name;

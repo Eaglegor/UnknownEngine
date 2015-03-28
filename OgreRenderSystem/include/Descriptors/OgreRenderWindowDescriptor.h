@@ -1,6 +1,8 @@
 #pragma once
 
 #include <LogSeverity.h>
+#include <Descriptors/DescriptorUtils.h>
+#include <Descriptors/OgreRenderWindowType.h>
 
 namespace UnknownEngine
 {
@@ -11,31 +13,36 @@ namespace UnknownEngine
 	
 	namespace Graphics
 	{
-		struct OgreRenderWindowDescriptor
+		struct OgreRenderWindowDescriptor : public Utils::Descriptor
 		{
-			enum class WindowType
-			{
-				OWN,
-				EXTERNAL,
-				PARENT
-			};
+			using Utils::Descriptor::operator=;
 			
-			std::string window_title;
-			size_t width;
-			size_t height;
-			WindowType type;
-			bool fullscreen;
+			Utils::OptionalProperty<std::string> window_title;
+			Utils::OptionalProperty<size_t> width;
+			Utils::OptionalProperty<size_t> height;
+			Utils::OptionalProperty<OgreRenderWindowType> type;
 			
-			Core::IComponent* parent_window;
+			Utils::OptionalComponentDependency parent_window;
 			
-			Core::LogSeverity log_level;
+			Utils::OptionalProperty<bool> fullscreen;
+			
+			Utils::OptionalProperty<Core::LogSeverity> log_level;
 			
 			OgreRenderWindowDescriptor():
 			width(640),
 			height(480),
-			type(WindowType::OWN),
-			parent_window(nullptr)
-			{}
+			type(OgreRenderWindowType::OWN),
+			fullscreen(false),
+			log_level(Core::LogSeverity::NONE)
+			{
+				UEDESC_ADD_FIELD(window_title);
+				UEDESC_ADD_FIELD(width);
+				UEDESC_ADD_FIELD(height);
+				UEDESC_ADD_FIELD(type);
+				UEDESC_ADD_FIELD(fullscreen);
+				UEDESC_ADD_FIELD(parent_window);
+				UEDESC_ADD_FIELD(log_level);
+			}
 		};
 	}
 }

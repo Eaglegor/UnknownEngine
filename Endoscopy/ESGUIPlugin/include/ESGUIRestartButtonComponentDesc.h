@@ -18,9 +18,9 @@ namespace UnknownEngine
 
 				ESGUIRestartButtonComponentDesc()
 				{
-					DESCRIPTOR_PROPERTY_SETTER(layout_name);
-					DESCRIPTOR_PROPERTY_SETTER(parent_window);
-					DESCRIPTOR_PROPERTY_SETTER(cegui_context);
+					UEDESC_ADD_FIELD(layout_name);
+					UEDESC_ADD_FIELD(parent_window);
+					UEDESC_ADD_FIELD(cegui_context);
 				}
 
 		};

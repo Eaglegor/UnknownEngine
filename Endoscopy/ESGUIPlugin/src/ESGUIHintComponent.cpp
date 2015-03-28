@@ -81,16 +81,6 @@ namespace UnknownEngine
 				text_updated = false;
 			}
 		}
-		
-		void ESGUIHintComponent::addChild ( ComponentInterfaces::CEGuiWidgetComponent* child )
-		{
-			LOG_ERROR(logger, "Component doesn't support children addition/removal");
-		}
-
-		void ESGUIHintComponent::removeChild ( ComponentInterfaces::CEGuiWidgetComponent* child )
-		{
-			LOG_ERROR(logger, "Component doesn't support children addition/removal");
-		}
 
 		CEGUI::Window* ESGUIHintComponent::getCEGuiWindow()
 		{

@@ -6,7 +6,6 @@ namespace UnknownEngine
 {
 	namespace Utils
 	{
-		template<typename T>
 		using OptionalComponentDependency = ComponentDependency<IProperty::OPTIONAL>;
 	}
 }

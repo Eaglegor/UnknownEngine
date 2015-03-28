@@ -79,6 +79,13 @@ namespace UnknownEngine
 		{
 			window->setText(std::to_string(fps));
 		}
+
+		Core::IComponentInterface* FrameWindowComponent::getInterface ( const Core::ComponentType& type )
+		{
+			using namespace ComponentInterfaces;
+			if(type == CEGuiParentWidgetComponent::getType()) return static_cast<CEGuiParentWidgetComponent*>(this);
+			return nullptr;
+		}
 		
 	}
 }

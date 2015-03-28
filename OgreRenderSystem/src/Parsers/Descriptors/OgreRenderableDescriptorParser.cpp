@@ -1,7 +1,6 @@
 #include <stdafx.h>
 
 #include <Parsers/Descriptors/OgreRenderableDescriptorParser.h>
-#include <Parsers/Sections/InitialTransformSectionParser.h>
 #include <CommonParsers/Vector3Parser.h>
 #include <CommonParsers/QuaternionParser.h>
 #include <ResourceManager/DataProviders/IDataProvider.h>
@@ -55,8 +54,13 @@ namespace UnknownEngine
 				{
 					{
 						"InitialTransform",
-						PropertiesParser::ExternalParserOptionalNestedValue<Math::Transform, InitialTransformSectionParser>
-						(desc.initial_transform)
+						PropertiesParser::OptionalNestedValue
+						(
+							{
+								{"position", PropertiesParser::OptionalValue<Math::Vector3>( [&desc](const Math::Vector3& val){ desc.initial_transform.setPosition(val);})},
+								{"orientation", PropertiesParser::OptionalValue<Math::Quaternion>( [&desc](const Math::Quaternion& val){ desc.initial_transform.setOrientation(val);})},
+							}
+						)
 					},
 					{
 						"Material",

@@ -16,6 +16,8 @@ namespace UnknownEngine
 		class Descriptor : public IDescriptor
 		{
 			public:
+				Descriptor():is_valid(true){}
+				
 				virtual bool isValid() override
 				{
 					return is_valid;
@@ -23,15 +25,16 @@ namespace UnknownEngine
 
 				IDescriptor& operator=(const Core::Properties& props) override
 				{
+					is_valid = true;
 					for(IDescriptorPropertySetter& setter : properties)
 					{
 						setter.parseValue(props);
-						if(setter.isValid()) this->is_valid = false;
+						if(!setter.isValid()) this->is_valid = false;
 					}
 					for(IDescriptorPropertySetter& setter : nested_descriptors)
 					{
 						setter.parseValue(props);
-						if(setter.isValid()) this->is_valid = false;
+						if(!setter.isValid()) this->is_valid = false;
 					}
 					return *this;
 				}

@@ -3,6 +3,7 @@
 #include <BaseCEGuiComponent.h>
 #include <ComponentInterfaces/Modules/Endoscopy/GUI/ESGuiHintComponent.h>
 #include <ComponentInterfaces/GUI/CEGUI/CEGuiWidgetComponent.h>
+#include <ComponentInterfaces/GUI/CEGUI/CEGuiParentWidgetComponent.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
 
 #include <ESGUIHintComponentDesc.h>
@@ -36,9 +37,6 @@ namespace UnknownEngine
 			
 			virtual void setText ( const char* text );
 			
-			virtual void addChild ( CEGuiWidgetComponent* child );
-			virtual void removeChild ( CEGuiWidgetComponent* child );
-			
 			virtual CEGUI::Window* getCEGuiWindow();
 			
 		private:
@@ -48,7 +46,7 @@ namespace UnknownEngine
 			volatile bool text_updated;
 			std::string new_text;
 			
-			Core::ComponentInterfacePtr<ComponentInterfaces::CEGuiWidgetComponent> parent_window;
+			Core::ComponentInterfacePtr<ComponentInterfaces::CEGuiParentWidgetComponent> parent_window;
 			
 			Core::LogHelper logger;
 		};

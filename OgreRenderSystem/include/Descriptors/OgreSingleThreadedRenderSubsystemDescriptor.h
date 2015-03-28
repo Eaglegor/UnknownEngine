@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Descriptors/OgreRenderSubsystemDescriptor.h>
+#include <Descriptors/DescriptorUtils.h>
 
 namespace UnknownEngine
 {
@@ -11,14 +12,19 @@ namespace UnknownEngine
 	
 	namespace Graphics
 	{
-		struct OgreSingleThreadedRenderSubsystemDescriptor
+		struct OgreSingleThreadedRenderSubsystemDescriptor : public Utils::Descriptor
 		{
-			OgreRenderSubsystemDescriptor base_descriptor;
-			Core::IComponent* update_frame_provider;
+			using Utils::Descriptor::operator=;
 			
-			OgreSingleThreadedRenderSubsystemDescriptor():
-			update_frame_provider(nullptr)
-			{}			
+			OgreRenderSubsystemDescriptor base_descriptor;
+			
+			Utils::RequiredComponentDependency update_frame_provider;
+			
+			OgreSingleThreadedRenderSubsystemDescriptor()
+			{
+				UEDESC_ADD_NESTED_DESCRIPTOR(base_descriptor);
+				UEDESC_ADD_FIELD(update_frame_provider);
+			}
 		};
 	}
 }

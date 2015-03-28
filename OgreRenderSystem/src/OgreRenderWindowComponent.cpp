@@ -22,23 +22,23 @@ namespace UnknownEngine
 			
 			Ogre::NameValuePairList params;
 			
-			if(desc.type != OgreRenderWindowDescriptor::WindowType::OWN && parent_window)
+			if(desc.type != OgreRenderWindowType::OWN && parent_window)
 			{
 				Ogre::String string_handle = std::to_string((int)parent_window->getWindowHandle());
 
-				switch(desc.type)
+				switch(desc.type.get())
 				{
-					case OgreRenderWindowDescriptor::WindowType::EXTERNAL:
+					case OgreRenderWindowType::EXTERNAL:
 					{
 						params["externalWindowHandle"] = string_handle;
 						break;
 					}
-					case OgreRenderWindowDescriptor::WindowType::PARENT:
+					case OgreRenderWindowType::PARENT:
 					{
 						params["parentWindowHandle"] = string_handle;
 						break;
 					}
-					case OgreRenderWindowDescriptor::WindowType::OWN:
+					case OgreRenderWindowType::OWN:
 					{
 						// Doing nothing. Just avoiding compiler warning.
 						break;
@@ -55,7 +55,7 @@ namespace UnknownEngine
 
 		void OgreRenderWindowComponent::internalShutdown()
 		{
-			if(parent_window && desc.type != OgreRenderWindowDescriptor::WindowType::OWN){
+			if(parent_window && desc.type != OgreRenderWindowType::OWN){
 				parent_window->removeWindowEventsListener(this);
 			}
 			

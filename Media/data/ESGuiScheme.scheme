@@ -1,4 +1,4 @@
- <?xml version="1.0" ?>
- <GUIScheme version="5" name="ESGuiScheme">
-     <Imageset name="CrosshairImages" filename="CrosshairImages.imageset"/>
- </GUIScheme>
+<?xml version="1.0"?>
+<GUIScheme version="5" name="ESGuiScheme">
+	<Imageset name="CrosshairImages" filename="CrosshairImages.imageset"/>
+</GUIScheme>

@@ -27,11 +27,11 @@ namespace UnknownEngine
 			default_text("<Endoscopy hint component>"),
 			log_level(Core::LogSeverity::NONE)
 			{
-				DESCRIPTOR_PROPERTY_SETTER(parent_window);
-				DESCRIPTOR_PROPERTY_SETTER(cegui_context);
-				DESCRIPTOR_PROPERTY_SETTER(layout_filename);
-				DESCRIPTOR_PROPERTY_SETTER(default_text);
-				DESCRIPTOR_PROPERTY_SETTER(log_level);
+				UEDESC_ADD_FIELD(parent_window);
+				UEDESC_ADD_FIELD(cegui_context);
+				UEDESC_ADD_FIELD(layout_filename);
+				UEDESC_ADD_FIELD(default_text);
+				UEDESC_ADD_FIELD(log_level);
 			}
 		};
 	}

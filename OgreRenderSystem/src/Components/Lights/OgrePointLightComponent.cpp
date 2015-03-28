@@ -29,7 +29,7 @@ namespace UnknownEngine
 			BaseOgreLightComponent::internalInit();
 			ogre_light->setType(Ogre::Light::LT_POINT);
 			
-			transform_adapter.setTransform(desc.initial_transform);
+			transform_adapter.setTransform(desc.initial_transform.get());
 		}
 	}
 }

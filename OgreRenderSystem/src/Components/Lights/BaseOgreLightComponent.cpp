@@ -30,19 +30,19 @@ namespace UnknownEngine
 			ogre_light = getRenderSubsystem()->getSceneManager()->createLight(Ogre::String(getName()) + ".Light");
 			ogre_scene_node = getRenderSubsystem()->getSceneManager()->getRootSceneNode()->createChildSceneNode(Ogre::String(getName())+".SceneNode");
 			
-			Ogre::ColourValue diffuse_color = light_settings.diffuse_color * light_settings.intensity;
+			Ogre::ColourValue diffuse_color = light_settings.diffuse_color.get() * light_settings.intensity.get();
 			ogre_light->setDiffuseColour( diffuse_color );
 			
-			Ogre::ColourValue specular_color = light_settings.specular_color * light_settings.intensity;
+			Ogre::ColourValue specular_color = light_settings.specular_color.get() * light_settings.intensity.get();
 			ogre_light->setSpecularColour( specular_color );
 			
-			if(light_settings.attenuation.is_initialized())
+			if(light_settings.attenuation.isExplicitlyInitialized())
 			{
 				const OgreLightSettings::Attenuation& att = light_settings.attenuation.get();
 				ogre_light->setAttenuation(att.range, att.constant, att.linear, att.quadratic);
 			}
 			
-			if(light_settings.cast_shadows.is_initialized())
+			if(light_settings.cast_shadows.isExplicitlyInitialized())
 			{
 				ogre_light->setCastShadows(light_settings.cast_shadows.get());
 			}

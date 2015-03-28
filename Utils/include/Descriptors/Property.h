@@ -4,6 +4,9 @@
 #include <boost/lexical_cast.hpp>
 #include <string>
 
+#include <LogHelper.h>
+#include <Logging.h>
+
 namespace UnknownEngine
 {
 	namespace Utils
@@ -13,10 +16,20 @@ namespace UnknownEngine
 		{
 			public:
 				Property(){}
-				Property(const T &value):value(value){}
+				Property(const T &default_value):
+				value(default_value)
+				{}
 
-				Property(const Property<T, optionality> &prop):value(prop.value){}
+				Property(const Property<T, optionality> &prop):
+				value(prop.value),
+				is_explicitly_initialized(prop.is_explicitly_initialized)
+				{}
 
+				template<typename ...CArgs>
+				Property(CArgs&& ...default_cargs):
+				value(std::forward<CArgs>(default_cargs)...)
+				{}
+				
 				operator const T&() const
 				{
 					return value;
@@ -41,8 +54,17 @@ namespace UnknownEngine
 				
 				virtual IProperty& operator =(const std::string &string_value_representation) override
 				{
-					value = boost::lexical_cast<T>(string_value_representation);
-					is_explicitly_initialized = true;
+					try
+					{
+						value = boost::lexical_cast<T>(string_value_representation);
+						is_explicitly_initialized = true;
+					}
+					catch(boost::bad_lexical_cast &e)
+					{
+						Core::LogHelper logger("Core.Utils.PropertiesParser", Core::LogSeverity::INFO);
+						LOG_ERROR(logger, "Failed to initialized property from string: " + string_value_representation);
+					}
+					
 					return *this;
 				}
 
@@ -67,61 +89,20 @@ namespace UnknownEngine
 					if(optionality == REQUIRED && is_explicitly_initialized) return true;
 					return false;
 				}
+				
+				virtual bool isExplicitlyInitialized()
+				{
+					return is_explicitly_initialized;
+				}
 
+				virtual T* operator->()
+				{
+					return &value;
+				}
+				
 			private:
-				bool is_explicitly_initialized = false;
 				T value;
-		};
-		
-		template<IProperty::Optionality optionality>
-		class Property<std::string, optionality> : public IProperty
-		{
-			public:
-				Property(){}
-				Property(const std::string &value):value(value){}
-
-				operator const std::string&() const
-				{
-					return value;
-				}
-
-				operator std::string&()
-				{
-					return value;
-				}
-
-				virtual IProperty& operator =(const std::string &string_value_representation) override
-				{
-					value = string_value_representation;
-					is_explicitly_initialized = true;
-					return *this;
-				}
-
-				std::string& get()
-				{
-					return value;
-				}
-				
-				const std::string& get() const
-				{
-					return value;
-				}
-				
-				virtual	operator std::string() override
-				{
-					return value;
-				}
-
-				virtual bool isValid()
-				{
-					if(optionality == OPTIONAL) return true;
-					if(optionality == REQUIRED && is_explicitly_initialized) return true;
-					return false;
-				}
-
-			private:
 				bool is_explicitly_initialized = false;
-				std::string value;
 		};
 		
 	}

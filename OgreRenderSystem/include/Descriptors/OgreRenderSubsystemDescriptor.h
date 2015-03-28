@@ -3,6 +3,7 @@
 #include <string>
 #include <boost/optional.hpp>
 #include <Descriptors/OgreRenderWindowDescriptor.h>
+#include <Descriptors/DescriptorUtils.h>
 
 namespace UnknownEngine
 {
@@ -13,34 +14,34 @@ namespace UnknownEngine
 	
 	namespace Graphics
 	{
-		struct OgreRenderSubsystemDescriptor
+		struct OgreRenderSubsystemDescriptor : public Utils::Descriptor
 		{
+			using Utils::Descriptor::operator=;
 			
-			std::string ogre_plugins_filename;
-			std::string ogre_config_filename;
-			std::string ogre_log_filename;
+			Utils::OptionalProperty<std::string> ogre_plugins_filename;
+			Utils::OptionalProperty<std::string> ogre_config_filename;
+			Utils::OptionalProperty<std::string> ogre_log_filename;
 
-			boost::optional<std::string> ogre_resources_filename;
+			Utils::OptionalProperty<std::string> ogre_resources_filename;
+
+			Utils::OptionalProperty<Core::LogSeverity> log_level;
 			
-			Core::LogSeverity log_level;
+			Utils::OptionalProperty<bool> show_config_dialog;
 
-			bool separate_rendering_thread;
-
-			bool show_config_dialog;
-
-			//OgreRenderWindowDescriptor render_window_descriptor;
-			
-			//Core::IComponent* update_frame_provider;
-			
 			OgreRenderSubsystemDescriptor() :
 				ogre_plugins_filename ( "plugins.cfg" ),
 				ogre_config_filename ( "ogre.cfg" ),
 				ogre_log_filename ( "Ogre.log" ),
-				log_level(Core::LogSeverity::NONE),
-				separate_rendering_thread ( true )
-				//show_config_dialog ( false ),
-				//update_frame_provider( nullptr )
-			{}
+				log_level(Core::LogSeverity::NONE)
+			{
+				UEDESC_ADD_FIELD(ogre_plugins_filename);
+				UEDESC_ADD_FIELD(ogre_config_filename);
+				UEDESC_ADD_FIELD(ogre_log_filename);
+				
+				UEDESC_ADD_FIELD(ogre_resources_filename);
+				UEDESC_ADD_FIELD(log_level);
+				UEDESC_ADD_FIELD(show_config_dialog);
+			}
 
 		};
 	}

@@ -1,6 +1,7 @@
 #include <ESGUICrosshairComponent.h>
 #include <CEGUI/WindowManager.h>
 #include <CEGUI/Window.h>
+#include <CEGUI/ImageManager.h>
 
 namespace UnknownEngine
 {
@@ -31,7 +32,7 @@ namespace UnknownEngine
 		{
 			if(aimed_changed)
 			{
-				std::string new_value="set:" + desc.imageset_name.get() + " :image:" + (new_aimed ? desc.aimed_image_name.get() : desc.free_image_name.get());
+				std::string new_value = desc.imageset_name.get() + "/" + (new_aimed ? desc.aimed_image_name.get() : desc.free_image_name.get());
 				image->setProperty("Image", new_value);
 				aimed_changed = false;
 			}
@@ -64,6 +65,8 @@ namespace UnknownEngine
 				return;
 			}
 
+			setAimed(false);
+			
 			parent_window->addChild(this);
 		}
 
@@ -84,16 +87,6 @@ namespace UnknownEngine
 		CEGUI::Window *ESGUICrosshairComponent::getCEGuiWindow()
 		{
 			return window;
-		}
-
-		void ESGUICrosshairComponent::addChild(ComponentInterfaces::CEGuiWidgetComponent *child)
-		{
-			LOG_ERROR(logger, "Component doesn't support children addition/removal");
-		}
-
-		void ESGUICrosshairComponent::removeChild(ComponentInterfaces::CEGuiWidgetComponent *child)
-		{
-			LOG_ERROR(logger, "Component doesn't support children addition/removal");
 		}
 
 	}

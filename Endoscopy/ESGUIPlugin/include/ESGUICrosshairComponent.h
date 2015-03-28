@@ -4,6 +4,7 @@
 #include <ESGUICrosshairComponentDesc.h>
 #include <ComponentInterfaces/Modules/Endoscopy/GUI/ESGuiCrosshairComponent.h>
 #include <ComponentInterfaces/GUI/CEGUI/CEGuiWidgetComponent.h>
+#include <ComponentInterfaces/GUI/CEGUI/CEGuiParentWidgetComponent.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
 #include <LogHelper.h>
 
@@ -35,8 +36,6 @@ namespace UnknownEngine
 				virtual void setAimed(bool value);
 
 				virtual CEGUI::Window *getCEGuiWindow();
-				virtual void addChild(ComponentInterfaces::CEGuiWidgetComponent *child);
-				virtual void removeChild(ComponentInterfaces::CEGuiWidgetComponent *child);
 
 			private:
 				virtual void internalInit();
@@ -50,7 +49,7 @@ namespace UnknownEngine
 				CEGUI::Window* window;
 				CEGUI::Window* image;
 
-				Core::ComponentInterfacePtr<ComponentInterfaces::CEGuiWidgetComponent> parent_window;
+				Core::ComponentInterfacePtr<ComponentInterfaces::CEGuiParentWidgetComponent> parent_window;
 
 				Core::LogHelper logger;
 		};

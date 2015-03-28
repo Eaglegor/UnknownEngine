@@ -4,6 +4,7 @@
 #include <boost/lexical_cast.hpp>
 #include <string>
 #include <ComponentSystem/ComponentsManager.h>
+#include <ComponentSystem/IComponent.h>
 
 namespace UnknownEngine
 {
@@ -42,6 +43,11 @@ namespace UnknownEngine
 				{
 					if ( component ) return true;
 					return optionality == REQUIRED ? false : true;
+				}
+				
+				virtual Core::IComponent* operator->()
+				{
+					return component;
 				}
 
 			private:

@@ -22,7 +22,7 @@ namespace UnknownEngine
 			return Utils::TextureCoordinateType(vector3.x, vector3.y, vector3.z);
 		}
 		
-		AssimpMeshDataProvider::AssimpMeshDataProvider ( const std::string& name, const AssimpMeshDataProvider::Descriptor& desc, Core::EngineContext* engine_context ) :
+		AssimpMeshDataProvider::AssimpMeshDataProvider ( const std::string& name, const AssimpMeshDataProviderDesc& desc, Core::EngineContext* engine_context ) :
 			SeparateLoaderThreadDataProvider ( name ),
 			desc ( desc ),
 			logger(name.c_str(), desc.log_level)
@@ -41,31 +41,31 @@ namespace UnknownEngine
 		void AssimpMeshDataProvider::internalLoad ( Core::ResourceContainer& out_container )
 		{
 			
-			LOG_INFO(logger, "Started loading file " + desc.filename);
+			LOG_INFO(logger, "Started loading file " + desc.filename.get());
 			
 			Assimp::Importer importer;
 			
 			unsigned int flags = 0;
 			
-			if(desc.postprocessing.flip_texture_coordinates) 
+			if(desc.postprocessing->flip_texture_coordinates) 
 			{
 				LOG_INFO(logger, "Turning on postprocessor: Flip texture coordinates");
 				flags |= aiProcess_FlipUVs;
 			}
 			
-			if(desc.postprocessing.triangulate) 
+			if(desc.postprocessing->triangulate) 
 			{
 				LOG_INFO(logger, "Turning on postprocessor: Triangulate");
 				flags |= aiProcess_Triangulate;
 			}
 			
-			if(desc.postprocessing.generate_normals) 
+			if(desc.postprocessing->generate_normals) 
 			{
 				LOG_INFO(logger, "Turning on postprocessor: Generate normals");
 				flags |= aiProcess_GenSmoothNormals;
 			}
 			
-			if(desc.postprocessing.generate_tangents) 
+			if(desc.postprocessing->generate_tangents) 
 			{
 				LOG_INFO(logger, "Turning on postprocessor: Generate tangents");
 				flags |= aiProcess_CalcTangentSpace;
@@ -76,7 +76,7 @@ namespace UnknownEngine
 			const aiScene* scene = importer.ReadFile(desc.filename, flags);
 			if(scene == nullptr || !scene->HasMeshes()) 
 			{
-				LOG_ERROR(logger, "Error while loading file " + desc.filename);
+				LOG_ERROR(logger, "Error while loading file " + desc.filename.get());
 				throw AssimpMeshDataLoadError("Error while loading mesh data");
 			}
 			

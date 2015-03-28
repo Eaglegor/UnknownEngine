@@ -4,27 +4,41 @@
 #include <boost/optional.hpp>
 #include <OgreColourValue.h>
 #include <AlignedNew.h>
+#include <Descriptors/DescriptorUtils.h>
+#include <Parsers/Sections/OgreColourValueParser.h>
 
 namespace UnknownEngine
 {
 	namespace Graphics
 	{
-		UNKNOWNENGINE_ALIGNED_STRUCT(16) OgreLightSettings
+		UNKNOWNENGINE_ALIGNED_STRUCT(16) OgreLightSettings : public Utils::Descriptor
 		{
-			struct Attenuation
+			using Utils::Descriptor::operator=;
+			
+			struct Attenuation : public Utils::Descriptor
 			{
-				Math::Scalar range;
-				Math::Scalar constant;
-				Math::Scalar linear;
-				Math::Scalar quadratic;
+				using Utils::Descriptor::operator=;
+				
+				Utils::RequiredProperty<Math::Scalar> range;
+				Utils::RequiredProperty<Math::Scalar> constant;
+				Utils::RequiredProperty<Math::Scalar> linear;
+				Utils::RequiredProperty<Math::Scalar> quadratic;
+				
+				Attenuation()
+				{
+					UEDESC_ADD_FIELD(range);
+					UEDESC_ADD_FIELD(constant);
+					UEDESC_ADD_FIELD(linear);
+					UEDESC_ADD_FIELD(quadratic);
+				}
 			};
 
-			boost::optional<Attenuation> attenuation;
-			boost::optional<bool> cast_shadows;
+			Utils::OptionalDescriptor<Attenuation> attenuation;
+			Utils::OptionalProperty<bool> cast_shadows;
 
-			Ogre::ColourValue diffuse_color;
-			Ogre::ColourValue specular_color;
-			Math::Scalar intensity;
+			Utils::OptionalProperty<Ogre::ColourValue> diffuse_color;
+			Utils::OptionalProperty<Ogre::ColourValue> specular_color;
+			Utils::OptionalProperty<Math::Scalar> intensity;
 
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
@@ -32,7 +46,13 @@ namespace UnknownEngine
 				diffuse_color ( 1, 1, 1 ),
 				specular_color ( 1, 1, 1 ),
 				intensity ( 1 )
-			{}
+			{
+				UEDESC_ADD_NESTED_DESCRIPTOR(attenuation);
+				UEDESC_ADD_FIELD(cast_shadows);
+				UEDESC_ADD_FIELD(diffuse_color);
+				UEDESC_ADD_FIELD(specular_color);
+				UEDESC_ADD_FIELD(intensity);
+			}
 
 		};
 	}

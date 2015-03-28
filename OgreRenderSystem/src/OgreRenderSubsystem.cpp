@@ -56,7 +56,7 @@ namespace UnknownEngine
 		{
 			if(!resources_initialized)
 			{
-				if(desc.ogre_resources_filename) loadResourcesFile(desc.ogre_resources_filename.get());
+				if(desc.ogre_resources_filename.isExplicitlyInitialized()) loadResourcesFile(desc.ogre_resources_filename.get());
 				resources_initialized = true;
 			}
 		}

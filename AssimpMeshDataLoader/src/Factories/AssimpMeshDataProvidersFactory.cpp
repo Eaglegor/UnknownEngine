@@ -3,14 +3,11 @@
 #include <DataProviders/AssimpMeshDataProvider.h>
 #include <Logging.h>
 #include <ResourceManager/DataProviders/DataProviderDesc.h>
-#include <DataProviders/AssimpMeshDataProviderDescriptorGetter.h>
+#include <DataProviders/AssimpMeshDataProviderDesc.h>
 
 namespace UnknownEngine {
 	namespace Loader
 	{
-		
-		static AssimpMeshDataProviderDescriptorGetter descriptor_getter;
-		
 		AssimpMeshDataProvidersFactory::AssimpMeshDataProvidersFactory ( Core::ILogger* logger, Core::EngineContext* engine_context ):
 		logger(logger),
 		engine_context(engine_context)
@@ -27,7 +24,9 @@ namespace UnknownEngine {
 
 			LOG_INFO(logger, "Creating Assimp mesh data provider");
 		
-			result = new AssimpMeshDataProvider(desc.name, desc.descriptor.apply_visitor(descriptor_getter), engine_context);
+			AssimpMeshDataProviderDesc descriptor;
+			descriptor = boost::get<Core::Properties>(desc.descriptor);
+			result = new AssimpMeshDataProvider(desc.name, descriptor, engine_context);
 
 			LOG_INFO(logger, "Data provider created");
 			

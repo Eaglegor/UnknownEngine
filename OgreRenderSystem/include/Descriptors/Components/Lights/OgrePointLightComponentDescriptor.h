@@ -4,6 +4,8 @@
 #include <AlignedNew.h>
 #include <Transform/Transform.h>
 #include <LogSeverity.h>
+#include <Descriptors/DescriptorUtils.h>
+#include <Descriptors/CommonDescriptors/TransformDescriptor.h>
 
 namespace UnknownEngine
 {
@@ -14,21 +16,28 @@ namespace UnknownEngine
 	
 	namespace Graphics
 	{
-		UNKNOWNENGINE_ALIGNED_STRUCT ( 16 ) OgrePointLightComponentDescriptor
+		UNKNOWNENGINE_ALIGNED_STRUCT ( 16 ) OgrePointLightComponentDescriptor : public Utils::Descriptor
 		{
+			using Utils::Descriptor::operator=;
+			
 			OgreLightSettings light_settings;
 
-			Math::Transform initial_transform;
-			Core::LogSeverity log_level;
-
-			Core::IComponent* transform_provider;
+			Utils::OptionalDescriptor<Utils::TransformDescriptor> initial_transform;
+			
+			Utils::OptionalProperty<Core::LogSeverity> log_level;
+	
+			Utils::OptionalComponentDependency transform_provider;
 			
 			UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
 			OgrePointLightComponentDescriptor() :
-				log_level ( Core::LogSeverity::NONE ),
-				transform_provider(nullptr)
-			{}
+				log_level ( Core::LogSeverity::NONE )
+			{
+				UEDESC_ADD_NESTED_DESCRIPTOR(light_settings);
+				UEDESC_ADD_NESTED_DESCRIPTOR(initial_transform);
+				UEDESC_ADD_FIELD(log_level);
+				UEDESC_ADD_FIELD(transform_provider);
+			}
 		};
 	}
 }

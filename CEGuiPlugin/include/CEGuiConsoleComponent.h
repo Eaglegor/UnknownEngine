@@ -3,6 +3,7 @@
 #include <BaseCEGuiComponent.h>
 #include <ComponentInterfaces/GUI/Common/Console/ConsoleWindow.h>
 #include <ComponentInterfaces/GUI/CEGUI/CEGuiWidgetComponent.h>
+#include <ComponentInterfaces/GUI/CEGUI/CEGuiParentWidgetComponent.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
 #include <ComponentInterfaces/Input/Common/IContextualActionsMapper.h>
 #include <unordered_map>
@@ -42,9 +43,6 @@ namespace UnknownEngine
 
 			virtual ComponentInterfaces::ConsoleOutputStream& getOutputStream() override;
 			
-			virtual void addChild ( CEGuiWidgetComponent* child );
-			virtual void removeChild ( CEGuiWidgetComponent* child );
-			
 			virtual CEGUI::Window* getCEGuiWindow();
 
 			virtual void activate();
@@ -82,7 +80,7 @@ namespace UnknownEngine
 			CEGuiConsoleComponentDesc desc;
 			CEGUI::Window* window;
 			
-			Core::ComponentInterfacePtr<ComponentInterfaces::CEGuiWidgetComponent> parent_window;
+			Core::ComponentInterfacePtr<ComponentInterfaces::CEGuiParentWidgetComponent> parent_window;
 			Core::ComponentInterfacePtr<ComponentInterfaces::IContextualActionsMapper> input_context_mapper;
 			Core::LogHelper logger;
 			

@@ -1,8 +1,8 @@
 set(TARGET_NAME AssimpMeshDataLoader)
 set(LINKAGE SHARED)
 
-set(INCLUDED_MODULE_HEADERS AssimpMeshDataLoader Math Plugins ResourceManager MessageSystem Utils Engine LogManager)
-set(LINKED_LIBS Engine Plugins ResourceManager LogManager )
+set(INCLUDED_MODULE_HEADERS AssimpMeshDataLoader Math Plugins ResourceManager ComponentSystem MessageSystem Utils Engine LogManager)
+set(LINKED_LIBS Engine Plugins ResourceManager LogManager ComponentSystem )
 set(DEPENDS_ON_TARGETS ${LINKED_LIBS} )
 
 find_package(Eigen REQUIRED)

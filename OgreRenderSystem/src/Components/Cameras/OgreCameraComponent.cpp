@@ -53,9 +53,9 @@ namespace UnknownEngine
 
 			render_window->getOgreRenderWindow()->addViewport ( camera );
 
-			transform_adapter.setTransform(desc.initial_transform);
+			transform_adapter.setTransform(desc.initial_transform.get());
 
-			if ( desc.initial_look_at.is_initialized() )
+			if ( desc.initial_look_at.isExplicitlyInitialized() )
 			{
 				LOG_DEBUG ( logger, "Setting look at: " +
 				            boost::lexical_cast<std::string> ( desc.initial_look_at->x() ) + ", " +
@@ -65,8 +65,8 @@ namespace UnknownEngine
 				camera->lookAt ( OgreVector3Converter::toOgreVector ( desc.initial_look_at.get() ) );
 			}
 
-			if ( desc.near_clip_distance.is_initialized() ) camera->setNearClipDistance ( desc.near_clip_distance.get() );
-			if ( desc.far_clip_distance.is_initialized() ) camera->setFarClipDistance ( desc.far_clip_distance.get() );
+			if ( desc.near_clip_distance.isExplicitlyInitialized() ) camera->setNearClipDistance ( desc.near_clip_distance.get() );
+			if ( desc.far_clip_distance.isExplicitlyInitialized() ) camera->setFarClipDistance ( desc.far_clip_distance.get() );
 
 			this->scene_node->attachObject ( this->camera );
 			
