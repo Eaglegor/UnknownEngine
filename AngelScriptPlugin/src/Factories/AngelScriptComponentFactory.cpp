@@ -10,9 +10,8 @@ namespace UnknownEngine
 		
 		static AngelScriptComponentDescriptorGetter angel_script_descriptor_getter;
 		
-		AngelScriptComponentFactory::AngelScriptComponentFactory ( AngelScriptSubsystem* angel_script_subsystem, Core::EngineContext* engine_context):
-		angel_script_subsystem(angel_script_subsystem),
-		engine_context(engine_context)
+		AngelScriptComponentFactory::AngelScriptComponentFactory ( AngelScriptSubsystem* angel_script_subsystem):
+		angel_script_subsystem(angel_script_subsystem)
 		{
 			CreatableObjectDesc desc;
 			desc.type = AngelScriptComponent::TYPE;
@@ -31,7 +30,7 @@ namespace UnknownEngine
 			try
 			{
 				AngelScriptComponentDesc actual_desc = desc.descriptor.apply_visitor(angel_script_descriptor_getter);
-				component = new AngelScriptComponent(desc.name.c_str(), actual_desc, engine_context, angel_script_subsystem);
+				component = new AngelScriptComponent(desc.name.c_str(), actual_desc, angel_script_subsystem);
 			}
 			catch(const AngelScriptComponentDescriptorGetter::NoDescriptorProvided &e)
 			{

@@ -48,7 +48,7 @@ namespace UnknownEngine
 		{
 			angel_script_subsystem->init();
 		
-			angel_script_component_factory.reset(new AngelScriptComponentFactory(angel_script_subsystem.get(), engine_context));
+			angel_script_component_factory.reset(new AngelScriptComponentFactory(angel_script_subsystem.get()));
 			engine_context->getComponentsManager()->addComponentFactory(angel_script_component_factory.get());
 			
 			return true;

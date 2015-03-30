@@ -3,7 +3,6 @@
 #include <ComponentSystem/ComponentDesc.h>
 #include <Registrators/ClassValueTypeRegistrator.h>
 #include <Registrators/Core/ASNamespaceName.h>
-#include <Registrators/Core/ComponentSystem/ComponentDescBehaviorWrapper.h>
 
 namespace UnknownEngine
 {

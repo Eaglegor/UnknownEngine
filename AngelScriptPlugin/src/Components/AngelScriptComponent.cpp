@@ -11,11 +11,11 @@ namespace UnknownEngine
 		
 		const Core::ComponentType AngelScriptComponent::TYPE = "Behavior.AngelScript";
 		
-		AngelScriptComponent::AngelScriptComponent ( const char* name, const AngelScriptComponentDesc& desc, Core::EngineContext* engine_context, AngelScriptSubsystem* angel_script_subsystem ):
+		AngelScriptComponent::AngelScriptComponent ( const char* name, const AngelScriptComponentDesc& desc, AngelScriptSubsystem* angel_script_subsystem ):
 		BaseComponent(name),
 		desc(desc),
-		engine_context(engine_context),
-		angel_script_subsystem(angel_script_subsystem)
+		angel_script_subsystem(angel_script_subsystem),
+		logger(name, desc.log_level)
 		{
 		}
 		
@@ -48,11 +48,12 @@ namespace UnknownEngine
 				context->SetArgObject(0, &obj_name);
 				context->Execute();
 			}
+			return true;
 		}
 
 		void AngelScriptComponent::shutdown()
 		{
-			asIScriptEngine* script_engine = angel_script_subsystem->getScriptEngine();
+			//asIScriptEngine* script_engine = angel_script_subsystem->getScriptEngine();
 			asIScriptFunction *shutdown_func = module->GetFunctionByDecl("void shutdown()");
 			if(shutdown_func)
 			{

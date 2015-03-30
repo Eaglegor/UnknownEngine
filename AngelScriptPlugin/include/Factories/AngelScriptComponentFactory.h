@@ -17,14 +17,13 @@ namespace UnknownEngine
 		class AngelScriptComponentFactory : public Core::BaseComponentFactory
 		{
 		public:
-			AngelScriptComponentFactory(AngelScriptSubsystem* angel_script_subsystem, Core::EngineContext* engine_context);
+			AngelScriptComponentFactory(AngelScriptSubsystem* angel_script_subsystem);
 			virtual const char* getName() const;
 			
 		private:
 			Core::IComponent* createAngelScriptComponent(const Core::ComponentDesc &desc);
 			
 			AngelScriptSubsystem* angel_script_subsystem;
-			Core::EngineContext* engine_context;
 		};
 	}
 }

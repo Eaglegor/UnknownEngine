@@ -12,10 +12,10 @@ if(CMAKE_BUILD_TYPE STREQUAL Debug)
 	set(LIBSUFFIX "d")
 endif()
 
-find_path(ANGELSCRIPT_INCLUDE_DIR angelscript.h HINTS $ENV{ANGELSCRIPT_HOME} $ENV{ANGELSCRIPT_SDK}/angelscript $ENV{ANGELSCRIPT_ROOT} PATH_SUFFIXES include)
+find_path(ANGELSCRIPT_INCLUDE_DIR angelscript.h HINTS $ENV{ANGELSCRIPT_HOME} $ENV{ANGELSCRIPT_SDK}/angelscript $ENV{ANGELSCRIPT_ROOT} /usr/include PATH_SUFFIXES include)
 # MSVC built angelscript may be named angelscript_static.
 # The provided project files name the library with the lib prefix.
-find_library(ANGELSCRIPT_LIBRARY NAMES angelscript${LIBSUFFIX} HINTS $ENV{ANGELSCRIPT_HOME} $ENV{ANGELSCRIPT_SDK}/angelscript $ENV{ANGELSCRIPT_ROOT} PATH_SUFFIXES lib )
+find_library(ANGELSCRIPT_LIBRARY NAMES angelscript${LIBSUFFIX} angelscript HINTS $ENV{ANGELSCRIPT_HOME} $ENV{ANGELSCRIPT_SDK}/angelscript $ENV{ANGELSCRIPT_ROOT} PATH_SUFFIXES lib )
 # Handle the QUIETLY and REQUIRED arguments and set ANGELSCRIPT_FOUND
 # to TRUE if all listed variables are TRUE.
 

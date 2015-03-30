@@ -5,6 +5,7 @@
 #include <AngelScriptSubsystem.h>
 #include <memory>
 #include <unordered_map>
+#include <LogHelper.h>
 
 namespace UnknownEngine
 {
@@ -22,7 +23,7 @@ namespace UnknownEngine
 		class AngelScriptComponent : public Core::BaseComponent
 		{
 		public:
-			AngelScriptComponent ( const char* name, const AngelScriptComponentDesc& desc, Core::EngineContext* engine_context, AngelScriptSubsystem* angel_script_subsystem );
+			AngelScriptComponent ( const char* name, const AngelScriptComponentDesc& desc, AngelScriptSubsystem* angel_script_subsystem );
 			virtual ~AngelScriptComponent();
 			
 			virtual UnknownEngine::Core::ComponentType getType() const;
@@ -32,9 +33,8 @@ namespace UnknownEngine
 			
 			static const Core::ComponentType TYPE;
 		private:
-			Core::ILogger* logger;
+			Core::LogHelper logger;
 			AngelScriptComponentDesc desc;
-			Core::EngineContext* engine_context;
 			asIScriptModule* module;
 			asIScriptContext* context;
 		
