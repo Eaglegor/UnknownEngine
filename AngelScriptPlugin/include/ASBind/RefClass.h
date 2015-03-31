@@ -1,8 +1,10 @@
 #pragma once
 
-#include <AngelScript.h>
+#include <angelscript.h>
 #include <ASBind/detail/FormatSignature.h>
 #include <AngelScriptSubsystem.h>
+#include <ASBind/detail/RefCountingWrapper.h>
+#include <iostream>
 
 namespace UnknownEngine
 {
@@ -17,71 +19,67 @@ namespace UnknownEngine
 				subsystem(subsystem),
 				engine(subsystem->getScriptEngine())
 				{
+					std::cout << "Registering type: " << name << std::endl;
 					if(!subsystem->typeNameIsBound<T>())
 					{
-						subsystem->bindTypeName<T>(name);
+						subsystem->bindTypeName<T>(name.c_str());
 						engine->RegisterObjectType(name.c_str(), 0, asOBJ_REF);
-					}
-					else
-					{
-						// LOG_ERROR - type already bound
 					}
 				}
 
 				template<typename Retval, typename... Args>
 				RefClass& method(Retval (T::*f)(Args...), const std::string &name)
 				{
-						engine->RegisterObjectMethod(name, format_signature<Retval, Args...>(), asSMethodPtr<sizeof(void (T::*)())>::Convert(AS_METHOD_AMBIGUITY_CAST(Retval (T::*)(Args...))(f)), asCALL_THISCALL);
+						std::cout << "Binding method: " + format_member_signature(f, name, subsystem) << std::endl;
+						engine->RegisterObjectMethod(this->name.c_str(), format_member_signature(f, name, subsystem).c_str(), asSMethodPtr<sizeof(void (T::*)())>::Convert(AS_METHOD_AMBIGUITY_CAST(Retval (T::*)(Args...))(f)), asCALL_THISCALL);
 						return *this;
 				}
 
 				template<typename Retval, typename... Args>
 				RefClass& static_method(Retval (T::*f)(Args...), const std::string &name)
 				{
-						engine->RegisterGlobalFunction(format_signature(f), asFUNCTION(f), asCALL_CDECL);
+						engine->RegisterGlobalFunction(format_member_signature(f, name, subsystem).c_str(), asFUNCTION(f), asCALL_CDECL);
 				}
 
 				template<typename... Args>
 				RefClass& constructor()
 				{
-						engine->RegisterObjectBehaviour(name, asBEHAVE_FACTORY, name + "@ f(" + FormattedArgumentsString<Args...>()() + ")", asFUNCTION(ASClass<T>::defaultFactoryFunc), asCALL_CDECL);
+					engine->RegisterObjectBehaviour(name, asBEHAVE_FACTORY, name + "@ f(" + FormattedArgumentsString<Args...>()() + ")", asFUNCTION(RefClass<T>::factoryFunc), asCALL_CDECL);
+					registerRefCounter();
+					return *this;
 				}
-
-				RefClass& defaultRefcounter()
+				
+				RefClass& default_constructor()
 				{
-						engine->RegisterObjectBehaviour(name, asBEHAVE_ADDREF, "void f()", asFUNCTION(ASClass<T>::addRef), asCALL_CDECL_OBJFIRST);
-						engine->RegisterObjectBehaviour(name, asBEHAVE_RELEASE, "void f()", asFUNCTION(ASClass<T>::release), asCALL_CDECL_OBJFIRST);
-				}
-
-				RefClass& customRefcounter( void (T::*add_ref_behavior)(), void (T::*release_behavior)() )
-				{
-						engine->RegisterObjectBehaviour(name, asBEHAVE_ADDREF, "void f()", asSMethodPtr<sizeof(void (T::*)())>::Convert(AS_METHOD_AMBIGUITY_CAST(void (T::*)())(add_ref_behavior)), asCALL_THISCALL);
-						engine->RegisterObjectBehaviour(name, asBEHAVE_RELEASE, "void f()", asSMethodPtr<sizeof(void (T::*)())>::Convert(AS_METHOD_AMBIGUITY_CAST(void (T::*)())(release_behavior)), asCALL_THISCALL);
-				}
-
-				RefClass& static_customRefcounter(void (*add_ref_behavior) (T*), void (*release_behavior)(T*))
-				{
-						engine->RegisterObjectBehaviour(name, asBEHAVE_ADDREF, "void f()", asFUNCTION(add_ref_behavior), asCALL_CDECL_OBJFIRST);
-						engine->RegisterObjectBehaviour(name, asBEHAVE_RELEASE, "void f()", asFUNCTION(release_behavior), asCALL_CDECL_OBJFIRST);
+					std::cout << "Binding constructor" << std::endl;
+					engine->RegisterObjectBehaviour(name.c_str(), asBEHAVE_FACTORY, (name + "@ f()").c_str(), asFUNCTION(RefClass<T>::defaultFactoryFunc), asCALL_CDECL);
+					registerRefCounter();
+					return *this;
 				}
 
 		private:
 				template<typename... Args>
-				static T* defaultFactoryFunc(Args&& ...args)
+				static RefCountingWrapper<T>* factoryFunc(Args&& ...args)
 				{
-						return new T(std::forward<Args>(args)...);
+						return new RefCountingWrapper<T>(std::forward<Args>(args)...);
 				}
 
-				static void addRef(T* obj)
+				static RefCountingWrapper<T>* defaultFactoryFunc()
 				{
-						// Call to subsystem addref
+					return new RefCountingWrapper<T>();
 				}
-
-				static void release(T* obj)
+				
+				void registerRefCounter()
 				{
-						// Call to subsystem release
+					static bool ref_counter_is_bound = false;
+					if(!ref_counter_is_bound)
+					{
+						engine->RegisterObjectBehaviour(name.c_str(), asBEHAVE_ADDREF, "void f()", asMETHOD(RefCountingWrapper<T>, addRef), asCALL_THISCALL);
+						engine->RegisterObjectBehaviour(name.c_str(), asBEHAVE_RELEASE, "void f()", asMETHOD(RefCountingWrapper<T>, release), asCALL_THISCALL);
+						ref_counter_is_bound = true;
+					}
 				}
-
+				
 				std::string name;
 				Behavior::AngelScriptSubsystem* subsystem;
 				asIScriptEngine* engine;

@@ -2,11 +2,12 @@
 
 #include <Descriptors/AngelScriptSubsystemDesc.h>
 #include <memory>
+#include <typeinfo>
+#include <typeindex>
 #include <unordered_map>
 
 #include <ASIncludes.h>
-#include <typeinfo>
-#include <typeindex>
+#include <mutex>
 
 namespace UnknownEngine
 {
@@ -32,7 +33,7 @@ namespace UnknownEngine
 			asIScriptEngine* getScriptEngine();
 
 			template<typename T>
-			void typeNameIsBound()
+			bool typeNameIsBound()
 			{
 				return type_name_bindings.find(std::type_index(typeid(T))) != type_name_bindings.end();
 			}
@@ -70,9 +71,7 @@ namespace UnknownEngine
 			
 			std::unordered_map<std::string, asIScriptModule*> modules;
 
-			std::unordered_map<std::type_info, std::string> type_name_bindings;
-
-			std::unordered_map<void*, size_t> references_counters;
+			std::unordered_map<std::type_index, std::string> type_name_bindings;
 		};
 	}
 }

@@ -21,12 +21,9 @@
 
 #include <iostream>
 
-#include <iostream>
-
 #include <string>
-#include <unordered_map>
-#include <typeinfo>
-#include <typeindex>
+
+#include <ASBind/RefClass.h>
 
 namespace UnknownEngine
 {
@@ -53,7 +50,7 @@ namespace UnknownEngine
 
 			registerStandardTypes();
 			
-			script_engine->RegisterGlobalProperty("Core::EngineContext @engine_context", &engine_context);
+			//script_engine->RegisterGlobalProperty("Core::EngineContext @engine_context", &engine_context);
 		}
 				
 		void AngelScriptSubsystem::shutdown()
@@ -97,6 +94,41 @@ namespace UnknownEngine
 			script_engine->SetDefaultNamespace("");
 		}
 
+		class DummyClass
+		{
+		public:
+			DummyClass()
+			{
+				std::cout << "Ctor" << std::endl;
+			}
+			
+			virtual ~DummyClass()
+			{
+				std::cout << "Dtor" << std::endl;
+			}
+			
+			void method1()
+			{
+				std::cout << "method1" << std::endl;
+			}
+			
+			void method2(DummyClass &cls)
+			{
+				std::cout << "method2" << std::endl;
+			}
+			
+			void method3(DummyClass *cls)
+			{
+				std::cout << "method3" << std::endl;
+				method2(*this);
+			}
+			
+			/*void method4(DummyClass cls)
+			{
+				std::cout << "method4" << std::endl;
+			}*/
+			
+		};
 		
 		void AngelScriptSubsystem::registerStandardTypes()
 		{
@@ -104,7 +136,16 @@ namespace UnknownEngine
 
 			registerObjectType(StdStringRegistrator());
 			
-			registerObjectType(LogSeverityRegistrator());
+			bindTypeName<void>("void");
+			
+			ASBind::RefClass<DummyClass>("DummyClass", this)
+			.default_constructor()
+			.method(&DummyClass::method1, "method1")
+			.method(&DummyClass::method2, "method2")
+			.method(&DummyClass::method3, "method3");
+			//.method(&DummyClass::method4, "method4");
+			
+			/*registerObjectType(LogSeverityRegistrator());
 			registerObjectType(ILoggerRegistrator());
 			
 			registerObjectType(NameGeneratorRegistrator());
@@ -119,7 +160,7 @@ namespace UnknownEngine
 			
 			registerObjectType(EngineContextRegistrator());
 			
-			registerObjectType(StdOutPrintRegistrator());
+			registerObjectType(StdOutPrintRegistrator());*/
 			
 		}
 		

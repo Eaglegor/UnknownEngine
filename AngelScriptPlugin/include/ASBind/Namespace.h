@@ -1,6 +1,6 @@
 #pragma once
 
-#include <AngelScript.h>
+#include <angelscript.h>
 #include <ASBind/detail/FormatSignature.h>
 #include <AngelScriptSubsystem.h>
 

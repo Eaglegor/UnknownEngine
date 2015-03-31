@@ -13,6 +13,7 @@
 		<subsystem name="Algorithms" module="ESInstrumentAlgorithmsPlugin"/>
 		<subsystem name="GUI" module="CEGuiPlugin"/>
 		<subsystem name="EndoscopyGUI" module="ESGUIPlugin"/>
+		<subsystem name="Scripting" module="AngelScriptPlugin"/>
 	</subsystems>
 
 	<entities>
@@ -170,7 +171,7 @@
 		<entity name="MasterScript">
 			<component name="MainModule" type="Behavior.AngelScript">
 				<options_section>
-					<option name="script_filename" value="test.as"/>
+					<option name="script_filename" value="test2.as"/>
 				</options_section>
 			</component>
 		</entity>

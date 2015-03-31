@@ -30,7 +30,7 @@ namespace UnknownEngine
         {
                 std::string operator()(Behavior::AngelScriptSubsystem* as_subsystem)
                 {
-                        return "const " + FormattedTypeName<T>()(as_subsystem) + "&";
+                        return "const " + FormattedTypeName<T>()(as_subsystem) + "&in";
                 }
         };
 
@@ -39,7 +39,7 @@ namespace UnknownEngine
         {
                 std::string operator()(Behavior::AngelScriptSubsystem* as_subsystem)
                 {
-                        return FormattedTypeName<T>()(as_subsystem) + "&";
+                        return FormattedTypeName<T>()(as_subsystem) + "&out";
                 }
         };
 
@@ -48,7 +48,7 @@ namespace UnknownEngine
         {
                 std::string operator()(Behavior::AngelScriptSubsystem* as_subsystem)
                 {
-                        return "const " + FormattedTypeName<T>()(as_subsystem) + "*";
+                        return "const " + FormattedTypeName<T>()(as_subsystem) + "@+";
                 }
         };
 
@@ -57,7 +57,7 @@ namespace UnknownEngine
         {
                 std::string operator()(Behavior::AngelScriptSubsystem* as_subsystem)
                 {
-                        return FormattedTypeName<T>()(as_subsystem) + "*";
+                        return FormattedTypeName<T>()(as_subsystem) + "@+";
                 }
         };
 
@@ -79,7 +79,6 @@ namespace UnknownEngine
                 }
         };
 
-
         template<typename RetVal, typename... Args>
         std::string format_signature(RetVal (*f)(Args...), const std::string &name, Behavior::AngelScriptSubsystem* as_subsystem)
         {
@@ -95,13 +94,13 @@ namespace UnknownEngine
         template<typename RetVal, typename T, typename... Args>
         std::string format_member_signature(RetVal (T::*f)(Args...), const std::string &name, Behavior::AngelScriptSubsystem* as_subsystem)
         {
-                return DecoratedTypeName<RetVal>()(as_subsystem) + " " + FormattedTypeName<T>()(as_subsystem) + "::" + name + "(" + FormattedArgumentsString<Args...>()(as_subsystem) + ")";
+                return DecoratedTypeName<RetVal>()(as_subsystem) + " " + name + "(" + FormattedArgumentsString<Args...>()(as_subsystem) + ")";
         }
 
         template<typename RetVal, typename T>
         std::string format_member_signature(RetVal (T::*f)(), const std::string &name, Behavior::AngelScriptSubsystem* as_subsystem)
         {
-                return DecoratedTypeName<RetVal>()(as_subsystem) + " " + FormattedTypeName<T>()(as_subsystem) + "::" + name + "()";
+                return DecoratedTypeName<RetVal>()(as_subsystem) + " " + name + "()";
         }
     }
 }
