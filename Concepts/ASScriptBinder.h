@@ -166,8 +166,7 @@ int f7(const int* a, float* b)
 template<typename T>
 struct ASClass
 {
-	ASClass(const std::string &name):
-	name(name)
+	ASClass(const std::string &name)
 	{
 		bind_type_name<T>(name);
 	}
@@ -176,32 +175,8 @@ struct ASClass
 	ASClass& method(Retval (T::*f)(Args...), const std::string &name)
 	{
 		std::cout << "Binding: " + format_member_signature<Retval, T, Args...>(f, name) << std::endl;
-		engine->RegisterObjectMethod(name, format_signature<Retval, Args...>(), asSMethodPtr<sizeof(void (T::*)())>::Convert(AS_METHOD_AMBIGUITY_CAST(Retval (T::*)p)(f)), asCALL_THISCALL);
 		return *this;
 	}
-	
-	template<typename Retval, typename... Args>
-	ASClass& static_method(Retval (T::*f)(Args...), const std::string &name)
-	{
-		
-	}
-	
-	template<typename... Args>
-	ASClass& constructor()
-	{
-		engine->RegisterObjectBehaviour(name, asBEHAVE_FACTORY, name + "@ f(" + FormattedArgumentsString<Args...>()() + ")", asFUNCTION(ASClass<T>::defaultFactoryFunc), asCALL_CDECL);
-	}
-	
-private:
-	template<typename... Args>
-	static T* defaultFactoryFunc(Args&& ...args)
-	{
-		return new T(std::forward<Args>(args)...);
-	}
-
-	std::string name;
-	IASScriptEngine* engine;
-	
 };
 
 int main(int argc, char **argv) {

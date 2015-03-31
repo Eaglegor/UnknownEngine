@@ -1,0 +1,19 @@
+A = "a"
+Shift + A = "A"
+
+B = "b"
+Shift + B = "B"
+
+C = "c"
+Shift + C = "C"
+
+D = "d"
+Shift + D = "D"
+
+KP4 = "4"
+
+4 = "4"
+Shift + 4 = "$"
+
+5 = "5"
+Shift + 5 = "%"
