@@ -15,7 +15,6 @@ namespace UnknownEngine
 		class Property : public IProperty
 		{
 			public:
-				Property(){}
 				Property(const T &default_value):
 				value(default_value)
 				{}
@@ -52,6 +51,17 @@ namespace UnknownEngine
 					return *this;
 				}
 				
+				bool operator==(const T& rhs)
+				{
+					if (!is_explicitly_initialized) return false;
+					return value == rhs;
+				}
+
+				bool operator!=(const T& rhs)
+				{
+					return !(*this == rhs);
+				}
+
 				virtual IProperty& operator =(const std::string &string_value_representation) override
 				{
 					try
@@ -85,8 +95,8 @@ namespace UnknownEngine
 
 				virtual bool isValid()
 				{
-					if(optionality == OPTIONAL) return true;
-					if(optionality == REQUIRED && is_explicitly_initialized) return true;
+					if(optionality == OPTIONAL_PROPERTY) return true;
+					if(optionality == REQUIRED_PROPERTY && is_explicitly_initialized) return true;
 					return false;
 				}
 				

@@ -9,8 +9,8 @@ namespace UnknownEngine
 			public:
 				enum Optionality
 				{
-					REQUIRED,
-					OPTIONAL
+					REQUIRED_PROPERTY,
+					OPTIONAL_PROPERTY
 				};
 
 				virtual operator std::string() = 0;

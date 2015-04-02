@@ -48,7 +48,7 @@ namespace UnknownEngine
 				parent_window->addWindowEventsListener(this);
 			}
 			
-			render_window = root->createRenderWindow(desc.window_title, desc.width, desc.height, desc.fullscreen, &params);
+			render_window = root->createRenderWindow(desc.window_title.get(), desc.width.get(), desc.height.get(), desc.fullscreen.get(), &params);
 			render_window->setVisible(true);
 			render_subsystem->onWindowCreated();
 		}

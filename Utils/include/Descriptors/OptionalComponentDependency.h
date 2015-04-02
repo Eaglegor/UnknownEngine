@@ -6,6 +6,6 @@ namespace UnknownEngine
 {
 	namespace Utils
 	{
-		using OptionalComponentDependency = ComponentDependency<IProperty::OPTIONAL>;
+		using OptionalComponentDependency = ComponentDependency<IProperty::OPTIONAL_PROPERTY>;
 	}
 }

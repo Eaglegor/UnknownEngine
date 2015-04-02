@@ -73,7 +73,7 @@ namespace UnknownEngine
 			
 			LOG_INFO(logger, "Reading file");
 			
-			const aiScene* scene = importer.ReadFile(desc.filename, flags);
+			const aiScene* scene = importer.ReadFile(desc.filename->c_str(), flags);
 			if(scene == nullptr || !scene->HasMeshes()) 
 			{
 				LOG_ERROR(logger, "Error while loading file " + desc.filename.get());

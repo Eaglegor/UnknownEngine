@@ -7,6 +7,6 @@ namespace UnknownEngine
 	namespace Utils
 	{
 		template<typename T>
-		using RequiredProperty = Property<T, IProperty::REQUIRED>;
+		using RequiredProperty = Property<T, IProperty::REQUIRED_PROPERTY>;
 	}
 }

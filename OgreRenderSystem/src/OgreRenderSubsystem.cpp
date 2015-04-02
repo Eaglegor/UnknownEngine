@@ -31,9 +31,9 @@ namespace UnknownEngine
 			LOG_INFO(logger, "Initializing OGRE");
 			
 			ogre_log_manager = new Ogre::LogManager();
-			ogre_log_manager->createLog(desc.ogre_log_filename, true, false, false);
+			ogre_log_manager->createLog(desc.ogre_log_filename.get(), true, false, false);
 
-			root = new Ogre::Root ( desc.ogre_plugins_filename, desc.ogre_config_filename, desc.ogre_log_filename );
+			root = new Ogre::Root ( desc.ogre_plugins_filename.get(), desc.ogre_config_filename.get(), desc.ogre_log_filename.get() );
 			
 			if(desc.show_config_dialog)
 			{

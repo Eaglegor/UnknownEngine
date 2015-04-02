@@ -8,6 +8,7 @@
 
 #include <ASIncludes.h>
 #include <mutex>
+#include <ASBind/TypeInfo.h>
 
 namespace UnknownEngine
 {
@@ -33,26 +34,29 @@ namespace UnknownEngine
 			asIScriptEngine* getScriptEngine();
 
 			template<typename T>
-			bool typeNameIsBound()
+			bool typeInfoIsBound()
 			{
-				return type_name_bindings.find(std::type_index(typeid(T))) != type_name_bindings.end();
+				return type_info_bindings.find(std::type_index(typeid(T))) != type_info_bindings.end();
 			}
 
 			template<typename T>
-			void bindTypeName(const char* name)
+			void bindTypeInfo(const char* name, ASBind::ClassType type)
 			{
-				type_name_bindings.emplace(std::type_index(typeid(T)), name);
+				ASBind::TypeInfo info;
+				info.type = type;
+				info.name = name;
+				type_info_bindings.emplace(std::type_index(typeid(T)), info);
 			};
 			
 			template<typename T>
-			const char* getTypeName()
+			ASBind::TypeInfo getTypeInfo()
 			{
-				auto iter = type_name_bindings.find(std::type_index(typeid(T)));
-				if(iter == type_name_bindings.end())
+				auto iter = type_info_bindings.find(std::type_index(typeid(T)));
+				if(iter == type_info_bindings.end())
 				{
 					return "???";
 				}
-				return iter->second.c_str();
+				return iter->second;
 			};
 
 		private:
@@ -71,7 +75,7 @@ namespace UnknownEngine
 			
 			std::unordered_map<std::string, asIScriptModule*> modules;
 
-			std::unordered_map<std::type_index, std::string> type_name_bindings;
+			std::unordered_map<std::type_index, ASBind::TypeInfo> type_info_bindings;
 		};
 	}
 }

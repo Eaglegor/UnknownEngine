@@ -42,7 +42,7 @@ namespace UnknownEngine
 				virtual bool isValid()
 				{
 					if ( component ) return true;
-					return optionality == REQUIRED ? false : true;
+					return optionality == REQUIRED_PROPERTY ? false : true;
 				}
 				
 				virtual Core::IComponent* operator->()

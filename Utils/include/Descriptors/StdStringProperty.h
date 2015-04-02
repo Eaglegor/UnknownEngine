@@ -55,8 +55,8 @@ namespace UnknownEngine
 			
 			virtual bool isValid()
 			{
-				if(optionality == OPTIONAL) return true;
-				if(optionality == REQUIRED && is_explicitly_initialized) return true;
+				if(optionality == OPTIONAL_PROPERTY) return true;
+				if(optionality == REQUIRED_PROPERTY && is_explicitly_initialized) return true;
 				return false;
 			}
 			

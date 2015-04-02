@@ -7,6 +7,6 @@ namespace UnknownEngine
 	namespace Utils
 	{
 		template<typename T>
-		using OptionalProperty = Property<T, IProperty::OPTIONAL>;
+		using OptionalProperty = Property<T, IProperty::OPTIONAL_PROPERTY>;
 	}
 }

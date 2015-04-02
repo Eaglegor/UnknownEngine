@@ -136,7 +136,7 @@ namespace UnknownEngine
 
 			registerObjectType(StdStringRegistrator());
 			
-			bindTypeName<void>("void");
+			bindTypeInfo<void>("void", ASBind::ClassType::VALUE_TYPE);
 			
 			ASBind::RefClass<DummyClass>("DummyClass", this)
 			.default_constructor()

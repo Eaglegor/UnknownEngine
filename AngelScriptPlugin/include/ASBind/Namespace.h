@@ -17,12 +17,12 @@ namespace UnknownEngine
 				engine(subsystem->getScriptEngine())
 				{
 					prev_namespace = engine->GetDefaultNamespace();
-					engine->SetDefaultNamespace(prev_namespace + "::" + name);
+					engine->SetDefaultNamespace((prev_namespace + "::" + name).c_str());
 				}
 
 				~Namespace()
 				{
-					engine->SetDefaultNamespace(prev_namespace);
+					engine->SetDefaultNamespace(prev_namespace.c_str());
 				}
 
 		private:
