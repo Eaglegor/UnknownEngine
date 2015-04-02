@@ -13,11 +13,10 @@ namespace UnknownEngine
 			public:
 				Namespace(const std::string &name, Behavior::AngelScriptSubsystem *subsystem):
 				name(name),
-				subsystem(subsystem),
 				engine(subsystem->getScriptEngine())
 				{
 					prev_namespace = engine->GetDefaultNamespace();
-					engine->SetDefaultNamespace((prev_namespace + "::" + name).c_str());
+					engine->SetDefaultNamespace((prev_namespace + ( prev_namespace.empty() ? "" : "::" ) + name).c_str());
 				}
 
 				~Namespace()
@@ -28,7 +27,6 @@ namespace UnknownEngine
 		private:
 				std::string prev_namespace;
 				std::string name;
-				Behavior::AngelScriptSubsystem* subsystem;
 				asIScriptEngine* engine;
 
 		};

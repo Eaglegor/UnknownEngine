@@ -33,12 +33,13 @@ namespace UnknownEngine
 			
 			static const Core::ComponentType TYPE;
 		private:
-			Core::LogHelper logger;
 			AngelScriptComponentDesc desc;
 			asIScriptModule* module;
 			asIScriptContext* context;
 		
 			AngelScriptSubsystem* angel_script_subsystem;
+			
+			Core::LogHelper logger;
 		};
 	}
 }

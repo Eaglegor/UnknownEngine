@@ -1,29 +1,29 @@
 #pragma once
 
+#include <ASBind/detail/Class.h>
+
 #include <angelscript.h>
-#include <ASBind/detail/FormatSignature.h>
-#include <ASBind/detail/Registrators/MethodRegistrator.h>
-#include <ASBind/Namespace.h>
-#include <AngelScriptSubsystem.h>
-#include <new>
+#include <ASBind/detail/Registrators/ConstructorRegistrator.h>
+
+
 
 namespace UnknownEngine
 {
 	namespace ASBind
 	{
 		template<typename T>
-		class ValueClass
+		class ValueClass : public Class<T, ValueClass<T>>
 		{
+			typedef Class<T, ValueClass<T>> Base;
+			
 			public:
 				ValueClass ( const std::string &name, Behavior::AngelScriptSubsystem *subsystem ) :
-					name ( name ),
-					subsystem ( subsystem ),
-					engine ( subsystem->getScriptEngine() )
+				Class<T, ValueClass<T>>(name, subsystem, subsystem->getScriptEngine())
 				{
-					if ( !subsystem->typeNameIsBound<T>() )
+					if ( !subsystem->typeInfoIsBound<T>() )
 					{
 						subsystem->bindTypeInfo<T> ( name.c_str(), ClassType::VALUE_TYPE );
-						engine->RegisterObjectType ( name.c_str(), sizeof ( T ), asOBJ_VALUE );
+						Base::engine->RegisterObjectType ( Base::name.c_str(), sizeof ( T ), asOBJ_VALUE);
 					}
 					else
 					{
@@ -31,56 +31,18 @@ namespace UnknownEngine
 					}
 				}
 
-				template<typename Retval, typename... Args>
-				ValueClass& method ( Retval ( T::*f ) ( Args... ), const std::string &name )
-				{
-					MethodRegistrator<T>::bind_non_static(f, name.c_str(), subsystem);
-					return *this;
-				}
-
-				template<typename Retval, typename... Args>
-				ValueClass& static_method ( Retval ( T::*f ) ( Args... ), const std::string &name )
-				{
-					MethodRegistrator<T>::bind_static(f, name.c_str(), subsystem);
-				}
-
 				template<typename... Args>
 				ValueClass& constructor()
 				{
-					engine->RegisterObjectBehaviour ( name, asBEHAVE_CONSTRUCT, "void f(" + FormattedArgumentsString<Args...>() () + ")", asFUNCTION ( ValueClass::constr ), asCALL_CDECL_OBJLAST );
-				}
-
-				ValueClass& default_constructor()
-				{
-					engine->RegisterObjectBehaviour ( name, asBEHAVE_CONSTRUCT, "void f(" + FormattedArgumentsString<Args...>() () + ")", asFUNCTION ( ValueClass::def_constr ), asCALL_CDECL_OBJLAST );
+					ConstructorRegistrator<T>::template bindDefaultConstructor<Args...>(Base::subsystem);
+					return *this;
 				}
 
 				ValueClass& destructor()
 				{
-					engine->RegisterObjectBehaviour ( name, asBEHAVE_DESTRUCT, "void f()", asFUNCTION ( ValueClass::destr ), asCALL_CDECL_OBJLAST );
+					ConstructorRegistrator<T>::bindDefaultDestructor(Base::subsystem);
+					return *this;
 				}
-
-			private:
-				template<typename... Args>
-				static void constr ( void* memory, Args && ...args )
-				{
-					new ( memory ) T ( std::forward<Args> ( args )... );
-				}
-
-				static void def_constr ( void* memory )
-				{
-					new ( memory ) T ();
-				}
-
-				static void destr ( void* memory )
-				{
-					static_cast<T*> ( memory )->~T();
-				}
-
-				std::string name;
-				Behavior::AngelScriptSubsystem* subsystem;
-				asIScriptEngine* engine;
-
 		};
 	}
 }

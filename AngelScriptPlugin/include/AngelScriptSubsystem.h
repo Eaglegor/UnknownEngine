@@ -54,7 +54,10 @@ namespace UnknownEngine
 				auto iter = type_info_bindings.find(std::type_index(typeid(T)));
 				if(iter == type_info_bindings.end())
 				{
-					return "???";
+					ASBind::TypeInfo info;
+					info.name = "???";
+					info.type = ASBind::ClassType::UNREGISTERED_TYPE;
+					return info;
 				}
 				return iter->second;
 			};

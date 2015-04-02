@@ -14,12 +14,12 @@ namespace UnknownEngine
 		public:
 			static bool bind(T (*opr)(T*), Behavior::AngelScriptSubsystem* subsystem)
 			{
-				return subsystem->getScriptEngine()->RegisterObjectMethod(FormattedTypeName<T>()().c_str(), format_signature(opr, "opNeg", subsystem).c_str(), getDefaultSignature().c_str(), asFUNCTION(opr), asCALL_CDECL_OBJLAST);
+				return 0 <= subsystem->getScriptEngine()->RegisterObjectMethod(FormattedTypeName<T>()().c_str(), format_signature<T*>("opNeg", subsystem).c_str(), asFUNCTION(opr), asCALL_CDECL_OBJLAST);
 			}
 
 			static bool bind(T (T::*opr), Behavior::AngelScriptSubsystem* subsystem)
 			{
-				return subsystem->getScriptEngine()->RegisterObjectMethod(FormattedTypeName<T>()().c_str(), format_member_signature(opr, "opNeg", subsystem).c_str(), methodRef(opr), asCALL_THISCALL);
+				return 0 <= subsystem->getScriptEngine()->RegisterObjectMethod(FormattedTypeName<T>()().c_str(), format_member_signature(opr, "opNeg", subsystem).c_str(), methodRef(opr), asCALL_THISCALL);
 			}
 
 			static T defaultUnaryMinusOperator(T* t)

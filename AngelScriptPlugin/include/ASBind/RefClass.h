@@ -1,12 +1,6 @@
 #pragma once
 
-#include <angelscript.h>
-#include <ASBind/detail/FormatSignature.h>
-#include <AngelScriptSubsystem.h>
-#include <ASBind/detail/RefCountingWrapper.h>
-#include <iostream>
-#include <ASBind/Namespace.h>
-#include <ASBind/detail/Registrators/MethodRegistrator.h>
+#include <ASBind/detail/Class.h>
 
 namespace UnknownEngine
 {
@@ -17,6 +11,7 @@ namespace UnknownEngine
 		struct RefCountingPolicy
 		{
 			virtual bool registerRefCounter(asIScriptEngine* script_engine, const std::string &object_name) const = 0;
+			virtual ~RefCountingPolicy(){}
 		};
 
 		template<typename T>
@@ -38,10 +33,17 @@ namespace UnknownEngine
 		{
 			typedef T ActualObjectType;
 
-				bool registerRefCounter(asIScriptEngine* script_engine, const std::string &object_name) const
-				{
-					return true;
-				}
+			static void stub(T* obj)
+			{
+			}
+			
+			bool registerRefCounter(asIScriptEngine* script_engine, const std::string &object_name) const
+			{
+				bool success = true;
+				success = success && script_engine->RegisterObjectBehaviour(object_name.c_str(), asBEHAVE_ADDREF, "void f()", asFUNCTION(DontUseRefCounter<T>::stub), asCALL_CDECL_OBJFIRST);
+				success = success && script_engine->RegisterObjectBehaviour(object_name.c_str(), asBEHAVE_RELEASE, "void f()", asFUNCTION(DontUseRefCounter<T>::stub), asCALL_CDECL_OBJFIRST);
+				return success;
+			}
 		};
 
 		template<typename T, typename ReturnedObjectType = T>
@@ -69,71 +71,34 @@ namespace UnknownEngine
 		};
 
 		template<typename T, typename SelectedRefCountingPolicy = UseAutoRefCounter<T>>
-		class RefClass
+		class RefClass : public Class<T, RefClass<T>>
 		{
 			static_assert(std::is_base_of<RefCountingPolicy<T>, SelectedRefCountingPolicy>::value, "Reference counting policy expected as template parameter.");
 
+			typedef Class<T, RefClass<T>> Base;
 			public:
 				RefClass(const std::string &name, Behavior::AngelScriptSubsystem *subsystem):
-				name(name),
-				subsystem(subsystem),
-				engine(subsystem->getScriptEngine())
+				Class<T, RefClass<T>>(name, subsystem, subsystem->getScriptEngine())
 				{
-					std::cout << "Registering type: " << name << std::endl;
-					if(!subsystem->typeNameIsBound<T>())
+					if(!subsystem->typeInfoIsBound<T>())
 					{
 						subsystem->bindTypeInfo<T>(name.c_str(), ClassType::REF_TYPE);
-						engine->RegisterObjectType(name.c_str(), 0, asOBJ_REF);
+						subsystem->getScriptEngine()->RegisterObjectType(name.c_str(), 0, asOBJ_REF);
 					}
 				}
 
 				RefClass& ref_counter(const SelectedRefCountingPolicy &policy = SelectedRefCountingPolicy())
 				{
-					policy.registerRefCounter(engine, name);
-				}
-
-				template<typename Retval, typename... Args>
-				RefClass& method(Retval (T::*f)(Args...), const std::string &name)
-				{
-					MethodRegistrator<T>::bind_non_static(f, name.c_str(), subsystem);
-					return *this;
-				}
-
-				template<typename Retval, typename... Args>
-				RefClass& static_method(Retval (T::*f)(Args...), const std::string &name)
-				{
-					MethodRegistrator<T>::bind_static(f, name.c_str(), subsystem);
-					return *this;
-				}
-
-				template<typename... Args>
-				RefClass& constructor()
-				{
-					engine->RegisterObjectBehaviour(name, asBEHAVE_FACTORY, name + "@ f(" + FormattedArgumentsString<Args...>()() + ")", asFUNCTION(RefClass<T>::factoryFunc), asCALL_CDECL);
+					policy.registerRefCounter(Base::engine, Base::name);
 					return *this;
 				}
 				
-				RefClass& default_constructor()
+				template<typename... Args>
+				RefClass& constructor()
 				{
-					engine->RegisterObjectBehaviour(name.c_str(), asBEHAVE_FACTORY, (name + "@ f()").c_str(), asFUNCTION(RefClass<T>::defaultFactoryFunc), asCALL_CDECL);
+					FactoryRegistrator<T, typename SelectedRefCountingPolicy::ActualObjectType>::template bindDefault<Args...>(Base::subsystem);
 					return *this;
 				}
-
-		private:
-				template<typename... Args>
-				static SelectedRefCountingPolicy::ActualObjectType* factoryFunc(Args&& ...args)
-				{
-					return new SelectedRefCountingPolicy::ActualObjectType(std::forward<Args>(args)...);
-				}
-
-				static SelectedRefCountingPolicy::ActualObjectType* defaultFactoryFunc()
-				{
-					return new SelectedRefCountingPolicy::ActualObjectType();
-				}
-
-				std::string name;
-				Behavior::AngelScriptSubsystem* subsystem;
-				asIScriptEngine* engine;
 
 		};
 	}
