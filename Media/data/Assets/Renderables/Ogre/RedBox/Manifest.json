@@ -1,0 +1,87 @@
+{
+	"name" : "Red box",
+	"description" : "Simple red box asset",
+	"options" : [
+		"initial_position" : {
+			"type" : "object",
+			"default_value" : {
+				"x" : "0",
+				"y" : "0",
+				"z" : "0"
+			}
+		},
+		"mass" : {
+			"type" : "field",
+			"default_value" : "8"
+		}
+	]
+	"resources" : [
+		{
+			"name" : "UEMesh",
+			"type" : "MeshData",
+			"shared" : "true",
+			"provider" : "AssimpMeshDataLoader",
+			"descriptor" : {
+				"model" : "${AssetDir}/models/Cube.obj"
+			}
+		},
+		{
+			"name" : "OgreMesh",
+			"type" : "OgreMeshPtr",
+			"shared" : "true",
+			"provider" : "OgreMeshPtrFromMeshDataProvider",
+			"descriptor" : {
+				"mesh_data" : "@UEMesh"
+			}
+		},
+		{
+			"name" : "PXShape",
+			"type" : "PhysXBoxShape",
+			"shared" : "true",
+			"provider" : "PhysXBoxShapeProvider",
+			"descriptor" : {
+				"dimensions" : {
+					"x" : "10",
+					"y" : "10",
+					"z" : "10"
+				}
+			}
+		},
+		{
+			"name" : "Material",
+			"type" : "OgreMaterial",
+			"shared" : "true",
+			"provider" : "OgreMaterialProvider",
+			"descriptor" : {
+				"material_file" : "test.material"
+			}
+		}
+	]
+	"components" : [
+		{
+			"name" : "Graphics",
+			"type" : "OgreRenderable",
+			"descriptor" : {
+				"material" : "@Material",
+				"mesh" : "@OgreMesh"
+			}
+		},
+		{
+			"name" : "Physics",
+			"type" : "PhysXRigidBody",
+			"descriptor" : {
+				"mass" : "${mass}",
+				"shape" : "@PXShape"
+				"initial_position" : "${initial_position}"
+			}
+		}
+		{
+			"name" : "TransformLink",
+			"type" : "TransformProxy",
+			"descriptor" : {
+				"transform_provider" : "@Physics",
+				"transform_listener" : "@Graphics"
+			}
+		}
+	]
+}
