@@ -4,7 +4,6 @@
 
 namespace Ogre
 {
-	class SceneNode;
 	class Camera;
 }
 
@@ -17,7 +16,6 @@ namespace UnknownEngine
 		public:
 			constexpr static const char* getTypeName(){return "IOgreCameraComponent";}
 			
-			virtual Ogre::SceneNode* getSceneNode() = 0;
 			virtual Ogre::Camera* getOgreCamera() = 0;
 		};
 	}

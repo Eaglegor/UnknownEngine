@@ -103,7 +103,14 @@ namespace UnknownEngine
 		{
 			using namespace ComponentInterfaces;
 			if(type == MovableComponent::getType()) return static_cast<MovableComponent*>(&transform_adapter);
+			if(type == IOgreCameraComponent::getType()) return static_cast<IOgreCameraComponent*>(this);
+			if(type == ICamera::getType()) return static_cast<ICamera*>(this);
 			return nullptr;
+		}
+
+		Ogre::Camera *OgreCameraComponent::getOgreCamera()
+		{
+			return camera;
 		}
 
 	}

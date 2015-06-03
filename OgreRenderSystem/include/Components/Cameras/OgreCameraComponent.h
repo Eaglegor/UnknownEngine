@@ -11,6 +11,7 @@
 #include <ComponentInterfaces/RenderSystem/Ogre/IOgreRenderWindowComponent.h>
 #include <ComponentInterfaces/Transform/TransformNotifierComponent.h>
 #include <ComponentInterfaces/Transform/MovableComponent.h>
+#include <ComponentInterfaces/RenderSystem/Ogre/IOgreCameraComponent.h>
 #include <Spinlock.h>
 
 namespace Ogre
@@ -38,7 +39,8 @@ namespace UnknownEngine
 
 		UNKNOWNENGINE_ALIGNED_CLASS(16) OgreCameraComponent : 
 		public BaseOgreComponent,
-		public ComponentInterfaces::MovableComponent
+		public ComponentInterfaces::MovableComponent,
+		public ComponentInterfaces::IOgreCameraComponent
 		{
 			public:
 				UNKNOWNENGINE_SIMPLE_EXCEPTION(RenderWindowNotFound);
@@ -55,6 +57,8 @@ namespace UnknownEngine
 				virtual void setPosition ( const Math::Vector3 & position ) override;
 				virtual void setTransform ( const Math::Transform & transform ) override;
 				
+				virtual Ogre::Camera* getOgreCamera() override;
+
 				virtual IComponentInterface * getInterface ( const Core::ComponentType & type );
 				
 				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
