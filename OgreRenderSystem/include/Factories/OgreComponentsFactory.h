@@ -29,6 +29,8 @@ namespace UnknownEngine
 			Core::IComponent* createRenderableComponent(const Core::ComponentDesc &desc);
 
 			Core::IComponent* createHOQVisibilityChecker(const Core::ComponentDesc &desc);
+
+			Core::IComponent* createScreenSpaceCoordinatesCalculator(const Core::ComponentDesc &desc);
 			
 			void destroyOgreComponent(Core::IComponent* component);
 		};

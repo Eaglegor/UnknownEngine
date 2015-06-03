@@ -6,6 +6,7 @@
 #include <Components/Renderables/OgreRenderableComponent.h>
 #include <Components/VisibilityCheckers/OgreHOQVisibilityChecker.h>
 #include <Parsers/Descriptors/OgreRenderableDescriptorParser.h>
+#include <Components/OgreScreenSpacePositionCalculator.h>
 
 #include <Factories/OgreGetDescriptorVisitor.h>
 #include <ComponentSystem/ComponentDesc.h>
@@ -45,6 +46,10 @@ namespace UnknownEngine
 			
 			creatable_object.creator = std::bind(&OgreComponentsFactory::createHOQVisibilityChecker, this, std::placeholders::_1);
 			creatable_object.type = OgreHOQVisibilityChecker::getTypeName();
+			registerCreator(creatable_object);
+
+			creatable_object.creator = std::bind(&OgreComponentsFactory::createScreenSpaceCoordinatesCalculator, this, std::placeholders::_1);
+			creatable_object.type = OgreScreenSpacePositionCalculator::getTypeName();
 			registerCreator(creatable_object);
 		}
 
@@ -111,7 +116,17 @@ namespace UnknownEngine
 			OgreHOQVisibilityChecker* visibility_checker = new OgreHOQVisibilityChecker(desc.name.c_str(), descriptor, render_subsystem);
 			return visibility_checker;
 		}
-		
+
+		Core::IComponent *OgreComponentsFactory::createScreenSpaceCoordinatesCalculator(const Core::ComponentDesc &desc)
+		{
+			if(!render_subsystem) return nullptr;
+			OgreScreenSpaceCoordinatesCalculatorDesc descriptor;
+			descriptor = boost::get<Core::Properties>(desc.descriptor);
+			if(!descriptor.isValid()) return nullptr;
+			OgreScreenSpacePositionCalculator* calculator = new OgreScreenSpacePositionCalculator(desc.name.c_str(), descriptor);
+			return calculator;
+		}
+
 		void OgreComponentsFactory::destroyOgreComponent ( Core::IComponent* component )
 		{
 			BaseOgreComponent* ogre_component = static_cast<BaseOgreComponent*>(component);

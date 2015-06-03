@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ComponentSystem/IComponentInterface.h>
+#include <AxisAlignedBoundingBox.h>
 
 namespace UnknownEngine
 {
@@ -15,6 +16,8 @@ namespace UnknownEngine
 				}
 
 				virtual void setMaterialName(const char* material_name) = 0;
+				
+				virtual Math::AxisAlignedBoundingBox getAxisAlignedBoundingBox() = 0;
 		};
 	}
 }
