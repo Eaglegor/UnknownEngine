@@ -16,6 +16,9 @@ namespace UnknownEngine
 				virtual ~IEntity (){};
 
 				COMPONENTSYSTEM_EXPORT
+				virtual IComponent* findComponent(const char* name) = 0;
+
+				COMPONENTSYSTEM_EXPORT
 				virtual const char* getName() const = 0;
 
 				COMPONENTSYSTEM_EXPORT

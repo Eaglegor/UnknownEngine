@@ -74,5 +74,10 @@ namespace UnknownEngine
 			return name.c_str();
 		}
 
+		IComponent *Entity::findComponent(const char *name) {
+			auto iter = components.find(name);
+			if(iter == components.end()) return nullptr;
+			return iter->second;
+		}
 	} /* namespace Core */
 } /* namespace UnknownEngine */

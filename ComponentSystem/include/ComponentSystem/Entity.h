@@ -25,7 +25,10 @@ namespace UnknownEngine
 
 				virtual IComponent* createComponent(const ComponentDesc& desc) override;
 
-				virtual void removeComponent ( IComponent *component ) override;
+
+			virtual IComponent *findComponent(const char *name);
+
+			virtual void removeComponent ( IComponent *component ) override;
 				
 				virtual void removeAllComponents() override;
 				
