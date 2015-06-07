@@ -128,6 +128,15 @@ namespace UnknownEngine
 			if(type == IOgreRenderableComponent::getType() ) return static_cast<IOgreRenderableComponent*>(this);
 			return nullptr;
 		}
+
+		Math::AxisAlignedBoundingBox OgreRenderableComponent::getAxisAlignedBoundingBox()
+		{
+			Ogre::AxisAlignedBox aabb = getEntity()->getBoundingBox();
+			Math::AxisAlignedBoundingBox result;
+			result.min = OgreVector3Converter::fromOgreVector(aabb.getMinimum());
+			result.max = OgreVector3Converter::fromOgreVector(aabb.getMaximum());
+			return result;
+		}
 		
 		Ogre::Entity* OgreRenderableComponent::getEntity()
 		{
@@ -138,6 +147,7 @@ namespace UnknownEngine
 		{
 			return scene_node;
 		}
+	
 		
 	} // namespace Graphics
 } // namespace UnknownEngine

@@ -22,7 +22,7 @@ namespace UnknownEngine
 
 			Utils::RequiredComponentDependency camera;
 			
-			OgreCameraComponentDescriptor()
+			OgreScreenSpaceCoordinatesCalculatorDesc()
 			{
 				UEDESC_ADD_FIELD(camera);
 			}

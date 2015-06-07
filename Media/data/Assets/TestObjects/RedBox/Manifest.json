@@ -2,7 +2,8 @@
 	"name" : "Red box",
 	"description" : "Simple red box asset",
 	"options" : [
-		"initial_position" : {
+		{
+			"name" : "initial_position",
 			"type" : "object",
 			"default_value" : {
 				"x" : "0",
@@ -10,15 +11,15 @@
 				"z" : "0"
 			}
 		},
-		"mass" : {
-			"type" : "field",
+		{
+			"name" : "mass",
+			"type" : "value",
 			"default_value" : "8"
 		}
-	]
+	],
 	"resources" : [
 		{
 			"name" : "UEMesh",
-			"type" : "MeshData",
 			"shared" : "true",
 			"provider" : "AssimpMeshDataLoader",
 			"descriptor" : {
@@ -27,16 +28,14 @@
 		},
 		{
 			"name" : "OgreMesh",
-			"type" : "OgreMeshPtr",
 			"shared" : "true",
 			"provider" : "OgreMeshPtrFromMeshDataProvider",
-			"descriptor" : {
+			"dependencies" : {
 				"mesh_data" : "@UEMesh"
 			}
 		},
 		{
 			"name" : "PXShape",
-			"type" : "PhysXBoxShape",
 			"shared" : "true",
 			"provider" : "PhysXBoxShapeProvider",
 			"descriptor" : {
@@ -49,19 +48,18 @@
 		},
 		{
 			"name" : "Material",
-			"type" : "OgreMaterial",
 			"shared" : "true",
 			"provider" : "OgreMaterialProvider",
 			"descriptor" : {
-				"material_file" : "test.material"
+				"material_file" : "${AssetDir}/materials/test.material"
 			}
 		}
-	]
+	],
 	"components" : [
 		{
 			"name" : "Graphics",
 			"type" : "OgreRenderable",
-			"descriptor" : {
+			"dependencies" : {
 				"material" : "@Material",
 				"mesh" : "@OgreMesh"
 			}
@@ -71,14 +69,16 @@
 			"type" : "PhysXRigidBody",
 			"descriptor" : {
 				"mass" : "${mass}",
-				"shape" : "@PXShape"
 				"initial_position" : "${initial_position}"
+			},
+			"dependencies" : {
+				"shape" : "@PXShape"
 			}
 		}
 		{
 			"name" : "TransformLink",
 			"type" : "TransformProxy",
-			"descriptor" : {
+			"dependencies" : {
 				"transform_provider" : "@Physics",
 				"transform_listener" : "@Graphics"
 			}

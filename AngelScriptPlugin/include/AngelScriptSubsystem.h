@@ -36,7 +36,7 @@ namespace UnknownEngine
 			template<typename T>
 			bool typeInfoIsBound()
 			{
-				return type_info_bindings.find(std::type_index(typeid(T))) != type_info_bindings.end();
+				return type_info_bindings.find(typeid(T).name()) != type_info_bindings.end();
 			}
 
 			template<typename T>
@@ -45,13 +45,13 @@ namespace UnknownEngine
 				ASBind::TypeInfo info;
 				info.type = type;
 				info.name = name;
-				type_info_bindings.emplace(std::type_index(typeid(T)), info);
+				type_info_bindings.emplace(typeid(T).name(), info);
 			};
 			
 			template<typename T>
 			ASBind::TypeInfo getTypeInfo()
 			{
-				auto iter = type_info_bindings.find(std::type_index(typeid(T)));
+				auto iter = type_info_bindings.find(typeid(T).name());
 				if(iter == type_info_bindings.end())
 				{
 					ASBind::TypeInfo info;
@@ -78,7 +78,7 @@ namespace UnknownEngine
 			
 			std::unordered_map<std::string, asIScriptModule*> modules;
 
-			std::unordered_map<std::type_index, ASBind::TypeInfo> type_info_bindings;
+			std::unordered_map<std::string, ASBind::TypeInfo> type_info_bindings;
 		};
 	}
 }

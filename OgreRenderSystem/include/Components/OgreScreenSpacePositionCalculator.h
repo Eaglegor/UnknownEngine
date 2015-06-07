@@ -18,31 +18,20 @@ namespace UnknownEngine
 		{
 			public:
 
-				OgreScreenSpacePositionCalculator ( const char* name, const OgreScreenSpaceCoordinatesCalculatorDesc &desc):
-				Core::BaseComponent(name),
-				camera(desc.camera)
-				{}
-
-				virtual ~OgreScreenSpacePositionCalculator(){}
+				OgreScreenSpacePositionCalculator ( const char* name, const OgreScreenSpaceCoordinatesCalculatorDesc &desc);
 
 				constexpr static const char* getTypeName(){return "Ogre.ScreenSpaceCoordinatesCalculator";}
  				virtual Core::ComponentType getType() const override {return getTypeName();}
 				
-				virtual IComponentInterface * getInterface ( const Core::ComponentType & type ) override
-				{
-					if(type == ComponentInterfaces::IScreenSpaceCoordinatesCalculator::getType()){
-						return static_cast<ComponentInterfaces::IScreenSpaceCoordinatesCalculator>(this);
-					}
-					return nullptr;
-				}
+				virtual Core::IComponentInterface * getInterface ( const Core::ComponentType & type ) override;
 
-				virtual void init() override{}
+				virtual bool init() override{
+					if(!camera) return false;
+					return true;
+				}
 				virtual void shutdown() override{}
 
-				virtual Math::Vector3 getScreenSpaceCoordinate(const Math::Vector3 &world_coordinate) override
-				{
-					return OgreVector3Converter::fromOgreVector(camera->getOgreCamera()->getProjectionMatrix() * camera->getOgreCamera()->getViewMatrix() * OgreVector3Converter::toOgreVector(world_coordinate));
-				}
+				virtual Math::Vector3 getScreenSpaceCoordinate(const Math::Vector3 &world_coordinate) override;
 
 			private:
 				Core::ComponentInterfacePtr<ComponentInterfaces::IOgreCameraComponent> camera;

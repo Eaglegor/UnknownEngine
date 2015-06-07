@@ -61,6 +61,8 @@ namespace UnknownEngine
 				
 				virtual IComponentInterface * getInterface ( const Core::ComponentType & type ) override;
 				
+				virtual Math::AxisAlignedBoundingBox getAxisAlignedBoundingBox() override;
+				
 				UNKNOWNENGINE_ALIGNED_NEW_OPERATOR;
 
 			protected:

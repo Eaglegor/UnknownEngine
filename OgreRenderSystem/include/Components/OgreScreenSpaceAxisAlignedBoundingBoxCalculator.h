@@ -3,6 +3,7 @@
 #include <ComponentSystem/BaseComponent.h>
 #include <ComponentInterfaces/RenderSystem/Common/IScreenSpaceAxisAlignedBoundingBoxCalculator.h>
 #include <ComponentInterfaces/RenderSystem/Common/IScreenSpaceCoordinatesCalculator.h>
+#include <Descriptors/OgreScreenSpaceAxisAlignedBoundingBoxCalculatorDesc.h>
 #include <ComponentSystem/ComponentInterfacePtr.h>
 
 namespace UnknownEngine
@@ -16,7 +17,7 @@ namespace UnknownEngine
         public:
             OgreScreenSpaceAxisAlignedBoundingBoxCalculator(const char* name, OgreScreenSpaceAxisAlignedBoundingBoxCalculatorDesc &desc);
 
-            virtual AxisAlignedBoundingBox calculateScreenSpaceAxisAlignedBoundingBox(ComponentInterfaces::IRenderable *renderable) override;
+            virtual Math::AxisAlignedBoundingBox calculateScreenSpaceAxisAlignedBoundingBox(ComponentInterfaces::IRenderable *renderable) override;
 
             virtual Core::IComponentInterface *getInterface(const Core::ComponentType &type) override;
 

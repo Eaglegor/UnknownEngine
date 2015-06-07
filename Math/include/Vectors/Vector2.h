@@ -14,8 +14,8 @@ namespace UnknownEngine
 	{
 		typedef Eigen::Matrix<Math::Scalar, 2, 1> Vector2;
 
-		static const Vector2 X_AXIS(1, 0, 0);
-		static const Vector2 Y_AXIS(0, 1, 0);
+		static const Vector2 X_AXIS_2D(1, 0);
+		static const Vector2 Y_AXIS_2D(0, 1);
 
 	}
 }

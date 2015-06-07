@@ -76,6 +76,8 @@ if(WIN32)
     list(APPEND ALL_TARGETS_LIST ${WIN32_ONLY_TARGETS})
 endif(WIN32)
 
+enable_testing()
+
 foreach(targets_list ${ALL_TARGETS_LIST})
 	foreach(target ${targets_list})
 		add_subdirectory(${target})

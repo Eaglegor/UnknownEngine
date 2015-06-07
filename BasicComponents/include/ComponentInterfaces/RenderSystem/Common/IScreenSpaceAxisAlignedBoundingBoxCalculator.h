@@ -1,6 +1,7 @@
 #pragma once
 
 #include <AxisAlignedBoundingBox.h>
+#include <ComponentSystem/IComponentInterface.h>
 
 namespace UnknownEngine
 {
@@ -8,12 +9,12 @@ namespace UnknownEngine
     {
         class IRenderable;
 
-        class IScreenSpaceAxisAlignedBoundingBoxCalculator
+        class IScreenSpaceAxisAlignedBoundingBoxCalculator : public Core::IComponentInterface
         {
         public:
             constexpr static const char* getType(){return "IScreenSpaceBoundingBoxCalculator";}
 
-            virtual AxisAlignedBoundingBox calculateScreenSpaceAxisAlignedBoundingBox(IRenderable* renderable) = 0;
+            virtual Math::AxisAlignedBoundingBox calculateScreenSpaceAxisAlignedBoundingBox(IRenderable* renderable) = 0;
         };
     }
 }

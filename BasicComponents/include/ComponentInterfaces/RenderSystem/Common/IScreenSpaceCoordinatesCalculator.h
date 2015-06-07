@@ -9,7 +9,7 @@ namespace UnknownEngine
 {
 	namespace ComponentInterfaces
 	{
-		class IScreenSpaceCoordinatesCalculator
+		class IScreenSpaceCoordinatesCalculator : public Core::IComponentInterface
 		{
 			public:
 				constexpr static const char* getType()
