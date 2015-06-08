@@ -2,6 +2,7 @@
 
 #include <ComponentSystem/ComponentCast.h>
 #include <ComponentSystem/ComponentsManager.h>
+#include <type_traits>
 #include <tuple>
 
 namespace UnknownEngine
@@ -20,20 +21,66 @@ namespace UnknownEngine
 			struct are_component_interfaces <U, Y, UU...> : public std::integral_constant<bool, std::is_base_of<IComponentInterface, U>::value && are_component_interfaces<Y, UU...>::value>
 			{};
 
-			template<typename U, typename... UU>
-			bool fillInternalTuple(IComponent* component)
+			
+			// ###############
+			// From internet - awaiting for C++14 with std::get<T>
+			//
+			template <class U, std::size_t N, class... Args>
+			struct get_number_of_element_from_tuple_by_type_impl
 			{
-				U* internal_interface_pointer = component_cast<U*>(component)
-				if(internal_interface_pointer == nullptr) return false;
-				std::get<U*>(internal_interface_pointers) = internal_interface_pointer;
-				return fillInternalTuple<UU...>(component);
+				static_assert( N < sizeof...(TT), "Requested type is not a part of complex component interface pointer");
+				static constexpr auto value = N;
+			};
+			
+			template <class U, std::size_t N, class... Args>
+			struct get_number_of_element_from_tuple_by_type_impl<U, N, U, Args...>
+			{
+				static constexpr auto value = N;
+			};
+			
+			template <class U, std::size_t N, class R, class... Args>
+			struct get_number_of_element_from_tuple_by_type_impl<U, N, R, Args...>
+			{
+				static constexpr auto value = get_number_of_element_from_tuple_by_type_impl<U, N + 1, Args...>::value;
+			};
+			
+			template<typename U> 
+			U& getTupleElementByType()
+			{
+				return std::get<get_number_of_element_from_tuple_by_type_impl<U, 0, TT*...>::value>(internal_interface_pointers);
 			}
 			
-			template<typename U, typename... UU>
+			// ###################
+			
+			template<typename U, typename V, typename... UU>
+			bool fillInternalTuple(IComponent* component)
+			{
+				U* internal_interface_pointer = component_cast<U*>(component);
+				if(internal_interface_pointer == nullptr) return false;
+				getTupleElementByType<U*>() = internal_interface_pointer;
+				return fillInternalTuple<V, UU...>(component);
+			}
+			
+			template<typename U>
+			bool fillInternalTuple(IComponent* component)
+			{
+				U* internal_interface_pointer = component_cast<U*>(component);
+				if(internal_interface_pointer == nullptr) return false;
+				getTupleElementByType<U*>() = internal_interface_pointer;
+				return true;
+			}
+			
+			template<typename U>
 			void resetInternalTuple()
 			{
-				std::get<U*>(internal_interface_pointers) = nullptr;
-				resetInternalTuple<UU...>();
+				getTupleElementByType<U*>() = nullptr;
+			}
+			
+			template<typename U, typename V, typename... UU>
+			void resetInternalTuple()
+			{
+				getTupleElementByType<U*>() = nullptr;
+				resetInternalTuple<V, UU...>();
 			}
 			
 		public:
@@ -63,15 +110,14 @@ namespace UnknownEngine
 			}
 			
 			template<typename U>
-			getInterface()
+			U* getInterface()
 			{
-				return std::get<U*>(internal_interface_pointers);
+				return getTupleElementByType<U*>();
 			}
 			
 			operator bool()
 			{
-				if(internal_interface_pointer) return true;
-				return false;
+				return is_initialized;
 			}
 			
 		private:
