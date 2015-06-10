@@ -10,11 +10,10 @@ namespace UnknownEngine
 {
 	namespace Utils
 	{
-		template<typename T>
 		class PropertiesListSetter : public IDescriptorPropertySetter
 		{
 			public:
-				PropertiesListSetter(const char* name, IPropertiesList<T> &field):
+				PropertiesListSetter(const char* name, IPropertiesList &field):
 				field(field),
 				name(name)
 				{
@@ -31,7 +30,7 @@ namespace UnknownEngine
 				virtual void writeValue(Core::Properties &props) override
 				{
 					std::vector<std::string> result;
-					for(const IProperty<T> &property: field.get())
+					for(const IProperty &property: field.get())
 					{
 						result.push_back(property);
 					}
@@ -44,7 +43,7 @@ namespace UnknownEngine
 				}
 
 			private:
-				IPropertiesList<T> &field;
+				IPropertiesList &field;
 				std::string name;
 		};
 	}

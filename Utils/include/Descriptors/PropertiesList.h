@@ -11,7 +11,7 @@ namespace UnknownEngine
 	namespace Utils
 	{
 		template <typename T, IProperty::Optionality optionality>
-		class PropertiesList : public IPropertiesList<T>
+		class PropertiesList : public IPropertiesList
 		{
 			public:
 				PropertiesList():

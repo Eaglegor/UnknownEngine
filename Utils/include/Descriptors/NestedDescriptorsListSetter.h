@@ -2,7 +2,7 @@
 
 #include <Descriptors/IDescriptorPropertySetter.h>
 #include <Descriptors/IProperty.h>
-#include <Descriptors/IDescriptorsList.h>]
+#include <Descriptors/IDescriptorsList.h>
 #include <Descriptors/IDescriptor.h>
 
 #include <iostream>
@@ -11,11 +11,10 @@ namespace UnknownEngine
 {
 	namespace Utils
 	{
-		template<typename T>
 		class NestedDescriptorsListSetter : public IDescriptorPropertySetter
 		{
 			public:
-				NestedDescriptorsListSetter(const char* name, IDescriptorsList<T> &field):
+				NestedDescriptorsListSetter(const char* name, IDescriptorsList &field):
 				field(field),
 				name(name)
 				{
@@ -45,7 +44,7 @@ namespace UnknownEngine
 				}
 
 			private:
-				IDescriptorsList<T> &field;
+				IDescriptorsList &field;
 				std::string name;
 		};
 	}

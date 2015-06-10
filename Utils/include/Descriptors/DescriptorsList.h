@@ -10,7 +10,7 @@ namespace UnknownEngine
 	namespace Utils
 	{
 		template <typename T, IProperty::Optionality optionality>
-		class DescriptorsList : public IDescriptorsList<T>
+		class DescriptorsList : public IDescriptorsList
 		{
 			public:
 				DescriptorsList():
