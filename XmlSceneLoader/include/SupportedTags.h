@@ -33,6 +33,9 @@ namespace UnknownEngine
 			static const std::string TEMPLATED_ENTITY = "templated_entity";
 			static const std::string TEMPLATED_SUBSYSTEM = "templated_subsystem";
 			static const std::string TEMPLATED_COMPONENT = "templated_component";
+			static const std::string OPTIONS_LIST = "options_list";
+			static const std::string LIST_ELEMENT = "element";
+			static const std::string OPTION_SECTIONS_LIST = "options_sections_list";
 		}
 
 		namespace Attributes
@@ -75,6 +78,14 @@ namespace UnknownEngine
 			namespace RECEIVE_POLICY
 			{
 				static const std::string TYPE = "type";
+			}
+			namespace OPTIONS_LIST
+			{
+				static const std::string NAME = "name";
+			}
+			namespace OPTIONS_SECTIONS_LIST
+			{
+				static const std::string NAME = "name";
 			}
 			namespace OPTIONS_SECTION
 			{

@@ -51,9 +51,20 @@ namespace UnknownEngine
 					if(iter==data_providers_map->end()) throw NoDataProviderFound("Data provider not found while parsing option: '" + option_name + "'");
 					result.set<Core::IDataProvider*> ( option_name, iter->second );
 				}
+				else if (iter.first == Tags::OPTIONS_LIST)
+				{
+					const std::string &list_name = iter.second.get_child(XMLATTR).get<std::string>(Attributes::OPTIONS_LIST::NAME);
+					result.set< std::vector<std::string> > (section_name, parseOptionsList(options_node, constants, data_providers_map));
+				}
+				else if (iter.first == Tags::OPTION_SECTIONS_LIST)
+				{
+					const std::string &list_name = iter.second.get_child(XMLATTR).get<std::string>(Attributes::OPTIONS_LIST::NAME);
+					result.set< std::vector<Core::Properties> > (section_name, parseOptionsList(options_node, constants, data_providers_map));
+				}
 			}
 			return result;
 		}
+
 
 		std::string OptionsParser::parseSingleOption ( const ptree &options_node, const ConstantsHolder *constants )
 		{
@@ -63,6 +74,32 @@ namespace UnknownEngine
 				return constants->applyPlaceholderConstants ( option_value );
 			}
 			return option_value;
+		}
+
+		std::vector<std::string> OptionsParser::parseOptionsList(const ptree &options_node, const ConstantsHolder *constants, std::unordered_map<std::string, Core::IDataProvider *> *data_providers_map)
+		{
+			std::vector<std::string> result;
+			for(const ptree::value_type &iter : options_node)
+			{
+				if(iter.first == Tags::LIST_ELEMENT)
+				{
+					result.push_back(parseSingleOption(options_node, constants));
+				}
+			}
+			return result;
+		}
+
+		std::vector<Core::Properties> OptionsParser::parseOptionsSectionsList(const ptree &options_node, const ConstantsHolder *constants, std::unordered_map<std::string, Core::IDataProvider *> *data_providers_map)
+		{
+			std::vector<Core::Properties> result;
+			for(const ptree::value_type &iter : options_node)
+			{
+				if(iter.first == Tags::LIST_ELEMENT)
+				{
+					result.push_back(parseOptionsSection(options_node, constants, data_providers_map));
+				}
+			}
+			return result;
 		}
 
 	} /* namespace Loader */

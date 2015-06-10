@@ -8,6 +8,8 @@
 #include <boost/any.hpp>
 #include <boost/variant.hpp>
 
+#include <vector>
+
 #include <Exception.h>
 
 namespace UnknownEngine
@@ -22,7 +24,7 @@ namespace UnknownEngine
 		{
 		private:
 			typedef PropertiesTree<K> self_type;
-			typedef boost::variant<int, float, std::string, boost::recursive_wrapper<self_type>, boost::any> VariantType;
+			typedef boost::variant<int, float, std::string, boost::recursive_wrapper<self_type>, std::vector<std::string>, std::vector<boost::recursive_wrapper<self_type>, boost::any> VariantType;
 			typedef std::unordered_map<K, VariantType> MapType;
 			
 		public:

@@ -28,6 +28,8 @@ namespace UnknownEngine
 			private:
 				static const Core::Properties parseOptionsSection ( const boost::property_tree::ptree &options_node, const ConstantsHolder* constants, std::unordered_map<std::string, Core::IDataProvider*> *data_providers_map );
 				static std::string parseSingleOption ( const boost::property_tree::ptree &options_node, const ConstantsHolder* constants );
+				static std::vector<std::string> parseOptionsList (const boost::property_tree::ptree &options_node, const ConstantsHolder* constants, std::unordered_map<std::string, Core::IDataProvider*> *data_providers_map);
+				static std::vector<Core::Properties> parseOptionsSectionsList(const boost::property_tree::ptree &options_node, const ConstantsHolder* constants, std::unordered_map<std::string, Core::IDataProvider*> *data_providers_map);
 		};
 
 	} /* namespace Loader */
