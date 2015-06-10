@@ -13,5 +13,5 @@ namespace UnknownEngine
                 virtual void parseValue(const Core::Properties &props) = 0;
                 virtual void writeValue(Core::Properties &props) = 0;
         };
-    }
+	}
 }

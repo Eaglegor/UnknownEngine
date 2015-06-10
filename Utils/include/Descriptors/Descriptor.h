@@ -80,7 +80,7 @@ namespace UnknownEngine
 					if(!setter.isValid()) this->is_valid = false;
 					nested_descriptors.push_back(setter);
 				}
-				
+
 			private:
 				std::vector<PropertySetter> properties;
 				std::vector<NestedDescriptorSetter> nested_descriptors;
