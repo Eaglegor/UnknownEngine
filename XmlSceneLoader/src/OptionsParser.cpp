@@ -54,12 +54,12 @@ namespace UnknownEngine
 				else if (iter.first == Tags::OPTIONS_LIST)
 				{
 					const std::string &list_name = iter.second.get_child(XMLATTR).get<std::string>(Attributes::OPTIONS_LIST::NAME);
-					result.set< std::vector<std::string> > (section_name, parseOptionsList(options_node, constants, data_providers_map));
+					result.set< std::vector<std::string> >(list_name, parseOptionsList(options_node, constants, data_providers_map));
 				}
 				else if (iter.first == Tags::OPTION_SECTIONS_LIST)
 				{
 					const std::string &list_name = iter.second.get_child(XMLATTR).get<std::string>(Attributes::OPTIONS_LIST::NAME);
-					result.set< std::vector<Core::Properties> > (section_name, parseOptionsList(options_node, constants, data_providers_map));
+					result.set< std::vector<Core::Properties> >(list_name, parseOptionsList(options_node, constants, data_providers_map));
 				}
 			}
 			return result;
