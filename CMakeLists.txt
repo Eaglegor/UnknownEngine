@@ -43,6 +43,7 @@ Utils
 ResourceManager
 SimpleBehaviorPlugin
 LogManager
+PTreeSceneLoader
 
 #Subsystems
 DummySubsystem
