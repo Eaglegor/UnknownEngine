@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Descriptors/Schemas/IDescriptorFieldSetter.h>
-#include <Descriptors/Schemas/DefaultSetters/DescriptorSetterFunction.h>
+#include <Descriptors/Schemas/DescriptorSetterFunction.h>
 #include <ComponentSystem/ComponentsManager.h>
 
 namespace UnknownEngine

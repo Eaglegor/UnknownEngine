@@ -2,7 +2,7 @@
 
 #include <Descriptors/Schemas/IDescriptorSchema.h>
 #include <Descriptors/Schemas/DescriptorField.h>
-#include <Descriptors/Schemas/DefaultSetters/DefaultDescriptorFieldSetters.h>
+#include <Descriptors/Schemas/Implementations/Common/DefaultDescriptorFieldSetters.h>
 #include <Descriptors/Schemas/DescriptorSettersFactory.h>
 #include <unordered_map>
 

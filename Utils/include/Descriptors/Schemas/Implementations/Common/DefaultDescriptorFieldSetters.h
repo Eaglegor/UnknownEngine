@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Descriptors/Schemas/DescriptorFieldSetter.h>
-#include <Descriptors/Schemas/DefaultSetters/DescriptorSetterFunction.h>
+#include <Descriptors/Schemas/DescriptorSetterFunction.h>
 #include <boost/lexical_cast.hpp>
 
 namespace UnknownEngine

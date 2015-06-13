@@ -4,10 +4,9 @@
 #include <Descriptors/Schemas/BaseDescriptorSchema.h>
 #include <Descriptors/SimpleRotationComponentDesc.h>
 
-#include <Transform/TransformDescriptorSchema.h>
-#include <Descriptors/Schemas/DefaultSetters/DefaultDescriptorFieldSetters.h>
-#include <Descriptors/Schemas/DefaultSetters/IComponentFieldSetter.h>
-
+#include <Descriptors/Schemas/Implementations/Math/TransformDescriptorSchema.h>
+#include <Descriptors/Schemas/Implementations/Common/DefaultDescriptorFieldSetters.h>
+#include <Descriptors/Schemas/Implementations/Common/IComponentFieldSetter.h>
 
 namespace UnknownEngine
 {
