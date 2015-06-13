@@ -14,6 +14,8 @@
 #include <Parsers/TransformProxyComponentDescriptorGetter.h>
 #include <Components/SimpleStopperComponent.h>
 
+#include <Descriptors/SimpleRotationComponentDescSchema.h>
+
 #include <Transform/Transform.h>
 
 namespace UnknownEngine

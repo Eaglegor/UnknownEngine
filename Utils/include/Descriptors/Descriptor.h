@@ -7,12 +7,7 @@
 #include <Descriptors/IDescriptorPropertySetter.h>
 #include <Descriptors/PropertySetter.h>
 #include <Descriptors/NestedDescriptorSetter.h>
-#include <Descriptors/IComponentDependenciesList.h>
-#include <Descriptors/ComponentDependenciesListSetter.h>
-#include <Descriptors/IPropertiesList.h>
-#include <Descriptors/PropertiesListSetter.h>
-#include <Descriptors/NestedDescriptorsListSetter.h>
-#include <Descriptors/IDescriptorsList.h>
+
 #include <unordered_map>
 
 namespace UnknownEngine
@@ -42,21 +37,7 @@ namespace UnknownEngine
 						setter.parseValue(props);
 						if(!setter.isValid()) this->is_valid = false;
 					}
-					for(IDescriptorPropertySetter& setter : nested_descriptors_lists)
-					{
-						setter.parseValue(props);
-						if(!setter.isValid()) this->is_valid = false;
-					}
-					for(IDescriptorPropertySetter& setter : properties_lists)
-					{
-						setter.parseValue(props);
-						if(!setter.isValid()) this->is_valid = false;
-					}
-					for(IDescriptorPropertySetter& setter : properties_component_dependencies)
-					{
-						setter.parseValue(props);
-						if(!setter.isValid()) this->is_valid = false;
-					}
+
 					return *this;
 				}
 
@@ -70,21 +51,6 @@ namespace UnknownEngine
 					}
 
 					for(IDescriptorPropertySetter& setter : nested_descriptors)
-					{
-						setter.writeValue(props);
-					}
-					
-					for(IDescriptorPropertySetter& setter : nested_descriptors_lists)
-					{
-						setter.writeValue(props);
-					}
-
-					for(IDescriptorPropertySetter& setter : properties_lists)
-					{
-						setter.writeValue(props);
-					}
-
-					for(IDescriptorPropertySetter& setter : properties_component_dependencies)
 					{
 						setter.writeValue(props);
 					}
@@ -105,24 +71,6 @@ namespace UnknownEngine
 					nested_descriptors.push_back(setter);
 				}
 
-				void addSetter(NestedDescriptorsListSetter &setter)
-				{
-					if(!setter.isValid()) this->is_valid = false;
-					nested_descriptors_lists.push_back(setter);
-				}
-
-				void addSetter(PropertiesListSetter &setter)
-				{
-					if(!setter.isValid()) this->is_valid = false;
-					properties_lists.push_back(setter);
-				}
-				
-				void addSetter(ComponentDependenciesListSetter &setter)
-				{
-					if(!setter.isValid()) this->is_valid = false;
-					properties_component_dependencies.push_back(setter);
-				}
-
 				void addSetter(PropertySetter &&setter)
 				{
 					if(!setter.isValid()) this->is_valid = false;
@@ -135,30 +83,10 @@ namespace UnknownEngine
 					nested_descriptors.push_back(setter);
 				}
 
-				void addSetter(NestedDescriptorsListSetter &&setter)
-				{
-					if(!setter.isValid()) this->is_valid = false;
-					nested_descriptors_lists.push_back(setter);
-				}
-
-				void addSetter(PropertiesListSetter &&setter)
-				{
-					if(!setter.isValid()) this->is_valid = false;
-					properties_lists.push_back(setter);
-				}
-
-				void addSetter(ComponentDependenciesListSetter &&setter)
-				{
-					if(!setter.isValid()) this->is_valid = false;
-					properties_component_dependencies.push_back(setter);
-				}
 
 			private:
 				std::vector<PropertySetter> properties;
 				std::vector<NestedDescriptorSetter> nested_descriptors;
-				std::vector<NestedDescriptorsListSetter> nested_descriptors_lists;
-				std::vector<PropertiesListSetter> properties_lists;
-				std::vector<ComponentDependenciesListSetter> properties_component_dependencies;
 				bool is_valid;
 		};
 	}
