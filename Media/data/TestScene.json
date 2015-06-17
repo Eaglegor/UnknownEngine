@@ -29,6 +29,7 @@
 		  "type" : "Engine.MeshData",
 		  "loader" : {
 			"type" : "Loader.MeshData.AssimpMeshDataLoader",
+			"preload_policy" : "preload",
 			"options" : {
 			  "filename" : "media/models/Cube.obj",
 			  "log_level" : "${global_log_level}",
@@ -45,6 +46,7 @@
 		  "type" : "Engine.MeshData",
 		  "loader" : {
 			"type" : "Loader.MeshData.AssimpMeshDataLoader",
+			"preload_policy" : "auto",
 			"options" : {
 			  "filename" : "media/models/Floor.obj",
 			  "log_level" : "${global_log_level}",
@@ -61,6 +63,7 @@
 		  "type" : "Engine.MeshData",
 		  "loader" : {
 			"type" : "Loader.MeshData.AssimpMeshDataLoader",
+			"preload_policy" : "preload",
 			"options" : {
 			  "filename" : "media/models/HalfSphere.obj",
 			  "log_level" : "${global_log_level",
@@ -77,6 +80,7 @@
 		  "type" : "Ogre.MeshPtr",
 		  "loader" : {
 			"type" : "Loader.OgreMeshPtr.OgreMeshPtrFromMeshDataProvider",
+			"preload_policy" : "lazy",
 			"options" : {
 			  "mesh_data_provider" : "CubeMesh",
 			  "log_level" : "${global_log_level}"
@@ -88,6 +92,7 @@
 		  "type" : "Ogre.MeshPtr",
 		  "loader" : {
 			"type" : "Loader.OgreMeshPtr.OgreMeshPtrFromMeshDataProvider",
+			"preload_policy" : "lazy",
 			"options" : {
 			  "mesh_data_provider" : "FloorMesh",
 			  "log_level" : "${global_log_level}"
@@ -99,6 +104,7 @@
 		  "type" : "Ogre.MeshPtr",
 		  "loader" : {
 			"type" : "Loader.OgreMeshPtr.OgreMeshPtrFromMeshDataProvider",
+			"preload_policy" : "auto",
 			"options" : {
 			  "mesh_data_provider" : "HalfSphereMesh",
 			  "log_level" : "${global_log_level}"
@@ -116,6 +122,7 @@
 		  "type" : "PhysX.Material",
 		  "loader" : {
 			"type" : "Loader.PxMaterial.PxMaterialDataProvider",
+			"preload_policy" : "auto",
 			"options" : {
 			  "static_friction" : "1",
 			  "dynamic_friction" : "1",
@@ -128,6 +135,7 @@
 		  "type" : "PhysX.Shape",
 		  "loader" : {
 			"type" : "Loader.PxShape.PxBoxShapeDataProvider",
+			"preload_policy" : "auto",
 			"options" : {
 			  "material" : "DefaultPhysicsMaterial",
 			  "extents" : {
@@ -143,6 +151,7 @@
 		  "type" : "PhysX.Shape",
 		  "loader" : {
 			"type" : "Loader.PxShape.PxBoxShapeDataProvider",
+			"preload_policy" : "auto",
 			"options" : {
 			  "material" : "DefaultPhysicsMaterial",
 			  "extents" : {
