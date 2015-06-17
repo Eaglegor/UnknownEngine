@@ -1,780 +1,696 @@
 {
-	"constants" : 
+  "constants" : {
+	"global_log_level" : "warning"
+  },
+
+
+  "plugins" : [
+	"SDLWindowManagerPlugin",
+	"OgreRenderSystem",
+	"AssimpMeshDataLoader",
+	"PhysXPlugin",
+	"InputContextMapper",
+	"SimpleBehaviorPlugin",
+	"ESInstrumentHardwarePlugin",
+	"ESInstrumentAlgorithmsPlugin",
+	"CEGuiPlugin",
+	"ESGUIPlugin",
+	"AngelScriptPlugin"
+  ],
+
+
+  "shared_resources" : [
 	{
-		{"global_log_level" : "warning"}
+	  "name" : "Meshes",
+	  "type" : "ResourceGroup",
+	  "resources" : [
+		{
+		  "name" : "CubeMesh",
+		  "type" : "Engine.MeshData",
+		  "loader" : {
+			"type" : "Loader.MeshData.AssimpMeshDataLoader",
+			"options" : {
+			  "filename" : "media/models/Cube.obj",
+			  "log_level" : "${global_log_level}",
+			  "postprocessing" : {
+				"generate_tangents" : "true",
+				"generate_normals" : "true",
+				"triangulate" : "true"
+			  }
+			}
+		  }
+		},
+		{
+		  "name" : "FloorMesh",
+		  "type" : "Engine.MeshData",
+		  "loader" : {
+			"type" : "Loader.MeshData.AssimpMeshDataLoader",
+			"options" : {
+			  "filename" : "media/models/Floor.obj",
+			  "log_level" : "${global_log_level}",
+			  "postprocessing" : {
+				"generate_tangents" : "true",
+				"generate_normals" : "true",
+				"triangulate" : "true"
+			  }
+			}
+		  }
+		},
+		{
+		  "name" : "HalfSphereMesh",
+		  "type" : "Engine.MeshData",
+		  "loader" : {
+			"type" : "Loader.MeshData.AssimpMeshDataLoader",
+			"options" : {
+			  "filename" : "media/models/HalfSphere.obj",
+			  "log_level" : "${global_log_level",
+			  "postprocessing" : {
+				"generate_tangents" : "true",
+				"generate_normals" : "true",
+				"triangulate" : "true"
+			  }
+			}
+		  }
+		},
+		{
+		  "name" : "OgreCubeMesh",
+		  "type" : "Ogre.MeshPtr",
+		  "loader" : {
+			"type" : "Loader.OgreMeshPtr.OgreMeshPtrFromMeshDataProvider",
+			"options" : {
+			  "mesh_data_provider" : "CubeMesh",
+			  "log_level" : "${global_log_level}"
+			}
+		  }
+		},
+		{
+		  "name" : "OgreFloorMesh",
+		  "type" : "Ogre.MeshPtr",
+		  "loader" : {
+			"type" : "Loader.OgreMeshPtr.OgreMeshPtrFromMeshDataProvider",
+			"options" : {
+			  "mesh_data_provider" : "FloorMesh",
+			  "log_level" : "${global_log_level}"
+			}
+		  }
+		},
+		{
+		  "name" : "OgreHalfSphereMesh",
+		  "type" : "Ogre.MeshPtr",
+		  "loader" : {
+			"type" : "Loader.OgreMeshPtr.OgreMeshPtrFromMeshDataProvider",
+			"options" : {
+			  "mesh_data_provider" : "HalfSphereMesh",
+			  "log_level" : "${global_log_level}"
+			}
+		  }
+		}
+	  ]
 	},
-	
-	"plugins" :
-	[
-		"SDLWindowManagerPlugin",
-		"OgreRenderSystem",
-		"AssimpMeshDataLoader",
-		"PhysXPlugin",
-		"InputContextMapper",
-		"SimpleBehaviorPlugin",
-		"ESInstrumentHardwarePlugin",
-		"ESInstrumentAlgorithmsPlugin",
-		"CEGuiPlugin",
-		"ESGUIPlugin",
-		"AngelScriptPlugin"
-	],
-	
-	"shared_resources" :
-	[
-		{ // Meshes
-			"name" : "Meshes",
-			"type" : "ResourceGroup"
-			"resources" :
-			[
-				{ //CubeMesh
-					"name" : "CubeMesh",
-					"type" : "Engine.MeshData",
-					"loader" : 
-					{
-						"type" : "Loader.MeshData.AssimpMeshDataLoader",
-						"options" : 
-						{
-							"filename" : "media/models/Cube.obj",
-							"log_level" : "${global_log_level}",
-							"postprocessing" : 
-							{
-								"generate_tangents" : "true",
-								"generate_normals" : "true",
-								"triangulate" : "true"
-							}
-						}
-					}
-				},
-				{ // FloorMesh
-					"name" : "FloorMesh",
-					"type" : "Engine.MeshData",
-					"loader" : 
-					{
-						"type" : "Loader.MeshData.AssimpMeshDataLoader",
-						"options" :
-						{
-							"filename" : "media/models/Floor.obj",
-							"log_level" : "${global_log_level}",
-							"postprocessing" : 
-							{
-								"generate_tangents" : "true",
-								"generate_normals" : "true",
-								"triangulate" : "true"
-							}
-						}
-					}
-				},
-				{ // HalfSphereMesh
-					"name" : "HalfSphereMesh",
-					"type" : "Engine.MeshData",
-					"loader" : 
-					{
-						"type" : "Loader.MeshData.AssimpMeshDataLoader",
-						"options" : 
-						{
-							"filename" : "media/models/HalfSphere.obj",
-							"log_level" : "${global_log_level",
-							"postprocessing" : 
-							{
-								"generate_tangents" : "true",
-								"generate_normals" : "true",
-								"triangulate" : "true"
-							}
-						}
-					}
-				},
-				{ // OgreCubeMesh
-					"name" : "OgreCubeMesh",
-					"type" : "Ogre.MeshPtr",
-					"loader" : {
-						"type" : "Loader.OgreMeshPtr.OgreMeshPtrFromMeshDataProvider",
-						"options" : 
-						{
-							"mesh_data_provider" : "CubeMesh",
-							"log_level" : "${global_log_level}"
-						}
-					}
-				},
-				{ // OgreFloorMesh
-					"name" : "OgreFloorMesh",
-					"type" : "Ogre.MeshPtr",
-					"loader" : {
-						"type" : "Loader.OgreMeshPtr.OgreMeshPtrFromMeshDataProvider",
-						"options" : 
-						{
-							"mesh_data_provider" : "FloorMesh",
-							"log_level" : "${global_log_level}"
-						}
-					}
-				},
-				{ // OgreHalfSphereMesh
-					"name" : "OgreHalfSphereMesh",
-					"type" : "Ogre.MeshPtr",
-					"loader" : {
-						"type" : "Loader.OgreMeshPtr.OgreMeshPtrFromMeshDataProvider",
-						"options" : 
-						{
-							"mesh_data_provider" : "HalfSphereMesh",
-							"log_level" : "${global_log_level}"
-						}
-					}
-				}
-			]
+	{
+	  "name" : "Physics",
+	  "type" : "ResourceGroup",
+	  "resources" : [
+		{
+		  "name" : "DefaultPhysicsMaterial",
+		  "type" : "PhysX.Material",
+		  "loader" : {
+			"type" : "Loader.PxMaterial.PxMaterialDataProvider",
+			"options" : {
+			  "static_friction" : "1",
+			  "dynamic_friction" : "1",
+			  "restitution" : "0.1"
+			}
+		  }
 		},
-		{ // Physics
-			"name" : "PhysicsShapes",
-			"type" : "ResourceGroup",
-			"resources" : 
-			[
-				{ //DefaultPhysicsMaterial
-					"name" : "DefaultPhysicsMaterial",
-					"type" : "PhysX.Material",
-					"loader" : 
-					{
-						"type" : "Loader.PxMaterial.PxMaterialDataProvider",
-						"options" : 
-						{
-							"static_friction" : "1",
-							"dynamic_friction" : "1",
-							"restitution" : "0.1"
-						}
-					}
-				},
-				{ //CubeShape
-					"name" : "CubeShape",
-					"type" : "PhysX.Shape",
-					"loader" : 
-					{
-						"type" : "Loader.PxShape.PxBoxShapeDataProvider",
-						"options" : 
-						{
-							"material" : "DefaultPhysicsMaterial",
-							"extents" : 
-							{
-								"x" : "1",
-								"y" : "1",
-								"z" : "1"
-							}
-						}
-					}
-				},
-				{ //FloorShape
-					"name" : "FloorShape",
-					"type" : "PhysX.Shape",
-					"loader" : 
-					{
-						"type" : "Loader.PxShape.PxBoxShapeDataProvider",
-						"options" : 
-						{
-							"material" : "DefaultPhysicsMaterial",
-							"extents" : 
-							{
-								"x" : "50",
-								"y" : "0.5",
-								"z" : "50"
-							}
-						}
-					}
-				},
-			]
+		{
+		  "name" : "CubeShape",
+		  "type" : "PhysX.Shape",
+		  "loader" : {
+			"type" : "Loader.PxShape.PxBoxShapeDataProvider",
+			"options" : {
+			  "material" : "DefaultPhysicsMaterial",
+			  "extents" : {
+				"x" : "1",
+				"y" : "1",
+				"z" : "1"
+			  }
+			}
+		  }
+		},
+		{
+		  "name" : "FloorShape",
+		  "type" : "PhysX.Shape",
+		  "loader" : {
+			"type" : "Loader.PxShape.PxBoxShapeDataProvider",
+			"options" : {
+			  "material" : "DefaultPhysicsMaterial",
+			  "extents" : {
+				"x" : "50",
+				"y" : "0.5",
+				"z" : "50"
+			  }
+			}
+		  }
 		}
-	],
-	
-	"entities" : 
-	[
-		{ // System
-			"name" : "System",
-			"components " : [
-				{ // MainLoop
-					"name" : "MainLoop",
-					"type" : "Engine.MainLoop"
-				},
-				{ // SDLWindowManager
-					"name" : "SDLWindowManager",
-					"type" : "SDL.WindowManager"
-				},
-				{ // SDLRenderWindow
-					"name" : "SDLRenderWindow",
-					"type" : "SDL.Window",
-					"options" : 
-					{
-						"log_level" : "${global_log_level}",
-						"width" : "800",
-						"height" : "600",
-						"window_name" : "TestWindow",
-						"window_title" : "Test render window",
-						"fullscreen" : "false",
-						"resizable" : "true",
-						"update_frame_provider" : "System.MainLoop"
-					}
-				},
-				{ // OgreRenderSubsystem
-					"name" : "OgreRenderSubsystem",
-					"type" : "Ogre.SeparateThreadRenderSubsystem",
-					"options" : 
-					{
-						"common" : {
-							"log_level" : "${global_log_level}",
-							"ogre_plugins_filename" : "plugins.cfg",
-							"ogre_log_filename" : "Ogre.log",
-							"ogre_config_filename" : "ogre.cfg",
-							"ogre_resources_filename" : "resources.cfg"
-						},
-						
-						"update_frame_provider" : "System.MainLoop"
-					}
-				},
-				{ // OgreRenderWindow
-					"name" : "OgreRenderWindow",
-					"type" : "Ogre.RenderWindow",
-					"options" : 
-					{
-						"parent_window" : "System.SDLRenderWindow",
-						"window_title" : "ParserTestWindowTitle",
-						"type" : "parent",
-						"width" : "800",
-						"height" : "600",
-						"fullscreen" : "false"
-					}
-				},
-				{ // InputContextMapper
-					"name" : "InputContextMapper",
-					"type" : "InputContextMapper",
-					"options" : 
-					{
-						"log_level" : "${global_log_level}",
-						"action_slots_config_file" : "InputContextMapperConfig/ActionSlots.xml",
-						"input_layout_config_file" : "InputContextMapperConfig/InputLayout.cfg",
-						"update_frame_provider" : "Engine.MainLoop",
-						"keyboard_input_provider" : "System.SDLRenderWindow",
-						"mouse_input_provider" : "System.SDLRenderWindow",
-						"joystick_input_provider" : "System.SDLRenderWindow",
-						"default_context_name" : "Game"
-					}
-				},
-				{ // EngineStopper
-					"name" : "EngineStopper",
-					"type" : "Behavior.SimpleStopper",
-					"options" : 
-					{
-						"input_context_name" : "Game",
-						"action_name" : "System_StopEngine",
-						"input_context_mapping_provider" : "System.InputContextMapper"
-					}
-				},
-				{ // PhysicsSubsystem
-					"name" : "PhysicsSubsystem",
-					"type" : "PhysXSubsystem",
-					"options" : 
-					{
-						"log_level" : "${global_log_level}",
-						"enable_profiling" : "false",
-						"enable_hardware" : "false",
-						"update_frame_provider" : "System.MainLoop"
-					}
-				}
-			]
+	  ]
+	}
+  ],
+
+
+  "entities" : [
+	{
+	  "name" : "System",
+	  "components " : [
+		{
+		  "name" : "MainLoop",
+		  "type" : "Engine.MainLoop"
 		},
-		{ // HUD
-			"name" : "HUD",
-			"components" : [
-				{ // Context
-					"name" : "Context",
-					"type" : "CEGui.SeparateThreadOgreContext",
-					"options" : {
-						"render_window" : "System.OgreRenderWindow",
-						"log_level" : "${global_log_level}",
-						"mouse_handler" : "System.SDLRenderWindow",
-						"keyboard_handler" : "System.SDLRenderWindow",
-						"loaded_schemes" : [
-							"schemes/TaharezLook.scheme",
-							"ESGuiScheme.scheme"
-						]
-					}
-				},
-				{ // Console
-					"name" : "Console",
-					"type" : "CEGUI.ConsoleWindow",
-					"options" : 
-					{
-						"parent_window" : "HUD.Context",
-						"log_level" : "info",
-						"input_context_mapper" : "System.InputContextMapper",
-						"game_context_name" : "Game",
-						"console_context_name" : "ConsoleActive",
-						"layout_filename" : "ConsoleWindowLayout.layout"
-					}
-				},
-				{ // Hint
-					"name" : "Hint",
-					"type" : "Endoscopy.GUI.Hint",
-					"options" : {
-						"cegui_context" : "HUD.Context",
-						"parent_window" : "HUD.Context",
-						"default_text" : "Camera base skill",
-						"log_level" : "${global_log_level}",
-						"layout_filename" : "ESHintLayout.layout"
-					}
-				},
-				{ // Crosshair
-					"name" : "Crosshair",
-					"type" : "Endoscopy.GUI.Crosshair",
-					"options" : 
-					{
-						"cegui_context" : "HUD.Context",
-						"parent_window" : "HUD.Context",
-						"log_level" : "${global_log_level}",
-						"imageset_name" : "CrosshairImages",
-						"free_image_name" : "FreeCrosshair",
-						"aimed_image_name" : "AimedCrosshair",
-						"layout_filename" : "ESCrossHairLayout.layout"
-					}
-				}
-			]
+		{
+		  "name" : "SDLWindowManager",
+		  "type" : "SDL.WindowManager"
 		},
-		{ // EndoscopicHardwareControllers
-			"name" : "EndoscopicHardwareControllers",
-			"components" : 
-			[
-				{ //Camera
-					"name" : "Camera",
-					"type" : "Endoscopy.HardwareController"
-				}
-			]
+		{
+		  "name" : "SDLRenderWindow",
+		  "type" : "SDL.Window",
+		  "options" : {
+			"log_level" : "${global_log_level}",
+			"width" : "800",
+			"height" : "600",
+			"window_name" : "TestWindow",
+			"window_title" : "Test render window",
+			"fullscreen" : "false",
+			"resizable" : "true",
+			"update_frame_provider" : "System.MainLoop"
+		  }
 		},
-		{ // CameraInstrument
-			"name" : "CameraInstrument",
-			"components" : 
-			[
-				{ // PoseAlgorithm
-					"name" : "PoseAlgorithm",
-					"type" : "Endoscopy.Algorithms.InstrumentPose",
-					"options" : 
-					{
-						"hardware_controller" : "EndoscopicHardwareControllers.Camera"
-					}
-				}
-			]
+		{
+		  "name" : "OgreRenderSubsystem",
+		  "type" : "Ogre.SeparateThreadRenderSubsystem",
+		  "options" : {
+			"common" : {
+			  "log_level" : "${global_log_level}",
+			  "ogre_plugins_filename" : "plugins.cfg",
+			  "ogre_log_filename" : "Ogre.log",
+			  "ogre_config_filename" : "ogre.cfg",
+			  "ogre_resources_filename" : "resources.cfg"
+			},
+			"update_frame_provider" : "System.MainLoop"
+		  }
 		},
-		{ // MasterScript
-			"name" : "MasterScript",
-			"components" : 
-			[
-				{ //MainModule
-					"name" : "MainModule",
-					"type" : "Behavior.AngelScript",
-					"options" :
-					{
-						"script_filename" : "test2.as"
-					}
-				}
-			]
+		{
+		  "name" : "OgreRenderWindow",
+		  "type" : "Ogre.RenderWindow",
+		  "options" : {
+			"parent_window" : "System.SDLRenderWindow",
+			"window_title" : "ParserTestWindowTitle",
+			"type" : "parent",
+			"width" : "800",
+			"height" : "600",
+			"fullscreen" : "false"
+		  }
 		},
-		{ // MainCamera
-			"name" : "MainCamera",
-			"components" : 
-			[
-				{ //Rotation
-					"name" : "Rotation",
-					"type" : "Behavior.MouseLook",
-					"constants" : 
-					[
-						{"action_name_prefix" : "CameraML"}
-					],
-					"options" : 
-					{
-						"input_context_name" : "Game",
-						"initial_transform" : 
-						{
-							"position" : {
-								"x" : "0",
-								"y" : "10",
-								"z" : "50"
-							}
-						},
-						"update_frame_provider" : "System.MainLoop",
-						"input_context_mapping_provider" : "System.InputContextMapper",
-						"move_forward_action_name" : "${action_name_prefix}_MoveForward",
-						"move_backward_action_name" : "${action_name_prefix}_MoveBackward",
-						"strafe_left_action_name" : "${action_name_prefix}_StrafeLeft",
-						"strafe_right_action_name" : "${action_name_prefix}_StrafeRight",
-						"strafe_up_action_name" : "${action_name_prefix}_StrafeUp",
-						"strafe_down_action_name" : "${action_name_prefix}_StrafeDown",
-						"yaw_action_name" : "${action_name_prefix}_Yaw",
-						"pitch_action_name" : "${action_name_prefix}_Pitch"
-					}
-				},
-				{ //Camera
-					"name" : "Camera",
-					"type" : "Ogre.Camera",
-					"options" : 
-					{
-						"render_window" : "System.OgreRenderWindow",
-						"log_level" : "${global_log_level}",
-						"far_clip_distance" : "100",
-						"near_clip_distance" : "0.01",
-						"initial_transform" : 
-						{
-							"position" : 
-							{
-								"x" : "0",
-								"y" : "10",
-								"z" : "50"
-							}
-						}
-					}
-				},
-				{ //Position controller
-					"name" : "PositionController",
-					"type" : "Behavior.EventBasedTransformProxyComponent",
-					"options" : 
-					{
-						"transform_provider" : "MainCamera.Rotation",
-						"transform_receiver" : "MainCamera.Camera"
-					}
-				},
-				{ // Spotlight
-					"name" : "LightComponentS",
-					"type" : "Ogre.SpotLight",
-					"options" : 
-					{
-						"initial_direction" :
-						{
-							"x" : "0",
-							"y" : "0",
-							"z" : "-50"
-						},
-						"transform_provider" : "MainCamera.Rotation",
-						"log_level" : "${global_log_level}",
-						"light_settings" : 
-						{
-							"intensity" : "1",
-							"diffuse_color" : 
-							{
-								"r" : "1",
-								"g" : "1",
-								"b" : "1"
-							}
-						},
-						"inner_angle" : "5",
-						"outer_angle" : "60"
-					}
-				}
-			]
+		{
+		  "name" : "InputContextMapper",
+		  "type" : "InputContextMapper",
+		  "options" : {
+			"log_level" : "${global_log_level}",
+			"action_slots_config_file" : "InputContextMapperConfig/ActionSlots.xml",
+			"input_layout_config_file" : "InputContextMapperConfig/InputLayout.cfg",
+			"update_frame_provider" : "Engine.MainLoop",
+			"keyboard_input_provider" : "System.SDLRenderWindow",
+			"mouse_input_provider" : "System.SDLRenderWindow",
+			"joystick_input_provider" : "System.SDLRenderWindow",
+			"default_context_name" : "Game"
+		  }
 		},
-		{ // Lighting
-			"name" : "Lighting",
-			"components" : 
-			[
-				{ // LightComponentD
-					"name" : "LightComponentD",
-					"type" : "Ogre.DirectionalLight",
-					"options" : 
-					{
-						"initial_direction" : {
-							"x" : "0",
-							"y" : "-50",
-							"z" : "-50"
-						},
-						"log_level" : "${global_log_level}",
-						"light_settings" : {
-							"intensity" : "1",
-							"diffuse_color" : {
-								"r" : "1",
-								"g" : "1",
-								"b" : "1"
-							},
-							"specular_color" : 
-							{
-								"r" : "1",
-								"g" : "1",
-								"b" : "1"
-							}
-						}
-					}
-				}
-			]
+		{
+		  "name" : "EngineStopper",
+		  "type" : "Behavior.SimpleStopper",
+		  "options" : {
+			"input_context_name" : "Game",
+			"action_name" : "System_StopEngine",
+			"input_context_mapping_provider" : "System.InputContextMapper"
+		  }
 		},
-		{ // Floor
-			"name" : "Floor",
-			"components" : 
-			[
-				{//RigidBody
-					"name" : "RigidBody",
-					"type" : "PhysX.RigidBody",
-					"options" : 
-					{
-						"shape" : "Physics.CubeShape",
-						"dynamics_type" : "static",
-						"mass" : "1"
-					}
-				},
-				{ // Graphics
-					"name" : "Graphics",
-					"type" : "Ogre.Renderable",
-					"resources" : 
-					[
-						"name" : "FloorMaterial",
-						"type" : "Ogre.MaterialPtr",
-						"loader" : 
-						{
-							"type" : "Loader.Ogre.OgreMaterialLoader",
-							"options" : 
-							{
-								"material_name" : "FloorMaterial"
-							}
-						}
-					],
-					"options" : 
-					{
-						"log_level" : "${global_log_level}",
-						"mesh" : "Meshes.OgreFloorMesh",
-						"material" : "FloorMaterial"
-					}
-				},
-				{ //PositionMapper
-					"name" : "PositionMapper",
-					"type" : "Behavior.EventBasedTransformProxyComponent",
-					"options" : 
-					{
-						"transform_provider" : "RigidBody",
-						"transform_receiver" : "Graphics"
-					}
-				},
-			]
-		},
-		{ // PassiveCube
-			"name" : "PassiveCube",
-			"components" : 
-			[
-				{//RigidBody
-					"name" : "RigidBody",
-					"type" : "PhysX.RigidBody",
-					"options" : 
-					{
-						"shape" : "Physics.CubeShape",
-						"dynamics_type" : "dynamic",
-						"mass" : "10",
-						
-						"initial_transform" : 
-						{
-							"position" : 
-							{
-								"x" : "-10",
-								"y" : "10",
-								"z" : "0"
-							}
-						}
-					}
-				},
-				{ // Graphics
-					"name" : "Graphics",
-					"type" : "Ogre.Renderable",
-					"resources" : 
-					[
-						"name" : "Material",
-						"type" : "Ogre.MaterialPtr",
-						"loader" : 
-						{
-							"type" : "Loader.Ogre.OgreMaterialLoader",
-							"options" : 
-							{
-								"material_name" : "NormalMap"
-							}
-						}
-					],
-					"options" : 
-					{
-						"log_level" : "${global_log_level}",
-						"mesh" : "Meshes.OgreCubeMesh",
-						"material" : "Material"
-					}
-				},
-				{ //PositionMapper
-					"name" : "PositionMapper",
-					"type" : "Behavior.EventBasedTransformProxyComponent",
-					"options" : 
-					{
-						"transform_provider" : "RigidBody",
-						"transform_receiver" : "Graphics"
-					}
-				},
-				{ // VisibilityChecker
-					"name" : "VisibilityChecker",
-					"type" : "Ogre.HOQVisibilityChecker",
-					"options" : 
-					{
-						"target_object" : "Graphics",
-						"log_level" : "${global_log_level}",
-						"render_window" : "System.OgreRenderWindow"
-					}
-				}
-			]
-		},
-		{ // ActiveCube
-			"name" : "ActiveCube",
-			"components" : 
-			[
-				{ //AxisMovement
-					"name" : "AxisMovement",
-					"type" : "Behavior.MouseLook",
-					"constants" : 
-					[
-						{"action_name_prefix" : "CubeAlg"}
-					]
-					"options" : 
-					{
-						"input_context_name" : "Game",
-						"initial_transform" : 
-						{
-							"position" : {
-								"x" : "10",
-								"y" : "10",
-								"z" : "0"
-							}
-						},
-						"update_frame_provider" : "System.MainLoop",
-						"input_context_mapping_provider" : "System.InputContextMapper",
-						"move_forward_action_name" : "${action_name_prefix}_MoveForward",
-						"move_backward_action_name" : "${action_name_prefix}_MoveBackward",
-						"strafe_left_action_name" : "${action_name_prefix}_StrafeLeft",
-						"strafe_right_action_name" : "${action_name_prefix}_StrafeRight",
-						"strafe_up_action_name" : "${action_name_prefix}_StrafeUp",
-						"strafe_down_action_name" : "${action_name_prefix}_StrafeDown",
-						"yaw_action_name" : "${action_name_prefix}_Yaw",
-						"pitch_action_name" : "${action_name_prefix}_Pitch"
-					}
-				},
-				{ //RigidBody
-					"name" : "RigidBody",
-					"type" : "PhysX.RigidBody",
-					"options" : 
-					{
-						"shape" : "Physics.CubeShape",
-						"dynamics_type" : "kinematic",
-						"mass" : "1",
-						
-						"initial_transform" : 
-						{
-							"position" : 
-							{
-								"x" : "10",
-								"y" : "10",
-								"z" : "0"
-							}
-						}
-					}
-				},
-				{ //RigidBodyPositionController
-					"name" : "RigidBodyPositionController",
-					"type" : "Behavior.EventBasedTransformProxyComponent",
-					"options" : 
-					{
-						"transform_provider" : "AxisMovement",
-						"transform_receiver" : "RigidBody"
-					}
-				},
-				{ //GraphicsPositionController
-					"name" : "GraphicsPositionController",
-					"type" : "Behavior.EventBasedTransformProxyComponent",
-					"options" : 
-					{
-						"transform_provider" : "RigidBody",
-						"transform_receiver" : "Graphics"
-					}
-				},
-				{ // Graphics
-					"name" : "Graphics",
-					"type" : "Ogre.Renderable",
-					"resources" : 
-					[
-						"name" : "Material",
-						"type" : "Ogre.MaterialPtr",
-						"loader" : 
-						{
-							"type" : "Loader.Ogre.OgreMaterialLoader",
-							"options" : 
-							{
-								"material_name" : "ActiveCubeMaterial"
-							}
-						}
-					],
-					"options" : 
-					{
-						"log_level" : "${global_log_level}",
-						"mesh" : "Meshes.OgreCubeMesh",
-						"material" : "Material"
-					}
-				},
-				{ //PositionMapper
-					"name" : "PositionMapper",
-					"type" : "Behavior.EventBasedTransformProxyComponent",
-					"options" : 
-					{
-						"transform_provider" : "RigidBody",
-						"transform_receiver" : "Graphics"
-					}
-				},
-				{ // VisibilityChecker
-					"name" : "VisibilityChecker",
-					"type" : "Ogre.HOQVisibilityChecker",
-					"options" : 
-					{
-						"target_object" : "Graphics",
-						"log_level" : "${global_log_level}",
-						"render_window" : "System.OgreRenderWindow"
-					}
-				}
-			]
-		},
-		{ // JointCreator
-			"name" : "JointCreator",
-			"components" : 
-			[
-				{ // JointCreatorComponent
-					"name" : "JointCreatorComponent",
-					"type" : "Behavior.SimpleCreateJoint",
-					"options" : 
-					{
-						"body1" : "ActiveCube",
-						"body2" : "PassiveCube",
-						"input_context_name" : "Game",
-						"jointed_material" : "ActiveCube.Material",
-						"create_joint_action_name" : "JointAlg_CreateJoint",
-						"free_material_name" : "PassiveCube.Material",
-						"input_context_mapper" : "System.InputContextMapper",
-						"renderable_component" : "PassiveCube"
-					}
-				}
-			]
-		},
-		{ // HalfSphere
-			"name" : "HalfSphere",
-			"components" : 
-			[
-				{// Graphics
-					"name" : "Graphics",
-					"type" : "Ogre.Renderable",
-					"resources" : 
-					[
-						"name" : "Material",
-						"type" : "Ogre.MaterialPtr",
-						"loader" : 
-						{
-							"type" : "Loader.Ogre.OgreMaterialLoader",
-							"options" : 
-							{
-								"material_name" : "FloorMaterial"
-							}
-						}
-					],
-					"options" : 
-					{
-						"log_level" : "${global_log_level}",
-						"mesh" : "Meshes.OgreHalfSphereMesh",
-						"material" : "Material"
-					}
-			]
+		{
+		  "name" : "PhysicsSubsystem",
+		  "type" : "PhysXSubsystem",
+		  "options" : {
+			"log_level" : "${global_log_level}",
+			"enable_profiling" : "false",
+			"enable_hardware" : "false",
+			"update_frame_provider" : "System.MainLoop"
+		  }
 		}
-	]
+	  ]
+	},
+	{
+	  "name" : "HUD",
+	  "components" : [
+		{
+		  "name" : "Context",
+		  "type" : "CEGui.SeparateThreadOgreContext",
+		  "options" : {
+			"render_window" : "System.OgreRenderWindow",
+			"log_level" : "${global_log_level}",
+			"mouse_handler" : "System.SDLRenderWindow",
+			"keyboard_handler" : "System.SDLRenderWindow",
+			"loaded_schemes" : [
+			  "schemes/TaharezLook.scheme",
+			  "ESGuiScheme.scheme"
+			]
+		  }
+		},
+		{
+		  "name" : "Console",
+		  "type" : "CEGUI.ConsoleWindow",
+		  "options" : {
+			"parent_window" : "HUD.Context",
+			"log_level" : "info",
+			"input_context_mapper" : "System.InputContextMapper",
+			"game_context_name" : "Game",
+			"console_context_name" : "ConsoleActive",
+			"layout_filename" : "ConsoleWindowLayout.layout"
+		  }
+		},
+		{
+		  "name" : "Hint",
+		  "type" : "Endoscopy.GUI.Hint",
+		  "options" : {
+			"cegui_context" : "HUD.Context",
+			"parent_window" : "HUD.Context",
+			"default_text" : "Camera base skill",
+			"log_level" : "${global_log_level}",
+			"layout_filename" : "ESHintLayout.layout"
+		  }
+		},
+		{
+		  "name" : "Crosshair",
+		  "type" : "Endoscopy.GUI.Crosshair",
+		  "options" : {
+			"cegui_context" : "HUD.Context",
+			"parent_window" : "HUD.Context",
+			"log_level" : "${global_log_level}",
+			"imageset_name" : "CrosshairImages",
+			"free_image_name" : "FreeCrosshair",
+			"aimed_image_name" : "AimedCrosshair",
+			"layout_filename" : "ESCrossHairLayout.layout"
+		  }
+		}
+	  ]
+	},
+	{
+	  "name" : "EndoscopicHardwareControllers",
+	  "components" : [
+		{
+		  "name" : "Camera",
+		  "type" : "Endoscopy.HardwareController"
+		}
+	  ]
+	},
+	{
+	  "name" : "CameraInstrument",
+	  "components" : [
+		{
+		  "name" : "PoseAlgorithm",
+		  "type" : "Endoscopy.Algorithms.InstrumentPose",
+		  "options" : {
+			"hardware_controller" : "EndoscopicHardwareControllers.Camera"
+		  }
+		}
+	  ]
+	},
+	{
+	  "name" : "MasterScript",
+	  "components" : [
+		{
+		  "name" : "MainModule",
+		  "type" : "Behavior.AngelScript",
+		  "options" : {
+			"script_filename" : "test2.as"
+		  }
+		}
+	  ]
+	},
+	{
+	  "name" : "MainCamera",
+	  "components" : [
+		{
+		  "name" : "Rotation",
+		  "type" : "Behavior.MouseLook",
+		  "constants" : {
+			"action_name_prefix" : "CameraML"
+		  },
+		  "options" : {
+			"input_context_name" : "Game",
+			"initial_transform" : {
+			  "position" : {
+				"x" : "0",
+				"y" : "10",
+				"z" : "50"
+			  }
+			},
+			"update_frame_provider" : "System.MainLoop",
+			"input_context_mapping_provider" : "System.InputContextMapper",
+			"move_forward_action_name" : "${action_name_prefix}_MoveForward",
+			"move_backward_action_name" : "${action_name_prefix}_MoveBackward",
+			"strafe_left_action_name" : "${action_name_prefix}_StrafeLeft",
+			"strafe_right_action_name" : "${action_name_prefix}_StrafeRight",
+			"strafe_up_action_name" : "${action_name_prefix}_StrafeUp",
+			"strafe_down_action_name" : "${action_name_prefix}_StrafeDown",
+			"yaw_action_name" : "${action_name_prefix}_Yaw",
+			"pitch_action_name" : "${action_name_prefix}_Pitch"
+		  }
+		},
+		{
+		  "name" : "Camera",
+		  "type" : "Ogre.Camera",
+		  "options" : {
+			"render_window" : "System.OgreRenderWindow",
+			"log_level" : "${global_log_level}",
+			"far_clip_distance" : "100",
+			"near_clip_distance" : "0.01",
+			"initial_transform" : {
+			  "position" : {
+				"x" : "0",
+				"y" : "10",
+				"z" : "50"
+			  }
+			}
+		  }
+		},
+		{
+		  "name" : "PositionController",
+		  "type" : "Behavior.EventBasedTransformProxyComponent",
+		  "options" : {
+			"transform_provider" : "MainCamera.Rotation",
+			"transform_receiver" : "MainCamera.Camera"
+		  }
+		},
+		{
+		  "name" : "LightComponentS",
+		  "type" : "Ogre.SpotLight",
+		  "options" : {
+			"initial_direction" : {
+			  "x" : "0",
+			  "y" : "0",
+			  "z" : "-50"
+			},
+			"transform_provider" : "MainCamera.Rotation",
+			"log_level" : "${global_log_level}",
+			"light_settings" : {
+			  "intensity" : "1",
+			  "diffuse_color" : {
+				"r" : "1",
+				"g" : "1",
+				"b" : "1"
+			  }
+			},
+			"inner_angle" : "5",
+			"outer_angle" : "60"
+		  }
+		}
+	  ]
+	},
+	{
+	  "name" : "Lighting",
+	  "components" : [
+		{
+		  "name" : "LightComponentD",
+		  "type" : "Ogre.DirectionalLight",
+		  "options" : {
+			"initial_direction" : {
+			  "x" : "0",
+			  "y" : "-50",
+			  "z" : "-50"
+			},
+			"log_level" : "${global_log_level}",
+			"light_settings" : {
+			  "intensity" : "1",
+			  "diffuse_color" : {
+				"r" : "1",
+				"g" : "1",
+				"b" : "1"
+			  },
+			  "specular_color" : {
+				"r" : "1",
+				"g" : "1",
+				"b" : "1"
+			  }
+			}
+		  }
+		}
+	  ]
+	},
+	{
+	  "name" : "Floor",
+	  "components" : [
+		{
+		  "name" : "RigidBody",
+		  "type" : "PhysX.RigidBody",
+		  "options" : {
+			"shape" : "Physics.CubeShape",
+			"dynamics_type" : "static",
+			"mass" : "1"
+		  }
+		},
+		{
+		  "name" : "Graphics",
+		  "type" : "Ogre.Renderable",
+		  "resources" : [
+			{
+			  "name" : "FloorMaterial",
+			  "type" : "Ogre.MaterialPtr",
+			  "loader" : {
+				"type" : "Loader.Ogre.OgreMaterialLoader",
+				"options" : {
+				  "material_name" : "FloorMaterial"
+				}
+			  }
+			}
+		  ],
+		  "options" : {
+			"log_level" : "${global_log_level}",
+			"mesh" : "Meshes.OgreFloorMesh",
+			"material" : "FloorMaterial"
+		  }
+		},
+		{
+		  "name" : "PositionMapper",
+		  "type" : "Behavior.EventBasedTransformProxyComponent",
+		  "options" : {
+			"transform_provider" : "RigidBody",
+			"transform_receiver" : "Graphics"
+		  }
+		}
+	  ]
+	},
+	{
+	  "name" : "PassiveCube",
+	  "components" : [
+		{
+		  "name" : "RigidBody",
+		  "type" : "PhysX.RigidBody",
+		  "options" : {
+			"shape" : "Physics.CubeShape",
+			"dynamics_type" : "dynamic",
+			"mass" : "10",
+			"initial_transform" : {
+			  "position" : {
+				"x" : "-10",
+				"y" : "10",
+				"z" : "0"
+			  }
+			}
+		  }
+		},
+		{
+		  "name" : "Graphics",
+		  "type" : "Ogre.Renderable",
+		  "resources" : [
+			{
+			  "name" : "Material",
+			  "type" : "Ogre.MaterialPtr",
+			  "loader" : {
+				"type" : "Loader.Ogre.OgreMaterialLoader",
+				"options" : {
+				  "material_name" : "NormalMap"
+				}
+			  }
+			}
+		  ],
+		  "options" : {
+			"log_level" : "${global_log_level}",
+			"mesh" : "Meshes.OgreCubeMesh",
+			"material" : "Material"
+		  }
+		},
+		{
+		  "name" : "PositionMapper",
+		  "type" : "Behavior.EventBasedTransformProxyComponent",
+		  "options" : {
+			"transform_provider" : "RigidBody",
+			"transform_receiver" : "Graphics"
+		  }
+		},
+		{
+		  "name" : "VisibilityChecker",
+		  "type" : "Ogre.HOQVisibilityChecker",
+		  "options" : {
+			"target_object" : "Graphics",
+			"log_level" : "${global_log_level}",
+			"render_window" : "System.OgreRenderWindow"
+		  }
+		}
+	  ]
+	},
+	{
+	  "name" : "ActiveCube",
+	  "components" : [
+		{
+		  "name" : "AxisMovement",
+		  "type" : "Behavior.MouseLook",
+		  "constants" : {
+			"action_name_prefix" : "CubeAlg"
+		  },
+		  "options" : {
+			"input_context_name" : "Game",
+			"initial_transform" : {
+			  "position" : {
+				"x" : "10",
+				"y" : "10",
+				"z" : "0"
+			  }
+			},
+			"update_frame_provider" : "System.MainLoop",
+			"input_context_mapping_provider" : "System.InputContextMapper",
+			"move_forward_action_name" : "${action_name_prefix}_MoveForward",
+			"move_backward_action_name" : "${action_name_prefix}_MoveBackward",
+			"strafe_left_action_name" : "${action_name_prefix}_StrafeLeft",
+			"strafe_right_action_name" : "${action_name_prefix}_StrafeRight",
+			"strafe_up_action_name" : "${action_name_prefix}_StrafeUp",
+			"strafe_down_action_name" : "${action_name_prefix}_StrafeDown",
+			"yaw_action_name" : "${action_name_prefix}_Yaw",
+			"pitch_action_name" : "${action_name_prefix}_Pitch"
+		  }
+		},
+		{
+		  "name" : "RigidBody",
+		  "type" : "PhysX.RigidBody",
+		  "options" : {
+			"shape" : "Physics.CubeShape",
+			"dynamics_type" : "kinematic",
+			"mass" : "1",
+			"initial_transform" : {
+			  "position" : {
+				"x" : "10",
+				"y" : "10",
+				"z" : "0"
+			  }
+			}
+		  }
+		},
+		{
+		  "name" : "RigidBodyPositionController",
+		  "type" : "Behavior.EventBasedTransformProxyComponent",
+		  "options" : {
+			"transform_provider" : "AxisMovement",
+			"transform_receiver" : "RigidBody"
+		  }
+		},
+		{
+		  "name" : "GraphicsPositionController",
+		  "type" : "Behavior.EventBasedTransformProxyComponent",
+		  "options" : {
+			"transform_provider" : "RigidBody",
+			"transform_receiver" : "Graphics"
+		  }
+		},
+		{
+		  "name" : "Graphics",
+		  "type" : "Ogre.Renderable",
+		  "resources" : [
+			{
+			  "name" : "Material",
+			  "type" : "Ogre.MaterialPtr",
+			  "loader" : {
+				"type" : "Loader.Ogre.OgreMaterialLoader",
+				"options" : {
+				  "material_name" : "ActiveCubeMaterial"
+				}
+			  }
+			}
+		  ],
+		  "options" : {
+			"log_level" : "${global_log_level}",
+			"mesh" : "Meshes.OgreCubeMesh",
+			"material" : "Material"
+		  }
+		},
+		{
+		  "name" : "PositionMapper",
+		  "type" : "Behavior.EventBasedTransformProxyComponent",
+		  "options" : {
+			"transform_provider" : "RigidBody",
+			"transform_receiver" : "Graphics"
+		  }
+		},
+		{
+		  "name" : "VisibilityChecker",
+		  "type" : "Ogre.HOQVisibilityChecker",
+		  "options" : {
+			"target_object" : "Graphics",
+			"log_level" : "${global_log_level}",
+			"render_window" : "System.OgreRenderWindow"
+		  }
+		}
+	  ]
+	},
+	{
+	  "name" : "JointCreator",
+	  "components" : [
+		{
+		  "name" : "JointCreatorComponent",
+		  "type" : "Behavior.SimpleCreateJoint",
+		  "options" : {
+			"body1" : "ActiveCube",
+			"body2" : "PassiveCube",
+			"input_context_name" : "Game",
+			"jointed_material" : "ActiveCube.Material",
+			"create_joint_action_name" : "JointAlg_CreateJoint",
+			"free_material_name" : "PassiveCube.Material",
+			"input_context_mapper" : "System.InputContextMapper",
+			"renderable_component" : "PassiveCube"
+		  }
+		}
+	  ]
+	},
+	{
+	  "name" : "HalfSphere",
+	  "components" : [
+		{
+		  "name" : "Graphics",
+		  "type" : "Ogre.Renderable",
+		  "resources" : [
+			{
+			  "name" : "Material",
+			  "type" : "Ogre.MaterialPtr",
+			  "loader" : {
+				"type" : "Loader.Ogre.OgreMaterialLoader",
+				"options" : {
+				  "material_name" : "FloorMaterial"
+				}
+			  }
+			}
+		  ],
+		  "options" : {
+			"log_level" : "${global_log_level}",
+			"mesh" : "Meshes.OgreHalfSphereMesh",
+			"material" : "Material"
+		  }
+		}
+	  ]
+	}
+  ]
 }
