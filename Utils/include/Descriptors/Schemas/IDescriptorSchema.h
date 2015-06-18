@@ -17,6 +17,8 @@ namespace UnknownEngine
 			virtual T createDefaultDescriptor() = 0;
 			virtual T createDescriptor(const PropertiesTreeNode &properties) = 0;
 			
+			virtual bool descriptorIsValid(const T& desc) = 0;
+
 			virtual PropertiesTreeNode convertDescriptorToPropertiesTree(const T& descriptor) = 0;
 			virtual void writeDescriptorToPropertiesTree(const T& descriptor, PropertiesTreeNode &out_properties) = 0;
 		};

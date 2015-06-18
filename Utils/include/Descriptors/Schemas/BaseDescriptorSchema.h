@@ -57,6 +57,11 @@ namespace UnknownEngine
 				
 			}
 			
+			virtual bool descriptorIsValid(const T& desc)
+			{
+				return true;
+			}
+
 		protected:
 			template<typename V>
 			void addField(const char* name, RawDescriptorSetterFunction<T, V> setter_function, bool is_optional)

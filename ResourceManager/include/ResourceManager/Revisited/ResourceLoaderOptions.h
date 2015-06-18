@@ -17,9 +17,8 @@ namespace UnknownEngine
 			}
 
 			template<typename T>
-			T createDescriptor()
+			T createDescriptor(Utils::DescriptorSchema<T> &schema)
 			{
-				Utils::DescriptorSchema<T> schema;
 				return schema.createDescriptor(properties_tree);
 			}
 

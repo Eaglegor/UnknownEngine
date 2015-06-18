@@ -23,6 +23,12 @@ namespace UnknownEngine
 				addField<Core::IComponent*>("update_frame_provider", [](DescriptorType& c, Core::IComponent* const & value){c.update_frame_provider = value;}, true);
 				
 			}
+
+			virtual bool descriptorIsValid(const Behavior::SimpleRotationComponentDesc &desc)
+			{
+				if(!desc.update_frame_provider) return false;
+				return true;
+			}
 		};
 	}
 }
