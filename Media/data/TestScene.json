@@ -19,7 +19,7 @@
   ],
 
 
-  "shared_resources" : [
+  "resources" : [
 	{
 	  "name" : "Meshes",
 	  "type" : "ResourceGroup",
@@ -27,6 +27,7 @@
 		{
 		  "name" : "CubeMesh",
 		  "type" : "Engine.MeshData",
+		  "shared" : "true",
 		  "loader" : {
 			"type" : "Loader.MeshData.AssimpMeshDataLoader",
 			"preload_policy" : "preload",
@@ -481,16 +482,16 @@
 		  ],
 		  "options" : {
 			"log_level" : "${global_log_level}",
-			"mesh" : "Meshes.OgreFloorMesh",
-			"material" : "FloorMaterial"
+			"mesh" : "@Meshes.OgreFloorMesh",
+			"material" : "@FloorMaterial"
 		  }
 		},
 		{
 		  "name" : "PositionMapper",
 		  "type" : "Behavior.EventBasedTransformProxyComponent",
 		  "options" : {
-			"transform_provider" : "RigidBody",
-			"transform_receiver" : "Graphics"
+			"transform_provider" : "@RigidBody",
+			"transform_receiver" : "@Graphics"
 		  }
 		}
 	  ]

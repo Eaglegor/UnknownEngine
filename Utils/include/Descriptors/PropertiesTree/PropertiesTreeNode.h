@@ -10,7 +10,12 @@ namespace UnknownEngine
 		class PropertiesTreeNode 
 		{
 		public:
-			virtual ~PropertiesTreeNode(){}
+			PropertiesTreeNode();
+			PropertiesTreeNode(const PropertiesTreeNode &node);
+
+			PropertiesTreeNode& operator=(const PropertiesTreeNode &node);
+
+			virtual ~PropertiesTreeNode();
 			
 			void setValue(const char* value)
 			{
@@ -22,21 +27,56 @@ namespace UnknownEngine
 				return value.c_str();
 			}
 			
-			PropertiesTreeNode* getChild(const char* name) const
-			{
-				auto iter = children.find(name);
-				if(iter == children.end()) return nullptr;
-				return iter->second.get();
-			}
+			PropertiesTreeNode* getChild(const char* name) const;
 			
-			PropertiesTreeNode* createChild(const char* name)
-			{
-				return children.emplace(name, std::make_shared<PropertiesTreeNode>()).first->second.get();
-			}
+			PropertiesTreeNode* createChild(const char* name);
 
 		private:
 			std::string value;
-			std::unordered_map<std::string, std::shared_ptr<PropertiesTreeNode> > children;
+			void* childen; // void* inspired by boost::property_tree (we have incomplete PropertiesTreeNode there and can't use direct container declaration)
 		};
+
+		namespace details
+		{
+			typedef std::unordered_multimap<std::string, PropertiesTreeNode > PropertiesTreeInternalContainerType;
+		}
+
+		PropertiesTreeNode::PropertiesTreeNode():
+			children(new details::PropertiesTreeInternalContainerType())
+		{
+		}
+
+		PropertiesTreeNode::PropertiesTreeNode(const PropertiesTreeNode &node):
+			children(new details::PropertiesTreeInternalContainerType(*static_cast<details::PropertiesTreeInternalContainerType*>(node.childen)))
+		{
+		}
+
+		PropertiesTreeNode &PropertiesTreeNode::operator=(const PropertiesTreeNode &node)
+		{
+			value = node.value;
+			*(static_cast<details::PropertiesTreeInternalContainerType*>(children)) = *(static_cast<details::PropertiesTreeInternalContainerType*>(node.children));
+		}
+
+		PropertiesTreeNode::~PropertiesTreeNode(){
+			details::PropertiesTreeInternalContainerType *children = static_cast<details::PropertiesTreeInternalContainerType*>(this->children);
+			delete children;
+		}
+
+		PropertiesTreeNode *PropertiesTreeNode::getChild(const char *name) const
+		{
+			details::PropertiesTreeInternalContainerType& children = *static_cast<details::PropertiesTreeInternalContainerType*>(this->children);
+			auto iter = children.find(name);
+			if(iter == children.end()) return nullptr;
+			return &iter->second.get();
+		}
+
+		PropertiesTreeNode *PropertiesTreeNode::createChild(const char *name)
+		{
+			details::PropertiesTreeInternalContainerType& children = *static_cast<details::PropertiesTreeInternalContainerType*>(this->children);
+			return children.emplace(name, PropertiesTreeNode()).first->second.get();
+		}
+
+
+
 	}
 }
