@@ -49,7 +49,9 @@ namespace UnknownEngine
 					std::string factory_name;
 					int ref_counter = 1;
 				};
-				
+
+
+
 				std::unordered_map<std::string, IDataProviderFactory*> data_provider_factories;
 				std::unordered_map<std::string, DataProviderWrapper> data_providers;
 				

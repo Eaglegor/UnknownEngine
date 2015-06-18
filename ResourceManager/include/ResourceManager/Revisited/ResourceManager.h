@@ -2,6 +2,8 @@
 
 #include <ResourceManager/Revisited/ResourceDesc.h>
 #include <ResourceManager/Revisited/ResourceGroup.h>
+#include <ResourceManager/Revisited/IResourceLoadersFactory.h>
+#include <ResourceManager/Revisited/ObsoleteResourceHandleListener.h>
 #include <ResourceManager/ThreadPool.h>
 #include <unordered_set>
 #include <unordered_map>
@@ -13,7 +15,7 @@ namespace UnknownEngine
 		class ResourceManager
 		{
 		public:
-			ResourceManager();
+			ResourceManager(size_t loader_threads_count);
 			virtual ~ResourceManager();
 
 			IResourceHandle* loadResource(const ResourceDesc &desc);
@@ -23,8 +25,13 @@ namespace UnknownEngine
 			void removeResourceLoadersFactory(IResourceLoadersFactory* factory);
 
 		private:
+			ResourceGroup* findResourceGroup(const char* full_name, bool create_if_not_exists = false);
+
+			void onHandleObsolete(ResourceHandle* handle);
+
 			Core::ThreadPool thread_pool;
 			ResourceGroup main_resource_group;
+			ObsoleteResourceHandleListener obsolete_handle_listener;
 			std::unordered_set<IResourceLoadersFactory*> resource_loaders_factories;
 			std::unordered_map<ResourceLoaderType, IResourceLoadersFactory*> loader_type_factory_mapping;
 		};

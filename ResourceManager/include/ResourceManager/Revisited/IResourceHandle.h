@@ -1,5 +1,7 @@
 #pragma once
 
+#include <ResourceManager/Revisited/ResourceType.h>
+
 namespace UnknownEngine
 {
 	namespace Resources
@@ -9,13 +11,13 @@ namespace UnknownEngine
 		public:
 			virtual ~IResourceHandle(){}
 
+			virtual const char* getName() = 0;
+			virtual const char* getResourceGroupName() = 0;
+
 			virtual void reserve() = 0;
 			virtual void release() = 0;
-			virtual void lock() = 0;
-			virtual void unlock() = 0;
-			virtual ResourceType getType() = 0;
+			virtual ResourceType getResourceType() = 0;
 			virtual void* getData() = 0;
-			virtual size_t getDataSize() = 0;
 		};
 	}
 }

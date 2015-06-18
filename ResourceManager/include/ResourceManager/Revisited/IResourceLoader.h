@@ -13,6 +13,7 @@ namespace UnknownEngine
 		public:
 			virtual ~IResourceLoader(){}
 
+			virtual bool isLoading() = 0;
 			virtual void* load() = 0;
 			virtual void waitUntilFinished() = 0;
 			virtual void unload(void* data) = 0;

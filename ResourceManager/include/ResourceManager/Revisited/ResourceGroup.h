@@ -17,6 +17,8 @@ namespace UnknownEngine
 			void addResourceHandle(const char* name, IResourceHandle* handle);
 			IResourceHandle* findResourceHandle(const char* name);
 
+			void removeResourceHandle(const char* name);
+
 		private:
 			std::unordered_map<std::string, ResourceGroup> nestedResourceGroups;
 			std::unordered_map<std::string, IResourceHandle*> resourceHandles;
