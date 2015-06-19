@@ -18,20 +18,20 @@ namespace UnknownEngine
 			is_interrupted(false)
 			{}
 
-			virtual void* load() final
+			virtual void load(void** out_data, size_t &out_data_size) final
 			{
-				void* data = loadImpl();
-				if(data != nullptr && isInterrupted())
+				loadImpl(out_data, data_size);
+				if(out_data != nullptr && isInterrupted())
 				{
-					unload(data);
-					data = nullptr;
+					unload(out_data);
 				}
 				return data;
 			}
 
-			virtual void unload(void* data) final
+			virtual void unload(void** data) final
 			{
 				unloadImpl(static_cast<T*>(data));
+				*data = nullptr;
 			}
 
 			virtual ResourceType getResourceType()
@@ -51,8 +51,8 @@ namespace UnknownEngine
 			}
 
 		private:
-			virtual T* loadImpl() = 0;
-			virtual void unloadImpl(T* data) = 0;
+			virtual void loadImpl(T** out_data, size_t &out_data_size) = 0;
+			virtual void unloadImpl(T** data) = 0;
 
 			volatile bool is_interrupted;
 		};

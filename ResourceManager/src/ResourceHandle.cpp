@@ -22,8 +22,7 @@ namespace UnknownEngine
 		{
 			if(resource_data != nullptr)
 			{
-				loader->unload(resource_data);
-				resource_data = nullptr;
+				loader->unload(&resource_data);
 			}
 			else
 			{
@@ -38,7 +37,7 @@ namespace UnknownEngine
 		{
 			if(is_loading) return;
 			is_loading = true;
-			resource_data = loader->load();
+			loader->load(&resource_data);
 			wait_for_loading.notify();
 			is_loading = false;
 		}

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <ResourceManager/IResourceTypeMetaInfo.h>
+
 namespace UnknownEngine
 {
 	namespace Resources

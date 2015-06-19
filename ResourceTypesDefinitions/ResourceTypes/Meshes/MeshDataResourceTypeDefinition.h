@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ResourceManager/Revisited/ResourceTypeMetaInfo.h>
+#include <ResourceManager/ResourceTypeMetaInfo.h>
 #include <Mesh/MeshData.h>
 
 namespace UnknownEngine
