@@ -24,10 +24,7 @@ namespace UnknownEngine
 				if(data != nullptr && isInterrupted())
 				{
 					unload(data);
-				}
-				else
-				{
-					wait_for_loading.notify();
+					data = nullptr;
 				}
 				return data;
 			}
