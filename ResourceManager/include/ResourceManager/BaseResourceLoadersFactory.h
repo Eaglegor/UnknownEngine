@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ResourceManager/Revisited/IResourceLoadersFactory.h>
+#include <ResourceManager/IResourceLoadersFactory.h>
 #include <functional>
 #include <unordered_map>
 
@@ -16,29 +16,26 @@ namespace UnknownEngine
 				virtual void destroyLoader(IResourceLoader *loader);
 
 			protected:
-				template<typename T>
-				struct CreatableObjectDesc
+				struct SupportedTypeInfo
 				{
+					typedef std::function< IResourceLoader* (ResourceLoaderType &type, const ResourceLoaderOptions &options) > CreatorFunc;
+					typedef std::function< void (IResourceLoader*) > DeleterFunc;
+
 					ResourceLoaderType type;
-
-					typedef std::function< T* (ResourceLoaderType &type, const ResourceLoaderOptions &options) > CreatorFunc;
-					typedef std::function< void (T*) > DeleterFunc;
-
 					CreatorFunc creator;
 					DeleterFunc deleter;
 
-					CreatableObjectDesc():
+					SupportedTypeInfo():
 					deleter( std::default_delete<IResourceLoader>() ){}
 				};
 
-				template<typename T>
-				void registerSupportedType(CreatableObjectDesc<T>::CreatorFunc creator, CreatableObjectDesc<T>::DeleterFunc deleter)
+				void registerSupportedType(const SupportedTypeInfo &supported_type_info)
 				{
-
+					creators.emplace(supported_type_info.type, supported_type_info);
 				}
 
 			private:
-				std::unordered_map<ResourceLoaderType, CreatableObjectDesc> creators;
+				std::unordered_map<ResourceLoaderType, SupportedTypeInfo> creators;
 
 		};
 	}

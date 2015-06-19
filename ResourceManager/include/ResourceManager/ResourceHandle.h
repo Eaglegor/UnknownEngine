@@ -1,9 +1,11 @@
 #pragma once
 
-#include <ResourceManager/Revisited/IResourceLoader.h>
-#include <ResourceManager/Revisited/IResourceHandle.h>
-#include <ResourceManager/Revisited/ObsoleteResourceHandleListener.h>
-#include <ResourceManager/Revisited/IResourceLoadersFactory.h>
+#include <ResourceManager/IResourceLoader.h>
+#include <ResourceManager/IResourceHandle.h>
+#include <ResourceManager/ObsoleteResourceHandleListener.h>
+#include <ResourceManager/IResourceLoadersFactory.h>
+#include <Concurrency/WaitingForEventWrapper.h>
+#include <mutex>
 
 namespace UnknownEngine
 {
@@ -32,7 +34,15 @@ namespace UnknownEngine
 			IResourceLoadersFactory* getLoadersFactory();
 
 		private:
+			typedef std::mutex LockPrimitive;
+
+			Utils::WaitingForEventWrapper wait_for_loading;
+
 			typedef int RefCounter;
+
+			LockPrimitive lock;
+
+			volatile bool is_loading;
 
 			RefCounter ref_counter;
 			size_t data_size;

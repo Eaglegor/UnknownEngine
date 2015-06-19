@@ -1,4 +1,4 @@
-#include <ResourceManager/Revisited/ResourceHandle.h>
+#include <ResourceManager/ResourceHandle.h>
 
 namespace UnknownEngine
 {
@@ -13,7 +13,8 @@ namespace UnknownEngine
 		obsolete_handle_listener(obsolete_handle_listener),
 		resource_data(nullptr),
 		ref_counter(1),
-		data_size(0)
+		data_size(0),
+		is_loading(false)
 		{
 		}
 
@@ -26,29 +27,31 @@ namespace UnknownEngine
 			}
 			else
 			{
-				if(loader->isLoading())
+				if(is_loading)
 				{
 					loader->interrupt();
-					loader->waitUntilFinished();
 				}
 			}
 		}
 
 		void ResourceHandle::startLoading()
 		{
-			if(!loader->isLoading())
-			{
-				resource_data = loader->load();
-			}
+			if(is_loading) return;
+			is_loading = true;
+			resource_data = loader->load();
+			wait_for_loading.notify();
+			is_loading = false;
 		}
 
 		void ResourceHandle::reserve()
 		{
+			std::lock_guard<LockPrimitive> guard(lock);
 			++ref_counter;
 		}
 
 		void ResourceHandle::release()
 		{
+			std::lock_guard<LockPrimitive> guard(lock);
 			if(--ref_counter <= 1)
 			{
 				obsolete_handle_listener->onHandleObsolete(this);
@@ -64,11 +67,11 @@ namespace UnknownEngine
 		{
 			if(resource_data == nullptr)
 			{
-				if(!loader->isLoading())
+				if(!is_loading)
 				{
-					resource_data = loader->load();
+					startLoading();
 				}
-				loader->waitUntilFinished();
+				wait_for_loading.wait();
 			}
 			return resource_data;
 		}

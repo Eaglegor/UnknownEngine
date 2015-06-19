@@ -1,7 +1,7 @@
 #pragma once
 
-#include <ResourceManager/Revisited/ResourceLoaderType.h>
-#include <ResourceManager/Revisited/IResourceLoader.h>
+#include <ResourceManager/ResourceLoaderType.h>
+#include <ResourceManager/IResourceLoader.h>
 
 namespace UnknownEngine
 {

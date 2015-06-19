@@ -1,96 +1,39 @@
 #pragma once
 
-#include <ResourceManager_export.h>
+#include <ResourceManager/ResourceDesc.h>
+#include <ResourceManager/ResourceGroup.h>
+#include <ResourceManager/IResourceLoadersFactory.h>
+#include <ResourceManager/ObsoleteResourceHandleListener.h>
+#include <ResourceManager/ThreadPool.h>
+#include <unordered_set>
 #include <unordered_map>
-#include <Singleton.h>
-#include <LogHelper.h>
-#include <mutex>
-#include <condition_variable>
 
 namespace UnknownEngine
 {
-	namespace Core
+	namespace Resources
 	{
-
-		class IDataProvider;
-		struct DataProviderDesc;
-		class ThreadPool;
-		class IDataProviderFactory;
-
-		class ResourceManager : public Singleton<ResourceManager>
+		class ResourceManager
 		{
-			public:
-				ResourceManager();
-				virtual ~ResourceManager();
+		public:
+			ResourceManager(size_t loader_threads_count);
+			virtual ~ResourceManager();
 
-				RESOURCEMANAGER_EXPORT
-				void addDataProviderFactory ( IDataProviderFactory * factory );
+			IResourceHandle* loadResource(const ResourceDesc &desc);
+			IResourceHandle* findResource(const char* full_name);
 
-				RESOURCEMANAGER_EXPORT
-				void removeDataProviderFactory ( IDataProviderFactory * factory );
+			void addResourceLoadersFactory(IResourceLoadersFactory* factory);
+			void removeResourceLoadersFactory(IResourceLoadersFactory* factory);
 
-				RESOURCEMANAGER_EXPORT
-				IDataProvider* createDataProvider ( const DataProviderDesc &desc ) ;
+		private:
+			ResourceGroup* findResourceGroup(const char* full_name, bool create_if_not_exists = false);
 
-				RESOURCEMANAGER_EXPORT
-				IDataProvider* getDataProvider(const char* name);
-				
-				RESOURCEMANAGER_EXPORT
-				void releaseDataProvider(IDataProvider* data_provider);
-				
-				RESOURCEMANAGER_EXPORT
-				void waitUntilAllDataProvidersReleased();
-			
-			private:
-				
-				struct DataProviderWrapper
-				{
-					IDataProvider* data_provider;
-					std::string factory_name;
-					int ref_counter = 1;
-				};
+			void onHandleObsolete(ResourceHandle* handle);
 
-
-
-				std::unordered_map<std::string, IDataProviderFactory*> data_provider_factories;
-				std::unordered_map<std::string, DataProviderWrapper> data_providers;
-				
-				ThreadPool* thread_pool;
-				LogHelper logger;
-				
-				std::condition_variable cv;
-			
-				typedef std::mutex LockPrimitive;
-				LockPrimitive data_providers_mutex;
-				LockPrimitive factories_mutex;
+			Core::ThreadPool thread_pool;
+			ResourceGroup main_resource_group;
+			ObsoleteResourceHandleListener obsolete_handle_listener;
+			std::unordered_set<IResourceLoadersFactory*> resource_loaders_factories;
+			std::unordered_map<ResourceLoaderType, IResourceLoadersFactory*> loader_type_factory_mapping;
 		};
-
-#ifdef _MSC_VER
-#ifndef ResourceManager_EXPORTS
-		extern template class RESOURCEMANAGER_EXPORT Singleton<ResourceManager>;
-#else
-		template class RESOURCEMANAGER_EXPORT Singleton<ResourceManager>;
-#endif
-#endif
-
-	} // namespace Core
-	
-	UNKNOWNENGINE_INLINE
-	Core::IDataProvider* CREATE_DATA_PROVIDER(const Core::DataProviderDesc &desc)
-	{
-		return Core::ResourceManager::getSingleton()->createDataProvider(desc);
 	}
-	
-	UNKNOWNENGINE_INLINE
-	Core::IDataProvider* GET_DATA_PROVIDER(const char* name)
-	{
-		return Core::ResourceManager::getSingleton()->getDataProvider(name);
-	}
-	
-	UNKNOWNENGINE_INLINE
-	void RELEASE_DATA_PROVIDER(Core::IDataProvider* data_provider)
-	{
-		Core::ResourceManager::getSingleton()->releaseDataProvider(data_provider);
-	}
-	
-} // namespace UnknownEngine
+}

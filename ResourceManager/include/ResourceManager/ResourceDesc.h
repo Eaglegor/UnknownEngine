@@ -1,9 +1,9 @@
 #pragma once
 
-#include <ResourceManager/Revisited/ResourceType.h>
-#include <ResourceManager/Revisited/ResourceLoaderType.h>
-#include <ResourceManager/Revisited/ResourceLoaderOptions.h>
-#include <ResourceManager/Revisited/PreloadPolicy.h>
+#include <ResourceManager/ResourceType.h>
+#include <ResourceManager/ResourceLoaderType.h>
+#include <ResourceManager/ResourceLoaderOptions.h>
+#include <ResourceManager/PreloadPolicy.h>
 
 namespace UnknownEngine
 {

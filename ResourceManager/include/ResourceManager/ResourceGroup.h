@@ -9,7 +9,7 @@ namespace UnknownEngine
 		class ResourceGroup
 		{
 		public:
-			virtual ~ResourceGroup(){};
+			virtual ~ResourceGroup(){}
 
 			ResourceGroup* createNestedResourceGroup(const char* name);
 			ResourceGroup* getNestedResourceGroup(const char* name);

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ResourceManager/Revisited/ResourceTypeMetaInfo.h>
+#include <ResourceManager/ResourceTypeMetaInfo.h>
 
 namespace UnknownEngine
 {

@@ -1,159 +1,156 @@
-#include <stdafx.h>
-
 #include <ResourceManager/ResourceManager.h>
-#include <ResourceManager/DataProviders/IDataProviderFactory.h>
-#include <ResourceManager/DataProviders/DataProviderDesc.h>
-#include <ResourceManager/DataProviders/IDataProvider.h>
-#include <ResourceManager/ThreadPool.h>
+#include <ResourceManager/ResourceHandle.h>
+#include <boost/algorithm/string/find_iterator.hpp>
+#include <boost/algorithm/string/finder.hpp>
+#include <boost/algorithm/string/find.hpp>
 
-#include <Logging.h>
-#include <EngineLogLevel.h>
-
-namespace UnknownEngine {
-	namespace Core {
-
-		template<>
-		ResourceManager* Singleton<ResourceManager>::instance = nullptr;
-
-		ResourceManager::ResourceManager():
-		thread_pool(ThreadPool::createInstance(2)),
-		logger("Core.ResourceManager", ENGINE_LOG_LEVEL)
+namespace UnknownEngine
+{
+	namespace Resources
+	{
+		ResourceManager::ResourceManager(size_t loader_threads_count):
+		thread_pool(loader_threads_count),
+		obsolete_handle_listener(std::bind(&ResourceManager::onHandleObsolete, this, std::placeholders::_1))
 		{
 		}
 
 		ResourceManager::~ResourceManager()
 		{
-			waitUntilAllDataProvidersReleased();
-			ThreadPool::destroyInstance();
-		}
-		
-		void ResourceManager::addDataProviderFactory(IDataProviderFactory * factory)
-		{
-			std::lock_guard<LockPrimitive> guard(factories_mutex);
-			auto iter = data_provider_factories.find(factory->getName());
-			if(iter != data_provider_factories.end())
-			{
-				LOG_ERROR(logger, "Failed to register data provider factory " + factory->getName() +". Factory with the same name already registered" );
-				return;
-			}
-			data_provider_factories.emplace(factory->getName(), factory);
+
 		}
 
-		void ResourceManager::removeDataProviderFactory(IDataProviderFactory * factory)
+		IResourceHandle* ResourceManager::loadResource(const ResourceDesc& desc)
 		{
-			std::lock_guard<LockPrimitive> guard(factories_mutex);
-			auto iter = data_provider_factories.find(factory->getName());
-			if(iter == data_provider_factories.end())
+			ResourceLoaderType& loader_type = desc.resource_loader_type;
+			IResourceLoadersFactory* loaders_factory = nullptr;
+			auto iter = loader_type_factory_mapping.find(loader_type);
+			if(iter != loader_type_factory_mapping.end())
 			{
-				LOG_ERROR(logger, "Failed to unregister data provider factory " + factory->getName() + ". Factory not registered");
+				loaders_factory = iter->second;
 			}
-			data_provider_factories.erase(iter);
-		}	
-
-		IDataProvider *ResourceManager::createDataProvider(const DataProviderDesc &desc) 
-		{
-			std::lock_guard<LockPrimitive> guard(factories_mutex);
-			for( auto &factory : data_provider_factories )
+			else
 			{
-				if(factory.second->supportsType(desc.type))
-				{	
-					IDataProvider* data_provider = factory.second->createObject(desc);
-					if(!data_provider)
+				auto set_iter = std::find_if(
+							resource_loaders_factories.begin(),
+							resource_loaders_factories.end(),
+							[&loader_type](IResourceLoaderFactory* factory)
+							{
+								return factory->supportsType(loader_type);
+							}
+				);
+				if(set_iter != resource_loaders_factories.end())
+				{
+					loaders_factory = *iter;
+				}
+			}
+
+			if(loaders_factory == nullptr)
+			{
+				// REPORT ERROR!
+				return nullptr;
+			}
+
+			IResourceLoader* loader = loaders_factory->createLoader(loader_type, desc.resource_loader_options);
+
+			if(loader == nullptr)
+			{
+				// Something went wrong. Report error
+				return nullptr;
+			}
+
+			ResourceHandle* handle = new ResourceHandle(desc.name.c_str(), desc.resource_group.c_str(), loader, &obsolete_handle_listener);
+
+			handle->setLoadersFactory(loaders_factory);
+
+			ResourceGroup* group = findResourceGroup(desc.resource_group.c_str(), true);
+
+			if(group == nullptr)
+			{
+				// Something went totally wrong. Reporting error.
+				delete handle;
+				loaders_factory->destroyLoader(loader);
+				return nullptr;
+			}
+
+			group->addResourceHandle(desc.name.c_str(), handle);
+
+			if(desc.preload_policy == PreloadPolicy::FORCE_PRELOAD || desc.preload_policy == PreloadPolicy::AUTO)
+			{
+				thread_pool.pushTask(std::bind(&ResourceHandle::startLoading, handle));
+			}
+
+			return handle;
+		}
+
+		IResourceHandle* ResourceManager::findResource(const char* full_name)
+		{
+			std::string fullname = full_name;
+			size_t lastdot = fullname.find_last_of('.');
+			if(lastdot == fullname.npos)
+			{
+				return main_resource_group.findResourceHandle(full_name);
+			}
+			else
+			{
+				std::string group_name = fullname.substr(0, lastdot);
+				std::string resource_name = fullname.substr(lastdot + 1, fullname.size() - lastdot);
+				ResourceGroup* group = findResourceGroup(group_name.c_str());
+				if(group == nullptr) return nullptr;
+				return group->findResourceHandle(resource_name.c_str());
+			}
+		}
+
+		void ResourceManager::addResourceLoadersFactory(
+				IResourceLoadersFactory* factory)
+		{
+			loader_type_factory_mapping.clear();
+			resource_loaders_factories.emplace(factory);
+		}
+
+		void ResourceManager::removeResourceLoadersFactory(
+				IResourceLoadersFactory* factory)
+		{
+			resource_loaders_factories.erase(factory);
+		}
+
+		ResourceGroup* ResourceManager::findResourceGroup(const char* full_name, bool create_if_not_exists)
+		{
+			typedef boost::algorithm::split_iterator<std::string::iterator> string_split_iterator;
+			ResourceGroup* current_resource_group = &main_resource_group;
+			for(string_split_iterator iter = make_split_iterator(full_name, boost::algorithm::first_finder(".", boost::algorithm::is_equal()));
+				iter != string_split_iterator(); ++iter)
+			{
+				auto sequence = boost::copy_range<std::string>(*iter).c_str();
+				ResourceGroup *new_group = current_resource_group->getNestedResourceGroup( sequence.c_str() );
+				if(new_group == nullptr){
+					if(create_if_not_exists)
 					{
-						LOG_ERROR(logger, "Failed to create data provider " + desc.name);
+						new_group = current_resource_group->createNestedResourceGroup( sequence.c_str() );
+					}
+					else
+					{
 						return nullptr;
 					}
-					DataProviderWrapper wrapper;
-					wrapper.factory_name = factory.second->getName();
-					wrapper.data_provider = data_provider;
-					{
-						std::lock_guard<LockPrimitive> guard(data_providers_mutex);
-						data_providers.emplace(desc.name, wrapper);
-					}
-					return data_provider;
 				}
+				current_resource_group = new_group;
 			}
-			LOG_ERROR(logger, "No suitable data provider factory found to create data provider " + desc.name);
-			return nullptr;
+			return current_resource_group;
 		}
 
-		IDataProvider* ResourceManager::getDataProvider ( const char* name )
-		{
-			std::lock_guard<LockPrimitive> guard(data_providers_mutex);
-			
-			auto iter = data_providers.find(name);
-			if(iter == data_providers.end()) return nullptr;
-			
-			++iter->second.ref_counter;
-			return iter->second.data_provider;
-		}
-		
-		void ResourceManager::releaseDataProvider ( IDataProvider* data_provider )
-		{
-			if(data_provider == nullptr) 
-			{
-				LOG_WARNING(logger, "Trying to release nullptr data provider. Nothing is to be done.");
-				return;
-			}
+		void ResourceManager::onHandleObsolete(ResourceHandle* handle){
+			ResourceGroup* group = findResourceGroup(handle->getResourceGroupName());
 
-			std::unique_lock<LockPrimitive> dp_guard(data_providers_mutex);
-			auto iter = data_providers.find(data_provider->getName());
-			if(iter == data_providers.end()) 
-			{
-				LOG_ERROR(logger, "Trying to release unknown data provider " + data_provider->getName() + ". Check if it was created correctly.");
-				return;
-			}
-			
-			DataProviderWrapper& wrapper = iter->second;
-			
-			if(--wrapper.ref_counter > 0)
-			{
-				return;
-			}
-			
-			std::string data_provider_name = data_provider->getName();
-			dp_guard.unlock();
-			
-			std::unique_lock<LockPrimitive> factory_guard(factories_mutex);
-			
-			auto factory_iter = data_provider_factories.find(wrapper.factory_name);
-			if(factory_iter == data_provider_factories.end())
-			{
-				LOG_ERROR(logger, "Factory " + wrapper.factory_name + "needed to destroy data provider " + wrapper.data_provider->getName() + " not found. Was it's plugin already unloaded?");
-				return;
-			}
-			IDataProviderFactory* factory = factory_iter->second;
-			
-			factory_guard.unlock();
-			
-			factory->destroyObject(wrapper.data_provider);
-			
-			dp_guard.lock();
-			data_providers.erase(data_provider_name);
-			cv.notify_all();
-			dp_guard.unlock();
+			assert(group->findResourceHandle(handle->getName() == handle));
 
+			group->removeResourceHandle(handle->getName());
+
+			IResourceLoadersFactory* factory = handle->getLoadersFactory();
+			IResourceLoader* loader = handle->getLoader();
+
+			delete handle;
+
+			factory->destroyLoader(loader);
 		}
 
-		void ResourceManager::waitUntilAllDataProvidersReleased()
-		{
-			std::unique_lock<LockPrimitive> guard(data_providers_mutex);
-			const std::chrono::seconds RELEASE_WARNING_TIMEOUT(1);
-			while(!data_providers.empty())
-			{
-				LOG_INFO(logger, "Waiting until all data providers are released. Remaining unreleased data providers: " + std::to_string(data_providers.size()));
-				std::cv_status status = cv.wait_for(guard, RELEASE_WARNING_TIMEOUT);
-				if(status == std::cv_status::timeout)
-				{
-					LOG_WARNING(logger, "Still waiting for release of data providers. Please check if some component or data provider hasn't released it's data.");
-					LOG_WARNING(logger, "Unreleased data providers list:");
-					for(auto &iter : data_providers)
-					{
-						LOG_WARNING(logger, iter.second.data_provider->getName());
-					}
-				}
-			}
-		}
-		
-	} // namespace Core
-} // namespace UnknownEngine
+	}
+}
