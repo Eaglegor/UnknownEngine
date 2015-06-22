@@ -6,8 +6,11 @@
 
 namespace UnknownEngine
 {
-	namespace Resources
+	namespace Core
 	{
+		template<>
+		ResourceManager* Singleton<ResourceManager>::instance = nullptr;
+
 		ResourceManager::ResourceManager(size_t loader_threads_count):
 		thread_pool(loader_threads_count),
 		obsolete_handle_listener(std::bind(&ResourceManager::onHandleObsolete, this, std::placeholders::_1))

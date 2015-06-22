@@ -6,6 +6,11 @@
 
 namespace UnknownEngine
 {
+	namespace Core
+	{
+		class LogHelper;
+	}
+
 	namespace Resources
 	{
 		class IResourceLoader
@@ -13,8 +18,8 @@ namespace UnknownEngine
 		public:
 			virtual ~IResourceLoader(){}
 
-			virtual void load(void** out_data, size_t& out_data_size) = 0;
-			virtual void unload(void** data) = 0;
+			virtual void load(void** out_data, size_t& out_data_size, Core::LogHelper &logger) = 0;
+			virtual void unload(void** data, Core::LogHelper &logger) = 0;
 			virtual void interrupt() = 0;
 
 			virtual ResourceLoaderType getType() = 0;

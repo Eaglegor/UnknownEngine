@@ -17,7 +17,7 @@ namespace UnknownEngine
 	namespace Loader
 	{
 
-		class AssimpMeshDataProvidersFactory;
+		class AssimpResourceLoadersFactory;
 
 		class AssimpMeshDataLoaderPlugin: public Core::BasePlugin
 		{
@@ -34,7 +34,7 @@ namespace UnknownEngine
 				Core::SubsystemDesc desc;
 				Core::EngineContext* engine_context;
 				Core::ILogger* logger;
-				std::unique_ptr<AssimpMeshDataProvidersFactory> data_provider_factory;
+				std::unique_ptr<AssimpResourceLoadersFactory> resource_loaders_factory;
 		};
 
 	} /* namespace Graphics */

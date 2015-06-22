@@ -5,14 +5,15 @@
 #include <ResourceManager/IResourceLoadersFactory.h>
 #include <ResourceManager/ObsoleteResourceHandleListener.h>
 #include <ResourceManager/ThreadPool.h>
+#include <Singleton.h>
 #include <unordered_set>
 #include <unordered_map>
 
 namespace UnknownEngine
 {
-	namespace Resources
+	namespace Core
 	{
-		class ResourceManager
+		class ResourceManager : public Core::Singleton<ResourceManager>
 		{
 		public:
 			ResourceManager(size_t loader_threads_count);
@@ -35,5 +36,14 @@ namespace UnknownEngine
 			std::unordered_set<IResourceLoadersFactory*> resource_loaders_factories;
 			std::unordered_map<ResourceLoaderType, IResourceLoadersFactory*> loader_type_factory_mapping;
 		};
+
+#ifdef _MSC_VER
+#ifndef ResourceManager_EXPORTS
+		extern template class RESOURCEMANAGER_EXPORT Singleton<ResourceManager>;
+#else
+		template class RESOURCEMANAGER_EXPORT Singleton<ResourceManager>;
+#endif
+#endif
+
 	}
 }

@@ -8,6 +8,7 @@
 #include <Logging.h>
 #include <ResourceManager/ResourceManager.h>
 #include <AssimpMeshDataLoaderDescriptor.h>
+#include <Factories/AssimpResourceLoadersFactory.h>
 
 namespace UnknownEngine
 {
@@ -16,8 +17,7 @@ namespace UnknownEngine
 
 		AssimpMeshDataLoaderPlugin::AssimpMeshDataLoaderPlugin ( const char* name ):
 		Core::BasePlugin(name),
-		logger(nullptr),
-		data_provider_factory(nullptr)
+		logger(nullptr)
 		{
 		}
 
@@ -49,11 +49,10 @@ namespace UnknownEngine
 			
 			LOG_INFO(logger, "Initializing Assimp mesh data loader plugin");
 
-			LOG_INFO(logger, "Creating Assimp mesh data provider factory");
-			data_provider_factory.reset( new AssimpMeshDataProvidersFactory(logger, engine_context) );
+			LOG_INFO(logger, "Creating Assimp mesh data loaders factory");
+			resource_loaders_factory.reset( new AssimpResourceLoadersFactory(logger, engine_context) );
 			
-			LOG_INFO(logger, "Registering mesh data provider factory");
-			engine_context->getResourceManager()->addDataProviderFactory(data_provider_factory.get());
+			Core::ResourceManager::getSingleton()->addResourceLoadersFactory(resource_loaders_factory.get());
 			
 			return true;
 		}
@@ -63,10 +62,10 @@ namespace UnknownEngine
 			LOG_INFO(logger, "Shutting down Assimp mesh data loader plugin");
 		  
 			LOG_INFO(logger, "Unregistering mesh data provider factory");
-			engine_context->getResourceManager()->removeDataProviderFactory(data_provider_factory.get());
+			Core::ResourceManager::getSingleton()->removeResourceLoadersFactory(resource_loaders_factory.get());
 			
 			LOG_INFO(logger, "Destroying Assimp mesh data provider factory");
-			data_provider_factory.reset();
+			resource_loaders_factory.reset();
 			
 			return true;
 		}
