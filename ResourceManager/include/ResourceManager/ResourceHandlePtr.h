@@ -47,16 +47,6 @@ namespace UnknownEngine
 				return handle != nullptr;
 			}
 
-			void lock()
-			{
-				handle->lock();
-			}
-
-			void unlock()
-			{
-				handle->unlock();
-			}
-
 		private:
 			IResourceHandle* handle;
 		};

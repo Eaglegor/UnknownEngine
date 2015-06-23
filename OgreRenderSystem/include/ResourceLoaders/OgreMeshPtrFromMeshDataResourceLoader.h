@@ -3,6 +3,7 @@
 #include <ResourceManager/BaseResourceLoader.h>
 #include <ResourceTypes/Meshes/OgreMeshTypeDefinition.h>
 #include <ResourceLoaders/OgreMeshPtrFromMeshDataResourceLoaderDesc.h>
+#include <OgreRenderSubsystem.h>
 
 namespace UnknownEngine
 {
@@ -11,7 +12,7 @@ namespace UnknownEngine
 		class OgreMeshPtrFromMeshDataResourceLoader : public Resources::BaseResourceLoader<Ogre::Mesh*>
 		{
 			public:
-				OgreMeshPtrFromMeshDataResourceLoader(const ResourceLoaders::OgreMeshPtrFromMeshDataResourceLoaderDesc &desc);
+				OgreMeshPtrFromMeshDataResourceLoader(const ResourceLoaders::OgreMeshPtrFromMeshDataResourceLoaderDesc &desc, Graphics::OgreRenderSubsystem* render_subsystem);
 
 				constexpr static const char* staticGetType(){return "Ogre.MeshPtrFromMeshDataResourceLoader";}
 				virtual Resources::ResourceLoaderType getType(){return staticGetType();}
@@ -20,7 +21,8 @@ namespace UnknownEngine
 				virtual void loadImpl(Ogre::Mesh **out_data, size_t &out_data_size, Core::LogHelper &logger);
 				virtual void unloadImpl(Ogre::Mesh **data, Core::LogHelper &logger);
 
-				ResourceLoaders::OgreMeshPtrFromMeshDataResourceLoaderDesc &desc;
+				ResourceLoaders::OgreMeshPtrFromMeshDataResourceLoaderDesc desc;
+				Graphics::OgreRenderSubsystem* render_subsystem;
 		};
 	}
 }

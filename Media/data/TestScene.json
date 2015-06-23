@@ -553,6 +553,15 @@
 			"render_window" : "System.OgreRenderWindow"
 		  }
 		}
+	  ],
+	  "property_links" :
+	  [
+		{
+			"property" : "@RigidBody.transform",
+			"change_handler" : "@Graphics.setTransform",
+			"handle_policy" : "onChange",
+			"allow_deferred_processing" : "true"
+		}
 	  ]
 	},
 	{

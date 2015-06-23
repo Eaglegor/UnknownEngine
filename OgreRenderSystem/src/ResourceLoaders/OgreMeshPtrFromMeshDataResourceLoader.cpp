@@ -5,14 +5,14 @@ namespace UnknownEngine
 	namespace ResourceLoaders
 	{
 
-		OgreMeshPtrFromMeshDataResourceLoader::OgreMeshPtrFromMeshDataResourceLoader(const OgreMeshPtrFromMeshDataResourceLoaderDesc &desc):
-		desc(desc)
+		OgreMeshPtrFromMeshDataResourceLoader::OgreMeshPtrFromMeshDataResourceLoader(const OgreMeshPtrFromMeshDataResourceLoaderDesc &desc, , Graphics::OgreRenderSubsystem* render_subsystem):
+		desc(desc),
+		render_subsystem(render_subsystem)
 		{
 		}
 
 		void OgreMeshPtrFromMeshDataResourceLoader::loadImpl(Ogre::Mesh **out_data, size_t &out_data_size, Core::LogHelper &logger)
 		{
-
 			Ogre::ManualObject* manual_object = render_subsystem->getSceneManager()->createManualObject();
 
 			manual_object->begin("BaseWhiteNoLighting", Ogre::RenderOperation::OT_TRIANGLE_LIST);
@@ -51,7 +51,6 @@ namespace UnknownEngine
 			*out_data = manual_object->convertToMesh(manual_object->getName()).get();
 
 			out_container.setData<Ogre::MeshPtr>(mesh_ptr);
-
 		}
 
 		void OgreMeshPtrFromMeshDataResourceLoader::unloadImpl(Ogre::Mesh **data, Core::LogHelper &logger)
