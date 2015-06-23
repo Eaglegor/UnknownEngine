@@ -1,10 +1,12 @@
 class IPropertyLink;
+class IPropertyTypeMetaInfo;
 
 struct IProperty()
 {
 	virtual ~IProperty(){}
 	virtual const char* getName() = 0;
 	virtual IComponent* getOwner() = 0;
+	virtual IPropertyTypeMetaInfo* getTypeInfo() = 0;
 	virtual void addLink(IPropertyLink* link) = 0;
 	virtual void removeLink(IPropertyLink* link) = 0;
 }
@@ -16,23 +18,49 @@ struct IPropertyLink
 	virtual void onPropertyChanged(IProperty* property) = 0;
 }
 
+struct IPropertyChangeHandler
+{
+	virtual void onPropertyChanged(IProperty* property) = 0;
+	virtual IPropertyTypeMetaInfo* getTypeInfo() = 0;
+}
+
 template<typename T>
-struct PropertyLink : public IPropertyLink
+struct PropertyChangeHandler
 {
 	std::function<void (const T&)> callback;
 	
-	void onPropertyChanged(IProperty* property)
+	virtual void onPropertyChanged(IProperty* property)
 	{
-		T* value = property.cast<T>();
-		if(value == nullptr) return;
-		else callback(*value);
+		T* value = property->cast<T>();
+		if(value != nullptr)
+		{
+			callback(*value);
+		}
 	}
+	
+	PropertyTypeMetaInfo<T> meta_info;
+	
+	virtual IPropertyTypeMetaInfo* getTypeInfo()
+	{
+		return &meta_info;
+	}
+}
+
+enum class PropertyLinkPolicy
+{
+	ON_EVENT_ONLY,
+	POLL_ON_SYNC
+}
+
+struct PropertyLink : public IPropertyLink
+{
+	IProperty* property;
+	IPropertyChangeHandler* changeHandler;
+	PropertyLinkPolicy property_link_policy;
 }
 
 struct BaseProperty
 {
-	IPropertyTypeMetaInfo *meta_info;
-	
 	BaseProperty(const char* name):
 	name(name)
 	{}
@@ -41,7 +69,7 @@ struct BaseProperty
 	T* cast()
 	{
 		PropertyTypeMetaInfo<T> to_type_meta_info;
-		if(meta_info->getName() == to_type_meta_info.getName())
+		if(getTypeInfo()->getName() == to_type_meta_info.getName())
 		{
 			return static_cast<T*>(getRawData());
 		}
@@ -65,11 +93,17 @@ struct Property : public BaseProperty
 	BaseProperty(name)
 	{}
 	
+	PropertyTypeMetaInfo<T> meta_info;
 	T payload;
 	
 	void* getRawData()
 	{
 		return &payload;
+	}
+	
+	IPropertyTypeMetaInfo* getTypeInfo()
+	{
+		return &meta_info;
 	}
 }
 
@@ -83,6 +117,7 @@ struct IPropertyTypeMetaInfo
 template<typename T>
 struct PropertyTypeMetaInfo<T> : public IPropertyTypeMetaInfo
 {
+	PropertyTypeMetaInfo() = delete;
 	const char* getName(){return "<UnknownPropertyType>";}
 	bool isComposite(){return false;}
 }
