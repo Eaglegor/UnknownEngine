@@ -12,6 +12,8 @@ if(CEGUI_FOUND)
 	list(APPEND LINKED_LIBS ${CEGUI_LIBRARIES})
 	list(APPEND INCLUDED_HEADERS ${CEGUI_OgreRenderer_INCLUDE_DIRS})
 	list(APPEND LINKED_LIBS ${CEGUI_OgreRenderer_LIBRARIES})
+	find_package(OGRE)
+	link_directories(${OGRE_LIBRARY_DIRS})
 endif()
 
 set(___PCH_INCLUDE___ ${CMAKE_CURRENT_SOURCE_DIR}/stdafx.h)

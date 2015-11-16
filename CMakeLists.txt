@@ -57,7 +57,7 @@ SDLWindowManagerPlugin
 
 PhysXPlugin
 
-AngelScriptPlugin
+#AngelScriptPlugin
 
 Endoscopy
 CEGuiPlugin

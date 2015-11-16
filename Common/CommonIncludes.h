@@ -10,7 +10,7 @@
 
 #include <time.h>
 #ifdef _MSC_VER
-	#define constexpr 
+	//#define constexpr 
 #endif
 
 
